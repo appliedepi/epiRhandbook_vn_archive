@@ -1,54 +1,49 @@
-# Editorial and technical notes { }
+# Biên tập và ghi chú kỹ thuật
 
-In this page we describe the philosophical approach, style, and specific editorial decisions made during the creation of this handbook.  
-
+Trong chương này, chúng tôi mô tả triết lý và phong cách viết code, cũng như quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
 
 ## Approach and style
 
-The potential audience for this book is large. It will surely be used by people very new to R, and also by experienced R users looking for best practices and tips. So it must be both accessible and succinct. Therefore, our approach was to provide *just enough* text explanation that someone very new to R can apply the code and follow what the code is doing.  
+Độc giả tiềm năng của cuốn sách này là lớn, bao gồm những người hoàn toàn mới đối với R, và cả những người dùng R có kinh nghiệm đang tìm kiếm các phương pháp và mẹo hay nhất. Vì vậy, nó phải vừa dễ tiếp cận vừa ngắn gọn. Do đó, cách tiếp cận của chúng tôi là cung cấp lượng văn bản giải thích *vừa đủ* để một người mới sử dụng R cũng có thể áp dụng code và hiểu code đang làm gì.
 
-A few other points:  
+Một vài điểm lưu ý:
 
-* This is a code reference book accompanied by relatively brief examples - *not* a thorough textbook on R or data science  
-* This is a *R handbook* for use within applied epidemiology - not a manual on the methods or science of applied epidemiology  
-* This is intended to be a living document - optimal R packages for a given task change often and we welcome discussion about which to emphasize in this handbook  
-
-
-
+-   Đây là cuốn sách tham khảo về code đi kèm với những ví dụ tương đối ngắn gọn - *không phải* một cuốn sách giáo khoa về R hay khoa học dữ liệu\
+-   Đây là một cuốn *sổ tay về R* sử dụng trong dịch tễ học ứng dụng - không phải là cẩm nang về các phương pháp của dịch tễ học ứng dụng\
+-   Cuốn sách dự kiến sẽ là một tài liệu động - các R packages tối ưu cho một nhiệm vụ được thay đổi thường xuyên, do đó chúng tôi hoan nghênh những thảo luận về những điều được nhấn mạnh trong cuốn sách này
 
 ### R packages {.unnumbered}
 
-**So many choices**  
+**Quá nhiều lựa chọn**
 
-One of the most challenging aspects of learning R is knowing which R package to use for a given task. It is a common occurrence to struggle through a task only later to realize - hey, there's an R package that does all that in one command line!  
+Một trong những khía cạnh thách thức nhất của việc học R là biết package nào được sử dụng cho công việc nào. Việc vật lộn với một công việc mà chỉ sau này mới nhận ra là điều thường thấy - Và này, có một R package thực hiện tất cả những điều đó trong một dòng lệnh!
 
-In this handbook, we try to offer you at least two ways to complete each task: one tried-and-true method (probably in **base** R or **tidyverse**) and one special R package that is custom-built for that purpose. We want you to have a couple options in case you can't download a given package or it otherwise does not work for you.  
+Trong sổ tay này, chúng tôi cố gắng cung cấp cho bạn ít nhất hai cách để hoàn thành mỗi nhiệm vụ: một phương pháp đã thử và đúng (có thể là **base** R hoặc **tidyverse**) và một R package đặc biệt được thiết kế riêng cho mục đích đó. Chúng tôi muốn bạn có một số tùy chọn trong trường hợp bạn không thể tải xuống một gói nhất định hoặc gói đó không hoạt động với bạn.
 
-In choosing which packages to use, we prioritized R packages and approaches that have been tested and vetted by the community, minimize the number of packages used in a typical work session, that are stable (not changing very often), and that accomplish the task simply and cleanly  
+Khi lựa chọn package để làm việc, chúng tôi ưu tiên các R package và phương pháp tiếp cận đã được cộng đồng thử nghiệm và hiệu chỉnh, giảm thiểu số lượng package được sử dụng trong một phiên làm việc điển hình, bao gồm sự ổn định (không thay đổi thường xuyên) và hoàn thành nhiệm vụ một cách đơn giản và gọn gàng
 
-This handbook generally prioritizes R packages and functions from the **tidyverse**. Tidyverse is a collection of R packages designed for data science that share underlying grammar and data structures. All tidyverse packages can be installed or loaded via the **tidyverse** package. Read more at the [tidyverse website](https://www.tidyverse.org/).  
+Cuốn sách này ưu tiện các package và câu lệnh từ thư viện **tidyverse**. Tidyverse là một tuyển tập các R package được thiết kế dành riêng cho khoa học dữ liệu, trong đó các package này chia sẻ nền tảng ngữ pháp và cấu trúc dữ liệu chung. Tất cả các package từ thư viện tidyverse có thể được cài đặt hoặc gọi thông qua thư viện **tidyverse**. Đọc thêm tại [tidyverse website](https://www.tidyverse.org/).
 
-When applicable, we also offer code options using **base** R - the packages and functions that come with R at installation. This is because we recognize that some of this book's audience may not have reliable internet to download extra packages.  
+Khi thích hợp, chúng tôi cũng cung cấp các tùy chọn code sử dụng **base** R - các packages và hàm đi kèm với R khi cài đặt. Điều này là do chúng tôi nhận thấy rằng một số độc giả của cuốn sách này có thể không có Internet tốt để tải xuống các package bổ sung.
 
-**Linking functions to packages explicitly**
+**Liên kết các hàm và packages một cách rõ ràng**
 
-It is often frustrating in R tutorials when a function is shown in code, but you don't know which package it is from! We try to avoid this situation.  
+Trong các hướng dẫn về R thường rất khó chịu khi một hàm được hiển thị trong code, nhưng bạn không biết hàm đó đến từ package nào! Chúng tôi cố gắng tránh tình trạng này.
 
-In the narrative text, package names are written in bold (e.g. **dplyr**) and functions are written like this: `mutate()`. We strive to be explicit about which package a function comes from, either by referencing the package in nearby text or by specifying the package explicitly in the code like this: `dplyr::mutate()`. It may look redundant, but we are doing it on purpose.  
+Trong các đoạn văn bản trần thuật, tên các package được viết in đậm (ví dụ: **dplyr**) và các hàm được viết như sau: `mutate()`. Chúng tôi cố gắng nói rõ ràng về một hàm đến từ package nào, bằng cách tham chiếu package đó trong văn bản gần đó hoặc bằng cách chỉ định package đó một cách rõ ràng trong đoạn code như sau: `dplyr::mutate()`. Điều này nhìn có vẻ thừa thãi, nhưng chúng tôi làm điều đó có mục đích.
 
-See the page on [R basics] to learn more about packages and functions.  
+Tham khảo thêm chữ R cơ bản để hiểu thêm về package và hàm.
 
+### Phong cách Code {.unnumbered}
 
-### Code style {.unnumbered}
+Trong sổ tay này, chúng tôi thường tận dụng "thêm dòng mới", điều này làm cho code có vẻ "dài hơn". Chúng tôi làm vậy vì một vài lý do sau đây:
 
-In the handbook, we frequently utilize "new lines", making our code appear "long". We do this for a few reasons:  
+-   Chúng tôi có thể viết các giải thích bằng `#` bên cạnh mỗi phần nhỏ của code\
+-   Nhìn chung, code dài hơn (theo chiều dọc) thì dễ đọc hơn\
+-   Nó cũng dễ đọc hơn trong một diện tích màn hình hẹp (không cần kéo thanh điều hướng trái phải)\
+-   Từ việc thụt lề, có thể dễ dàng hơn để biết arguments nào thuộc về hàm nào
 
-* We can write explanatory comments with `#` that are adjacent to each little part of the code  
-* Generally, longer (vertical) code is easier to read  
-* It is easier to read on a narrow screen (no sideways scrolling needed)  
-* From the indentations, it can be easier to know which arguments belong to which function  
-
-As a result, code that *could* be written like this:  
+Kết quả là, code *có thể* được viết trông như thế này:
 
 ```{r, eval=F}
 linelist %>% 
@@ -56,7 +51,7 @@ linelist %>%
   slice_max(date, n = 1, with_ties = F) # if there's a tie (of date), take the first row
 ```
 
-...is written like this:  
+...bây giờ sẽ được viết như thế này:
 
 ```{r, eval=F}
 linelist %>% 
@@ -67,75 +62,71 @@ linelist %>%
     with_ties = F)       # if there's a tie (of date), take the first row
 ```
 
-R code is generally not affected by new lines or indentations. When writing code, if you initiate a new line after a comma it will apply automatic indentation patterns. 
+R code is generally not affected by new lines or indentations. When writing code, if you initiate a new line after a comma it will apply automatic indentation patterns.
 
-We also use lots of spaces (e.g. `n = 1` instead of `n=1`) because it is easier to read. Be kind to the people reading your code!  
+We also use lots of spaces (e.g. `n = 1` instead of `n=1`) because it is easier to read. Be kind to the people reading your code!
 
+### Danh pháp {.unnumbered}
 
+Trong sổ tay này, chúng tôi thường đề cập đến "cột" và "hàng" thay vì dùng "biến" và "quan sát". Như đã giải thích trong phần sơ lược này về ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu thống kê dịch tễ học bao gồm các hàng, cột và giá trị theo cấu trúc
 
-### Nomenclature {.unnumbered}  
+*Biến số* chứa các giá trị đo lường cùng một thuộc tính cơ bản (như nhóm tuổi, kết cục hoặc ngày khởi phát). *Các quan sát* bao gồm tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó xác định một cách hữu hình hơn.
 
-In this handbook, we generally reference "columns" and "rows" instead of "variables" and "observations". As explained in this primer on ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), most epidemiological statistical datasets consist structurally of rows, columns, and values.  
+Trong một bộ dữ liệu "tidy", mỗi cột là một biến số, mỗi hàng là một quan sát và mỗi ô là một giá trị duy nhất. Tuy nhiên, bạn có thể gặp một số bộ dữ liệu không phù hợp với quy luật này - bộ dữ liệu định dạng "ngang" có thể có một biến số được chia thành nhiều cột (xem ví dụ trong chương Pivoting dữ liệu). Tương tự như vậy, các quan sát có thể được trải thành nhiều hàng.
 
-*Variables* contain the values that measure the same underlying attribute (like age group, outcome, or date of onset). *Observations* contain all values measured on the same unit (e.g. a person, site, or lab sample). So these aspects can be more difficult to tangibly define.  
+Phần lớn cuốn sách này tập trung vào quản lý và hoán chuyển dữ liệu, vì vậy việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ liên quan hơn là đề cập tới các khái niệm trừu tượng như các quan sát và biến. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, ở đó chúng tôi đề cập nhiều hơn đến các biến số và quan sát.
 
-In "tidy" datasets, each column is a variable, each row is an observation, and each cell is a single value. However some datasets you encounter will not fit this mold - a "wide" format dataset may have a variable split across several columns (see an example in the [Pivoting data] page). Likewise, observations could be split across several rows.  
+### Lưu ý {.unnumbered}
 
-Most of this handbook is about managing and transforming data, so referring to the concrete data structures of rows and columns is more relevant than the more abstract observations and variables. Exceptions occur primarily in pages on data analysis, where you will see more references to variables and observations.  
+Dưới đây là một vài lưu ý bạn có thể gặp trong cuốn sách:
 
+[***NOTE:*** Đây là note]{style="color: black;"}\
+[***TIP:*** Đây là tip.]{style="color: darkgreen;"}\
+[***CAUTION:*** Đây là note cảnh giác.]{style="color: orange;"}\
+[***DANGER:*** Đây là note cảnh báo.]{style="color: red;"}
 
+## Quyết định biên tập
 
-### Notes {.unnumbered} 
+Dưới đây, chúng tôi ghi nhận các quyết định biên tập quan trọng về việc lựa chọn package và hàm. Nếu bạn không đồng ý hoặc muốn đưa ra một công cụ mới để xem xét, vui lòng tham gia /bắt đầu cuộc trò chuyện trên [Trang Github](https://github.com/epirhandbook/Epi_R_handbook) của chúng tôi.
 
-Here are the types of notes you may encounter in the handbook:  
+**Bảng các package, hàm, và các quyết định biên tập khác**
 
-<span style="color: black;">**_NOTE:_** This is a note</span>  
-<span style="color: darkgreen;">**_TIP:_** This is a tip.</span>  
-<span style="color: orange;">**_CAUTION:_** This is a cautionary note.</span>  
-<span style="color: red;">**_DANGER:_** This is a warning.</span>  
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Chủ đề                    | Cân nhắc                                                                       | Lựa chọn                                                                                                           | Lý do ngắn gọn                                                                       |
++===========================+================================================================================+====================================================================================================================+======================================================================================+
+| Phương pháp code chung    | **tidyverse**, **data.table**, **base**                                        | **tidyverse**, với 1 trang về **data.table**, các giải pháp thay thế từ **base** R cho người đọc không có internet | **tidyverse** dễ đọc, phổ biến, được dạy nhiều nhất                                  |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Gọi Package               | `library()`,`install.packages()`, `require()`, **pacman**                      | **pacman**                                                                                                         | Rút ngắn và đơn giản hóa code cho hầu hết các trường hợp cài đặt / tải nhiều package |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Nhập và xuất              | **rio**, và các package khác                                                   | **rio**                                                                                                            | Dễ dàng cho nhiều kiểu file                                                          |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Nhóm để tổng hợp thống kê | **dplyr** `group_by()`, **stats** `aggregate()`                                | **dplyr** `group_by()`                                                                                             | Thống nhất với **tidyverse**                                                         |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Pivoting                  | **tidyr** (các hàm pivot), **reshape2** (melt/cast), **tidyr** (spread/gather) | **tidyr** (các hàm pivot)                                                                                          | **reshape2** đã nghỉ hưu **tidyr** sử dụng các hàm pivot ở phiên bản v1.0.0          |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Làm sạch tên cột          | **linelist**, **janitor**                                                      | **janitor**                                                                                                        | Hợp nhất các package được nhắc đến                                                   |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Epiweeks                  | **lubridate**, **aweek**, **tsibble**, **zoo**                                 | thông thường **lubridate** ,các package khác cho các trường hợp cụ thể                                             | **lubridate's** tính dễ đọc, tính nhất quán, triển vọng bảo trì gói                  |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Nhãn ggplot               | `labs()`, `ggtitle()`/`ylab()`/`xlab()`                                        | `labs()`                                                                                                           | tất cả các nhãn ở một nơi, đơn giản                                                  |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Chuyển sang factor        | `factor()`, **forcats**                                                        | **forcats**                                                                                                        | các hàm khác nhau của nó cũng chuyển đổi thành factor trong cùng một lệnh            |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Đường cong dịch bệnh      | **incidence**, **ggplot2**, **EpiCurve**                                       | **incidence2** thì nhanh, **ggplot2** thì chi tiết                                                                 | tùy theo                                                                             |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
+| Sự kết hợp                | `paste()`, `paste0()`, `str_glue()`, `glue()`                                  | `str_glue()`                                                                                                       | Nhiều cú pháp đơn giản hơn hàm paste; nằm bên trong **stringr**                      |
++---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 
+## Các bản sửa đổi chính
 
+| Ngày              | Thay đổi chính            |
+|-------------------|---------------------------|
+| 10 Tháng Năm 2021 | Phát hành phiên bản 1.0.0 |
 
-## Editorial decisions  
+## Thông tin phiên làm việc (R, RStudio, packages)
 
-Below, we track significant editorial decisions around package and function choice. If you disagree or want to offer a new tool for consideration, please join/start a conversation on our [Github page](https://github.com/epirhandbook/Epi_R_handbook).    
-
-
-**Table of package, function, and other editorial decisions**  
-
-
-Subject           |     Considered      |   Outcome              |    Brief rationale   
------------------ | --------------------|------------------------|-----------------------------------------------
-General coding approach|**tidyverse**, **data.table**, **base**|**tidyverse**, with a page on **data.table**, and mentions of **base** alternatives for readers with no internet|**tidyverse** readability, universality, most-taught  
-Package loading|`library()`,`install.packages()`, `require()`, **pacman**|**pacman**|Shortens and simplifies code for most multi-package install/load use-cases
-Import and export|**rio**, many other packages|**rio**|Ease for many file types
-Grouping for summary statistics|**dplyr** `group_by()`, **stats** `aggregate()`|**dplyr** `group_by()`|Consistent with **tidyverse** emphasis
-Pivoting|**tidyr** (pivot functions), **reshape2** (melt/cast), **tidyr** (spread/gather)|**tidyr** (pivot functions)|**reshape2** is retired, **tidyr** uses pivot functions as of v1.0.0
-Clean column names|**linelist**, **janitor**|**janitor**|Consolidation of packages emphasized
-Epiweeks |**lubridate**, **aweek**, **tsibble**, **zoo**|**lubridate** generally, the others for specific cases| **lubridate's** flexibility, consistency, package maintenance prospects  
-ggplot labels |`labs()`, `ggtitle()`/`ylab()`/`xlab()` |`labs()` |all labels in one place, simplicity  
-Convert to factor |`factor()`, **forcats**|**forcats**|its various functions also convert to factor in same command
-Epidemic curves|**incidence**, **ggplot2**, **EpiCurve**|**incidence2** as quick, **ggplot2** as detailed|dependability
-Concatenation|`paste()`, `paste0()`, `str_glue()`, `glue()`|`str_glue()`|More simple syntax than paste functions; within **stringr**
-
-
-## Major revisions  
-
-
-Date           |Major changes        
----------------| ------------------------------------------    
-10 May 2021    |Release of version 1.0.0    
-
-
-## Session info (R, RStudio, packages)  
-
-Below is the information on the versions of R, RStudio, and R packages used during this rendering of the Handbook.  
-
+Dưới đây là thông tin về các phiên bản của các R package, RStudio và R được sử dụng trong quá trình rendering cuốn sách này.
 
 ```{r}
 sessioninfo::session_info()
 ```
-
-
-
-

@@ -1,1 +1,1 @@
-# (PART) Reports and dashboards {.unnumbered}
+# (PART) Báo cáo và dashboards {.unnumbered}
