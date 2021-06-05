@@ -169,7 +169,7 @@ We can also cross-tabulate the columns `age_cat_small` and `gender` to have more
 
 linelist_surv %>% 
   tabyl(gender, age_cat_small, show_na = F) %>% 
-  adorn_totals(where = "both") %>% 
+  adorn_totals(c("row", "col")) %>% 
   adorn_percentages() %>% 
   adorn_pct_formatting() %>% 
   adorn_ns(position = "front")

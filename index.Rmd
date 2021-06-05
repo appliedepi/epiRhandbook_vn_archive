@@ -1,6 +1,6 @@
 ---
 knit: "bookdown::render_book"
-title: "The Epidemiologist R Handbook"  
+title: "Sổ tay dịch tễ học với R"  
 description: "The Epi R Handbook is a R reference manual for applied epidemiology and public health."
 author: "the handbook team"
 date: "`r Sys.Date()`"
@@ -18,11 +18,7 @@ site: bookdown::bookdown_site
 documentclass: book
 ---
 
-
-
-
-
-#  {-}
+#  {.unnumbered}
 
 ```{r, out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x500.png"))
@@ -39,30 +35,29 @@ knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x5
 <!-- <span style="color: darkgreen;">**DO YOU LIKE THIS HANDBOOK? SHOULD SOMETHING BE CHANGED? PLEASE TELL US!**</span> -->
 
 <!-- <form target="_blank" action="https://forms.gle/A5SnRVws7tPD15Js9"> -->
+
 <!--     <input type="submit" value="FEEDBACK" /> -->
+
 <!-- </form> -->
 
 <!-- ======================================================= -->
-<!-- ## An R reference manual for applied epidemiology and public health {.unnumbered} -->
 
+<!-- ## An R reference manual for applied epidemiology and public health {.unnumbered} -->
 
 <!-- <span style="color: brown;">**The Epi R Handbook is an R reference manual for applied epidemiology and public health.**</span> -->
 
 <!-- ## About this handbook   -->
 
-## R for applied epidemiology and public health {-}  
+## R trong dịch tễ học ứng dụng và y tế công cộng {.unnumbered}
 
-**This handbook strives to:**  
+**Sổ tay này hướng tới:**
 
-* Serve as a quick R code reference manual  
-* Provide task-centered examples addressing common epidemiological problems  
-* Assist epidemiologists transitioning to R  
-* Be accessible in settings with low internet-connectivity via an **[offline version][Download handbook and data]**  
-
+-   Là một tài liệu tham khảo R một cách nhanh chóng\
+-   Cung cấp các ví dụ tập trung vào nhiệm vụ giải quyết các vấn đề dịch tễ học phổ biến\
+-   Hỗ trợ các nhà dịch tễ học chuyển sang sử dụng R\
+-   Có thể sử dụng trong các tình huống có kết nối internet thấp thông qua **[phiên bản ngoại tuyến][Tải xuống sổ tay và dữ liệu]**
 
 <!-- * Use practical epi examples - cleaning case linelists, making transmission chains and epidemic curves, automated reports and dashboards, modeling incidence and making projections, demographic pyramids and rate standardization, record matching, outbreak detection, survey analysis, survival analysis, GIS basics, contact tracing, phylogenetic trees...   -->
-
-
 
 <!-- **How is this different than other R books?**   -->
 
@@ -70,80 +65,71 @@ knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x5
 
 <!-- Dual-column created based on the rmarkdown cookbook here: https://bookdown.org/yihui/rmarkdown-cookbook/multi-column.html -->
 
-
-
 <br>
 
+::: {style="display: flex;"}
+<div>
 
-:::: {style="display: flex;"}
-
-::: {}
 ```{r, out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "epiRhandbook_HexSticker_500x500.png"))
 ```
-:::
 
+</div>
 
-::: {.col data-latex="{0.05\textwidth}"}
-\ 
-<!-- an empty Div (with a white space), serving as
+::: {.col data-latex="{0.05\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
 a column separator -->
 :::
 
-::: {}
-<span style="color: black;">**Written by epidemiologists, for epidemiologists**</span>
+<div>
 
-We are applied epis from around the world, writing in our spare time to offer this resource to the community. Your encouragement and feedback is most welcome:  
+[**Được viết bởi các nhà dịch tễ học, dành cho các nhà dịch tễ học**]{style="color: black;"}
 
-* Structured **[feedback form](https://forms.gle/A5SnRVws7tPD15Js9)**  
-* Email **epiRhandbook@gmail.com** or tweet **[\@epiRhandbook](https://twitter.com/epirhandbook)**  
-* Submit issues to our **[Github repository](https://github.com/epirhandbook/Epi_R_handbook)**  
+Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi trên thế giới, viết trong thời gian rảnh của mình để cung cấp tài liệu này cho cộng đồng. Sự động viên và góp ý của bạn luôn được chào đón thông qua:
 
+-   Gửi [**biểu mẫu phản hồi**](https://forms.gle/A5SnRVws7tPD15Js9)\
+-   Email [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email} hoặc tweet [**\@epiRhandbook**](https://twitter.com/epirhandbook)\
+-   Gửi các vấn đề cho chúng tôi tại [**Github repository**](https://github.com/epirhandbook/Epi_R_handbook)
+
+</div>
 :::
 
-::::
+<!-- ======================================================= -->
 
+## Sổ tay này được sử dụng như thế nào {.unnumbered}
 
+-   Truy cập các trang trong phần Mục lục, hoặc sử dụng ô tìm kiếm
+-   Nhấn biểu tượng "copy" để copy code\
+-   Kết hợp theo dõi cùng với các bộ [dữ liệu minh họa][Tải xuống sổ tay và dữ liệu]\
+-   Xem phần "Tài nguyên" trong từng trang để tìm thêm tài liệu
 
+**Phiên bản ngoại tuyến**
+
+Xem hướng dẫn tại trang [Tải xuống sổ tay và dữ liệu].
+
+**Ngôn ngữ**
+
+We want to translate this into languages other than English. If you can help, please contact us.
 
 <!-- ======================================================= -->
-## How to use this handbook {-} 
 
-* Browse the pages in the Table of Contents, or use the search box
-* Click the "copy" icons to copy code  
-* You can follow-along with [the example data][Download handbook and data]  
-* See the "Resources" section of each page for further material  
+## Lời cảm ơn {.unnumbered}
 
-**Offline version**  
+Sổ tay này được tạo ra bởi sự hợp tác của các nhà dịch tễ học từ khắp nơi trên thế giới, đúc kết kinh nghiệm cùng với các tổ chức khác bao gồm các cơ quan y tế địa phương, tiểu bang, tỉnh và quốc gia, Tổ chức Y tế Thế giới (WHO), Tổ chức Bác sỹ không biên giới (MSF), hệ thống các bệnh viện, và các đơn vị nghiên cứu.
 
-See instructions in the [Download handbook and data] page.  
+Sổ tay này **không phải** là sản phẩm đã được phê duyệt của bất kỳ tổ chức cụ thể nào. Mặc dù chúng tôi cố gắng đảm bảo tính chính xác, nhưng chúng tôi không đảm bảo về nội dung trong cuốn sách này.
 
-**Languages**  
+### Contributors {.unnumbered}
 
-We want to translate this into languages other than English. If you can help, please contact us.  
+**Editor-in-Chief:** [Neale Batra](https://www.linkedin.com/in/neale-batra/)
 
+**Project core team:** [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Amrish Baidjoe](https://twitter.com/Ammer_B), Pat Keating, [Henry Laurenson-Schafer](https://github.com/henryls1), [Finlay Campbell](https://github.com/finlaycampbell)
 
+**Authors**: [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Paula Blomquist](https://www.linkedin.com/in/paula-bianca-blomquist-53188186/), [Finlay Campbell](https://github.com/finlaycampbell), [Henry Laurenson-Schafer](https://github.com/henryls1), [Isaac Florence](www.Twitter.com/isaacatflorence), [Natalie Fischer](https://www.linkedin.com/in/nataliefischer211/), [Aminata Ndiaye](https://twitter.com/aminata_fadl), [Liza Coyer](https://www.linkedin.com/in/liza-coyer-86022040/), [Jonathan Polonsky](https://twitter.com/jonny_polonsky), [Yurie Izawa](https://ch.linkedin.com/in/yurie-izawa-a1590319), [Chris Bailey](https://twitter.com/cbailey_58?lang=en), [Daniel Molling](https://www.linkedin.com/in/daniel-molling-4005716a/), [Isha Berry](https://twitter.com/ishaberry2), [Emma Buajitti](https://twitter.com/buajitti), [Mathilde Mousset](https://mathildemousset.wordpress.com/research/), [Sara Hollis](https://www.linkedin.com/in/saramhollis/), Wen Lin
 
-<!-- ======================================================= -->
-## Acknowledgements {-}  
+**Reviewers**: Pat Keating, Annick Lenglet, Margot Charette, Danielly Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Kate Kelsey, [Berhe Etsay](https://www.linkedin.com/in/berhe-etsay-5752b1154/), John Rossow, Mackenzie Zendt, James Wright, Laura Haskins, [Flavio Finger](ffinger.github.io), Tim Taylor, [Jae Hyoung Tim Lee](https://www.linkedin.com/in/jaehyoungtlee/), [Brianna Bradley](https://www.linkedin.com/in/brianna-bradley-bb8658155), [Wayne Enanoria](https://www.linkedin.com/in/wenanoria), Manual Albela Miranda, [Molly Mantus](https://www.linkedin.com/in/molly-mantus-174550150/), Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga
 
-This handbook is produced by a collaboration of epidemiologists from around the world drawing upon experience with organizations including local, state, provincial, and national health agencies, the World Health Organization (WHO), Médecins Sans Frontières / Doctors without Borders (MSF), hospital systems, and academic institutions.
-
-This handbook is **not** an approved product of any specific organization. Although we strive for accuracy, we provide no guarantee of the content in this book.  
-
-
-### Contributors {-}  
-
-**Editor-in-Chief:** [Neale Batra](https://www.linkedin.com/in/neale-batra/) 
-
-**Project core team:** [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Amrish Baidjoe](https://twitter.com/Ammer_B), Pat Keating, [Henry Laurenson-Schafer](https://github.com/henryls1), [Finlay Campbell](https://github.com/finlaycampbell)  
-
-**Authors**: [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Paula Blomquist](https://www.linkedin.com/in/paula-bianca-blomquist-53188186/), [Finlay Campbell](https://github.com/finlaycampbell), [Henry Laurenson-Schafer](https://github.com/henryls1), [Isaac Florence](www.Twitter.com/isaacatflorence), [Natalie Fischer](https://www.linkedin.com/in/nataliefischer211/), [Aminata Ndiaye](https://twitter.com/aminata_fadl), [Liza Coyer]( https://www.linkedin.com/in/liza-coyer-86022040/), [Jonathan Polonsky](https://twitter.com/jonny_polonsky), [Yurie Izawa](https://ch.linkedin.com/in/yurie-izawa-a1590319), [Chris Bailey](https://twitter.com/cbailey_58?lang=en), [Daniel Molling](https://www.linkedin.com/in/daniel-molling-4005716a/), [Isha Berry](https://twitter.com/ishaberry2), [Emma Buajitti](https://twitter.com/buajitti), [Mathilde Mousset](https://mathildemousset.wordpress.com/research/), [Sara Hollis](https://www.linkedin.com/in/saramhollis/), Wen Lin  
-
-**Reviewers**: Pat Keating, Annick Lenglet, Margot Charette, Danielly Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Kate Kelsey, [Berhe Etsay](https://www.linkedin.com/in/berhe-etsay-5752b1154/), John Rossow, Mackenzie Zendt, James Wright, Laura Haskins, [Flavio Finger](ffinger.github.io), Tim Taylor, [Jae Hyoung Tim Lee](https://www.linkedin.com/in/jaehyoungtlee/), [Brianna Bradley](https://www.linkedin.com/in/brianna-bradley-bb8658155), [Wayne Enanoria](https://www.linkedin.com/in/wenanoria), Manual Albela Miranda, [Molly Mantus](https://www.linkedin.com/in/molly-mantus-174550150/), Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga  
-
-**Illustrations**: Calder Fong  
-
+**Illustrations**: Calder Fong
 
 <!-- **Editor-in-Chief:** Neale Batra  -->
 
@@ -153,55 +139,45 @@ This handbook is **not** an approved product of any specific organization. Altho
 
 <!-- **Reviewers**: Pat Keating, Mathilde Mousset, Annick Lenglet, Margot Charette, Isha Berry, Paula Blomquist, Natalie Fischer, Daniely Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Daniel Molling, Kate Kelsey, Berhe Etsay, John Rossow, Mackenzie Zendt, James Wright, Wayne Enanoria, Laura Haskins, Flavio Finger, Tim Taylor, Jae Hyoung Tim Lee, Brianna Bradley, Manual Albela Miranda, Molly Mantus, Priscilla Spencer, Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga   -->
 
+### Funding and support {.unnumbered}
 
-### Funding and support {-}  
+The handbook received supportive funding via a COVID-19 emergency capacity-building grant from [TEPHINET](https://www.tephinet.org/), the global network of Field Epidemiology Training Programs (FETPs).
 
-The handbook received supportive funding via a COVID-19 emergency capacity-building grant from [TEPHINET](https://www.tephinet.org/), the global network of Field Epidemiology Training Programs (FETPs).  
+Administrative support was provided by the EPIET Alumni Network ([EAN](https://epietalumni.net/)), with special thanks to Annika Wendland. EPIET is the European Programme for Intervention Epidemiology Training.
 
-Administrative support was provided by the EPIET Alumni Network ([EAN](https://epietalumni.net/)), with special thanks to Annika Wendland. EPIET is the European Programme for Intervention Epidemiology Training.  
-
-Special thanks to Médecins Sans Frontières (MSF) Operational Centre Amsterdam (OCA) for their support during the development of this handbook.  
-
+Special thanks to Médecins Sans Frontières (MSF) Operational Centre Amsterdam (OCA) for their support during the development of this handbook.
 
 *This publication was supported by Cooperative Agreement number NU2GGH001873, funded by the Centers for Disease Control and Prevention through TEPHINET, a program of The Task Force for Global Health. Its contents are solely the responsibility of the authors and do not necessarily represent the official views of the Centers for Disease Control and Prevention, the Department of Health and Human Services, The Task Force for Global Health, Inc. or TEPHINET.*
 
+### Inspiration {.unnumbered}
 
+The multitude of tutorials and vignettes that provided knowledge for development of handbook content are credited within their respective pages.
 
-### Inspiration {-}  
-
-The multitude of tutorials and vignettes that provided knowledge for development of handbook content are credited within their respective pages.  
-
-More generally, the following sources provided inspiration for this handbook:  
-[The "R4Epis" project](https://r4epis.netlify.app/) (a collaboration between MSF and RECON)  
-[R Epidemics Consortium (RECON)](https://www.repidemicsconsortium.org/)  
-[R for Data Science book (R4DS)](https://r4ds.had.co.nz/)  
-[bookdown: Authoring Books and Technical Documents with R Markdown](https://bookdown.org/yihui/bookdown/)  
-[Netlify](https://www.netlify.com) hosts this website  
-
+More generally, the following sources provided inspiration for this handbook:\
+[The "R4Epis" project](https://r4epis.netlify.app/) (a collaboration between MSF and RECON)\
+[R Epidemics Consortium (RECON)](https://www.repidemicsconsortium.org/)\
+[R for Data Science book (R4DS)](https://r4ds.had.co.nz/)\
+[bookdown: Authoring Books and Technical Documents with R Markdown](https://bookdown.org/yihui/bookdown/)\
+[Netlify](https://www.netlify.com) hosts this website
 
 <!-- ### Image credits {-}   -->
 
 <!-- Images in logo from US CDC Public Health Image Library) include [2013 Yemen looking for mosquito breeding sites](https://phil.cdc.gov/Details.aspx?pid=19623), [Ebola virus](https://phil.cdc.gov/Details.aspx?pid=23186), and [Survey in Rajasthan](https://phil.cdc.gov/Details.aspx?pid=19838).   -->
 
+## Terms of Use and Contribution {.unnumbered}
 
-## Terms of Use and Contribution {-}  
+### License {.unnumbered}
 
-### License {.unnumbered} 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
-
-
-Academic courses and epidemiologist training programs are welcome to use this handbook with their students. If you have questions about your intended use, email **epiRhandbook@gmail.com**.  
-
+Academic courses and epidemiologist training programs are welcome to use this handbook with their students. If you have questions about your intended use, email [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email}.
 
 ### Citation {.unnumbered}
 
-The Epidemiologist R Handbook. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img alt="DOI" style="border-width:0" src="https://zenodo.org/badge/231610102.svg" /></a><br />
+The Epidemiologist R Handbook. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img src="https://zenodo.org/badge/231610102.svg" alt="DOI" style="border-width:0"/></a><br />
 
-### Contribution {.unnumbered}  
+### Contribution {.unnumbered}
 
-If you would like to make a content contribution, please contact with us first via Github issues or by email. We are implementing a schedule for updates and are creating a contributor guide.  
+If you would like to make a content contribution, please contact with us first via Github issues or by email. We are implementing a schedule for updates and are creating a contributor guide.
 
 Please note that the epiRhandbook project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
-
-
