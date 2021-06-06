@@ -1,23 +1,23 @@
-# Descriptive tables { }
+# Bảng mô tả { }
 
 ```{r out.width = c('75%'), fig.align='center', fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "descriptive_tables.png"))
 ```
 
-This page demonstrates the use of **janitor**, **dplyr**, **gtsummary**, **rstatix**, and **base** R to summarise data and create tables with descriptive statistics. 
+Chương này minh họa cách sử dụng các package **janitor**, **dplyr**, **gtsummary**, **rstatix**, và **base** R để tóm tắt dữ liệu và tạo bảng với thống kê mô tả. 
 
-*This page covers how to *create* the underlying tables, whereas the [Tables for presentation] page covers how to nicely format and print them.*  
+*Chương này bao gồm cách để tạo* bảng cơ bản, trong khi đó chương [Trình bày bảng] bao gồm cách để định dạng đẹp và in chúng.*  
 
-Each of these packages has advantages and disadvantages in the areas of code simplicity, accessibility of outputs, quality of printed outputs. Use this page to decide which approach works for your scenario.  
+Mỗi package này đều có những ưu và nhược điểm trong các khía cạnh về code đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.  
 
 
-You have several choices when producing tabulation and cross-tabulation summary tables. Some of the factors to consider include code simplicity, customizeability, the desired output (printed to R console, as data frame, or as "pretty" .png/.jpeg/.html image), and ease of post-processing. Consider the points below as you choose the tool for your situation.
+Bạn có một số lựa chọn khi tạo bảng tóm tắt và bảng chéo. Một số yếu tố cần xem xét bao gồm tính đơn giản của code, khả năng tùy chỉnh, đầu ra mong muốn (được in ra R console, dưới dạng dataframe hoặc dưới dạng hình ảnh “đẹp” .png/.jpeg /.html) và dễ xử lý hậu kỳ. Hãy xem xét các điểm dưới đây khi bạn chọn công cụ cho tình huống của mình. 
 
-* Use `tabyl()` from **janitor** to produce and "adorn" tabulations and cross-tabulations  
-* Use `get_summary_stats()` from **rstatix** to easily generate data frames of numeric summary statistics for multiple columns and/or groups  
-* Use `summarise()` and `count()` from **dplyr** for more complex statistics, tidy data frame outputs, or preparing data for `ggplot()`  
-* Use `tbl_summary()` from **gtsummary** to produce detailed publication-ready tables  
-* Use `table()` from **base** R if you do not have access to the above packages  
+* Dùng `tabyl()` từ **janitor** để tạo và “làm đẹp” cho bảng và bảng chéo  
+* Dùng `get_summary_stats()` từ **rstatix** để dễ dàng tạo data frame các tóm tắt thống kê dạng số cho nhiều cột và / hoặc nhóm  
+* Dùng `summarise()` và `count()` từ **dplyr** dành choo các thống kê phức tạp hơn, đầu ra của tidy dataframe hoặc chuẩn bị dữ liệu cho `ggplot()`  
+* Dùng `tbl_summary()` từ **gtsummary** để tạo ra các bảng chi tiết sẵn sàng xuất bản  
+* Dùng `table()` từ **base** R nếu bạn không có khả năng truy cập vào các package trên  
 
 
 <!-- ======================================================= -->

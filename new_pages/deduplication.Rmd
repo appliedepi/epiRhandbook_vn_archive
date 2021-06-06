@@ -1,5 +1,5 @@
 
-# De-duplication {}  
+# Loại bỏ trùng lặp {}  
 
 ```{r, out.width=c("50%"), echo=F}
 knitr::include_graphics(here::here("images", "deduplication.png"))

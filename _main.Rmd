@@ -139,7 +139,7 @@ Sổ tay này **không phải** là sản phẩm đã được phê duyệt củ
 
 <!-- **Reviewers**: Pat Keating, Mathilde Mousset, Annick Lenglet, Margot Charette, Isha Berry, Paula Blomquist, Natalie Fischer, Daniely Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Daniel Molling, Kate Kelsey, Berhe Etsay, John Rossow, Mackenzie Zendt, James Wright, Wayne Enanoria, Laura Haskins, Flavio Finger, Tim Taylor, Jae Hyoung Tim Lee, Brianna Bradley, Manual Albela Miranda, Molly Mantus, Priscilla Spencer, Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga   -->
 
-### Funding and support {.unnumbered}
+### Tài trợ và hỗ trợ {.unnumbered}
 
 Sổ tay này nhận được tài trợ thông qua kinh phí hỗ trợ trợ xây dựng năng lực khẩn cấp COVID-19 từ [TEPHINET](https://www.tephinet.org/), tmạng lưới toàn cầu của các Chương trình Đào tạo Dịch tễ học Thực địa (FETPs).
 
@@ -443,95 +443,79 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/editorial_style.Rmd-->
 
-# Tải xuống sổ tay và dữ liệu  
-
+# Tải sách và dữ liệu
 
 <!-- Note to self: If you want to create a download link to Github, right-click the "View Raw" button on Github, copy the address, and use that in the HTML below. -->
 
+## Tải sách ngoại tuyến
 
+Bạn có thể tải xuống phiên bản ngoại tuyến của sổ tay này dưới dạng tệp HTML để có thể xem tệp trong trình duyệt web của mình ngay cả khi bạn không còn quyền truy cập internet. Nếu bạn đang cân nhắc việc sử dụng ngoại tuyến Sổ tay Epi R, dưới đây là một số điều cần xem xét:
 
+-   Khi bạn mở tệp, có thể mất một đến hai phút để load các hình ảnh và mục lục\
+-   Sách ngoại tuyến có bố cục hơi khác một chút - là một trang rất dài với Mục lục ở phía bên trái. Để tìm kiếm các cụm từ cụ thể, hãy sử dụng Ctrl + f (Cmd-f)\
+-   Xem chương [Package đề xuất] để hỗ trợ bạn cài đặt các R package thích hợp trước khi bạn mất kết nối internet\
+-   Cài đặt R package của chúng tôi **epirhandbook** chứa tất cả dữ liệu mẫu (quy trình cài đặt được mô tả bên dưới)
 
-## Download offline handbook  
+**Có hai cách bạn có thể tải xuống sổ tay:**
 
-You can download the offline version of this handbook as an HTML file so that you can view the file in your web browser even if you no longer have internet access. If you are considering offline use of the Epi R Handbook here are a few things to consider:  
+### Sử dụng link download {.unnumbered}
 
-* When you open the file it may take a minute or two for the images and the Table of Contents to load  
-* The offline handbook has a slightly different layout - one very long page with Table of Contents on the left. To search for specific terms use Ctrl+f (Cmd-f)  
-* See the [Suggested packages] page to assist you with installing appropriate R packages before you lose internet connectivity  
-* Install our R package **epirhandbook** that contains all the example data (install process described below)  
+Để truy cập nhanh, **nháy phải chuột** [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/offline_long/Epi_R_Handbook_offline.html) **và lựa chọn "Save link as"**.
 
-**There are two ways you can download the handbook:**  
+Nếu trên máy Mac, hãy sử dụng Cmd + Nhấp chuột. Nếu trên điện thoại di động, hãy bấm và giữ liên kết và chọn "Save link". Sổ tay sẽ tải xuống thiết bị của bạn. Nếu màn hình có mã HTML thô xuất hiện, hãy đảm bảo bạn đã làm theo các hướng dẫn ở trên hoặc thử Phương án 2.
 
+### Sử dụng package của chúng tôi {.unnumbered}
 
+Chúng tôi cung cấp một R package có tên là **epirhandbook**. Nó bao gồm một hàm có tên `download_book()` giúp bạn tải xuống file sổ tay từ kho Github của chúng tôi vào máy tính của bạn.
 
-### Use download link {.unnumbered}  
+Package này cũng chứa hàm `get_data()` giúp tải xuống các bộ dữ liệu minh họa vào máy tính của bạn.
 
-For quick access, **right-click** [this link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/offline_long/Epi_R_Handbook_offline.html) **and select "Save link as"**.  
-
-If on a Mac, use Cmd+click. If on a mobile, press and hold the link and select "Save link". The handbook will download to your device. If a screen with raw HTML code appears, ensure you have followed the above instructions or try Option 2.  
-
-
-
-
-### Use our R package {.unnumbered}  
-
-We offer an R package called **epirhandbook**. It includes a function `download_book()` that downloads the handbook file from our Github repository to your computer.  
-
-
-This package also contains a function `get_data()` that downloads all the example data to your computer.  
-
-Run the following code to install our R package **epirhandbook** from the [Github repository *appliedepi*](https://github.com/appliedepi/epirhandbook). This package is not on CRAN, so use the special function `p_install_gh()` to install it from Github.  
-
+Chạy dòng code sau để cài đặt package **epirhandbook** từ [Github repository *appliedepi*](https://github.com/appliedepi/epirhandbook). Đây không phải là package thuộc CRAN, do đó cần sử dụng hàm đặc biệt `p_install_gh()` để cài đặt nó từ Github.
 
 ```{r, eval=F}
 # install the latest version of the Epi R Handbook package
 pacman::p_install_gh("appliedepi/epirhandbook")
 ```
 
-Now, load the package for use in your current R session:  
+Bây giờ, bạn gọi package để sử dụng cho phiên làm việc R hiện tại:
 
 ```{r, eval=F}
 # load the package for use
 pacman::p_load(epirhandbook)
 ```
 
-Next, run the package's function `download_book()` (with empty parentheses) to download the handbook to your computer. Assuming you are in RStudio, a window will appear allowing you to select a save location.  
+Tiếp theo, bạn chạy hàm `download_book()` (phần trong ngoặc bỏ trống) để tải sổ tay vào máy tính của bạn. Nếu bạn sử dụng RStudio, một cửa sổ sẽ xuất hiện cho phép bạn lựa chọn thư mục lưu trữ.
 
 ```{r, eval=F}
 # download the offline handbook to your computer
 download_book()
 ```
 
+## Tải dữ liệu xuống để cùng theo dõi
 
+Để "tiện theo dõi" cùng với sổ tay này, bạn có thể tải xuống các bộ dữ liệu minh họa và kết quả.
 
+### Sử dụng package của chúng tôi {.unnumbered}
 
+Cách dễ nhất để tải xuống tất cả dữ liệu là cài đặt package **epirhandbook** của chúng tôi. Nó chứa hàm `get_data()` giúp lưu toàn bộ dữ liệu minh họa vào một thư mục bạn chọn trên máy tính của mình.
 
-## Download data to follow along  
-
-To "follow along" with the handbook pages, you can download the example data and outputs.  
-
-### Use our R package {.unnumbered}  
-
-The easiest approach to download all the data is to install our R package **epirhandbook**. It contains a function `get_data()` that saves all the example data to a folder of your choice on your computer.  
-
-To install our R package **epirhandbook**, run the following code. This package is not on CRAN, so use the function `p_install_gh()` to install it. The input is referencing our Github organisation ("*appliedepi*") and the **epirhandbook** package.  
+Để cài đặt package **epirhandbook**, bạn chạy theo code dưới đây. Lưu ý là package này không CRAN, do đó cần sử dụng hàm `p_install_gh()` để cài đặt. Thông tin đầu vào sẽ được chuyển tới Github của chúng tôi ("*appliedepi*") và package **epirhandbook**.
 
 ```{r, eval=F}
 # install the latest version of the Epi R Handbook package
 pacman::p_install_gh("appliedepi/epirhandbook")
 ```
 
-
-Now, load the package for use in your current R session:  
+Bây giờ, bạn gọi package để sử dụng cho phiên làm việc R hiện tại:
 
 ```{r, eval=F}
 # load the package for use
 pacman::p_load(epirhandbook)
 ```
 
-Next, use the package's function `get_data()` to download the example data to your computer. Run `get_data("all")` to get *all* the example data, or provide a specific file name and extension within the quotes to retrieve only one file.  
+Tiếp theo, sử dụng hàm `get_data()` trong package để tải dữ liệu minh họa và máy tính của bạn. Chạy hàm `get_data("all")` để tải *toàn bộ* dữ liệu minh họa, hoặc bạn có thể nêu tên một file cụ thể và phần mở rộng bên trong dấu ngoặc kép để tải một file duy nhất.
 
-The data have already been downloaded with the package, and simply need to be transferred out to a folder on your computer. A pop-up window will appear, allowing you to select a save folder location. We suggest you create a new "data" folder as there are about 30 files (including example data and example outputs).  
+Dữ liệu sẽ được tải xuống cùng với package và bạn đơn giản chỉ cần lưu nó vào một thư mục trên máy tính của bạn. Một cửa sổ sẽ xuất hiện, cho phép bạn chọn vị trí lưu thư mục. Chúng tôi khuyên bạn nên tạo một thư mục mới tên là "data" vì có khoảng 30 tệp (bao gồm các bộ dữ liệu minh họa và kết quả).
 
 ```{r, eval=F}
 # download all the example data into a folder on your computer
@@ -542,36 +526,32 @@ get_data(file = "linelist_cleaned.rds")
 
 ```
 
-
 ```{r, eval=F}
 # download a specific file into a folder on your computer
 get_data("linelist_cleaned.rds")
 ```
 
-Once you have used `get_data()` to save a file to your computer, you will still need to import it into R. See the [Import and export] page for details.  
+Khi bạn dùng hàm `get_data()` để lưu tệp dữ liệu vào máy tính của mình, bạn sẽ vẫn cần nhập dữ liệu vào R. Xem chương [Nhập xuất dữ liệu] để biết thêm chia tiết.
 
-If you wish, you can review all the data used in this handbook in the **["data" folder](https://github.com/epirhandbook/Epi_R_handbook/tree/master/data)** of our Github repository.  
+Nếu bạn muốn, bạn có thể xem toàn bộ dữ liệu sử dụng trong cuốn sách này ở [**thư mục "dữ liệu"**](https://github.com/epirhandbook/Epi_R_handbook/tree/master/data) trong kho Github của chúng tôi.
 
+### Tải từng thứ một {.unnumbered}
 
+Tùy chọn này liên quan đến việc tải xuống từng tệp dữ liệu từ kho lưu trữ Github của chúng tôi thông qua liên kết hoặc lệnh R dành riêng cho từng tệp. Một số loại tệp cho phép nút tải xuống, trong khi những loại khác có thể được tải xuống thông qua lệnh R.
 
-### Download one-by-one {.unnumbered}  
+#### Dữ liệu linelist {.unnumbered}
 
-This option involves downloading the data file-by-file from our Github repository via either a link or an R command specific to the file. Some file types allow a download button, while others can be downloaded via an R command.  
+Đây là số liệu bùng phát Ebola giả định, được nhóm tác giả cẩm nang mở rộng từ bộ dữ liệu thực hành `ebola_sim` trong package **outbreaks**.
 
+-   <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>Bấm để tải xuống dữ liệu "thô" linelist (.xlsx)</span></a>. Bộ dữ liệu "thô" là một trang tính Excel với dữ liệu lộn xộn. Sử dụng số liệu này trong chương [Làm sạch số liệu và các hàm quan trọng].
 
-#### Case linelist {.unnumbered}
+-   <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>Bấm để tải xuống dữ liệu "đã làm sạch" linelist (.rds)</a>. Sử dụng tệp này cho tất cả các chương khác trong sổ tay có sử dụng bộ dữ liệu linelist. Tệp mở rộng .rds là một kiểu file của R có khả năng bảo tồn các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.
 
-This is a fictional Ebola outbreak, expanded by the handbook team from the `ebola_sim` practice dataset in the **outbreaks** package.  
+*Các tệp liên quan khác:*
 
-* <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>Click to download the "raw" linelist (.xlsx)</span></a>. The "raw" case linelist is an Excel spreadsheet with messy data. Use this to follow-along with the [Cleaning data and core functions] page.  
+-   <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.xlsx' class='download-button'>Bấm để tải xuống dữ liệu "đã làm sạch" linelist dưới dạng tệp Excel</a>
 
-* <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>Click to download the "clean" linelist (.rds)</a>. Use this file for all other pages of this handbook that use the linelist. A .rds file is an R-specific file type that preserves column classes. This ensures you will have only minimal cleaning to do after importing the data into R.  
-
-*Other related files:*  
-
-* <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.xlsx' class='download-button'>Click to download the "clean" linelist as an Excel file</a>
-
-* Part of the cleaning page uses a "cleaning dictionary" (.csv file). You can load it directly into R by running the following commands:   
+-   Một phần của chương làm sạch sử dụng "từ điển làm sạch" (tệp .csv). Bạn có thể tải nó trực tiếp vào R bằng cách chạy các lệnh sau:
 
 ```{r, eval=F}
 pacman::p_load(rio) # install/load the rio package
@@ -580,20 +560,15 @@ pacman::p_load(rio) # install/load the rio package
 cleaning_dict <- import("https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/cleaning_dict.csv")
 ```
 
+#### Dữ liệu số trường hợp sốt rét {#data_malaria .unnumbered}
 
-#### Malaria count data {#data_malaria .unnumbered}  
+Đây là số liệu giả định về số lượng trường hợp sốt rét theo nhóm tuổi, cơ sở điều trị và ngày. Tệp mở rộng .rds là một kiểu file của R có khả năng bảo tồn các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.
 
-These data are fictional counts of malaria cases by age group, facility, and day. A .rds file is an R-specific file type that preserves column classes. This ensures you will have only minimal cleaning to do after importing the data into R.  
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_facility_count_data.rds' class='download-button'> Bấm để tải file dữ liệu sốt rét (.rds file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_facility_count_data.rds' class='download-button'>
-	Click to download
-	<span>the malaria count data (.rds file)</span>
-</a>
+#### Dữ liệu thang Likert {.unnumbered}
 
-
-#### Likert-scale data {.unnumbered}  
-
-These are fictional data from a Likert-style survey, used in the page on [Demographic pyramids and Likert-scales]. You can load these data directly into R by running the following commands:    
+Đây là dữ liệu giả định từ một cuộc khảo sát sử dụng thang đo Likert, được sử dụng trong chương [Tháp dân số và thang đo Likert]. Bạn có thể tải những dữ liệu này trực tiếp vào R bằng cách chạy các lệnh sau:
 
 ```{r, eval=F}
 pacman::p_load(rio) # install/load the rio package
@@ -602,78 +577,60 @@ pacman::p_load(rio) # install/load the rio package
 likert_data <- import("https://raw.githubusercontent.com/nsbatra/Epi_R_handbook/master/data/likert_data.csv")
 ```
 
+#### Flexdashboard {.unnumbered}
 
-#### Flexdashboard {.unnumbered}  
+Dưới đây là các liên kết đến tệp được dùng trong chương [Dashboards với R Markdown]:
 
-Below are links to the file associated with the page on [Dashboards with R Markdown]:  
+-   Để tải xuống R Markdown dashboard về một đợt bùng phát dịch, bấm phải chuột vào [link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/flexdashboard/outbreak_dashboard.Rmd) này (Cmd+click đối với Mac) và chọn "Save link as".\
+-   Để tải xuống HTML dashboard, bấm phải chuột vào [link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/flexdashboard/outbreak_dashboard_test.html) này (Cmd+click đối với Mac) và chọn "Save link as".
 
-* To download the R Markdown for the outbreak dashboard, right-click this [link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/flexdashboard/outbreak_dashboard.Rmd) (Cmd+click for Mac) and select "Save link as".  
-* To download the HTML dashboard, right-click this [link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/flexdashboard/outbreak_dashboard_test.html) (Cmd+click for Mac) and select "Save link as".  
+#### Truy vết tiếp xúc {.unnumbered}
 
-#### Contact Tracing {.unnumbered} 
+Chương [Truy vết tiếp xúc] trình bày phân tích dữ liệu truy vết tiếp xúc, sử dụng dữ liệu minh họa từ [Go.Data](https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting). Dữ liệu được sử dụng trong chương này có thể được tải xuống dưới dạng tệp .rds bằng cách nhấp vào các liên kết sau:
 
-The [Contact Tracing] page demonstrated analysis of contact tracing data, using example data from [Go.Data](https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting). The data used in the page can be downloaded as .rds files by clicking the following links:  
+<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/cases_clean.rds?raw=true' class='download-button'> NhBấm để tải xuống dữ liệu điều tra trường hợp (.rds file) </a>
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/cases_clean.rds?raw=true' class='download-button'>
-	Click to download
-	<span>the case investigation data (.rds file)</span>
-</a>
+<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/contacts_clean.rds?raw=true' class='download-button'> NhBấm để tải xuống dữ liệu ghi nhận tiếp xúc (.rds file) </a>
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/contacts_clean.rds?raw=true' class='download-button'>
-	Click to download
-	<span>the contact registration data (.rds file)</span>
-</a>
+<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/followups_clean.rds?raw=true' class='download-button'> NhBấm để tải xuống dữ liệu theo dõi liên hệ (.rds file) </a>
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/followups_clean.rds?raw=true' class='download-button'>
-	Click to download
-	<span>the contact follow-up data (.rds file)</span>
-</a>
+[***LƯU Ý:*** Dữ liệu theo dõi liên hệ có cấu trúc từ phần mềm khác (ví dụ: KoBo, DHIS2 Tracker, CommCare) có thể trông khác. Nếu bạn muốn đóng góp dữ liệu hoặc nội dung mẫu thay thế cho trang này, vui lòng [liên hệ chúng tôi](#contact_us).]{style="color: black;"}
 
+[***MẸO:*** Nếu bạn đang triển khai Go.Data và muốn kết nối với API phiên bản của bạn, vui lòng xem chương Nhập xuất dữ liệu [(mục API)](#import_api) and the [Go.Data Cộng đồng thực hành](https://community-godata.who.int/).]{style="color: darkgreen;"}
 
+#### GIS {.unnumbered}
 
-<span style="color: black;">**_NOTE:_** Structured contact tracing data from other software (e.g. KoBo, DHIS2 Tracker, CommCare) may look different. If you would like to contribute alternative sample data or content for this page, please [contact us](#contact_us).</span> 
+Shapefiles có nhiều tệp thành phần phụ, mỗi tệp có một phần mở rộng tệp khác nhau. Một tệp sẽ có phần mở rộng ".shp", nhưng những tệp khác có thể là ".dbf", ".prj", v.v.
 
-<span style="color: darkgreen;">**_TIP:_** If you are deploying Go.Data and want to connect to your instance's API, see the Import and export page [(API section)](#import_api) and the [Go.Data Community of Practice](https://community-godata.who.int/).</span>
+Chương [GIS cơ bản] cung cấp các liên kết đến trang web *Humanitarian Data Exchange* w nơi bạn có thể tải xuống trực tiếp các shapefiles dưới dạng tệp nén.
 
+FVí dụ, dữ liệu điểm của các cơ sở y tế có thể được tải xuống [tại đây](https://data.humdata.org/dataset/hotosm_sierra_leone_health_facilities). Bạn tải tệp "hotosm_sierra_leone_health_facilities_points_shp.zip". Sau khi được lưu vào máy tính của bạn, hãy “giải nén” thư mục. Bạn sẽ thấy một số tệp có các phần mở rộng khác nhau (ví dụ: “.shp”, “.prj”, “.shx”) - tất cả những tệp này phải được lưu vào cùng một thư mục trên máy tính của bạn. Sau đó, để nhập vào R, hãy cung cấp đường dẫn đến tệp và tên của tệp “.shp” bằng hàm `st_read()` từ package **sf** (như được mô tả trong chương [GIS cơ bản]).
 
-#### GIS {.unnumbered}  
+Nếu bạn làm theo Cách 1 để tải xuống tất cả dữ liệu minh (thông qua package **epirhandbook** của chúng tôi), tất cả các shapefiles đã được bao gồm.
 
-Shapefiles have many sub-component files, each with a different file extention. One file will have the ".shp" extension, but others may have ".dbf", ".prj", etc.  
-
-The [GIS basics] page provides links to the *Humanitarian Data Exchange* website where you can download the shapefiles directly as zipped files.  
-
-For example, the health facility points data can be downloaded [here](https://data.humdata.org/dataset/hotosm_sierra_leone_health_facilities). Download "hotosm_sierra_leone_health_facilities_points_shp.zip". Once saved to your computer, "unzip" the folder. You will see several files with different extensions (e.g. ".shp", ".prj", ".shx") - all these must be saved to the same folder on your computer. Then to import into R, provide the file path and name of the ".shp" file to `st_read()` from the **sf** package (as described in the [GIS basics] page).  
-
-If you follow Option 1 to download all the example data (via our R package **epirhandbook**), all the shapefiles are included.  
-
-
-Alternatively, you can download the shapefiles from the R Handbook Github "data" folder (see the "gis" sub-folder). However, be aware that you will need to download *each* sub-file individually to your computer. In Github, click on each file individually and download them by clicking on the "Download" button. Below, you can see how the shapefile "sle_adm3" consists of many files - each of which would need to be downloaded from Github.  
+Ngoài ra, bạn có thể tải xuống các shapefiles từ thư mục "data" trên trang R Handbook Github (xem thư mục con "gis"). Tuy nhiên, cần lưu ý rằng bạn sẽ phải tải *từng* tệp con xuống máy tính của mình. Trong Github, nhấp vào từng tệp riêng lẻ và tải chúng xuống bằng cách nhấp vào nút “Download”. Xem hình minh họa dưới đây, bạn có thể thấy shapefile “sl_adm3” bao gồm nhiều tệp con như thế nào - và mỗi tệp đều cần được tải xuống từ Github.
 
 ```{r out.height = "50%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "download_shp.png"))
 ```
 
+#### Cây phả hệ {.unnumbered}
 
-#### Phylogenetic trees {.unnumbered}  
+Xem chương [Cây phả hệ]. Tệp Newick về cây phả hệ được xây dựng từ việc giải trình tự toàn bộ bộ gen của 299 mẫu Shigella sonnei và dữ liệu mẫu tương ứng (được chuyển đổi thành tệp văn bản). Các mẫu và kết quả từ nước Bỉ được cung cấp thông qua Trung tâm tham khảo quốc gia về Salmonella và Shigella (NRC Bỉ) trong phạm vi dự án do EUPHEM Fellow của ECDC thực hiện, và cũng sẽ được xuất bản dưới dạng bản thảo. Dữ liệu quốc tế được cung cấp công khai trên cơ sở dữ liệu công cộng (ncbi) và đã được xuất bản trước đó.
 
-See the page on [Phylogenetic trees]. Newick file of phylogenetic tree constructed from whole genome sequencing of 299 Shigella sonnei samples and corresponding sample data (converted to a text file). The Belgian samples and resulting data are kindly provided by the Belgian NRC for Salmonella and Shigella in the scope of a project conducted by an ECDC EUPHEM Fellow, and will also be published in a manuscript. The international data are openly available on public databases (ncbi) and have been previously published.  
+-   Để tải xuống file cây phả hệ “Shigella_tree.txt”, nhấn chuột phải vào [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/Shigella_tree.txt) (Cmd+click đối với Mac) và chọn "Save link as".\
+-   Để tải xuống file "sample_data_Shigella_tree.csv" với thông tin bổ sung cho từng mẫu, nhấn chuột phải vào [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/sample_data_Shigella_tree.csv) (Cmd+click đối với Mac) và chọn "Save link as".\
+-   Để xem subset-tree mới được tạo, nhấn chuột phải vào [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/Shigella_subtree_2.txt) (Cmd+click đối với Mac) và chọn "Save link as". Tệp .txt sẽ được tải xuống máy tính của bạn.
 
-* To download the "Shigella_tree.txt" phylogenetic tree file, right-click this [link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/Shigella_tree.txt) (Cmd+click for Mac) and select "Save link as".  
-* To download the "sample_data_Shigella_tree.csv" with additional information on each sample, right-click this [link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/sample_data_Shigella_tree.csv) (Cmd+click for Mac) and select "Save link as".  
-* To see the new, created subset-tree, right-click this [link](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/Shigella_subtree_2.txt) (Cmd+click for Mac) and select "Save link as". The .txt file will download to your computer.  
-
-
-You can then import the .txt files with `read.tree()` from the **ape** package, as explained in the page.
+Sau đó bạn có thể nhập tệp .txt files bằng hàm `read.tree()` từ **ape** package, như đã được trình bày trong chương này.
 
 ```{r, eval=F}
 ape::read.tree("Shigella_tree.txt")
 ```
 
+#### Chuẩn hóa {.unnumbered}
 
-#### Standardization {.unnumbered}  
-
-See the page on [Standardised rates]. You can load the data directly from our Github repository on the internet into your R session with the following commands:  
-
+Xem trong chương [Tỷ lệ chuẩn hóa]. Bạn có thể tải dữ liệu trực tiếp từ kho lưu trữ Github của chúng tôi trên internet vào phiên làm việc R của bạn bằng các lệnh sau :
 
 ```{r, eval=F}
 # install/load the rio package
@@ -705,112 +662,57 @@ B_deaths <- import("https://github.com/epirhandbook/Epi_R_handbook/raw/master/da
 standard_pop_data <- import("https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/world_standard_population_by_sex.csv")
 ```
 
+#### Chuỗi thời gian và phát hiện ổ dịch {#data_outbreak .unnumbered}
 
+Xem trong chương [Chuỗi thời gian và phát hiện ổ dịch](#data_outbreak). Chúng tôi sử dụng các trường hợp campylobacter được báo cáo ở Đức 2002-2011, có sẵn từ package **surveillance** của R. (*lưu ý.* tập dữ liệu này đã được điều chỉnh từ bản gốc, trong đó 3 tháng dữ liệu cuối năm 2011 đã bị xóa để dùng với mục đích minh họa)
 
-#### Time series and outbreak detection {#data_outbreak .unnumbered}  
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/campylobacter_germany.xlsx' class='download-button'> Bấm để tải xuống dữ liệu Campylobacter ở Đức (.xlsx) </a>
 
-See the page on [Time series and outbreak detection]. We use campylobacter cases reported in Germany 2002-2011, as available from the **surveillance** R package. (*nb.* this dataset has been adapted from the original, in that 3 months of data have been deleted from the end of 2011 for demonstration purposes)
+Chúng tôi cũng sử dụng dữ liệu khí hậu từ Đức 2002-2011 (nhiệt độ tính bằng độ C và mưa tính bằng milimét). Dữ liệu được tải xuống từ tập dữ liệu phân tích lại vệ tinh Copernicus của EU bằng cách sử dụng **ecmwfr** package. Bạn sẽ cần tải xuống tất cả những thứ này và nhập chúng vào R bằng hàm `stars::read_stars()` như đã được giải thích trong chương chuỗi thời gian.
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/campylobacter_germany.xlsx' class='download-button'>
-	Click to download
-	<span> Campylobacter in Germany (.xlsx)</span>
-</a>
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2002.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2002 (.nc file) </a>
 
-We also use climate data from Germany 2002-2011 (temperature in degrees celsius and rain fail in millimetres) . These were downloaded from the EU Copernicus satellite reanalysis dataset using the **ecmwfr** package. You will need to download all of these and import them with `stars::read_stars()` as explained in the time series page.  
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2003.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2003 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2002.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2002 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2004.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2004 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2003.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2003 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2005.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2005 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2004.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2004 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2006.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2006 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2005.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2005 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2007.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2007 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2006.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2006 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2008.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2008 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2007.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2007 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2009.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2009 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2008.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2008 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2010.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2010 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2009.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2009 (.nc file)</span>
-</a> 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2011.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2011 (.nc file) </a>
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2010.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2010 (.nc file)</span>
-</a> 
+#### Phân tích sống còn {#data_survey .unnumbered}
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2011.nc' class='download-button'>
-	Click to download
-	<span> Germany weather 2011 (.nc file)</span>
-</a>
+Đối với chương [phân tích sống còn](https://epirhandbook.com/survey-analysis.html), chúng tôi sử dụng dữ liệu khảo sát tử vong giả định dựa trên mẫu khảo sát của MSF OCA. Dữ liệu giả định này là một phần của [Dự án "R4Epis"](https://r4epis.netlify.app/).
 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/survey_data.xlsx' class='download-button'> Bấm để tài xuống dữ liệu khảo sát giả định (.xlsx) </a>
 
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/survey_dict.xlsx' class='download-button'> Bấm để tài xuống từ điển dữ liệu khảo sát giả định (.xlsx) </a>
 
-#### Survey analysis {#data_survey .unnumbered}  
+<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/population.xlsx' class='download-button'> Bấm để tài xuống dữ liệu khảo sát quần thể giả định (.xlsx) </a>
 
-For the [survey analysis](https://epirhandbook.com/survey-analysis.html) page we use fictional mortality survey data based off MSF OCA survey templates. This fictional data was generated as part of the ["R4Epis" project](https://r4epis.netlify.app/).
+#### Shiny {#data_shiny .unnumbered}
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/survey_data.xlsx' class='download-button'>
-	Click to download
-	<span> Fictional survey data (.xlsx)</span>
-</a>
+Chương [Dashboards với Shiny] trình diễn việc xây dựng một ứng dụng đơn giản để hiển thị dữ liệu bệnh sốt rét.
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/survey_dict.xlsx' class='download-button'>
-	Click to download
-	<span> Fictional survey data dictionary (.xlsx)</span>
-</a>
+Để tải xuống các tệp R dùng để tạo thành ứng dụng Shiny:
 
-<a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/population.xlsx' class='download-button'>
-	Click to download
-	<span> Fictional survey population data (.xlsx)</span>
-</a>
+Bạn có thể <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_app/app.R' class='download-button'> bấm vào đây để tải xuống tệp app.R trong đó chứa code của cả UI và Server của ứng dụng Shiny.</a>
 
+Bạn có thể <a href='https://github.com/epirhandbook/Epi_R_handbook/blob/master/data/malaria_app/data/facility_count_data.rds' class='download-button'> bấm vào đây để tải tệp facility_count_data.rds<span></a> có chứa dữ liệu sốt rét cho ứng dụng Shiny. Lưu ý rằng bạn có thể cần phải lưu trữ nó trong thư mục “data” để các đường dẫn tệp here () hoạt động chính xác.
 
+Bạn có thể <a href='https://github.com/epirhandbook/Epi_R_handbook/blob/master/data/malaria_app/global.R' class='download-button'> bấm vào đây để tải tệp global.R<span></a> mà sẽ được chạy trước khi mở ứng dụng, như đã được giải thích trong chương.
 
-
-#### Shiny {#data_shiny .unnumbered}  
-
-The page on [Dashboards with Shiny] demonstrates the construction of a simple app to display malaria data.  
-
-To download the R files that produce the Shiny app:  
-
-You can <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_app/app.R' class='download-button'>
-	click here to download the app.R file<span> that contains both the UI and Server code for the Shiny app.</span></a>
-
-You can <a href='https://github.com/epirhandbook/Epi_R_handbook/blob/master/data/malaria_app/data/facility_count_data.rds' class='download-button'>
-	click here to download the facility_count_data.rds file<span></a> that contains malaria data for the Shiny app. Note that you may need to store it within a "data" folder for the here() file paths to work correctly.  
-
-You can <a href='https://github.com/epirhandbook/Epi_R_handbook/blob/master/data/malaria_app/global.R' class='download-button'>
-	click here to download the global.R file<span></a> that should run prior to the app opening, as explained in the page.
-	
-You can <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_app/funcs/plot_epicurve.R' class='download-button'>
-	click here to download the plot_epicurve.R file<span></a> that is sourced by global.R. Note that you may need to store it within a "funcs" folder for the here() file paths to work correctly.
-
-
+Bạn có thể <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_app/funcs/plot_epicurve.R' class='download-button'> bấm vào đây để tải tệp plot_epicurve.R<span></a> có nguồn từ tệp global.R. Lưu ý rằng bạn có thể cần phải lưu trữ nó trong thư mục “funcs” để các đường dẫn tệp here () hoạt động chính xác.
 ```{r include=FALSE, cache=FALSE}
 
 # clear workspace
@@ -898,7 +800,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/cat_basics.Rmd-->
 
-# R Basics {}
+# R Cơ bản {}
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "basics_header_close.png"))
@@ -2639,7 +2541,7 @@ options(scipen=1, digits=7)
 <!-- ======================================================= -->
 <!-- ======================================================= -->
 <!-- ======================================================= -->
-# Transition to R { }  
+# Chuyển sang R { }  
 
 Below, we provide some advice and resources if you are transitioning to R.  
 
@@ -2950,7 +2852,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/transition_to_R.Rmd-->
 
-# Suggested packages
+# Package đề xuất
 
 Below is a long list of suggested packages for common epidemiological work in R. You can copy this code, run it, and all of these packages will install from CRAN and load for use in the current R session. If a package is already installed, it will be loaded for use only.  
 
@@ -3160,7 +3062,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/packages_suggested.Rmd-->
 
 
-# R projects {}  
+# Dự án R {}  
 
 
 An R project enables your work to be bundled in a portable, self-contained folder. Within the project, all the relevant scripts, data files, figures/outputs, and history are stored in sub-folders and importantly - the *working directory* is the project's root folder.  
@@ -3315,7 +3217,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/r_projects.Rmd-->
 
-# Import and export {}
+# Nhập xuất dữ liệu {}
 
 
 ```{r, out.width=c('100%'), echo=F, message=F}
@@ -4308,7 +4210,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/cat_data_management.Rmd-->
 
-# Cleaning data and core functions {}
+# Làm sạch số liệu và các hàm quan trọng {}
 
 
 ```{r, out.height = "10%", fig.align = "center", echo=F}
@@ -6262,7 +6164,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/cleaning.Rmd-->
 
 
-# Working with dates {}
+# Làm việc với ngày tháng {}
 
 
 ```{r, out.width=c('50%'), fig.align='center', echo=F, message=F}
@@ -7024,7 +6926,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/dates.Rmd-->
 
 
-# Characters and strings { }  
+# Ký tự và chuỗi { }  
 
 ```{r, out.width=c('100%'), echo=F, message=F}
 knitr::include_graphics(here::here("images", "Characters_Strings_1500x500.png"))
@@ -8738,7 +8640,7 @@ options(scipen=1, digits=7)
 <!-- ======================================================= -->
 <!-- ======================================================= -->
 <!-- ======================================================= -->
-# Pivoting data {}
+# Pivoting dữ liệu {}
 
 ```{r, warning=F, message=F, out.height = c('50%'), fig.align="center", fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "pivoting", "Pivoting_500x500.png"))
@@ -9317,7 +9219,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/pivoting.Rmd-->
 
 
-# Grouping data { }  
+# Nhóm dữ liệu { }  
 
 
 ```{r, out.width=c('100%'), echo=F, message=F}
@@ -9901,7 +9803,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/grouping.Rmd-->
 
 
-# Joining data { }  
+# Nối dữ liệu { }  
 
 ```{r out.width = c('50%'), fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "left-join.gif"))
@@ -10870,7 +10772,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/joining_matching.Rmd-->
 
 
-# De-duplication {}  
+# Loại bỏ trùng lặp {}  
 
 ```{r, out.width=c("50%"), echo=F}
 knitr::include_graphics(here::here("images", "deduplication.png"))
@@ -11536,7 +11438,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/deduplication.Rmd-->
 
 
-# Iteration, loops, and lists { }  
+# Lặp, vòng lặp, và danh sách { }  
 
 Epidemiologists often are faced with repeating analyses on subgroups such as countries, districts, or age groups. These are but a few of the many situations involving *iteration*. Coding your iterative operations using the approaches below will help you perform such repetitive tasks faster, reduce the chance of error, and reduce code length.  
 
@@ -12548,26 +12450,26 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/cat_analysis.Rmd-->
 
-# Descriptive tables { }
+# Bảng mô tả { }
 
 ```{r out.width = c('75%'), fig.align='center', fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "descriptive_tables.png"))
 ```
 
-This page demonstrates the use of **janitor**, **dplyr**, **gtsummary**, **rstatix**, and **base** R to summarise data and create tables with descriptive statistics. 
+Chương này minh họa cách sử dụng các package **janitor**, **dplyr**, **gtsummary**, **rstatix**, và **base** R để tóm tắt dữ liệu và tạo bảng với thống kê mô tả. 
 
-*This page covers how to *create* the underlying tables, whereas the [Tables for presentation] page covers how to nicely format and print them.*  
+*Chương này bao gồm cách để tạo* bảng cơ bản, trong khi đó chương [Trình bày bảng] bao gồm cách để định dạng đẹp và in chúng.*  
 
-Each of these packages has advantages and disadvantages in the areas of code simplicity, accessibility of outputs, quality of printed outputs. Use this page to decide which approach works for your scenario.  
+Mỗi package này đều có những ưu và nhược điểm trong các khía cạnh về code đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.  
 
 
-You have several choices when producing tabulation and cross-tabulation summary tables. Some of the factors to consider include code simplicity, customizeability, the desired output (printed to R console, as data frame, or as "pretty" .png/.jpeg/.html image), and ease of post-processing. Consider the points below as you choose the tool for your situation.
+Bạn có một số lựa chọn khi tạo bảng tóm tắt và bảng chéo. Một số yếu tố cần xem xét bao gồm tính đơn giản của code, khả năng tùy chỉnh, đầu ra mong muốn (được in ra R console, dưới dạng dataframe hoặc dưới dạng hình ảnh “đẹp” .png/.jpeg /.html) và dễ xử lý hậu kỳ. Hãy xem xét các điểm dưới đây khi bạn chọn công cụ cho tình huống của mình. 
 
-* Use `tabyl()` from **janitor** to produce and "adorn" tabulations and cross-tabulations  
-* Use `get_summary_stats()` from **rstatix** to easily generate data frames of numeric summary statistics for multiple columns and/or groups  
-* Use `summarise()` and `count()` from **dplyr** for more complex statistics, tidy data frame outputs, or preparing data for `ggplot()`  
-* Use `tbl_summary()` from **gtsummary** to produce detailed publication-ready tables  
-* Use `table()` from **base** R if you do not have access to the above packages  
+* Dùng `tabyl()` từ **janitor** để tạo và “làm đẹp” cho bảng và bảng chéo  
+* Dùng `get_summary_stats()` từ **rstatix** để dễ dàng tạo data frame các tóm tắt thống kê dạng số cho nhiều cột và / hoặc nhóm  
+* Dùng `summarise()` và `count()` từ **dplyr** dành choo các thống kê phức tạp hơn, đầu ra của tidy dataframe hoặc chuẩn bị dữ liệu cho `ggplot()`  
+* Dùng `tbl_summary()` từ **gtsummary** để tạo ra các bảng chi tiết sẵn sàng xuất bản  
+* Dùng `table()` từ **base** R nếu bạn không có khả năng truy cập vào các package trên  
 
 
 <!-- ======================================================= -->
@@ -13602,7 +13504,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/tables_descriptive.Rmd-->
 
-# Simple statistical tests { }
+# Các test thống kê cơ bản { }
 
 
 This page demonstrates how to conduct simple statistical tests using **base** R, **rstatix**, and **gtsummary**.  
@@ -14148,7 +14050,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/stat_tests.Rmd-->
 
-# Univariate and multivariable regression { }
+# Hồi quy đơn và đa biến { }
 
 <!-- ======================================================= -->
 
@@ -14892,7 +14794,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/regression.Rmd-->
 
 
-# Missing data { }
+# Dữ liệu Missing { }
 
 ```{r, out.width=c("50%"), echo=F}
 knitr::include_graphics(here::here("images", "missingness.png"))
@@ -15585,7 +15487,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/missing_data.Rmd-->
 
 
-# Standardised rates { }  
+# Tỷ lệ chuẩn hóa { }  
 
 This page will show you two ways to standardize an outcome, such as hospitalizations or mortality, by characteristics such as age and sex. 
 
@@ -16121,7 +16023,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/standardization.Rmd-->
 
 
-# Moving averages { }  
+# Đường trung bình động { }  
 
 ```{r, out.width=c("100%"), echo=F}
 knitr::include_graphics(here::here("images", "moving_avg_epicurve.png"))
@@ -16558,7 +16460,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/moving_average.Rmd-->
 
 
-# Time series and outbreak detection { }  
+# Chuỗi thời gian và phát hiện ổ dịch { }  
 
 <!-- ======================================================= -->
 ## Overview {  }
@@ -18248,7 +18150,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/time_series.Rmd-->
 
 
-# Epidemic modeling { }  
+# Mô hình hóa dịch bệnh { }  
 
 
 <!-- ======================================================= -->
@@ -19267,7 +19169,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/epidemic_models.Rmd-->
 
 
-# Contact tracing { }
+# Truy vết tiếp xúc { }
 
 
 This page demonstrates descriptive analysis of contact tracing data, addessing some key considerations and approaches unique to these kinds of data.  
@@ -19926,7 +19828,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/contact_tracing.Rmd-->
 
 
-# Survey analysis { }  
+# Phân tích khảo sát { }  
 
 <!-- ======================================================= -->
 ## Overview {  }
@@ -21105,7 +21007,7 @@ options(scipen=1, digits=7)
 <!-- ======================================================= -->
 <!-- ======================================================= -->
 <!-- ======================================================= -->
-# Survival analysis { }  
+# Phân tích sống còn { }  
 
 
 ```{r out.width = c('75%'), fig.align='center', fig.show='hold', echo=F}
@@ -21874,7 +21776,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/survival_analysis.Rmd-->
 
-# GIS basics { }  
+# GIS cơ bản { }  
 
 ```{r, out.width=c('100%', '100%'), echo=F}
 knitr::include_graphics(here::here("images", "gis_head_image.png"))
@@ -23017,7 +22919,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/cat_data_viz.Rmd-->
 
 
-# Tables for presentation { }  
+# Trình bày bảng { }  
 
 
 ```{r echo=FALSE, fig.show='hold', message=FALSE, warning=FALSE, out.width=c('50%', '50%')}
@@ -23603,7 +23505,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/tables_presentation.Rmd-->
 
 
-# ggplot basics {}
+# ggplot cơ bản {}
 
 ```{r, out.width=c('100%', '100%'), fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "ggplot_basics_top.png"))
@@ -24814,7 +24716,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/ggplot_basics.Rmd-->
 
 
-# ggplot tips {}
+# Các tips với ggplot {}
 
 In this page we will cover tips and tricks to make your ggplots sharp and fancy. See the page on [ggplot basics] for the fundamentals.  
 
@@ -26054,7 +25956,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/ggplot_tips.Rmd-->
 
 
-# Epidemic curves { }  
+# Đường cong dịch bệnh { }  
 
 ```{r, out.width=c('75%'), echo=F, message=F}
 knitr::include_graphics(here::here("images", "epicurve_top.png"))
@@ -28318,7 +28220,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/epicurves.Rmd-->
 
 
-# Demographic pyramids and Likert-scales {}  
+# Tháp dân số và thang đo Likert {}  
 
 
 
@@ -29099,7 +29001,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/age_pyramid.Rmd-->
 
 
-# Heat plots { }  
+# Biểu đồ nhiệt { }  
 
 
 Heat plots, also known as "heat maps" or "heat tiles", can be useful visualizations when trying to display 3 variables (x-axis, y-axis, and fill). Below we demonstrate two examples:  
@@ -29754,7 +29656,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/heatmaps.Rmd-->
 
 
-# Diagrams and charts { }  
+# Sơ đồ và biểu đồ { }  
 
 
 

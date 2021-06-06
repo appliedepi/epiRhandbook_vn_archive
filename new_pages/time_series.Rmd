@@ -1,5 +1,5 @@
 
-# Time series and outbreak detection { }  
+# Chuỗi thời gian và phát hiện ổ dịch { }  
 
 <!-- ======================================================= -->
 ## Overview {  }

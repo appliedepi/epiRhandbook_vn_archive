@@ -1,4 +1,4 @@
-# Cleaning data and core functions {}
+# Làm sạch số liệu và các hàm quan trọng {}
 
 
 ```{r, out.height = "10%", fig.align = "center", echo=F}

@@ -1,4 +1,4 @@
-# Univariate and multivariable regression { }
+# Hồi quy đơn và đa biến { }
 
 <!-- ======================================================= -->
 

@@ -1,4 +1,4 @@
-# R Basics {}
+# R Cơ bản {}
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "basics_header_close.png"))

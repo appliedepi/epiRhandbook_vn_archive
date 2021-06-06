@@ -1,4 +1,4 @@
-# Simple statistical tests { }
+# Các test thống kê cơ bản { }
 
 
 This page demonstrates how to conduct simple statistical tests using **base** R, **rstatix**, and **gtsummary**.  
