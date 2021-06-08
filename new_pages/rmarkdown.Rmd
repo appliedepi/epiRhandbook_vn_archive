@@ -1,5 +1,5 @@
 
-# Reports with R Markdown { }  
+# Báo cáo với R Markdown { }  
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "markdown/rmarkdown_overview.png"))

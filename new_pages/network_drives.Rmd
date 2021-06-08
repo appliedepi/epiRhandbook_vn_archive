@@ -1,5 +1,5 @@
 
-# R on network drives { }  
+# R trên ổ cứng mạng { }  
 
  
 

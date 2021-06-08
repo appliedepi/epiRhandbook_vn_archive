@@ -1,5 +1,5 @@
 
-# Common errors  
+# Các lỗi thường gặp  
 
 This page includes a running list of common errors and suggests solutions for troubleshooting them.  
 

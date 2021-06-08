@@ -1,4 +1,4 @@
-# Biên tập và ghi chú kỹ thuật
+# Editorial and technical notes
 
 Trong chương này, chúng tôi mô tả triết lý và phong cách viết code, cũng như quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
 

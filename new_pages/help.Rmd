@@ -1,5 +1,5 @@
 
-# Getting help  
+# Nhờ sự trợ giúp
 
 This page covers how to get help by posting a Github issue or by posting a reproducible example ("reprex") to an online forum.  
 
