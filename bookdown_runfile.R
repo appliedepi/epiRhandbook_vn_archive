@@ -8,8 +8,10 @@
 # WHOLE HANDBOOK
 # for online viewing only - not available as a self-contained file  
 bookdown::render_book(
+     encoding = 'UTF-8',
      output_format = 'bookdown::bs4_book',
      config_file = "_bookdown.yml")
+
 
 
 # PREVIEW ONLY ONE OR SOME PAGES
