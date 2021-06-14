@@ -153,9 +153,9 @@
 <h3>Load packages</h3>
 <p>From within RStudio, install the latest version of the <strong>reportfactory</strong> package from Github.</p>
 <p>You can do this via the <strong>pacman</strong> package with <code>p_load_current_gh()</code> which will force intall of the latest version from Github. Provide the character string “reconverse/reportfactory”, which specifies the Github organization (reconverse) and repository (reportfactory). You can also use <code>install_github()</code> from the <strong>remotes</strong> package, as an alternative.</p>
-<div class="sourceCode" id="cb1821"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1821-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1821-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and load the latest version of the package from Github</span></span>
-<span id="cb1821-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1821-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load_current_gh</span>(<span class="st">&quot;reconverse/reportfactory&quot;</span>)</span>
-<span id="cb1821-3"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1821-3" aria-hidden="true" tabindex="-1"></a><span class="co">#remotes::install_github(&quot;reconverse/reportfactory&quot;) # alternative</span></span></code></pre></div>
+<div class="sourceCode" id="cb1823"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1823-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1823-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and load the latest version of the package from Github</span></span>
+<span id="cb1823-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1823-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load_current_gh</span>(<span class="st">&quot;reconverse/reportfactory&quot;</span>)</span>
+<span id="cb1823-3"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1823-3" aria-hidden="true" tabindex="-1"></a><span class="co">#remotes::install_github(&quot;reconverse/reportfactory&quot;) # alternative</span></span></code></pre></div>
 </div>
 </div>
 <div id="new-factory" class="section level2" number="41.2">
@@ -167,8 +167,8 @@
 </li>
 <li>Your RStudio session will “move in” to this R project</li>
 </ul>
-<div class="sourceCode" id="cb1822"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1822-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1822-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will create the factory in the working directory</span></span>
-<span id="cb1822-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1822-2" aria-hidden="true" tabindex="-1"></a><span class="fu">new_factory</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1824"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1824-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1824-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will create the factory in the working directory</span></span>
+<span id="cb1824-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1824-2" aria-hidden="true" tabindex="-1"></a><span class="fu">new_factory</span>()</span></code></pre></div>
 <p>Looking inside the factory, you can see that sub-folders and some files were created automatically.</p>
 <p><img src="images/factory_new2.png" width="424" /></p>
 <ul>
@@ -199,9 +199,9 @@
 </ul>
 <p>See <code>?new_factory</code> for a complete list of the arguments.</p>
 <p>When you create the new factory, your R session is transferred to the new R project, so you should again load the <strong>reportfactory</strong> package.</p>
-<div class="sourceCode" id="cb1823"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1823-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1823-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(reportfactory)</span></code></pre></div>
+<div class="sourceCode" id="cb1825"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1825-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1825-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(reportfactory)</span></code></pre></div>
 <p>Now you can run a the <code>factory_overview()</code> command to see the internal structure (all folders and files) in the factory.</p>
-<div class="sourceCode" id="cb1824"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1824-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1824-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factory_overview</span>()            <span class="co"># print overview of the factory to console</span></span></code></pre></div>
+<div class="sourceCode" id="cb1826"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1826-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1826-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factory_overview</span>()            <span class="co"># print overview of the factory to console</span></span></code></pre></div>
 <p>The following “tree” of the factory’s folders and files is printed to the R console. Note that in the “data” folder there are sub-folders for “raw” and “clean” data, and example CSV data. There is also “example_report.Rmd” in the “report_sources” folder.</p>
 <p><img src="images/factory_overview.png" width="202" /></p>
 </div>
@@ -223,14 +223,14 @@
 </li>
 <li>Import the linelist data using a filepath from the <strong>here</strong> package (read more in the page on [Import and export])</li>
 </ul>
-<div class="sourceCode" id="cb1825"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1825-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1825-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean&quot;</span>, <span class="st">&quot;linelist_cleaned.rds&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1827-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1827-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;clean&quot;</span>, <span class="st">&quot;linelist_cleaned.rds&quot;</span>))</span></code></pre></div>
 <ul>
 <li>Print a summary table of cases, and export it with <code>export()</code> as a .csv file<br />
 </li>
 <li>Print an epicurve, and export it with <code>ggsave()</code> as a .png file</li>
 </ul>
 <p>You can review just the list of R Markdown reports in the “report_sources” folder with this command:</p>
-<div class="sourceCode" id="cb1826"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1826-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1826-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_reports</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1828"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1828-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1828-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_reports</span>()</span></code></pre></div>
 </div>
 <div id="compile" class="section level2" number="41.4">
 <h2><span class="header-section-number">41.4</span> Compile</h2>
@@ -249,8 +249,8 @@
 <div id="compile-by-number" class="section level3 unnumbered">
 <h3>Compile by number</h3>
 <p>You can also specify the Rmd script to compile by providing a number or vector of numbers to <code>reports =</code>. The numbers must align with the order the reports appear when you run <code>list_reports()</code>.</p>
-<div class="sourceCode" id="cb1827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1827-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1827-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compile the second and fourth Rmds in the &quot;report_sources&quot; folder</span></span>
-<span id="cb1827-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1827-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(<span class="at">reports =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1829"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1829-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1829-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compile the second and fourth Rmds in the &quot;report_sources&quot; folder</span></span>
+<span id="cb1829-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1829-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(<span class="at">reports =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>))</span></code></pre></div>
 </div>
 <div id="compile-all" class="section level3 unnumbered">
 <h3>Compile all</h3>
@@ -260,22 +260,22 @@
 <div id="compile-from-sub-folder" class="section level3 unnumbered">
 <h3>Compile from sub-folder</h3>
 <p>You can add sub-folders to the “report_sources” folder. To run an R Markdown report from a subfolder, simply provide the name of the folder to <code>subfolder =</code>. Below is an example of code to compile a Rmd report that lives in a sub_folder of “report_sources”.</p>
-<div class="sourceCode" id="cb1828"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1828-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1828-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(</span>
-<span id="cb1828-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1828-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">reports =</span> <span class="st">&quot;summary_for_partners.Rmd&quot;</span>,</span>
-<span id="cb1828-3"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1828-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">subfolder =</span> <span class="st">&quot;for_partners&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1830"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1830-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(</span>
+<span id="cb1830-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">reports =</span> <span class="st">&quot;summary_for_partners.Rmd&quot;</span>,</span>
+<span id="cb1830-3"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">subfolder =</span> <span class="st">&quot;for_partners&quot;</span>)</span></code></pre></div>
 <p>You can compile all Rmd reports within a subfolder by providing the subfolder name to <code>reports =</code>, with a slash on the end, as below.</p>
-<div class="sourceCode" id="cb1829"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1829-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1829-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(<span class="at">reports =</span> <span class="st">&quot;for_partners/&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1831"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1831-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1831-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(<span class="at">reports =</span> <span class="st">&quot;for_partners/&quot;</span>)</span></code></pre></div>
 </div>
 <div id="parameterization" class="section level3 unnumbered">
 <h3>Parameterization</h3>
 <p>As noted in the page on [Reports with R Markdown], you can run reports with specified parameters. You can pass these parameters as a list to <code>compile_reports()</code> via the <code>params =</code> argument. For example, in this fictional report there are three parameters provided to the R Markdown reports.</p>
-<div class="sourceCode" id="cb1830"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1830-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(</span>
-<span id="cb1830-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">reports =</span> <span class="st">&quot;daily_sitrep.Rmd&quot;</span>,</span>
-<span id="cb1830-3"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">params =</span> <span class="fu">list</span>(<span class="at">most_recent_data =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1830-4"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">region =</span> <span class="st">&quot;NORTHERN&quot;</span>,</span>
-<span id="cb1830-5"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">rates_denominator =</span> <span class="dv">10000</span>),</span>
-<span id="cb1830-6"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">subfolder =</span> <span class="st">&quot;regional&quot;</span></span>
-<span id="cb1830-7"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1830-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb1832"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1832-1"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1832-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compile_reports</span>(</span>
+<span id="cb1832-2"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1832-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">reports =</span> <span class="st">&quot;daily_sitrep.Rmd&quot;</span>,</span>
+<span id="cb1832-3"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1832-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">params =</span> <span class="fu">list</span>(<span class="at">most_recent_data =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1832-4"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1832-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">region =</span> <span class="st">&quot;NORTHERN&quot;</span>,</span>
+<span id="cb1832-5"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1832-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">rates_denominator =</span> <span class="dv">10000</span>),</span>
+<span id="cb1832-6"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1832-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">subfolder =</span> <span class="st">&quot;regional&quot;</span></span>
+<span id="cb1832-7"><a href="t-ch-c-báo-cáo-nh-k-.html#cb1832-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div id="using-a-run-file" class="section level3 unnumbered">
 <h3>Using a “run-file”</h3>

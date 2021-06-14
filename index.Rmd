@@ -55,7 +55,7 @@ knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x5
 -   Là một tài liệu tham khảo R một cách nhanh chóng\
 -   Cung cấp các ví dụ tập trung vào nhiệm vụ giải quyết các vấn đề dịch tễ học phổ biến\
 -   Hỗ trợ các nhà dịch tễ học chuyển sang sử dụng R\
--   Có thể sử dụng trong các tình huống có kết nối internet thấp thông qua **[phiên bản ngoại tuyến][#page_dataused]**
+-   Có thể sử dụng trong các tình huống có kết nối internet thấp thông qua **[phiên bản ngoại tuyến][Tai sach va du lieu]**
 
 <!-- * Use practical epi examples - cleaning case linelists, making transmission chains and epidemic curves, automated reports and dashboards, modeling incidence and making projections, demographic pyramids and rate standardization, record matching, outbreak detection, survey analysis, survival analysis, GIS basics, contact tracing, phylogenetic trees...   -->
 
@@ -100,12 +100,12 @@ Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi tr�
 
 -   Truy cập các trang trong phần Mục lục, hoặc sử dụng ô tìm kiếm
 -   Nhấn biểu tượng "copy" để copy code\
--   Kết hợp theo dõi cùng với các bộ [dữ liệu minh họa][#page_dataused]\
+-   Kết hợp theo dõi cùng với các bộ [dữ liệu minh họa][Tai sach va du lieu]\
 -   Xem phần "Tài nguyên" trong từng trang để tìm thêm tài liệu
 
 **Phiên bản ngoại tuyến**
 
-Xem hướng dẫn tại trang [#page_dataused].
+Xem hướng dẫn tại trang [Tai sach va du lieu].
 
 <!-- ======================================================= -->
 

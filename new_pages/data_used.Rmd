@@ -1,4 +1,4 @@
-# Tai sach va du lieu {#page_dataused}
+# Tai sach va du lieu
 
 <!-- Note to self: If you want to create a download link to Github, right-click the "View Raw" button on Github, copy the address, and use that in the HTML below. -->
 

@@ -165,24 +165,24 @@
 <h2><span class="header-section-number">49.3</span> Useful commands</h2>
 <p>Below are some useful commands when trying to troubleshoot issues using R on network drives.</p>
 <p>You can return the path(s) to package libraries that R is using. They will be listed in the order that R is using to install/load/search for packages. Thus, if you want R to use a different default library, you can switch the order of these paths (see below).</p>
-<div class="sourceCode" id="cb1969"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1969-1"><a href="r-trên-c-ng-m-ng.html#cb1969-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find libraries</span></span>
-<span id="cb1969-2"><a href="r-trên-c-ng-m-ng.html#cb1969-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>()                   <span class="co"># Your library paths, listed in order that R installs/searches. </span></span>
-<span id="cb1969-3"><a href="r-trên-c-ng-m-ng.html#cb1969-3" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># Note: all libraries will be listed, but to install to some (e.g. C:) you </span></span>
-<span id="cb1969-4"><a href="r-trên-c-ng-m-ng.html#cb1969-4" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># may need to be running RStudio as an administrator (it won&#39;t appear in the </span></span>
-<span id="cb1969-5"><a href="r-trên-c-ng-m-ng.html#cb1969-5" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># install packages library drop-down menu) </span></span></code></pre></div>
+<div class="sourceCode" id="cb1971"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1971-1"><a href="r-trên-c-ng-m-ng.html#cb1971-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find libraries</span></span>
+<span id="cb1971-2"><a href="r-trên-c-ng-m-ng.html#cb1971-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>()                   <span class="co"># Your library paths, listed in order that R installs/searches. </span></span>
+<span id="cb1971-3"><a href="r-trên-c-ng-m-ng.html#cb1971-3" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># Note: all libraries will be listed, but to install to some (e.g. C:) you </span></span>
+<span id="cb1971-4"><a href="r-trên-c-ng-m-ng.html#cb1971-4" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># may need to be running RStudio as an administrator (it won&#39;t appear in the </span></span>
+<span id="cb1971-5"><a href="r-trên-c-ng-m-ng.html#cb1971-5" aria-hidden="true" tabindex="-1"></a>                              <span class="co"># install packages library drop-down menu) </span></span></code></pre></div>
 <p>You may want to switch the order of the package libraries used by R. For example if R is picking up a library location that begins with “\" and one that begins with a letter e.g. ”D:". You can adjust the order of <code>.libPaths()</code> with the following code.</p>
-<div class="sourceCode" id="cb1970"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1970-1"><a href="r-trên-c-ng-m-ng.html#cb1970-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Switch order of libraries</span></span>
-<span id="cb1970-2"><a href="r-trên-c-ng-m-ng.html#cb1970-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this can effect the priority of R finding a package. E.g. you may want your C: library to be listed first</span></span>
-<span id="cb1970-3"><a href="r-trên-c-ng-m-ng.html#cb1970-3" aria-hidden="true" tabindex="-1"></a>myPaths <span class="ot">&lt;-</span> <span class="fu">.libPaths</span>() <span class="co"># get the paths</span></span>
-<span id="cb1970-4"><a href="r-trên-c-ng-m-ng.html#cb1970-4" aria-hidden="true" tabindex="-1"></a>myPaths <span class="ot">&lt;-</span> <span class="fu">c</span>(myPaths[<span class="dv">2</span>], myPaths[<span class="dv">1</span>]) <span class="co"># switch them</span></span>
-<span id="cb1970-5"><a href="r-trên-c-ng-m-ng.html#cb1970-5" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(myPaths) <span class="co"># reassign them</span></span></code></pre></div>
+<div class="sourceCode" id="cb1972"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1972-1"><a href="r-trên-c-ng-m-ng.html#cb1972-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Switch order of libraries</span></span>
+<span id="cb1972-2"><a href="r-trên-c-ng-m-ng.html#cb1972-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this can effect the priority of R finding a package. E.g. you may want your C: library to be listed first</span></span>
+<span id="cb1972-3"><a href="r-trên-c-ng-m-ng.html#cb1972-3" aria-hidden="true" tabindex="-1"></a>myPaths <span class="ot">&lt;-</span> <span class="fu">.libPaths</span>() <span class="co"># get the paths</span></span>
+<span id="cb1972-4"><a href="r-trên-c-ng-m-ng.html#cb1972-4" aria-hidden="true" tabindex="-1"></a>myPaths <span class="ot">&lt;-</span> <span class="fu">c</span>(myPaths[<span class="dv">2</span>], myPaths[<span class="dv">1</span>]) <span class="co"># switch them</span></span>
+<span id="cb1972-5"><a href="r-trên-c-ng-m-ng.html#cb1972-5" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(myPaths) <span class="co"># reassign them</span></span></code></pre></div>
 <p>If you are having difficulties with R Markdown connecting to Pandoc, begin with this code to find out where RStudio thinks your Pandoc installation is.</p>
-<div class="sourceCode" id="cb1971"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1971-1"><a href="r-trên-c-ng-m-ng.html#cb1971-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find Pandoc</span></span>
-<span id="cb1971-2"><a href="r-trên-c-ng-m-ng.html#cb1971-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">&quot;RSTUDIO_PANDOC&quot;</span>)  <span class="co"># Find where RStudio thinks your Pandoc installation is</span></span></code></pre></div>
+<div class="sourceCode" id="cb1973"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1973-1"><a href="r-trên-c-ng-m-ng.html#cb1973-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find Pandoc</span></span>
+<span id="cb1973-2"><a href="r-trên-c-ng-m-ng.html#cb1973-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">&quot;RSTUDIO_PANDOC&quot;</span>)  <span class="co"># Find where RStudio thinks your Pandoc installation is</span></span></code></pre></div>
 <p>If you want to see which library a package is loading from, try the below code:</p>
-<div class="sourceCode" id="cb1972"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1972-1"><a href="r-trên-c-ng-m-ng.html#cb1972-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find a package</span></span>
-<span id="cb1972-2"><a href="r-trên-c-ng-m-ng.html#cb1972-2" aria-hidden="true" tabindex="-1"></a><span class="co"># gives first location of package (note order of your libraries)</span></span>
-<span id="cb1972-3"><a href="r-trên-c-ng-m-ng.html#cb1972-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find.package</span>(<span class="st">&quot;rmarkdown&quot;</span>, <span class="at">lib.loc =</span> <span class="cn">NULL</span>, <span class="at">quiet =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="fu">getOption</span>(<span class="st">&quot;verbose&quot;</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb1974"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1974-1"><a href="r-trên-c-ng-m-ng.html#cb1974-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find a package</span></span>
+<span id="cb1974-2"><a href="r-trên-c-ng-m-ng.html#cb1974-2" aria-hidden="true" tabindex="-1"></a><span class="co"># gives first location of package (note order of your libraries)</span></span>
+<span id="cb1974-3"><a href="r-trên-c-ng-m-ng.html#cb1974-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find.package</span>(<span class="st">&quot;rmarkdown&quot;</span>, <span class="at">lib.loc =</span> <span class="cn">NULL</span>, <span class="at">quiet =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="fu">getOption</span>(<span class="st">&quot;verbose&quot;</span>)) </span></code></pre></div>
 <!-- ======================================================= -->
 </div>
 <div id="troubleshooting-common-errors" class="section level2" number="49.4">
@@ -191,9 +191,9 @@
 <ul>
 <li>Check the installation of TinyTex, or install TinyTex to C: location. See the [R basics] page on how to install TinyTex.</li>
 </ul>
-<div class="sourceCode" id="cb1973"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1973-1"><a href="r-trên-c-ng-m-ng.html#cb1973-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check/install tinytex, to C: location</span></span>
-<span id="cb1973-2"><a href="r-trên-c-ng-m-ng.html#cb1973-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span>
-<span id="cb1973-3"><a href="r-trên-c-ng-m-ng.html#cb1973-3" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">:::</span><span class="fu">is_tinytex</span>() <span class="co"># should return TRUE (note three colons)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1975"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1975-1"><a href="r-trên-c-ng-m-ng.html#cb1975-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check/install tinytex, to C: location</span></span>
+<span id="cb1975-2"><a href="r-trên-c-ng-m-ng.html#cb1975-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span>
+<span id="cb1975-3"><a href="r-trên-c-ng-m-ng.html#cb1975-3" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">:::</span><span class="fu">is_tinytex</span>() <span class="co"># should return TRUE (note three colons)</span></span></code></pre></div>
 <p><strong>Internet routines cannot be loaded</strong></p>
 <p>For example, <code>Error in tools::startDynamicHelp() : internet routines cannot be loaded</code></p>
 <ul>
