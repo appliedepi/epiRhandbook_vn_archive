@@ -1,5 +1,5 @@
 
-# Tháp dân số và thang đo Likert {}  
+# Tháp dân số và thang đo Likert {#age_pyramid}  
 
 
 

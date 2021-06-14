@@ -1,4 +1,4 @@
-# Version control với Git và Github
+# Version control với Git và Github {#collaboration}
 
 This chapter presents an overview of using Git to collaborate with others.
 More extensive tutorials can be

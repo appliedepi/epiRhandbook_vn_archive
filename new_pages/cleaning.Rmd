@@ -1,4 +1,4 @@
-# Làm sạch số liệu và các hàm quan trọng {}
+# Làm sạch số liệu và các hàm quan trọng {#cleaning}
 
 
 ```{r, out.height = "10%", fig.align = "center", echo=F}

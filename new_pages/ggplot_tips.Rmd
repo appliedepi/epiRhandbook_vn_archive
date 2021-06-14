@@ -1,5 +1,5 @@
 
-# Các tips với ggplot {}
+# Các tips với ggplot {#ggplot_tips}
 
 In this page we will cover tips and tricks to make your ggplots sharp and fancy. See the page on [ggplot basics] for the fundamentals.  
 

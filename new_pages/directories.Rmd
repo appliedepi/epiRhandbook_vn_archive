@@ -1,5 +1,5 @@
 
-# Tương tác với thư mục làm việc { }  
+# Tương tác với thư mục làm việc {#directories}  
 
 In this page we cover common scenarios where you create, interact with, save, and import with directories (folders).  
 

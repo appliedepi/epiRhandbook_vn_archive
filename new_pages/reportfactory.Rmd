@@ -1,5 +1,5 @@
 
-# Tổ chức báo cáo định kỳ {  }  
+# Tổ chức báo cáo định kỳ {#reportfactory}  
 
 This page covers the **reportfactory** package, which is an *accompaniment to using R Markdown for reports*. 
 

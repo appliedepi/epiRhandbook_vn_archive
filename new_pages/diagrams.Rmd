@@ -1,5 +1,5 @@
 
-# Sơ đồ và biểu đồ { }  
+# Sơ đồ và biểu đồ {#diagrams}  
 
 
 

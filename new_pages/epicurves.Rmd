@@ -1,5 +1,5 @@
 
-# Đường cong dịch bệnh { }  
+# Đường cong dịch bệnh {#epicurves}  
 
 ```{r, out.width=c('75%'), echo=F, message=F}
 knitr::include_graphics(here::here("images", "epicurve_top.png"))
