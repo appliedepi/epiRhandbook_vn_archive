@@ -481,11 +481,11 @@
 <div id="epiweeks" class="section level2" number="11.7">
 <h2><span class="header-section-number">11.7</span> Epiweeks</h2>
 <p>Please see the extensive discussion of how to create epidemiological weeks in the [Grouping data] page.<br />
-Please also see the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates">Working with dates</a> page for tips on how to create and format epidemiological weeks.</p>
+Please also see the <a href="dates.html#working-with-dates">Working with dates</a> page for tips on how to create and format epidemiological weeks.</p>
 <div id="epiweeks-in-a-plot" class="section level3 unnumbered">
 <h3>Epiweeks in a plot</h3>
 <p>If your goal is to create epiweeks to display in a plot, you can do this simply with <strong>lubridate</strong>’s <code>floor_date()</code>, as explained in the [Grouping data] page. The values returned will be of class Date with format YYYY-MM-DD. If you use this column in a plot, the dates will naturally order correctly, and you do not need to worry about levels or converting to class Factor. See the <code>ggplot()</code> histogram of onset dates below.</p>
-<p>In this approach, you can adjust the <em>display</em> of the dates on an axis with <code>scale_x_date()</code>. See the page on [Epidemic curves] for more information. You can specify a “strptime” display format to the <code>date_labels =</code> argument of <code>scale_x_date()</code>. These formats use “%” placeholders and are covered in the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates">Working with dates</a> page. Use “%Y” to represent a 4-digit year, and either “%W” or “%U” to represent the week number (Monday or Sunday weeks respectively).</p>
+<p>In this approach, you can adjust the <em>display</em> of the dates on an axis with <code>scale_x_date()</code>. See the page on [Epidemic curves] for more information. You can specify a “strptime” display format to the <code>date_labels =</code> argument of <code>scale_x_date()</code>. These formats use “%” placeholders and are covered in the <a href="dates.html#working-with-dates">Working with dates</a> page. Use “%Y” to represent a 4-digit year, and either “%W” or “%U” to represent the week number (Monday or Sunday weeks respectively).</p>
 <div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="factors.html#cb576-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">%&gt;%</span> </span>
 <span id="cb576-2"><a href="factors.html#cb576-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">epiweek_date =</span> <span class="fu">floor_date</span>(date_onset, <span class="st">&quot;week&quot;</span>)) <span class="sc">%&gt;%</span>  <span class="co"># create week column</span></span>
 <span id="cb576-3"><a href="factors.html#cb576-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span>                                                  <span class="co"># begin ggplot</span></span>
@@ -499,7 +499,7 @@ Please also see the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates"
 <ol style="list-style-type: decimal">
 <li><em>For fine control over the display</em>, convert the <strong>lubridate</strong> epiweek column (YYYY-MM-DD) to the desired display format (YYYY-WWw) <em>within the data frame itself</em>, and then convert it to class Factor.</li>
 </ol>
-<p>First, use <code>format()</code> from <strong>base</strong> R to convert the date display from YYYY-MM-DD to YYYY-Www display (see the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates">Working with dates</a> page). In this process the class will be converted to character. Then, convert from character to class Factor with <code>factor()</code>.</p>
+<p>First, use <code>format()</code> from <strong>base</strong> R to convert the date display from YYYY-MM-DD to YYYY-Www display (see the <a href="dates.html#working-with-dates">Working with dates</a> page). In this process the class will be converted to character. Then, convert from character to class Factor with <code>factor()</code>.</p>
 <div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="factors.html#cb577-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> linelist <span class="sc">%&gt;%</span> </span>
 <span id="cb577-2"><a href="factors.html#cb577-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">epiweek_date =</span> <span class="fu">floor_date</span>(date_onset, <span class="st">&quot;week&quot;</span>),       <span class="co"># create epiweeks (YYYY-MM-DD)</span></span>
 <span id="cb577-3"><a href="factors.html#cb577-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">epiweek_formatted =</span> <span class="fu">format</span>(epiweek_date, <span class="st">&quot;%Y-W%W&quot;</span>),  <span class="co"># Convert to display (YYYY-WWw)</span></span>
@@ -519,7 +519,7 @@ Please also see the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates"
 <span id="cb579-2"><a href="factors.html#cb579-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">epiweek =</span> <span class="fu">date2week</span>(date_onset, <span class="at">week_start =</span> <span class="st">&quot;Monday&quot;</span>, <span class="at">factor =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb579-3"><a href="factors.html#cb579-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb579-4"><a href="factors.html#cb579-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(df<span class="sc">$</span>epiweek)</span></code></pre></div>
-<p>See the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates">Working with dates</a> page for more information about <strong>aweek</strong>. It also offers the reverse function <code>week2date()</code>.</p>
+<p>See the <a href="dates.html#working-with-dates">Working with dates</a> page for more information about <strong>aweek</strong>. It also offers the reverse function <code>week2date()</code>.</p>
 <!-- ======================================================= -->
 </div>
 </div>
