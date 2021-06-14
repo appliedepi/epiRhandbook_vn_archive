@@ -441,7 +441,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/editorial_style.Rmd-->
 
-# Tải sách và dữ liệu {#page_dataused}
+# Tai sach va du lieu {#page_dataused}
 
 <!-- Note to self: If you want to create a download link to Github, right-click the "View Raw" button on Github, copy the address, and use that in the HTML below. -->
 
