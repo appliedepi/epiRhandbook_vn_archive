@@ -5,7 +5,7 @@ cách-tiếp-cận-và-phong-cách
 quyết-định-biên-tập
 các-bản-sửa-đổi-chính
 thông-tin-phiên-làm-việc-r-rstudio-packages
-tải-sách-và-dữ-liệu
+data-used
 tải-sách-ngoại-tuyến
 tải-dữ-liệu-xuống-để-cùng-theo-dõi
 r-cơ-bản

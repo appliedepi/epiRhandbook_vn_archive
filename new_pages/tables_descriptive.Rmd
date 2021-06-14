@@ -233,7 +233,7 @@ linelist %>%
 
 ### Lưu với tabyl {.unnumbered}
 
-If you convert the table to a "pretty" image with a package like **flextable**, you can save it with functions from that package - like `save_as_html()`, `save_as_word()`, `save_as_ppt()`, and `save_as_image()` from **flextable** (as discussed more extensively in the [Tables for presentation] page). Below, the table is saved as a Word document, in which it can be further hand-edited.
+Nếu bạn muốn chuyển đổi bảng thành một hình ảnh “đẹp” với package **flextable**, bạn có thể lưu nó bằng các hàm như `save_as_html()`, `save_as_word()`, `save_as_ppt()`, và `save_as_image()` từ package **flextable** (sẽ được bàn luận kỹ hơn ở chương [Trình bày bảng]). Ví dụ dưới đây, bảng được lưu lại dưới dạng tệp Word, và có khả năng chỉnh sửa được.
 
 ```{r, eval=F}
 linelist %>%
@@ -255,9 +255,9 @@ linelist %>%
 knitr::include_graphics(here::here("images", "tabyl_word.png"))
 ```
 
-### Statistics {#janitor_age_out_stats .unnumbered}
+### Thống kê {#janitor_age_out_stats .unnumbered}
 
-You can apply statistical tests on tabyls, like `chisq.test()` or `fisher.test()` from the **stats** package, as shown below. Note missing values are not allowed so they are excluded from the tabyl with `show_na = FALSE`.
+Bạn có thể áp dụng các kiểm định thống kê bằng tabyls, ví dụ như `chisq.test()` hoặc `fisher.test()` từ package **stats**, như được trình bày dưới đây. Chú ý là giá trị missing không được cho phép vì vậy chúng được loại bỏ khỏi tabyl bằng tùy chọn `show_na = FALSE`.
 
 ```{r, warning=F, message=F}
 age_by_outcome <- linelist %>% 
@@ -266,7 +266,7 @@ age_by_outcome <- linelist %>%
 chisq.test(age_by_outcome)
 ```
 
-See the page on [Simple statistical tests] for more code and tips about statistics.
+Xem chương [Simple statistical tests] để có thêm code và các mẹo liên quan đến thống kê.
 
 ### Other tips {.unnumbered}
 
