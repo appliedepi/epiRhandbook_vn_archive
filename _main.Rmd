@@ -55,7 +55,7 @@ knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x5
 -   Là một tài liệu tham khảo R một cách nhanh chóng\
 -   Cung cấp các ví dụ tập trung vào nhiệm vụ giải quyết các vấn đề dịch tễ học phổ biến\
 -   Hỗ trợ các nhà dịch tễ học chuyển sang sử dụng R\
--   Có thể sử dụng trong các tình huống có kết nối internet thấp thông qua **[phiên bản ngoại tuyến][Download handbook and data]**
+-   Có thể sử dụng trong các tình huống có kết nối internet thấp thông qua **[phiên bản ngoại tuyến][#page_dataused]**
 
 <!-- * Use practical epi examples - cleaning case linelists, making transmission chains and epidemic curves, automated reports and dashboards, modeling incidence and making projections, demographic pyramids and rate standardization, record matching, outbreak detection, survey analysis, survival analysis, GIS basics, contact tracing, phylogenetic trees...   -->
 
@@ -100,16 +100,12 @@ Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi tr�
 
 -   Truy cập các trang trong phần Mục lục, hoặc sử dụng ô tìm kiếm
 -   Nhấn biểu tượng "copy" để copy code\
--   Kết hợp theo dõi cùng với các bộ [dữ liệu minh họa][Download handbook and data]\
+-   Kết hợp theo dõi cùng với các bộ [dữ liệu minh họa][#page_dataused]\
 -   Xem phần "Tài nguyên" trong từng trang để tìm thêm tài liệu
 
 **Phiên bản ngoại tuyến**
 
-Xem hướng dẫn tại trang [Download handbook and data].
-
-**Ngôn ngữ**
-
-We want to translate this into languages other than English. If you can help, please contact us.
+Xem hướng dẫn tại trang [#page_dataused].
 
 <!-- ======================================================= -->
 
@@ -176,7 +172,7 @@ Các khóa học học thuật và các chương trình đào tạo dịch tễ 
 
 ### Trích dẫn {.unnumbered}
 
-Sổ tay Dịch tễ học với R. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img src="https://zenodo.org/badge/231610102.svg" alt="DOI" style="border-width:0"/></a><br />
+Neale Batra và cộng sự, Sổ tay Dịch tễ học với R. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img src="https://zenodo.org/badge/231610102.svg" alt="DOI" style="border-width:0"/></a><br />
 
 ### Đóng góp {.unnumbered}
 
@@ -274,7 +270,7 @@ options(scipen=1, digits=7)
 
 Trong chương này, chúng tôi mô tả triết lý và phong cách viết code, cũng như quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
 
-## Approach and style
+## Cách tiếp cận và phong cách
 
 Độc giả tiềm năng của cuốn sách này là lớn, bao gồm những người hoàn toàn mới đối với R, và cả những người dùng R có kinh nghiệm đang tìm kiếm các phương pháp và mẹo hay nhất. Vì vậy, nó phải vừa dễ tiếp cận vừa ngắn gọn. Do đó, cách tiếp cận của chúng tôi là cung cấp lượng văn bản giải thích *vừa đủ* để một người mới sử dụng R cũng có thể áp dụng code và hiểu code đang làm gì.
 
@@ -445,7 +441,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/editorial_style.Rmd-->
 
-# Download handbook and data
+# Tải sách và dữ liệu {#page_dataused}
 
 <!-- Note to self: If you want to create a download link to Github, right-click the "View Raw" button on Github, copy the address, and use that in the HTML below. -->
 

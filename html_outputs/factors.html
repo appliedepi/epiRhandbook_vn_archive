@@ -507,11 +507,10 @@ Please also see the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates"
 <span id="cb577-5"><a href="factors.html#cb577-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb577-6"><a href="factors.html#cb577-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Display levels</span></span>
 <span id="cb577-7"><a href="factors.html#cb577-7" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(linelist<span class="sc">$</span>epiweek_formatted)</span></code></pre></div>
-<pre><code>##  [1] &quot;2014-W13&quot; &quot;2014-W14&quot; &quot;2014-W15&quot; &quot;2014-W16&quot; &quot;2014-W17&quot; &quot;2014-W18&quot; &quot;2014-W19&quot; &quot;2014-W20&quot; &quot;2014-W21&quot; &quot;2014-W22&quot; &quot;2014-W23&quot; &quot;2014-W24&quot; &quot;2014-W25&quot;
-## [14] &quot;2014-W26&quot; &quot;2014-W27&quot; &quot;2014-W28&quot; &quot;2014-W29&quot; &quot;2014-W30&quot; &quot;2014-W31&quot; &quot;2014-W32&quot; &quot;2014-W33&quot; &quot;2014-W34&quot; &quot;2014-W35&quot; &quot;2014-W36&quot; &quot;2014-W37&quot; &quot;2014-W38&quot;
-## [27] &quot;2014-W39&quot; &quot;2014-W40&quot; &quot;2014-W41&quot; &quot;2014-W42&quot; &quot;2014-W43&quot; &quot;2014-W44&quot; &quot;2014-W45&quot; &quot;2014-W46&quot; &quot;2014-W47&quot; &quot;2014-W48&quot; &quot;2014-W49&quot; &quot;2014-W50&quot; &quot;2014-W51&quot;
-## [40] &quot;2015-W00&quot; &quot;2015-W01&quot; &quot;2015-W02&quot; &quot;2015-W03&quot; &quot;2015-W04&quot; &quot;2015-W05&quot; &quot;2015-W06&quot; &quot;2015-W07&quot; &quot;2015-W08&quot; &quot;2015-W09&quot; &quot;2015-W10&quot; &quot;2015-W11&quot; &quot;2015-W12&quot;
-## [53] &quot;2015-W13&quot; &quot;2015-W14&quot; &quot;2015-W15&quot; &quot;2015-W16&quot;</code></pre>
+<pre><code>##  [1] &quot;2014-W13&quot; &quot;2014-W14&quot; &quot;2014-W15&quot; &quot;2014-W16&quot; &quot;2014-W17&quot; &quot;2014-W18&quot; &quot;2014-W19&quot; &quot;2014-W20&quot; &quot;2014-W21&quot; &quot;2014-W22&quot; &quot;2014-W23&quot; &quot;2014-W24&quot; &quot;2014-W25&quot; &quot;2014-W26&quot; &quot;2014-W27&quot;
+## [16] &quot;2014-W28&quot; &quot;2014-W29&quot; &quot;2014-W30&quot; &quot;2014-W31&quot; &quot;2014-W32&quot; &quot;2014-W33&quot; &quot;2014-W34&quot; &quot;2014-W35&quot; &quot;2014-W36&quot; &quot;2014-W37&quot; &quot;2014-W38&quot; &quot;2014-W39&quot; &quot;2014-W40&quot; &quot;2014-W41&quot; &quot;2014-W42&quot;
+## [31] &quot;2014-W43&quot; &quot;2014-W44&quot; &quot;2014-W45&quot; &quot;2014-W46&quot; &quot;2014-W47&quot; &quot;2014-W48&quot; &quot;2014-W49&quot; &quot;2014-W50&quot; &quot;2014-W51&quot; &quot;2015-W00&quot; &quot;2015-W01&quot; &quot;2015-W02&quot; &quot;2015-W03&quot; &quot;2015-W04&quot; &quot;2015-W05&quot;
+## [46] &quot;2015-W06&quot; &quot;2015-W07&quot; &quot;2015-W08&quot; &quot;2015-W09&quot; &quot;2015-W10&quot; &quot;2015-W11&quot; &quot;2015-W12&quot; &quot;2015-W13&quot; &quot;2015-W14&quot; &quot;2015-W15&quot; &quot;2015-W16&quot;</code></pre>
 <p><span style="color: red;"><strong><em>DANGER:</em></strong> If you place the weeks ahead of the years (“Www-YYYY”) (“%W-%Y”), the default alpha-numeric level ordering will be incorrect (e.g. 01-2015 will be before 35-2014). You could need to manually adjust the order, which would be a long painful process.</span></p>
 <ol start="2" style="list-style-type: decimal">
 <li><em>For fast default display</em>, use the <strong>aweek</strong> package and it’s function <code>date2week()</code>. You can set the <code>week_start =</code> day, and if you set <code>factor = TRUE</code> then the output column is an ordered factor. As a bonus, the factor includes levels for <em>all</em> possible weeks in the span - even if there are no cases that week.</li>
@@ -557,7 +556,7 @@ Please also see the <a href="làm-vi-c-v-i-ngày-tháng.html#working-with-dates"
   <div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-08.</p>
+    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

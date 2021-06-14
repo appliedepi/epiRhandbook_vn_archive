@@ -2,7 +2,7 @@
 
 Trong chương này, chúng tôi mô tả triết lý và phong cách viết code, cũng như quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
 
-## Approach and style
+## Cách tiếp cận và phong cách
 
 Độc giả tiềm năng của cuốn sách này là lớn, bao gồm những người hoàn toàn mới đối với R, và cả những người dùng R có kinh nghiệm đang tìm kiếm các phương pháp và mẹo hay nhất. Vì vậy, nó phải vừa dễ tiếp cận vừa ngắn gọn. Do đó, cách tiếp cận của chúng tôi là cung cấp lượng văn bản giải thích *vừa đủ* để một người mới sử dụng R cũng có thể áp dụng code và hiểu code đang làm gì.
 

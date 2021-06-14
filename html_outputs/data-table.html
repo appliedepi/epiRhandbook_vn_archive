@@ -166,22 +166,22 @@
 <div id="load-packages-33" class="section level3 unnumbered">
 <h3>Load packages</h3>
 <p>Using the <code>p_load()</code> function from <strong>pacman</strong>, we load (and install if necessary) packages required for this analysis.</p>
-<div class="sourceCode" id="cb1974"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1974-1"><a href="data-table.html#cb1974-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
-<span id="cb1974-2"><a href="data-table.html#cb1974-2" aria-hidden="true" tabindex="-1"></a>  rio,        <span class="co"># to import data</span></span>
-<span id="cb1974-3"><a href="data-table.html#cb1974-3" aria-hidden="true" tabindex="-1"></a>  data.table, <span class="co"># to group and clean data</span></span>
-<span id="cb1974-4"><a href="data-table.html#cb1974-4" aria-hidden="true" tabindex="-1"></a>  tidyverse,  <span class="co"># allows use of pipe (%&gt;%) function in this chapter</span></span>
-<span id="cb1974-5"><a href="data-table.html#cb1974-5" aria-hidden="true" tabindex="-1"></a>  here </span>
-<span id="cb1974-6"><a href="data-table.html#cb1974-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
+<div class="sourceCode" id="cb1976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1976-1"><a href="data-table.html#cb1976-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
+<span id="cb1976-2"><a href="data-table.html#cb1976-2" aria-hidden="true" tabindex="-1"></a>  rio,        <span class="co"># to import data</span></span>
+<span id="cb1976-3"><a href="data-table.html#cb1976-3" aria-hidden="true" tabindex="-1"></a>  data.table, <span class="co"># to group and clean data</span></span>
+<span id="cb1976-4"><a href="data-table.html#cb1976-4" aria-hidden="true" tabindex="-1"></a>  tidyverse,  <span class="co"># allows use of pipe (%&gt;%) function in this chapter</span></span>
+<span id="cb1976-5"><a href="data-table.html#cb1976-5" aria-hidden="true" tabindex="-1"></a>  here </span>
+<span id="cb1976-6"><a href="data-table.html#cb1976-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
 </div>
 <div id="import-data-28" class="section level3 unnumbered">
 <h3>Import data</h3>
 <p>This page will explore some of the core functions of <strong>data.table</strong> using the case linelist referenced throughout the handbook.</p>
 <p>We import the dataset of cases from a simulated Ebola epidemic. If you want to download the data to follow step-by-step, see instructions in the [Download book and data] page. The dataset is imported using the <code>import()</code> function from the <strong>rio</strong> package. See the page on [Import and export] for various ways to import data. From here we use <code>data.table()</code> to convert the data frame to a data table.</p>
-<div class="sourceCode" id="cb1975"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1975-1"><a href="data-table.html#cb1975-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;linelist_cleaned.xlsx&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">data.table</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1977"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1977-1"><a href="data-table.html#cb1977-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;linelist_cleaned.xlsx&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">data.table</span>()</span></code></pre></div>
 <p>The <code>fread()</code> function is used to directly import regular delimited files, such as .csv files, directly to a data table format. This function, and its counterpart, <code>fwrite()</code>, used for writing data.tables as regular delimited files are very fast and computationally efficient options for large databases.</p>
 <p>The first 20 rows of <code>linelist</code>:</p>
 <p>Base R commands such as <code>dim()</code> that are used for data frames can also be used for data tables</p>
-<div class="sourceCode" id="cb1976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1976-1"><a href="data-table.html#cb1976-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(linelist) <span class="co">#gives the number of rows and columns in the data table</span></span></code></pre></div>
+<div class="sourceCode" id="cb1978"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1978-1"><a href="data-table.html#cb1978-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(linelist) <span class="co">#gives the number of rows and columns in the data table</span></span></code></pre></div>
 <pre><code>## [1] 5888   30</code></pre>
 <!-- ======================================================= -->
 </div>
@@ -190,12 +190,12 @@
 <h2><span class="header-section-number">50.3</span> The i argument: selecting and filtering rows</h2>
 <p>Recalling the <strong>DT[i, j, by]</strong> structure, we can filter rows using either row numbers or logical expressions. The i argument is first; therefore, the syntax <strong>DT[i]</strong> or <strong>DT[i,]</strong> can be used.</p>
 <p>The first example retrieves the first 5 rows of the data table, the second example subsets cases are 18 years or over, and the third example subsets cases 18 years old or over but not diagnosed at the Central Hospital:</p>
-<div class="sourceCode" id="cb1978"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1978-1"><a href="data-table.html#cb1978-1" aria-hidden="true" tabindex="-1"></a>linelist[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="co">#returns the 1st to 5th row</span></span>
-<span id="cb1978-2"><a href="data-table.html#cb1978-2" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">&gt;=</span> <span class="dv">18</span>] <span class="co">#subsets cases are equal to or over 18 years</span></span>
-<span id="cb1978-3"><a href="data-table.html#cb1978-3" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">&amp;</span> hospital <span class="sc">!=</span> <span class="st">&quot;Central Hospital&quot;</span>] <span class="co">#subsets cases equal to or over 18 years old but not diagnosed at the Central Hospital</span></span></code></pre></div>
+<div class="sourceCode" id="cb1980"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1980-1"><a href="data-table.html#cb1980-1" aria-hidden="true" tabindex="-1"></a>linelist[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="co">#returns the 1st to 5th row</span></span>
+<span id="cb1980-2"><a href="data-table.html#cb1980-2" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">&gt;=</span> <span class="dv">18</span>] <span class="co">#subsets cases are equal to or over 18 years</span></span>
+<span id="cb1980-3"><a href="data-table.html#cb1980-3" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">&amp;</span> hospital <span class="sc">!=</span> <span class="st">&quot;Central Hospital&quot;</span>] <span class="co">#subsets cases equal to or over 18 years old but not diagnosed at the Central Hospital</span></span></code></pre></div>
 <p>Using .N in the i argument represents the total number of rows in the data table. This can be used to subset on the row numbers:</p>
-<div class="sourceCode" id="cb1979"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1979-1"><a href="data-table.html#cb1979-1" aria-hidden="true" tabindex="-1"></a>linelist[.N] <span class="co">#returns the last row</span></span>
-<span id="cb1979-2"><a href="data-table.html#cb1979-2" aria-hidden="true" tabindex="-1"></a>linelist[<span class="dv">15</span><span class="sc">:</span>.N] <span class="co">#returns the 15th to the last row</span></span></code></pre></div>
+<div class="sourceCode" id="cb1981"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1981-1"><a href="data-table.html#cb1981-1" aria-hidden="true" tabindex="-1"></a>linelist[.N] <span class="co">#returns the last row</span></span>
+<span id="cb1981-2"><a href="data-table.html#cb1981-2" aria-hidden="true" tabindex="-1"></a>linelist[<span class="dv">15</span><span class="sc">:</span>.N] <span class="co">#returns the 15th to the last row</span></span></code></pre></div>
 <div id="using-helper-functions-for-filtering" class="section level3 unnumbered">
 <h3>Using helper functions for filtering</h3>
 <p>Data table uses helper functions that make subsetting rows easy. The <code>%like%</code> function is used to match a pattern in a column, <code>%chin%</code> is used to match a specific character, and the <code>%between%</code> helper function is used to match numeric columns within a prespecified range.</p>
@@ -203,11 +203,11 @@
 * filter rows where the hospital variable contains “Hospital”
 * filter rows where the outcome is “Recover” or “Death”
 * filter rows in the age range 40-60</p>
-<div class="sourceCode" id="cb1980"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1980-1"><a href="data-table.html#cb1980-1" aria-hidden="true" tabindex="-1"></a>linelist[hospital <span class="sc">%like%</span> <span class="st">&quot;Hospital&quot;</span>] <span class="co">#filter rows where the hospital variable contains “Hospital”</span></span>
-<span id="cb1980-2"><a href="data-table.html#cb1980-2" aria-hidden="true" tabindex="-1"></a>linelist[outcome <span class="sc">%chin%</span> <span class="fu">c</span>(<span class="st">&quot;Recover&quot;</span>, <span class="st">&quot;Death&quot;</span>)] <span class="co">#filter rows where the outcome is “Recover” or “Death”</span></span>
-<span id="cb1980-3"><a href="data-table.html#cb1980-3" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">%between%</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">60</span>)] <span class="co">#filter rows in the age range 40-60</span></span>
-<span id="cb1980-4"><a href="data-table.html#cb1980-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1980-5"><a href="data-table.html#cb1980-5" aria-hidden="true" tabindex="-1"></a><span class="co">#%between% must take a vector of length 2, whereas %chin% can take vectors of length &gt;= 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb1982"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1982-1"><a href="data-table.html#cb1982-1" aria-hidden="true" tabindex="-1"></a>linelist[hospital <span class="sc">%like%</span> <span class="st">&quot;Hospital&quot;</span>] <span class="co">#filter rows where the hospital variable contains “Hospital”</span></span>
+<span id="cb1982-2"><a href="data-table.html#cb1982-2" aria-hidden="true" tabindex="-1"></a>linelist[outcome <span class="sc">%chin%</span> <span class="fu">c</span>(<span class="st">&quot;Recover&quot;</span>, <span class="st">&quot;Death&quot;</span>)] <span class="co">#filter rows where the outcome is “Recover” or “Death”</span></span>
+<span id="cb1982-3"><a href="data-table.html#cb1982-3" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">%between%</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">60</span>)] <span class="co">#filter rows in the age range 40-60</span></span>
+<span id="cb1982-4"><a href="data-table.html#cb1982-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1982-5"><a href="data-table.html#cb1982-5" aria-hidden="true" tabindex="-1"></a><span class="co">#%between% must take a vector of length 2, whereas %chin% can take vectors of length &gt;= 1</span></span></code></pre></div>
 </div>
 </div>
 <div id="the-j-argument-selecting-and-computing-on-columns" class="section level2" number="50.4">
@@ -216,9 +216,9 @@
 <div id="selecting-columns" class="section level3 unnumbered">
 <h3>Selecting columns</h3>
 <p>The first example retrieves the first, third and fifth columns of the data table, the second example selects all columns except the height, weight and gender columns. The third example uses the <code>.()</code> wrap to select the <strong>case_id</strong> and <strong>outcome</strong> columns.</p>
-<div class="sourceCode" id="cb1981"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1981-1"><a href="data-table.html#cb1981-1" aria-hidden="true" tabindex="-1"></a>linelist[ , <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)]</span>
-<span id="cb1981-2"><a href="data-table.html#cb1981-2" aria-hidden="true" tabindex="-1"></a>linelist[ , <span class="sc">-</span><span class="fu">c</span>(<span class="st">&quot;gender&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;wt_kg&quot;</span>, <span class="st">&quot;ht_cm&quot;</span>)]</span>
-<span id="cb1981-3"><a href="data-table.html#cb1981-3" aria-hidden="true" tabindex="-1"></a>linelist[ , <span class="fu">list</span>(case_id, outcome)] <span class="co">#linelist[ , .(case_id, outcome)] works just as well</span></span></code></pre></div>
+<div class="sourceCode" id="cb1983"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1983-1"><a href="data-table.html#cb1983-1" aria-hidden="true" tabindex="-1"></a>linelist[ , <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)]</span>
+<span id="cb1983-2"><a href="data-table.html#cb1983-2" aria-hidden="true" tabindex="-1"></a>linelist[ , <span class="sc">-</span><span class="fu">c</span>(<span class="st">&quot;gender&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;wt_kg&quot;</span>, <span class="st">&quot;ht_cm&quot;</span>)]</span>
+<span id="cb1983-3"><a href="data-table.html#cb1983-3" aria-hidden="true" tabindex="-1"></a>linelist[ , <span class="fu">list</span>(case_id, outcome)] <span class="co">#linelist[ , .(case_id, outcome)] works just as well</span></span></code></pre></div>
 </div>
 <div id="computing-on-columns" class="section level3 unnumbered">
 <h3>Computing on columns</h3>
@@ -227,15 +227,15 @@
 * Count the number of cases that stayed over 7 days in hospital
 * Calculate the mean age of the cases that died at the military hospital
 * Calculate the standard deviation, median, mean age of the cases that recovered at the central hospital</p>
-<div class="sourceCode" id="cb1982"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1982-1"><a href="data-table.html#cb1982-1" aria-hidden="true" tabindex="-1"></a>linelist[days_onset_hosp <span class="sc">&gt;</span> <span class="dv">7</span> , .N]</span></code></pre></div>
+<div class="sourceCode" id="cb1984"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1984-1"><a href="data-table.html#cb1984-1" aria-hidden="true" tabindex="-1"></a>linelist[days_onset_hosp <span class="sc">&gt;</span> <span class="dv">7</span> , .N]</span></code></pre></div>
 <pre><code>## [1] 189</code></pre>
-<div class="sourceCode" id="cb1984"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1984-1"><a href="data-table.html#cb1984-1" aria-hidden="true" tabindex="-1"></a>linelist[hospital <span class="sc">%like%</span> <span class="st">&quot;Military&quot;</span> <span class="sc">&amp;</span> outcome <span class="sc">%chin%</span> <span class="st">&quot;Death&quot;</span>, .(<span class="fu">mean</span>(age, <span class="at">na.rm =</span> T))] <span class="co">#na.rm = T removes N/A values</span></span></code></pre></div>
+<div class="sourceCode" id="cb1986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1986-1"><a href="data-table.html#cb1986-1" aria-hidden="true" tabindex="-1"></a>linelist[hospital <span class="sc">%like%</span> <span class="st">&quot;Military&quot;</span> <span class="sc">&amp;</span> outcome <span class="sc">%chin%</span> <span class="st">&quot;Death&quot;</span>, .(<span class="fu">mean</span>(age, <span class="at">na.rm =</span> T))] <span class="co">#na.rm = T removes N/A values</span></span></code></pre></div>
 <pre><code>##         V1
 ## 1: 15.9084</code></pre>
-<div class="sourceCode" id="cb1986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1986-1"><a href="data-table.html#cb1986-1" aria-hidden="true" tabindex="-1"></a>linelist[hospital <span class="sc">==</span> <span class="st">&quot;Central Hospital&quot;</span> <span class="sc">&amp;</span> outcome <span class="sc">==</span> <span class="st">&quot;Recover&quot;</span>, </span>
-<span id="cb1986-2"><a href="data-table.html#cb1986-2" aria-hidden="true" tabindex="-1"></a>                 .(<span class="at">mean_age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> T),</span>
-<span id="cb1986-3"><a href="data-table.html#cb1986-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">median_age =</span> <span class="fu">median</span>(age, <span class="at">na.rm =</span> T),</span>
-<span id="cb1986-4"><a href="data-table.html#cb1986-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sd_age =</span> <span class="fu">sd</span>(age, <span class="at">na.rm =</span> T))] <span class="co">#this syntax does not use the helper functions but works just as well</span></span></code></pre></div>
+<div class="sourceCode" id="cb1988"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1988-1"><a href="data-table.html#cb1988-1" aria-hidden="true" tabindex="-1"></a>linelist[hospital <span class="sc">==</span> <span class="st">&quot;Central Hospital&quot;</span> <span class="sc">&amp;</span> outcome <span class="sc">==</span> <span class="st">&quot;Recover&quot;</span>, </span>
+<span id="cb1988-2"><a href="data-table.html#cb1988-2" aria-hidden="true" tabindex="-1"></a>                 .(<span class="at">mean_age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> T),</span>
+<span id="cb1988-3"><a href="data-table.html#cb1988-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">median_age =</span> <span class="fu">median</span>(age, <span class="at">na.rm =</span> T),</span>
+<span id="cb1988-4"><a href="data-table.html#cb1988-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sd_age =</span> <span class="fu">sd</span>(age, <span class="at">na.rm =</span> T))] <span class="co">#this syntax does not use the helper functions but works just as well</span></span></code></pre></div>
 <pre><code>##    mean_age median_age   sd_age
 ## 1: 16.85185         14 12.93857</code></pre>
 <p>Remember using the .() wrap in the j argument facilitates computation, returns a data table and allows for column naming.</p>
@@ -248,7 +248,7 @@
 * group the number of cases by hospital
 * in cases 18 years old or over, calculate the mean height and weight of cases according to gender and whether they recovered or died
 * in admissions that lasted over 7 days, count the number of cases according to the month they were admitted and the hospital they were admitted to</p>
-<div class="sourceCode" id="cb1988"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1988-1"><a href="data-table.html#cb1988-1" aria-hidden="true" tabindex="-1"></a>linelist[, .N, .(hospital)] <span class="co">#the number of cases by hospital</span></span></code></pre></div>
+<div class="sourceCode" id="cb1990"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1990-1"><a href="data-table.html#cb1990-1" aria-hidden="true" tabindex="-1"></a>linelist[, .N, .(hospital)] <span class="co">#the number of cases by hospital</span></span></code></pre></div>
 <pre><code>##                                hospital    N
 ## 1:                                Other  885
 ## 2:                              Missing 1469
@@ -256,8 +256,8 @@
 ## 4:                        Port Hospital 1762
 ## 5:                    Military Hospital  896
 ## 6:                     Central Hospital  454</code></pre>
-<div class="sourceCode" id="cb1990"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1990-1"><a href="data-table.html#cb1990-1" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">&gt;</span> <span class="dv">18</span>, .(<span class="at">mean_wt =</span> <span class="fu">mean</span>(wt_kg, <span class="at">na.rm =</span> T),</span>
-<span id="cb1990-2"><a href="data-table.html#cb1990-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">mean_ht =</span> <span class="fu">mean</span>(ht_cm, <span class="at">na.rm =</span> T)), .(gender, outcome)] <span class="co">#NAs represent the categories where the data is missing</span></span></code></pre></div>
+<div class="sourceCode" id="cb1992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1992-1"><a href="data-table.html#cb1992-1" aria-hidden="true" tabindex="-1"></a>linelist[age <span class="sc">&gt;</span> <span class="dv">18</span>, .(<span class="at">mean_wt =</span> <span class="fu">mean</span>(wt_kg, <span class="at">na.rm =</span> T),</span>
+<span id="cb1992-2"><a href="data-table.html#cb1992-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">mean_ht =</span> <span class="fu">mean</span>(ht_cm, <span class="at">na.rm =</span> T)), .(gender, outcome)] <span class="co">#NAs represent the categories where the data is missing</span></span></code></pre></div>
 <pre><code>##    gender outcome  mean_wt  mean_ht
 ## 1:      m Recover 71.90227 178.1977
 ## 2:      f   Death 63.27273 159.9448
@@ -268,7 +268,7 @@
 ## 7:   &lt;NA&gt; Recover 67.21429 175.2143
 ## 8:   &lt;NA&gt;   Death 69.16667 170.7917
 ## 9:   &lt;NA&gt;    &lt;NA&gt; 70.25000 175.5000</code></pre>
-<div class="sourceCode" id="cb1992"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1992-1"><a href="data-table.html#cb1992-1" aria-hidden="true" tabindex="-1"></a>linelist[days_onset_hosp <span class="sc">&gt;</span> <span class="dv">7</span>, .N, .(<span class="at">month =</span> <span class="fu">month</span>(date_hospitalisation), hospital)]</span></code></pre></div>
+<div class="sourceCode" id="cb1994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1994-1"><a href="data-table.html#cb1994-1" aria-hidden="true" tabindex="-1"></a>linelist[days_onset_hosp <span class="sc">&gt;</span> <span class="dv">7</span>, .N, .(<span class="at">month =</span> <span class="fu">month</span>(date_hospitalisation), hospital)]</span></code></pre></div>
 <pre><code>##     month                             hospital  N
 ##  1:     5                    Military Hospital  3
 ##  2:     6                        Port Hospital  4
@@ -308,23 +308,23 @@
 ## 36:    12                        Port Hospital  1
 ##     month                             hospital  N</code></pre>
 <p>Data.table also allows the chaining expressions as follows:</p>
-<div class="sourceCode" id="cb1994"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1994-1"><a href="data-table.html#cb1994-1" aria-hidden="true" tabindex="-1"></a>linelist[, .N, .(hospital)][<span class="fu">order</span>(<span class="sc">-</span>N)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="co">#1st selects all cases by hospital, 2nd orders the cases in descending order, 3rd subsets the 3 hospitals with the largest caseload</span></span></code></pre></div>
+<div class="sourceCode" id="cb1996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1996-1"><a href="data-table.html#cb1996-1" aria-hidden="true" tabindex="-1"></a>linelist[, .N, .(hospital)][<span class="fu">order</span>(<span class="sc">-</span>N)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="co">#1st selects all cases by hospital, 2nd orders the cases in descending order, 3rd subsets the 3 hospitals with the largest caseload</span></span></code></pre></div>
 <pre><code>##             hospital    N
 ## 1:     Port Hospital 1762
 ## 2:           Missing 1469
 ## 3: Military Hospital  896</code></pre>
 <p>In these examples we are following the assumption that a row in the data table is equal to a new case, and so we can use the <strong>.N</strong> to represent the number of rows in the data table. Another useful function to represent the number of unique cases is <code>uniqueN()</code>, which returns the number of unique values in a given input. This is illustrated here:</p>
-<div class="sourceCode" id="cb1996"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1996-1"><a href="data-table.html#cb1996-1" aria-hidden="true" tabindex="-1"></a>linelist[, .(<span class="fu">uniqueN</span>(gender))] <span class="co">#remember .() in the j argument returns a data table</span></span></code></pre></div>
+<div class="sourceCode" id="cb1998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1998-1"><a href="data-table.html#cb1998-1" aria-hidden="true" tabindex="-1"></a>linelist[, .(<span class="fu">uniqueN</span>(gender))] <span class="co">#remember .() in the j argument returns a data table</span></span></code></pre></div>
 <pre><code>##    V1
 ## 1:  3</code></pre>
 <p>The answer is 3, as the unique values in the gender column are m, f and N/A. Compare with the base R function <code>unique()</code>, which returns all the unique values in a given input:</p>
-<div class="sourceCode" id="cb1998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1998-1"><a href="data-table.html#cb1998-1" aria-hidden="true" tabindex="-1"></a>linelist[, .(<span class="fu">unique</span>(gender))]</span></code></pre></div>
+<div class="sourceCode" id="cb2000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2000-1"><a href="data-table.html#cb2000-1" aria-hidden="true" tabindex="-1"></a>linelist[, .(<span class="fu">unique</span>(gender))]</span></code></pre></div>
 <pre><code>##      V1
 ## 1:    m
 ## 2:    f
 ## 3: &lt;NA&gt;</code></pre>
 <p>To find the number of unique cases in a given month we would write the following:</p>
-<div class="sourceCode" id="cb2000"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2000-1"><a href="data-table.html#cb2000-1" aria-hidden="true" tabindex="-1"></a>linelist[, .(<span class="fu">uniqueN</span>(case_id)), .(<span class="at">month =</span> <span class="fu">month</span>(date_hospitalisation))]</span></code></pre></div>
+<div class="sourceCode" id="cb2002"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2002-1"><a href="data-table.html#cb2002-1" aria-hidden="true" tabindex="-1"></a>linelist[, .(<span class="fu">uniqueN</span>(case_id)), .(<span class="at">month =</span> <span class="fu">month</span>(date_hospitalisation))]</span></code></pre></div>
 <pre><code>##     month   V1
 ##  1:     5   62
 ##  2:     6  100
@@ -342,11 +342,11 @@
 <div id="adding-and-updating-to-data-tables" class="section level2" number="50.6">
 <h2><span class="header-section-number">50.6</span> Adding and updating to data tables</h2>
 <p>The <code>:=</code> operator is used to add or update data in a data table. Adding columns to your data table can be done in the following ways:</p>
-<div class="sourceCode" id="cb2002"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2002-1"><a href="data-table.html#cb2002-1" aria-hidden="true" tabindex="-1"></a>linelist[, adult <span class="sc">:</span><span class="er">=</span> age <span class="sc">&gt;=</span> <span class="dv">18</span>] <span class="co">#adds one column</span></span>
-<span id="cb2002-2"><a href="data-table.html#cb2002-2" aria-hidden="true" tabindex="-1"></a>linelist[, <span class="fu">c</span>(<span class="st">&quot;child&quot;</span>, <span class="st">&quot;wt_lbs&quot;</span>) <span class="sc">:</span><span class="er">=</span> .(age <span class="sc">&lt;</span> <span class="dv">18</span>, wt_kg<span class="sc">*</span><span class="fl">2.204</span>)] <span class="co">#to add multiple columns requires c(&quot;&quot;) and list() or .() syntax</span></span>
-<span id="cb2002-3"><a href="data-table.html#cb2002-3" aria-hidden="true" tabindex="-1"></a>linelist[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span> (<span class="at">bmi_in_range =</span> (bmi <span class="sc">&gt;</span> <span class="dv">16</span> <span class="sc">&amp;</span> bmi <span class="sc">&lt;</span> <span class="dv">40</span>),</span>
-<span id="cb2002-4"><a href="data-table.html#cb2002-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">no_infector_source_data =</span> <span class="fu">is.na</span>(infector) <span class="sc">|</span> <span class="fu">is.na</span>(source))] <span class="co">#this method uses := as a functional operator `:=`</span></span>
-<span id="cb2002-5"><a href="data-table.html#cb2002-5" aria-hidden="true" tabindex="-1"></a>linelist[, adult <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>] <span class="co">#deletes the column</span></span></code></pre></div>
+<div class="sourceCode" id="cb2004"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2004-1"><a href="data-table.html#cb2004-1" aria-hidden="true" tabindex="-1"></a>linelist[, adult <span class="sc">:</span><span class="er">=</span> age <span class="sc">&gt;=</span> <span class="dv">18</span>] <span class="co">#adds one column</span></span>
+<span id="cb2004-2"><a href="data-table.html#cb2004-2" aria-hidden="true" tabindex="-1"></a>linelist[, <span class="fu">c</span>(<span class="st">&quot;child&quot;</span>, <span class="st">&quot;wt_lbs&quot;</span>) <span class="sc">:</span><span class="er">=</span> .(age <span class="sc">&lt;</span> <span class="dv">18</span>, wt_kg<span class="sc">*</span><span class="fl">2.204</span>)] <span class="co">#to add multiple columns requires c(&quot;&quot;) and list() or .() syntax</span></span>
+<span id="cb2004-3"><a href="data-table.html#cb2004-3" aria-hidden="true" tabindex="-1"></a>linelist[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span> (<span class="at">bmi_in_range =</span> (bmi <span class="sc">&gt;</span> <span class="dv">16</span> <span class="sc">&amp;</span> bmi <span class="sc">&lt;</span> <span class="dv">40</span>),</span>
+<span id="cb2004-4"><a href="data-table.html#cb2004-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">no_infector_source_data =</span> <span class="fu">is.na</span>(infector) <span class="sc">|</span> <span class="fu">is.na</span>(source))] <span class="co">#this method uses := as a functional operator `:=`</span></span>
+<span id="cb2004-5"><a href="data-table.html#cb2004-5" aria-hidden="true" tabindex="-1"></a>linelist[, adult <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>] <span class="co">#deletes the column</span></span></code></pre></div>
 <p>Further complex aggregations are beyond the scope of this introductory chapter, but the idea is to provide a popular and viable alternative to <strong>dplyr</strong> for grouping and cleaning data. The <strong>data.table</strong> package is a great package that allows for neat and readable code.</p>
 </div>
 <div id="resources-40" class="section level2" number="50.7">
@@ -385,7 +385,7 @@
   <div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-08.</p>
+    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

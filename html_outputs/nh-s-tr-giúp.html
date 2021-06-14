@@ -174,35 +174,35 @@
 <ol style="list-style-type: decimal">
 <li><strong>reprex</strong> is installed with <strong>tidyverse</strong>, so load either package</li>
 </ol>
-<div class="sourceCode" id="cb1966"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1966-1"><a href="nh-s-tr-giúp.html#cb1966-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install/load tidyverse (which includes reprex)</span></span>
-<span id="cb1966-2"><a href="nh-s-tr-giúp.html#cb1966-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1968"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1968-1"><a href="nh-s-tr-giúp.html#cb1968-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install/load tidyverse (which includes reprex)</span></span>
+<span id="cb1968-2"><a href="nh-s-tr-giúp.html#cb1968-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Begin an R script that creates your problem, step-by-step, starting from loading packages and data.</li>
 </ol>
-<div class="sourceCode" id="cb1967"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1967-1"><a href="nh-s-tr-giúp.html#cb1967-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
-<span id="cb1967-2"><a href="nh-s-tr-giúp.html#cb1967-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
-<span id="cb1967-3"><a href="nh-s-tr-giúp.html#cb1967-3" aria-hidden="true" tabindex="-1"></a>     tidyverse,  <span class="co"># data mgmt and vizualization</span></span>
-<span id="cb1967-4"><a href="nh-s-tr-giúp.html#cb1967-4" aria-hidden="true" tabindex="-1"></a>     outbreaks)  <span class="co"># example outbreak datasets</span></span>
-<span id="cb1967-5"><a href="nh-s-tr-giúp.html#cb1967-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1967-6"><a href="nh-s-tr-giúp.html#cb1967-6" aria-hidden="true" tabindex="-1"></a><span class="co"># flu epidemic case linelist</span></span>
-<span id="cb1967-7"><a href="nh-s-tr-giúp.html#cb1967-7" aria-hidden="true" tabindex="-1"></a>outbreak_raw <span class="ot">&lt;-</span> outbreaks<span class="sc">::</span>fluH7N9_china_2013  <span class="co"># retrieve dataset from outbreaks package</span></span>
-<span id="cb1967-8"><a href="nh-s-tr-giúp.html#cb1967-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1967-9"><a href="nh-s-tr-giúp.html#cb1967-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean dataset</span></span>
-<span id="cb1967-10"><a href="nh-s-tr-giúp.html#cb1967-10" aria-hidden="true" tabindex="-1"></a>outbreak <span class="ot">&lt;-</span> outbreak_raw <span class="sc">%&gt;%</span> </span>
-<span id="cb1967-11"><a href="nh-s-tr-giúp.html#cb1967-11" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">&quot;date&quot;</span>), as.Date))</span>
-<span id="cb1967-12"><a href="nh-s-tr-giúp.html#cb1967-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1967-13"><a href="nh-s-tr-giúp.html#cb1967-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot epidemic</span></span>
-<span id="cb1967-14"><a href="nh-s-tr-giúp.html#cb1967-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1967-15"><a href="nh-s-tr-giúp.html#cb1967-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> outbreak)<span class="sc">+</span></span>
-<span id="cb1967-16"><a href="nh-s-tr-giúp.html#cb1967-16" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_histogram</span>(</span>
-<span id="cb1967-17"><a href="nh-s-tr-giúp.html#cb1967-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date_of_onset),</span>
-<span id="cb1967-18"><a href="nh-s-tr-giúp.html#cb1967-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">binwidth =</span> <span class="dv">7</span></span>
-<span id="cb1967-19"><a href="nh-s-tr-giúp.html#cb1967-19" aria-hidden="true" tabindex="-1"></a>     )<span class="sc">+</span></span>
-<span id="cb1967-20"><a href="nh-s-tr-giúp.html#cb1967-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(</span>
-<span id="cb1967-21"><a href="nh-s-tr-giúp.html#cb1967-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_format =</span> <span class="st">&quot;%d %m&quot;</span></span>
-<span id="cb1967-22"><a href="nh-s-tr-giúp.html#cb1967-22" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb1969"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1969-1"><a href="nh-s-tr-giúp.html#cb1969-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb1969-2"><a href="nh-s-tr-giúp.html#cb1969-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
+<span id="cb1969-3"><a href="nh-s-tr-giúp.html#cb1969-3" aria-hidden="true" tabindex="-1"></a>     tidyverse,  <span class="co"># data mgmt and vizualization</span></span>
+<span id="cb1969-4"><a href="nh-s-tr-giúp.html#cb1969-4" aria-hidden="true" tabindex="-1"></a>     outbreaks)  <span class="co"># example outbreak datasets</span></span>
+<span id="cb1969-5"><a href="nh-s-tr-giúp.html#cb1969-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1969-6"><a href="nh-s-tr-giúp.html#cb1969-6" aria-hidden="true" tabindex="-1"></a><span class="co"># flu epidemic case linelist</span></span>
+<span id="cb1969-7"><a href="nh-s-tr-giúp.html#cb1969-7" aria-hidden="true" tabindex="-1"></a>outbreak_raw <span class="ot">&lt;-</span> outbreaks<span class="sc">::</span>fluH7N9_china_2013  <span class="co"># retrieve dataset from outbreaks package</span></span>
+<span id="cb1969-8"><a href="nh-s-tr-giúp.html#cb1969-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1969-9"><a href="nh-s-tr-giúp.html#cb1969-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean dataset</span></span>
+<span id="cb1969-10"><a href="nh-s-tr-giúp.html#cb1969-10" aria-hidden="true" tabindex="-1"></a>outbreak <span class="ot">&lt;-</span> outbreak_raw <span class="sc">%&gt;%</span> </span>
+<span id="cb1969-11"><a href="nh-s-tr-giúp.html#cb1969-11" aria-hidden="true" tabindex="-1"></a>     <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">&quot;date&quot;</span>), as.Date))</span>
+<span id="cb1969-12"><a href="nh-s-tr-giúp.html#cb1969-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1969-13"><a href="nh-s-tr-giúp.html#cb1969-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot epidemic</span></span>
+<span id="cb1969-14"><a href="nh-s-tr-giúp.html#cb1969-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1969-15"><a href="nh-s-tr-giúp.html#cb1969-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> outbreak)<span class="sc">+</span></span>
+<span id="cb1969-16"><a href="nh-s-tr-giúp.html#cb1969-16" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_histogram</span>(</span>
+<span id="cb1969-17"><a href="nh-s-tr-giúp.html#cb1969-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date_of_onset),</span>
+<span id="cb1969-18"><a href="nh-s-tr-giúp.html#cb1969-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">binwidth =</span> <span class="dv">7</span></span>
+<span id="cb1969-19"><a href="nh-s-tr-giúp.html#cb1969-19" aria-hidden="true" tabindex="-1"></a>     )<span class="sc">+</span></span>
+<span id="cb1969-20"><a href="nh-s-tr-giúp.html#cb1969-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(</span>
+<span id="cb1969-21"><a href="nh-s-tr-giúp.html#cb1969-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_format =</span> <span class="st">&quot;%d %m&quot;</span></span>
+<span id="cb1969-22"><a href="nh-s-tr-giúp.html#cb1969-22" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><em>Copy</em> all the code to your clipboard, and run the following command:</p>
-<div class="sourceCode" id="cb1968"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1968-1"><a href="nh-s-tr-giúp.html#cb1968-1" aria-hidden="true" tabindex="-1"></a>reprex<span class="sc">::</span><span class="fu">reprex</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1970"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1970-1"><a href="nh-s-tr-giúp.html#cb1970-1" aria-hidden="true" tabindex="-1"></a>reprex<span class="sc">::</span><span class="fu">reprex</span>()</span></code></pre></div>
 <p>You will see an HTML output appear in the RStudio Viewer pane. It will contain all your code and any warnings, errors, or plot outputs. This output is also copied to your clipboard, so you can post it directly into a Github issue or a forum post.</p>
 <p><img src="images/errors_reprex_RStudio1.png" width="100%" /></p>
 <ul>
@@ -278,7 +278,7 @@
   <div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-08.</p>
+    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
