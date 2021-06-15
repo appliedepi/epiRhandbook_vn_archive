@@ -13457,7 +13457,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/tables_descriptive.Rmd-->
 
-# Các kiểm định thống kê cơ bản {#stat_tests}
+# Các kiểm định thống kê cơ bản {#stat-tests}
 
 
 This page demonstrates how to conduct simple statistical tests using **base** R, **rstatix**, and **gtsummary**.  
@@ -15976,7 +15976,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/standardization.Rmd-->
 
 
-# Đường trung bình động {#moving_average}  
+# Đường trung bình động {#moving-average}  
 
 ```{r, out.width=c("100%"), echo=F}
 knitr::include_graphics(here::here("images", "moving_avg_epicurve.png"))
@@ -18103,7 +18103,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/time_series.Rmd-->
 
 
-# Mô hình hóa dịch bệnh {#epidemic_models}  
+# Mô hình hóa dịch bệnh {#epidemic-models}  
 
 
 <!-- ======================================================= -->

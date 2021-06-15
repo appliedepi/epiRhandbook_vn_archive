@@ -141,7 +141,7 @@ dplyr-package
 tbl_gt
 base-r-1
 nguồn
-stat_tests
+stat-tests
 preparation-8
 base-r-2
 rstatix-package
@@ -169,7 +169,7 @@ preparation-11
 dsr-package
 standard_phe
 resources-13
-moving_average
+moving-average
 preparation-12
 calculate-with-slider
 calculate-with-tidyquant-within-ggplot
@@ -184,7 +184,7 @@ relation-of-two-time-series
 outbreak-detection
 interrupted-timeseries
 resources-15
-epidemic_models
+epidemic-models
 overview-3
 preparation-14
 estimating-rt
