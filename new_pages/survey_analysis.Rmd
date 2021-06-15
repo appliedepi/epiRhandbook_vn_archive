@@ -1,5 +1,5 @@
 
-# Phân tích khảo sát {#survey_analysis}  
+# Phân tích khảo sát {#survey-analysis}  
 
 <!-- ======================================================= -->
 ## Overview {  }

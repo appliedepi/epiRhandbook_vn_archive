@@ -1,5 +1,5 @@
 
-# Chuỗi thời gian và phát hiện ổ dịch {#time_series}  
+# Chuỗi thời gian và phát hiện ổ dịch {#time-series}  
 
 <!-- ======================================================= -->
 ## Overview {  }

@@ -1,4 +1,4 @@
-# Viết hàm {#writing_functions} 
+# Viết hàm {#writing-functions} 
 
 
 <!-- ======================================================= -->

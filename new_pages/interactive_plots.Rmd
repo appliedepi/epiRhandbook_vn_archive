@@ -1,5 +1,5 @@
 
-# Biểu đồ tương tác {#interactive_plots}  
+# Biểu đồ tương tác {#interactive-plots}  
 
 Data visualisation is increasingly required to be interrogable by the audience. Consequently, is is becoming common to create interactive plots. There are several ways to include these but the two most common are **plotly** and **shiny**. 
 

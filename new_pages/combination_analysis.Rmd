@@ -1,5 +1,5 @@
 
-# Biểu đồ kết hợp {#combination_analysis}  
+# Biểu đồ kết hợp {#combination-analysis}  
 
 ```{r echo=F, out.width= "75%", warning=F, message=F}
 pacman::p_load(tidyverse,

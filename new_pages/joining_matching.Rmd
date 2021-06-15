@@ -1,5 +1,5 @@
 
-# Nối dữ liệu {#joining_matching}  
+# Nối dữ liệu {#joining-matching}  
 
 ```{r out.width = c('50%'), fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "left-join.gif"))

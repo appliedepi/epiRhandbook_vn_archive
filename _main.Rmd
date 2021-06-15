@@ -266,7 +266,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/cat_about_book.Rmd-->
 
-# Biên tập và ghi chú kỹ thuật {#editorial_style}
+# Biên tập và ghi chú kỹ thuật {#editorial-style}
 
 Trong chương này, chúng tôi mô tả triết lý và phong cách viết code, cũng như quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
 
@@ -441,7 +441,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/editorial_style.Rmd-->
 
-# Tải sách và dữ liệu {#data_used}
+# Tải sách và dữ liệu {#data-used}
 
 <!-- Note to self: If you want to create a download link to Github, right-click the "View Raw" button on Github, copy the address, and use that in the HTML below. -->
 
@@ -2539,7 +2539,7 @@ options(scipen=1, digits=7)
 <!-- ======================================================= -->
 <!-- ======================================================= -->
 <!-- ======================================================= -->
-# Chuyển đổi sang R {#transition_to_R}  
+# Chuyển đổi sang R {#transition-to-R}  
 
 Below, we provide some advice and resources if you are transitioning to R.  
 
@@ -2850,7 +2850,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/transition_to_R.Rmd-->
 
-# Package đề xuất {#packages_suggested}
+# Package đề xuất {#packages-suggested}
 
 Below is a long list of suggested packages for common epidemiological work in R. You can copy this code, run it, and all of these packages will install from CRAN and load for use in the current R session. If a package is already installed, it will be loaded for use only.  
 
@@ -3060,7 +3060,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/packages_suggested.Rmd-->
 
 
-# Dự án R {#r_projects}  
+# Dự án R {#r-projects}  
 
 
 An R project enables your work to be bundled in a portable, self-contained folder. Within the project, all the relevant scripts, data files, figures/outputs, and history are stored in sub-folders and importantly - the *working directory* is the project's root folder.  
@@ -6924,7 +6924,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/dates.Rmd-->
 
 
-# Ký tự và chuỗi {#characters_strings}  
+# Ký tự và chuỗi {#characters-strings}  
 
 ```{r, out.width=c('100%'), echo=F, message=F}
 knitr::include_graphics(here::here("images", "Characters_Strings_1500x500.png"))
@@ -9801,7 +9801,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/grouping.Rmd-->
 
 
-# Nối dữ liệu {#joining_matching}  
+# Nối dữ liệu {#joining-matching}  
 
 ```{r out.width = c('50%'), fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "left-join.gif"))
@@ -12448,7 +12448,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/cat_analysis.Rmd-->
 
-# Bảng mô tả {#tables_descriptive}
+# Bảng mô tả {#tables-descriptive}
 
 ```{r out.width = c('75%'), fig.align='center', fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "descriptive_tables.png"))
@@ -14747,7 +14747,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/regression.Rmd-->
 
 
-# Dữ liệu Missing {#missing_data}
+# Dữ liệu Missing {#missing-data}
 
 ```{r, out.width=c("50%"), echo=F}
 knitr::include_graphics(here::here("images", "missingness.png"))
@@ -16413,7 +16413,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/moving_average.Rmd-->
 
 
-# Chuỗi thời gian và phát hiện ổ dịch {#time_series}  
+# Chuỗi thời gian và phát hiện ổ dịch {#time-series}  
 
 <!-- ======================================================= -->
 ## Overview {  }
@@ -19122,7 +19122,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/epidemic_models.Rmd-->
 
 
-# Truy vết tiếp xúc {#contact_tracing}
+# Truy vết tiếp xúc {#contact-tracing}
 
 
 This page demonstrates descriptive analysis of contact tracing data, addessing some key considerations and approaches unique to these kinds of data.  
@@ -19781,7 +19781,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/contact_tracing.Rmd-->
 
 
-# Phân tích khảo sát {#survey_analysis}  
+# Phân tích khảo sát {#survey-analysis}  
 
 <!-- ======================================================= -->
 ## Overview {  }
@@ -20960,7 +20960,7 @@ options(scipen=1, digits=7)
 <!-- ======================================================= -->
 <!-- ======================================================= -->
 <!-- ======================================================= -->
-# Phân tích sống còn {#survival_analysis}  
+# Phân tích sống còn {#survival-analysis}  
 
 
 ```{r out.width = c('75%'), fig.align='center', fig.show='hold', echo=F}
@@ -22872,7 +22872,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/cat_data_viz.Rmd-->
 
 
-# Trình bày bảng {#tables_presentation}  
+# Trình bày bảng {#tables-presentation}  
 
 
 ```{r echo=FALSE, fig.show='hold', message=FALSE, warning=FALSE, out.width=c('50%', '50%')}
@@ -23458,7 +23458,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/tables_presentation.Rmd-->
 
 
-# ggplot cơ bản {#ggplot_basics}
+# ggplot cơ bản {#ggplot-basics}
 
 ```{r, out.width=c('100%', '100%'), fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "ggplot_basics_top.png"))
@@ -24669,7 +24669,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/ggplot_basics.Rmd-->
 
 
-# Các tips với ggplot {#ggplot_tips}
+# Các tips với ggplot {#ggplot-tips}
 
 In this page we will cover tips and tricks to make your ggplots sharp and fancy. See the page on [ggplot basics] for the fundamentals.  
 
@@ -28173,7 +28173,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/epicurves.Rmd-->
 
 
-# Tháp dân số và thang đo Likert {#age_pyramid}  
+# Tháp dân số và thang đo Likert {#age-pyramid}  
 
 
 
@@ -30404,7 +30404,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/diagrams.Rmd-->
 
 
-# Biểu đồ kết hợp {#combination_analysis}  
+# Biểu đồ kết hợp {#combination-analysis}  
 
 ```{r echo=F, out.width= "75%", warning=F, message=F}
 pacman::p_load(tidyverse,
@@ -30730,7 +30730,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/combination_analysis.Rmd-->
 
 
-# Chuỗi lây nhiễm {#transmission_chains}
+# Chuỗi lây nhiễm {#transmission-chains}
 
 
 <!-- ======================================================= -->
@@ -31507,7 +31507,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/transmission_chains.Rmd-->
 
 
-# Cây phả hệ {#phylogenetic_trees}  
+# Cây phả hệ {#phylogenetic-trees}  
 
 
 <!-- ======================================================= -->
@@ -32214,7 +32214,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/phylogenetic_trees.Rmd-->
 
 
-# Biểu đồ tương tác {#interactive_plots}  
+# Biểu đồ tương tác {#interactive-plots}  
 
 Data visualisation is increasingly required to be interrogable by the audience. Consequently, is is becoming common to create interactive plots. There are several ways to include these but the two most common are **plotly** and **shiny**. 
 
@@ -34314,7 +34314,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/flexdashboard.Rmd-->
 
 
-# Dashboards với Shiny {#shiny_basics}  
+# Dashboards với Shiny {#shiny-basics}  
 
 Dashboards are often a great way to share results from analyses with others. Producing a dashboard with **shiny** requires a relatively advanced knowledge of the R language, but offers incredible customization and possibilities.  
 
@@ -35801,7 +35801,7 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/cat_misc.Rmd-->
 
-# Viết hàm {#writing_functions} 
+# Viết hàm {#writing-functions} 
 
 
 <!-- ======================================================= -->
@@ -38302,7 +38302,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/help.Rmd-->
 
 
-# R trên ổ cứng mạng {#network_drives}  
+# R trên ổ cứng mạng {#network-drives}  
 
  
 
@@ -38522,7 +38522,7 @@ options(scipen=1, digits=7)
 <!--chapter:end:new_pages/network_drives.Rmd-->
 
 
-# Data Table {#data_table}  
+# Data Table {#data-table}  
      
 The handbook focusses on the **dplyr** “verb” functions and the **magrittr** pipe operator `%>%` as a method to clean and group data, but the **data.table** package offers an alternative method that you may encounter in your R career.  
 

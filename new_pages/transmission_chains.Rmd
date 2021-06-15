@@ -1,5 +1,5 @@
 
-# Chuỗi lây nhiễm {#transmission_chains}
+# Chuỗi lây nhiễm {#transmission-chains}
 
 
 <!-- ======================================================= -->
