@@ -8,7 +8,7 @@ Chương này minh họa cách sử dụng các package **janitor**, **dplyr**, 
 
 *Chương này bao gồm cách để tạo* bảng cơ bản, trong khi đó chương [Trình bày bảng] bao gồm cách để định dạng đẹp và in chúng.\*
 
-Mỗi package này đều có những ưu và nhược điểm trong các khía cạnh về code đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.
+Mỗi package này đều có những ưu và nhược điểm trong từng khía cạnh như sự đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.
 
 Bạn có một số lựa chọn khi tạo bảng tóm tắt và bảng chéo. Một số yếu tố cần xem xét bao gồm tính đơn giản của code, khả năng tùy chỉnh, đầu ra mong muốn (được in ra R console, dưới dạng dataframe hoặc dưới dạng hình ảnh "đẹp" .png/.jpeg /.html) và dễ xử lý hậu kỳ. Hãy xem xét các điểm dưới đây khi bạn chọn công cụ cho tình huống của mình.
 
