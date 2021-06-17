@@ -7,12 +7,12 @@ các-bản-sửa-đổi-chính
 thông-tin-phiên-làm-việc-r-rstudio-packages
 data-used
 tải-sách-ngoại-tuyến
-tải-dữ-liệu-xuống-để-cùng-theo-dõi
+tải-dữ-liệu-xuống-để-tiện-theo-dõi
 basics
-tại-sao-lại-sử-dụng-r
-key-terms
+tại-sao-sử-dụng-r
+các-thuật-ngữ-chính
 learning
-installation
+cài-đặt
 rstudio
 functions
 packages
@@ -229,7 +229,7 @@ time-dependent-covariates-in-survival-models
 resources-19
 gis
 overview-6
-key-terms-1
+key-terms
 getting-started-with-gis
 preparation-18
 plotting-coordinates

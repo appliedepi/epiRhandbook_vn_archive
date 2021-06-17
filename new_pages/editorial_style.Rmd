@@ -1,49 +1,49 @@
 # Biên tập và ghi chú kỹ thuật {#editorial-style}
 
-Trong chương này, chúng tôi mô tả triết lý và phong cách viết code, cũng như quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
+Trong chương này, chúng tôi sẽ mô tả triết lý và phong cách viết code, cũng như các quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
 
 ## Cách tiếp cận và phong cách
 
-Độc giả tiềm năng của cuốn sách này là lớn, bao gồm những người hoàn toàn mới đối với R, và cả những người dùng R có kinh nghiệm đang tìm kiếm các phương pháp và mẹo hay nhất. Vì vậy, nó phải vừa dễ tiếp cận vừa ngắn gọn. Do đó, cách tiếp cận của chúng tôi là cung cấp lượng văn bản giải thích *vừa đủ* để một người mới sử dụng R cũng có thể áp dụng code và hiểu code đang làm gì.
+Độc giả tiềm năng của cuốn sách này là rất lớn, bao gồm những người hoàn toàn mới đối với R, và cả những người dùng R có kinh nghiệm đang tìm kiếm cho mình các phương pháp và mẹo hay nhất. Vì vậy, cuốn sách cần phải vừa dễ tiếp cận vừa ngắn gọn. Do đó, cách tiếp cận của chúng tôi là cung cấp lượng văn bản giải thích *vừa đủ* để một người mới sử dụng R cũng có thể áp dụng code và hiểu code đang làm gì.
 
 Một vài điểm lưu ý:
 
 -   Đây là cuốn sách tham khảo về code đi kèm với những ví dụ tương đối ngắn gọn - *không phải* một cuốn sách giáo khoa về R hay khoa học dữ liệu\
--   Đây là một cuốn *sổ tay về R* sử dụng trong dịch tễ học ứng dụng - không phải là cẩm nang về các phương pháp của dịch tễ học ứng dụng\
--   Cuốn sách dự kiến sẽ là một tài liệu động - các R packages tối ưu cho một nhiệm vụ được thay đổi thường xuyên, do đó chúng tôi hoan nghênh những thảo luận về những điều được nhấn mạnh trong cuốn sách này
+-   Đây là một cuốn *sổ tay về R* sử dụng trong dịch tễ học ứng dụng - không phải là một hướng dẫn về các phương pháp của dịch tễ học ứng dụng\
+-   Cuốn sách dự kiến sẽ luôn được thay đổi và cập nhập do các R packages tối ưu cho một nhiệm vụ luôn được thay đổi thường xuyên, vì vậy chúng tôi hoan nghênh những thảo luận về những điều được nhấn mạnh trong cuốn sách này
 
 ### R packages {.unnumbered}
 
 **Quá nhiều lựa chọn**
 
-Một trong những khía cạnh thách thức nhất của việc học R là biết package nào được sử dụng cho công việc nào. Việc vật lộn với một công việc mà chỉ sau này mới nhận ra là điều thường thấy - Và này, có một R package thực hiện tất cả những điều đó trong một dòng lệnh!
+Một trong những khía cạnh thách thức nhất của việc học R là bạn biết package nào được sử dụng trong trường hợp nào. Việc vật lộn với một công việc mà chỉ sau này bạn nhận ra là có một package R giúp bạn thực hiện tất cả những điều đó trong một dòng lệnh là điều không hề hiếm gặp!
 
-Trong sổ tay này, chúng tôi cố gắng cung cấp cho bạn ít nhất hai cách để hoàn thành mỗi nhiệm vụ: một phương pháp đã thử và đúng (có thể là **base** R hoặc **tidyverse**) và một R package đặc biệt được thiết kế riêng cho mục đích đó. Chúng tôi muốn bạn có một số tùy chọn trong trường hợp bạn không thể tải xuống một gói nhất định hoặc gói đó không hoạt động với bạn.
+Trong sổ tay này, chúng tôi cố gắng cung cấp cho bạn ít nhất hai cách để hoàn thành công việc: một phương pháp đã thử và đúng (có thể là **base** R hoặc **tidyverse**) và một R package đặc biệt được thiết kế riêng cho mục đích đó. Chúng tôi muốn bạn có một số tùy chọn trong trường hợp bạn không thể tải xuống một package nhất định hoặc package đó không hoạt động với bạn.
 
-Khi lựa chọn package để làm việc, chúng tôi ưu tiên các R package và phương pháp tiếp cận đã được cộng đồng thử nghiệm và hiệu chỉnh, giảm thiểu số lượng package được sử dụng trong một phiên làm việc điển hình, bao gồm sự ổn định (không thay đổi thường xuyên) và hoàn thành nhiệm vụ một cách đơn giản và gọn gàng
+Khi lựa chọn package để làm việc, chúng tôi ưu tiên các R package và phương pháp tiếp cận đã được cộng đồng thử nghiệm và hiệu chỉnh, giảm thiểu số lượng package được sử dụng trong một phiên làm việc điển hình, bao gồm sự ổn định (không thay đổi thường xuyên) và giúp hoàn thành nhiệm vụ một cách đơn giản và gọn gàng
 
 Cuốn sách này ưu tiện các package và câu lệnh từ thư viện **tidyverse**. Tidyverse là một tuyển tập các R package được thiết kế dành riêng cho khoa học dữ liệu, trong đó các package này chia sẻ nền tảng ngữ pháp và cấu trúc dữ liệu chung. Tất cả các package từ thư viện tidyverse có thể được cài đặt hoặc gọi thông qua thư viện **tidyverse**. Đọc thêm tại [tidyverse website](https://www.tidyverse.org/).
 
-Khi thích hợp, chúng tôi cũng cung cấp các tùy chọn code sử dụng **base** R - các packages và hàm đi kèm với R khi cài đặt. Điều này là do chúng tôi nhận thấy rằng một số độc giả của cuốn sách này có thể không có Internet tốt để tải xuống các package bổ sung.
+Khi thích hợp, chúng tôi cũng cung cấp các tùy chọn code sử dụng **base** R - là các packages và hàm có sẵn của R khi cài đặt. Điều này là do chúng tôi nhận thấy rằng một số độc giả của cuốn sách này có thể không có Internet tốt để tải xuống các package bổ sung.
 
 **Liên kết các hàm và packages một cách rõ ràng**
 
 Trong các hướng dẫn về R thường rất khó chịu khi một hàm được hiển thị trong code, nhưng bạn không biết hàm đó đến từ package nào! Chúng tôi cố gắng tránh tình trạng này.
 
-Trong các đoạn văn bản trần thuật, tên các package được viết in đậm (ví dụ: **dplyr**) và các hàm được viết như sau: `mutate()`. Chúng tôi cố gắng nói rõ ràng về một hàm đến từ package nào, bằng cách tham chiếu package đó trong văn bản gần đó hoặc bằng cách chỉ định package đó một cách rõ ràng trong đoạn code như sau: `dplyr::mutate()`. Điều này nhìn có vẻ thừa thãi, nhưng chúng tôi làm điều đó có mục đích.
+Trong các đoạn văn bản trần thuật, tên các package được viết in đậm (ví dụ: **dplyr**) và các hàm được viết như sau: `mutate()`. Chúng tôi cố gắng nói rõ ràng về một hàm đến từ package nào, bằng cách tham chiếu package đó trong đoạn văn bản gần đó hoặc nhấn mạnh package đó một cách rõ ràng trong đoạn code như sau: `dplyr::mutate()`. Điều này nhìn có vẻ thừa thãi, nhưng chúng tôi làm điều đó là có mục đích.
 
-Tham khảo thêm chữ R cơ bản để hiểu thêm về package và hàm.
+Tham khảo thêm chương [R cơ bản] để hiểu thêm về package và hàm.
 
-### Phong cách Code {.unnumbered}
+### Phong cách viết code {.unnumbered}
 
-Trong sổ tay này, chúng tôi thường tận dụng "thêm dòng mới", điều này làm cho code có vẻ "dài hơn". Chúng tôi làm vậy vì một vài lý do sau đây:
+Trong sổ tay này, chúng tôi thường viết theo phong cách "thêm dòng mới", điều này làm cho code trông có vẻ "dài hơn". Chúng tôi làm vậy vì một vài lý do sau đây:
 
 -   Chúng tôi có thể viết các giải thích bằng `#` bên cạnh mỗi phần nhỏ của code\
 -   Nhìn chung, code dài hơn (theo chiều dọc) thì dễ đọc hơn\
 -   Nó cũng dễ đọc hơn trong một diện tích màn hình hẹp (không cần kéo thanh điều hướng trái phải)\
 -   Từ việc thụt lề, có thể dễ dàng hơn để biết arguments nào thuộc về hàm nào
 
-Kết quả là, code *có thể* được viết trông như thế này:
+Kết quả là, code *lẽ ra* sẽ được viết trông như thế này:
 
 ```{r, eval=F}
 linelist %>% 
@@ -62,39 +62,39 @@ linelist %>%
     with_ties = F)       # if there's a tie (of date), take the first row
 ```
 
-R code is generally not affected by new lines or indentations. When writing code, if you initiate a new line after a comma it will apply automatic indentation patterns.
+Code R thường không bị ảnh hưởng bởi thêm các dòng mới hoặc thụt lề. Khi viết code, nếu bạn xuống dòng ngay sau dấu phẩy thì R sẽ tự động thụt lề cho bạn.
 
-We also use lots of spaces (e.g. `n = 1` instead of `n=1`) because it is easier to read. Be kind to the people reading your code!
+Chúng tôi cũng sử dụng rất nhiều những khoảng cách (ví dụ `n = 1` thay vì `n=1`) vì nó giúp dễ đọc hơn. Hãy văn minh với những người đang đọc code của bạn!
 
 ### Danh pháp {.unnumbered}
 
-Trong sổ tay này, chúng tôi thường đề cập đến "cột" và "hàng" thay vì dùng "biến" và "quan sát". Như đã giải thích trong phần sơ lược này về ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu thống kê dịch tễ học bao gồm các hàng, cột và giá trị theo cấu trúc
+Trong sổ tay này, chúng tôi thường đề cập đến "cột" và "hàng" thay vì dùng "biến" và "quan sát". Như đã giải thích trong phần sơ lược về ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu thống kê dịch tễ học bao gồm các hàng, cột và giá trị theo cấu trúc
 
-*Biến số* chứa các giá trị đo lường cùng một thuộc tính cơ bản (như nhóm tuổi, kết cục hoặc ngày khởi phát). *Các quan sát* bao gồm tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó xác định một cách hữu hình hơn.
+*Biến số* chứa các giá trị đo lường của cùng một thuộc tính (như nhóm tuổi, kết cục hoặc ngày khởi phát). *Các quan sát* bao gồm tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó được định nghĩa một cách cụ thể.
 
 Trong một bộ dữ liệu "tidy", mỗi cột là một biến số, mỗi hàng là một quan sát và mỗi ô là một giá trị duy nhất. Tuy nhiên, bạn có thể gặp một số bộ dữ liệu không phù hợp với quy luật này - bộ dữ liệu định dạng "ngang" có thể có một biến số được chia thành nhiều cột (xem ví dụ trong chương Pivoting dữ liệu). Tương tự như vậy, các quan sát có thể được trải thành nhiều hàng.
 
-Phần lớn cuốn sách này tập trung vào quản lý và hoán chuyển dữ liệu, vì vậy việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ liên quan hơn là đề cập tới các khái niệm trừu tượng như các quan sát và biến. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, ở đó chúng tôi đề cập nhiều hơn đến các biến số và quan sát.
+Phần lớn cuốn sách này tập trung vào quản lý và biến đổi dữ liệu, vì vậy việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ liên quan hơn là đề cập tới các khái niệm trừu tượng như các quan sát và biến. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, ở đó chúng tôi đề cập nhiều hơn đến các biến số và quan sát.
 
 ### Lưu ý {.unnumbered}
 
 Dưới đây là một vài lưu ý bạn có thể gặp trong cuốn sách:
 
-[***NOTE:*** Đây là note]{style="color: black;"}\
-[***TIP:*** Đây là tip.]{style="color: darkgreen;"}\
-[***CAUTION:*** Đây là note cảnh giác.]{style="color: orange;"}\
-[***DANGER:*** Đây là note cảnh báo.]{style="color: red;"}
+[***GHI CHÚ:*** Đây là ghi chú]{style="color: black;"}\
+[***MẸO:*** Đây là mẹo.]{style="color: darkgreen;"}\
+[***CẨN TRỌNG:*** Đây là ghi chú cẩn trọng.]{style="color: orange;"}\
+[***NGUY HIỂM:*** Đây là một cảnh báo.]{style="color: red;"}
 
 ## Quyết định biên tập
 
-Dưới đây, chúng tôi ghi nhận các quyết định biên tập quan trọng về việc lựa chọn package và hàm. Nếu bạn không đồng ý hoặc muốn đưa ra một công cụ mới để xem xét, vui lòng tham gia /bắt đầu cuộc trò chuyện trên [Trang Github](https://github.com/epirhandbook/Epi_R_handbook) của chúng tôi.
+Dưới đây, chúng tôi ghi lại các quyết định biên tập quan trọng về việc lựa chọn package và hàm. Nếu bạn không đồng ý hoặc muốn đưa ra một công cụ mới để xem xét, vui lòng tham gia/bắt đầu cuộc thảo luận trên [Trang Github](https://github.com/epirhandbook/Epi_R_handbook) của chúng tôi.
 
 **Bảng các package, hàm, và các quyết định biên tập khác**
 
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Chủ đề                    | Cân nhắc                                                                       | Lựa chọn                                                                                                           | Lý do ngắn gọn                                                                       |
 +===========================+================================================================================+====================================================================================================================+======================================================================================+
-| Phương pháp code chung    | **tidyverse**, **data.table**, **base**                                        | **tidyverse**, với 1 trang về **data.table**, các giải pháp thay thế từ **base** R cho người đọc không có internet | **tidyverse** dễ đọc, phổ biến, được dạy nhiều nhất                                  |
+| Phương pháp code chung    | **tidyverse**, **data.table**, **base**                                        | **tidyverse**, với 1 chương về **data.table**, các giải pháp thay thế từ **base** R cho người đọc không có internet | **tidyverse** dễ đọc, phổ biến, được dạy nhiều nhất                                  |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Gọi Package               | `library()`,`install.packages()`, `require()`, **pacman**                      | **pacman**                                                                                                         | Rút ngắn và đơn giản hóa code cho hầu hết các trường hợp cài đặt / tải nhiều package |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
@@ -106,7 +106,7 @@ Dưới đây, chúng tôi ghi nhận các quyết định biên tập quan tr�
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Làm sạch tên cột          | **linelist**, **janitor**                                                      | **janitor**                                                                                                        | Hợp nhất các package được nhắc đến                                                   |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
-| Epiweeks                  | **lubridate**, **aweek**, **tsibble**, **zoo**                                 | thông thường **lubridate** ,các package khác cho các trường hợp cụ thể                                             | **lubridate's** tính dễ đọc, tính nhất quán, triển vọng bảo trì gói                  |
+| Epiweeks                  | **lubridate**, **aweek**, **tsibble**, **zoo**                                 | thông thường là **lubridate** ,các package khác tùy trường hợp cụ thể                                             | **lubridate** dễ đọc, có tính nhất quán, và triển vọng bảo trì gói                  |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Nhãn ggplot               | `labs()`, `ggtitle()`/`ylab()`/`xlab()`                                        | `labs()`                                                                                                           | tất cả các nhãn ở một nơi, đơn giản                                                  |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+

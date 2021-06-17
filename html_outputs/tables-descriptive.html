@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>17 Bảng mô tả | Sổ tay dịch tễ học với R</title>
+<title>17 Bảng mô tả | Cẩm nang dịch tễ học với R</title>
 <meta name="author" content="the handbook team">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.6.4/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
-        <a href="index.html" title="">Sổ tay dịch tễ học với R</a>
+        <a href="index.html" title="">Cẩm nang dịch tễ học với R</a>
       </h1>
       <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
@@ -119,7 +119,7 @@
 <div class="inline-figure"><img src="images/descriptive_tables.png" width="75%" style="display: block; margin: auto;"></div>
 <p>Chương này minh họa cách sử dụng các package <strong>janitor</strong>, <strong>dplyr</strong>, <strong>gtsummary</strong>, <strong>rstatix</strong>, và <strong>base</strong> R để tóm tắt dữ liệu và tạo bảng với thống kê mô tả.</p>
 <p><em>Chương này bao gồm cách để tạo</em> bảng cơ bản, trong khi đó chương <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a> bao gồm cách để định dạng đẹp và in chúng.*</p>
-<p>Mỗi package này đều có những ưu và nhược điểm trong các khía cạnh về code đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.</p>
+<p>Mỗi package này đều có những ưu và nhược điểm trong từng khía cạnh như sự đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.</p>
 <p>Bạn có một số lựa chọn khi tạo bảng tóm tắt và bảng chéo. Một số yếu tố cần xem xét bao gồm tính đơn giản của code, khả năng tùy chỉnh, đầu ra mong muốn (được in ra R console, dưới dạng dataframe hoặc dưới dạng hình ảnh “đẹp” .png/.jpeg /.html) và dễ xử lý hậu kỳ. Hãy xem xét các điểm dưới đây khi bạn chọn công cụ cho tình huống của mình.</p>
 <ul>
 <li>Dùng <code>tabyl()</code> từ <strong>janitor</strong> để tạo và “làm đẹp” cho bảng và bảng chéo<br>
@@ -161,8 +161,8 @@
 <code class="sourceCode R"><span class="co"># import the linelist</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
 <p>50 hàng đầu tiên của linelist được hiển thị như dưới đây.</p>
-<div id="htmlwidget-a82f35c3e1d51925231f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a82f35c3e1d51925231f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<div id="htmlwidget-5f144e4b4e482b0d916b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5f144e4b4e482b0d916b">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
 <div id="duyệt-dữ-liệu" class="section level2" number="17.2">
@@ -1417,78 +1417,78 @@ days_onset_hosp
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html">flextable</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>    <span class="co"># convert to pretty image</span>
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/autofit.html">autofit</a></span><span class="op">(</span><span class="op">)</span>          <span class="co"># format to one line per row </span></code></pre></div>
 <div class="tabwid">
-<style>.cl-8f22fae6{border-collapse:collapse;}.cl-8f0adbaa{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-8f0b2998{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-8f0bc560{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc561{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc562{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc563{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc564{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc565{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc566{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc567{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc568{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc569{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bc56a{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8f0bec52{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-8f22fae6">
+<style>.cl-41f5e582{border-collapse:collapse;}.cl-41e519f0{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-41e519f1{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-41e77d3a{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d3b{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d3c{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d3d{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d3e{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d3f{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d40{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d41{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d42{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d43{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e77d44{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41e9df58{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-41f5e582">
 <thead><tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc568"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">Age Category/Gender</span></p></td>
-<td class="cl-8f0bc569"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">f</span></p></td>
-<td class="cl-8f0bc569"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">m</span></p></td>
-<td class="cl-8f0bc56a"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">NA_</span></p></td>
-<td class="cl-8f0bec52"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">Total</span></p></td>
+<td class="cl-41e77d42"><p class="cl-41e519f1"><span class="cl-41e519f0">Age Category/Gender</span></p></td>
+<td class="cl-41e77d43"><p class="cl-41e519f1"><span class="cl-41e519f0">f</span></p></td>
+<td class="cl-41e77d43"><p class="cl-41e519f1"><span class="cl-41e519f0">m</span></p></td>
+<td class="cl-41e77d44"><p class="cl-41e519f1"><span class="cl-41e519f0">NA_</span></p></td>
+<td class="cl-41e9df58"><p class="cl-41e519f1"><span class="cl-41e519f0">Total</span></p></td>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">0-4</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">640 (22.8%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">416 (14.8%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">39 (14.0%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">1095 (18.6%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">0-4</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">640 (22.8%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">416 (14.8%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0">39 (14.0%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0">1095 (18.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">5-9</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">641 (22.8%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">412 (14.7%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">42 (15.1%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">1095 (18.6%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">5-9</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">641 (22.8%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">412 (14.7%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0">42 (15.1%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0">1095 (18.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">10-14</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">518 (18.5%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">383 (13.7%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">40 (14.4%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa"> 941 (16.0%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">10-14</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">518 (18.5%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">383 (13.7%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0">40 (14.4%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0"> 941 (16.0%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">15-19</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">359 (12.8%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">364 (13.0%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">20  (7.2%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa"> 743 (12.6%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">15-19</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">359 (12.8%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">364 (13.0%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0">20  (7.2%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0"> 743 (12.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">20-29</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">468 (16.7%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">575 (20.5%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">30 (10.8%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">1073 (18.2%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">20-29</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">468 (16.7%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">575 (20.5%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0">30 (10.8%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0">1073 (18.2%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">30-49</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">179  (6.4%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">557 (19.9%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">18  (6.5%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa"> 754 (12.8%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">30-49</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">179  (6.4%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">557 (19.9%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0">18  (6.5%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0"> 754 (12.8%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">50-69</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">  2  (0.1%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa"> 91  (3.2%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa"> 2  (0.7%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">  95  (1.6%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">50-69</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">  2  (0.1%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0"> 91  (3.2%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0"> 2  (0.7%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0">  95  (1.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc562"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">70+</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">  0  (0.0%)</span></p></td>
-<td class="cl-8f0bc563"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">  5  (0.2%)</span></p></td>
-<td class="cl-8f0bc561"><p class="cl-8f0b2998"><span class="cl-8f0adbaa"> 1  (0.4%)</span></p></td>
-<td class="cl-8f0bc560"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">   6  (0.1%)</span></p></td>
+<td class="cl-41e77d3c"><p class="cl-41e519f1"><span class="cl-41e519f0">70+</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">  0  (0.0%)</span></p></td>
+<td class="cl-41e77d3d"><p class="cl-41e519f1"><span class="cl-41e519f0">  5  (0.2%)</span></p></td>
+<td class="cl-41e77d3b"><p class="cl-41e519f1"><span class="cl-41e519f0"> 1  (0.4%)</span></p></td>
+<td class="cl-41e77d3a"><p class="cl-41e519f1"><span class="cl-41e519f0">   6  (0.1%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-8f0bc567"><p class="cl-8f0b2998"><span class="cl-8f0adbaa"></span></p></td>
-<td class="cl-8f0bc565"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">  0  (0.0%)</span></p></td>
-<td class="cl-8f0bc565"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">  0  (0.0%)</span></p></td>
-<td class="cl-8f0bc566"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">86 (30.9%)</span></p></td>
-<td class="cl-8f0bc564"><p class="cl-8f0b2998"><span class="cl-8f0adbaa">  86  (1.5%)</span></p></td>
+<td class="cl-41e77d41"><p class="cl-41e519f1"><span class="cl-41e519f0"></span></p></td>
+<td class="cl-41e77d3f"><p class="cl-41e519f1"><span class="cl-41e519f0">  0  (0.0%)</span></p></td>
+<td class="cl-41e77d3f"><p class="cl-41e519f1"><span class="cl-41e519f0">  0  (0.0%)</span></p></td>
+<td class="cl-41e77d40"><p class="cl-41e519f1"><span class="cl-41e519f0">86 (30.9%)</span></p></td>
+<td class="cl-41e77d3e"><p class="cl-41e519f1"><span class="cl-41e519f0">  86  (1.5%)</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -1684,8 +1684,8 @@ days_onset_hosp
   <span class="fu">group_by</span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>                         <span class="co"># group by outcome </span>
   <span class="fu">count</span><span class="op">(</span><span class="va">age_cat</span><span class="op">)</span> <span class="op">%&gt;%</span>                            <span class="co"># group and count by age_cat, and then remove age_cat grouping</span>
   <span class="fu">mutate</span><span class="op">(</span>percent <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/label_percent.html">percent</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># calculate percent - note the denominator is by outcome group</span></code></pre></div>
-<div id="htmlwidget-f94db9e93e5da1d3e1c0" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f94db9e93e5da1d3e1c0">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3ec1e84ce2b4012a5682" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3ec1e84ce2b4012a5682">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="plotting" class="section level3 unnumbered">
 <h3>Plotting<a class="anchor" aria-label="anchor" href="#plotting"><i class="fas fa-link"></i></a>
@@ -2017,8 +2017,8 @@ days_onset_hosp
   <span class="fu">group_by</span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>                         <span class="co"># group by outcome </span>
   <span class="fu">count</span><span class="op">(</span><span class="va">age_cat</span><span class="op">)</span> <span class="op">%&gt;%</span>                            <span class="co"># group and count by age_cat, and then remove age_cat grouping</span>
   <span class="fu">mutate</span><span class="op">(</span>percent <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/label_percent.html">percent</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># calculate percent - note the denominator is by outcome group</span></code></pre></div>
-<div id="htmlwidget-22cd1101e893dcdae8f3" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-22cd1101e893dcdae8f3">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>To pivot wider, we create the new columns from the <em>values</em> in the existing column <code>age_cat</code> (by setting <code>names_from = age_cat</code>). We also specify that the new table values will come from the existing column <code>n</code>, with <code>values_from = n</code>. The columns not mentioned in our pivoting command (<code>outcome</code>) will remain unchanged on the far left side.</p>
+<div id="htmlwidget-feb0fa76678582d74e99" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-feb0fa76678582d74e99">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>To pivot wider, we create the new columns from the <em>values</em> in the existing column <code>age_cat</code> (by setting <code>names_from = age_cat</code>). We also specify that the new table values will come from the existing column <code>n</code>, with <code>values_from = n</code>. The columns not mentioned in our pivoting command (<code>outcome</code>) will remain unchanged on the far left side.</p>
 <div class="sourceCode" id="cb888"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">age_by_outcome</span> <span class="op">%&gt;%</span> 
   <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">percent</span><span class="op">)</span> <span class="op">%&gt;%</span>   <span class="co"># keep only counts for simplicity</span>
@@ -2108,8 +2108,8 @@ days_onset_hosp
 <code class="sourceCode R"><span class="va">table_long</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">by_hospital</span>, <span class="va">totals</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>hospital <span class="op">=</span> <span class="fu">replace_na</span><span class="op">(</span><span class="va">hospital</span>, <span class="st">"Total"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Here is the new table with “Total” rows at the bottom.</p>
-<div id="htmlwidget-7a39356c9decda3fa7db" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7a39356c9decda3fa7db">{"x":{"filter":"none","data":[["Central Hospital","Central Hospital","Military Hospital","Military Hospital","Other","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Total","Total"],["Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover"],[193,165,399,309,395,290,785,579,199,126,1971,1469],[22,22,21,22,22,21,22,21,22,22,22,22]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>hospital<\/th>\n      <th>outcome<\/th>\n      <th>N<\/th>\n      <th>ct_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>This table is in a “long” format, which may be what you want. <em>Optionally</em>, you can <em>pivot</em> this table <em>wider</em> to make it more readable. See the section on pivoting wider above, and the [Pivoting data] page. You can also add more columns, and arrange it nicely. This code is below.</p>
+<div id="htmlwidget-dc969637aefc4414a313" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dc969637aefc4414a313">{"x":{"filter":"none","data":[["Central Hospital","Central Hospital","Military Hospital","Military Hospital","Other","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Total","Total"],["Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover"],[193,165,399,309,395,290,785,579,199,126,1971,1469],[22,22,21,22,22,21,22,21,22,22,22,22]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>hospital<\/th>\n      <th>outcome<\/th>\n      <th>N<\/th>\n      <th>ct_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>This table is in a “long” format, which may be what you want. <em>Optionally</em>, you can <em>pivot</em> this table <em>wider</em> to make it more readable. See the section on pivoting wider above, and the [Pivoting data] page. You can also add more columns, and arrange it nicely. This code is below.</p>
 <div class="sourceCode" id="cb897"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">table_long</span> <span class="op">%&gt;%</span> 
   
@@ -2140,94 +2140,94 @@ days_onset_hosp
 ## 6 Total                                   3440      1469 42.7%                     22    1971 57.3%                 22</code></pre>
 <p>And then you can print this nicely as an image - below is the output printed with <strong>flextable</strong>. You can read more in depth about this example and how to achieve this “pretty” table in the [Tables for presentation] page.</p>
 <div class="tabwid">
-<style>.cl-92967b6c{border-collapse:collapse;}.cl-92882fee{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-92882fef{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-92882ff0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-92882ff1{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-92882ff2{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92882ff3{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92882ff4{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92882ff5{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92882ff6{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92882ff7{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92882ff8{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91c6{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91c7{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91c8{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91c9{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91ca{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91cb{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91cc{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91cd{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91ce{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91cf{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928a91d0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928cf268{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-928cf269{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-92967b6c">
+<style>.cl-4460e24a{border-collapse:collapse;}.cl-44529528{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-44529529{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4452952a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-4452952b{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-4452952c{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4452952d{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4452952e{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4452952f{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-44529530{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-44529531{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-44529532{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f778{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f779{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f77a{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f77b{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f77c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f77d{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f77e{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f77f{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f780{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f781{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4454f782{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4457596e{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4457596f{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-4460e24a">
 <thead>
 <tr style="overflow-wrap:break-word;">
-<td rowspan="2" class="cl-928a91cd"><p class="cl-92882ff0"><span class="cl-92882fee">Hospital</span></p></td>
-<td rowspan="2" class="cl-928a91cb"><p class="cl-92882ff1"><span class="cl-92882fee">Total cases with known outcome</span></p></td>
-<td colspan="3" class="cl-928a91ca"><p class="cl-92882ff1"><span class="cl-92882fee">Recovered</span></p></td>
-<td colspan="3" class="cl-928a91ca"><p class="cl-92882ff1"><span class="cl-92882fee">Died</span></p></td>
+<td rowspan="2" class="cl-4454f77f"><p class="cl-4452952a"><span class="cl-44529528">Hospital</span></p></td>
+<td rowspan="2" class="cl-4454f77d"><p class="cl-4452952b"><span class="cl-44529528">Total cases with known outcome</span></p></td>
+<td colspan="3" class="cl-4454f77c"><p class="cl-4452952b"><span class="cl-44529528">Recovered</span></p></td>
+<td colspan="3" class="cl-4454f77c"><p class="cl-4452952b"><span class="cl-44529528">Died</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-928a91d0"><p class="cl-92882ff1"><span class="cl-92882fef">Total</span></p></td>
-<td class="cl-928cf268"><p class="cl-92882ff1"><span class="cl-92882fef">% of cases</span></p></td>
-<td class="cl-928a91ce"><p class="cl-92882ff1"><span class="cl-92882fef">Median CT values</span></p></td>
-<td class="cl-928a91d0"><p class="cl-92882ff1"><span class="cl-92882fef">Total</span></p></td>
-<td class="cl-928cf268"><p class="cl-92882ff1"><span class="cl-92882fef">% of cases</span></p></td>
-<td class="cl-928cf268"><p class="cl-92882ff1"><span class="cl-92882fef">Median CT values</span></p></td>
+<td class="cl-4454f782"><p class="cl-4452952b"><span class="cl-44529529">Total</span></p></td>
+<td class="cl-4457596e"><p class="cl-4452952b"><span class="cl-44529529">% of cases</span></p></td>
+<td class="cl-4454f780"><p class="cl-4452952b"><span class="cl-44529529">Median CT values</span></p></td>
+<td class="cl-4454f782"><p class="cl-4452952b"><span class="cl-44529529">Total</span></p></td>
+<td class="cl-4457596e"><p class="cl-4452952b"><span class="cl-44529529">% of cases</span></p></td>
+<td class="cl-4457596e"><p class="cl-4452952b"><span class="cl-44529529">Median CT values</span></p></td>
 </tr>
 </thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-92882ff3"><p class="cl-92882ff0"><span class="cl-92882fef">St. Mark's Maternity Hospital (SMMH)</span></p></td>
-<td class="cl-92882ff4"><p class="cl-92882ff1"><span class="cl-92882fef">325</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">126</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">38.8%</span></p></td>
-<td class="cl-92882ff5"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">199</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">61.2%</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
+<td class="cl-4452952d"><p class="cl-4452952a"><span class="cl-44529529">St. Mark's Maternity Hospital (SMMH)</span></p></td>
+<td class="cl-4452952e"><p class="cl-4452952b"><span class="cl-44529529">325</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">126</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">38.8%</span></p></td>
+<td class="cl-4452952f"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">199</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">61.2%</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-92882ff3"><p class="cl-92882ff0"><span class="cl-92882fef">Central Hospital</span></p></td>
-<td class="cl-92882ff4"><p class="cl-92882ff1"><span class="cl-92882fef">358</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">165</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">46.1%</span></p></td>
-<td class="cl-92882ff5"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">193</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">53.9%</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
+<td class="cl-4452952d"><p class="cl-4452952a"><span class="cl-44529529">Central Hospital</span></p></td>
+<td class="cl-4452952e"><p class="cl-4452952b"><span class="cl-44529529">358</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">165</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">46.1%</span></p></td>
+<td class="cl-4452952f"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">193</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">53.9%</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-92882ff3"><p class="cl-92882ff0"><span class="cl-92882fef">Other</span></p></td>
-<td class="cl-92882ff4"><p class="cl-92882ff1"><span class="cl-92882fef">685</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">290</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">42.3%</span></p></td>
-<td class="cl-92882ff5"><p class="cl-92882ff1"><span class="cl-92882fef">21</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">395</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">57.7%</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
+<td class="cl-4452952d"><p class="cl-4452952a"><span class="cl-44529529">Other</span></p></td>
+<td class="cl-4452952e"><p class="cl-4452952b"><span class="cl-44529529">685</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">290</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">42.3%</span></p></td>
+<td class="cl-4452952f"><p class="cl-4452952b"><span class="cl-44529529">21</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">395</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">57.7%</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-92882ff3"><p class="cl-92882ff0"><span class="cl-92882fef">Military Hospital</span></p></td>
-<td class="cl-92882ff4"><p class="cl-92882ff1"><span class="cl-92882fef">708</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">309</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">43.6%</span></p></td>
-<td class="cl-92882ff5"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">399</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">56.4%</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">21</span></p></td>
+<td class="cl-4452952d"><p class="cl-4452952a"><span class="cl-44529529">Military Hospital</span></p></td>
+<td class="cl-4452952e"><p class="cl-4452952b"><span class="cl-44529529">708</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">309</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">43.6%</span></p></td>
+<td class="cl-4452952f"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">399</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">56.4%</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">21</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-92882ff3"><p class="cl-92882ff0"><span class="cl-92882fef">Missing</span></p></td>
-<td class="cl-92882ff4"><p class="cl-92882ff1"><span class="cl-92882fef">1,125</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">514</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">45.7%</span></p></td>
-<td class="cl-92882ff5"><p class="cl-92882ff1"><span class="cl-92882fef">21</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fef">611</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">54.3%</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fef">21</span></p></td>
+<td class="cl-4452952d"><p class="cl-4452952a"><span class="cl-44529529">Missing</span></p></td>
+<td class="cl-4452952e"><p class="cl-4452952b"><span class="cl-44529529">1,125</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">514</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">45.7%</span></p></td>
+<td class="cl-4452952f"><p class="cl-4452952b"><span class="cl-44529529">21</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529529">611</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">54.3%</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529529">21</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-92882ff3"><p class="cl-92882ff0"><span class="cl-92882fee">Port Hospital</span></p></td>
-<td class="cl-92882ff4"><p class="cl-92882ff1"><span class="cl-92882fee">1,364</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fee">579</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fee">42.4%</span></p></td>
-<td class="cl-92882ff5"><p class="cl-92882ff1"><span class="cl-92882fee">21</span></p></td>
-<td class="cl-92882ff6"><p class="cl-92882ff1"><span class="cl-92882fee">785</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fee">57.6%</span></p></td>
-<td class="cl-92882ff2"><p class="cl-92882ff1"><span class="cl-92882fee">22</span></p></td>
+<td class="cl-4452952d"><p class="cl-4452952a"><span class="cl-44529528">Port Hospital</span></p></td>
+<td class="cl-4452952e"><p class="cl-4452952b"><span class="cl-44529528">1,364</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529528">579</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529528">42.4%</span></p></td>
+<td class="cl-4452952f"><p class="cl-4452952b"><span class="cl-44529528">21</span></p></td>
+<td class="cl-44529530"><p class="cl-4452952b"><span class="cl-44529528">785</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529528">57.6%</span></p></td>
+<td class="cl-4452952c"><p class="cl-4452952b"><span class="cl-44529528">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-928a91c7"><p class="cl-92882ff0"><span class="cl-92882fef">Total</span></p></td>
-<td class="cl-92882ff7"><p class="cl-92882ff1"><span class="cl-92882fef">3,440</span></p></td>
-<td class="cl-928a91c6"><p class="cl-92882ff1"><span class="cl-92882fef">1,469</span></p></td>
-<td class="cl-92882ff8"><p class="cl-92882ff1"><span class="cl-92882fef">42.7%</span></p></td>
-<td class="cl-928a91c8"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
-<td class="cl-928a91c6"><p class="cl-92882ff1"><span class="cl-92882fef">1,971</span></p></td>
-<td class="cl-92882ff8"><p class="cl-92882ff1"><span class="cl-92882fef">57.3%</span></p></td>
-<td class="cl-92882ff8"><p class="cl-92882ff1"><span class="cl-92882fef">22</span></p></td>
+<td class="cl-4454f779"><p class="cl-4452952a"><span class="cl-44529529">Total</span></p></td>
+<td class="cl-44529531"><p class="cl-4452952b"><span class="cl-44529529">3,440</span></p></td>
+<td class="cl-4454f778"><p class="cl-4452952b"><span class="cl-44529529">1,469</span></p></td>
+<td class="cl-44529532"><p class="cl-4452952b"><span class="cl-44529529">42.7%</span></p></td>
+<td class="cl-4454f77a"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
+<td class="cl-4454f778"><p class="cl-4452952b"><span class="cl-44529529">1,971</span></p></td>
+<td class="cl-44529532"><p class="cl-4452952b"><span class="cl-44529529">57.3%</span></p></td>
+<td class="cl-44529532"><p class="cl-4452952b"><span class="cl-44529529">22</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -2254,7 +2254,7 @@ days_onset_hosp
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lvpobddyej .gt_table {
+#sdxfkdxptu .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2279,7 +2279,7 @@ days_onset_hosp
   border-left-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_heading {
+#sdxfkdxptu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2291,7 +2291,7 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_title {
+#sdxfkdxptu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2301,7 +2301,7 @@ days_onset_hosp
   border-bottom-width: 0;
 }
 
-#lvpobddyej .gt_subtitle {
+#sdxfkdxptu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2311,13 +2311,13 @@ days_onset_hosp
   border-top-width: 0;
 }
 
-#lvpobddyej .gt_bottom_border {
+#sdxfkdxptu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_col_headings {
+#sdxfkdxptu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2332,7 +2332,7 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_col_heading {
+#sdxfkdxptu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2352,7 +2352,7 @@ days_onset_hosp
   overflow-x: hidden;
 }
 
-#lvpobddyej .gt_column_spanner_outer {
+#sdxfkdxptu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2364,15 +2364,15 @@ days_onset_hosp
   padding-right: 4px;
 }
 
-#lvpobddyej .gt_column_spanner_outer:first-child {
+#sdxfkdxptu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lvpobddyej .gt_column_spanner_outer:last-child {
+#sdxfkdxptu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lvpobddyej .gt_column_spanner {
+#sdxfkdxptu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2384,7 +2384,7 @@ days_onset_hosp
   width: 100%;
 }
 
-#lvpobddyej .gt_group_heading {
+#sdxfkdxptu .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2406,7 +2406,7 @@ days_onset_hosp
   vertical-align: middle;
 }
 
-#lvpobddyej .gt_empty_group_heading {
+#sdxfkdxptu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2421,15 +2421,15 @@ days_onset_hosp
   vertical-align: middle;
 }
 
-#lvpobddyej .gt_from_md > :first-child {
+#sdxfkdxptu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lvpobddyej .gt_from_md > :last-child {
+#sdxfkdxptu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lvpobddyej .gt_row {
+#sdxfkdxptu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2448,7 +2448,7 @@ days_onset_hosp
   overflow-x: hidden;
 }
 
-#lvpobddyej .gt_stub {
+#sdxfkdxptu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2460,7 +2460,7 @@ days_onset_hosp
   padding-left: 12px;
 }
 
-#lvpobddyej .gt_summary_row {
+#sdxfkdxptu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2470,7 +2470,7 @@ days_onset_hosp
   padding-right: 5px;
 }
 
-#lvpobddyej .gt_first_summary_row {
+#sdxfkdxptu .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2480,7 +2480,7 @@ days_onset_hosp
   border-top-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_grand_summary_row {
+#sdxfkdxptu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2490,7 +2490,7 @@ days_onset_hosp
   padding-right: 5px;
 }
 
-#lvpobddyej .gt_first_grand_summary_row {
+#sdxfkdxptu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2500,11 +2500,11 @@ days_onset_hosp
   border-top-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_striped {
+#sdxfkdxptu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lvpobddyej .gt_table_body {
+#sdxfkdxptu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2513,7 +2513,7 @@ days_onset_hosp
   border-bottom-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_footnotes {
+#sdxfkdxptu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2527,13 +2527,13 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_footnote {
+#sdxfkdxptu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#lvpobddyej .gt_sourcenotes {
+#sdxfkdxptu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2547,46 +2547,46 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#lvpobddyej .gt_sourcenote {
+#sdxfkdxptu .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#lvpobddyej .gt_left {
+#sdxfkdxptu .gt_left {
   text-align: left;
 }
 
-#lvpobddyej .gt_center {
+#sdxfkdxptu .gt_center {
   text-align: center;
 }
 
-#lvpobddyej .gt_right {
+#sdxfkdxptu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lvpobddyej .gt_font_normal {
+#sdxfkdxptu .gt_font_normal {
   font-weight: normal;
 }
 
-#lvpobddyej .gt_font_bold {
+#sdxfkdxptu .gt_font_bold {
   font-weight: bold;
 }
 
-#lvpobddyej .gt_font_italic {
+#sdxfkdxptu .gt_font_italic {
   font-style: italic;
 }
 
-#lvpobddyej .gt_super {
+#sdxfkdxptu .gt_super {
   font-size: 65%;
 }
 
-#lvpobddyej .gt_footnote_marks {
+#sdxfkdxptu .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="lvpobddyej" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="sdxfkdxptu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -2714,7 +2714,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rvtdpetprf .gt_table {
+#xkirrnfryi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2739,7 +2739,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-left-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_heading {
+#xkirrnfryi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2751,7 +2751,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_title {
+#xkirrnfryi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2761,7 +2761,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-bottom-width: 0;
 }
 
-#rvtdpetprf .gt_subtitle {
+#xkirrnfryi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2771,13 +2771,13 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-top-width: 0;
 }
 
-#rvtdpetprf .gt_bottom_border {
+#xkirrnfryi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_col_headings {
+#xkirrnfryi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2792,7 +2792,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_col_heading {
+#xkirrnfryi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2812,7 +2812,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   overflow-x: hidden;
 }
 
-#rvtdpetprf .gt_column_spanner_outer {
+#xkirrnfryi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2824,15 +2824,15 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-right: 4px;
 }
 
-#rvtdpetprf .gt_column_spanner_outer:first-child {
+#xkirrnfryi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rvtdpetprf .gt_column_spanner_outer:last-child {
+#xkirrnfryi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rvtdpetprf .gt_column_spanner {
+#xkirrnfryi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2844,7 +2844,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   width: 100%;
 }
 
-#rvtdpetprf .gt_group_heading {
+#xkirrnfryi .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2866,7 +2866,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   vertical-align: middle;
 }
 
-#rvtdpetprf .gt_empty_group_heading {
+#xkirrnfryi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2881,15 +2881,15 @@ Use an equations to specify which statistics to show and how to display them. Th
   vertical-align: middle;
 }
 
-#rvtdpetprf .gt_from_md > :first-child {
+#xkirrnfryi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rvtdpetprf .gt_from_md > :last-child {
+#xkirrnfryi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rvtdpetprf .gt_row {
+#xkirrnfryi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2908,7 +2908,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   overflow-x: hidden;
 }
 
-#rvtdpetprf .gt_stub {
+#xkirrnfryi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2920,7 +2920,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-left: 12px;
 }
 
-#rvtdpetprf .gt_summary_row {
+#xkirrnfryi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2930,7 +2930,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-right: 5px;
 }
 
-#rvtdpetprf .gt_first_summary_row {
+#xkirrnfryi .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2940,7 +2940,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-top-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_grand_summary_row {
+#xkirrnfryi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2950,7 +2950,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-right: 5px;
 }
 
-#rvtdpetprf .gt_first_grand_summary_row {
+#xkirrnfryi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2960,11 +2960,11 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-top-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_striped {
+#xkirrnfryi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rvtdpetprf .gt_table_body {
+#xkirrnfryi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2973,7 +2973,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-bottom-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_footnotes {
+#xkirrnfryi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2987,13 +2987,13 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_footnote {
+#xkirrnfryi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#rvtdpetprf .gt_sourcenotes {
+#xkirrnfryi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3007,46 +3007,46 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#rvtdpetprf .gt_sourcenote {
+#xkirrnfryi .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#rvtdpetprf .gt_left {
+#xkirrnfryi .gt_left {
   text-align: left;
 }
 
-#rvtdpetprf .gt_center {
+#xkirrnfryi .gt_center {
   text-align: center;
 }
 
-#rvtdpetprf .gt_right {
+#xkirrnfryi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rvtdpetprf .gt_font_normal {
+#xkirrnfryi .gt_font_normal {
   font-weight: normal;
 }
 
-#rvtdpetprf .gt_font_bold {
+#xkirrnfryi .gt_font_bold {
   font-weight: bold;
 }
 
-#rvtdpetprf .gt_font_italic {
+#xkirrnfryi .gt_font_italic {
   font-style: italic;
 }
 
-#rvtdpetprf .gt_super {
+#xkirrnfryi .gt_super {
   font-size: 65%;
 }
 
-#rvtdpetprf .gt_footnote_marks {
+#xkirrnfryi .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="rvtdpetprf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="xkirrnfryi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3084,7 +3084,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#olwigrpcgh .gt_table {
+#xeulrgasti .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3109,7 +3109,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-left-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_heading {
+#xeulrgasti .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3121,7 +3121,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_title {
+#xeulrgasti .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3131,7 +3131,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-bottom-width: 0;
 }
 
-#olwigrpcgh .gt_subtitle {
+#xeulrgasti .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3141,13 +3141,13 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-top-width: 0;
 }
 
-#olwigrpcgh .gt_bottom_border {
+#xeulrgasti .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_col_headings {
+#xeulrgasti .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3162,7 +3162,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_col_heading {
+#xeulrgasti .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3182,7 +3182,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   overflow-x: hidden;
 }
 
-#olwigrpcgh .gt_column_spanner_outer {
+#xeulrgasti .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3194,15 +3194,15 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-right: 4px;
 }
 
-#olwigrpcgh .gt_column_spanner_outer:first-child {
+#xeulrgasti .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#olwigrpcgh .gt_column_spanner_outer:last-child {
+#xeulrgasti .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#olwigrpcgh .gt_column_spanner {
+#xeulrgasti .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3214,7 +3214,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   width: 100%;
 }
 
-#olwigrpcgh .gt_group_heading {
+#xeulrgasti .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3236,7 +3236,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   vertical-align: middle;
 }
 
-#olwigrpcgh .gt_empty_group_heading {
+#xeulrgasti .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3251,15 +3251,15 @@ Use an equations to specify which statistics to show and how to display them. Th
   vertical-align: middle;
 }
 
-#olwigrpcgh .gt_from_md > :first-child {
+#xeulrgasti .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#olwigrpcgh .gt_from_md > :last-child {
+#xeulrgasti .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#olwigrpcgh .gt_row {
+#xeulrgasti .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3278,7 +3278,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   overflow-x: hidden;
 }
 
-#olwigrpcgh .gt_stub {
+#xeulrgasti .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3290,7 +3290,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-left: 12px;
 }
 
-#olwigrpcgh .gt_summary_row {
+#xeulrgasti .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3300,7 +3300,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-right: 5px;
 }
 
-#olwigrpcgh .gt_first_summary_row {
+#xeulrgasti .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3310,7 +3310,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-top-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_grand_summary_row {
+#xeulrgasti .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3320,7 +3320,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   padding-right: 5px;
 }
 
-#olwigrpcgh .gt_first_grand_summary_row {
+#xeulrgasti .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3330,11 +3330,11 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-top-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_striped {
+#xeulrgasti .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#olwigrpcgh .gt_table_body {
+#xeulrgasti .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3343,7 +3343,7 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-bottom-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_footnotes {
+#xeulrgasti .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3357,13 +3357,13 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_footnote {
+#xeulrgasti .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#olwigrpcgh .gt_sourcenotes {
+#xeulrgasti .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3377,46 +3377,46 @@ Use an equations to specify which statistics to show and how to display them. Th
   border-right-color: #D3D3D3;
 }
 
-#olwigrpcgh .gt_sourcenote {
+#xeulrgasti .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#olwigrpcgh .gt_left {
+#xeulrgasti .gt_left {
   text-align: left;
 }
 
-#olwigrpcgh .gt_center {
+#xeulrgasti .gt_center {
   text-align: center;
 }
 
-#olwigrpcgh .gt_right {
+#xeulrgasti .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#olwigrpcgh .gt_font_normal {
+#xeulrgasti .gt_font_normal {
   font-weight: normal;
 }
 
-#olwigrpcgh .gt_font_bold {
+#xeulrgasti .gt_font_bold {
   font-weight: bold;
 }
 
-#olwigrpcgh .gt_font_italic {
+#xeulrgasti .gt_font_italic {
   font-style: italic;
 }
 
-#olwigrpcgh .gt_super {
+#xeulrgasti .gt_super {
   font-size: 65%;
 }
 
-#olwigrpcgh .gt_footnote_marks {
+#xeulrgasti .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="olwigrpcgh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="xeulrgasti" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3483,7 +3483,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qgrmjrgetb .gt_table {
+#vrjibdccvt .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3508,7 +3508,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-left-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_heading {
+#vrjibdccvt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3520,7 +3520,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_title {
+#vrjibdccvt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3530,7 +3530,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-bottom-width: 0;
 }
 
-#qgrmjrgetb .gt_subtitle {
+#vrjibdccvt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3540,13 +3540,13 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-top-width: 0;
 }
 
-#qgrmjrgetb .gt_bottom_border {
+#vrjibdccvt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_col_headings {
+#vrjibdccvt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3561,7 +3561,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_col_heading {
+#vrjibdccvt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3581,7 +3581,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   overflow-x: hidden;
 }
 
-#qgrmjrgetb .gt_column_spanner_outer {
+#vrjibdccvt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3593,15 +3593,15 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-right: 4px;
 }
 
-#qgrmjrgetb .gt_column_spanner_outer:first-child {
+#vrjibdccvt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qgrmjrgetb .gt_column_spanner_outer:last-child {
+#vrjibdccvt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qgrmjrgetb .gt_column_spanner {
+#vrjibdccvt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3613,7 +3613,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   width: 100%;
 }
 
-#qgrmjrgetb .gt_group_heading {
+#vrjibdccvt .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3635,7 +3635,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   vertical-align: middle;
 }
 
-#qgrmjrgetb .gt_empty_group_heading {
+#vrjibdccvt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3650,15 +3650,15 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   vertical-align: middle;
 }
 
-#qgrmjrgetb .gt_from_md > :first-child {
+#vrjibdccvt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qgrmjrgetb .gt_from_md > :last-child {
+#vrjibdccvt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qgrmjrgetb .gt_row {
+#vrjibdccvt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3677,7 +3677,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   overflow-x: hidden;
 }
 
-#qgrmjrgetb .gt_stub {
+#vrjibdccvt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3689,7 +3689,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-left: 12px;
 }
 
-#qgrmjrgetb .gt_summary_row {
+#vrjibdccvt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3699,7 +3699,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-right: 5px;
 }
 
-#qgrmjrgetb .gt_first_summary_row {
+#vrjibdccvt .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3709,7 +3709,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-top-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_grand_summary_row {
+#vrjibdccvt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3719,7 +3719,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-right: 5px;
 }
 
-#qgrmjrgetb .gt_first_grand_summary_row {
+#vrjibdccvt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3729,11 +3729,11 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-top-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_striped {
+#vrjibdccvt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qgrmjrgetb .gt_table_body {
+#vrjibdccvt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3742,7 +3742,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-bottom-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_footnotes {
+#vrjibdccvt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3756,13 +3756,13 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_footnote {
+#vrjibdccvt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qgrmjrgetb .gt_sourcenotes {
+#vrjibdccvt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3776,46 +3776,46 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#qgrmjrgetb .gt_sourcenote {
+#vrjibdccvt .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qgrmjrgetb .gt_left {
+#vrjibdccvt .gt_left {
   text-align: left;
 }
 
-#qgrmjrgetb .gt_center {
+#vrjibdccvt .gt_center {
   text-align: center;
 }
 
-#qgrmjrgetb .gt_right {
+#vrjibdccvt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qgrmjrgetb .gt_font_normal {
+#vrjibdccvt .gt_font_normal {
   font-weight: normal;
 }
 
-#qgrmjrgetb .gt_font_bold {
+#vrjibdccvt .gt_font_bold {
   font-weight: bold;
 }
 
-#qgrmjrgetb .gt_font_italic {
+#vrjibdccvt .gt_font_italic {
   font-style: italic;
 }
 
-#qgrmjrgetb .gt_super {
+#vrjibdccvt .gt_super {
   font-size: 65%;
 }
 
-#qgrmjrgetb .gt_footnote_marks {
+#vrjibdccvt .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="qgrmjrgetb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="vrjibdccvt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3952,7 +3952,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#aiyzlwrbxn .gt_table {
+#zpemhuntrf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3977,7 +3977,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-left-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_heading {
+#zpemhuntrf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3989,7 +3989,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_title {
+#zpemhuntrf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3999,7 +3999,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-bottom-width: 0;
 }
 
-#aiyzlwrbxn .gt_subtitle {
+#zpemhuntrf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4009,13 +4009,13 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-top-width: 0;
 }
 
-#aiyzlwrbxn .gt_bottom_border {
+#zpemhuntrf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_col_headings {
+#zpemhuntrf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4030,7 +4030,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_col_heading {
+#zpemhuntrf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4050,7 +4050,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   overflow-x: hidden;
 }
 
-#aiyzlwrbxn .gt_column_spanner_outer {
+#zpemhuntrf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4062,15 +4062,15 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-right: 4px;
 }
 
-#aiyzlwrbxn .gt_column_spanner_outer:first-child {
+#zpemhuntrf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#aiyzlwrbxn .gt_column_spanner_outer:last-child {
+#zpemhuntrf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#aiyzlwrbxn .gt_column_spanner {
+#zpemhuntrf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4082,7 +4082,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   width: 100%;
 }
 
-#aiyzlwrbxn .gt_group_heading {
+#zpemhuntrf .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4104,7 +4104,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   vertical-align: middle;
 }
 
-#aiyzlwrbxn .gt_empty_group_heading {
+#zpemhuntrf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4119,15 +4119,15 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   vertical-align: middle;
 }
 
-#aiyzlwrbxn .gt_from_md > :first-child {
+#zpemhuntrf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#aiyzlwrbxn .gt_from_md > :last-child {
+#zpemhuntrf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#aiyzlwrbxn .gt_row {
+#zpemhuntrf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4146,7 +4146,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   overflow-x: hidden;
 }
 
-#aiyzlwrbxn .gt_stub {
+#zpemhuntrf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4158,7 +4158,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-left: 12px;
 }
 
-#aiyzlwrbxn .gt_summary_row {
+#zpemhuntrf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4168,7 +4168,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-right: 5px;
 }
 
-#aiyzlwrbxn .gt_first_summary_row {
+#zpemhuntrf .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4178,7 +4178,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-top-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_grand_summary_row {
+#zpemhuntrf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4188,7 +4188,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   padding-right: 5px;
 }
 
-#aiyzlwrbxn .gt_first_grand_summary_row {
+#zpemhuntrf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4198,11 +4198,11 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-top-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_striped {
+#zpemhuntrf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#aiyzlwrbxn .gt_table_body {
+#zpemhuntrf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4211,7 +4211,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-bottom-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_footnotes {
+#zpemhuntrf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4225,13 +4225,13 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_footnote {
+#zpemhuntrf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#aiyzlwrbxn .gt_sourcenotes {
+#zpemhuntrf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4245,46 +4245,46 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   border-right-color: #D3D3D3;
 }
 
-#aiyzlwrbxn .gt_sourcenote {
+#zpemhuntrf .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#aiyzlwrbxn .gt_left {
+#zpemhuntrf .gt_left {
   text-align: left;
 }
 
-#aiyzlwrbxn .gt_center {
+#zpemhuntrf .gt_center {
   text-align: center;
 }
 
-#aiyzlwrbxn .gt_right {
+#zpemhuntrf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#aiyzlwrbxn .gt_font_normal {
+#zpemhuntrf .gt_font_normal {
   font-weight: normal;
 }
 
-#aiyzlwrbxn .gt_font_bold {
+#zpemhuntrf .gt_font_bold {
   font-weight: bold;
 }
 
-#aiyzlwrbxn .gt_font_italic {
+#zpemhuntrf .gt_font_italic {
   font-style: italic;
 }
 
-#aiyzlwrbxn .gt_super {
+#zpemhuntrf .gt_super {
   font-size: 65%;
 }
 
-#aiyzlwrbxn .gt_footnote_marks {
+#zpemhuntrf .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="aiyzlwrbxn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="zpemhuntrf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 5,888</strong></th>
@@ -4422,85 +4422,85 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
   <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"Age Category"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html">flextable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="tabwid">
-<style>.cl-965a6c90{border-collapse:collapse;}.cl-9650e1c0{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9650e1c1{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9650e1c2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-9650e1c3{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9650e1c4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9650e1c5{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9650e1c6{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9650e1c7{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9650e1c8{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-965a6c90">
+<style>.cl-485bebec{border-collapse:collapse;}.cl-485419d0{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-485440cc{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-485440cd{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-48548eb0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48548eb1{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48548eb2{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48548eb3{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48548eb4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48548eb5{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-485bebec">
 <thead><tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c8"><p class="cl-9650e1c1"><span class="cl-9650e1c0">Age Category</span></p></td>
-<td class="cl-9650e1c7"><p class="cl-9650e1c2"><span class="cl-9650e1c0">Death</span></p></td>
-<td class="cl-9650e1c7"><p class="cl-9650e1c2"><span class="cl-9650e1c0">Recover</span></p></td>
-<td class="cl-9650e1c7"><p class="cl-9650e1c2"><span class="cl-9650e1c0">(Missing)</span></p></td>
-<td class="cl-9650e1c7"><p class="cl-9650e1c2"><span class="cl-9650e1c0">Sum</span></p></td>
+<td class="cl-48548eb5"><p class="cl-485440cc"><span class="cl-485419d0">Age Category</span></p></td>
+<td class="cl-48548eb4"><p class="cl-485440cd"><span class="cl-485419d0">Death</span></p></td>
+<td class="cl-48548eb4"><p class="cl-485440cd"><span class="cl-485419d0">Recover</span></p></td>
+<td class="cl-48548eb4"><p class="cl-485440cd"><span class="cl-485419d0">(Missing)</span></p></td>
+<td class="cl-48548eb4"><p class="cl-485440cd"><span class="cl-485419d0">Sum</span></p></td>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">0-4</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">471</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">364</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">260</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">1,095</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">0-4</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">471</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">364</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">260</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">1,095</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">5-9</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">476</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">391</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">228</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">1,095</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">5-9</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">476</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">391</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">228</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">1,095</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">10-14</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">438</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">303</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">200</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">941</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">10-14</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">438</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">303</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">200</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">941</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">15-19</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">323</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">251</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">169</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">743</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">15-19</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">323</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">251</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">169</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">743</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">20-29</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">477</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">367</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">229</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">1,073</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">20-29</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">477</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">367</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">229</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">1,073</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">30-49</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">329</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">238</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">187</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">754</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">30-49</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">329</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">238</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">187</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">754</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">50-69</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">33</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">38</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">24</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">95</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">50-69</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">33</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">38</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">24</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">95</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">70+</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">3</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">3</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">0</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">6</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">70+</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">3</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">3</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">0</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">6</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c3"><p class="cl-9650e1c1"><span class="cl-9650e1c0">(Missing)</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">32</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">28</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">26</span></p></td>
-<td class="cl-9650e1c4"><p class="cl-9650e1c2"><span class="cl-9650e1c0">86</span></p></td>
+<td class="cl-48548eb0"><p class="cl-485440cc"><span class="cl-485419d0">(Missing)</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">32</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">28</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">26</span></p></td>
+<td class="cl-48548eb1"><p class="cl-485440cd"><span class="cl-485419d0">86</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-9650e1c6"><p class="cl-9650e1c1"><span class="cl-9650e1c0">Sum</span></p></td>
-<td class="cl-9650e1c5"><p class="cl-9650e1c2"><span class="cl-9650e1c0">2,582</span></p></td>
-<td class="cl-9650e1c5"><p class="cl-9650e1c2"><span class="cl-9650e1c0">1,983</span></p></td>
-<td class="cl-9650e1c5"><p class="cl-9650e1c2"><span class="cl-9650e1c0">1,323</span></p></td>
-<td class="cl-9650e1c5"><p class="cl-9650e1c2"><span class="cl-9650e1c0">5,888</span></p></td>
+<td class="cl-48548eb3"><p class="cl-485440cc"><span class="cl-485419d0">Sum</span></p></td>
+<td class="cl-48548eb2"><p class="cl-485440cd"><span class="cl-485419d0">2,582</span></p></td>
+<td class="cl-48548eb2"><p class="cl-485440cd"><span class="cl-485419d0">1,983</span></p></td>
+<td class="cl-48548eb2"><p class="cl-485440cd"><span class="cl-485419d0">1,323</span></p></td>
+<td class="cl-48548eb2"><p class="cl-485440cd"><span class="cl-485419d0">5,888</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -4595,7 +4595,7 @@ This is used to adjust how many levels of the statistics are shown. The syntax i
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-15.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
