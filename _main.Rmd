@@ -1,6 +1,6 @@
 ---
 knit: "bookdown::render_book"
-title: "Sổ tay dịch tễ học với R"  
+title: "Cẩm nang dịch tễ học với R"  
 description: "The Epi R Handbook is a R reference manual for applied epidemiology and public health."
 author: "the handbook team"
 date: "`r Sys.Date()`"
@@ -48,7 +48,7 @@ knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x5
 
 <!-- ## About this handbook   -->
 
-## R trong dịch tễ học ứng dụng và y tế công cộng {.unnumbered}
+## Dịch tễ học ứng dụng và y tế công cộng với R {.unnumbered}
 
 **Sổ tay này hướng tới:**
 
@@ -85,10 +85,10 @@ a column separator -->
 
 [**Được viết bởi các nhà dịch tễ học, dành cho các nhà dịch tễ học**]{style="color: black;"}
 
-Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi trên thế giới, viết trong thời gian rảnh của mình để cung cấp tài liệu này cho cộng đồng. Sự động viên và góp ý của bạn luôn được chào đón thông qua:
+Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi trên thế giới, viết trong thời gian rảnh của mình để cung cấp tài liệu này tới cộng đồng. Sự động viên và góp ý của bạn luôn được chào đón thông qua:
 
 -   Gửi [**biểu mẫu phản hồi**](https://forms.gle/A5SnRVws7tPD15Js9)\
--   Email [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email} hoặc tweet [**\@epiRhandbook**](https://twitter.com/epirhandbook)\
+-   Email tới [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email} hoặc tweet [**\@epiRhandbook**](https://twitter.com/epirhandbook)\
 -   Gửi các vấn đề cho chúng tôi tại [**Github repository**](https://github.com/epirhandbook/Epi_R_handbook)
 
 </div>
@@ -99,9 +99,9 @@ Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi tr�
 ## Sổ tay này được sử dụng như thế nào {.unnumbered}
 
 -   Truy cập các trang trong phần Mục lục, hoặc sử dụng ô tìm kiếm
--   Nhấn biểu tượng "copy" để copy code\
+-   Nhấn biểu tượng "copy" để sao chép code\
 -   Kết hợp theo dõi cùng với các bộ [dữ liệu minh họa][Tải sách và dữ liệu]\
--   Xem phần "Tài nguyên" trong từng trang để tìm thêm tài liệu
+-   Xem phần "Tài nguyên" trong từng chương để tìm thêm tài liệu
 
 **Phiên bản ngoại tuyến**
 
@@ -113,7 +113,7 @@ Xem hướng dẫn tại trang [Tải sách và dữ liệu].
 
 Sổ tay này được tạo ra bởi sự hợp tác của các nhà dịch tễ học từ khắp nơi trên thế giới, đúc kết kinh nghiệm cùng với các tổ chức khác bao gồm các cơ quan y tế địa phương, tiểu bang, tỉnh và quốc gia, Tổ chức Y tế Thế giới (WHO), Tổ chức Bác sỹ không biên giới (MSF), hệ thống các bệnh viện, và các đơn vị nghiên cứu.
 
-Sổ tay này **không phải** là sản phẩm đã được phê duyệt của bất kỳ tổ chức cụ thể nào. Mặc dù chúng tôi cố gắng đảm bảo tính chính xác, nhưng chúng tôi không đảm bảo về nội dung trong cuốn sách này.
+Sổ tay này **không phải** là sản phẩm đã được phê duyệt của bất kỳ tổ chức cụ thể nào. Mặc dù chúng tôi cố gắng đảm bảo tính chính xác, nhưng chúng tôi không chịu trách nhiệm về nội dung trong cuốn sách này.
 
 ### Những người đóng góp {.unnumbered}
 
@@ -123,7 +123,7 @@ Sổ tay này **không phải** là sản phẩm đã được phê duyệt củ
 
 **Nhóm tác giả**: [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Paula Blomquist](https://www.linkedin.com/in/paula-bianca-blomquist-53188186/), [Finlay Campbell](https://github.com/finlaycampbell), [Henry Laurenson-Schafer](https://github.com/henryls1), [Isaac Florence](www.Twitter.com/isaacatflorence), [Natalie Fischer](https://www.linkedin.com/in/nataliefischer211/), [Aminata Ndiaye](https://twitter.com/aminata_fadl), [Liza Coyer](https://www.linkedin.com/in/liza-coyer-86022040/), [Jonathan Polonsky](https://twitter.com/jonny_polonsky), [Yurie Izawa](https://ch.linkedin.com/in/yurie-izawa-a1590319), [Chris Bailey](https://twitter.com/cbailey_58?lang=en), [Daniel Molling](https://www.linkedin.com/in/daniel-molling-4005716a/), [Isha Berry](https://twitter.com/ishaberry2), [Emma Buajitti](https://twitter.com/buajitti), [Mathilde Mousset](https://mathildemousset.wordpress.com/research/), [Sara Hollis](https://www.linkedin.com/in/saramhollis/), Wen Lin
 
-**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), Nguyễn Trung Thành, [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Vũ Thu Hà
+**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Võ Hữu Thuận, Nguyễn Trung Thành, Vũ Thu Hà
 
 **Nhóm phản biện**: Pat Keating, Annick Lenglet, Margot Charette, Danielly Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Kate Kelsey, [Berhe Etsay](https://www.linkedin.com/in/berhe-etsay-5752b1154/), John Rossow, Mackenzie Zendt, James Wright, Laura Haskins, [Flavio Finger](ffinger.github.io), Tim Taylor, [Jae Hyoung Tim Lee](https://www.linkedin.com/in/jaehyoungtlee/), [Brianna Bradley](https://www.linkedin.com/in/brianna-bradley-bb8658155), [Wayne Enanoria](https://www.linkedin.com/in/wenanoria), Manual Albela Miranda, [Molly Mantus](https://www.linkedin.com/in/molly-mantus-174550150/), Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga
 
@@ -139,24 +139,24 @@ Sổ tay này **không phải** là sản phẩm đã được phê duyệt củ
 
 ### Tài trợ và hỗ trợ {.unnumbered}
 
-Sổ tay này nhận được tài trợ thông qua kinh phí hỗ trợ trợ xây dựng năng lực khẩn cấp COVID-19 từ [TEPHINET](https://www.tephinet.org/), tmạng lưới toàn cầu của các Chương trình Đào tạo Dịch tễ học Thực địa (FETPs).
+Sổ tay này nhận được tài trợ thông qua kinh phí hỗ trợ trợ xây dựng năng lực khẩn cấp COVID-19 từ [TEPHINET](https://www.tephinet.org/), mạng lưới toàn cầu của các Chương trình Đào tạo Dịch tễ học Thực địa (FETPs).
 
-Hỗ trợ hành chính được cung cấp bởi EPIET Alumni Network ([EAN](https://epietalumni.net/)), với lời cảm ơn đặc biệt tới Annika Wendland. EPIET là Chương trình Châu Âu về Đào tạo Dịch tễ học can thiệp.
+Các hỗ trợ hành chính được cung cấp bởi mạng lưới cựu sinh EPIET ([EAN](https://epietalumni.net/)), với lời cảm ơn đặc biệt tới Annika Wendland. EPIET là Chương trình đào tạo Dịch tễ học can thiệp tại Châu Âu.
 
-Đặc biệt cảm ơn Trung tâm Điều hành Amsterdam (OCA) của tổ chức Bác sỹ không biên giới (MSF) cho những sự hỗ trợ của họ trong quá trình phát triển cuốn sổ tay này.
+Đặc biệt gửi lời cảm ơn tới Trung tâm Điều hành Amsterdam (OCA) của Tổ chức Bác sỹ không biên giới (MSF) cho những sự hỗ trợ của họ trong quá trình phát triển cuốn sổ tay này.
 
-*Ấn phẩm này được hỗ trợ bởi Hợp đồng Hợp tác số NU2GGH001873, được tài trợ bởi Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh thông qua TEPHINET, một chương trình của Lực lượng đặc nhiệm về sức khỏe toàn cầu. Nội dung của nó hoàn toàn do tác giả chịu trách nhiệm và không nhất thiết phải đại diện cho quan điểm chính thức của Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh, Bộ Y tế và Dịch vụ Nhân sinh, Lực lượng Đặc nhiệm về Sức khỏe Toàn cầu, hoặc TEPHINET*
+*Ấn phẩm này được hỗ trợ bởi Hợp đồng Hợp tác số NU2GGH001873, được tài trợ bởi Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh thông qua TEPHINET, một chương trình của Lực lượng đặc nhiệm về sức khỏe toàn cầu. Nội dung của sổ tay hoàn toàn do tác giả chịu trách nhiệm và đại diện cho quan điểm chính thức của Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh, Bộ Y tế và Dịch vụ Nhân sinh, Lực lượng Đặc nhiệm về Sức khỏe Toàn cầu, hoặc TEPHINET*
 
 ### Cảm hứng {.unnumbered}
 
-Vô số hướng dẫn và tóm tắt cung cấp kiến thức để phát triển nội dung sổ tay này được ghi nhận trong các trang nội dung tương ứng.
+Rất nhiều các hướng dẫn và tóm tắt cung cấp kiến thức sử dụng để phát triển nội dung sổ tay này được tham khảo trong các trang nội dung tương ứng.
 
-Nói một cách tổng quát hơn, các nguồn sau đây đã truyền nguồn cảm hứng cho cuốn sổ tay này:\
+Một cách tổng quát hơn, các nguồn sau đây đã truyền nguồn cảm hứng cho cuốn sổ tay này:\
 [The "R4Epis" project](https://r4epis.netlify.app/) (một sự hợp tác giữa MSF và RECON)\
 [R Epidemics Consortium (RECON)](https://www.repidemicsconsortium.org/)\
 [R for Data Science book (R4DS)](https://r4ds.had.co.nz/)\
 [bookdown: Authoring Books and Technical Documents with R Markdown](https://bookdown.org/yihui/bookdown/)\
-[Netlify](https://www.netlify.com) lưu trữ trang web này
+[Netlify](https://www.netlify.com) để lưu trữ trang web này
 
 <!-- ### Image credits {-}   -->
 
@@ -166,17 +166,17 @@ Nói một cách tổng quát hơn, các nguồn sau đây đã truyền nguồn
 
 ### Giấy phép {.unnumbered}
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br />Sổ tay này được cấp phép theo <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Giấy phép quốc tế Creative Commons Attribution-NonCommercial-ShareAlike 4.0</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br />Sổ tay này được cấp phép theo <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-Các khóa học học thuật và các chương trình đào tạo dịch tễ học được hoan nghênh sử dụng cuốn sổ tay này với sinh viên của họ. Nếu bạn có thắc mắc về mục đích sử dụng của mình, hãy gửi email tới [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email}.
+Chúng tôi khuyến khích các khóa học và các chương trình đào tạo dịch tễ sử dụng cuốn sổ tay này cho sinh viên của mình. Nếu bạn có thắc mắc về mục đích sử dụng của mình, hãy gửi email tới [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email}.
 
 ### Trích dẫn {.unnumbered}
 
-Neale Batra và cộng sự, Sổ tay Dịch tễ học với R. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img src="https://zenodo.org/badge/231610102.svg" alt="DOI" style="border-width:0"/></a><br />
+Neale Batra và cộng sự, Cẩm nang Dịch tễ học với R. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img src="https://zenodo.org/badge/231610102.svg" alt="DOI" style="border-width:0"/></a><br />
 
 ### Đóng góp {.unnumbered}
 
-Nếu bạn muốn đóng góp nội dung, vui lòng liên hệ với chúng tôi trước về các vấn đề trên Github hoặc qua email. Chúng tôi đang triển khai lịch trình cập nhật và đang tạo hướng dẫn dành cho cộng tác viên.
+Nếu bạn muốn đóng góp nội dung, vui lòng liên hệ với chúng tôi thông qua Github hoặc email. Chúng tôi đang triển khai lịch trình cập nhật cho cuốn sách cũng như xây dựng hướng dẫn dành cho cộng tác viên.
 
 Xin lưu ý rằng dự án epiRhandbook được phát hành cùng với bộ [Quy tắc ứng xử của cộng tác viên](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). Bằng cách đóng góp cho dự án này, bạn đồng ý tuân theo các điều khoản của nó.
 ```{r include=FALSE, cache=FALSE}
@@ -268,50 +268,50 @@ options(scipen=1, digits=7)
 
 # Biên tập và ghi chú kỹ thuật {#editorial-style}
 
-Trong chương này, chúng tôi mô tả triết lý và phong cách viết code, cũng như quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
+Trong chương này, chúng tôi sẽ mô tả triết lý và phong cách viết code, cũng như các quyết định biên tập cụ thể được thực hiện trong việc tạo ra cuốn sổ tay này.
 
 ## Cách tiếp cận và phong cách
 
-Độc giả tiềm năng của cuốn sách này là lớn, bao gồm những người hoàn toàn mới đối với R, và cả những người dùng R có kinh nghiệm đang tìm kiếm các phương pháp và mẹo hay nhất. Vì vậy, nó phải vừa dễ tiếp cận vừa ngắn gọn. Do đó, cách tiếp cận của chúng tôi là cung cấp lượng văn bản giải thích *vừa đủ* để một người mới sử dụng R cũng có thể áp dụng code và hiểu code đang làm gì.
+Độc giả tiềm năng của cuốn sách này là rất lớn, bao gồm những người hoàn toàn mới đối với R, và cả những người dùng R có kinh nghiệm đang tìm kiếm cho mình các phương pháp và mẹo hay nhất. Vì vậy, cuốn sách cần phải vừa dễ tiếp cận vừa ngắn gọn. Do đó, cách tiếp cận của chúng tôi là cung cấp lượng văn bản giải thích *vừa đủ* để một người mới sử dụng R cũng có thể áp dụng code và hiểu code đang làm gì.
 
 Một vài điểm lưu ý:
 
 -   Đây là cuốn sách tham khảo về code đi kèm với những ví dụ tương đối ngắn gọn - *không phải* một cuốn sách giáo khoa về R hay khoa học dữ liệu\
--   Đây là một cuốn *sổ tay về R* sử dụng trong dịch tễ học ứng dụng - không phải là cẩm nang về các phương pháp của dịch tễ học ứng dụng\
--   Cuốn sách dự kiến sẽ là một tài liệu động - các R packages tối ưu cho một nhiệm vụ được thay đổi thường xuyên, do đó chúng tôi hoan nghênh những thảo luận về những điều được nhấn mạnh trong cuốn sách này
+-   Đây là một cuốn *sổ tay về R* sử dụng trong dịch tễ học ứng dụng - không phải là một hướng dẫn về các phương pháp của dịch tễ học ứng dụng\
+-   Cuốn sách dự kiến sẽ luôn được thay đổi và cập nhập do các R packages tối ưu cho một nhiệm vụ luôn được thay đổi thường xuyên, vì vậy chúng tôi hoan nghênh những thảo luận về những điều được nhấn mạnh trong cuốn sách này
 
 ### R packages {.unnumbered}
 
 **Quá nhiều lựa chọn**
 
-Một trong những khía cạnh thách thức nhất của việc học R là biết package nào được sử dụng cho công việc nào. Việc vật lộn với một công việc mà chỉ sau này mới nhận ra là điều thường thấy - Và này, có một R package thực hiện tất cả những điều đó trong một dòng lệnh!
+Một trong những khía cạnh thách thức nhất của việc học R là bạn biết package nào được sử dụng trong trường hợp nào. Việc vật lộn với một công việc mà chỉ sau này bạn nhận ra là có một package R giúp bạn thực hiện tất cả những điều đó trong một dòng lệnh là điều không hề hiếm gặp!
 
-Trong sổ tay này, chúng tôi cố gắng cung cấp cho bạn ít nhất hai cách để hoàn thành mỗi nhiệm vụ: một phương pháp đã thử và đúng (có thể là **base** R hoặc **tidyverse**) và một R package đặc biệt được thiết kế riêng cho mục đích đó. Chúng tôi muốn bạn có một số tùy chọn trong trường hợp bạn không thể tải xuống một gói nhất định hoặc gói đó không hoạt động với bạn.
+Trong sổ tay này, chúng tôi cố gắng cung cấp cho bạn ít nhất hai cách để hoàn thành công việc: một phương pháp đã thử và đúng (có thể là **base** R hoặc **tidyverse**) và một R package đặc biệt được thiết kế riêng cho mục đích đó. Chúng tôi muốn bạn có một số tùy chọn trong trường hợp bạn không thể tải xuống một package nhất định hoặc package đó không hoạt động với bạn.
 
-Khi lựa chọn package để làm việc, chúng tôi ưu tiên các R package và phương pháp tiếp cận đã được cộng đồng thử nghiệm và hiệu chỉnh, giảm thiểu số lượng package được sử dụng trong một phiên làm việc điển hình, bao gồm sự ổn định (không thay đổi thường xuyên) và hoàn thành nhiệm vụ một cách đơn giản và gọn gàng
+Khi lựa chọn package để làm việc, chúng tôi ưu tiên các R package và phương pháp tiếp cận đã được cộng đồng thử nghiệm và hiệu chỉnh, giảm thiểu số lượng package được sử dụng trong một phiên làm việc điển hình, bao gồm sự ổn định (không thay đổi thường xuyên) và giúp hoàn thành nhiệm vụ một cách đơn giản và gọn gàng
 
 Cuốn sách này ưu tiện các package và câu lệnh từ thư viện **tidyverse**. Tidyverse là một tuyển tập các R package được thiết kế dành riêng cho khoa học dữ liệu, trong đó các package này chia sẻ nền tảng ngữ pháp và cấu trúc dữ liệu chung. Tất cả các package từ thư viện tidyverse có thể được cài đặt hoặc gọi thông qua thư viện **tidyverse**. Đọc thêm tại [tidyverse website](https://www.tidyverse.org/).
 
-Khi thích hợp, chúng tôi cũng cung cấp các tùy chọn code sử dụng **base** R - các packages và hàm đi kèm với R khi cài đặt. Điều này là do chúng tôi nhận thấy rằng một số độc giả của cuốn sách này có thể không có Internet tốt để tải xuống các package bổ sung.
+Khi thích hợp, chúng tôi cũng cung cấp các tùy chọn code sử dụng **base** R - là các packages và hàm có sẵn của R khi cài đặt. Điều này là do chúng tôi nhận thấy rằng một số độc giả của cuốn sách này có thể không có Internet tốt để tải xuống các package bổ sung.
 
 **Liên kết các hàm và packages một cách rõ ràng**
 
 Trong các hướng dẫn về R thường rất khó chịu khi một hàm được hiển thị trong code, nhưng bạn không biết hàm đó đến từ package nào! Chúng tôi cố gắng tránh tình trạng này.
 
-Trong các đoạn văn bản trần thuật, tên các package được viết in đậm (ví dụ: **dplyr**) và các hàm được viết như sau: `mutate()`. Chúng tôi cố gắng nói rõ ràng về một hàm đến từ package nào, bằng cách tham chiếu package đó trong văn bản gần đó hoặc bằng cách chỉ định package đó một cách rõ ràng trong đoạn code như sau: `dplyr::mutate()`. Điều này nhìn có vẻ thừa thãi, nhưng chúng tôi làm điều đó có mục đích.
+Trong các đoạn văn bản trần thuật, tên các package được viết in đậm (ví dụ: **dplyr**) và các hàm được viết như sau: `mutate()`. Chúng tôi cố gắng nói rõ ràng về một hàm đến từ package nào, bằng cách tham chiếu package đó trong đoạn văn bản gần đó hoặc nhấn mạnh package đó một cách rõ ràng trong đoạn code như sau: `dplyr::mutate()`. Điều này nhìn có vẻ thừa thãi, nhưng chúng tôi làm điều đó là có mục đích.
 
-Tham khảo thêm chữ R cơ bản để hiểu thêm về package và hàm.
+Tham khảo thêm chương [R cơ bản] để hiểu thêm về package và hàm.
 
-### Phong cách Code {.unnumbered}
+### Phong cách viết code {.unnumbered}
 
-Trong sổ tay này, chúng tôi thường tận dụng "thêm dòng mới", điều này làm cho code có vẻ "dài hơn". Chúng tôi làm vậy vì một vài lý do sau đây:
+Trong sổ tay này, chúng tôi thường viết theo phong cách "thêm dòng mới", điều này làm cho code trông có vẻ "dài hơn". Chúng tôi làm vậy vì một vài lý do sau đây:
 
 -   Chúng tôi có thể viết các giải thích bằng `#` bên cạnh mỗi phần nhỏ của code\
 -   Nhìn chung, code dài hơn (theo chiều dọc) thì dễ đọc hơn\
 -   Nó cũng dễ đọc hơn trong một diện tích màn hình hẹp (không cần kéo thanh điều hướng trái phải)\
 -   Từ việc thụt lề, có thể dễ dàng hơn để biết arguments nào thuộc về hàm nào
 
-Kết quả là, code *có thể* được viết trông như thế này:
+Kết quả là, code *lẽ ra* sẽ được viết trông như thế này:
 
 ```{r, eval=F}
 linelist %>% 
@@ -330,39 +330,39 @@ linelist %>%
     with_ties = F)       # if there's a tie (of date), take the first row
 ```
 
-R code is generally not affected by new lines or indentations. When writing code, if you initiate a new line after a comma it will apply automatic indentation patterns.
+Code R thường không bị ảnh hưởng bởi thêm các dòng mới hoặc thụt lề. Khi viết code, nếu bạn xuống dòng ngay sau dấu phẩy thì R sẽ tự động thụt lề cho bạn.
 
-We also use lots of spaces (e.g. `n = 1` instead of `n=1`) because it is easier to read. Be kind to the people reading your code!
+Chúng tôi cũng sử dụng rất nhiều những khoảng cách (ví dụ `n = 1` thay vì `n=1`) vì nó giúp dễ đọc hơn. Hãy văn minh với những người đang đọc code của bạn!
 
 ### Danh pháp {.unnumbered}
 
-Trong sổ tay này, chúng tôi thường đề cập đến "cột" và "hàng" thay vì dùng "biến" và "quan sát". Như đã giải thích trong phần sơ lược này về ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu thống kê dịch tễ học bao gồm các hàng, cột và giá trị theo cấu trúc
+Trong sổ tay này, chúng tôi thường đề cập đến "cột" và "hàng" thay vì dùng "biến" và "quan sát". Như đã giải thích trong phần sơ lược về ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu thống kê dịch tễ học bao gồm các hàng, cột và giá trị theo cấu trúc
 
-*Biến số* chứa các giá trị đo lường cùng một thuộc tính cơ bản (như nhóm tuổi, kết cục hoặc ngày khởi phát). *Các quan sát* bao gồm tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó xác định một cách hữu hình hơn.
+*Biến số* chứa các giá trị đo lường của cùng một thuộc tính (như nhóm tuổi, kết cục hoặc ngày khởi phát). *Các quan sát* bao gồm tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó được định nghĩa một cách cụ thể.
 
 Trong một bộ dữ liệu "tidy", mỗi cột là một biến số, mỗi hàng là một quan sát và mỗi ô là một giá trị duy nhất. Tuy nhiên, bạn có thể gặp một số bộ dữ liệu không phù hợp với quy luật này - bộ dữ liệu định dạng "ngang" có thể có một biến số được chia thành nhiều cột (xem ví dụ trong chương Pivoting dữ liệu). Tương tự như vậy, các quan sát có thể được trải thành nhiều hàng.
 
-Phần lớn cuốn sách này tập trung vào quản lý và hoán chuyển dữ liệu, vì vậy việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ liên quan hơn là đề cập tới các khái niệm trừu tượng như các quan sát và biến. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, ở đó chúng tôi đề cập nhiều hơn đến các biến số và quan sát.
+Phần lớn cuốn sách này tập trung vào quản lý và biến đổi dữ liệu, vì vậy việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ liên quan hơn là đề cập tới các khái niệm trừu tượng như các quan sát và biến. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, ở đó chúng tôi đề cập nhiều hơn đến các biến số và quan sát.
 
 ### Lưu ý {.unnumbered}
 
 Dưới đây là một vài lưu ý bạn có thể gặp trong cuốn sách:
 
-[***NOTE:*** Đây là note]{style="color: black;"}\
-[***TIP:*** Đây là tip.]{style="color: darkgreen;"}\
-[***CAUTION:*** Đây là note cảnh giác.]{style="color: orange;"}\
-[***DANGER:*** Đây là note cảnh báo.]{style="color: red;"}
+[***GHI CHÚ:*** Đây là ghi chú]{style="color: black;"}\
+[***MẸO:*** Đây là mẹo.]{style="color: darkgreen;"}\
+[***CẨN TRỌNG:*** Đây là ghi chú cẩn trọng.]{style="color: orange;"}\
+[***NGUY HIỂM:*** Đây là một cảnh báo.]{style="color: red;"}
 
 ## Quyết định biên tập
 
-Dưới đây, chúng tôi ghi nhận các quyết định biên tập quan trọng về việc lựa chọn package và hàm. Nếu bạn không đồng ý hoặc muốn đưa ra một công cụ mới để xem xét, vui lòng tham gia /bắt đầu cuộc trò chuyện trên [Trang Github](https://github.com/epirhandbook/Epi_R_handbook) của chúng tôi.
+Dưới đây, chúng tôi ghi lại các quyết định biên tập quan trọng về việc lựa chọn package và hàm. Nếu bạn không đồng ý hoặc muốn đưa ra một công cụ mới để xem xét, vui lòng tham gia/bắt đầu cuộc thảo luận trên [Trang Github](https://github.com/epirhandbook/Epi_R_handbook) của chúng tôi.
 
 **Bảng các package, hàm, và các quyết định biên tập khác**
 
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Chủ đề                    | Cân nhắc                                                                       | Lựa chọn                                                                                                           | Lý do ngắn gọn                                                                       |
 +===========================+================================================================================+====================================================================================================================+======================================================================================+
-| Phương pháp code chung    | **tidyverse**, **data.table**, **base**                                        | **tidyverse**, với 1 trang về **data.table**, các giải pháp thay thế từ **base** R cho người đọc không có internet | **tidyverse** dễ đọc, phổ biến, được dạy nhiều nhất                                  |
+| Phương pháp code chung    | **tidyverse**, **data.table**, **base**                                        | **tidyverse**, với 1 chương về **data.table**, các giải pháp thay thế từ **base** R cho người đọc không có internet | **tidyverse** dễ đọc, phổ biến, được dạy nhiều nhất                                  |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Gọi Package               | `library()`,`install.packages()`, `require()`, **pacman**                      | **pacman**                                                                                                         | Rút ngắn và đơn giản hóa code cho hầu hết các trường hợp cài đặt / tải nhiều package |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
@@ -374,7 +374,7 @@ Dưới đây, chúng tôi ghi nhận các quyết định biên tập quan tr�
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Làm sạch tên cột          | **linelist**, **janitor**                                                      | **janitor**                                                                                                        | Hợp nhất các package được nhắc đến                                                   |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
-| Epiweeks                  | **lubridate**, **aweek**, **tsibble**, **zoo**                                 | thông thường **lubridate** ,các package khác cho các trường hợp cụ thể                                             | **lubridate's** tính dễ đọc, tính nhất quán, triển vọng bảo trì gói                  |
+| Epiweeks                  | **lubridate**, **aweek**, **tsibble**, **zoo**                                 | thông thường là **lubridate** ,các package khác tùy trường hợp cụ thể                                             | **lubridate** dễ đọc, có tính nhất quán, và triển vọng bảo trì gói                  |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
 | Nhãn ggplot               | `labs()`, `ggtitle()`/`ylab()`/`xlab()`                                        | `labs()`                                                                                                           | tất cả các nhãn ở một nơi, đơn giản                                                  |
 +---------------------------+--------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------+
@@ -447,26 +447,26 @@ options(scipen=1, digits=7)
 
 ## Tải sách ngoại tuyến
 
-Bạn có thể tải xuống phiên bản ngoại tuyến của sổ tay này dưới dạng tệp HTML để có thể xem tệp trong trình duyệt web của mình ngay cả khi bạn không còn quyền truy cập internet. Nếu bạn đang cân nhắc việc sử dụng ngoại tuyến Sổ tay Epi R, dưới đây là một số điều cần xem xét:
+Bạn có thể tải xuống phiên bản ngoại tuyến của sổ tay này dưới dạng tệp HTML để có thể xem trong trình duyệt web của mình ngay cả khi bạn không có kết nối internet. Nếu bạn đang cân nhắc việc sử dụng ngoại tuyến Sổ tay Epi R, dưới đây là một số điều bạn cần cân nhắc:
 
--   Khi bạn mở tệp, có thể mất một đến hai phút để load các hình ảnh và mục lục\
--   Sách ngoại tuyến có bố cục hơi khác một chút - là một trang rất dài với Mục lục ở phía bên trái. Để tìm kiếm các cụm từ cụ thể, hãy sử dụng Ctrl + f (Cmd-f)\
+-   Khi bạn mở tệp, có thể mất một đến hai phút để tải các hình ảnh và mục lục\
+-   Phiên bản ngoại tuyến có bố cục hơi khác so với phiên bản trực tuyến - là một trang rất dài với Mục lục ở phía bên trái. Để tìm kiếm các cụm từ cụ thể, hãy sử dụng Ctrl + F (Cmd-f)\
 -   Xem chương [Package đề xuất] để hỗ trợ bạn cài đặt các R package thích hợp trước khi bạn mất kết nối internet\
--   Cài đặt R package của chúng tôi **epirhandbook** chứa tất cả dữ liệu mẫu (quy trình cài đặt được mô tả bên dưới)
+-   Cài đặt package **epirhandbook** của chúng tôi trong đó chứa tất cả các dữ liệu minh họa (quy trình cài đặt được mô tả bên dưới)
 
 **Có hai cách bạn có thể tải xuống sổ tay:**
 
 ### Sử dụng link download {.unnumbered}
 
-Để truy cập nhanh, **nháy phải chuột** [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/offline_long/Epi_R_Handbook_offline.html) **và lựa chọn "Save link as"**.
+Để truy cập nhanh, **nháy phải chuột** vào [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/offline_long/Epi_R_Handbook_offline.html) **và lựa chọn "Save link as"**.
 
-Nếu trên máy Mac, hãy sử dụng Cmd + Nhấp chuột. Nếu trên điện thoại di động, hãy bấm và giữ liên kết và chọn "Save link". Sổ tay sẽ tải xuống thiết bị của bạn. Nếu màn hình có mã HTML thô xuất hiện, hãy đảm bảo bạn đã làm theo các hướng dẫn ở trên hoặc thử Phương án 2.
+Nếu trên máy Mac, hãy sử dụng Cmd + Nhấp chuột. Nếu trên điện thoại di động, hãy bấm và giữ liên kết và chọn "Save link". Sổ tay sẽ tải xuống thiết bị của bạn. Nếu trên màn hình xuất hiện mã HTML gốc, hãy đảm bảo bạn đã làm đúng theo các hướng dẫn bên trên hoặc thử Phương án 2.
 
 ### Sử dụng package của chúng tôi {.unnumbered}
 
-Chúng tôi cung cấp một R package có tên là **epirhandbook**. Nó bao gồm một hàm có tên `download_book()` giúp bạn tải xuống file sổ tay từ kho Github của chúng tôi vào máy tính của bạn.
+Chúng tôi cung cấp một R package có tên là **epirhandbook**. Nó bao gồm một hàm có tên `download_book()` giúp bạn tải xuống sổ tay này từ kho Github của chúng tôi vào máy tính của bạn.
 
-Package này cũng chứa hàm `get_data()` giúp tải xuống các bộ dữ liệu minh họa vào máy tính của bạn.
+Package này cũng chứa hàm `get_data()` giúp tải xuống toàn bộ các dữ liệu minh họa vào máy tính của bạn.
 
 Chạy dòng code sau để cài đặt package **epirhandbook** từ [Github repository *appliedepi*](https://github.com/appliedepi/epirhandbook). Đây không phải là package thuộc CRAN, do đó cần sử dụng hàm đặc biệt `p_install_gh()` để cài đặt nó từ Github.
 
@@ -489,29 +489,29 @@ Tiếp theo, bạn chạy hàm `download_book()` (phần trong ngoặc bỏ tr�
 download_book()
 ```
 
-## Tải dữ liệu xuống để cùng theo dõi
+## Tải dữ liệu xuống để tiện theo dõi
 
-Để "tiện theo dõi" cùng với sổ tay này, bạn có thể tải xuống các bộ dữ liệu minh họa và kết quả.
+Để "tiện theo dõi" cùng với sổ tay này, bạn có thể tải xuống các bộ dữ liệu minh họa và các kết quả.
 
 ### Sử dụng package của chúng tôi {.unnumbered}
 
 Cách dễ nhất để tải xuống tất cả dữ liệu là cài đặt package **epirhandbook** của chúng tôi. Nó chứa hàm `get_data()` giúp lưu toàn bộ dữ liệu minh họa vào một thư mục bạn chọn trên máy tính của mình.
 
-Để cài đặt package **epirhandbook**, bạn chạy theo code dưới đây. Lưu ý là package này không CRAN, do đó cần sử dụng hàm `p_install_gh()` để cài đặt. Thông tin đầu vào sẽ được chuyển tới Github của chúng tôi ("*appliedepi*") và package **epirhandbook**.
+Để cài đặt package **epirhandbook**, bạn chạy theo code dưới đây. Lưu ý là package này không từ CRAN, do đó cần sử dụng hàm `p_install_gh()` để cài đặt. Thông tin đầu vào sẽ được chuyển tới trang Github của chúng tôi ("*appliedepi*") và package **epirhandbook**.
 
 ```{r, eval=F}
 # install the latest version of the Epi R Handbook package
 pacman::p_install_gh("appliedepi/epirhandbook")
 ```
 
-Bây giờ, bạn gọi package để sử dụng cho phiên làm việc R hiện tại:
+Bây giờ, bạn gọi package để sử dụng cho phiên làm việc hiện tại:
 
 ```{r, eval=F}
 # load the package for use
 pacman::p_load(epirhandbook)
 ```
 
-Tiếp theo, sử dụng hàm `get_data()` trong package để tải dữ liệu minh họa và máy tính của bạn. Chạy hàm `get_data("all")` để tải *toàn bộ* dữ liệu minh họa, hoặc bạn có thể nêu tên một file cụ thể và phần mở rộng bên trong dấu ngoặc kép để tải một file duy nhất.
+Tiếp theo, sử dụng hàm `get_data()` trong package để tải dữ liệu minh họa và máy tính của bạn. Chạy hàm `get_data("all")` để tải *toàn bộ* dữ liệu minh họa, hoặc bạn có thể nêu tên một tệp cụ thể và phần mở rộng bên trong dấu ngoặc kép để tải một tệp duy nhất.
 
 Dữ liệu sẽ được tải xuống cùng với package và bạn đơn giản chỉ cần lưu nó vào một thư mục trên máy tính của bạn. Một cửa sổ sẽ xuất hiện, cho phép bạn chọn vị trí lưu thư mục. Chúng tôi khuyên bạn nên tạo một thư mục mới tên là "data" vì có khoảng 30 tệp (bao gồm các bộ dữ liệu minh họa và kết quả).
 
@@ -529,7 +529,7 @@ get_data(file = "linelist_cleaned.rds")
 get_data("linelist_cleaned.rds")
 ```
 
-Khi bạn dùng hàm `get_data()` để lưu tệp dữ liệu vào máy tính của mình, bạn sẽ vẫn cần nhập dữ liệu vào R. Xem chương [Nhập xuất dữ liệu] để biết thêm chia tiết.
+Khi bạn dùng hàm `get_data()` để lưu tệp dữ liệu vào máy tính của mình, bạn sẽ vẫn cần nhập dữ liệu vào R. Xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết.
 
 Nếu bạn muốn, bạn có thể xem toàn bộ dữ liệu sử dụng trong cuốn sách này ở [**thư mục "dữ liệu"**](https://github.com/epirhandbook/Epi_R_handbook/tree/master/data) trong kho Github của chúng tôi.
 
@@ -543,7 +543,7 @@ Tùy chọn này liên quan đến việc tải xuống từng tệp dữ liệu
 
 -   <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>Bấm để tải xuống dữ liệu "thô" linelist (.xlsx)</span></a>. Bộ dữ liệu "thô" là một trang tính Excel với dữ liệu lộn xộn. Sử dụng số liệu này trong chương [Làm sạch số liệu và các hàm quan trọng].
 
--   <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>Bấm để tải xuống dữ liệu "đã làm sạch" linelist (.rds)</a>. Sử dụng tệp này cho tất cả các chương khác trong sổ tay có sử dụng bộ dữ liệu linelist. Tệp mở rộng .rds là một kiểu file của R có khả năng bảo tồn các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.
+-   <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>Bấm để tải xuống dữ liệu "đã làm sạch" linelist (.rds)</a>. Sử dụng tệp này cho tất cả các chương khác trong sổ tay có sử dụng bộ dữ liệu linelist. Tệp mở rộng .rds là một kiểu file của R có khả năng lưu trữ các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.
 
 *Các tệp liên quan khác:*
 
@@ -560,11 +560,11 @@ cleaning_dict <- import("https://github.com/epirhandbook/Epi_R_handbook/raw/mast
 
 #### Dữ liệu số trường hợp sốt rét {#data_malaria .unnumbered}
 
-Đây là số liệu giả định về số lượng trường hợp sốt rét theo nhóm tuổi, cơ sở điều trị và ngày. Tệp mở rộng .rds là một kiểu file của R có khả năng bảo tồn các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.
+Đây là số liệu giả định về số lượng trường hợp sốt rét theo nhóm tuổi, cơ sở điều trị và ngày. Tệp mở rộng .rds là một kiểu file của R có khả năng lưu trữ các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.
 
 <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_facility_count_data.rds' class='download-button'> Bấm để tải file dữ liệu sốt rét (.rds file) </a>
 
-#### Dữ liệu thang Likert {.unnumbered}
+#### Dữ liệu thang đo Likert {.unnumbered}
 
 Đây là dữ liệu giả định từ một cuộc khảo sát sử dụng thang đo Likert, được sử dụng trong chương [Tháp dân số và thang đo Likert]. Bạn có thể tải những dữ liệu này trực tiếp vào R bằng cách chạy các lệnh sau:
 
@@ -584,27 +584,27 @@ Dưới đây là các liên kết đến tệp được dùng trong chương [D
 
 #### Truy vết tiếp xúc {.unnumbered}
 
-Chương [Truy vết tiếp xúc] trình bày phân tích dữ liệu truy vết tiếp xúc, sử dụng dữ liệu minh họa từ [Go.Data](https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting). Dữ liệu được sử dụng trong chương này có thể được tải xuống dưới dạng tệp .rds bằng cách nhấp vào các liên kết sau:
+Chương [Truy vết tiếp xúc] trình bày phân tích dữ liệu truy vết tiếp xúc, sử dụng dữ liệu minh họa từ [Go.Data](https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting). Dữ liệu được sử dụng trong chương này có thể được tải xuống dưới dạng tệp .rds bằng cách bấm vào các liên kết sau:
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/cases_clean.rds?raw=true' class='download-button'> NhBấm để tải xuống dữ liệu điều tra trường hợp (.rds file) </a>
+<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/cases_clean.rds?raw=true' class='download-button'> Bấm để tải xuống dữ liệu điều tra trường hợp (.rds file) </a>
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/contacts_clean.rds?raw=true' class='download-button'> NhBấm để tải xuống dữ liệu ghi nhận tiếp xúc (.rds file) </a>
+<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/contacts_clean.rds?raw=true' class='download-button'> Bấm để tải xuống dữ liệu ghi nhận tiếp xúc (.rds file) </a>
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/followups_clean.rds?raw=true' class='download-button'> NhBấm để tải xuống dữ liệu theo dõi liên hệ (.rds file) </a>
+<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/followups_clean.rds?raw=true' class='download-button'> Bấm để tải xuống dữ liệu theo dõi liên hệ (.rds file) </a>
 
-[***LƯU Ý:*** Dữ liệu theo dõi liên hệ có cấu trúc từ phần mềm khác (ví dụ: KoBo, DHIS2 Tracker, CommCare) có thể trông khác. Nếu bạn muốn đóng góp dữ liệu hoặc nội dung mẫu thay thế cho trang này, vui lòng [liên hệ chúng tôi](#contact_us).]{style="color: black;"}
+[***LƯU Ý:*** Dữ liệu truy vết tiếp xýc có cấu trúc từ phần mềm khác (ví dụ: KoBo, DHIS2 Tracker, CommCare) có thể sẽ khác. Nếu bạn muốn đóng góp dữ liệu hoặc nội dung mẫu thay thế cho trang này, vui lòng [liên hệ chúng tôi](#contact_us).]{style="color: black;"}
 
-[***MẸO:*** Nếu bạn đang triển khai Go.Data và muốn kết nối với API phiên bản của bạn, vui lòng xem chương Nhập xuất dữ liệu [(mục API)](#import_api) and the [Go.Data Cộng đồng thực hành](https://community-godata.who.int/).]{style="color: darkgreen;"}
+[***MẸO:*** Nếu bạn đang triển khai Go.Data và muốn kết nối với API phiên bản của bạn, vui lòng xem chương Nhập xuất dữ liệu [(mục API)](#import_api) và [Go.Data Cộng đồng thực hành](https://community-godata.who.int/).]{style="color: darkgreen;"}
 
 #### GIS {.unnumbered}
 
 Shapefiles có nhiều tệp thành phần phụ, mỗi tệp có một phần mở rộng tệp khác nhau. Một tệp sẽ có phần mở rộng ".shp", nhưng những tệp khác có thể là ".dbf", ".prj", v.v.
 
-Chương [GIS cơ bản] cung cấp các liên kết đến trang web *Humanitarian Data Exchange* w nơi bạn có thể tải xuống trực tiếp các shapefiles dưới dạng tệp nén.
+Chương [GIS cơ bản] cung cấp các liên kết đến trang web *Humanitarian Data Exchange*, nơi bạn có thể tải xuống trực tiếp các shapefiles dưới dạng tệp nén.
 
-FVí dụ, dữ liệu điểm của các cơ sở y tế có thể được tải xuống [tại đây](https://data.humdata.org/dataset/hotosm_sierra_leone_health_facilities). Bạn tải tệp "hotosm_sierra_leone_health_facilities_points_shp.zip". Sau khi được lưu vào máy tính của bạn, hãy “giải nén” thư mục. Bạn sẽ thấy một số tệp có các phần mở rộng khác nhau (ví dụ: “.shp”, “.prj”, “.shx”) - tất cả những tệp này phải được lưu vào cùng một thư mục trên máy tính của bạn. Sau đó, để nhập vào R, hãy cung cấp đường dẫn đến tệp và tên của tệp “.shp” bằng hàm `st_read()` từ package **sf** (như được mô tả trong chương [GIS cơ bản]).
+Ví dụ, dữ liệu phân bố của các cơ sở y tế có thể được tải xuống [tại đây](https://data.humdata.org/dataset/hotosm_sierra_leone_health_facilities). Bạn tải tệp "hotosm_sierra_leone_health_facilities_points_shp.zip". Sau khi được lưu vào máy tính của bạn, hãy “giải nén” thư mục. Bạn sẽ thấy một số tệp có các phần mở rộng khác nhau (ví dụ: “.shp”, “.prj”, “.shx”) - tất cả những tệp này phải được lưu vào cùng một thư mục trên máy tính của bạn. Sau đó, để nhập vào R, hãy cung cấp đường dẫn đến tệp và tên của tệp “.shp” bằng hàm `st_read()` từ package **sf** (đã được mô tả trong chương [GIS cơ bản]).
 
-Nếu bạn làm theo Cách 1 để tải xuống tất cả dữ liệu minh (thông qua package **epirhandbook** của chúng tôi), tất cả các shapefiles đã được bao gồm.
+Nếu bạn làm theo Cách 1 để tải xuống tất cả dữ liệu minh họa (thông qua package **epirhandbook** của chúng tôi), tất cả các shapefiles đã được bao gồm.
 
 Ngoài ra, bạn có thể tải xuống các shapefiles từ thư mục "data" trên trang R Handbook Github (xem thư mục con "gis"). Tuy nhiên, cần lưu ý rằng bạn sẽ phải tải *từng* tệp con xuống máy tính của mình. Trong Github, nhấp vào từng tệp riêng lẻ và tải chúng xuống bằng cách nhấp vào nút “Download”. Xem hình minh họa dưới đây, bạn có thể thấy shapefile “sl_adm3” bao gồm nhiều tệp con như thế nào - và mỗi tệp đều cần được tải xuống từ Github.
 
@@ -614,7 +614,7 @@ knitr::include_graphics(here::here("images", "download_shp.png"))
 
 #### Cây phả hệ {.unnumbered}
 
-Xem chương [Cây phả hệ]. Tệp Newick về cây phả hệ được xây dựng từ việc giải trình tự toàn bộ bộ gen của 299 mẫu Shigella sonnei và dữ liệu mẫu tương ứng (được chuyển đổi thành tệp văn bản). Các mẫu và kết quả từ nước Bỉ được cung cấp thông qua Trung tâm tham khảo quốc gia về Salmonella và Shigella (NRC Bỉ) trong phạm vi dự án do EUPHEM Fellow của ECDC thực hiện, và cũng sẽ được xuất bản dưới dạng bản thảo. Dữ liệu quốc tế được cung cấp công khai trên cơ sở dữ liệu công cộng (ncbi) và đã được xuất bản trước đó.
+Xem chương [Cây phả hệ]. Tệp có tên Newick về cây phả hệ được xây dựng từ việc giải trình tự toàn bộ bộ gen của 299 mẫu Shigella sonnei và dữ liệu mẫu tương ứng (được chuyển đổi thành tệp văn bản). Các mẫu và kết quả từ nước Bỉ được cung cấp thông qua Trung tâm tham khảo quốc gia về Salmonella và Shigella (NRC Bỉ) trong phạm vi dự án do EUPHEM Fellow của ECDC thực hiện, và cũng sẽ được xuất bản dưới dạng bản thảo. Dữ liệu quốc tế được cung cấp công khai trên cơ sở dữ liệu công cộng (ncbi) và đã được xuất bản trước đó.
 
 -   Để tải xuống file cây phả hệ “Shigella_tree.txt”, nhấn chuột phải vào [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/Shigella_tree.txt) (Cmd+click đối với Mac) và chọn "Save link as".\
 -   Để tải xuống file "sample_data_Shigella_tree.csv" với thông tin bổ sung cho từng mẫu, nhấn chuột phải vào [link này](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/sample_data_Shigella_tree.csv) (Cmd+click đối với Mac) và chọn "Save link as".\
@@ -662,11 +662,11 @@ standard_pop_data <- import("https://github.com/epirhandbook/Epi_R_handbook/raw/
 
 #### Chuỗi thời gian và phát hiện ổ dịch {#data_outbreak .unnumbered}
 
-Xem trong chương [Chuỗi thời gian và phát hiện ổ dịch](#data_outbreak). Chúng tôi sử dụng các trường hợp campylobacter được báo cáo ở Đức 2002-2011, có sẵn từ package **surveillance** của R. (*lưu ý.* tập dữ liệu này đã được điều chỉnh từ bản gốc, trong đó 3 tháng dữ liệu cuối năm 2011 đã bị xóa để dùng với mục đích minh họa)
+Xem trong chương [Chuỗi thời gian và phát hiện ổ dịch](#data_outbreak). Chúng tôi sử dụng các trường hợp campylobacter được báo cáo ở Đức từ 2002-2011, có sẵn từ package **surveillance** của R. (*lưu ý.* tập dữ liệu này đã được điều chỉnh từ bản gốc, trong đó 3 tháng dữ liệu cuối năm 2011 đã bị xóa để dùng với mục đích minh họa)
 
 <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/campylobacter_germany.xlsx' class='download-button'> Bấm để tải xuống dữ liệu Campylobacter ở Đức (.xlsx) </a>
 
-Chúng tôi cũng sử dụng dữ liệu khí hậu từ Đức 2002-2011 (nhiệt độ tính bằng độ C và mưa tính bằng milimét). Dữ liệu được tải xuống từ tập dữ liệu phân tích lại vệ tinh Copernicus của EU bằng cách sử dụng **ecmwfr** package. Bạn sẽ cần tải xuống tất cả những thứ này và nhập chúng vào R bằng hàm `stars::read_stars()` như đã được giải thích trong chương chuỗi thời gian.
+Chúng tôi cũng sử dụng dữ liệu khí hậu ở Đức từ 2002-2011 (nhiệt độ tính bằng độ C và lượng mưa tính bằng milimet). Dữ liệu được tải xuống từ tập dữ liệu phân tích vệ tinh Copernicus của EU bằng cách sử dụng package **ecmwfr** . Bạn sẽ cần tải xuống tất cả những thứ này và nhập chúng vào R bằng hàm `stars::read_stars()` như đã được giải thích trong chương chuỗi thời gian.
 
 <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2002.nc' class='download-button'> Bấm để tải dữ liệu thời tiết ở Đức 2002 (.nc file) </a>
 
@@ -805,13 +805,13 @@ knitr::include_graphics(here::here("images", "basics_header_close.png"))
 ```
 
 
-Welcome!  
+Chào mừng bạn!  
 
-This page reviews the essentials of R. It is not intended to be a comprehensive tutorial, but it provides the basics and can be useful for refreshing your memory. The section on [Resource for learning](#learning) links to more comprehensive tutorials.  
+Chương này sẽ mô tả những kỹ thuật cơ bản của R. Đây không phải là hướng dẫn sử dụng toàn diện, nhưng sẽ cung cấp những kiến thức cơ bản và có thể hữu ích trong việc làm mới hiểu biết của bạn. Phần [Tài nguyên học liệu](#learning) sẽ liên kết đến những hướng dẫn sử dụng R bao quát hơn.  
 
-Parts of this page have been adapted with permission from the [R4Epis project](https://r4epis.netlify.app/).  
+Các phần của chương này đã được điều chỉnh dưới sự cho phép của [Dự án R4Epis](https://r4epis.netlify.app/).  
 
-See the page on [Transition to R] for tips on switching to R from STATA, SAS, or Excel.  
+Xem chương [Chuyển đổi sang R] để biết các mẹo khi chuyển đổi từ STATA, SAS hoặc Excel sang R.  
 
 ```{r, echo=F}
 # import the cleaned ebola linelist
@@ -823,83 +823,83 @@ pacman::p_load(apyramid)
 
 
 <!-- ======================================================= -->
-## Tại sao lại sử dụng R?
+## Tại sao sử dụng R?
 
-As stated on the [R project website](https://www.r-project.org/about.html), R is a programming language and environment for statistical computing and graphics. It is highly versatile, extendable, and community-driven.  
+Như đã được công bố trên [trang web dự án R](https://www.r-project.org/about.html), R là một ngôn ngữ và môi trường lập trình cho tính toán và đồ họa thống kê. Nó rất linh hoạt, có khả năng mở rộng và hướng tới cộng đồng.  
 
-**Cost**
+**Chi phí**
 
-R is free to use! There is a strong ethic in the community of free and open-source material.  
+R được sử dụng miễn phí! Có sự tồn tại mạnh mẽ về đạo đức trong cộng đồng người sử dụng nguồn tài nguyên mở và miễn phí.  
 
-**Reproducibility**  
+**Khả năng tái lập**  
 
-Conducting your data management and analysis through a programming language (compared to Excel or another primarily point-click/manual tool) enhances **reproducibility**, makes **error-detection** easier, and eases your workload.  
+Thực hiện quản lý và phân tích dữ liệu của bạn thông qua một ngôn ngữ lập trình (so sánh với Excel hoặc công cụ khác mà thao tác chính là nhấp chuột/thao tác thủ công) giúp nâng cao **khả năng tái lập**, giúp **phát hiện lỗi** dễ dàng hơn và giảm bớt khối lượng công việc của bạn.  
 
-**Community**  
+**Cộng đồng**  
 
-The R community of users is enormous and collaborative. New packages and tools to address real-life problems are developed daily, and vetted by the community of users. As one example, [R-Ladies](https://rladies.org/) is a worldwide organization whose mission is to promote gender diversity in the R community, and is one of the largest organizations of R users. It likely has a chapter near you!  
-
-
-## Key terms  
-
-**RStudio** - RStudio is a Graphical User Interface (GUI) for easier use of **R**. Read more [in the RStudio section](#rstudio).  
-
-**Objects** - Everything you store in R - datasets, variables, a list of village names, a total population number, even outputs such as graphs - are *objects* which are *assigned a name* and *can be referenced* in later commands. Read more [in the Objects section](#objects).  
-
-**Functions** - A function is a code operation that accept inputs and returns a transformed output. Read more [in the Functions section](#functions).  
-
-**Packages** - An R package is a shareable bundle of functions. Read more [in the Packages section](#packages).  
-
-**Scripts** - A script is the document file that hold your commands. Read more [in the Scripts section](#scripts)
+R có cộng đồng người dùng khổng lồ và có tính hợp tác. Các package và công cụ mới nhằm giải quyết các vấn đề thực tế được phát triển hàng ngày và được kiểm tra bởi cộng đồng người dùng. Ví dụ, [R-Ladies](https://rladies.org/) là một tổ chức toàn cầu có sứ mệnh thúc đẩy sự đa dạng giới trong cộng đồng R và là một trong những tổ chức người dùng R lớn nhất. Thậm chí có thể có một phần của nhóm này đang ở gần bạn!  
 
 
+## Các thuật ngữ chính  
 
-## Resources for learning {#learning}  
+**RStudio** - RStudio là Giao diện đồ họa người dùng (GUI) giúp sử dụng **R** dễ dàng hơn. Đọc thêm [trong mục RStudio](#rstudio).  
 
-### Resources within RStudio {.unnumbered}  
+**Đối tượng** - Bao gồm mọi thứ bạn lưu trữ trong R - bộ dữ liệu, biến, danh sách tên làng, quy mô dân số, thậm chí cả các kết quả đầu ra như đồ thị - là các *đối tượng* được *gán tên* và *có thể được tham chiếu* trong các lệnh sau này. Đọc thêm [trong mục Đối tượng](#objects).  
 
-**Help documentation**  
+**Hàm** - Mỗi hàm là một code hoạt động mà chấp nhận dữ liệu đầu vào và trả về kết quả đầu ra đã được biến đổi. Đọc thêm [trong mục Các hàm](#functions).  
 
-Search the RStudio "Help" tab for documentation on R packages and specific functions. This is within the pane that also contains Files, Plots, and Packages (typically in the lower-right pane). As a shortcut, you can also type the name of a package or function into the R console after a question-mark to open the relevant Help page. Do not include parentheses.  
+**Packages** - Mỗi package R là một gói câu lệnh có khả năng chia sẻ. Đọc thêm [trong mục Packages](#packages).  
 
-For example: `?filter`  or `?diagrammeR`.  
+**Scripts** - Mỗi script là một tệp tài liệu chứa các lệnh của bạn. Đọc thêm [trong mục Scripts](#scripts)
 
-**Interactive tutorials**  
 
-There are several ways to learn R interactively *within* RStudio.  
 
-RStudio itself offers a Tutorial pane that is powered by the [**learnr**](https://blog.rstudio.com/2020/02/25/rstudio-1-3-integrated-tutorials/) R package. Simply install this package and open a tutorial via the new "Tutorial" tab in the upper-right RStudio pane (which also contains Environment and History tabs).  
+## Tài nguyên học liệu {#learning}  
 
-The R package [**swirl**](https://swirlstats.com/) offers interactive courses in the R Console. Install and load this package, then run the command `swirl()` (empty parentheses) in the R console. You will see prompts appear in the Console. Respond by typing in the Console. It will guide you through a course of your choice.   
+### Tài nguyên trong RStudio {.unnumbered}  
+
+**Tài liệu trợ giúp**  
+
+Tìm kiếm tab “Help” của RStudio về tài liệu liên quan đến package R và các hàm cụ thể. Tab này nằm trong cửa sổ chứa các tab Files, Plots và Packages (thường ở cửa sổ phía dưới bên phải). Như một lối tắt, bạn cũng có thể nhập tên của một package hoặc câu lệnh vào R Console sau dấu hỏi chấm và không bao gồm dấu ngoặc đơn để mở trang trợ giúp liên quan.  
+
+Ví dụ: `?filter`  hoặc `?diagrammeR`.  
+
+**Các hướng dẫn có sự tương tác**  
+
+R có thể được học thông qua một số tương tác *trong* RStudio.  
+
+RStudio cung cấp một cửa sổ Tutorial được hỗ trợ bởi package [**learnr**](https://blog.rstudio.com/2020/02/25/rstudio-1-3-integrated-tutorials/). Chỉ cần cài đặt package này và mở hướng dẫn qua tab "Tutorial" trong cửa sổ RStudio phía trên bên phải (cũng chứa các tab Environment và History).  
+
+Package [**swirl**](https://swirlstats.com/) cung cấp các nội dung học tương tác trong R Console. Cài đặt và tải package này, rồi chạy lệnh `swirl()` (dấu ngoặc đơn trống) trong R Console. Bạn sẽ thấy các thông báo xuất hiện trong cửa sổ Console. Phản hồi bằng cách nhập vào Console. Nó sẽ hướng dẫn bạn qua một nội dung học do bạn lựa chọn.   
 
 
 ### Cheatsheets {.unnumbered}
 
-There are many PDF "cheatsheets" available on the [RStudio website](https://rstudio.com/resources/cheatsheets/), for example:  
+Có rất nhiều "cheatsheets" PDF có sẵn trên [trang web của RStudio](https://rstudio.com/resources/cheatsheets/), ví dụ như:  
 
-* Factors with **forcats** package  
-* Dates and times with **lubridate** package  
-* Strings with **stringr** package  
-* iterative opertaions with **purrr** package  
-* Data import  
-* Data transformation cheatsheet with **dplyr** package  
-* R Markdown (to create documents like PDF, Word, Powerpoint...)  
-* Shiny (to build interactive web apps)  
-* Data visualization with **ggplot2** package  
-* Cartography (GIS)  
-* **leaflet** package (interactive maps)  
-* Python with R (**reticulate** package)  
+* Factors với package **forcats**   
+* Ngày và thời gian với package **lubridate**  
+* Chuỗi với package **stringr**  
+* Các vòng lặp với package **purrr**  
+* Nhập dữ liệu  
+* Cheatsheet biến đổi dữ liệu với package **dplyr**  
+* R Markdown (để tạo các tài liệu như PDF, Word, Powerpoint…)  
+* Shiny (để xây dựng các ứng dụng web tương tác)  
+* Trực quan hóa dữ liệu với package **ggplot2**  
+* Bản đồ học (GIS)  
+* Package **leaflet** (bản đồ tương tác)  
+* Python với R (package **reticulate**)  
 
-This is an online R resource specifically for [Excel users](https://jules32.github.io/r-for-excel-users/)  
+Đây là tài nguyên R trực tuyến dành riêng cho [Người dùng Excel](https://jules32.github.io/r-for-excel-users/)  
 
 
 
 ### Twitter {.unnumbered}  
 
-R has a vibrant twitter community where you can learn tips, shortcuts, and news - follow these accounts:  
+R có một cộng đồng twitter sôi động, nơi bạn có thể tìm hiểu các mẹo, lối tắt và tin tức - hãy theo dõi các tài khoản sau:  
 
-* Follow us! [\@epiRhandbook](https://twitter.com/epirhandbook)  
-* R Function A Day [\@rfuntionaday](https://twitter.com/rfunctionaday) is an *incredible* resource  
+* Theo dõi chúng tôi: [\@epiRhandbook](https://twitter.com/epirhandbook)  
+* R Function A Day [\@rfuntionaday](https://twitter.com/rfunctionaday) là một nguồn tài nguyên *tuyệt vời* 
 * R for Data Science [\@rstats4ds](https://twitter.com/rstats4ds?lang=en)  
 * RStudio [\@RStudio](https://twitter.com/rstudio?lang=en)  
 * RStudio Tips [\@rstudiotips](https://twitter.com/rstudiotips)  
@@ -908,24 +908,24 @@ R has a vibrant twitter community where you can learn tips, shortcuts, and news 
 * Hadley Wickham [\@hadleywickham](https://twitter.com/hadleywickham?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor)  
 
 
-Also:  
+Cũng như:  
 
-**#epitwitter** and **#rstats**  
-
-
-
-### Free online resources {.unnumbered}  
-
-A definitive text is the [R for Data Science](https://r4ds.had.co.nz/) book by Garrett Grolemund and Hadley Wickham
-
-The [R4Epis](https://r4epis.netlify.app/) project website aims to "develop standardised data cleaning, analysis and reporting tools to cover common types of outbreaks and population-based surveys that would be conducted in an MSF emergency response setting." You can find R basics training materials, templates for RMarkdown reports on outbreaks and surveys, and tutorials to help you set them up.  
+**#epitwitter** và **#rstats**  
 
 
-### Languages other than English {.unnumbered}  
 
-[Materiales de RStudio en Español](https://www.rstudio.com/collections/espanol/)
+### Nguồn tài nguyên trực tuyến miễn phí {.unnumbered}  
 
-[Introduction à R et au tidyverse (Francais)](https://juba.github.io/tidyverse/index.html)  
+Cuốn sách  [R for Data Science](https://r4ds.had.co.nz/) (R dành cho Khoa học Dữ liệu) của Garrett Grolemund và Hadley Wickham
+
+Trang web của dự án [R4Epis](https://r4epis.netlify.app/) nhằm mục đích “phát triển các công cụ làm sạch, phân tích và báo cáo dữ liệu được chuẩn hóa dùng trong các trường hợp bùng phát dịch phổ biến và các cuộc điều tra dựa trên dân số mà sẽ được tiến hành trong các ứng phó khẩn cấp của Tổ chức Bác sỹ không biên giới" Bạn có thể tìm thấy tài liệu đào tạo cơ bản về R, các mẫu báo cáo RMarkdown và khảo sát về các đợt bùng phát dịch, cũng như các hướng dẫn để giúp bạn thiết lập chúng.  
+
+
+### Các ngôn ngữ khác ngoài Tiếng Anh {.unnumbered}  
+
+[Tài liệu RStudio bằng tiếng Tây Ban Nha](https://www.rstudio.com/collections/espanol/)
+
+[Giới thiệu cơ bản về R (tiếng Pháp)](https://juba.github.io/tidyverse/index.html)  
 
 
 
@@ -935,48 +935,48 @@ The [R4Epis](https://r4epis.netlify.app/) project website aims to "develop stand
 
 
 <!-- ======================================================= -->
-## Installation  
+## Cài đặt  
 
-### R and RStudio {.unnumbered}  
+### R và RStudio {.unnumbered}  
 
-**How to install R**  
+**Làm thế nào để cài đặt R**  
 
-Visit this website [https://www.r-project.org/](https://www.r-project.org/) and download the latest version of R suitable for your computer.  
+Truy cập vào trang web [https://www.r-project.org/](https://www.r-project.org/) và tải phiên bản mới nhất của R phù hợp với máy tính của bạn.  
 
-**How to install RStudio**  
+**Làm thế nào để cài đặt RStudio**  
 
-Visit this website [https://rstudio.com/products/rstudio/download/](https://rstudio.com/products/rstudio/download/) and download the latest free Desktop version of RStudio suitable for your computer.
+Truy cập vào trang web [https://rstudio.com/products/rstudio/download/](https://rstudio.com/products/rstudio/download/) và tải phiên bản Desktop mới nhất của RStudio phù hợp với máy tính của bạn.
 
-**Permissions**  
-Note that you should install R and RStudio to a drive where you have read and write permissions. Otherwise, your ability to install R packages (a frequent occurrence) will be impacted. If you encounter problems, try opening RStudio by right-clicking the icon and selecting "Run as administrator". Other tips can be found in the page [R on network drives].  
+**Quyền truy cập**  
+Lưu ý rằng bạn nên cài đặt R và RStudio vào một ổ đĩa mà bạn có quyền đọc và ghi lại. Nếu không, khả năng cài đặt các package R (thường xuyên xảy ra) của bạn sẽ bị ảnh hưởng. Nếu bạn gặp sự cố, hãy thử mở RStudio bằng cách nhấp chuột phải vào biểu tượng và chọn “Run as administrator”. Các mẹo khác có thể được tìm thấy trong chương [R trên ổ cứng mạng].  
 
-**How to update R and RStudio**  
+**Làm thế nào để cập nhật R và RStudio**  
 
-Your version of R is printed to the R Console at start-up. You can also run `sessionInfo()`.  
+Phiên bản R của bạn được in ra R Console khi khởi động. Bạn cũng có thể chạy lệnh `sessionInfo()`.  
 
-To update R, go to the website mentioned above and re-install R. Alternatively, you can use the **installr** package (on Windows) by running `installr::updateR()`. This will open dialog boxes to help you download the latest R version and update your packages to the new R version. More details can be found in the **installr** [documentation](https://www.r-project.org/nosvn/pandoc/installr.html).  
+Để cập nhật R, truy cập đến trang web được nhắc đến ở trên và cài đặt lại R. Ngoài ra, bạn có thể sử dụng package **installr** (trên Windows) bằng cách chạy câu lệnh `installr::updateR()`. Thao tác này sẽ mở ra các hộp thoại giúp bạn tải xuống phiên bản R mới nhất và cập nhật các package của bạn lên phiên bản R mới. Có thể tìm thấy thêm chi tiết trong [tài liệu](https://www.r-project.org/nosvn/pandoc/installr.html) **installr** .  
 
-Be aware that the old R version will still exist in your computer. You can temporarily run an older version (older "installation") of R by clicking "Tools" -> "Global Options" in RStudio and choosing an R version. This can be useful if you want to use a package that has not been updated to work on the newest version of R.  
+Lưu ý rằng phiên bản R cũ sẽ vẫn tồn tại trong máy tính của bạn. Bạn có thể tạm thời chạy phiên bản cũ hơn (“installation” cũ hơn) của R bằng cách nhấp vào “Tools” -> “Global Options” trong RStudio và chọn một phiên bản R. Điều này có thể hữu ích nếu bạn muốn sử dụng một package chưa được cập nhật để hoạt động trên phiên bản R mới nhất.  
 
-To update RStudio, you can go to the website above and re-download RStudio. Another option is to click "Help" -> "Check for Updates" within RStudio, but this may not show the very latest updates.  
+Để cập nhật RStudio, truy cập đến trang web được nhắc đến ở trên và cài đặt lại RStudio. Một tùy chọn khác là nhấp vào “Help” -> “Check for Updates” trong RStudio, nhưng điều này có thể dẫn đến việc không hiển thị các bản cập nhật mới nhất.  
 
-To see which versions of R, RStudio, or packages were used when this Handbook as made, see the page on [Editorial and technical notes]. 
+Để xem phiên bản R, RStudio hoặc package nào đã được sử dụng khi viết Sổ tay này, hãy xem chương [Biên tập và ghi chú kỹ thuật]. 
 
 
-### Other software you *may* need to install {.unnumbered} 
+### Những phần mềm khác bạn *có thể* cần cài đặt {.unnumbered} 
 
-* TinyTeX (*for compiling an RMarkdown document to PDF*)  
-* Pandoc  (*for compiling RMarkdown documents*)  
-* RTools  (*for building packages for R*)  
-* phantomjs (*for saving still images of animated networks, such as transmission chains*)  
+* TinyTeX (*để biên dịch tài liệu RMarkdown sang PDF*)  
+* Pandoc  (*để biên dịch tài liệu RMarkdown*)  
+* RTools  (*để xây dựng các package cho R*)  
+* phantomjs (*để lưu ảnh tĩnh của mạng động, chẳng hạn như chuỗi lây truyền*)  
 
 
 #### TinyTex {.unnumbered}  
 
-TinyTex is a custom LaTeX distribution, useful when trying to produce PDFs from R.  
-See [https://yihui.org/tinytex/](https://yihui.org/tinytex/) for more informaton.  
+TinyTex là một bản phân phối LaTeX tùy chỉnh, hữu ích khi tạo các tệp PDF từ R.  
+Truy cập [https://yihui.org/tinytex/](https://yihui.org/tinytex/) để tìm hiểu thêm thông tin.  
 
-To install TinyTex from R:  
+Để cài đặt TinyTex từ R:  
 
 ```{r, eval=F}
 install.packages('tinytex')
@@ -987,19 +987,19 @@ tinytex::install_tinytex()
 
 #### Pandoc {.unnumbered}
 
-Pandoc is a document converter, a separate software from R. **It comes bundled with RStudio and should not need to be downloaded.** It helps the process of converting Rmarkdown documents to formats like .pdf and adding complex functionality.  
+Pandoc là một công cụ chuyển đổi văn bản, một phần mềm tách biệt với R. **Nó đi kèm với RStudio và không cần phải tải xuống.** Nó hỗ trợ quá trình chuyển đổi văn bản từ Rmarkdown sang các định dạng như .pdf và có bổ sung thêm một số tính năng phức tạp.  
 
 
 #### RTools {.unnumbered}  
 
-RTools is a collection of software for building packages for R
+RTools là một phần mềm được sử dụng để xây dựng package cho R
 
-Install from this website: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/)  
+Cài đặt từ trang web: [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/)  
 
 
 #### phantomjs {.unnumbered}  
 
-This is often used to take "screenshots" of webpages. For example when you make a transmission chain with **epicontacts** package, an HTML file is produced that is interactive and dynamic. If you want a static image, it can be useful to use the [**webshot**](https://wch.github.io/webshot/articles/intro.html) package to automate this process. This will require the external program "phantomjs". You can install phantomjs via the **webshot** package with the command `webshot::install_phantomjs()`.  
+Phần mềm này thường được sử dụng để chụp "chụp ảnh màn hình" trang web. Ví dụ khi bạn tạo một chuỗi lây truyền với package **epicontacts**, một tệp HTML có thể tương tác và chuyển động được tạo ra. Nếu bạn muốn có hình ảnh tĩnh, sử dụng package [**webshot**](https://wch.github.io/webshot/articles/intro.html) để tự động hóa quá trình này. Việc này sẽ yêu cầu chương trình bên ngoài "phantomjs". Bạn có thể cài đặt phantomjs thông qua package **webshot** bằng lệnh `webshot::install_phantomjs()`.  
 
 
 
@@ -1008,47 +1008,47 @@ This is often used to take "screenshots" of webpages. For example when you make 
 ## RStudio {#rstudio}
 
 
-### RStudio orientation {.unnumbered}  
+### Làm quen {.unnumbered}  
 
-**First, open RStudio.** As their icons can look very similar, be sure you are opening *RStudio* and not R.  
+**Đầu tiên, mở RStudio.** Biểu tượng của chúng có sự tương đồng, hãy chắc chắn bạn đang mở *RStudio* chứ không phải R.  
 
-For RStudio to work you must also have R installed on the computer (see above for installation instructions).  
+Để RStudio hoạt động bạn cũng cần phải cài đặt R trên máy tính (xem hướng dẫn cài đặt ở bên trên).  
 
-**RStudio** is an interface (GUI) for easier use of **R**. You can think of R as being the engine of a vehicle, doing the crucial work, and RStudio as the body of the vehicle (with seats, accessories, etc.) that helps you actually use the engine to move forward! You can see the complete RStudio user-interface cheatsheet (PDF) [here](https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)  
+**RStudio** là một giao diện người dùng (GUI) giúp sử dụng **R** dễ dàng hơn. YBạn có thể coi R như một động cơ đang đảm đương công việc chính của một phương tiện và RStudio là phần thân của phương tiện (với ghế ngồi, các phụ kiện,...) giúp bạn sử dụng động cơ tiến về phía trước. Bạn có thể xem toàn bộ cheatsheet giao diện người dùng của RStudio (PDF) tại [đây](https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)  
 
-By default RStudio displays four rectangle panes.  
+RStudio mặc định hiển thị bốn cửa sổ hình chữ nhật.  
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "RStudio_overview.png"))
 ```
 
 
-<span style="color: black;">**_TIP:_** If your RStudio displays only one left pane it is because you have no scripts open yet.</span>
+<span style="color: black;">**_MẸO:_** Nếu RStudio của bạn chỉ hiển thị một cửa sổ bên trái thì đó là do bạn chưa mở scripts nào.</span>
 
 
-**The Source Pane**  
-This pane, by default in the upper-left, is a space to edit, run, and save your [scripts](#scripts). Scripts contain the commands you want to run. This pane can also display datasets (data frames) for viewing.  
+**Cửa sổ mã nguồn**  
+Cửa sổ này, mặc định hiển thị phía trên bên trái, là một khoảng trống để chỉnh sửa, chạy và lưu các [scripts](#scripts) của bạn. Script chứa các lệnh mà bạn muốn chạy. Cửa sổ này cũng có thể hiển thị thông tin dữ liệu (data frames).  
 
-For Stata users, this pane is similar to your Do-file and Data Editor windows.
-
-
-
-**The R Console Pane**  
-
-The R Console, by default the left or lower-left pane in R Studio, is the home of the R "engine". This is where the commands are actually run and non-graphic outputs and error/warning messages appear. You can directly enter and run commands in the R Console, but realize that these commands are not saved as they are when running commands from a script.  
-
-If you are familiar with Stata, the R Console is like the Command Window and also the Results Window.
+Đối với người dùng Stata, cửa sổ này tương tự với các cửa sổ Do-file và Data Editor.
 
 
-**The Environment Pane**  
-This pane, by default in the upper-right, is most often used to see brief summaries of [objects](#objects) in the R Environment in the current session. These objects could include imported, modified, or created datasets, parameters you have defined (e.g. a specific epi week for the analysis), or vectors or lists you have defined during analysis (e.g. names of regions). You can click on the arrow next to a data frame name to see its variables.  
 
-In Stata, this is most similar to the Variables Manager window.
+**Cửa sổ R Console**  
 
-This pane also contains *History* where can see commands that you can previously. It also has a "Tutorial" tab where you can complete interactive R tutorials if you have the **learnr** package installed. It also has a "Connections" pane for external connections, and can have a "Git" pane if you choose to interface with Github.  
+R Console, mặc định ở cửa sổ bên trái hoặc phía dưới bên trái của RStudio, là ngôi nhà của “động cơ” R. Đây là nơi các lệnh thực sự được chạy, các kết quả đầu ra không phải là đồ họa và các thông báo lỗi/cảnh báo sẽ xuất hiện. Bạn có thể nhập và chạy các lệnh trực tiếp trong R Console, nhưng sẽ sớm nhận ra các lệnh này không được lưu như khi chạy lệnh từ một script.  
+
+Nếu bạn đã quen thuộc với Stata, R Console giống như Cửa sổ gõ lệnh và Màn hình hiển thị kết quả.
 
 
-**Plots, Viewer, Packages, and Help Pane**  
+**Cửa sổ Environment**  
+Cửa sổ này, mặc định ở phía trên bên phải, thường được sử dụng để xem tóm tắt ngắn gọn về các [đối tượng](#objects) itrong R Environment ở phiên hiện tại. Các đối tượng này có thể bao gồm các tập dữ liệu đã được nhập, chỉnh sửa hoặc tạo mới, các tham số bạn đã xác định (ví dụ: một tuần dịch tễ cụ thể để phân tích), vectơ hoặc các danh sách bạn đã xác định trong quá trình phân tích (ví dụ: tên các vùng). Bạn có thể nhấp vào mũi tên bên cạnh tên của data frames để xem các biến số của nó.  
+
+Cửa sổ này gần giống với cửa sổ Quản lý biến số trong Stata.
+
+Cửa sổ này cũng chứa *History* - nơi mà bạn có thể xem các lệnh đã làm trước đó. Nó cũng có một tab "Tutorial" - là nơi mà bạn có thể hoàn thành các hướng dẫn tương tác với R nếu bạn đã cài đặt package **learnr**. Nó cũng chứa một tab “Connections” cho phép các kết nối bên ngoài và có thể có cửa sổ “Git” nếu bạn chọn giao diện với Github.  
+
+
+**Cửa sổ Plots, Viewer, Packages, và Help**  
 The lower-right pane includes several important tabs. Typical plot graphics including maps will display in the Plot pane. Interactive or HTML outputs will display in the Viewer pane. The Help pane can display documentation and help files. The Files pane is a browser which can be used to open or delete files. The Packages pane allows you to see, install, update, delete, load/unload R packages, and see which version of the package you have. To learn more about packages see the [packages section](#packages) below.  
 
 This pane contains the Stata equivalents of the Plots Manager and Project Manager windows.
@@ -1280,26 +1280,26 @@ ggplot(case_incidence, aes(x = dates))+
 <!-- ======================================================= -->
 ## Packages {#packages}  
 
-**Packages contain functions.**  
+**Packages chứa các hàm.**  
 
-An R package is a shareable bundle of code and documentation that contains pre-defined functions. Users in the R community develop packages all the time catered to specific problems, it is likely that one can help with your work! You will install and use hundreds of packages in your use of R.  
+Một package trong phần mềm R là một gói code và các tài liệu hướng dẫn có thể chia sẻ được chứa càm hàm được định nghĩa trước. Cộng đồng người dùng phần mềm R luôn phát triển những package giúp giải quyết các vấn đề cụ thể, điều này có thể sẽ giúp bạn trong công việc của mình! Bạn sẽ cài đặt và sử dụng hàng trăm package trong quá trình sử dụng phần mềm R.  
 
-On installation, R contains **"base"** packages and functions that perform common elementary tasks. But many R users create specialized functions, which are verified by the R community and which you can download as a **package** for your own use. In this handbook, package names are written in **bold**. One of the more challenging aspects of R is that there are often many functions or packages to choose from to complete a given task.  
-
-
-### Install and load {.unnumbered}  
-
-*Functions* are contained within **packages** which can be downloaded ("installed") to your computer from the internet. Once a package is downloaded, it is stored in your "library". You can then access the functions it contains during your current R session by "loading" the package.
-
-*Think of R as your personal library*: When you download a package, your library gains a new book of functions, but each time you want to use a function in that book, you must borrow ("load") that book from your library.  
-
-In summary: to use the functions available in an R package, 2 steps must be implemented:  
-
-1) The package must be **installed** (once), *and*  
-2) The package must be **loaded** (each R session)  
+Khi cài đặt, phần mềm R đã có sẵn các package và hàm **"cơ bản"** giúp thực hiện các nhiệm vụ đơn giản.  Nhưng nhiều người dùng R tạo ra các hàm chuyên biệt, được cộng đồng R kiểm chứng và bạn có thể tải xuống dưới dạng **package** để sử dụng theo cách của riêng mình. Trong sách này, tên package được viết **đậm**. Một trong những khía cạnh thách thức hơn của R là thường có nhiều hàm hoặc package để lựa chọn và hoàn thành một nhiệm vụ nhất định.  
 
 
-#### Your library {.unnumbered}  
+### Cài đặt và Gọi {.unnumbered}  
+
+*Các hàm* được chứa trong package **packages** có thể được tải (“cài đặt”) về máy tính của bạn từ internet. Khi một package được tải xuống, package đó sẽ được lưu trữ trong “thư viện” của bạn. Sau đó, bạn có thể truy cập các hàm mà nó chứa trong phiên làm việc hiện tại trên R của bạn bằng cách "Gọi" package.
+
+*Hãy coi R là thư viện cá nhân của bạn*: Khi bạn tải xuống một package, thư viện của bạn nhận được một cuốn sách mới gồm các hàm, nhưng mỗi lần bạn muốn sử dụng một hàm trong cuốn sách đó, bạn phải mượn ("gọi") cuốn sách đó từ thư viện của mình.  
+
+Tóm lại: để sử dụng các hàm có sẵn trong package R, phải thực hiện 2 bước:  
+
+1) Package phải được **cài đặt** (một lần), *và*  
+2) Package phải được **gọi** (trong mỗi phiên làm việc của R)  
+
+
+#### Thư viện của bạn {.unnumbered}  
 
 Your "library" is actually a folder on your computer, containing a folder for each package that has been installed. Find out where R is installed in your computer, and look for a folder called "win-library". For example: `R\win-library\4.0` (the 4.0 is the R version - you'll have a different library for each R version you've downloaded).  
 
@@ -12458,7 +12458,7 @@ Chương này minh họa cách sử dụng các package **janitor**, **dplyr**, 
 
 *Chương này bao gồm cách để tạo* bảng cơ bản, trong khi đó chương [Trình bày bảng] bao gồm cách để định dạng đẹp và in chúng.\*
 
-Mỗi package này đều có những ưu và nhược điểm trong các khía cạnh về code đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.
+Mỗi package này đều có những ưu và nhược điểm trong từng khía cạnh như sự đơn giản, khả năng tiếp cận kết quả, chất lượng kết quả được hiển thị. Sử dụng chương này để quyết định cách tiếp cận nào phù hợp với trường hợp của bạn.
 
 Bạn có một số lựa chọn khi tạo bảng tóm tắt và bảng chéo. Một số yếu tố cần xem xét bao gồm tính đơn giản của code, khả năng tùy chỉnh, đầu ra mong muốn (được in ra R console, dưới dạng dataframe hoặc dưới dạng hình ảnh "đẹp" .png/.jpeg /.html) và dễ xử lý hậu kỳ. Hãy xem xét các điểm dưới đây khi bạn chọn công cụ cho tình huống của mình.
 

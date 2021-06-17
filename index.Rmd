@@ -1,6 +1,6 @@
 ---
 knit: "bookdown::render_book"
-title: "Sổ tay dịch tễ học với R"  
+title: "Cẩm nang dịch tễ học với R"  
 description: "The Epi R Handbook is a R reference manual for applied epidemiology and public health."
 author: "the handbook team"
 date: "`r Sys.Date()`"
@@ -48,7 +48,7 @@ knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x5
 
 <!-- ## About this handbook   -->
 
-## R trong dịch tễ học ứng dụng và y tế công cộng {.unnumbered}
+## Dịch tễ học ứng dụng và y tế công cộng với R {.unnumbered}
 
 **Sổ tay này hướng tới:**
 
@@ -85,10 +85,10 @@ a column separator -->
 
 [**Được viết bởi các nhà dịch tễ học, dành cho các nhà dịch tễ học**]{style="color: black;"}
 
-Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi trên thế giới, viết trong thời gian rảnh của mình để cung cấp tài liệu này cho cộng đồng. Sự động viên và góp ý của bạn luôn được chào đón thông qua:
+Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi trên thế giới, viết trong thời gian rảnh của mình để cung cấp tài liệu này tới cộng đồng. Sự động viên và góp ý của bạn luôn được chào đón thông qua:
 
 -   Gửi [**biểu mẫu phản hồi**](https://forms.gle/A5SnRVws7tPD15Js9)\
--   Email [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email} hoặc tweet [**\@epiRhandbook**](https://twitter.com/epirhandbook)\
+-   Email tới [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email} hoặc tweet [**\@epiRhandbook**](https://twitter.com/epirhandbook)\
 -   Gửi các vấn đề cho chúng tôi tại [**Github repository**](https://github.com/epirhandbook/Epi_R_handbook)
 
 </div>
@@ -99,9 +99,9 @@ Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi tr�
 ## Sổ tay này được sử dụng như thế nào {.unnumbered}
 
 -   Truy cập các trang trong phần Mục lục, hoặc sử dụng ô tìm kiếm
--   Nhấn biểu tượng "copy" để copy code\
+-   Nhấn biểu tượng "copy" để sao chép code\
 -   Kết hợp theo dõi cùng với các bộ [dữ liệu minh họa][Tải sách và dữ liệu]\
--   Xem phần "Tài nguyên" trong từng trang để tìm thêm tài liệu
+-   Xem phần "Tài nguyên" trong từng chương để tìm thêm tài liệu
 
 **Phiên bản ngoại tuyến**
 
@@ -113,7 +113,7 @@ Xem hướng dẫn tại trang [Tải sách và dữ liệu].
 
 Sổ tay này được tạo ra bởi sự hợp tác của các nhà dịch tễ học từ khắp nơi trên thế giới, đúc kết kinh nghiệm cùng với các tổ chức khác bao gồm các cơ quan y tế địa phương, tiểu bang, tỉnh và quốc gia, Tổ chức Y tế Thế giới (WHO), Tổ chức Bác sỹ không biên giới (MSF), hệ thống các bệnh viện, và các đơn vị nghiên cứu.
 
-Sổ tay này **không phải** là sản phẩm đã được phê duyệt của bất kỳ tổ chức cụ thể nào. Mặc dù chúng tôi cố gắng đảm bảo tính chính xác, nhưng chúng tôi không đảm bảo về nội dung trong cuốn sách này.
+Sổ tay này **không phải** là sản phẩm đã được phê duyệt của bất kỳ tổ chức cụ thể nào. Mặc dù chúng tôi cố gắng đảm bảo tính chính xác, nhưng chúng tôi không chịu trách nhiệm về nội dung trong cuốn sách này.
 
 ### Những người đóng góp {.unnumbered}
 
@@ -123,7 +123,7 @@ Sổ tay này **không phải** là sản phẩm đã được phê duyệt củ
 
 **Nhóm tác giả**: [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Paula Blomquist](https://www.linkedin.com/in/paula-bianca-blomquist-53188186/), [Finlay Campbell](https://github.com/finlaycampbell), [Henry Laurenson-Schafer](https://github.com/henryls1), [Isaac Florence](www.Twitter.com/isaacatflorence), [Natalie Fischer](https://www.linkedin.com/in/nataliefischer211/), [Aminata Ndiaye](https://twitter.com/aminata_fadl), [Liza Coyer](https://www.linkedin.com/in/liza-coyer-86022040/), [Jonathan Polonsky](https://twitter.com/jonny_polonsky), [Yurie Izawa](https://ch.linkedin.com/in/yurie-izawa-a1590319), [Chris Bailey](https://twitter.com/cbailey_58?lang=en), [Daniel Molling](https://www.linkedin.com/in/daniel-molling-4005716a/), [Isha Berry](https://twitter.com/ishaberry2), [Emma Buajitti](https://twitter.com/buajitti), [Mathilde Mousset](https://mathildemousset.wordpress.com/research/), [Sara Hollis](https://www.linkedin.com/in/saramhollis/), Wen Lin
 
-**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), Nguyễn Trung Thành, [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Vũ Thu Hà
+**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Võ Hữu Thuận, Nguyễn Trung Thành, Vũ Thu Hà
 
 **Nhóm phản biện**: Pat Keating, Annick Lenglet, Margot Charette, Danielly Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Kate Kelsey, [Berhe Etsay](https://www.linkedin.com/in/berhe-etsay-5752b1154/), John Rossow, Mackenzie Zendt, James Wright, Laura Haskins, [Flavio Finger](ffinger.github.io), Tim Taylor, [Jae Hyoung Tim Lee](https://www.linkedin.com/in/jaehyoungtlee/), [Brianna Bradley](https://www.linkedin.com/in/brianna-bradley-bb8658155), [Wayne Enanoria](https://www.linkedin.com/in/wenanoria), Manual Albela Miranda, [Molly Mantus](https://www.linkedin.com/in/molly-mantus-174550150/), Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga
 
@@ -139,24 +139,24 @@ Sổ tay này **không phải** là sản phẩm đã được phê duyệt củ
 
 ### Tài trợ và hỗ trợ {.unnumbered}
 
-Sổ tay này nhận được tài trợ thông qua kinh phí hỗ trợ trợ xây dựng năng lực khẩn cấp COVID-19 từ [TEPHINET](https://www.tephinet.org/), tmạng lưới toàn cầu của các Chương trình Đào tạo Dịch tễ học Thực địa (FETPs).
+Sổ tay này nhận được tài trợ thông qua kinh phí hỗ trợ trợ xây dựng năng lực khẩn cấp COVID-19 từ [TEPHINET](https://www.tephinet.org/), mạng lưới toàn cầu của các Chương trình Đào tạo Dịch tễ học Thực địa (FETPs).
 
-Hỗ trợ hành chính được cung cấp bởi EPIET Alumni Network ([EAN](https://epietalumni.net/)), với lời cảm ơn đặc biệt tới Annika Wendland. EPIET là Chương trình Châu Âu về Đào tạo Dịch tễ học can thiệp.
+Các hỗ trợ hành chính được cung cấp bởi mạng lưới cựu sinh EPIET ([EAN](https://epietalumni.net/)), với lời cảm ơn đặc biệt tới Annika Wendland. EPIET là Chương trình đào tạo Dịch tễ học can thiệp tại Châu Âu.
 
-Đặc biệt cảm ơn Trung tâm Điều hành Amsterdam (OCA) của tổ chức Bác sỹ không biên giới (MSF) cho những sự hỗ trợ của họ trong quá trình phát triển cuốn sổ tay này.
+Đặc biệt gửi lời cảm ơn tới Trung tâm Điều hành Amsterdam (OCA) của Tổ chức Bác sỹ không biên giới (MSF) cho những sự hỗ trợ của họ trong quá trình phát triển cuốn sổ tay này.
 
-*Ấn phẩm này được hỗ trợ bởi Hợp đồng Hợp tác số NU2GGH001873, được tài trợ bởi Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh thông qua TEPHINET, một chương trình của Lực lượng đặc nhiệm về sức khỏe toàn cầu. Nội dung của nó hoàn toàn do tác giả chịu trách nhiệm và không nhất thiết phải đại diện cho quan điểm chính thức của Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh, Bộ Y tế và Dịch vụ Nhân sinh, Lực lượng Đặc nhiệm về Sức khỏe Toàn cầu, hoặc TEPHINET*
+*Ấn phẩm này được hỗ trợ bởi Hợp đồng Hợp tác số NU2GGH001873, được tài trợ bởi Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh thông qua TEPHINET, một chương trình của Lực lượng đặc nhiệm về sức khỏe toàn cầu. Nội dung của sổ tay hoàn toàn do tác giả chịu trách nhiệm và đại diện cho quan điểm chính thức của Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh, Bộ Y tế và Dịch vụ Nhân sinh, Lực lượng Đặc nhiệm về Sức khỏe Toàn cầu, hoặc TEPHINET*
 
 ### Cảm hứng {.unnumbered}
 
-Vô số hướng dẫn và tóm tắt cung cấp kiến thức để phát triển nội dung sổ tay này được ghi nhận trong các trang nội dung tương ứng.
+Rất nhiều các hướng dẫn và tóm tắt cung cấp kiến thức sử dụng để phát triển nội dung sổ tay này được tham khảo trong các trang nội dung tương ứng.
 
-Nói một cách tổng quát hơn, các nguồn sau đây đã truyền nguồn cảm hứng cho cuốn sổ tay này:\
+Một cách tổng quát hơn, các nguồn sau đây đã truyền nguồn cảm hứng cho cuốn sổ tay này:\
 [The "R4Epis" project](https://r4epis.netlify.app/) (một sự hợp tác giữa MSF và RECON)\
 [R Epidemics Consortium (RECON)](https://www.repidemicsconsortium.org/)\
 [R for Data Science book (R4DS)](https://r4ds.had.co.nz/)\
 [bookdown: Authoring Books and Technical Documents with R Markdown](https://bookdown.org/yihui/bookdown/)\
-[Netlify](https://www.netlify.com) lưu trữ trang web này
+[Netlify](https://www.netlify.com) để lưu trữ trang web này
 
 <!-- ### Image credits {-}   -->
 
@@ -166,16 +166,16 @@ Nói một cách tổng quát hơn, các nguồn sau đây đã truyền nguồn
 
 ### Giấy phép {.unnumbered}
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br />Sổ tay này được cấp phép theo <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Giấy phép quốc tế Creative Commons Attribution-NonCommercial-ShareAlike 4.0</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License" style="border-width:0"/></a><br />Sổ tay này được cấp phép theo <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-Các khóa học học thuật và các chương trình đào tạo dịch tễ học được hoan nghênh sử dụng cuốn sổ tay này với sinh viên của họ. Nếu bạn có thắc mắc về mục đích sử dụng của mình, hãy gửi email tới [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email}.
+Chúng tôi khuyến khích các khóa học và các chương trình đào tạo dịch tễ sử dụng cuốn sổ tay này cho sinh viên của mình. Nếu bạn có thắc mắc về mục đích sử dụng của mình, hãy gửi email tới [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email}.
 
 ### Trích dẫn {.unnumbered}
 
-Neale Batra và cộng sự, Sổ tay Dịch tễ học với R. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img src="https://zenodo.org/badge/231610102.svg" alt="DOI" style="border-width:0"/></a><br />
+Neale Batra và cộng sự, Cẩm nang Dịch tễ học với R. <a rel="license" href="https://zenodo.org/badge/231610102.svg"><img src="https://zenodo.org/badge/231610102.svg" alt="DOI" style="border-width:0"/></a><br />
 
 ### Đóng góp {.unnumbered}
 
-Nếu bạn muốn đóng góp nội dung, vui lòng liên hệ với chúng tôi trước về các vấn đề trên Github hoặc qua email. Chúng tôi đang triển khai lịch trình cập nhật và đang tạo hướng dẫn dành cho cộng tác viên.
+Nếu bạn muốn đóng góp nội dung, vui lòng liên hệ với chúng tôi thông qua Github hoặc email. Chúng tôi đang triển khai lịch trình cập nhật cho cuốn sách cũng như xây dựng hướng dẫn dành cho cộng tác viên.
 
 Xin lưu ý rằng dự án epiRhandbook được phát hành cùng với bộ [Quy tắc ứng xử của cộng tác viên](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). Bằng cách đóng góp cho dự án này, bạn đồng ý tuân theo các điều khoản của nó.

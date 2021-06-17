@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>3 R Cơ bản | Sổ tay dịch tễ học với R</title>
+<title>3 R Cơ bản | Cẩm nang dịch tễ học với R</title>
 <meta name="author" content="the handbook team">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.6.4/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
-        <a href="index.html" title="">Sổ tay dịch tễ học với R</a>
+        <a href="index.html" title="">Cẩm nang dịch tễ học với R</a>
       </h1>
       <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
@@ -117,88 +117,87 @@
 <span class="header-section-number">3</span> R Cơ bản<a class="anchor" aria-label="anchor" href="#basics"><i class="fas fa-link"></i></a>
 </h1>
 <div class="inline-figure"><img src="images/basics_header_close.png" width="100%" style="display: block; margin: auto;"></div>
-<p>Welcome!</p>
-<p>This page reviews the essentials of R. It is not intended to be a comprehensive tutorial, but it provides the basics and can be useful for refreshing your memory. The section on <a href="basics.html#learning">Resource for learning</a> links to more comprehensive tutorials.</p>
-<p>Parts of this page have been adapted with permission from the <a href="https://r4epis.netlify.app/">R4Epis project</a>.</p>
-<p>See the page on [Transition to R] for tips on switching to R from STATA, SAS, or Excel.</p>
+<p>Chào mừng bạn!</p>
+<p>Chương này sẽ mô tả những kỹ thuật cơ bản của R. Đây không phải là hướng dẫn sử dụng toàn diện, nhưng sẽ cung cấp những kiến thức cơ bản và có thể hữu ích trong việc làm mới hiểu biết của bạn. Phần <a href="basics.html#learning">Tài nguyên học liệu</a> sẽ liên kết đến những hướng dẫn sử dụng R bao quát hơn.</p>
+<p>Các phần của chương này đã được điều chỉnh dưới sự cho phép của <a href="https://r4epis.netlify.app/">Dự án R4Epis</a>.</p>
+<p>Xem chương <a href="transition-to-R.html#transition-to-R">Chuyển đổi sang R</a> để biết các mẹo khi chuyển đổi từ STATA, SAS hoặc Excel sang R.</p>
 <!-- ======================================================= -->
-<div id="tại-sao-lại-sử-dụng-r" class="section level2" number="3.1">
+<div id="tại-sao-sử-dụng-r" class="section level2" number="3.1">
 <h2>
-<span class="header-section-number">3.1</span> Tại sao lại sử dụng R?<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1i-sao-l%E1%BA%A1i-s%E1%BB%AD-d%E1%BB%A5ng-r"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.1</span> Tại sao sử dụng R?<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1i-sao-s%E1%BB%AD-d%E1%BB%A5ng-r"><i class="fas fa-link"></i></a>
 </h2>
-<p>As stated on the <a href="https://www.r-project.org/about.html">R project website</a>, R is a programming language and environment for statistical computing and graphics. It is highly versatile, extendable, and community-driven.</p>
-<p><strong>Cost</strong></p>
-<p>R is free to use! There is a strong ethic in the community of free and open-source material.</p>
-<p><strong>Reproducibility</strong></p>
-<p>Conducting your data management and analysis through a programming language (compared to Excel or another primarily point-click/manual tool) enhances <strong>reproducibility</strong>, makes <strong>error-detection</strong> easier, and eases your workload.</p>
-<p><strong>Community</strong></p>
-<p>The R community of users is enormous and collaborative. New packages and tools to address real-life problems are developed daily, and vetted by the community of users. As one example, <a href="https://rladies.org/">R-Ladies</a> is a worldwide organization whose mission is to promote gender diversity in the R community, and is one of the largest organizations of R users. It likely has a chapter near you!</p>
+<p>Như đã được công bố trên <a href="https://www.r-project.org/about.html">trang web dự án R</a>, R là một ngôn ngữ và môi trường lập trình cho tính toán và đồ họa thống kê. Nó rất linh hoạt, có khả năng mở rộng và hướng tới cộng đồng.</p>
+<p><strong>Chi phí</strong></p>
+<p>R được sử dụng miễn phí! Có sự tồn tại mạnh mẽ về đạo đức trong cộng đồng người sử dụng nguồn tài nguyên mở và miễn phí.</p>
+<p><strong>Khả năng tái lập</strong></p>
+<p>Thực hiện quản lý và phân tích dữ liệu của bạn thông qua một ngôn ngữ lập trình (so sánh với Excel hoặc công cụ khác mà thao tác chính là nhấp chuột/thao tác thủ công) giúp nâng cao <strong>khả năng tái lập</strong>, giúp <strong>phát hiện lỗi</strong> dễ dàng hơn và giảm bớt khối lượng công việc của bạn.</p>
+<p><strong>Cộng đồng</strong></p>
+<p>R có cộng đồng người dùng khổng lồ và có tính hợp tác. Các package và công cụ mới nhằm giải quyết các vấn đề thực tế được phát triển hàng ngày và được kiểm tra bởi cộng đồng người dùng. Ví dụ, <a href="https://rladies.org/">R-Ladies</a> là một tổ chức toàn cầu có sứ mệnh thúc đẩy sự đa dạng giới trong cộng đồng R và là một trong những tổ chức người dùng R lớn nhất. Thậm chí có thể có một phần của nhóm này đang ở gần bạn!</p>
 </div>
-<div id="key-terms" class="section level2" number="3.2">
+<div id="các-thuật-ngữ-chính" class="section level2" number="3.2">
 <h2>
-<span class="header-section-number">3.2</span> Key terms<a class="anchor" aria-label="anchor" href="#key-terms"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.2</span> Các thuật ngữ chính<a class="anchor" aria-label="anchor" href="#c%C3%A1c-thu%E1%BA%ADt-ng%E1%BB%AF-ch%C3%ADnh"><i class="fas fa-link"></i></a>
 </h2>
-<p><strong>RStudio</strong> - RStudio is a Graphical User Interface (GUI) for easier use of <strong>R</strong>. Read more <a href="basics.html#rstudio">in the RStudio section</a>.</p>
-<p><strong>Objects</strong> - Everything you store in R - datasets, variables, a list of village names, a total population number, even outputs such as graphs - are <em>objects</em> which are <em>assigned a name</em> and <em>can be referenced</em> in later commands. Read more <a href="basics.html#objects">in the Objects section</a>.</p>
-<p><strong>Functions</strong> - A function is a code operation that accept inputs and returns a transformed output. Read more <a href="basics.html#functions">in the Functions section</a>.</p>
-<p><strong>Packages</strong> - An R package is a shareable bundle of functions. Read more <a href="basics.html#packages">in the Packages section</a>.</p>
-<p><strong>Scripts</strong> - A script is the document file that hold your commands. Read more <a href="basics.html#scripts">in the Scripts section</a></p>
+<p><strong>RStudio</strong> - RStudio là Giao diện đồ họa người dùng (GUI) giúp sử dụng <strong>R</strong> dễ dàng hơn. Đọc thêm <a href="basics.html#rstudio">trong mục RStudio</a>.</p>
+<p><strong>Đối tượng</strong> - Bao gồm mọi thứ bạn lưu trữ trong R - bộ dữ liệu, biến, danh sách tên làng, quy mô dân số, thậm chí cả các kết quả đầu ra như đồ thị - là các <em>đối tượng</em> được <em>gán tên</em> và <em>có thể được tham chiếu</em> trong các lệnh sau này. Đọc thêm <a href="basics.html#objects">trong mục Đối tượng</a>.</p>
+<p><strong>Hàm</strong> - Mỗi hàm là một code hoạt động mà chấp nhận dữ liệu đầu vào và trả về kết quả đầu ra đã được biến đổi. Đọc thêm <a href="basics.html#functions">trong mục Các hàm</a>.</p>
+<p><strong>Packages</strong> - Mỗi package R là một gói câu lệnh có khả năng chia sẻ. Đọc thêm <a href="basics.html#packages">trong mục Packages</a>.</p>
+<p><strong>Scripts</strong> - Mỗi script là một tệp tài liệu chứa các lệnh của bạn. Đọc thêm <a href="basics.html#scripts">trong mục Scripts</a></p>
 </div>
 <div id="learning" class="section level2" number="3.3">
 <h2>
-<span class="header-section-number">3.3</span> Resources for learning<a class="anchor" aria-label="anchor" href="#learning"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3</span> Tài nguyên học liệu<a class="anchor" aria-label="anchor" href="#learning"><i class="fas fa-link"></i></a>
 </h2>
-<div id="resources-within-rstudio" class="section level3 unnumbered">
-<h3>Resources within RStudio<a class="anchor" aria-label="anchor" href="#resources-within-rstudio"><i class="fas fa-link"></i></a>
+<div id="tài-nguyên-trong-rstudio" class="section level3 unnumbered">
+<h3>Tài nguyên trong RStudio<a class="anchor" aria-label="anchor" href="#t%C3%A0i-nguy%C3%AAn-trong-rstudio"><i class="fas fa-link"></i></a>
 </h3>
-<p><strong>Help documentation</strong></p>
-<p>Search the RStudio “Help” tab for documentation on R packages and specific functions. This is within the pane that also contains Files, Plots, and Packages (typically in the lower-right pane). As a shortcut, you can also type the name of a package or function into the R console after a question-mark to open the relevant Help page. Do not include parentheses.</p>
-<p>For example: <code><a href="https://rdrr.io/r/stats/filter.html">?filter</a></code> or <code>?diagrammeR</code>.</p>
-<p><strong>Interactive tutorials</strong></p>
-<p>There are several ways to learn R interactively <em>within</em> RStudio.</p>
-<p>RStudio itself offers a Tutorial pane that is powered by the <a href="https://blog.rstudio.com/2020/02/25/rstudio-1-3-integrated-tutorials/"><strong>learnr</strong></a> R package. Simply install this package and open a tutorial via the new “Tutorial” tab in the upper-right RStudio pane (which also contains Environment and History tabs).</p>
-<p>The R package <a href="https://swirlstats.com/"><strong>swirl</strong></a> offers interactive courses in the R Console. Install and load this package, then run the command <code>swirl()</code> (empty parentheses) in the R console. You will see prompts appear in the Console. Respond by typing in the Console. It will guide you through a course of your choice.</p>
+<p><strong>Tài liệu trợ giúp</strong></p>
+<p>Tìm kiếm tab “Help” của RStudio về tài liệu liên quan đến package R và các hàm cụ thể. Tab này nằm trong cửa sổ chứa các tab Files, Plots và Packages (thường ở cửa sổ phía dưới bên phải). Như một lối tắt, bạn cũng có thể nhập tên của một package hoặc câu lệnh vào R Console sau dấu hỏi chấm và không bao gồm dấu ngoặc đơn để mở trang trợ giúp liên quan.</p>
+<p>Ví dụ: <code><a href="https://rdrr.io/r/stats/filter.html">?filter</a></code> hoặc <code>?diagrammeR</code>.</p>
+<p><strong>Các hướng dẫn có sự tương tác</strong></p>
+<p>R có thể được học thông qua một số tương tác <em>trong</em> RStudio.</p>
+<p>RStudio cung cấp một cửa sổ Tutorial được hỗ trợ bởi package <a href="https://blog.rstudio.com/2020/02/25/rstudio-1-3-integrated-tutorials/"><strong>learnr</strong></a>. Chỉ cần cài đặt package này và mở hướng dẫn qua tab “Tutorial” trong cửa sổ RStudio phía trên bên phải (cũng chứa các tab Environment và History).</p>
+<p>Package <a href="https://swirlstats.com/"><strong>swirl</strong></a> cung cấp các nội dung học tương tác trong R Console. Cài đặt và tải package này, rồi chạy lệnh <code>swirl()</code> (dấu ngoặc đơn trống) trong R Console. Bạn sẽ thấy các thông báo xuất hiện trong cửa sổ Console. Phản hồi bằng cách nhập vào Console. Nó sẽ hướng dẫn bạn qua một nội dung học do bạn lựa chọn.</p>
 </div>
 <div id="cheatsheets" class="section level3 unnumbered">
 <h3>Cheatsheets<a class="anchor" aria-label="anchor" href="#cheatsheets"><i class="fas fa-link"></i></a>
 </h3>
-<p>There are many PDF “cheatsheets” available on the <a href="https://rstudio.com/resources/cheatsheets/">RStudio website</a>, for example:</p>
+<p>Có rất nhiều “cheatsheets” PDF có sẵn trên <a href="https://rstudio.com/resources/cheatsheets/">trang web của RStudio</a>, ví dụ như:</p>
 <ul>
-<li>Factors with <strong>forcats</strong> package<br>
+<li>Factors với package <strong>forcats</strong><br>
 </li>
-<li>Dates and times with <strong>lubridate</strong> package<br>
+<li>Ngày và thời gian với package <strong>lubridate</strong><br>
 </li>
-<li>Strings with <strong>stringr</strong> package<br>
+<li>Chuỗi với package <strong>stringr</strong><br>
 </li>
-<li>iterative opertaions with <strong>purrr</strong> package<br>
+<li>Các vòng lặp với package <strong>purrr</strong><br>
 </li>
-<li>Data import<br>
+<li>Nhập dữ liệu<br>
 </li>
-<li>Data transformation cheatsheet with <strong>dplyr</strong> package<br>
+<li>Cheatsheet biến đổi dữ liệu với package <strong>dplyr</strong><br>
 </li>
-<li>R Markdown (to create documents like PDF, Word, Powerpoint…)<br>
+<li>R Markdown (để tạo các tài liệu như PDF, Word, Powerpoint…)<br>
 </li>
-<li>Shiny (to build interactive web apps)<br>
+<li>Shiny (để xây dựng các ứng dụng web tương tác)<br>
 </li>
-<li>Data visualization with <strong>ggplot2</strong> package<br>
+<li>Trực quan hóa dữ liệu với package <strong>ggplot2</strong><br>
 </li>
-<li>Cartography (GIS)<br>
+<li>Bản đồ học (GIS)<br>
 </li>
-<li>
-<strong>leaflet</strong> package (interactive maps)<br>
+<li>Package <strong>leaflet</strong> (bản đồ tương tác)<br>
 </li>
-<li>Python with R (<strong>reticulate</strong> package)</li>
+<li>Python với R (package <strong>reticulate</strong>)</li>
 </ul>
-<p>This is an online R resource specifically for <a href="https://jules32.github.io/r-for-excel-users/">Excel users</a></p>
+<p>Đây là tài nguyên R trực tuyến dành riêng cho <a href="https://jules32.github.io/r-for-excel-users/">Người dùng Excel</a></p>
 </div>
 <div id="twitter" class="section level3 unnumbered">
 <h3>Twitter<a class="anchor" aria-label="anchor" href="#twitter"><i class="fas fa-link"></i></a>
 </h3>
-<p>R has a vibrant twitter community where you can learn tips, shortcuts, and news - follow these accounts:</p>
+<p>R có một cộng đồng twitter sôi động, nơi bạn có thể tìm hiểu các mẹo, lối tắt và tin tức - hãy theo dõi các tài khoản sau:</p>
 <ul>
-<li>Follow us! <a href="https://twitter.com/epirhandbook">@epiRhandbook</a><br>
+<li>Theo dõi chúng tôi: <a href="https://twitter.com/epirhandbook">@epiRhandbook</a><br>
 </li>
-<li>R Function A Day <a href="https://twitter.com/rfunctionaday">@rfuntionaday</a> is an <em>incredible</em> resource<br>
+<li>R Function A Day <a href="https://twitter.com/rfunctionaday">@rfuntionaday</a> là một nguồn tài nguyên <em>tuyệt vời</em>
 </li>
 <li>R for Data Science <a href="https://twitter.com/rstats4ds?lang=en">@rstats4ds</a><br>
 </li>
@@ -213,61 +212,61 @@
 <li>Hadley Wickham <a href="https://twitter.com/hadleywickham?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">@hadleywickham</a>
 </li>
 </ul>
-<p>Also:</p>
-<p><strong>#epitwitter</strong> and <strong>#rstats</strong></p>
+<p>Cũng như:</p>
+<p><strong>#epitwitter</strong> và <strong>#rstats</strong></p>
 </div>
-<div id="free-online-resources" class="section level3 unnumbered">
-<h3>Free online resources<a class="anchor" aria-label="anchor" href="#free-online-resources"><i class="fas fa-link"></i></a>
+<div id="nguồn-tài-nguyên-trực-tuyến-miễn-phí" class="section level3 unnumbered">
+<h3>Nguồn tài nguyên trực tuyến miễn phí<a class="anchor" aria-label="anchor" href="#ngu%E1%BB%93n-t%C3%A0i-nguy%C3%AAn-tr%E1%BB%B1c-tuy%E1%BA%BFn-mi%E1%BB%85n-ph%C3%AD"><i class="fas fa-link"></i></a>
 </h3>
-<p>A definitive text is the <a href="https://r4ds.had.co.nz/">R for Data Science</a> book by Garrett Grolemund and Hadley Wickham</p>
-<p>The <a href="https://r4epis.netlify.app/">R4Epis</a> project website aims to “develop standardised data cleaning, analysis and reporting tools to cover common types of outbreaks and population-based surveys that would be conducted in an MSF emergency response setting.” You can find R basics training materials, templates for RMarkdown reports on outbreaks and surveys, and tutorials to help you set them up.</p>
+<p>Cuốn sách <a href="https://r4ds.had.co.nz/">R for Data Science</a> (R dành cho Khoa học Dữ liệu) của Garrett Grolemund và Hadley Wickham</p>
+<p>Trang web của dự án <a href="https://r4epis.netlify.app/">R4Epis</a> nhằm mục đích “phát triển các công cụ làm sạch, phân tích và báo cáo dữ liệu được chuẩn hóa dùng trong các trường hợp bùng phát dịch phổ biến và các cuộc điều tra dựa trên dân số mà sẽ được tiến hành trong các ứng phó khẩn cấp của Tổ chức Bác sỹ không biên giới” Bạn có thể tìm thấy tài liệu đào tạo cơ bản về R, các mẫu báo cáo RMarkdown và khảo sát về các đợt bùng phát dịch, cũng như các hướng dẫn để giúp bạn thiết lập chúng.</p>
 </div>
-<div id="languages-other-than-english" class="section level3 unnumbered">
-<h3>Languages other than English<a class="anchor" aria-label="anchor" href="#languages-other-than-english"><i class="fas fa-link"></i></a>
+<div id="các-ngôn-ngữ-khác-ngoài-tiếng-anh" class="section level3 unnumbered">
+<h3>Các ngôn ngữ khác ngoài Tiếng Anh<a class="anchor" aria-label="anchor" href="#c%C3%A1c-ng%C3%B4n-ng%E1%BB%AF-kh%C3%A1c-ngo%C3%A0i-ti%E1%BA%BFng-anh"><i class="fas fa-link"></i></a>
 </h3>
-<p><a href="https://www.rstudio.com/collections/espanol/">Materiales de RStudio en Español</a></p>
-<p><a href="https://juba.github.io/tidyverse/index.html">Introduction à R et au tidyverse (Francais)</a></p>
+<p><a href="https://www.rstudio.com/collections/espanol/">Tài liệu RStudio bằng tiếng Tây Ban Nha</a></p>
+<p><a href="https://juba.github.io/tidyverse/index.html">Giới thiệu cơ bản về R (tiếng Pháp)</a></p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="installation" class="section level2" number="3.4">
+<div id="cài-đặt" class="section level2" number="3.4">
 <h2>
-<span class="header-section-number">3.4</span> Installation<a class="anchor" aria-label="anchor" href="#installation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4</span> Cài đặt<a class="anchor" aria-label="anchor" href="#c%C3%A0i-%C4%91%E1%BA%B7t"><i class="fas fa-link"></i></a>
 </h2>
-<div id="r-and-rstudio" class="section level3 unnumbered">
-<h3>R and RStudio<a class="anchor" aria-label="anchor" href="#r-and-rstudio"><i class="fas fa-link"></i></a>
+<div id="r-và-rstudio" class="section level3 unnumbered">
+<h3>R và RStudio<a class="anchor" aria-label="anchor" href="#r-v%C3%A0-rstudio"><i class="fas fa-link"></i></a>
 </h3>
-<p><strong>How to install R</strong></p>
-<p>Visit this website <a href="https://www.r-project.org/">https://www.r-project.org/</a> and download the latest version of R suitable for your computer.</p>
-<p><strong>How to install RStudio</strong></p>
-<p>Visit this website <a href="https://rstudio.com/products/rstudio/download/">https://rstudio.com/products/rstudio/download/</a> and download the latest free Desktop version of RStudio suitable for your computer.</p>
-<p><strong>Permissions</strong><br>
-Note that you should install R and RStudio to a drive where you have read and write permissions. Otherwise, your ability to install R packages (a frequent occurrence) will be impacted. If you encounter problems, try opening RStudio by right-clicking the icon and selecting “Run as administrator”. Other tips can be found in the page [R on network drives].</p>
-<p><strong>How to update R and RStudio</strong></p>
-<p>Your version of R is printed to the R Console at start-up. You can also run <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code>.</p>
-<p>To update R, go to the website mentioned above and re-install R. Alternatively, you can use the <strong>installr</strong> package (on Windows) by running <code><a href="http://talgalili.github.io/installr/reference/updateR.html">installr::updateR()</a></code>. This will open dialog boxes to help you download the latest R version and update your packages to the new R version. More details can be found in the <strong>installr</strong> <a href="https://www.r-project.org/nosvn/pandoc/installr.html">documentation</a>.</p>
-<p>Be aware that the old R version will still exist in your computer. You can temporarily run an older version (older “installation”) of R by clicking “Tools” -&gt; “Global Options” in RStudio and choosing an R version. This can be useful if you want to use a package that has not been updated to work on the newest version of R.</p>
-<p>To update RStudio, you can go to the website above and re-download RStudio. Another option is to click “Help” -&gt; “Check for Updates” within RStudio, but this may not show the very latest updates.</p>
-<p>To see which versions of R, RStudio, or packages were used when this Handbook as made, see the page on [Editorial and technical notes].</p>
+<p><strong>Làm thế nào để cài đặt R</strong></p>
+<p>Truy cập vào trang web <a href="https://www.r-project.org/">https://www.r-project.org/</a> và tải phiên bản mới nhất của R phù hợp với máy tính của bạn.</p>
+<p><strong>Làm thế nào để cài đặt RStudio</strong></p>
+<p>Truy cập vào trang web <a href="https://rstudio.com/products/rstudio/download/">https://rstudio.com/products/rstudio/download/</a> và tải phiên bản Desktop mới nhất của RStudio phù hợp với máy tính của bạn.</p>
+<p><strong>Quyền truy cập</strong><br>
+Lưu ý rằng bạn nên cài đặt R và RStudio vào một ổ đĩa mà bạn có quyền đọc và ghi lại. Nếu không, khả năng cài đặt các package R (thường xuyên xảy ra) của bạn sẽ bị ảnh hưởng. Nếu bạn gặp sự cố, hãy thử mở RStudio bằng cách nhấp chuột phải vào biểu tượng và chọn “Run as administrator”. Các mẹo khác có thể được tìm thấy trong chương <a href="network-drives.html#network-drives">R trên ổ cứng mạng</a>.</p>
+<p><strong>Làm thế nào để cập nhật R và RStudio</strong></p>
+<p>Phiên bản R của bạn được in ra R Console khi khởi động. Bạn cũng có thể chạy lệnh <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code>.</p>
+<p>Để cập nhật R, truy cập đến trang web được nhắc đến ở trên và cài đặt lại R. Ngoài ra, bạn có thể sử dụng package <strong>installr</strong> (trên Windows) bằng cách chạy câu lệnh <code><a href="http://talgalili.github.io/installr/reference/updateR.html">installr::updateR()</a></code>. Thao tác này sẽ mở ra các hộp thoại giúp bạn tải xuống phiên bản R mới nhất và cập nhật các package của bạn lên phiên bản R mới. Có thể tìm thấy thêm chi tiết trong <a href="https://www.r-project.org/nosvn/pandoc/installr.html">tài liệu</a> <strong>installr</strong> .</p>
+<p>Lưu ý rằng phiên bản R cũ sẽ vẫn tồn tại trong máy tính của bạn. Bạn có thể tạm thời chạy phiên bản cũ hơn (“installation” cũ hơn) của R bằng cách nhấp vào “Tools” -&gt; “Global Options” trong RStudio và chọn một phiên bản R. Điều này có thể hữu ích nếu bạn muốn sử dụng một package chưa được cập nhật để hoạt động trên phiên bản R mới nhất.</p>
+<p>Để cập nhật RStudio, truy cập đến trang web được nhắc đến ở trên và cài đặt lại RStudio. Một tùy chọn khác là nhấp vào “Help” -&gt; “Check for Updates” trong RStudio, nhưng điều này có thể dẫn đến việc không hiển thị các bản cập nhật mới nhất.</p>
+<p>Để xem phiên bản R, RStudio hoặc package nào đã được sử dụng khi viết Sổ tay này, hãy xem chương <a href="editorial-style.html#editorial-style">Biên tập và ghi chú kỹ thuật</a>.</p>
 </div>
-<div id="other-software-you-may-need-to-install" class="section level3 unnumbered">
-<h3>Other software you <em>may</em> need to install<a class="anchor" aria-label="anchor" href="#other-software-you-may-need-to-install"><i class="fas fa-link"></i></a>
+<div id="những-phần-mềm-khác-bạn-có-thể-cần-cài-đặt" class="section level3 unnumbered">
+<h3>Những phần mềm khác bạn <em>có thể</em> cần cài đặt<a class="anchor" aria-label="anchor" href="#nh%E1%BB%AFng-ph%E1%BA%A7n-m%E1%BB%81m-kh%C3%A1c-b%E1%BA%A1n-c%C3%B3-th%E1%BB%83-c%E1%BA%A7n-c%C3%A0i-%C4%91%E1%BA%B7t"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
-<li>TinyTeX (<em>for compiling an RMarkdown document to PDF</em>)<br>
+<li>TinyTeX (<em>để biên dịch tài liệu RMarkdown sang PDF</em>)<br>
 </li>
-<li>Pandoc (<em>for compiling RMarkdown documents</em>)<br>
+<li>Pandoc (<em>để biên dịch tài liệu RMarkdown</em>)<br>
 </li>
-<li>RTools (<em>for building packages for R</em>)<br>
+<li>RTools (<em>để xây dựng các package cho R</em>)<br>
 </li>
-<li>phantomjs (<em>for saving still images of animated networks, such as transmission chains</em>)</li>
+<li>phantomjs (<em>để lưu ảnh tĩnh của mạng động, chẳng hạn như chuỗi lây truyền</em>)</li>
 </ul>
 <div id="tinytex" class="section level4 unnumbered">
 <h4>TinyTex<a class="anchor" aria-label="anchor" href="#tinytex"><i class="fas fa-link"></i></a>
 </h4>
-<p>TinyTex is a custom LaTeX distribution, useful when trying to produce PDFs from R.<br>
-See <a href="https://yihui.org/tinytex/">https://yihui.org/tinytex/</a> for more informaton.</p>
-<p>To install TinyTex from R:</p>
+<p>TinyTex là một bản phân phối LaTeX tùy chỉnh, hữu ích khi tạo các tệp PDF từ R.<br>
+Truy cập <a href="https://yihui.org/tinytex/">https://yihui.org/tinytex/</a> để tìm hiểu thêm thông tin.</p>
+<p>Để cài đặt TinyTex từ R:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'tinytex'</span><span class="op">)</span>
 <span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html">install_tinytex</a></span><span class="op">(</span><span class="op">)</span>
@@ -276,18 +275,18 @@ See <a href="https://yihui.org/tinytex/">https://yihui.org/tinytex/</a> for more
 <div id="pandoc" class="section level4 unnumbered">
 <h4>Pandoc<a class="anchor" aria-label="anchor" href="#pandoc"><i class="fas fa-link"></i></a>
 </h4>
-<p>Pandoc is a document converter, a separate software from R. <strong>It comes bundled with RStudio and should not need to be downloaded.</strong> It helps the process of converting Rmarkdown documents to formats like .pdf and adding complex functionality.</p>
+<p>Pandoc là một công cụ chuyển đổi văn bản, một phần mềm tách biệt với R. <strong>Nó đi kèm với RStudio và không cần phải tải xuống.</strong> Nó hỗ trợ quá trình chuyển đổi văn bản từ Rmarkdown sang các định dạng như .pdf và có bổ sung thêm một số tính năng phức tạp.</p>
 </div>
 <div id="rtools" class="section level4 unnumbered">
 <h4>RTools<a class="anchor" aria-label="anchor" href="#rtools"><i class="fas fa-link"></i></a>
 </h4>
-<p>RTools is a collection of software for building packages for R</p>
-<p>Install from this website: <a href="https://cran.r-project.org/bin/windows/Rtools/">https://cran.r-project.org/bin/windows/Rtools/</a></p>
+<p>RTools là một phần mềm được sử dụng để xây dựng package cho R</p>
+<p>Cài đặt từ trang web: <a href="https://cran.r-project.org/bin/windows/Rtools/">https://cran.r-project.org/bin/windows/Rtools/</a></p>
 </div>
 <div id="phantomjs" class="section level4 unnumbered">
 <h4>phantomjs<a class="anchor" aria-label="anchor" href="#phantomjs"><i class="fas fa-link"></i></a>
 </h4>
-<p>This is often used to take “screenshots” of webpages. For example when you make a transmission chain with <strong>epicontacts</strong> package, an HTML file is produced that is interactive and dynamic. If you want a static image, it can be useful to use the <a href="https://wch.github.io/webshot/articles/intro.html"><strong>webshot</strong></a> package to automate this process. This will require the external program “phantomjs”. You can install phantomjs via the <strong>webshot</strong> package with the command <code><a href="https://rdrr.io/pkg/webshot/man/install_phantomjs.html">webshot::install_phantomjs()</a></code>.</p>
+<p>Phần mềm này thường được sử dụng để chụp “chụp ảnh màn hình” trang web. Ví dụ khi bạn tạo một chuỗi lây truyền với package <strong>epicontacts</strong>, một tệp HTML có thể tương tác và chuyển động được tạo ra. Nếu bạn muốn có hình ảnh tĩnh, sử dụng package <a href="https://wch.github.io/webshot/articles/intro.html"><strong>webshot</strong></a> để tự động hóa quá trình này. Việc này sẽ yêu cầu chương trình bên ngoài “phantomjs”. Bạn có thể cài đặt phantomjs thông qua package <strong>webshot</strong> bằng lệnh <code><a href="https://rdrr.io/pkg/webshot/man/install_phantomjs.html">webshot::install_phantomjs()</a></code>.</p>
 <!-- ======================================================= -->
 </div>
 </div>
@@ -296,26 +295,26 @@ See <a href="https://yihui.org/tinytex/">https://yihui.org/tinytex/</a> for more
 <h2>
 <span class="header-section-number">3.5</span> RStudio<a class="anchor" aria-label="anchor" href="#rstudio"><i class="fas fa-link"></i></a>
 </h2>
-<div id="rstudio-orientation" class="section level3 unnumbered">
-<h3>RStudio orientation<a class="anchor" aria-label="anchor" href="#rstudio-orientation"><i class="fas fa-link"></i></a>
+<div id="làm-quen" class="section level3 unnumbered">
+<h3>Làm quen<a class="anchor" aria-label="anchor" href="#l%C3%A0m-quen"><i class="fas fa-link"></i></a>
 </h3>
-<p><strong>First, open RStudio.</strong> As their icons can look very similar, be sure you are opening <em>RStudio</em> and not R.</p>
-<p>For RStudio to work you must also have R installed on the computer (see above for installation instructions).</p>
-<p><strong>RStudio</strong> is an interface (GUI) for easier use of <strong>R</strong>. You can think of R as being the engine of a vehicle, doing the crucial work, and RStudio as the body of the vehicle (with seats, accessories, etc.) that helps you actually use the engine to move forward! You can see the complete RStudio user-interface cheatsheet (PDF) <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">here</a></p>
-<p>By default RStudio displays four rectangle panes.</p>
+<p><strong>Đầu tiên, mở RStudio.</strong> Biểu tượng của chúng có sự tương đồng, hãy chắc chắn bạn đang mở <em>RStudio</em> chứ không phải R.</p>
+<p>Để RStudio hoạt động bạn cũng cần phải cài đặt R trên máy tính (xem hướng dẫn cài đặt ở bên trên).</p>
+<p><strong>RStudio</strong> là một giao diện người dùng (GUI) giúp sử dụng <strong>R</strong> dễ dàng hơn. YBạn có thể coi R như một động cơ đang đảm đương công việc chính của một phương tiện và RStudio là phần thân của phương tiện (với ghế ngồi, các phụ kiện,…) giúp bạn sử dụng động cơ tiến về phía trước. Bạn có thể xem toàn bộ cheatsheet giao diện người dùng của RStudio (PDF) tại <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">đây</a></p>
+<p>RStudio mặc định hiển thị bốn cửa sổ hình chữ nhật.</p>
 <div class="inline-figure"><img src="images/RStudio_overview.PNG" width="100%" style="display: block; margin: auto;"></div>
-<p><span style="color: black;"><strong><em>TIP:</em></strong> If your RStudio displays only one left pane it is because you have no scripts open yet.</span></p>
-<p><strong>The Source Pane</strong><br>
-This pane, by default in the upper-left, is a space to edit, run, and save your <a href="basics.html#scripts">scripts</a>. Scripts contain the commands you want to run. This pane can also display datasets (data frames) for viewing.</p>
-<p>For Stata users, this pane is similar to your Do-file and Data Editor windows.</p>
-<p><strong>The R Console Pane</strong></p>
-<p>The R Console, by default the left or lower-left pane in R Studio, is the home of the R “engine”. This is where the commands are actually run and non-graphic outputs and error/warning messages appear. You can directly enter and run commands in the R Console, but realize that these commands are not saved as they are when running commands from a script.</p>
-<p>If you are familiar with Stata, the R Console is like the Command Window and also the Results Window.</p>
-<p><strong>The Environment Pane</strong><br>
-This pane, by default in the upper-right, is most often used to see brief summaries of <a href="basics.html#objects">objects</a> in the R Environment in the current session. These objects could include imported, modified, or created datasets, parameters you have defined (e.g. a specific epi week for the analysis), or vectors or lists you have defined during analysis (e.g. names of regions). You can click on the arrow next to a data frame name to see its variables.</p>
-<p>In Stata, this is most similar to the Variables Manager window.</p>
-<p>This pane also contains <em>History</em> where can see commands that you can previously. It also has a “Tutorial” tab where you can complete interactive R tutorials if you have the <strong>learnr</strong> package installed. It also has a “Connections” pane for external connections, and can have a “Git” pane if you choose to interface with Github.</p>
-<p><strong>Plots, Viewer, Packages, and Help Pane</strong><br>
+<p><span style="color: black;"><strong><em>MẸO:</em></strong> Nếu RStudio của bạn chỉ hiển thị một cửa sổ bên trái thì đó là do bạn chưa mở scripts nào.</span></p>
+<p><strong>Cửa sổ mã nguồn</strong><br>
+Cửa sổ này, mặc định hiển thị phía trên bên trái, là một khoảng trống để chỉnh sửa, chạy và lưu các <a href="basics.html#scripts">scripts</a> của bạn. Script chứa các lệnh mà bạn muốn chạy. Cửa sổ này cũng có thể hiển thị thông tin dữ liệu (data frames).</p>
+<p>Đối với người dùng Stata, cửa sổ này tương tự với các cửa sổ Do-file và Data Editor.</p>
+<p><strong>Cửa sổ R Console</strong></p>
+<p>R Console, mặc định ở cửa sổ bên trái hoặc phía dưới bên trái của RStudio, là ngôi nhà của “động cơ” R. Đây là nơi các lệnh thực sự được chạy, các kết quả đầu ra không phải là đồ họa và các thông báo lỗi/cảnh báo sẽ xuất hiện. Bạn có thể nhập và chạy các lệnh trực tiếp trong R Console, nhưng sẽ sớm nhận ra các lệnh này không được lưu như khi chạy lệnh từ một script.</p>
+<p>Nếu bạn đã quen thuộc với Stata, R Console giống như Cửa sổ gõ lệnh và Màn hình hiển thị kết quả.</p>
+<p><strong>Cửa sổ Environment</strong><br>
+Cửa sổ này, mặc định ở phía trên bên phải, thường được sử dụng để xem tóm tắt ngắn gọn về các <a href="basics.html#objects">đối tượng</a> itrong R Environment ở phiên hiện tại. Các đối tượng này có thể bao gồm các tập dữ liệu đã được nhập, chỉnh sửa hoặc tạo mới, các tham số bạn đã xác định (ví dụ: một tuần dịch tễ cụ thể để phân tích), vectơ hoặc các danh sách bạn đã xác định trong quá trình phân tích (ví dụ: tên các vùng). Bạn có thể nhấp vào mũi tên bên cạnh tên của data frames để xem các biến số của nó.</p>
+<p>Cửa sổ này gần giống với cửa sổ Quản lý biến số trong Stata.</p>
+<p>Cửa sổ này cũng chứa <em>History</em> - nơi mà bạn có thể xem các lệnh đã làm trước đó. Nó cũng có một tab “Tutorial” - là nơi mà bạn có thể hoàn thành các hướng dẫn tương tác với R nếu bạn đã cài đặt package <strong>learnr</strong>. Nó cũng chứa một tab “Connections” cho phép các kết nối bên ngoài và có thể có cửa sổ “Git” nếu bạn chọn giao diện với Github.</p>
+<p><strong>Cửa sổ Plots, Viewer, Packages, và Help</strong><br>
 The lower-right pane includes several important tabs. Typical plot graphics including maps will display in the Plot pane. Interactive or HTML outputs will display in the Viewer pane. The Help pane can display documentation and help files. The Files pane is a browser which can be used to open or delete files. The Packages pane allows you to see, install, update, delete, load/unload R packages, and see which version of the package you have. To learn more about packages see the <a href="basics.html#packages">packages section</a> below.</p>
 <p>This pane contains the Stata equivalents of the Plots Manager and Project Manager windows.</p>
 </div>
@@ -566,22 +565,22 @@ The lower-right pane includes several important tabs. Typical plot graphics incl
 <h2>
 <span class="header-section-number">3.7</span> Packages<a class="anchor" aria-label="anchor" href="#packages"><i class="fas fa-link"></i></a>
 </h2>
-<p><strong>Packages contain functions.</strong></p>
-<p>An R package is a shareable bundle of code and documentation that contains pre-defined functions. Users in the R community develop packages all the time catered to specific problems, it is likely that one can help with your work! You will install and use hundreds of packages in your use of R.</p>
-<p>On installation, R contains <strong>“base”</strong> packages and functions that perform common elementary tasks. But many R users create specialized functions, which are verified by the R community and which you can download as a <strong>package</strong> for your own use. In this handbook, package names are written in <strong>bold</strong>. One of the more challenging aspects of R is that there are often many functions or packages to choose from to complete a given task.</p>
-<div id="install-and-load" class="section level3 unnumbered">
-<h3>Install and load<a class="anchor" aria-label="anchor" href="#install-and-load"><i class="fas fa-link"></i></a>
+<p><strong>Packages chứa các hàm.</strong></p>
+<p>Một package trong phần mềm R là một gói code và các tài liệu hướng dẫn có thể chia sẻ được chứa càm hàm được định nghĩa trước. Cộng đồng người dùng phần mềm R luôn phát triển những package giúp giải quyết các vấn đề cụ thể, điều này có thể sẽ giúp bạn trong công việc của mình! Bạn sẽ cài đặt và sử dụng hàng trăm package trong quá trình sử dụng phần mềm R.</p>
+<p>Khi cài đặt, phần mềm R đã có sẵn các package và hàm <strong>“cơ bản”</strong> giúp thực hiện các nhiệm vụ đơn giản. Nhưng nhiều người dùng R tạo ra các hàm chuyên biệt, được cộng đồng R kiểm chứng và bạn có thể tải xuống dưới dạng <strong>package</strong> để sử dụng theo cách của riêng mình. Trong sách này, tên package được viết <strong>đậm</strong>. Một trong những khía cạnh thách thức hơn của R là thường có nhiều hàm hoặc package để lựa chọn và hoàn thành một nhiệm vụ nhất định.</p>
+<div id="cài-đặt-và-gọi" class="section level3 unnumbered">
+<h3>Cài đặt và Gọi<a class="anchor" aria-label="anchor" href="#c%C3%A0i-%C4%91%E1%BA%B7t-v%C3%A0-g%E1%BB%8Di"><i class="fas fa-link"></i></a>
 </h3>
-<p><em>Functions</em> are contained within <strong>packages</strong> which can be downloaded (“installed”) to your computer from the internet. Once a package is downloaded, it is stored in your “library”. You can then access the functions it contains during your current R session by “loading” the package.</p>
-<p><em>Think of R as your personal library</em>: When you download a package, your library gains a new book of functions, but each time you want to use a function in that book, you must borrow (“load”) that book from your library.</p>
-<p>In summary: to use the functions available in an R package, 2 steps must be implemented:</p>
+<p><em>Các hàm</em> được chứa trong package <strong>packages</strong> có thể được tải (“cài đặt”) về máy tính của bạn từ internet. Khi một package được tải xuống, package đó sẽ được lưu trữ trong “thư viện” của bạn. Sau đó, bạn có thể truy cập các hàm mà nó chứa trong phiên làm việc hiện tại trên R của bạn bằng cách “Gọi” package.</p>
+<p><em>Hãy coi R là thư viện cá nhân của bạn</em>: Khi bạn tải xuống một package, thư viện của bạn nhận được một cuốn sách mới gồm các hàm, nhưng mỗi lần bạn muốn sử dụng một hàm trong cuốn sách đó, bạn phải mượn (“gọi”) cuốn sách đó từ thư viện của mình.</p>
+<p>Tóm lại: để sử dụng các hàm có sẵn trong package R, phải thực hiện 2 bước:</p>
 <ol style="list-style-type: decimal">
-<li>The package must be <strong>installed</strong> (once), <em>and</em><br>
+<li>Package phải được <strong>cài đặt</strong> (một lần), <em>và</em><br>
 </li>
-<li>The package must be <strong>loaded</strong> (each R session)</li>
+<li>Package phải được <strong>gọi</strong> (trong mỗi phiên làm việc của R)</li>
 </ol>
-<div id="your-library" class="section level4 unnumbered">
-<h4>Your library<a class="anchor" aria-label="anchor" href="#your-library"><i class="fas fa-link"></i></a>
+<div id="thư-viện-của-bạn" class="section level4 unnumbered">
+<h4>Thư viện của bạn<a class="anchor" aria-label="anchor" href="#th%C6%B0-vi%E1%BB%87n-c%E1%BB%A7a-b%E1%BA%A1n"><i class="fas fa-link"></i></a>
 </h4>
 <p>Your “library” is actually a folder on your computer, containing a folder for each package that has been installed. Find out where R is installed in your computer, and look for a folder called “win-library”. For example: <code>R\win-library\4.0</code> (the 4.0 is the R version - you’ll have a different library for each R version you’ve downloaded).</p>
 <p>You can print the file path to your library by entering <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> (empty parentheses). This becomes especially important if working with [R on network drives].</p>
@@ -1914,26 +1913,26 @@ We also advise surrounding such operators with spaces, for readability.</p>
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#basics"><span class="header-section-number">3</span> R Cơ bản</a></li>
-<li><a class="nav-link" href="#t%E1%BA%A1i-sao-l%E1%BA%A1i-s%E1%BB%AD-d%E1%BB%A5ng-r"><span class="header-section-number">3.1</span> Tại sao lại sử dụng R?</a></li>
-<li><a class="nav-link" href="#key-terms"><span class="header-section-number">3.2</span> Key terms</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A1i-sao-s%E1%BB%AD-d%E1%BB%A5ng-r"><span class="header-section-number">3.1</span> Tại sao sử dụng R?</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-thu%E1%BA%ADt-ng%E1%BB%AF-ch%C3%ADnh"><span class="header-section-number">3.2</span> Các thuật ngữ chính</a></li>
 <li>
-<a class="nav-link" href="#learning"><span class="header-section-number">3.3</span> Resources for learning</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#resources-within-rstudio">Resources within RStudio</a></li>
+<a class="nav-link" href="#learning"><span class="header-section-number">3.3</span> Tài nguyên học liệu</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#t%C3%A0i-nguy%C3%AAn-trong-rstudio">Tài nguyên trong RStudio</a></li>
 <li><a class="nav-link" href="#cheatsheets">Cheatsheets</a></li>
 <li><a class="nav-link" href="#twitter">Twitter</a></li>
-<li><a class="nav-link" href="#free-online-resources">Free online resources</a></li>
-<li><a class="nav-link" href="#languages-other-than-english">Languages other than English</a></li>
+<li><a class="nav-link" href="#ngu%E1%BB%93n-t%C3%A0i-nguy%C3%AAn-tr%E1%BB%B1c-tuy%E1%BA%BFn-mi%E1%BB%85n-ph%C3%AD">Nguồn tài nguyên trực tuyến miễn phí</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-ng%C3%B4n-ng%E1%BB%AF-kh%C3%A1c-ngo%C3%A0i-ti%E1%BA%BFng-anh">Các ngôn ngữ khác ngoài Tiếng Anh</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#installation"><span class="header-section-number">3.4</span> Installation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#r-and-rstudio">R and RStudio</a></li>
-<li><a class="nav-link" href="#other-software-you-may-need-to-install">Other software you may need to install</a></li>
+<a class="nav-link" href="#c%C3%A0i-%C4%91%E1%BA%B7t"><span class="header-section-number">3.4</span> Cài đặt</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#r-v%C3%A0-rstudio">R và RStudio</a></li>
+<li><a class="nav-link" href="#nh%E1%BB%AFng-ph%E1%BA%A7n-m%E1%BB%81m-kh%C3%A1c-b%E1%BA%A1n-c%C3%B3-th%E1%BB%83-c%E1%BA%A7n-c%C3%A0i-%C4%91%E1%BA%B7t">Những phần mềm khác bạn có thể cần cài đặt</a></li>
 </ul>
 </li>
 <li>
 <a class="nav-link" href="#rstudio"><span class="header-section-number">3.5</span> RStudio</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#rstudio-orientation">RStudio orientation</a></li>
+<li><a class="nav-link" href="#l%C3%A0m-quen">Làm quen</a></li>
 <li><a class="nav-link" href="#rstudio-settings">RStudio settings</a></li>
 <li><a class="nav-link" href="#keyboard-shortcuts">Keyboard shortcuts</a></li>
 </ul>
@@ -1947,7 +1946,7 @@ We also advise surrounding such operators with spaces, for readability.</p>
 </li>
 <li>
 <a class="nav-link" href="#packages"><span class="header-section-number">3.7</span> Packages</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#install-and-load">Install and load</a></li>
+<li><a class="nav-link" href="#c%C3%A0i-%C4%91%E1%BA%B7t-v%C3%A0-g%E1%BB%8Di">Cài đặt và Gọi</a></li>
 <li><a class="nav-link" href="#code-syntax">Code syntax</a></li>
 <li><a class="nav-link" href="#function-help">Function help</a></li>
 <li><a class="nav-link" href="#update-packages">Update packages</a></li>
@@ -2029,7 +2028,7 @@ We also advise surrounding such operators with spaces, for readability.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Sổ tay dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-15.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
