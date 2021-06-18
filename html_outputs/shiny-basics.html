@@ -62,7 +62,7 @@
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
 <li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
-<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Pivoting dữ liệu</a></li>
+<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
 <li><a class="" href="deduplication.html"><span class="header-section-number">15</span> Loại bỏ trùng lặp</a></li>
@@ -383,7 +383,7 @@ For an alternative method of making dashboards that is faster, easier, but perha
 ##  9 Facility 3    2020-08-11 2020-08-12     North    Dingo    malaria_rdt_0-4               8
 ## 10 Facility 3    2020-08-11 2020-08-12     North    Dingo    malaria_rdt_5-14              5
 ## # ... with 12,142 more rows</code></pre>
-<p>And with that we’ve finished preparing our data! This crosses items 1, 2, and 3 off our list of things to develop for our “testing R script”. The last, and most difficult task will be building a function to produce an epicurve based on user defined parameters. As mentioned previously, it’s <em>highly recommended</em> that anyone learning shiny first look at the section on functional programming (<a href="basics.html#writing-functions">Writing functions</a>) to understand how this works!</p>
+<p>And with that we’ve finished preparing our data! This crosses items 1, 2, and 3 off our list of things to develop for our “testing R script”. The last, and most difficult task will be building a function to produce an epicurve based on user defined parameters. As mentioned previously, it’s <em>highly recommended</em> that anyone learning shiny first look at the section on functional programming ([Writing functions]) to understand how this works!</p>
 <p>When defining our function, it might be hard to think about what parameters we want to include. For functional programming with shiny, every relevent parameter will generally have a widget associated with it, so thinking about this is usually quite easy! For example in our current app, we want to be able to filter by district, and have a widget for this, so we can add a district parameter to reflect this. We <em>don’t</em> have any app functionality to filter by facility (for now), so we don’t need to add this as a parameter. Lets start by making a function with three parameters:</p>
 <ol style="list-style-type: decimal">
 <li>The core dataset</li>
@@ -1400,7 +1400,7 @@ For an alternative method of making dashboards that is faster, easier, but perha
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-17.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

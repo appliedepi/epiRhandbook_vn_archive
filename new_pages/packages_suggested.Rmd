@@ -1,19 +1,19 @@
 # Package đề xuất {#packages-suggested}
 
-Below is a long list of suggested packages for common epidemiological work in R. You can copy this code, run it, and all of these packages will install from CRAN and load for use in the current R session. If a package is already installed, it will be loaded for use only.  
+Dưới đây là danh sách các package được đề xuất dành cho các công việc dịch tễ học phổ biến trong R. Bạn có thể sao chép code này, chạy nó và tất cả các package này sẽ cài đặt từ CRAN và tải để sử dụng trong phiên làm việc hiện tại. Nếu một package đã được cài đặt, nó sẽ chỉ được gọi ra để sử dụng.  
 
-You can modify the code with `#` symbols to exclude any packages you do not want.  
+Bạn có thể sửa đổi code với ký hiệu `#` để loại bỏ bất kỳ packages nào bạn không muốn.  
 
-Of note:  
+Chú ý:  
 
-* Install the **pacman** package first before running the below code. You can do this with `install.packages("pacman")`. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use in the current R session. You can also load packages that are already installed with `library()` from **base** R.  
-* In the code below, packages that are included when installing/loading another package are indicated by an indent and hash. For example how **ggplot2** is listed under **tidyverse**.  
-* If multiple packages have functions with the same name, *masking* can occur when the function from the more recently-loaded package takes precedent. Read more in the [R basics] page. Consider using the package **conflicted** to manage such conflicts.  
-* See the [R basics] section on packages for more information on **pacman** and masking.  
+* Đầu tiên, cần cài đặt package **pacman** trước khi chạy đoạn code dưới đây. Bạn có thể thực hiện việc này với lệnh `install.packages("pacman")`. Trong sổ tay này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, sẽ có thể vừa cài đặt package nếu cần *và* gọi chúng ra để sử dụng trong phiên làm việc. Bạn cũng có thể gọi package đã được cài đặt với lệnh `library()` từ **base** R.  
+* Trong đoạn code dưới đây, các packages được bao gồm khi cài đặt/gọi thông qua một package khác được trình bày bằng cách thụt lề và dấu thăng. Ví dụ: **ggplot2** được liệt kê bên dưới **tidyverse**.  
+* Nếu nhiều package có các hàm cùng tên, việc *đè lên nhau* đè lên nhau có thể xảy ra khi hàm từ package được gọi ra sau sẽ được ưu tiên hơn. Đọc thêm trong chương [R cơ bản]. Cân nhắc sử dụng package **conflicted** để quản lý các xung đột tương tự.  
+* Xem chương [R cơ bản] mục packages để biết thêm về **pacman** và ghi đè.  
 
-To see the versions of R, RStudio, and R packages used during the production of this handbook, see the page on [Editorial and technical notes].  
+Để xem các phiên bản của R, RStudio và R packages được sử dụng trong quá trình viết cuốn sổ tay này, xem chương [Biên tập và ghi chú kỹ thuật].  
 
-## Packages from CRAN  
+## Packages từ CRAN  
 
 ```{r, eval=F}
 
@@ -141,13 +141,13 @@ pacman::p_load(
 
 ```
 
-## Packages from Github  
+## Packages từ Github  
 
 
-Below are commmands to install two packages directly from Github repositories.  
+Dưới đây là các lệnh giúp cài đặt trực tiếp packages từ kho lưu trữ trên Github.  
 
-* The development version of **epicontacts** contains the ability to make transmission trees with an temporal x-axis  
-* The **epirhandbook** package contains all the example data for this handbook and can be used to download the offline version of the handbook.  
+* Phiên bản phát triển của **epicontacts** có khả năng tạo cây lây nhiễm với trục x tạm thời  
+* Package **epirhandbook** chứa tất cả các dữ liệu minh họa cho sổ tay này và có thể được sử dụng để tải xuống phiên bản ngoại tuyến của sổ tay.  
 
 
 ```{r, eval=F}

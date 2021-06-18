@@ -62,7 +62,7 @@
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
 <li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
-<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Pivoting dữ liệu</a></li>
+<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
 <li><a class="" href="deduplication.html"><span class="header-section-number">15</span> Loại bỏ trùng lặp</a></li>
@@ -116,22 +116,22 @@
 <h1>
 <span class="header-section-number">5</span> Package đề xuất<a class="anchor" aria-label="anchor" href="#packages-suggested"><i class="fas fa-link"></i></a>
 </h1>
-<p>Below is a long list of suggested packages for common epidemiological work in R. You can copy this code, run it, and all of these packages will install from CRAN and load for use in the current R session. If a package is already installed, it will be loaded for use only.</p>
-<p>You can modify the code with <code>#</code> symbols to exclude any packages you do not want.</p>
-<p>Of note:</p>
+<p>Dưới đây là danh sách các package được đề xuất dành cho các công việc dịch tễ học phổ biến trong R. Bạn có thể sao chép code này, chạy nó và tất cả các package này sẽ cài đặt từ CRAN và tải để sử dụng trong phiên làm việc hiện tại. Nếu một package đã được cài đặt, nó sẽ chỉ được gọi ra để sử dụng.</p>
+<p>Bạn có thể sửa đổi code với ký hiệu <code>#</code> để loại bỏ bất kỳ packages nào bạn không muốn.</p>
+<p>Chú ý:</p>
 <ul>
-<li>Install the <strong>pacman</strong> package first before running the below code. You can do this with <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("pacman")</a></code>. In this handbook we emphasize <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> from <strong>pacman</strong>, which installs the package if necessary <em>and</em> loads it for use in the current R session. You can also load packages that are already installed with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> from <strong>base</strong> R.<br>
+<li>Đầu tiên, cần cài đặt package <strong>pacman</strong> trước khi chạy đoạn code dưới đây. Bạn có thể thực hiện việc này với lệnh <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("pacman")</a></code>. Trong sổ tay này, chúng tôi nhấn mạnh đến hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> từ package <strong>pacman</strong>, sẽ có thể vừa cài đặt package nếu cần <em>và</em> gọi chúng ra để sử dụng trong phiên làm việc. Bạn cũng có thể gọi package đã được cài đặt với lệnh <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> từ <strong>base</strong> R.<br>
 </li>
-<li>In the code below, packages that are included when installing/loading another package are indicated by an indent and hash. For example how <strong>ggplot2</strong> is listed under <strong>tidyverse</strong>.<br>
+<li>Trong đoạn code dưới đây, các packages được bao gồm khi cài đặt/gọi thông qua một package khác được trình bày bằng cách thụt lề và dấu thăng. Ví dụ: <strong>ggplot2</strong> được liệt kê bên dưới <strong>tidyverse</strong>.<br>
 </li>
-<li>If multiple packages have functions with the same name, <em>masking</em> can occur when the function from the more recently-loaded package takes precedent. Read more in the [R basics] page. Consider using the package <strong>conflicted</strong> to manage such conflicts.<br>
+<li>Nếu nhiều package có các hàm cùng tên, việc <em>đè lên nhau</em> đè lên nhau có thể xảy ra khi hàm từ package được gọi ra sau sẽ được ưu tiên hơn. Đọc thêm trong chương <a href="basics.html#basics">R cơ bản</a>. Cân nhắc sử dụng package <strong>conflicted</strong> để quản lý các xung đột tương tự.<br>
 </li>
-<li>See the [R basics] section on packages for more information on <strong>pacman</strong> and masking.</li>
+<li>Xem chương <a href="basics.html#basics">R cơ bản</a> mục packages để biết thêm về <strong>pacman</strong> và ghi đè.</li>
 </ul>
-<p>To see the versions of R, RStudio, and R packages used during the production of this handbook, see the page on [Editorial and technical notes].</p>
-<div id="packages-from-cran" class="section level2" number="5.1">
+<p>Để xem các phiên bản của R, RStudio và R packages được sử dụng trong quá trình viết cuốn sổ tay này, xem chương <a href="editorial-style.html#editorial-style">Biên tập và ghi chú kỹ thuật</a>.</p>
+<div id="packages-từ-cran" class="section level2" number="5.1">
 <h2>
-<span class="header-section-number">5.1</span> Packages from CRAN<a class="anchor" aria-label="anchor" href="#packages-from-cran"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1</span> Packages từ CRAN<a class="anchor" aria-label="anchor" href="#packages-t%E1%BB%AB-cran"><i class="fas fa-link"></i></a>
 </h2>
 <div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">##########################################</span>
@@ -256,15 +256,15 @@
  
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="packages-from-github" class="section level2" number="5.2">
+<div id="packages-từ-github" class="section level2" number="5.2">
 <h2>
-<span class="header-section-number">5.2</span> Packages from Github<a class="anchor" aria-label="anchor" href="#packages-from-github"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2</span> Packages từ Github<a class="anchor" aria-label="anchor" href="#packages-t%E1%BB%AB-github"><i class="fas fa-link"></i></a>
 </h2>
-<p>Below are commmands to install two packages directly from Github repositories.</p>
+<p>Dưới đây là các lệnh giúp cài đặt trực tiếp packages từ kho lưu trữ trên Github.</p>
 <ul>
-<li>The development version of <strong>epicontacts</strong> contains the ability to make transmission trees with an temporal x-axis<br>
+<li>Phiên bản phát triển của <strong>epicontacts</strong> có khả năng tạo cây lây nhiễm với trục x tạm thời<br>
 </li>
-<li>The <strong>epirhandbook</strong> package contains all the example data for this handbook and can be used to download the offline version of the handbook.</li>
+<li>Package <strong>epirhandbook</strong> chứa tất cả các dữ liệu minh họa cho sổ tay này và có thể được sử dụng để tải xuống phiên bản ngoại tuyến của sổ tay.</li>
 </ul>
 <div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Packages to download from Github (not available on CRAN)</span>
@@ -285,8 +285,8 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#packages-suggested"><span class="header-section-number">5</span> Package đề xuất</a></li>
-<li><a class="nav-link" href="#packages-from-cran"><span class="header-section-number">5.1</span> Packages from CRAN</a></li>
-<li><a class="nav-link" href="#packages-from-github"><span class="header-section-number">5.2</span> Packages from Github</a></li>
+<li><a class="nav-link" href="#packages-t%E1%BB%AB-cran"><span class="header-section-number">5.1</span> Packages từ CRAN</a></li>
+<li><a class="nav-link" href="#packages-t%E1%BB%AB-github"><span class="header-section-number">5.2</span> Packages từ Github</a></li>
 </ul>
 
       <div class="book-extra">
@@ -303,7 +303,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-17.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -266,34 +266,34 @@ age_by_outcome <- linelist %>%
 chisq.test(age_by_outcome)
 ```
 
-Xem chương [Simple statistical tests] để có thêm code và các mẹo liên quan đến thống kê.
+Xem chương [Các kiểm định thống kê cơ bản] để có thêm code và các mẹo liên quan đến thống kê.
 
-### Other tips {.unnumbered}
+### Các mẹo khác {.unnumbered}
 
--   Include the argument `na.rm = TRUE` to exclude missing values from any of the above calculations.\
--   If applying any `adorn_*()` helper functions to tables not created by `tabyl()`, you can specify particular column(s) to apply them to like `adorn_percentage(,,,c(cases,deaths))` (specify them to the 4th unnamed argument). The syntax is not simple. Consider using `summarise()` instead.\
--   You can read more detail in the [janitor page](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) and this [tabyl vignette](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html).
+-   Thêm đối số `na.rm = TRUE` để loại bỏ các giá trị missing.\
+-   Nếu áp dụng bất kỳ hàm trợ giúp `adorn_*()` nào cho các bảng không được tạo bởi `tabyl()`, bạn có thể chỉ định (các) cột cụ thể để áp dụng chúng chẳng hạn như `adorn_percentage(,,,c(cases,deaths))` (chỉ định chúng cho đối số không tên thứ 4). Thay vào đó, hãy cân nhắc sử dụng hàm `summarise()`.\
+-   Bạn có thể tìm đọc thêm ở [janitor page](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) và [tabyl vignette](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html).
 
 ## **dplyr** package
 
-**dplyr** is part of the **tidyverse** packages and is an very common data management tool. Creating tables with **dplyr** functions `summarise()` and `count()` is a useful approach to calculating summary statistics, summarize *by group*, or pass tables to `ggplot()`.
+**dplyr** là một phần của package **tidyverse** và là một công cụ quản lý dữ liệu rất phổ biến. Tạo bảng với các hàm của **dplyr** như `summarise()` và `count()` là một cách tiếp cận hữu ích để tính toán các tóm tắt thống kê, tổng hợp *theo nhóm*, hoặc chuyển bảng tới `ggplot()`.
 
-`summarise()` creates a *new, summary data frame*. If the data are *ungrouped*, it will return a one-row dataframe with the specified summary statistics of the entire data frame. If the data are *grouped*, the new data frame will have one row per *group* (see [Grouping data] page).
+`summarise()` tạo một *data frame tổng hợp mới*. Nếu dữ liệu được *tách nhóm*, nó sẽ trả về data frame có một hàng với thống kê tóm tắt được chỉ định cho toàn bộ data frame. Nếu dữ liệu được *nhóm lại*, data frames sẽ có một hàng cho từng *nhóm* (xem chương [Nhóm dữ liệu]).
 
-Within the `summarise()` parentheses, you provide the names of each new summary column followed by an equals sign and a statistical function to apply.
+Bên trong dấu ngoặc đơn của hàm `summarise()`, bạn sẽ cung cấp tên của từng cột cần tổng hợp mới, theo sau là dấu bằng và một hàm thống kê để áp dụng.
 
-[***TIP:*** The summarise function works with both UK and US spelling (`summarise()` and `summarize()`).]{style="color: darkgreen;"}
+[***MẸO:*** Hàm summarise hoạt động được với cả cách viết Anh-Anh và Anh-Mỹ (`summarise()` và `summarize()`).]{style="color: darkgreen;"}
 
-### Get counts {.unnumbered}
+### Lấy số lượng {.unnumbered}
 
-The most simple function to apply within `summarise()` is `n()`. Leave the parentheses empty to count the number of rows.
+Hàm đơn giản nhất để áp dụng cùng với hàm `summarise()` là `n()`. Để trống dấu ngoặc đơn để đếm số hàng.
 
 ```{r}
 linelist %>%                 # begin with linelist
   summarise(n_rows = n())    # return new summary dataframe with column n_rows
 ```
 
-This gets more interesting if we have grouped the data beforehand.
+Điều này sẽ thú vị hơn nếu chúng ta đã nhóm dữ liệu trước đó.
 
 ```{r}
 linelist %>% 
@@ -301,41 +301,41 @@ linelist %>%
   summarise(n_rows = n())   # return number of rows *per group*
 ```
 
-The above command can be shortened by using the `count()` function instead. `count()` does the following:
+Lệnh trên có thể được rút ngắn bằng cách sử dụng hàm`count()` thay thế. `count()` làm những việc sau:
 
-1)  Groups the data by the columns provided to it\
-2)  Summarises them with `n()` (creating column `n`)\
-3)  Un-groups the data
+1)  Nhóm dữ liệu theo các cột được cung cấp cho nó\
+2)  Tổng hợp chúng với `n()` (tạo cột `n`)\
+3)  Tách nhóm dữ liệu
 
 ```{r}
 linelist %>% 
   count(age_cat)
 ```
 
-You can change the name of the counts column from the default `n` to something else by specifying it to `name =`.
+Bạn có thể thay đổi tên của cột đếm từ mặc định là `n` thành một cái gì đó cụ thể chẳng hạn như `name =`.
 
-Tabulating counts of two or more grouping columns are still returned in "long" format, with the counts in the `n` column. See the page on [Pivoting data] to learn about "long" and "wide" data formats.
+Tạo bảng đếm cho hai hoặc nhiều cột sẽ vẫn trả về địng dạng "dọc", với số lượng ở cột `n`. Xem chương [Pivoting dữ liệu] để hiểu thêm về định dạng dữ liệu "dọc" và "ngang".
 
 ```{r}
 linelist %>% 
   count(age_cat, outcome)
 ```
 
-### Show all levels {.unnumbered}
+### Hiện tất cả các cấp độ {.unnumbered}
 
-If you are tabling a column of class *factor* you can ensure that *all* levels are shown (not just the levels with values in the data) by adding `.drop = FALSE` into the `summarise()` or `count()` command.
+Nếu bạn tạo bảng cho một cột có kiểu dữ liệu là *factor*, bạn có thể chắc chắng rằng *tất cả* các cấp độ được trình bày (không chỉ các cấp có giá trị trong dữ liệu) bằng cách thêm `.drop = FALSE` vào lệnh `summarise()` hoặc `count()`.
 
-This technique is useful to standardise your tables/plots. For example if you are creating figures for multiple sub-groups, or repeatedly creating the figure for routine reports. In each of these circumstances, the presence of values in the data may fluctuate, but you can define levels that remain constant.
+Kỹ thuật này rất hữu ích để chuẩn hóa các bảng/biểu đồ của bạn. Ví dụ: nếu bạn đang tạo số liệu cho nhiều nhóm con, hoặc liên tục tạo số liệu cho các báo cáo thường quy. Trong các trường hợp này, sự hiện diện của các giá trị trong dữ liệu có thể dao động, nhưng bạn có thể xác định các mức không đổi.
 
-See the page on [Factors] for more information.
+Xem chương [Factors] để có nhiều thông tin hơn.
 
-### Proportions {#tbl_dplyr_prop .unnumbered}
+### Tỷ lệ {#tbl_dplyr_prop .unnumbered}
 
-Proportions can be added by piping the table to `mutate()` to create a new column. Define the new column as the counts column (`n` by default) divided by the `sum()` of the counts column (this will return a proportion).
+Tỷ lệ có thể được thêm vào bằng cách piping bảng tới hàm `mutate()` để tạo một cột mới. Định nghĩa cột mới là thương của số quan sát của từng yếu tố (mặc định là `n`) và tổng số quan sát `sum()` của cột (sẽ trả về giá trị là một tỷ lệ).
 
-Note that in this case, `sum()` in the `mutate()` command will return the sum of the whole column `n` for use as the proportion denominator. As explained [in the Grouping data page](#group_summarise), *if* `sum()` is used in *grouped* data (e.g. if the `mutate()` immediately followed a `group_by()` command), it will return sums *by group*. As stated just above, `count()` finishes its actions by *ungrouping*. Thus, in this scenario we get full column proportions.
+Lưu ý trong trường hợp này, `sum()` trong lệnh `mutate()` sẽ trả về giá trị của toàn bộ cột `n` để dùng làm mẫu số của tỷ lệ. Như đã được giải thích [trong chương Nhóm dữ liệu](#group_summarise), *nếu* `sum()` được sử dụng với dữ liệu *đã được nhóm* (vd: nếu hàm `mutate()` được theo ngay phía sai hàm `group_by()`), nó sẽ trả về kết quả tổng hợp *theo nhóm*. Như đã nếu ở trên, `count()` hoàn thành nhiệm vụ của mình bằng cách *tách nhóm*. Vì vậy, trong trường hợp này chúng ta sẽ lấy toàn bộ tỷ lệ của cột.
 
-To easily display percents, you can wrap the proportion in the function `percent()` from the package **scales** (note this convert to class character).
+Để dễ dàng hiển thị phần trăm, bạn có thể đưa tỷ lệ vào trong hàm `percent()` từ package **scales** (lưu ý là điều nãy sẽ chuyển kết quả thành dạng ký tự (character)).
 
 ```{r}
 age_summary <- linelist %>% 
@@ -347,7 +347,7 @@ age_summary <- linelist %>%
 age_summary
 ```
 
-Below is a method to calculate proportions *within groups*. It relies on different levels of data grouping being selectively applied and removed. First, the data are grouped on `outcome` via `group_by()`. Then, `count()` is applied. This function further groups the data by `age_cat` and returns counts for each `outcome`-`age-cat` combination. Importantly - as it finishes its process, `count()` also *ungroups* the `age_cat` grouping, so the only remaining data grouping is the original grouping by `outcome`. Thus, the final step of calculating proportions (denominator `sum(n)`) is still grouped by `outcome`.
+Dưới đây là phương pháp tính tỷ lệ *trong nhóm*. Nó dựa trên các cấp độ nhóm dữ liệu khác nhau được áp dụng và loại bỏ một cách có chọn lọc. Đầu tiên, dữ liệu được nhóm theo `outcome` thông qua hàm `group_by()`. Sau đó, hàm `count()` được áp dụng. Hàm này sẽ tiếp tục nhóm dữ liệu phân theo `age_cat` và trả vế số lượng theo từng tổ hợp `outcome`-`age-cat`. Quan trọng là - khi nó kết thúc quy trình của mình, hàm `count()` sẽ *tách nhóm* theo `age_cat`, nên nhóm dữ liệu duy nhất còn lại là nhóm ban đầu theo `outcome`. Do đó, bước cuối cùng để tính toán tỷ lệ (mẫu số là `sum(n)`) vẫn được nhóm theo `outcome`.
 
 ```{r}
 age_by_outcome <- linelist %>%                  # begin with linelist
@@ -360,9 +360,9 @@ age_by_outcome <- linelist %>%                  # begin with linelist
 DT::datatable(age_by_outcome, rownames = FALSE, options = list(pageLength = 12, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-### Plotting {.unnumbered}
+### Vẽ biểu đồ {.unnumbered}
 
-To display a "long" table output like the above with `ggplot()` is relatively straight-forward. The data are naturally in "long" format, which is naturally accepted by `ggplot()`. See further examples in the pages [ggplot basics] and [ggplot tips].
+Để hiển thị kết quả từ một bảng "dài" như trên thì vẽ biểu đồ bằng hàm `ggplot()` tương đối trực quan. Dữ liệu một cách tự nhiên có định dạng "dọc", nên tương thích với `ggplot()` một cách tự nhiên. Xem thêm các ví dụ ở chương [ggplot cơ bản] và [Các tips với ggplot].
 
 ```{r, warning=F, message=F}
 linelist %>%                      # begin with linelist
@@ -375,19 +375,19 @@ linelist %>%                      # begin with linelist
         y = n))                   # map the counts column `n` to the height
 ```
 
-### Summary statistics {.unnumbered}
+### Tổng hợp thống kê {.unnumbered}
 
-One major advantage of **dplyr** and `summarise()` is the ability to return more advanced statistical summaries like `median()`, `mean()`, `max()`, `min()`, `sd()` (standard deviation), and percentiles. You can also use `sum()` to return the number of rows that meet certain logical criteria. As above, these outputs can be produced for the whole data frame set, or by group.
+Một điểm mạnh của **dplyr** và `summarise()` là khả năng trả về các bảng tổng hợp thống kê nâng cao hơn như `median()`, `mean()`, `max()`, `min()`, `sd()` (độ lệch chuẩn), và phân vị. Bạn cũng có thể sử dụng `sum()` để trả vể số lượng dòng thỏa mãn một điều kiện logic nào đó. Như trên, các kết quả đầu ra này có thể được tạo cho toàn bộ data frame hoặc theo nhóm.
 
-The syntax is the same - within the `summarise()` parentheses you provide the names of each new summary column followed by an equals sign and a statistical function to apply. Within the statistical function, give the column(s) to be operated on and any relevant arguments (e.g. `na.rm = TRUE` for most mathematical functions).
+Cú pháp là tương tự- bên trong dấu ngoặc hàm `summarise()` bạn cung cấp tên của từng cột tổng hợp được theo sau bởi dâu bằng và hàm thống kê được áp dụng. Trong hàm thống kê, cung cấp (các) cột sẽ được tính toán và bất kỳ các đối số có liên quan (vd: `na.rm = TRUE` cho tất cả các hàm toán học).
 
-You can also use `sum()` to return the number of rows that meet a logical criteria. The expression within is counted if it evaluates to `TRUE`. For example:
+Bạn cũng có thể sử dụng hàm `sum()` để trả vể số lượng dòng thỏa mãn một điều kiện logic cụ thể. Biểu thức điều kiện sẽ được đếm nếu nó được đánh giá là `TRUE`. Ví dụ:
 
 -   `sum(age_years < 18, na.rm=T)`\
 -   `sum(gender == "male", na.rm=T)`\
 -   `sum(response %in% c("Likely", "Very Likely"))`
 
-Below, `linelist` data are summarised to describe the days delay from symptom onset to hospital admission (column `days_onset_hosp`), by hospital.
+Dưới đây, bộ dữ liệu `linelist` được tổng hợp để mô tả những ngày trì hoãn từ khi bắt đầu có triệu chứng đến khi nhập viện (cột `days_onset_hosp`), phân theo bệnh viện.
 
 ```{r}
 summary_table <- linelist %>%                                        # begin with linelist, save out as new object
@@ -404,25 +404,25 @@ summary_table <- linelist %>%                                        # begin wit
 summary_table  # print
 ```
 
-Some tips:
+Một vài mẹp:
 
--   Use `sum()` with a logic statement to "count" rows that meet certain criteria (`==`)\
+-   Sử dụng `sum()` với một biểu thức logic để "đếm" các dòng đáp ứng các tiêu chí nhất định (`==`)\
 
--   Note the use of `na.rm = TRUE` within mathematical functions like `sum()`, otherwise `NA` will be returned if there are any missing values\
+-   Lưu ý cách sử dụng của `na.rm = TRUE` bên trong biểu thức toán học như là `sum()`, nếu không `NA` sẽ được trả lại nếu dữ liệu có giá trị missing\
 
--   Use the function `percent()` from the **scales** package to easily convert to percents
+-   Sử dụng hàm `percent()` từ package **scales** để dễ dàng chuyển đổi tỷ lệ phần trăm
 
-    -   Set `accuracy =` to 0.1 or 0.01 to ensure 1 or 2 decimal places respectively\
+    -   Thiết lập `accuracy =` bằng 0.1 hoặc 0.01 để đảm bảo kết quả hiển thị 1 hoặc 2 chữ số thập phân sau dấ phẩy\
 
--   Use `round()` from **base** R to specify decimals\
+-   Sử dụng hàm `round()` từ **base** R để chỉ định số thập phân\
 
--   To calculate these statistics on the entire dataset, use `summarise()` without `group_by()`\
+-   Để tính toán các thống kê này trên toàn bộ tập dữ liệu, sử dụng `summarise()` và không có `group_by()`\
 
--   You may create columns for the purposes of later calculations (e.g. denominators) that you eventually drop from your data frame with `select()`.
+-   Bạn có thể tạo các cột cho các mục đích tính toán sau này (ví dụ: mẫu số) mà thậm chí bạn bỏ ra khỏi data frame của mình với hàm `select()`.
 
-### Conditional statistics {.unnumbered}
+### Thống kê có điều kiện {.unnumbered}
 
-You may want to return *conditional statistics* - e.g. the maximum of rows that meet certain criteria. This can be done by subsetting the column with brackets `[ ]`. The example below returns the maximum temperature for patients classified having or not having fever. Be aware however - it may be more appropriate to add another column to the `group_by()` command and `pivot_wider()` (as demonstrated [below](#tbls_pivot_wider)).
+Bạn có thể sẽ muốn trả về các *thống kê có điều kiện* - vd: số hàng tối đa đáp ứng các tiêu chí nhất định. Điều này có thể thực hiện được bằng cáhc subsetting cột bằng dấu ngoặc vuông `[ ]`. Ví dụ dưới đây trả về nhiệt độ tối đa cho những bệnh nhân được phân loại là có hoặc không bị sốt. Tuy nhiên hãy lưu ý - có thể thích hợp hơn nếu thêm một cột khác vào hàm `group_by()` và `pivot_wider()` (như được minh họa [dưới đây](#tbls_pivot_wider)).
 
 ```{r}
 linelist %>% 
@@ -433,17 +433,17 @@ linelist %>%
   )
 ```
 
-### Glueing together {.unnumbered}
+### Gắn với nhau {.unnumbered}
 
-The function `str_glue()` from **stringr** is useful to combine values from several columns into one new column. In this context this is typically used *after* the `summarise()` command.
+Hàm `str_glue()` từ package **stringr** rất hữu ích để kết hợp các giá trị từ một số cột thành một cột mới. Trong trường hợp này nó được sử dụng *sau* hàm `summarise()`.
 
-In the [Characters and strings] page, various options for combining columns are discussed, including `unite()`, and `paste0()`. In this use case, we advocate for `str_glue()` because it is more flexible than `unite()` and has more simple syntax than `paste0()`.
+Trong chương [Ký tự và chuỗi], có nhiều lựa chọn khác nhau để kết hợp các cột được thảo luận, bao gồm cả `unite()`, và `paste0()`. Trong trường hợp sử dụng này, chúng tôi ủng hộ `str_glue()` bởi vì nó linh hoạt hơn `unite()` và có cú pháp đơn giẩn hơn `paste0()`.
 
-Below, the `summary_table` data frame (created above) is mutated such that columns `delay_mean` and `delay_sd` are combined, parentheses formating is added to the new column, and their respective old columns are removed.
+Dưới đây, data frame `summary_table` (được tạo bên trên) được biến đổi để kết hợp cột `delay_mean` và `delay_sd`, định dạng dấu ngoặc đơn được thêm vào cột mới, và các cột cũ tương ứng của chúng bị xóa.
 
-Then, to make the table more presentable, a total row is added with `adorn_totals()` from **janitor** (which ignores non-numeric columns). Lastly, we use `select()` from **dplyr** to both re-order and rename to nicer column names.
+Sau đó, để làm cho bảng dễ nhìn hơn, tổng hàng được thêm vào bằng hàm `adorn_totals()` từ **janitor** (bỏ qua các cột không phải số). Cuối cùng, chúng tôi sử dụng hàm `select()` từ **dplyr** để sắp xếp và đặt tên lại cho các cột.
 
-Now you could pass to **flextable** and print the table to Word, .png, .jpeg, .html, Powerpoint, RMarkdown, etc.! (see the [Tables for presentation] page).
+Bây giờ bạn có thể chuyển kết quả tới **flextable** và in chúng thành bảng trong Word, .png, .jpeg, .html, Powerpoint, RMarkdown, v.v.! (xem chương [Trình bày bảng]).
 
 ```{r}
 summary_table %>% 
@@ -460,9 +460,9 @@ summary_table %>%
     )
 ```
 
-#### Percentiles {.unnumbered}
+#### Bách phân vị {.unnumbered}
 
-*Percentiles* and quantiles in **dplyr** deserve a special mention. To return quantiles, use `quantile()` with the defaults or specify the value(s) you would like with `probs =`.
+*Bách phân vị* và tứ phân vị trong **dplyr** xứng đáng được đề cập tới. Để trả về tứ phân vị, sử dụng `quantile()` với các giá trị mặc định hoặc chỉ rõ giá trị bạn muốn bằng đối số `probs =`.
 
 ```{r}
 # get default percentile values of age (0%, 25%, 50%, 75%, 100%)
@@ -479,7 +479,7 @@ linelist %>%
     )
 ```
 
-If you want to return quantiles *by group*, you may encounter long and less useful outputs if you simply add another column to `group_by()`. So, try this approach instead - create a column for each quantile level desired.
+Nếu bạn muốn trả về phân vị *theo nhóm*, bạn có thể gặp phải các kết quả đầu ra dài và ít hữu ích hơn nếu bạn chỉ cần thêm cột vào `group_by()`. Thay vào đó, hãy thử cách tiếp cận này - tạo một cột cho mỗi mức phân vị mong muốn.
 
 ```{r}
 # get manually-specified percentile values of age (5%, 50%, 75%, 98%)
@@ -493,7 +493,7 @@ linelist %>%
     )
 ```
 
-While **dplyr** `summarise()` certainly offers more fine control, you may find that all the summary statistics you need can be produced with `get_summary_stat()` from the **rstatix** package. If operating on grouped data, if will return 0%, 25%, 50%, 75%, and 100%. If applied to ungrouped data, you can specify the percentiles with `probs = c(.05, .5, .75, .98)`.
+Mặc dù **dplyr** `summarise()` chắc chắn cung cấp khả năng kiểm soát tốt hơn, bạn có thể thấy rằng tất cả các thống kê tổng hợp mà bạn cần có thể được tạo ra với hàm `get_summary_stat()` từ package **rstatix**. Nếu thực hiện trên dữ liệu đã được nhóm, nó sẽ trả về các phân vị 0%, 25%, 50%, 75%, và 100%. If applied to ungrouped data, you can specify the percentiles with `probs = c(.05, .5, .75, .98)`.
 
 ```{r}
 linelist %>% 
@@ -506,13 +506,13 @@ linelist %>%
   rstatix::get_summary_stats(age, type = "quantile")
 ```
 
-### Summarise aggregated data {.unnumbered}
+### Tóm tắt dữ liệu tổng hợp {.unnumbered}
 
-*If you begin with aggregated data*, using `n()` return the number of *rows*, not the sum of the aggregated counts. To get sums, use `sum()` on the data's counts column.
+*Nếu bạn bắt đầu với dữ liệu tổng hợp (aggregated data)*, sử dụng `n()` để trả về số lượng các *dòng*, không phải là tổng của các số lượng được đếm. Để lấy tổng, sử dụng `sum()` trên cột của dữ liệu đếm.
 
-For example, let's say you are beginning with the data frame of counts below, called `linelist_agg` - it shows in "long" format the case counts by outcome and gender.
+Ví dụ, giả sử bạn đang bắt đầu với data frame đếm số lượng như bên dưới, gọi là `linelist_agg` - nó hiển thị ở định dạng "dọc", các trường hợp được tính theo outcome và giới tính.
 
-Below we create this example data frame of `linelist` case counts by outcome and gender (missing values removed for clarity).
+Sau đây chúng ta sẽ tạo data frame minh hoạt số trường hợp của `linelist` được đếm theo outcome và gender (các giá trị missing được loại bỏ để rõ ràng).
 
 ```{r}
 linelist_agg <- linelist %>% 
@@ -522,7 +522,7 @@ linelist_agg <- linelist %>%
 linelist_agg
 ```
 
-To sum the counts (in column `n`) by group you can use `summarise()` but set the new column equal to `sum(n, na.rm=T)`. To add a conditional element to the sum operation, you can use the subset bracket [ ] syntax on the counts column.
+Để tính tổng số lượng (trong cột `n`) theo nhóm bạn có thể sử dụng hàm `summarise()` nhưng đặt cột mới bằng `sum(n, na.rm=T)`. Để thêm phần tử điều kiện vào phép toán tổng, bạn có thể sử dụng cú pháp dấu ngoặc vuông tập hợp con [ ] trên cột đếm.
 
 ```{r}
 linelist_agg %>% 
@@ -533,16 +533,16 @@ linelist_agg %>%
     female_cases = sum(n[gender == "f"], na.rm=T))
 ```
 
-### `across()` multiple columns {.unnumbered}
+### `across()` trên nhiều cột {.unnumbered}
 
-You can use `summarise()` across multiple columns using `across()`. This makes life easier when you want to calculate the same statistics for many columns. Place `across()` within `summarise()` and specify the following:
+Bạn có thể sử dụng `summarise()` trên nhiều cột bằng hàm `across()`. Điều này làm cho mọi thứ dễ dàng hơn khi bạn muốn tính toán các thống kê giống nhau cho nhiều cột. Đặt `across()` bên trong `summarise()` và chỉ rõ những điều sau:
 
--   `.cols =` as either a vector of column names `c()` or "tidyselect" helper functions (explained below)\
--   `.fns =` the function to perform (no parentheses) - you can provide multiple within a `list()`
+-   `.cols =` tên cột viết dưới dạng vector `c()` hoặc sử dụng các hàm trợ giúp chọn cột "tidyselect" (được giải thích bên dưới)\
+-   `.fns =` hàm thực hiện (không có dấu ngoặc) - bạn có thể đưa nhiều hàm vào thông qua `list()`
 
-Below, `mean()` is applied to several numeric columns. A vector of columns are named explicitly to `.cols =` and a single function `mean` is specified (no parentheses) to `.fns =`. Any additional arguments for the function (e.g. `na.rm=TRUE`) are provided after `.fns =`, separated by a comma.
+Ví dụ dưới đây, `mean()` được áp dụng cho các cột dữ liệu dạng số. Một vectơ tên của các cột được gán cho `.cols =` và hàm duy nhất `mean` được xác định (không có dấu ngoặc) cho `.fns =`. Bất kỳ đối số bổ sung nào cho hàm (vd: `na.rm=TRUE`) được cung cấp phía sau `.fns =`, ngăn cách bởi dấu phẩy.
 
-It can be difficult to get the order of parentheses and commas correct when using `across()`. Remember that within `across()` you must include the columns, the functions, and any extra arguments needed for the functions.
+Có thể khó để hiểu được thứ tự của dấu ngoặc đơn và dấu phẩy chính xác khi sử dụng `across()`. Hãy nhớ là bên trong hàm `across()` bạn phải bao gồm các cột, các hàm, và tất cả những đối số cần thiết cho các hàm.
 
 ```{r}
 linelist %>% 
@@ -552,7 +552,7 @@ linelist %>%
                    na.rm=T))                                  # extra arguments
 ```
 
-Multiple functions can be run at once. Below the functions `mean` and `sd` are provided to `.fns =` within a `list()`. You have the opportunity to provide character names (e.g. "mean" and "sd") which are appended in the new column names.
+Nhiều hàm có thể được chạy cùng một lúc. Dưới đây hàm `mean` và `sd` được cung cấp cho `.fns =` bên trong một `list()`. Bạn có cơ hội cung cấp tên ký tự (vd: "mean" và "sd") để thêm vào tên các cột mới.
 
 ```{r}
 linelist %>% 
@@ -562,19 +562,19 @@ linelist %>%
                    na.rm=T))                                 # extra arguments
 ```
 
-Here are those "tidyselect" helper functions you can provide to `.cols =` to select columns:
+Dưới đây là danh sách các hàm trợ giúp "tidyselect" bạn có thể cung cấp cho `.cols =` để lựa chọn cột:
 
--   `everything()` - all other columns not mentioned\
--   `last_col()` - the last column\
--   `where()` - applies a function to all columns and selects those which are TRUE\
--   `starts_with()` - matches to a specified prefix. Example: `starts_with("date")`
--   `ends_with()` - matches to a specified suffix. Example: `ends_with("_end")`\
--   `contains()` - columns containing a character string. Example: `contains("time")`
--   `matches()` - to apply a regular expression (regex). Example: `contains("[pt]al")`\
--   `num_range()` -
--   `any_of()` - matches if column is named. Useful if the name might not exist. Example: `any_of(date_onset, date_death, cardiac_arrest)`
+-   `everything()` - tất cả các cột khác không được đề cập\
+-   `last_col()` - cột cuối cùng\
+-   `where()` - áp dụng một hàm cho tất cả các cột và chọn những cột trả về giá trị TRUE\
+-   `starts_with()` - khớp với một tiền tố được chỉ định. Ví dụ: `starts_with("date")`
+-   `ends_with()` - khớp với một hậu tố được chỉ định. Ví dụ: `ends_with("_end")`\
+-   `contains()` - cột chứa một chuỗi ký tự. Ví dụ: `contains("time")`
+-   `matches()` - áp dụng một biểu thức chính quy (regex). Ví dụ: `contains("[pt]al")`\
+-   `num_range()` - khoảng giá trị số
+-   `any_of()` - khớp nếu cột được đặt tên. Hữu ích nếu tên có thể không tồn tại. Ví dụ: `any_of(date_onset, date_death, cardiac_arrest)`
 
-For example, to return the mean of every numeric column use `where()` and provide the function `as.numeric()` (without parentheses). All this remains within the `across()` command.
+Ví dụ, để trả về giá trị trung bình của tất cả các cột dạng số, sử dụng `where()` và thêm vào hàm `is.numeric()` (không có dấu ngoặc). Tất cả những thứ này vẫn được đặt trong hàm `across()`.
 
 ```{r}
 linelist %>% 
@@ -585,11 +585,11 @@ linelist %>%
     na.rm=T))
 ```
 
-### Pivot wider {#tbls_pivot_wider .unnumbered}
+### Xoay trục ngang (Pivot wider) {#tbls_pivot_wider .unnumbered}
 
-If you prefer your table in "wide" format you can transform it using the **tidyr** `pivot_wider()` function. You will likely need to re-name the columns with `rename()`. For more information see the page on [Pivoting data].
+Nếu bạn thích bảng của mình ở định dạng "rộng", bạn có thể biến đổi nó sử dụng hàm **tidyr** `pivot_wider()`. Bạn có thể sẽ cần đặt lại tên cho các cột bằng `rename()`. Để tìm hiểu thêm, vui lòng xem chương [Pivoting dữ liệu].
 
-The example below begins with the "long" table `age_by_outcome` from the [proportions section](#tbl_dplyr_prop). We create it again and print, for clarity:
+Ví dụ sau đây bắt đầu bằng một bảng "dài" `age_by_outcome` từ mục [Tỷ lệ](#tbl_dplyr_prop). Để dễ hình dung, chúng ta tạo lại bảng và in ra:
 
 ```{r}
 age_by_outcome <- linelist %>%                  # begin with linelist
@@ -602,7 +602,7 @@ age_by_outcome <- linelist %>%                  # begin with linelist
 DT::datatable(age_by_outcome, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-To pivot wider, we create the new columns from the *values* in the existing column `age_cat` (by setting `names_from = age_cat`). We also specify that the new table values will come from the existing column `n`, with `values_from = n`. The columns not mentioned in our pivoting command (`outcome`) will remain unchanged on the far left side.
+Để xoay trục ngang, chúng ta tạo các cột mới từ các *giá trị* trong cột hiện có `age_cat` (bằng cách đặt `names_from = age_cat`). Chúng ta cũng chỉ định rằng các giá trị bảng mới sẽ đến từ cột hiện có `n`, với `values_from = n`. Các cột không được đề cập trong lệnh pivoting (`outcome`) sẽ không thay đổi ở phía ngoài cùng bên trái.
 
 ```{r}
 age_by_outcome %>% 
@@ -610,7 +610,7 @@ age_by_outcome %>%
   pivot_wider(names_from = age_cat, values_from = n)  
 ```
 
-### Total rows {#tbl_dplyr_totals .unnumbered}
+### Tổng hàng {#tbl_dplyr_totals .unnumbered}
 
 When `summarise()` operates on grouped data it does not automatically produce "total" statistics. Below, two approaches to adding a total row are presented:
 

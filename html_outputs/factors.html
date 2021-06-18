@@ -62,7 +62,7 @@
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
 <li><a class="active" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
-<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Pivoting dữ liệu</a></li>
+<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
 <li><a class="" href="deduplication.html"><span class="header-section-number">15</span> Loại bỏ trùng lặp</a></li>
@@ -543,11 +543,10 @@ Please also see the <a href="dates.html#working-with-dates">Working with dates</
 
 <span class="co"># Display levels</span>
 <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">epiweek_formatted</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "2014-W13" "2014-W14" "2014-W15" "2014-W16" "2014-W17" "2014-W18" "2014-W19" "2014-W20" "2014-W21" "2014-W22" "2014-W23" "2014-W24" "2014-W25"
-## [14] "2014-W26" "2014-W27" "2014-W28" "2014-W29" "2014-W30" "2014-W31" "2014-W32" "2014-W33" "2014-W34" "2014-W35" "2014-W36" "2014-W37" "2014-W38"
-## [27] "2014-W39" "2014-W40" "2014-W41" "2014-W42" "2014-W43" "2014-W44" "2014-W45" "2014-W46" "2014-W47" "2014-W48" "2014-W49" "2014-W50" "2014-W51"
-## [40] "2015-W00" "2015-W01" "2015-W02" "2015-W03" "2015-W04" "2015-W05" "2015-W06" "2015-W07" "2015-W08" "2015-W09" "2015-W10" "2015-W11" "2015-W12"
-## [53] "2015-W13" "2015-W14" "2015-W15" "2015-W16"</code></pre>
+<pre><code>##  [1] "2014-W13" "2014-W14" "2014-W15" "2014-W16" "2014-W17" "2014-W18" "2014-W19" "2014-W20" "2014-W21" "2014-W22" "2014-W23" "2014-W24" "2014-W25" "2014-W26" "2014-W27"
+## [16] "2014-W28" "2014-W29" "2014-W30" "2014-W31" "2014-W32" "2014-W33" "2014-W34" "2014-W35" "2014-W36" "2014-W37" "2014-W38" "2014-W39" "2014-W40" "2014-W41" "2014-W42"
+## [31] "2014-W43" "2014-W44" "2014-W45" "2014-W46" "2014-W47" "2014-W48" "2014-W49" "2014-W50" "2014-W51" "2015-W00" "2015-W01" "2015-W02" "2015-W03" "2015-W04" "2015-W05"
+## [46] "2015-W06" "2015-W07" "2015-W08" "2015-W09" "2015-W10" "2015-W11" "2015-W12" "2015-W13" "2015-W14" "2015-W15" "2015-W16"</code></pre>
 <p><span style="color: red;"><strong><em>DANGER:</em></strong> If you place the weeks ahead of the years (“Www-YYYY”) (“%W-%Y”), the default alpha-numeric level ordering will be incorrect (e.g. 01-2015 will be before 35-2014). You could need to manually adjust the order, which would be a long painful process.</span></p>
 <ol start="2" style="list-style-type: decimal">
 <li>
@@ -562,9 +561,9 @@ Please also see the <a href="dates.html#working-with-dates">Working with dates</
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="resources-4" class="section level2" number="11.8">
+<div id="resources-3" class="section level2" number="11.8">
 <h2>
-<span class="header-section-number">11.8</span> Resources<a class="anchor" aria-label="anchor" href="#resources-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.8</span> Resources<a class="anchor" aria-label="anchor" href="#resources-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>R for Data Science page on <a href="https://r4ds.had.co.nz/factors.html">factors</a><br><a href="https://cran.r-project.org/web/packages/aweek/vignettes/introduction.html">aweek package vignette</a></p>
 
@@ -575,7 +574,7 @@ Please also see the <a href="dates.html#working-with-dates">Working with dates</
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></div>
-<div class="next"><a href="pivoting.html"><span class="header-section-number">12</span> Pivoting dữ liệu</a></div>
+<div class="next"><a href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -621,7 +620,7 @@ Please also see the <a href="dates.html#working-with-dates">Working with dates</
 <li><a class="nav-link" href="#epiweeks-in-the-data">Epiweeks in the data</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#resources-4"><span class="header-section-number">11.8</span> Resources</a></li>
+<li><a class="nav-link" href="#resources-3"><span class="header-section-number">11.8</span> Resources</a></li>
 </ul>
 
       <div class="book-extra">
@@ -638,7 +637,7 @@ Please also see the <a href="dates.html#working-with-dates">Working with dates</
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-17.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -62,7 +62,7 @@
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
 <li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
-<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Pivoting dữ liệu</a></li>
+<li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
 <li><a class="" href="deduplication.html"><span class="header-section-number">15</span> Loại bỏ trùng lặp</a></li>
@@ -180,8 +180,8 @@ You can click here to download<span> this data file (.xlsx).</span></a></p>
 <code class="sourceCode R"><span class="co"># import the counts into R</span>
 <span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"campylobacter_germany.xlsx"</span><span class="op">)</span></code></pre></div>
 <p>The first 10 rows of the counts are displayed below.</p>
-<div id="htmlwidget-46b0058b58c31bc48b40" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-46b0058b58c31bc48b40">{"x":{"filter":"none","data":[["2001-12-31T00:00:00Z","2002-01-07T00:00:00Z","2002-01-14T00:00:00Z","2002-01-21T00:00:00Z","2002-01-28T00:00:00Z","2002-02-04T00:00:00Z","2002-02-11T00:00:00Z","2002-02-18T00:00:00Z","2002-02-25T00:00:00Z","2002-03-04T00:00:00Z"],[514,913,1023,887,815,792,803,807,692,705]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>date<\/th>\n      <th>case<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ed8a3697362656058f82" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ed8a3697362656058f82">{"x":{"filter":"none","data":[["2001-12-31T00:00:00Z","2002-01-07T00:00:00Z","2002-01-14T00:00:00Z","2002-01-21T00:00:00Z","2002-01-28T00:00:00Z","2002-02-04T00:00:00Z","2002-02-11T00:00:00Z","2002-02-18T00:00:00Z","2002-02-25T00:00:00Z","2002-03-04T00:00:00Z"],[514,913,1023,887,815,792,803,807,692,705]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>date<\/th>\n      <th>case<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="clean-data-1" class="section level3 unnumbered">
 <h3>Clean data<a class="anchor" aria-label="anchor" href="#clean-data-1"><i class="fas fa-link"></i></a>
@@ -441,7 +441,7 @@ See the <a href="https://epirhandbook.com/moving-averages.html">Moving averages<
 <div id="periodicity" class="section level3 unnumbered">
 <h3>Periodicity<a class="anchor" aria-label="anchor" href="#periodicity"><i class="fas fa-link"></i></a>
 </h3>
-<p>Below we define a custom function to create a periodogram. See the <a href="basics.html#writing-functions">Writing functions</a> page for information about how to write functions in R.</p>
+<p>Below we define a custom function to create a periodogram. See the [Writing functions] page for information about how to write functions in R.</p>
 <p>First, the function is defined. Its arguments include a dataset with a column <code>counts</code>, <code>start_week =</code> which is the first week of the dataset, a number to indicate how many periods per year (e.g. 52, 12), and lastly the output style (see details in the code below).</p>
 <div class="sourceCode" id="cb1110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Function arguments</span>
@@ -1623,9 +1623,9 @@ See <code><a href="https://rdrr.io/pkg/trending/man/trending_model_fit-predictio
 <div class="inline-figure"><img src="_main_files/figure-html/plot_interrupted-1.png" width="672"></div>
 <!-- ======================================================= -->
 </div>
-<div id="resources-15" class="section level2" number="23.9">
+<div id="resources-14" class="section level2" number="23.9">
 <h2>
-<span class="header-section-number">23.9</span> Resources<a class="anchor" aria-label="anchor" href="#resources-15"><i class="fas fa-link"></i></a>
+<span class="header-section-number">23.9</span> Resources<a class="anchor" aria-label="anchor" href="#resources-14"><i class="fas fa-link"></i></a>
 </h2>
 <p><a href="https://otexts.com/fpp3/">forecasting: principles and practice textbook</a><br><a href="https://github.com/EPIET/TimeSeriesAnalysis">EPIET timeseries analysis case studies</a><br><a href="https://online.stat.psu.edu/stat510/lesson/1">Penn State course</a>
 <a href="https://www.jstatsoft.org/article/view/v070i10">Surveillance package manuscript</a></p>
@@ -1685,7 +1685,7 @@ See <code><a href="https://rdrr.io/pkg/trending/man/trending_model_fit-predictio
 </ul>
 </li>
 <li><a class="nav-link" href="#interrupted-timeseries"><span class="header-section-number">23.8</span> Interrupted timeseries</a></li>
-<li><a class="nav-link" href="#resources-15"><span class="header-section-number">23.9</span> Resources</a></li>
+<li><a class="nav-link" href="#resources-14"><span class="header-section-number">23.9</span> Resources</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1702,7 +1702,7 @@ See <code><a href="https://rdrr.io/pkg/trending/man/trending_model_fit-predictio
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-17.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
