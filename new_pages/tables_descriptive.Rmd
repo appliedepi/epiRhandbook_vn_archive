@@ -652,7 +652,7 @@ by_hospital <- linelist %>%
 by_hospital # print table
 ```
 
-To get the totals, run the same `summarise()` command but only group the data by outcome (not by hospital), like this:
+Test pull request: To get the totals, run the same `summarise()` command but only group the data by outcome (not by hospital), like this:
 
 ```{r}
 totals <- linelist %>% 
