@@ -571,7 +571,7 @@ Dưới đây là danh sách các hàm trợ giúp "tidyselect" bạn có thể 
 -   `ends_with()` - khớp với một hậu tố được chỉ định. Ví dụ: `ends_with("_end")`\
 -   `contains()` - cột chứa một chuỗi ký tự. Ví dụ: `contains("time")`
 -   `matches()` - áp dụng một biểu thức chính quy (regex). Ví dụ: `contains("[pt]al")`\
--   `num_range()` - khoảng giá trị số
+-   `num_range()` - khớp với các cột được đánh số có tiền tố chuẩn, ví dụ: "sym1", "sym2", "sym3"
 -   `any_of()` - khớp nếu cột được đặt tên. Hữu ích nếu tên có thể không tồn tại. Ví dụ: `any_of(date_onset, date_death, cardiac_arrest)`
 
 Ví dụ, để trả về giá trị trung bình của tất cả các cột dạng số, sử dụng `where()` và thêm vào hàm `is.numeric()` (không có dấu ngoặc). Tất cả những thứ này vẫn được đặt trong hàm `across()`.
@@ -612,7 +612,8 @@ age_by_outcome %>%
 
 ### Tổng hàng {#tbl_dplyr_totals .unnumbered}
 
-When `summarise()` operates on grouped data it does not automatically produce "total" statistics. Below, two approaches to adding a total row are presented:
+When `summarise()` operates on grouped data it does not automatically produce "total" statistics. Dưới đây, hai cách tiếp cận để thêm tổng hàng được trình bày:
+
 
 #### **janitor**'s `adorn_totals()` {.unnumbered}
 

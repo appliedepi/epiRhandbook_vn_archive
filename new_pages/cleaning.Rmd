@@ -346,22 +346,22 @@ linelist %>%
 
 Here are other "tidyselect" helper functions that also work *within* **dplyr** functions like `select()`, `across()`, and `summarise()`:  
 
-* `everything()`  - all other columns not mentioned  
-* `last_col()`    - the last column  
-* `where()`       - applies a function to all columns and selects those which are TRUE  
-* `contains()`    - columns containing a character string  
-  * example: `select(contains("time"))`  
-* `starts_with()` - matches to a specified prefix  
-  * example: `select(starts_with("date_"))`  
-* `ends_with()`   - matches to a specified suffix  
-  * example: `select(ends_with("_post"))`  
-* `matches()`     - to apply a regular expression (regex)  
-  * example: `select(matches("[pt]al"))`  
-* `num_range()`   - a numerical range like x01, x02, x03  
-* `any_of()`      - matches IF column exists but returns no error if it is not found  
-  * example: `select(any_of(date_onset, date_death, cardiac_arrest))`  
+* `everything()`  - tất cả các cột khác không được đề cập  
+* `last_col()`    - cột cuối cùng  
+* `where()`       - áp dụng một hàm cho tất cả các cột và chọn những cột trả về giá trị TRUE  
+* `contains()`    - cột chứa một chuỗi ký tự.
+  * Ví dụ: `select(contains("time"))`  
+* `starts_with()` - khớp với một tiền tố được chỉ định  
+  * Ví dụ: `select(starts_with("date_"))`  
+* `ends_with()`   - khớp với một hậu tố được chỉ định  
+  * Ví dụ: `select(ends_with("_post"))`  
+* `matches()`     - áp dụng một biểu thức chính quy (regex)  
+  * Ví dụ: `select(matches("[pt]al"))`  
+* `num_range()`   - khớp với các cột được đánh số có tiền tố chuẩn, ví dụ: "sym1", "sym2", "sym3"  
+* `any_of()`      - khớp với cột NẾU tồn tại nhưng không trả về lỗi nếu không tìm thấy  
+  * Ví dụ: `select(any_of(date_onset, date_death, cardiac_arrest))`  
 
-In addition, use normal operators such as `c()` to list several columns, `:` for consecutive columns, `!` for opposite, `&` for AND, and `|` for OR.  
+Thêm vào đó, use normal operators such as `c()` to list several columns, `:` for consecutive columns, `!` for opposite, `&` for AND, and `|` for OR.  
 
 
 Use `where()` to specify logical criteria for columns. If providing a function inside `where()`, do not include the function's empty parentheses. The command below selects columns that are class Numeric.

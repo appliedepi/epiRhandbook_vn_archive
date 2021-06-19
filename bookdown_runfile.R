@@ -12,7 +12,7 @@ bookdown::render_book(
      output_format = 'bookdown::bs4_book',
      config_file = "_bookdown.yml")
 
-
+ 
 
 # PREVIEW ONLY ONE OR SOME PAGES
 # Edit which pages to include in "_small_bookdown.yml"
