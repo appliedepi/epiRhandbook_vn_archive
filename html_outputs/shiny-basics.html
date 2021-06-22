@@ -122,20 +122,20 @@
 <p>It is recommended that someone learning dashboards with <strong>shiny</strong> has good knowledge of data transformation and visualisation, and is comfortable debugging code, and writing functions. Working with dashboards is not intuitive when you’re starting, and is difficult to understand at times, but is a great skill to learn and gets much easier with practice!</p>
 <p>This page will give a short overview of how to make dashboards with <strong>shiny</strong> and its extensions.
 For an alternative method of making dashboards that is faster, easier, but perhaps less customizeable, see the page on <strong>flextable</strong> ([Dashboards with R Markdown]).</p>
-<div id="preparation-35" class="section level2" number="43.1">
+<div id="preparation-33" class="section level2" number="43.1">
 <h2>
-<span class="header-section-number">43.1</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-35"><i class="fas fa-link"></i></a>
+<span class="header-section-number">43.1</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-33"><i class="fas fa-link"></i></a>
 </h2>
-<div id="load-packages-31" class="section level3 unnumbered">
-<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-31"><i class="fas fa-link"></i></a>
+<div id="load-packages-30" class="section level3 unnumbered">
+<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-30"><i class="fas fa-link"></i></a>
 </h3>
 <p>In this handbook we emphasize <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> from <strong>pacman</strong>, which installs the package if necessary <em>and</em> loads it for use. You can also load installed packages with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> from <strong>base</strong> R. See the page on [R basics] for more information on R packages.</p>
 <p>We begin by installing the <strong>shiny</strong> R package:</p>
 <div class="sourceCode" id="cb1841"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="import-data-26" class="section level3 unnumbered">
-<h3>Import data<a class="anchor" aria-label="anchor" href="#import-data-26"><i class="fas fa-link"></i></a>
+<div id="import-data-25" class="section level3 unnumbered">
+<h3>Import data<a class="anchor" aria-label="anchor" href="#import-data-25"><i class="fas fa-link"></i></a>
 </h3>
 <p>If you would like to follow-along with this page, see this section of the <a href="data-used.html#data_shiny">Download handbook and data</a>. There are links to download the R scripts and data files that produce the final Shiny app.</p>
 <p>If you try to re-construct the app using these files, please be aware of the R project folder structure that is created over the course of the demonstration (e.g. folders for “data” and for “funcs”).</p>
@@ -1352,9 +1352,9 @@ For an alternative method of making dashboards that is faster, easier, but perha
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#shiny-basics"><span class="header-section-number">43</span> Dashboards với Shiny</a></li>
 <li>
-<a class="nav-link" href="#preparation-35"><span class="header-section-number">43.1</span> Preparation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load-packages-31">Load packages</a></li>
-<li><a class="nav-link" href="#import-data-26">Import data</a></li>
+<a class="nav-link" href="#preparation-33"><span class="header-section-number">43.1</span> Preparation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-packages-30">Load packages</a></li>
+<li><a class="nav-link" href="#import-data-25">Import data</a></li>
 </ul>
 </li>
 <li>
@@ -1400,7 +1400,7 @@ For an alternative method of making dashboards that is faster, easier, but perha
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-18.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-22.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -123,7 +123,7 @@ Sổ tay này **không phải** là sản phẩm đã được phê duyệt củ
 
 **Nhóm tác giả**: [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Paula Blomquist](https://www.linkedin.com/in/paula-bianca-blomquist-53188186/), [Finlay Campbell](https://github.com/finlaycampbell), [Henry Laurenson-Schafer](https://github.com/henryls1), [Isaac Florence](www.Twitter.com/isaacatflorence), [Natalie Fischer](https://www.linkedin.com/in/nataliefischer211/), [Aminata Ndiaye](https://twitter.com/aminata_fadl), [Liza Coyer](https://www.linkedin.com/in/liza-coyer-86022040/), [Jonathan Polonsky](https://twitter.com/jonny_polonsky), [Yurie Izawa](https://ch.linkedin.com/in/yurie-izawa-a1590319), [Chris Bailey](https://twitter.com/cbailey_58?lang=en), [Daniel Molling](https://www.linkedin.com/in/daniel-molling-4005716a/), [Isha Berry](https://twitter.com/ishaberry2), [Emma Buajitti](https://twitter.com/buajitti), [Mathilde Mousset](https://mathildemousset.wordpress.com/research/), [Sara Hollis](https://www.linkedin.com/in/saramhollis/), Wen Lin
 
-**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Võ Hữu Thuận, Nguyễn Trung Thành, Vũ Thu Hà
+**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Võ Hữu Thuận, Nguyễn Trung Thành, Vũ Thu Hà, [Hồ Hoàng Dung](https://www.linkedin.com/in/dzunggg/) 
 
 **Nhóm phản biện**: Pat Keating, Annick Lenglet, Margot Charette, Danielly Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Kate Kelsey, [Berhe Etsay](https://www.linkedin.com/in/berhe-etsay-5752b1154/), John Rossow, Mackenzie Zendt, James Wright, Laura Haskins, [Flavio Finger](ffinger.github.io), Tim Taylor, [Jae Hyoung Tim Lee](https://www.linkedin.com/in/jaehyoungtlee/), [Brianna Bradley](https://www.linkedin.com/in/brianna-bradley-bb8658155), [Wayne Enanoria](https://www.linkedin.com/in/wenanoria), Manual Albela Miranda, [Molly Mantus](https://www.linkedin.com/in/molly-mantus-174550150/), Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga
 
@@ -11455,7 +11455,7 @@ In the **purrr** [section](#iter_purrr) we will also provide several examples of
 
 
 
-## Preparation {  }
+## Chuẩn bị {  }
      
      
 ### Load packages {.unnumbered}  
@@ -13060,15 +13060,15 @@ age_by_outcome %>%
   pivot_wider(names_from = age_cat, values_from = n)  
 ```
 
-### Tổng hàng {#tbl_dplyr_totals .unnumbered}
+### Tổng các hàng {#tbl_dplyr_totals .unnumbered}
 
-When `summarise()` operates on grouped data it does not automatically produce "total" statistics. Below, two approaches to adding a total row are presented:
+Khi hàm `summarise()` vận hành trên dữ liệu đã được nhóm, nó không tính "tổng" một cách tự động. Sau đây là hai cách tiếp cận giúp bạn thêm tổng hàng:
 
 #### **janitor**'s `adorn_totals()` {.unnumbered}
 
-If your table consists only of counts or proportions/percents that can be summed into a total, then you can add *sum* totals using **janitor**'s `adorn_totals()` as described in the section above. Note that this function can only sum the numeric columns - if you want to calculate other total summary statistics see the next approach with **dplyr**.
+Nếu bảng của bạn chỉ chứa duy nhất số lượng hoặc tỷ lệ/tỷ lệ phần trăm có thể được tổng hợp thành một tổng, thì bạn có thể tính *tổng* sử dụng hàm `adorn_totals()` của package **janitor** như đã được mô tả bên trên. Lưu ý là hàm này chỉ có thể tính tổng của các cột định dạng là số - nếu bạn muốn tính các loại tổng khác, vui lòng xem cách tiếp cận tiếp theo bằng **dplyr**.
 
-Below, `linelist` is grouped by gender and summarised into a table that described the number of cases with known outcome, deaths, and recovered. Piping the table to `adorn_totals()` adds a total row at the bottom reflecting the sum of each column. The further `adorn_*()` functions adjust the display as noted in the code.
+Dưới đây, bộ dữ liệu `linelist` được nhóm theo giới và tóm tắt thành một bảng mô tả số trường hợp có outcome đã biết, tử vong và phục hồi. Piping bảng tới hàm `adorn_totals()` để thêm tổng các hàng ở hàng dưới cùng thể hiện giá trị tổng của từng cột. Các hàm `adorn_*()` khác điều chỉnh cách kết quả được hiển thị như được comment trong phần code.
 
 ```{r}
 linelist %>% 
@@ -13084,11 +13084,11 @@ linelist %>%
   adorn_ns(position = "front")                      # display % and counts (with counts in front)
 ```
 
-#### `summarise()` on "total" data and then `bind_rows()` {.unnumbered}
+#### `summarise()` trên dữ liệu "tổng" rồi sau đó `bind_rows()` {.unnumbered}
 
-If your table consists of summary statistics such as `median()`, `mean()`, etc, the `adorn_totals()` approach shown above will *not* be sufficient. Instead, to get summary statistics for the entire dataset you must calculate them with a separate `summarise()` command and then bind the results to the original grouped summary table. To do the binding you can use `bind_rows()` from **dplyr** s described in the [Joining data] page. Below is an example:
+Nếu bảng của bạn chứa các phép tính thống kế chẳng hạn như `median()`, `mean()`, v.v, thì cách tiếp cận dùng hàm `adorn_totals()` bên trên sẽ *không* đủ. Thay vào đó, để có được thống kê tóm tắt cho toàn bộ tập dữ liệu, bạn phải tính toán chúng bằng lệnh `summarise()` một cách độc lập sau đó gắn các kết quả này với bảng tổng hợp theo nhóm ban đầu. Để làm điều này, bạn có thể sử dụng hàm `bind_rows()` từ **dplyr** như được mô tả trong chương [Nối dữ liệu]. Dưới đây là một ví dụ:
 
-You can make a summary table of outcome *by hospital* with `group_by()` and `summarise()` like this:
+Bạn có thể tạo bảng tổng hợp của outcome *theo bệnh viện* với `group_by()` và `summarise()` như sau:
 
 ```{r, warning=F, message=F}
 by_hospital <- linelist %>% 
@@ -13101,7 +13101,7 @@ by_hospital <- linelist %>%
 by_hospital # print table
 ```
 
-To get the totals, run the same `summarise()` command but only group the data by outcome (not by hospital), like this:
+Để tính tổng, vẫn sử dụng hàm `summarise()` nhưng chỉ nhóm dữ liệu theo outcome (không theo bệnh viện), như dưới đây:
 
 ```{r}
 totals <- linelist %>% 
@@ -13114,20 +13114,20 @@ totals <- linelist %>%
 totals # print table
 ```
 
-We can bind these two data frames together. Note that `by_hospital` has 4 columns whereas `totals` has 3 columns. By using `bind_rows()`, the columns are combined by name, and any extra space is filled in with `NA` (e.g the column `hospital` values for the two new `totals` rows). After binding the rows, we convert these empty spaces to "Total" using `replace_na()` (see [Cleaning data and core functions] page).
+Bây giờ chúng ta có thể nối hai data frames này lại với nhau. Lưu ý là bảng `by_hospital` có 4 cột trong khi đó bảng kết quả `totals` có 3 cột. Bằng việc sử dụng `bind_rows()`, các cột được kết hợp theo tên, và bất kỳ khoảng trống nào sẽ được điền vào bằng giá trị `NA` (ví dụ ở cột `hospital` là các giá trị cho hai hàng `totals` mới). Sau khi gắn các hàng, chúng ta chuyển các khoảng trống đó thành "Tổng" bằng cách sử dụng `replace_na()` (xem chương [Làm sạch số liệu và các hàm quan trọng]).
 
 ```{r}
 table_long <- bind_rows(by_hospital, totals) %>% 
   mutate(hospital = replace_na(hospital, "Total"))
 ```
 
-Here is the new table with "Total" rows at the bottom.
+Đây là bảng mới với các hàng "Tổng" ở các hàng dưới cùng của bảng.
 
 ```{r, message=FALSE, echo=F}
 DT::datatable(table_long, rownames = FALSE, options = list(pageLength = 12, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-This table is in a "long" format, which may be what you want. *Optionally*, you can *pivot* this table *wider* to make it more readable. See the section on pivoting wider above, and the [Pivoting data] page. You can also add more columns, and arrange it nicely. This code is below.
+Bảng này đang có định dạng "dài", có thể là những gì bạn muốn. *Tuy nhiên*, bạn có thể *xoay* bảng này *rộng hơn* theo chiều ngang để dễ đọc. Xem thêm ở phần Xoay trục ngang (Pivot wider) bên trên, và chương [Xoay trục dữ liệu]. Bạn cũng có thêm nhiều cột nữa, và sắp xếp chúng một cách đẹp mắt. Phần code được trình bày bên dưới.
 
 ```{r}
 table_long %>% 
@@ -13150,7 +13150,7 @@ table_long %>%
 
 ```
 
-And then you can print this nicely as an image - below is the output printed with **flextable**. You can read more in depth about this example and how to achieve this "pretty" table in the [Tables for presentation] page.
+Tiếp đó bạn có thể in bảng kết quả dưới dạng một bức ảnh đẹp - sau đây là output được in bằng **flextable**. Bạn có thể đọc chuyên sâu hơn về ví dụ này và cách tạo được bảng "đẹp" tương tự thế này trong chương [Trình bày bảng].
 
 ```{r echo=FALSE, fig.show='hold', message=FALSE, warning=FALSE, out.width=c('50%', '50%')}
 
@@ -13248,15 +13248,15 @@ table
 
 ## **gtsummary** package {#tbl_gt}
 
-If you want to print your summary statistics in a pretty, publication-ready graphic, you can use the **gtsummary** package and its function `tbl_summary()`. The code can seem complex at first, but the outputs look very nice and print to your RStudio Viewer panel as an HTML image. Read a [vignette here](http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html).
+Nếu bạn muốn in các thống kê tóm tắt của mình dưới dạng đồ họa đẹp mắt, sẵn sàng xuất bản, bạn có thể sử dụng package **gtsummary** và hàm của nó `tbl_summary()`. Phần code ban đầu có thể trông phức tạp một chút, nhưng kết quả đầu ra trông rất đẹp và in ra Viewer panel của RStudio dưới dạng một ảnh HTML. Đọc [bản tóm tắt ở đây](http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html).
 
-You can also add the results of statistical tests to **gtsummary** tables. This process is described in the **gtsummary** section of the [Simple statistical tests](#stats_gt) page.
+Bạn cũng có thể thêm kết quả của các kiểm định thống kê vào các bảng của **gtsummary**. Quy trình này được trình bày ở mục **gtsummary** trong chương [Các kiểm định thống kê cơ bản](#stats_gt).
 
-To introduce `tbl_summary()` we will show the most basic behavior first, which actually produces a large and beautiful table. Then, we will examine in detail how to make adjustments and more tailored tables.
+Để giới thiệu về `tbl_summary()`, trước tiên chúng ta sẽ chỉ ra các quy trình cơ bản nhất, giúp bạn thực sự tạo ra một bảng lớn và đẹp. Sau đó, chúng ta sẽ tìm hiểu chi tiết hơn về cách thực hiện các điều chỉnh và các bảng được thiết kế sẵn.
 
-### Summary table {.unnumbered}
+### Bảng tổng hợp {.unnumbered}
 
-The default behavior of `tbl_summary()` is quite incredible - it takes the columns you provide and creates a summary table in one command. The function prints statistics appropriate to the column class: median and inter-quartile range (IQR) for numeric columns, and counts (%) for categorical columns. Missing values are converted to "Unknown". Footnotes are added to the bottom to explain the statistics, while the total N is shown at the top.
+Cách làm việc mặc định của `tbl_summary()` khá kinh ngạc - nó lấy các cột bạn cung cấp và tạo một bảng tóm tắt chỉ trong một lệnh. Hàm in ra số liệu thống kê phù hợp với lớp cột: trung vị và khoảng tứ phân vị (IQR) cho các cột số, và số lượng (%) cho các cột danh mục. Giá trị missing được chuyển đổi thành "Unknown". Chú thích được thêm vào cuối bảng để giải thích các phép tính thống kê, trong khi tổng N được hiển thị ở trên cùng.
 
 ```{r, warning=F, message=F}
 linelist %>% 
@@ -13264,20 +13264,20 @@ linelist %>%
   tbl_summary()                                                  # default
 ```
 
-### Adjustments {.unnumbered}
+### Các điều chỉnh {.unnumbered}
 
-Now we will explain how the function works and how to make adjustments. The key arguments are detailed below:
+Bây giờ chúng tôi sẽ giải thích cách hoạt động của hàm và cách điều chỉnh. Các đối số chính được trình bày chi tiết bên dưới:
 
 **`by =`**\
-You can stratify your table by a column (e.g. by `outcome`), creating a 2-way table.
+Bạn có thể phân tầng bảng của mình theo một cột (ví dụ theo `outcome`), để tạo thành bảng 2 chiều.
 
 **`statistic =`**\
-Use an equations to specify which statistics to show and how to display them. There are two sides to the equation, separated by a tilde `~`. On the right side, in quotes, is the statistical display desired, and on the left are the columns to which that display will apply.
+Sử dụng phương trình để chỉ định thống kê nào sẽ được hiển thị và cách hiển thị chúng. Có hai vế của phương trình, được ngăn cách bởi dấu `~`. Ở vế phải, trong dấu ngoặc kép, là hiển thị phép toán thống kê mong muốn, và ở vế trái là các cột mà phép thống kê đó sẽ áp dụng.
 
--   The right side of the equation uses the syntax of `str_glue()` from **stringr** (see [Characters and Strings]), with the desired display string in quotes and the statistics themselves within curly brackets. You can include statistics like "n" (for counts), "N" (for denominator), "mean", "median", "sd", "max", "min", percentiles as "p\#\#" like "p25", or percent of total as "p". See `?tbl_summary` for details.\
--   For the left side of the equation, you can specify columns by name (e.g. `age` or `c(age, gender)`) or using helpers such as `all_continuous()`, `all_categorical()`, `contains()`, `starts_with()`, etc.
+-   Vế phải của phương trình sử dụng cú pháp của hàm `str_glue()` từ **stringr** (xem [Ký tự và chuỗi]), với chuỗi hiển thị mong muốn trong dấu ngoặc kép và các phép toán thống kê trong dấu ngoặc nhọn. Bạn có thể thêm các phép thống kê như là "n" (số lượng), "N" (mẫu số), "mean", "median", "sd", "max", "min", phân vị "p\#\#" như là  "p25", hoặc phần trăm của một tổng như là "p". Xem `?tbl_summary` để biết thêm chi tiết.\
+-   Đối với phía bên trái của phương trình, bạn có thể chỉ định các cột theo tên (ví dụ: `age` hoặc `c(age, gender)`) hoặc sử dụng các hàm trợ giúp như `all_continuous()`, `all_categorical()`, `contains()`, `starts_with()`, v.v.
 
-A simple example of a `statistic =` equation might look like below, to only print the mean of column `age_years`:
+Một ví dụ đơn giản về phương trình `statistic =` có thể tham khảo ở bên dưới, để chỉ in giá trị trung bình của cột `age_years`:
 
 ```{r}
 linelist %>% 
@@ -13286,7 +13286,7 @@ linelist %>%
     statistic = age_years ~ "{mean}") # print mean of age
 ```
 
-A slightly more complex equation might look like `"({min}, {max})"`, incorporating the max and min values within parentheses and separated by a comma:
+Một phương trình phức tạp hơn một chút có thể như`"({min}, {max})"`, kết hợp các giá trị max và min trong dấu ngoặc đơn và được phân tách bằng dấu phẩy:
 
 ```{r}
 linelist %>% 
@@ -13295,24 +13295,24 @@ linelist %>%
     statistic = age_years ~ "({min}, {max})") # print min and max of age
 ```
 
-You can also differentiate syntax for separate columns or types of columns. In the more complex example below, the value provided to `statistc =` is a **list** indicating that for all continuous columns the table should print mean with standard deviation in parentheses, while for all categorical columns it should print the n, denominator, and percent.
+Bạn cũng có thể phân biệt cú pháp cho các cột hoặc loại cột riêng biệt. Trong ví dụ phức tạp hơn bên dưới, giá trị được cung cấp cho `statistc =` là một **danh sách** chỉ ra rằng đối với tất cả các cột dạng số thì bảng sẽ in ra giá trị trung bình và độ lệch chuẩn bên trong ngoặc, trong khi các cột dạng danh sách thì sẽ in ra n, mẫu số, và phần trăm.
 
 **`digits =`**\
-Adjust the digits and rounding. Optionally, this can be specified to be for continuous columns only (as below).
+Điều chỉnh các chữ số và làm tròn. Theo tùy chọn, điều này có thể được chỉ định chỉ dành cho các cột dạng số liên tục (như bên dưới).
 
 **`label =`**\
-Adjust how the column name should be displayed. Provide the column name and its desired label separated by a tilde. The default is the column name.
+Điều chỉnh cách hiển thị tên cột. Cung cấp tên cột và nhãn mong muốn của nó được phân tách bằng dấu ngã. Theo mặc định thì tên cột được hiển thị.
 
 **`missing_text =`**\
-Adjust how missing values are displayed. The default is "Unknown".
+Điều chỉnh cách giá trị missing được hiển thị. Mặc định hiển thị là "Unknown".
 
 **`type =`**\
-This is used to adjust how many levels of the statistics are shown. The syntax is similar to `statistic =` in that you provide an equation with columns on the left and a value on the right. Two common scenarios include:
+Sử dụng để điều chỉnh số lượng cấp độ của thống kê được hiển thị Cú pháp tương tự như `statistic =` trong đó bạn cung cấp một phương trình với các cột ở bên trái và một giá trị ở bên phải. Hai trường hợp phổ biến bao gồm:
 
--   `type = all_categorical() ~ "categorical"` Forces dichotomous columns (e.g. `fever` yes/no) to show all levels instead of only the "yes" row\
--   `type = all_continuous() ~ "continuous2"` Allows multi-line statistics per variable, as shown in a later section
+-   `type = all_categorical() ~ "categorical"` Buộc các cột nhị phân (ví dụ: `fever` có/không) hiển thị tất cả các cấp độ thay vì chỉ hiện thị hàng "có"\
+-   `type = all_continuous() ~ "continuous2"` Cho phép các kết quả thống kê được trình bày theo nhiều dòng cho mỗi biến, như được trình bày trong phần sau
 
-In the example below, each of these arguments is used to modify the original summary table:
+Trong ví dụ dưới đây, mỗi đối số này được sử dụng để điều chỉnh bảng ban đầu:
 
 ```{r}
 linelist %>% 
@@ -13333,9 +13333,9 @@ linelist %>%
   )
 ```
 
-### Multi-line stats for continuous variables {.unnumbered}
+### Thống kê nhiều dòng cho các biến liên tục {.unnumbered}
 
-If you want to print multiple lines of statistics for continuous variables, you can indicate this by setting the `type =` to "continuous2". You can combine all of the previously shown elements in one table by choosing which statistics you want to show. To do this you need to tell the function that you want to get a table back by entering the type as "continuous2". The number of missing values is shown as "Unknown".
+Nếu bạn muốn in nhiều dòng thống kê cho các biến liên tục, bạn có thể thiết lập `type =` thành "continuous2". Bạn có thể kết hợp tất cả các yếu tố được hiển thị trước đó trong một bảng bằng cách chọn thống kê bạn muốn hiển thị. Để làm điều này, bạn cần cho hàm biết rằng bạn muốn khôi phục bảng bằng cách nhập type là "continuous2". Số lượng các giá trị missing được hiển thị là "Unknown".
 
 ```{r}
 linelist %>% 
@@ -13349,7 +13349,7 @@ linelist %>%
     )
 ```
 
-There are many other ways to modify these tables, including adding p-values, adjusting color and headings, etc. Many of these are described in the documentation (enter `?tbl_summary` in Console), and some are given in the section on [statistical tests](https://epirhandbook.com/simple-statistical-tests.html).
+Có nhiều cách khác để chỉnh sửa các bảng này, bao gồm thêm giá trị p, chỉnh sửa màu sắc và tiêu đề, v.v. Các phần này được đề cập trong tài liệu trợ giúp đính kèm (nhập `?tbl_summary` trong cửa sổ Console), và một số được đề cập trong chương [Các kiểm định thống kê cơ bản](#stat-tests).
 
 ## **base** R
 
@@ -13460,32 +13460,32 @@ options(scipen=1, digits=7)
 # Các kiểm định thống kê cơ bản {#stat-tests}
 
 
-This page demonstrates how to conduct simple statistical tests using **base** R, **rstatix**, and **gtsummary**.  
+Chương này sẽ trình bày cách để thực hiện các phép kiểm định thống kê cơ bản bằng cách sử dụng **base** R, **rstatix**, và **gtsummary**.  
 
-* T-test  
-* Shapiro-Wilk test  
-* Wilcoxon rank sum test  
-* Kruskal-Wallis test  
-* Chi-squared test  
-* Correlations between numeric variables  
+* Kiểm định t  
+* Kiểm định Shapiro-Wilk  
+* Kiểm định tổng thứ hạng Wilcoxon   
+* Kiểm định Kruskal-Wallis  
+* Kiểm định Chi-squared (Chi bình phương)  
+* Tương quan giữa các biến định lượng 
 
-...many other tests can be performed, but we showcase just these common ones and link to further documentation.  
+...nhiều kiểm định khác có thể được thực hiện, nhưng chúng tôi chỉ trình bày các kiểm định thông dụng và kết nối với các phần khác trong cuốn sổ tay này.  
 
-Each of the above packages bring certain advantages and disadvantages:  
+Mỗi package được đề cập bên trên đều có một số ưu điểm và khuyết điểm nhất định:  
 
-* Use **base** R functions to print a statistical outputs to the R Console  
-* Use **rstatix** functions to return results in a data frame, or if you want tests to run by group  
-* Use **gtsummary** if you want to quickly print publication-ready tables  
+* Sử dụng các câu lệnh của **base** để in các kết quả đầu ra thống kê trong R Console  
+* Sử dụng các câu lệnh của **rstatix** để cho kết quả dưới dạng data frame hoặc khi muốn thực hiện các kiểm định theo nhóm  
+* Sử dụng các câu lệnh của **gtsummary** khi muốn kết quả là các bảng biểu có thể sử dụng được ngay  
 
 
 
 <!-- ======================================================= -->
-## Preparation {  }
+## Các bước chuẩn bị {  }
 
 
-### Load packages {.unnumbered}
+### Gọi các packages {.unnumbered}
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị việc gọi các package cần thiết cho phân tích. Trong cuốn sổ tay này, chúng tôi nhấn mạnh đến hàm `p_load()` trong package **pacman**, cài đặt gói lệnh nếu cần thiết *và* gọi chúng ra để sử dụng. Các package đã cài đặt cũng có thể được gọi ra bằng `library()` từ **base** R. Xem thêm thông tin các package của R trong chương [R cơ bản].  
 
 
 ```{r}
@@ -13502,9 +13502,9 @@ pacman::p_load(
   )
 ```
 
-### Import data {.unnumbered}
+### Nhập số liệu {.unnumbered}
 
-We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import your data with the `import()` function from the **rio** package (it accepts many file types like .xlsx, .rds, .csv - see the [Import and export] page for details).  
+Chúng ta nhập bộ số liệu của các ca bệnh về một vụ dịch Ebola mô phỏng. Để tiện theo dõi, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải bộ số liệu linelist "đã được làm sạch"</a> (as .rds file). Nhập số liệu bằng hàm `import()` từ package **rio** package (nó chấp nhận nhiều loại tập tin như .xlsx, .rds, .csv - xem thêm chương [Nhập xuất dữ liệu] để biết thêm chi tiết).  
 
 
 ```{r, echo=F}
@@ -13517,7 +13517,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-The first 50 rows of the linelist are displayed below.
+50 hàng đầu tiên của bộ dữ liệu linelist được hiển thị bên dưới.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
@@ -13528,45 +13528,45 @@ DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list
 
 
 
-## **base** R {}
+## Các kiểm định trong **base** R {}
 
-You can use **base** R functions to conduct statistical tests. The commands are relatively simple and results will print to the R Console for simple viewing. However, the outputs are usually lists and so are harder to manipulate if you want to use the results in subsequent operations. 
+Các lệnh trong **base** R functions to conduct statistical tests. có thể được sử dụng để thực hiện các kiểm định thống kê. Các câu lệnh tương đối đơn giản và kết quả sẽ hiển thị trong bảng điều khiển R Console. Tuy nhiên, kết quả đầu ra thường dưới dạng liệt kê, vì thế sẽ khó thao tác hơn nếu muốn sử dụng kết quả trong các thao tác tiếp theo. 
 
-### T-tests {.unnumbered} 
+### Kiểm định t {.unnumbered} 
 
-A [t-test](https://en.wikipedia.org/wiki/Student%27s_t-test), also called "Student's t-Test", is typically used to determine if there is a significant difference between the means of some numeric variable between two groups. Here we'll show the syntax to do this test depending on whether the columns are in the same data frame.
+Một [kiểm định t](https://en.wikipedia.org/wiki/Student%27s_t-test), hay còn được gọi là "Student's t-Test", thường được sử dụng để xác định có sự khác biệt có ý nghĩa thống kê giữa giá trị trung bình của hai nhóm. Bên dưới là cú pháp để thực hiện kiểm định này tùy thuộc vào các cột có trong cùng một data frame hay không.
 
-**Syntax 1:** This is the syntax when your numeric and categorical columns are in the same data frame. Provide the numeric column on the left side of the equation and the categorical column on the right side. Specify the dataset to `data = `. Optionally, set `paired = TRUE`, and `conf.level = ` (0.95 default), and `alternative = ` (either "two.sided", "less", or "greater"). Enter `?t.test` for more details.  
+**Cú pháp 1:** Đây là cú pháp khi cột của biến liên tục và phân loại nằm trong cùng một data frame. Đặt biến liên tục bên trái và biến phân loại bên phải của phương trình. Ghi rõ bộ số liệu sau `data = `. Các tùy chọn khác như số liệu bắt cặp, viết thêm `paired = TRUE`,  khoảng tin cậy, viết thêm `conf.level = ` (mặc định là 0.95), và giả thuyết thay thế `alternative = ` (hai đuôi - “two.sided”, hoặc một đuôi nhỏ hơn hay lớn hơn - “less”, or “greater”). Gõ `?t.test` để biết thêm chi tiết.  
 
 ```{r}
 ## compare mean age by outcome group with a t-test
 t.test(age_years ~ gender, data = linelist)
 ```
 
-**Syntax 2:** You can compare two separate numeric vectors using this alternative syntax. For example, if the two columns are in different data sets.  
+**Cú pháp 2:** Đây là cú pháp khi so sánh hai véc tơ dạng số. Ví dụ như hai cột nằm trong hai bộ số liệu khác nhau.  
 
 ```{r, eval=F}
 t.test(df1$age_years, df2$age_years)
 ```
 
-You can also use a t-test to determine whether a sample mean is significantly different from some specific value. Here we conduct a one-sample t-test with the known/hypothesized population mean as `mu = `:  
+Kiểm định t cũng được sử dụng để xác định có sự khác biệt có ý nghĩa thống kê giữa giá trị trung bình của mẫu với một số giá trị cụ thể. Đây là phép kiểm định t cho một mẫu với trung bình quần thể giả thuyết/đã biết như `mu = `:  
 
 ```{r, eval=F}
 t.test(linelist$age_years, mu = 45)
 ```
 
-### Shapiro-Wilk test {.unnumbered}  
+### Kiểm định Shapiro-Wilk {.unnumbered}  
 
-The [Shapiro-Wilk test](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test) can be used to determine whether a sample came from a normally-distributed population (an assumption of many other tests and analysis, such as the t-test). However, this can only be used on a sample between 3 and 5000 observations. For larger samples a [quantile-quantile plot](https://ggplot2.tidyverse.org/reference/geom_qq.html) may be helpful. 
+[Kiểm định Shapiro-Wilk](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test) có thể được sử để xác định xem một mẫu có phân bố bình thường/phân bố chuản hay không (một giả định của nhiều kiểm định khác, ví dụ như kiểm định t). Tuy nhiên, phép kiểm định này chỉ có thể được sử dụng cho một mẫu có từ 3 đến 5000 quan sát. Đối với cỡ mẫu lớn hơn, nên sử dụng biểu đồ [quantile-quantile plot](https://ggplot2.tidyverse.org/reference/geom_qq.html). 
 
 
 ```{r, eval=F}
 shapiro.test(linelist$age_years)
 ```
 
-### Wilcoxon rank sum test {.unnumbered}
+### Kiểm định tổng thứ hạng Wilcoxon {.unnumbered}
 
-The Wilcoxon rank sum test, also called the [Mann–Whitney U test](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test), is often used to help determine if two numeric samples are from the same distribution when their populations are not normally distributed or have unequal variance.
+Kiểm định tổng thứ hạng Wilcoxon, hay còn gọi là [kiểm định Mann–Whitney U](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test), thường được sử dụng để giúp xác định xem hai mẫu có cùng phân bố hay không khi quần thể của chúng không có phân bố chuẩn hoặc có phương sai không bằng nhau.
 
 ```{r wilcox_base}
 
@@ -13576,10 +13576,10 @@ wilcox.test(age_years ~ outcome, data = linelist)
 ```
 
 
-### Kruskal-Wallis test {.unnumbered}
+### Kiểm định Kruskal-Wallis {.unnumbered}
 
 
-The [Kruskal-Wallis test](https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) is an extension of the Wilcoxon rank sum test that can be used to test for differences in the distribution of more than two samples. When only two samples are used it gives identical results to the Wilcoxon rank sum test. 
+[Kiểm định Kruskal-Wallis](https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance) là một phần mở rộng của kiểm định tổng thứ hạng Wilcoxon mà có thể được sử dụng để kiểm định sự khác biệt trong phân bố của nhiều hơn hai mẫu. Khi có hai mẫu được sử dụng, nó cho kết quả giống như của kiểm định tổng thứ hạng Wilcoxon. 
 
 ```{r }
 
@@ -13588,9 +13588,9 @@ kruskal.test(age_years ~ outcome, linelist)
 
 ```
 
-### Chi-squared test {.unnumbered} 
+### Kiểm định Chi bình phương {.unnumbered} 
 
-[Pearson's Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test) is used in testing for significant differences between categorical croups. 
+[Kiểm định Chi bình phương của Pearson](https://en.wikipedia.org/wiki/Chi-squared_test) được sử dụng trong kiểm tra sự khác biệt có ý nghĩa thống kê giữa các biến phân loại. 
 
 ```{r}
 
@@ -13603,14 +13603,14 @@ chisq.test(linelist$gender, linelist$outcome)
 
 ## **rstatix** package {}
 
-The **rstatix** package offers the ability to run statistical tests and retrieve results in a "pipe-friendly" framework. The results are automatically in a data frame so that you can perform subsequent operations on the results. It is also easy to group the data being passed into the functions, so that the statistics are run for each group.  
+Package **rstatix** cho phép thực hiện các kiểm định thống kê và truy xuất kết quả "dễ sử dụng cho các tính toán tiếp theo". Có nghĩa là kết quả xuất tự động thành một data frame để có thể thực hiện các thao tác tiếp theo. Nó cũng dễ dàng để nhóm dữ liệu mà sẽ được chuyền vào các hàm, ở đó các thống kê được thực hiện cho từng nhóm.  
 
 
-### Summary statistics {.unnumbered}  
+### Tóm tắt thống kê {.unnumbered}  
 
-The function `get_summary_stats()` is a quick way to return summary statistics. Simply pipe your dataset to this function and provide the columns to analyse. If no columns are specified, the statistics are calculated for all columns.  
+Hàm `get_summary_stats()` là một cách thực hiện tóm tắt thống kê nhanh. Chỉ cần đưa bộ số liệu và chỉ định các cột muốn phân tích vào hàm này. Nếu không có cột nào được cụ thể, tóm tắt thống kê sẽ tính toán cho tất cả các cột.  
 
-By default, a full range of summary statistics are returned: n, max, min, median, 25%ile, 75%ile, IQR, median absolute deviation (mad), mean, standard deviation, standard error, and a confidence interval of the mean. 
+Tóm tắt thống kê đầy đủ sẽ cho kết quả mặc định như sau: số quan sát (n), giá trị nhỏ nhất, giá trị lớn nhất, trung vị, giá trị tứ phân vị thứ nhất (25%), giá trị tứ phân vị thứ ba (75%), khoảng tứ phân vị, độ lệch tuyệt đối của trung vị (mad), trung bình, độ lệch chuẩn, sai số chuẩn và khoảng tin cậy của trung bình. 
 
 
 ```{r}
@@ -13618,9 +13618,9 @@ linelist %>%
   rstatix::get_summary_stats(age, temp)
 ```
 
-You can specify a subset of summary statistics to return by providing one of the following values to `type = `: "full", "common", "robust", "five_number", "mean_sd", "mean_se", "mean_ci", "median_iqr", "median_mad", "quantile", "mean", "median", "min", "max".  
+Có thể tóm tắt một số giá trị thống kê bằng cách cung cấp một trong số các giá trị sau đến `type = `: "full", "common", "robust", "five_number", "mean_sd", "mean_se", "mean_ci", "median_iqr", "median_mad", "quantile", "mean", "median", "min", "max".  
 
-It can be used with grouped data as well, such that a row is returned for each grouping-variable:  
+Nó cũng có thể được sử dụng để nhóm số liệu, sao cho một hàng được trả về cho mỗi biến nhóm:  
 
 ```{r}
 linelist %>%
@@ -13628,25 +13628,25 @@ linelist %>%
   rstatix::get_summary_stats(age, temp, type = "common")
 ```
 
-You can also use **rstatix** to conduct statistical tests:  
+Bạn cũng có thể sử dụng **rstatix** để thực hiện các kiểm định thống kê:  
 
-### T-test {.unnumbered}  
+### Kiểm định t {.unnumbered}  
 
-Use a formula syntax to specify the numeric and categorical columns:  
+USử dụng cú pháp để chỉ định cột biến liên tục và cột biến phân loại:  
 
 ```{r}
 linelist %>% 
   t_test(age_years ~ gender)
 ```
 
-Or use `~ 1` and specify `mu = ` for a one-sample T-test. This can also be done by group.  
+Hoặc sử dụng `~ 1` và ghi rõ `mu = ` cho kiểm định t một mẫu. Cú pháp này có thể sử dụng để thực hiện cho nhóm.  
 
 ```{r}
 linelist %>% 
   t_test(age_years ~ 1, mu = 30)
 ```
 
-If applicable, the statistical tests can be done by group, as shown below:  
+Nếu có thể, các kiểm định thống kê có thể thực hiện theo nhóm, như được trình bày bên dưới.  
 
 ```{r}
 linelist %>% 
@@ -13654,9 +13654,9 @@ linelist %>%
   t_test(age_years ~ 1, mu = 18)
 ```
 
-### Shapiro-Wilk test {.unnumbered}  
+### Kiểm định Shapiro-Wilk {.unnumbered}  
 
-As stated above, sample size must be between 3 and 5000.  
+Như đã đề cập bên trên, cỡ mẫu phải nằm trong khoảng từ 3 đến 5000.  
 
 ```{r}
 linelist %>% 
@@ -13664,7 +13664,7 @@ linelist %>%
   shapiro_test(age_years)
 ```
 
-### Wilcoxon rank sum test {.unnumbered}  
+### Kiểm định tổng thứ hạng Wilcoxon {.unnumbered}  
 
 ```{r}
 linelist %>% 
@@ -13672,9 +13672,9 @@ linelist %>%
 ```
 
 
-### Kruskal-Wallis test {.unnumbered}  
+### Kiểm định Kruskal-Wallis {.unnumbered}  
 
-Also known as the Mann-Whitney U test.  
+Cũng được biết như kiểm định Mann-Whitney U.  
 
 ```{r}
 linelist %>% 
@@ -13682,9 +13682,9 @@ linelist %>%
 ```
 
 
-### Chi-squared test {.unnumbered}  
+### Kiểm định Chi bình phương {.unnumbered}  
 
-The chi-square test function accepts a table, so first we create a cross-tabulation. There are many ways to create a cross-tabulation (see [Descriptive tables]) but here we use `tabyl()` from **janitor** and remove the left-most column of value labels before passing to `chisq_test()`.  
+Hàm kiểm định Chi bình phương chấp nhận một bảng, vì vậy đầu tiên là tạo một bảng chéo. Có nhiều cách để tạo một bảng chéo (xem chương [Bảng mô tả]) nhưng ở đây chúng ta sử dụng hàm `tabyl()` từ **janitor** avà bỏ cột ngoài cùng bên trái của nhãn giá trị trước khi đưa vào hàm `chisq_test()`.  
 
 ```{r}
 linelist %>% 
@@ -13694,7 +13694,7 @@ linelist %>%
 
 ```
 
-Many many more functions and statistical tests can be run with **rstatix** functions. See the documentation for **rstatix** [online here](https://github.com/kassambara/rstatix) or by entering ?rstatix.  
+Có rất nhiều hàm và kiểm định thống kê có thể được thực hiện bằng các hàm trong package **rstatix**. Đọc các tài liệu về **rstatix** [online ở đây](https://github.com/kassambara/rstatix) hoặc gõ ?rstatix.  
 
 
 
@@ -13702,15 +13702,13 @@ Many many more functions and statistical tests can be run with **rstatix** funct
 
 ## `gtsummary` package {#stats_gt}
 
-Use **gtsummary** if you are looking to add the results of a statistical test to a pretty table that was created with this package (as described in the **gtsummary** section of the [Descriptive tables](#tbl_gt) page).  
+Sử dụng package **gtsummary** nếu bạn đang muốn thêm kết quả của một kiểm định thống kê vào một bảng đẹp được tạo ra bằng package này (như đã được mô tả trong phần **gtsummary** của chương [Bảng mô tả](#tbl_gt)).  
 
-Performing statistical tests of comparison with `tbl_summary` is done by adding the 
-`add_p` function to a table and specifying which test to use. It is possible to get p-values corrected for multiple testing by using the
-`add_q` function. Run `?tbl_summary` for details.  
+Khi thực hiện các kiểm định so sánh bằng hàm `tbl_summary`, dùng thêm hàm `add_p` để đưa cột giá trị p và kiểm định được sử dụng vào bảng. Có thể xuất nhiều giá trị p mà được hiệu chỉnh cho nhiều kiểm định bằng cách dùng thêm hàm `add_q`. Gõ lệnh `?tbl_summary` để biết thêm chi tiết.  
 
-### Chi-squared test {.unnumbered}
+### Kiểm định Chi bình phương {.unnumbered}
 
-Compare the proportions of a categorical variable in two groups. The default statistical test for `add_p()` when applied to a categorical variable is to perform a chi-squared test of independence with continuity correction, but if any expected call count is below 5 then a Fisher's exact test is used. 
+Được sử dụng để so sánh các tỷ lệ của một biến phân loại trong hai nhóm. Kiểm định thống kê mặc định cho biến phân loại trong hàm `add_p()` là kiểm định Chi bình phương về tính độc lập với hiệu chỉnh liên tục, nhưng nếu có bất kỳ giá trị kỳ vọng nào nhỏ hơn 5 thì kiểm định chính xác của Fisher sẽ được sử dụng. 
 
 ```{r chi_gt}
 linelist %>% 
@@ -13720,11 +13718,9 @@ linelist %>%
 ```
 
 
-### T-tests {.unnumbered} 
+### Kiểm định t {.unnumbered} 
 
-Compare the difference in means for a continuous variable in two groups. 
-For example, compare the mean age by patient outcome. 
-
+Được sử dụng để so sánh sự khác biệt về trung bình của một biến trung bình trong hai nhóm. Ví dụ như so sánh tuổi trung bình với kết cục của bệnh nhân. 
 ```{r ttest_gt}
 
 linelist %>% 
@@ -13737,12 +13733,9 @@ linelist %>%
 
 ```
 
-### Wilcoxon rank sum test{.unnumbered}
+### Kiểm định tổng thứ hạng Wilcoxon {.unnumbered}
 
-Compare the distribution of a continuous variable in two groups. The default 
-is to use the Wilcoxon rank sum test and the median (IQR) when comparing two 
-groups. However for non-normally distributed data or comparing multiple groups, 
-the Kruskal-wallis test is more appropriate. 
+Được dùng để so sánh sự phân bố của một biến liên tục trong hai nhóm. Kiểm định mặc định là kiểm định tổng thứ hang Wilcoxon và trung vị (khoảng tứ phân vị IQR) khi so sánh hai nhóm. Tuy nhiên, đối với số liệu không có phân bố chuẩn hoặc so sánh nhiều nhóm, kiểm định Kruskal-wallis là kiểm định thích hợp hơn. 
 
 ```{r wilcox_gt}
 
@@ -13756,10 +13749,9 @@ linelist %>%
 
 ```
 
-### Kruskal-wallis test {.unnumbered}
+### Kiểm định Kruskal-wallis {.unnumbered}
 
-Compare the distribution of a continuous variable in two or more groups, 
-regardless of whether the data is normally distributed. 
+Được sử dụng để so sánh sự phân bố của một biến liên tục trong hai hay nhiều nhóm, bất kể số liệu có phân bố chuẩn hay không. 
 
 ```{r kruskal_gt}
 
@@ -13923,12 +13915,9 @@ linelist %>%
 
 <!-- ======================================================= -->
 
-## Correlations 
+## Tương quan 
 
-Correlation between numeric variables can be investigated using the **tidyverse**  
-**corrr** package. It allows you to compute correlations using Pearson, Kendall
-tau or Spearman rho. The package creates a table and also has a function to 
-automatically plot the values. 
+Mối tương quan giữa các biến định lượng có thể được kiển bằng cách sử dụng lệnh **corrr** từ package **tidyverse**. Lệnh này cũng cho phép tính các hệ số tương quan bằng phương pháp Pearson, Kendall hoặc Spearman. Gói lệnh này tạo ra một bảng kết quả và cũng có chức năng tự động vẽ các giá trị. 
 
 ```{r, warning=F, message=F}
 
@@ -13952,9 +13941,9 @@ rplot(correlation_tab)
 
 <!-- ======================================================= -->
 
-## Resources {  }
+## Nguồn {  }
 
-Much of the information in this page is adapted from these resources and vignettes online:  
+Phần lớn thông tin trong phần này được phỏng theo các nguồn sau:  
 
 [gtsummary](http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html)
 [dplyr](https://dplyr.tidyverse.org/articles/grouping.html)
