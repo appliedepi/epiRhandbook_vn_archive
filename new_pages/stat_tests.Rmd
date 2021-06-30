@@ -58,7 +58,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-50 hàng đầu tiên của bộ dữ liệu linelist được hiển thị bên dưới.
+50 hàng đầu tiên của bộ dữ liệu linelist được hiển thị như dưới đây.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
