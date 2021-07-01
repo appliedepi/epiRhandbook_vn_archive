@@ -2,27 +2,24 @@
 
 <!-- ======================================================= -->
 
-This page demonstrates the use of **base** R regression functions such as `glm()` and the **gtsummary** package to 
-look at associations between variables (e.g. odds ratios, risk ratios and hazard
-ratios). It also uses functions like `tidy()` from the **broom** package to clean-up regression outputs.  
+Trong chương này, chúng tôi trình bày cách sử dụng các hàm hồi quy trong **base** R rnhư hàm `glm()` và package **gtsummary** để xem xét các mối liên quan giữa các biến (ví dụ như tỷ số chênh, tỷ số nguy cơ, tỷ số rủi ro). Chúng tôi cũng trình bày cách sử dụng các hàm như `tidy()` trong package **broom** để sắp xếp các kết quả hồi quy.
 
-1.  Univariate: two-by-two tables 
-2.  Stratified: mantel-haenszel estimates  
-3.  Multivariable: variable selection, model selection, final table
-4.  Forest plots
+1.  Phân tích đơn biến: bảng 2 x 2
+2.  Phân tích phân tầng: ước lượng của mantel-haenszel\
+3.  Phân tích đa biến: lựa chọn biến số, lựa chọn mô hình, mô hình cuối cùng
+4.  Biểu đồ Forest plot
 
-For Cox proportional hazard regression, see the [Survival analysis] page.  
+Đối với hồi quy Cox, xem chương [Phân tích sống còn].
 
-<span style="color: black;">**_NOTE:_** We use the term *multivariable* to refer to a regression with multiple explanatory variables. In this sense a *multivariate* model would be a regression with several outcomes - see this [editorial](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3518362/) for detail </span> 
+[***CHÚ Ý:*** Chúng tôi sử dụng thuật ngữ *đa biến (multivariable)* để nói đến một hồi quy có nhiều biến giải thích. Thuật ngữ này khác với mô hình *đa biến* (multivariate model), là một mô hình đa biến có nhiều biến kết cục -- xem chi tiết trong [bài xã luận](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3518362/) này ]{style="color: black;"}
 
 <!-- ======================================================= -->
 
-## Preparation {  }
+## Chuẩn bị
 
+### Gọi packages {.unnumbered}
 
-### Load packages {.unnumbered}
-
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn mã này hiển thị cách tải các gói lệnh cần thiết cho phân tích. Trong cuốn sổ tay này, chúng tôi nhấn mạnh hàm `p_load()` thuộc package **pacman**, giúp cài đặt package khi cần thiết *và* gọi nó ra để sử dụng. Có thể gọi các package đã cài đặt bằng hàm `library()` trong **base** R. Xem thêm thông tin về các package của R trong chương [R cơ bản].
 
 ```{r}
 pacman::p_load(
@@ -39,10 +36,9 @@ pacman::p_load(
   )
 ```
 
-### Import data {.unnumbered}
+### Nhập số liệu {.unnumbered}
 
-We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import your data with the `import()` function from the **rio** package (it accepts many file types like .xlsx, .rds, .csv - see the [Import and export] page for details).  
-
+Chúng tôi nhập bộ số liệu của các ca bệnh được mô phỏng từ một vụ dịch Ebola. Để tiện làm theo, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải số liệu linelist "đã được làm sạch"</a> (dưới dạng tệp .rds ). Nhập số liệu này bằng hàm `import()` trong package **rio** (nó chấp nhận nhiều loại tập tin như .xlsx, .rds, .csv -- xem chi tiết trong chương [Nhập xuất dữ liệu]).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -54,30 +50,29 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-The first 50 rows of the linelist are displayed below.
+Bên dưới là hiển thị của 50 hàng đầu tiên của bộ số liệu linelist.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T) )
 ```
 
-### Clean data {.unnumbered}
+### Làm sạch số liệu {.unnumbered}
 
-#### Store explanatory variables {.unnumbered}  
+#### Lưu trữ các biến giải thích {.unnumbered}
 
-We store the names of the explanatory columns as a character vector. This will be referenced later.  
+Tên của các biến giải thích sẽ được lưu trữ dưới dạng một véc tơ ký tự. Véc tơ này sẽ được đề cập về sau.
 
 ```{r}
 ## define variables of interest 
 explanatory_vars <- c("gender", "fever", "chills", "cough", "aches", "vomit")
 ```
 
+#### Chuyển đổi sang số 1 và số 0 {.unnumbered}
 
-#### Convert to 1's and 0's  {.unnumbered}   
+Sau đây, giá trị của các biến giải thích được chuyển đổi từ "có"/"không", "nam"/"nữ" và "chết"/"sống" thành 1 / 0, để hợp với các đặc tính của mô hình hồi quy logistic. TĐể thực hiện việc này một cách hiệu quả, sử dụng hàm `across()` từ **dplyr** để chuyển đổi nhiều biến cùng một lúc. Để áp dụng cho mỗi biến, dùng hàm `case_when()` (cũng trong package **dplyr**) để chuyển đổi các giá trị cụ thể thành 1 và 0. Xem các mục về `across()` và `case_when()` trong chương [Làm sạch số liệu và các hàm quan trọng](#clean_across)).
 
-Below we convert the explanatory columns from "yes"/"no", "m"/"f", and "dead"/"alive" to **1 / 0**, to cooperate with the expectations of logistic regression models. To do this efficiently, used `across()` from **dplyr** to transform multiple columns at one time. The function we apply to each column is `case_when()` (also **dplyr**) which applies logic to convert specified values to 1's and 0's. See sections on `across()` and `case_when()` in the [Cleaning data and core functions page](#clean_across)).  
-
-Note: the "." below represents the column that is being processed by `across()` at that moment.
+Chú ý: dấu "." bên dưới đại diện cho cột\`\`\`\`\``đang được xử lý trong hàm`across()\` tại thời điểm đó.
 
 ```{r}
 ## convert dichotomous variables to 0/1 
@@ -95,13 +90,13 @@ linelist <- linelist %>%
       
 ```
 
-#### Drop rows with missing values {.unnumbered}  
+#### Loại bỏ các hàng có giá trị missing {.unnumbered}
 
-To drop rows with missing values, can use the **tidyr** function `drop_na()`. However, we only want to do this for rows that are missing values in the columns of interest.  
+Để bỏ các hàng có giá trị missing, dùng hàm `drop_na()` trong package **tidyr**. Tuy nhiên, chúng ta chỉ muốn thực hiện điều này cho các hàng có giá trị missing đối với các cột đang được quan tâm.
 
-The first thing we must to is make sure our `explanatory_vars` vector includes the column `age` (`age` would have produced an error in the previous `case_when()` operation, which was only for dichotomous variables). Then we pipe the `linelist` to `drop_na()` to remove any rows with missing values in the `outcome` column or any of the `explanatory_vars` columns.  
+Trước hết, chúng ta phải đảm bảo rằng vectơ `explanatory_vars` bao gồm các biến `age` (`age` có thể tạo ra một lỗi trong thao tác của hàm `case_when()` trước đó, mà chỉ dành cho biến nhị phân). Sau đó chúng ta pipe bộ dữ liệu `linelist` tới hàm `drop_na()` để bỏ các hàng có giá trị missing cho biến `outcome` hoặc bất kỳ biển giải thích `explanatory_vars` nào.
 
-Before running the code, the number of rows in the `linelist` is ` nrow(linelist)`.  
+Trước khi thực hiện các lệnh này, kiểm tra số hàng trong bộ số liệu `linelist` bằng hàm `nrow(linelist)`.
 
 ```{r}
 ## add in age_category to the explanatory vars 
@@ -113,51 +108,44 @@ linelist <- linelist %>%
 
 ```
 
-The number of rows remaining in `linelist` is ` nrow(linelist)`.  
-
+Kiểm tra số hàng còn lại của `linelist` bằng hàm `nrow(linelist)`.
 
 <!-- ======================================================= -->
 
-## Univariate {  }
+## Phân tích đơn biến
 
-Just like in the page on [Descriptive tables](https://epirhandbook.com/descriptive-tables.html), your use case will determine which R package you use. We present two options for doing univariate analysis:  
+Cũng giống như chương [Bảng mô tả](#tables-descriptive), chúng ta cần xác định packahe nào trong R mà chúng ta muốn sử dụng. Chúng tôi trình bày hai chọn lựa để thực hiện các phân tích đơn biến:
 
-* Use functions available in **base** R to quickly print results to the console. Use the **broom** package to tidy up the outputs.  
-* Use the **gtsummary** package to model and get publication-ready outputs  
-
-
+-   Dùng hàm có sẵn trong **base** để in nhanh kết quả ra console. Sử dụng package **broom** để làm gọn kết quả.\
+-   Dùng package **gtsummary** để lập mô hình và nhận các kết quả đầu ra sẵn sàng để công bố
 
 <!-- ======================================================= -->
 
 ### **base** R {.unnumbered}
 
-#### Linear regression {.unnumbered}  
+#### Hồi quy tuyến tính {.unnumbered}
 
-The **base** R function `lm()` perform linear regression, assessing the relationship between numeric response and explanatory variables that are assumed to have a linear relationship.  
+Hàm `lm()` trong **base** cho phép thực hiện hồi quy tuyến tính để đánh giá mối quan hệ giữa biến đầu ra dạng số (numeric) và các biến giải thích mà được giả định là có mối quan hệ tuyến tính.
 
-Provide the equation as a formula, with the response and explanatory column names separated by a tilde `~`. Also, specify the dataset to `data = `. Define the model results as an R object, to use later.    
+Cung cấp phương trình dưới dạng công thức với tên của biến đầu ra và các biến giải thích được phân tách bằng dấu ngã `~`. Bên cạnh đó, chỉ rõ bộ số liệu nào được sử dụng với `data =`. Kết quả của mô hình được định nghĩa dưới dạng đối tượng của R để sử dụng về sau.
 
 ```{r lin_reg}
 lm_results <- lm(ht_cm ~ age, data = linelist)
 ```
 
-You can then run `summary()` on the model results to see the coefficients (Estimates), P-value, residuals, and other measures.  
+Sau đó tóm tắt kết quả của mô hình bằng hàm `summary()` để xem các hệ số (ước tính), P-value, phần dư và các đo lường khác.
 
 ```{r lin_reg_res}
 summary(lm_results)
 ```
 
-Alternatively you can use the `tidy()` function from the **broom** package to pull 
-the results in to a table. What the results tell us is that for each year increase in age the height increases
-by 3.5 cm and this is statistically significant. 
+Ngoài ra, có thể dùng hàm `tidy()` trong package **broom** để xuất kết quả vào trong một bảng. Kết quả bên dưới cho chúng ta biết khi tăng thêm một tuổi thì chiều cao tăng 3,5 cm và mối quan hệ này có ý nghĩa thống kê.
 
 ```{r lin_reg_res_tidy}
 tidy(lm_results)
 ```
 
-You can then also use this regression to add it to a **ggplot**, to do this we 
-first pull the points for the observed data and the fitted line in to one data frame 
-using the `augment()` function from **broom**. 
+Sau đó, có thể sử dụng kết quả hồi quy này để đưa vào **ggplot**. Để thực hiện điều này, trước tiên chúng ta đưa các giá trị quan sát và đường thẳng hồi quy (fitted line) vào một data frame bằng cách dùng hàm `augment()` trong package **broom**.
 
 ```{r lin_reg_res_plot}
 
@@ -173,8 +161,7 @@ ggplot(points, aes(x = age)) +
 
 ```
 
-It is also possible to add a simple linear regression straight straight in **ggplot** 
-using the `geom_smooth()` function. 
+Bạn cũng có thể vẽ đường hồi quy tuyến tính đơn bằng package **ggplot** thông qua hàm `geom_smooth()`.
 
 ```{r geom_smooth}
 
@@ -186,56 +173,50 @@ using the `geom_smooth()` function.
   geom_smooth(method = "lm", se = FALSE)
 ```
 
-See the Resource section at the end of this chapter for more detailed tutorials.  
+Xem thêm các hướng dẫn chi tiết trong mục Nguồn ở cuối chương này.
 
+#### Hồi quy Logistic {.unnumbered}
 
-#### Logistic regression {.unnumbered}  
+Hàm `glm()` trong package **stats** (một phần của **base** R) được sử dụng để fit (chọn mô hình dự đoán tối ưu dựa trên số liệu quan sát) đối với Mô hình Tuyến tính Tổng quát (GLM).
 
-The function `glm()` from the **stats** package (part of **base** R) is used to fit Generalized Linear Models (GLM).  
-
-`glm()` can be used for univariate and multivariable logistic regression (e.g. to get Odds Ratios). Here are the core parts:  
+`glm()` có thể được sử dụng cho cả hồi quy logistic đơn biến và đa biến (ví dụ như để tính tỷ số chênh OR). Sau đây là những thành phần chính của hàm:
 
 ```{r, eval=F}
 # arguments for glm()
 glm(formula, family, data, weights, subset, ...)
 ```
 
-* `formula = ` The model is provided to `glm()` as an equation, with the outcome on the left and explanatory variables on the right of a tilde `~`.  
-* `family = ` This determines the type of model to run. For logistic regression, use `family = "binomial"`, for poisson use `family = "poisson"`. Other examples are in the table below.  
-* `data = ` Specify your data frame  
+-   `formula =` Mô hình được cung cấp cho `glm()` dưới dạng một phương trình với biến kết cục ở bên trái và biến giải thích ở bên phải dấu ngã `~`.\
+-   `family =` Xác định loại mô hình sẽ thực hiện. Đối với hồi quy logistic, sử dụng `family = "binomial"`, đối với hồi quy poisson sử dụng `family = "poisson"`. Các ví dụ khác được trình bày trong bảng bên dưới.\
+-   `data =` Cụ thể bộ số liệu
 
+Nếu cần, có thể cụ thể hàm liên kết bằng cú pháp `family = familytype(link = "linkfunction"))`. Bạn có thể tìm đọc thêm về các họ hồi quy khác và các tùy chọn đối số như là `weights =` và `subset =` bằng cách gõ (`?glm`).
 
-If necessary, you can also specify the link function via the syntax `family = familytype(link = "linkfunction"))`. You can read more in the documentation about other families and optional arguments such as `weights = ` and `subset = ` (`?glm`).  
+| Họ                   | Hàm liên kết mặc định                        |
+|----------------------|----------------------------------------------|
+| `"binomial"`         | `(link = "logit")`                           |
+| `"gaussian"`         | `(link = "identity")`                        |
+| `"Gamma"`            | `(link = "inverse")`                         |
+| `"inverse.gaussian"` | `(link = "1/mu^2")`                          |
+| `"poisson"`          | `(link = "log")`                             |
+| `"quasi"`            | `(link = "identity", variance = "constant")` |
+| `"quasibinomial"`    | `(link = "logit")`                           |
+| `"quasipoisson"`     | `(link = "log")`                             |
 
+Khi thực hiện `glm()` , phổ biến nhất là lưu kết quả dưới dạng một đối tượng của R được đặt tên. Sau đó, có thể xuất kết quả ra console bằng cách sử dụng hàm `summary()` như được trình bày bên dưới, hoặc thực hiện các thao tác khác từ kết quả (ví dụ như lấy lũy thừa).
 
+Nếu cần thực hiện một hồi quy nhị thức âm, có thể sử dụng package **MASS**. Hàn `glm.nb()` uses cũng sử dụng cùng cú pháp như `glm()`. Để xem qua các hồi quy khác, xem trên [trang thống kê của UCLA](https://stats.idre.ucla.edu/other/dae/).
 
-Family                 | Default link function 
------------------------|-------------------------------------------  
-`"binomial"` | `(link = "logit")`  
-`"gaussian"` | `(link = "identity")`  
-`"Gamma"` | `(link = "inverse")`  
-`"inverse.gaussian"` | `(link = "1/mu^2")`  
-`"poisson"` | `(link = "log")`  
-`"quasi"` | `(link = "identity", variance = "constant")`  
-`"quasibinomial"` | `(link = "logit")`  
-`"quasipoisson"` | `(link = "log")`  
+#### Phân tích đơn biến sử dụng `glm()` {.unnumbered}
 
-
-When running `glm()` it is most common to save the results as a named R object. Then you can print the results to your console using `summary()` as shown below, or perform other operations on the results (e.g. exponentiate).  
-
-If you need to run a negative binomial regression you can use the **MASS** package; the `glm.nb()` uses the same syntax as `glm()`. 
-For a walk-through of different regressions, see the [UCLA stats page](https://stats.idre.ucla.edu/other/dae/). 
-
-#### Univariate `glm()` {.unnumbered}
-
-In this example we are assessing the association between different age categories and the outcome of death (coded as 1 in the Preparation section). Below is a univariate model of `outcome` by `age_cat`. We save the model output as `model` and then print it with `summary()` to the console. Note the estimates provided are the *log odds* and that the baseline level is the first factor level of `age_cat` ("0-4").  
+Trong ví dụ này, chúng tôi đánh giá mối liên quan giữa nhóm tuổi và biến kết cục tử vong (được mã hóa là 1 trong phần chuẩn bị). Bên dưới là một mô hình đơn biến của biến kết cục `outcome` theo `age_cat`. Chúng tôi lưu kết quả đầu ra được đặt tên là `model` và sau đó in kết quả đến console bằng hàm `summary()`. Lưu ý, các ước tính được tạo ra là các giá trị *lôgarít của tỷ số chênh (log odds)* và giá trị tham chiếu là giá trị đầu tiên của biến `age_cat` ("0-4").
 
 ```{r}
 model <- glm(outcome ~ age_cat, family = "binomial", data = linelist)
 summary(model)
 ```
 
-To alter the baseline level of a given variable, ensure the column is class Factor and move the desired level to the first position with `fct_relevel()` (see page on [Factors]). For example, below we take column `age_cat` and set "20-29" as the baseline before piping the modified data frame into `glm()`.  
+Để thay đổi giá trị tham chiếu của một biến Factor và chuyển giá trị mong muốn lên vị trí đầu tiên, dùng hàm `fct_relevel()` (xem chương [Factors]). Ở ví dụ bên dưới, chúng tôi lấy biến `age_cat` và đặt nhóm tuổi "20-29" làm giá trị tham chiếu trước khi chuyển số liệu đã sửa đổi vào hàm `glm()`.
 
 ```{r}
 linelist %>% 
@@ -244,13 +225,13 @@ linelist %>%
   summary()
 ```
 
-#### Printing results {.unnumbered}
+#### In kết quả {.unnumbered}
 
-For most uses, several modifications must be made to the above outputs. The function `tidy()` from the package **broom** is convenient for making the model results presentable.  
+Đối với hầu hết các mục đích sử dụng, kết quả đầu ra cần phải có một số sửa đổi. Hàm làm gọn `tidy()` trong package **broom** có những tiện lợi để hiển thị kết quả của mô hình.
 
-Here we demonstrate how to combine model outputs with a table of counts.  
+Ở đây, chúng tôi trình bày cách để kết hợp các kết quả đầu ra của mô hình vào trong một bảng.
 
-1) Get the *exponentiated* log odds ratio estimates and confidence intervals by passing the model to `tidy()` and setting `exponentiate = TRUE` and `conf.int = TRUE`.  
+1)  Lấy *lũy thừa* logarit của ước lượng tỉ số chênh OR và khoảng tin cậy  bằng cách đưa mô hình vào hàm `tidy()` và thiết lập lũy thừa `exponentiate = TRUE` và `conf.int = TRUE`.
 
 ```{r odds_base_single}
 
@@ -259,43 +240,48 @@ model <- glm(outcome ~ age_cat, family = "binomial", data = linelist) %>%
   mutate(across(where(is.numeric), round, digits = 2))  # round all numeric columns
 ```
 
-Below is the outputted tibble `model`:  
+Bên dưới là bảng kết quả đầu ra của `model`:
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(model, rownames = FALSE, options = list(pageLength = nrow(model), scrollX=T), class = 'white-space: nowrap' )
 ```
 
-2) Combine these model results with a table of counts. Below, we create the a counts cross-table with the `tabyl()` function from **janitor**, as covered in the [Descriptive tables] page.  
+2)  Kết hợp các kết quả của mô hình vào trong một bảng đếm. Dưới đây, chúng tôi tạo một bảng đếm bằng hàm `tabyl()` từ package **janitor**, như được đề cập trong chương [Bảng mô tả].
 
 ```{r}
 counts_table <- linelist %>% 
   janitor::tabyl(age_cat, outcome)
 ```
 
-
 <!-- * Group rows by outcome, and get counts by age category   -->
+
 <!-- * Pivot wider so the column are `age_cat`, `0`, and `1`   -->
+
 <!-- * Remove row for `NA` `age_cat`, if applicable, to align with the model results   -->
 
 <!-- ```{r} -->
+
 <!-- counts_table <- linelist %>%  -->
+
 <!--   filter(!is.na(outcome) & !is.na(age_cat)) %>%    # ensure outcome and age_cat are present  -->
+
 <!--   group_by(outcome) %>%                            # get counts of variable of interest grouped by outcome -->
+
 <!--   count(age_cat) %>%   ## gets number or rows by unique outcome-age category combinations   -->
+
 <!--   pivot_wider(names_from = outcome, values_from = n)    ## spread data to wide format (as in cross-tabulation) -->
 
 <!-- ``` -->
 
-
-Here is what this `counts_table` data frame looks like:  
+Đây là cách mà bảng `counts_table` được hiển thị:
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(counts_table, rownames = FALSE, options = list(pageLength = nrow(counts_table), scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Now we can bind the `counts_table` and the `model` results together horizontally with `bind_cols()` (**dplyr**). Remember that with `bind_cols()` the rows in the two data frames must be aligned perfectly. In this code, because we are binding within a pipe chain, we use `.` to represent the piped object `counts_table` as we bind it to `model`. To finish the process, we use `select()` to pick the desired columns and their order, and finally apply the **base** R `round()` function across all numeric columns to specify 2 decimal places.  
+Bây giờ chúng ta có thể nối bảng `counts_table` và kết quả của mô hình `model` lại với nhau theo chiều ngang bằng hàm nối cột `bind_cols()` (**dplyr**). Hãy nhớ rằng đối với hàm `bind_cols()` các hàng trong hai cấu trúc dữ liệu trên phải được căn chỉnh hoàn hảo. Trong đoạn code này, bởi vì chúng ta đang thực hiện một chuỗi các thuật toán pipe, chúng ta sử dụng dấu `.` để đại diện cho đối tượng được nối trong bảng đếm `counts_table` khi chúng tôi nối nó với kết quả mô hình `model`. Để kết thúc quy trình này, chúng ta sử dụng hàm `select()` để chọn các cột mong muốn và thứ tự của nó, và cuối cùng áp dụng hàm `round()` trong **base** R để làm tròn với hai chữ số thập phân cho tất cả các cột.
 
 ```{r, message=F, warning=F}
 combined <- counts_table %>%           # begin with table of counts
@@ -305,34 +291,32 @@ combined <- counts_table %>%           # begin with table of counts
   mutate(across(where(is.numeric), round, digits = 2)) ## round to 2 decimal places
 ```
 
-Here is what the combined data frame looks like, printed nicely as an image with a function from **flextable**. The [Tables for presentation] explains how to customize such tables with **flextable**, or or you can use numerous other packages such as **knitr** or **GT**.  
+Đây là hiển thị của cấu trúc đã được kết hợp, nó được xuất gọn gẽ dưới dạng một hình bằng thông qua một hàm trong package **flextable**. Chương [Trình bày bảng] giải thích cách tùy chỉnh các bảng như vậy bằng **flextable**, hoặc có thể sử dụng các gói lệnh khác như **knitr** hoặc **GT**.
 
 ```{r}
 combined <- combined %>% 
   flextable::qflextable()
 ```
 
+#### Vòng lặp cho nhiều mô hình đơn biến {.unnumbered}
 
-#### Looping multiple univariate models {.unnumbered}  
+Sau đây chúng tôi trình bày một phương pháp sử dụng `glm()` và `tidy()` để có một cách tiếp cận đơn giản hơn, xem thêm ở phần **gtsummary**.
 
-Below we present a method using `glm()` and `tidy()` for a more simple approach, see the section on **gtsummary**.  
+Để thực hiện các mô hình cho một số biến giải thích và cho ra các tỷ số chênh trong phân tích đơn biến (nghĩa là không có kiểm soát lẫn nhau), chúng ta có thể sử dụng các cách tiếp cận dưới đây. Sử dụng hàm `str_c()` từ package **stringr** để tạo ra các công thức cho phân tích đơn biến (xem chương [Ký tự và chuỗi]), thực hiện hàm `glm()` cho mỗi công thức, chuyển mỗi kết quả đầu ra của `glm()` đến hàm `tidy()` và cuối cùng thu gọn lại tất các kết quả đầu ra của mô hình bằng hàm nối dòng `bind_rows()` từ **tidyr**. Phương pháp này sử dụng hàm `map()` từ package **purrr** để lặp - xem chương [Lặp, vòng lặp và danh sách] để biết thêm thông tin về công cụ này.
 
-To run the models on several exposure variables to produce univariate odds ratios (i.e. not controlling for each other), you can use the approach below. It uses `str_c()` from **stringr** to create univariate formulas (see [Characters and strings]), runs the `glm()` regression on each formula, passes each `glm()` output to `tidy()` and finally collapses all the model outputs together with `bind_rows()` from **tidyr**. This approach uses `map()` from the package **purrr** to iterate - see the page on [Iteration, loops, and lists] for more information on this tool.  
+1)  Tạo một véctơ tên các cột của biến giải thích. Chúng ta đã tạo biến này `explanatory_vars` trong phần chuẩn bị của chương này.
 
-1) Create a vector of column names of the explanatory variables. We already have this as `explanatory_vars` from the Preparation section of this page.  
-
-2) Use `str_c()` to create multiple string formulas, with `outcome` on the left, and a column name from `explanatory_vars` on the right. The period `.` substitutes for the column name in `explanatory_vars`.  
+2)  Sử dụng hàm `str_c()` để tạo các công thức chuỗi với biến kết cục `outcome` ở bên trái và tên một cột của véctơ `explanatory_vars` ở bên phải. Dấu chấm `.` trong hàm này thay thế cho tên cột trong véctơ `explanatory_vars`.
 
 ```{r}
 explanatory_vars %>% str_c("outcome ~ ", .)
 ```
 
-3) Pass these string formulas to `map()` and set `~glm()` as the function to apply to each input. Within `glm()`, set the regression formula as `as.formula(.x)` where `.x` will be replaced by the string formula defined in the step above. `map()` will loop over each of the string formulas, running regressions for each one.  
+3)  Đưa các công thức chuỗi này vào hàm `map()` và đặt `~glm()` làm hàm áp dụng cho mỗi đầu vào. Bên trong hàm `glm()`, thiết lập công thức hồi quy `as.formula(.x)` trong đó `.x` sẽ được thay thế bằng các công thức chuỗi đã được tạo bên trên. Hàm `map()` sẽ lặp từng công thức chuỗi và thực hiện hồi quy cho từng công thức.
 
-4) The outputs of this first `map()` are passed to a second `map()` command, which applies `tidy()` to the regression outputs.  
+4)  Kết quả đầu ra của hàm `map()` đầu tiên sẽ được chuyển đến hàm `map()` thứ hai mà sử dụng hàm `tidy()` để làm gọn các kết quả đầu ra.
 
-5) Finally the output of the second `map()` (a list of tidied data frames) is condensed with `bind_rows()`, resulting in one data frame with all the univariate results.  
-
+5)  Cuối cùng, kết quả đầu ra của hàm `map()` thứ hai (một danh sách các data frames đã được làm gọn) được tóm tắt bằng hàm nối dòng `bind_rows()`, kết quả cho ra một data frame với tất cả các kết quả đơn biến.
 
 ```{r odds_base_multiple}
 
@@ -360,15 +344,14 @@ models <- explanatory_vars %>%       # begin with variables of interest
   mutate(across(where(is.numeric), round, digits = 2))
 ```
 
-This time, the end object `models` is longer because it now represents the combined results of several univariate regressions. Click through to see all the rows of `model`.  
+Lúc này, kết quả xuất ra của `models` dài hơn bởi vì kết quả bây giờ bao gồm các kết quả đầu ra của một số hồi quy đơn biến.  Nhấp nút tiếp theo để xem tất cả các hàng của `model`.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(models, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-As before, we can create a counts table from the `linelist` for each explanatory variable, bind it to `models`, and make a nice table. We begin with the variables, and iterate through them with `map()`. We iterate through a user-defined function which involves creating a counts table with **dplyr** functions. Then the results are combined and bound with the `models` model results.  
-
+Như lúc trước, chúng ta có thể tạo một bảng đếm từ bộ số liệu `linelist` cho mỗi biến giải thích, gắn chúng với `models`, và tạo ra một bảng đẹp. Chúng ta bắt đầu với các biến giải thích này, và lặp lại các biến này thông qua hàm `map()`. Chúng ta lặp lại qua một hàm do người dùng tạo ra mà liên quan đến việc tạo ra một bảng đếm bằng cách dùng các hàm trong package **dplyr** Sau đó, kết quả được kết nối trình tự với kết quả của mô hình `models`.
 
 ```{r, warning=F, message=F}
 
@@ -400,28 +383,24 @@ univ_tab_base <- explanatory_vars %>%
 
 ```
 
-Below is what the data frame looks like. See the page on [Tables for presentation] for ideas on how to further convert this table to pretty HTML output (e.g. with **flextable**).  
+Bên dưới là cấu trúc số liệu kết nối được tạo ra. Xem chương [Trình bày bảng] để có thêm ý tưởng về cách chuyển đổi bảng số liệu này thành một bảng đẹp trên HTML (ví dụ như với package **flextable**).
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(univ_tab_base, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
-
-
-
 <!-- ======================================================= -->
 
 ### **gtsummary** package {#reg_gt_uni .unnumbered}
 
-Below we present the use of `tbl_uvregression()` from the **gtsummary** package. Just like in the page on [Descriptive tables](https://epirhandbook.com/descriptive-tables.html), **gtsummary** functions do a good job of running statistics *and* producing professional-looking outputs. This function produces a table of univariate regression results.  
+Sau đây chúng tôi sẽ trình bày cách sử dụng hàm `tbl_uvregression()` từ package **gtsummary**. Cũng giống như trong chương [Bảng mô tả](https://epirhandbook.com/descriptive-tables.html), các hàm trong **gtsummary** thực hiện tốt các thống kê *và* xuất ra các kết quả khá chuyên nghiệp. Hàm này xuất ra một bảng kết quả của hồi quy đơn biến.
 
-We select only the necessary columns from the `linelist` (explanatory variables and the outcome variable) and  pipe them into `tbl_uvregression()`. We are going to run univariate regression on each of the columns we defined as `explanatory_vars` in the data Preparation section (gender, fever, chills, cough, aches, vomit, and age_cat).  
+Chúng ta chỉ chọn các cột cần thiết từ bộ số liệu `linelist` (ecác biến giải thích và biến kết cục) và pipe chúng vào hàm `tbl_uvregression()`. Chúng ta sẽ thực hiện hồi quy đơn biến cho mỗi cột như được xác định trong véctơ `explanatory_vars` trong mục Chuẩn bị (gender, fever, chills, cough, aches, vomit, và age_cat).
 
-Within the function itself, we provide the `method = ` as `glm` (no quotes), the `y = ` outcome column (`outcome`), specify to `method.args = ` that we want to run logistic regression via `family = binomial`, and we tell it to exponentiate the results.  
+Trong hàm này, chúng ta cung cấp thêm phương pháp thực hiện `method =` là `glm` (không có dấu ngoặc kép), biến kết cục `y =` cột kết quả (biến `outcome`), cụ thể `method.args =` mà chúng ta muốn thực hiện hồi quy logistic qua `family = binomial`, và lấy lũy thừa của kết quả.
 
-The output is HTML and contains the counts
+Kết quả đầu ra dưới dạng HTML và chứa cột đếm
 
 ```{r odds_gt, message=F, warning=F}
 
@@ -439,37 +418,28 @@ univ_tab <- linelist %>%
 univ_tab
 ```
 
-There are many modifications you can make to this table output, such as adjusting the text labels, bolding rows by their p-value, etc. See tutorials [here](http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html) and elsewhere online.  
-
-
+Chúng ta có thể sửa đổi đối với kết quả đầu ra của bảng này, ví dụ như điều chỉnh các nhãn, tô đậm các hàng theo giá trị p, .v.v. Xem hướng dẫn [tại đây](http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html) và các tài liệu trực tuyến khác.
 
 <!-- ======================================================= -->
 
-## Stratified {  }
+## Phân tích phân tầng
 
-Stratified analysis is currently still being worked on for **gtsummary**, 
-this page will be updated in due course. 
+Hiện tại, phân tích phần tầng sử dụng package **gtsummary** đang được xây dựng, phần này sẽ được cập nhật trong thời gian thích hợp.
 
+## Phân tích đa biến
 
+Đối với phân tích đa biến, chúng tôi trình bày hai cách tiếp cận:
 
+-   `glm()` và `tidy()`\
+-   Package **gtsummary** 
 
-## Multivariable  
+Quy trình thực hiện khá tương tự và chỉ khác ở bước cuối cùng để kết nối kết quả lại với nhau.
 
-For multivariable analysis, we again present two approaches:  
+### Thực hiện phân tích đa biến {.unnumbered}
 
-* `glm()` and `tidy()`  
-* **gtsummary** package  
+Ở đây chúng tôi sử dụng hàm `glm()` nhưng thêm nhiều biến hơn vào bên phải của phương trình và được phân tách với nhau bằng dấu cộng (`+`).
 
-The workflow is similar for each and only the last step of pulling together a final table is different.
-
-
-### Conduct multivariable {.unnumbered}  
-
-
-Here we use `glm()` but add more variables to the right side of the equation, separated by plus symbols (`+`). 
-
-
-To run the model with all of our explanatory variables we would run:  
+Để thực hiện mô hình với tất cả các biến giải thích, chúng ta thực hiện lệnh sau:
 
 ```{r}
 mv_reg <- glm(outcome ~ gender + fever + chills + cough + aches + vomit + age_cat, family = "binomial", data = linelist)
@@ -477,14 +447,13 @@ mv_reg <- glm(outcome ~ gender + fever + chills + cough + aches + vomit + age_ca
 summary(mv_reg)
 ```
 
-If you want to include two variables and an interaction between them you can separate them with an asterisk `*` instead of a `+`. Separate them with a colon `:` if you are only specifying the interaction. For example:  
+Nếu muốn bao gồm hai biến và tương tác của hai biến này, chúng ta có thể phân tách chúng bằng dấu hoa thị `*` thay cho dấu `+`. Nếu chúng ta chỉ muốn cụ thể sự tương tác, phân tách chúng bằng dấu hai chấm `:`. Ví dụ:
 
 ```{r, eval=F}
 glm(outcome ~ gender + age_cat * fever, family = "binomial", data = linelist)
 ```
 
-
-*Optionally*, you can use this code to leverage the pre-defined vector of column names and re-create the above command using `str_c()`. This might be useful if your explanatory variable names are changing, or you don't want to type them all out again.  
+*Một tùy chọn khác*, chúng ta có thể sử dụng đoạn mã này để sử dụng một véc tơ đã được định nghĩa trước của các cột và tạo lại lệnh trên bằng cách sử dụng hàm `str_c()`. Điều này có thể hữu ích nếu chúng ta thay đổi tên các biến giải thích, hoặc bạn không muốn gõ lại tất cả mọi thứ.
 
 ```{r mv_regression}
 
@@ -496,12 +465,11 @@ mv_reg <- explanatory_vars %>%  ## begin with vector of explanatory column names
       data = linelist)          ## define your dataset
 ```
 
+#### Xây dựng mô hình {.unnumbered}
 
-#### Building the model {.unnumbered}  
+Chúng ta có thể xây dựng mô hình theo từng bước, lưu các mô hình khác nhau với một số biến giải thích. Chúng ta có thể sử dụng kiểm định tỷ số khả dĩ (likelihood-ratio tests) để so sánh các mô hình này bằng cách sử dụng hàm `lrtest()` từ package **lmtest**, như dưới đây:
 
-You can build your model step-by-step, saving various models that include certain explanatory variables. You can compare these models with likelihood-ratio tests using `lrtest()` from the package **lmtest**, as below:  
-
-<span style="color: black;">**_NOTE:_** Using **base** `anova(model1, model2, test = "Chisq)` produces the same results </span> 
+[***CHÚ Ý:*** Sử dụng hàn `anova(model1, model2, test = "Chisq)` trong **base** R cũng cho kết quả tương tự ]{style="color: black;"}
 
 ```{r}
 model1 <- glm(outcome ~ age_cat, family = "binomial", data = linelist)
@@ -510,7 +478,7 @@ model2 <- glm(outcome ~ age_cat + gender, family = "binomial", data = linelist)
 lmtest::lrtest(model1, model2)
 ```
 
-Another option is to take the model object and apply the `step()` function from the **stats** package. Specify which variable selection direction you want use when building the model.      
+Một tùy chọn khác là lấy đối tượng của mô hình và sử dụng hàm `step()` từ package **stats**. Chỉ rõ hướng lựa chọn biến mà chúng ta muốn sử dụng khi xây dựng mô hình.
 
 ```{r}
 ## choose a model using forward selection based on AIC
@@ -519,14 +487,13 @@ final_mv_reg <- mv_reg %>%
   step(direction = "forward", trace = FALSE)
 ```
 
-
-You can also turn off scientific notation in your R session, for clarity:  
+Để hiển thị rõ số, chúng ta có thể tắt ký hiệu khoa học trong R bằng lệnh sau
 
 ```{r}
 options(scipen=999)
 ```
 
-As described in the section on univariate analysis, pass the model output to `tidy()` to exponentiate the log odds and CIs. Finally we round all numeric columns to two decimal places. Scroll through to see all the rows.  
+Như được mô tả trong phần phân tích đơn biến, chuyển kết quả đầu ra của mô hình vào hàm `tidy()` để lấy lũy thừa cho các hệ số và khoảng tin cậy (CIs). Cuối cùng, làm tròn tất cả các cột số với hai số thập phân. Kéo qua để xem tất cả các hàng.
 
 ```{r mv_regression_base}
 
@@ -535,39 +502,32 @@ mv_tab_base <- final_mv_reg %>%
   mutate(across(where(is.numeric), round, digits = 2))          ## round 
 ```
 
-Here is what the resulting data frame looks like: 
+Đây là hiển thị kết quả dưới dạng data frame looks:
 
 ```{r, message=FALSE, echo=F}
 DT::datatable(mv_tab_base, rownames = FALSE, options = list(pageLength = 10, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
-
-
-
 <!-- ======================================================= -->
 
-### Combine univariate and multivariable {.unnumbered}
+### Gộp kết quả phân tích đơn biến và đa biến {.unnumbered}
 
-#### Combine with **gtsummary**  {.unnumbered}  
+#### Gộp bằng package **gtsummary** {.unnumbered}
 
-The **gtsummary** package provides the `tbl_regression()` function, which will 
-take the outputs from a regression (`glm()` in this case) and produce an nice 
-summary table. 
+Hàm `tbl_regression()` trong package **gtsummary** sẽ lấy kết quả đầu tra từ một hồi quy (hàm `glm()` trong trường hợp này) và tạo ra một bảng tóm tắt đẹp.
 
 ```{r mv_regression_gt}
 ## show results table of final regression 
 mv_tab <- tbl_regression(final_mv_reg, exponentiate = TRUE)
 ```
 
-Let's see the table:  
+Hãy xem bảng sau:
 
 ```{r}
 mv_tab
 ```
 
-You can also combine several different output tables produced by **gtsummary** with 
-the `tbl_merge()` function. We now combine the multivariable results with the **gtsummary** *univariate* results that we created [above](#reg_gt_uni):  
+Chúng ta cũng có thể kết hợp một số bảng kết quả đầu ra bằng cách dùng hàm `tbl_merge()` trong package **gtsummary**. Bây giờ chúng ta hộp các kết quả đa biến với kết quả *đơn biến* đã được tạo [bên trên](#reg_gt_uni) bằng package **gtsummary**:
 
 ```{r}
 ## combine with univariate results 
@@ -576,15 +536,13 @@ tbl_merge(
   tab_spanner = c("**Univariate**", "**Multivariable**")) # set header names
 ```
 
+#### Gộp bằng package **dplyr** {.unnumbered}
 
+Một cách khác để gộp các kết quả đơn biến và đa biến từ các hàm `glm()`/`tidy()` bằng cách sử dụng các hàm kết nối từ package **dplyr**.
 
-#### Combine with **dplyr** {.unnumbered}  
-
-An alternative way of combining the `glm()`/`tidy()` univariate and multivariable outputs is with the **dplyr** join functions.  
-
-* Join the univariate results from earlier (`univ_tab_base`, which contains counts) with the tidied multivariable results `mv_tab_base`  
-* Use `select()` to keep only the columns we want, specify their order, and re-name them  
-* Use `round()` with two decimal places on all the column that are class Double  
+-   Kết nối kết quả đơn biến trước đó (`univ_tab_base`, chứa được các cột đếm) với kết quả đa biến đã được làm gọn `mv_tab_base`\
+-   Sử dụng hàm `select()` để giữ lại, sắp xếp lại thứ tự và đặt lại tên các cột mà chúng ta muốn\
+-   Sử dụng hàm `round()` để làm tròn tất cả các cột với hai số thập phân
 
 ```{r, warning=F, message=F}
 ## combine univariate and multivariable tables 
@@ -607,31 +565,25 @@ left_join(univ_tab_base, mv_tab_base, by = "term") %>%
 
 ```
 
-
-
-
 <!-- ======================================================= -->
 
-## Forest plot {  }
+## Biểu đồ Forest plot
 
-This section shows how to produce a plot with the outputs of your regression.
-There are two options, you can build a plot yourself using **ggplot2** or use a 
-meta-package called **easystats** (a package that includes many packages).  
+Phần này hướng dẫn cách tạo ra một biểu đồ của các kết quả hồi quy. Có hai lựa chọn để tạo biểu đồ, chúng ta có thể tự tạo một biểu đồ bằng cách sử dụng package **ggplot2** hoặc sử dụng một meta-package có tên **easystats** (một package gồm nhiều package).
 
-See the page on [ggplot basics] if you are unfamiliar with the **ggplot2** plotting package.  
-
+Nếu chưa quen thuộc với gói lệnh tạo biểu đồ **ggplot2**, xem thêm chương [ggplot cơ bản].
 
 <!-- ======================================================= -->
 
 ### **ggplot2** package {.unnumbered}
 
-You can build a forest plot with `ggplot()` by plotting elements of the multivariable regression results. Add the layers of the plots using these "geoms":  
+Bạn có thể xây dựng một forest plot với hàm `ggplot()` bằng cách vẽ các thành phần của kết quả hồi quy đa biến. Thêm các lớp của biều đồ bằng cách sử dụng các "geoms":
 
-* estimates with `geom_point()`  
-* confidence intervals with `geom_errorbar()`  
-* a vertical line at OR = 1 with `geom_vline()`  
+-   Các ước lượng bằng hàm `geom_point()`\
+-   Khoảng tin cậy bằng hàm `geom_errorbar()`\
+-   Đường thẳng đứng ở vị trí OR = 1 bằng hàm `geom_vline()`
 
-Before plotting, you may want to use `fct_relevel()` from the **forcats** package to set the order of the variables/levels on the y-axis. `ggplot()` may display them in alpha-numeric order which would not work well for these age category values ("30" would appear before "5"). See the page on [Factors] for more details.  
+Trước khi tạo biểu đồ, chúng ta sử dụng hàm `fct_relevel()` từ package **forcats** để đặt thứ tự các biến trên trục y. Hàm `ggplot()` cho phép hiển thị theo thứ tự chữ-số mà có thể không hiển thị tốt cho các giá trị của biến tuổi (“30” có thể hiển thị trước “5”). Xem chương [Factors] để biết thêm chi tiết.
 
 ```{r ggplot_forest}
 
@@ -662,16 +614,13 @@ mv_tab_base %>%
   
 ```
 
-
 <!-- ======================================================= -->
 
 ### **easystats** packages {.unnumbered}
 
-An alternative, if you do not want to the fine level of control that **ggplot2** provides, is to use a combination of **easystats** packages.  
+Lựa chọn thứ hai là sử dụng một sự kết hợp của các package trong **easystats**, nếu chúng ta không muốn mức độ kiểm soát chặt chẽ mà package **ggplot2** cung cấp.
 
-The function `model_parameters()` from the **parameters** package does the equivalent
-of the **broom** package function `tidy()`. The **see** package then accepts those outputs
-and creates a default forest plot as a `ggplot()` object. 
+Hàm `model_parameters()` từ package **parameters** thực hiện tương đương với hàm `tidy()` trong package **broom** . Sau đó, package **see** chấp nhận các kết quả đầu ra và tạo một biểu đồ forest plot mặc định giống như cho một đối tượng `ggplot()`.
 
 ```{r easystats_forest}
 pacman::p_load(easystats)
@@ -683,18 +632,16 @@ final_mv_reg %>%
   
 ```
 
-
 <!-- ======================================================= -->
 
-## Resources {  }
+## Nguồn
 
-The content of this page was informed by these resources and vignettes online:  
+Nội dung của chương này được tham khảo từ các nguồn sau:
 
-[Linear regression in R](https://www.datacamp.com/community/tutorials/linear-regression-R)  
+[Linear regression in R](https://www.datacamp.com/community/tutorials/linear-regression-R)
 
-[gtsummary](http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html)  
+[gtsummary](http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html)
 
-[UCLA stats page](https://stats.idre.ucla.edu/other/dae/)  
+[UCLA stats page](https://stats.idre.ucla.edu/other/dae/)
 
-[sthda stepwise regression](http://www.sthda.com/english/articles/36-classification-methods-essentials/150-stepwise-logistic-regression-essentials-in-r/)   
-
+[sthda stepwise regression](http://www.sthda.com/english/articles/36-classification-methods-essentials/150-stepwise-logistic-regression-essentials-in-r/)
