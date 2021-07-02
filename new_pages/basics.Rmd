@@ -292,7 +292,7 @@ Phần khái niệm cơ bản của hàm giải thích:
 -   WThế nào là *đối số* của hàm\
 -   Làm cách nào để nhận được sự trợ giúp khi tìm hiểu một hàm
 
-*Lưu ý nhanh về cú pháp:* Trong cuốn sổ tay này, các hàm được viết dưới dạng code văn bản với dấu mở ngoặc đơn như sau: `filter()`. Như đã giải thích trong phần [packages](#packages), các hàm được tải xuống có sẵn trong các *packages*. Trong sổ tay này, tên các package được **in đậm**, ví dụ như **dplyr**. Đôi khi trong code ví dụ, bạn có thể thấy tên hàm được liên kết rõ ràng với tên package của chính hàm đó bằng hai dấu hai chấm (`::`) như thế này: `dplyr::filter()`. Mục đích của liên kết này được giải thích trong phần package.
+*Lưu ý nhanh về cú pháp:* Trong cuốn sổ tay này, các hàm được viết dưới dạng code văn bản với dấu mở ngoặc đơn như sau: `filter()`. Như đã giải thích trong phần [packages](#packages), các hàm được tải xuống có sẵn trong các *packages*. Trong sổ tay này, tên các package được **in đậm**, ví dụ như **dplyr**. Đôi khi trong code ví dụ, bạn có thể thấy tên hàm được liên kết rõ ràng với tên package của chính hàm đó bằng hai dấu hai chấm (`::`) như thế này: `dplyr::filter()`. Mục đích của việc liên kết này sẽ được giải thích trong phần package.
 
 <!-- ======================================================= -->
 
@@ -306,32 +306,32 @@ Phần khái niệm cơ bản của hàm giải thích:
 sqrt(49)
 ```
 
-Đối tượng được dùng cho một hàm cũng có thể là một cột trong tập dữ liệu (xem phần [Đối tượng](#objects) để biết chi tiết về tất cả các loại đối tượng). Because R can store multiple datasets, you will need to specify both the dataset and the column. Vì R có thể lưu trữ nhiều tập dữ liệu, bạn sẽ cần xác định cả tập dữ liệu và cột. Một cách để làm điều này là sử dụng ký hiệu `$` để liên kết tên của tập dữ liệu và tên của cột (`dataset$column`). Trong ví dụ dưới đây, hàm `summary()` i được áp dụng cho cột `tuổi` trong tập dữ liệu `linelist`, và kết quả đầu ra là bản tóm tắt các giá trị số và giá trị missing của cột.
+Đối tượng được dùng cho một hàm cũng có thể là một cột trong tập dữ liệu (xem phần [Đối tượng](#objects) để biết chi tiết về tất cả các loại đối tượng). Vì R có thể lưu trữ nhiều tập dữ liệu, bạn sẽ cần xác định cả tập dữ liệu và cột. Một cách để làm điều này là sử dụng ký hiệu `$` để liên kết tên của tập dữ liệu và tên của cột (`dataset$column`). Trong ví dụ dưới đây, hàm `summary()` được áp dụng cho cột `age` trong tập dữ liệu `linelist`, và kết quả đầu ra là bản tóm tắt các giá trị số và giá trị missing của cột.
 
 ```{r basics_functions_summary}
 # Print summary statistics of column 'age' in the dataset 'linelist'
 summary(linelist$age)
 ```
 
-[***LƯU Ý:*** Phía sau, một hàm diễn tả code bổ sung phức tạp đã được gói gọn cho người dùng thành một lệnh đơn giản.]{style="color: black;"}
+[***LƯU Ý:*** Đằng sau một hàm là hệ thống code bổ sung phức tạp đã được gói gọn cho người dùng thành một lệnh đơn giản.]{style="color: black;"}
 
 <!-- ======================================================= -->
 
-### Các hàm và đối số {.unnumbered}
+### Hàm với nhiều đối số {.unnumbered}
 
 Các hàm thường yêu cầu một số dữ liệu đầu vào, được gọi là ***đối số***, đặt trong dấu ngoặc đơn của hàm, thường được phân tách bằng dấu phẩy.
 
 -   Một vài đối số là bắt buộc để hàm hoạt động chính xác, những đối số khác là tùy chọn\
--   Những đối số tùy chọn có cài đặt mặc định\
+-   Những đối số tùy chọn có thiết lập mặc định\
 -   Các đối số có thể nhận ký tự, số, logic (TRUE / FALSE) và các dữ liệu đầu vào khác
 
-Đây là một hàm hư cấu thú vị, được gọi là `oven_bake()`, là ví dụ về một hàm điển hình. Hàm này nhận một đối tượng đầu vào (ví dụ: một tập dữ liệu, hoặc trong ví dụ này là "bột") và thực hiện các hoạt động được xác định bởi các đối số bổ sung (`minutes =` and `temperature =`). Kết quả đầu ra có thể được in ra cửa sổ console hoặc được lưu dưới dạng một đối tượng bằng cách sử dụng toán tử gán `<-`.
+Dưới đây là một hàm giả định thú vị, được gọi là `oven_bake()`, là ví dụ về một hàm điển hình. Hàm này nhận một đối tượng đầu vào (ví dụ: một tập dữ liệu, hoặc trong ví dụ này là "bột") và thực hiện các hoạt động được xác định bởi các đối số bổ sung (`minutes =` and `temperature =`). Kết quả đầu ra có thể được in ra cửa sổ console hoặc được lưu dưới dạng một đối tượng bằng cách sử dụng toán tử gán `<-`.
 
 ```{r basics_functions_image, echo=F, out.width = "75%", fig.align = "center"}
 knitr::include_graphics(here::here("images", "Function_Bread_Example.png"))
 ```
 
-**Trong một ví dụ thực tế hơn**, lệnh `age_pyramid()` dưới đây tạo một biểu đồ tháp tuổi dựa trên nhóm tuổi đã xác định và cột phân tách nhị phân, ví dụ như `giới tính`. Hàm được cung cấp bởi ba đối số trong dấu ngoặc đơn và được phân tách nhau bằng dấu phẩy. Các giá trị được cung cấp cho các đối số thiết lập `linelist` như dataframe để sử dụng, `age_cat5` làm cột để đếm và `giới tính` làm cột nhị phân để sử dụng chia kim tự tháp theo màu.
+**Trong một ví dụ thực tế hơn**, hàm `age_pyramid()` dưới đây tạo một biểu đồ tháp tuổi dựa trên nhóm tuổi đã xác định và cột phân tách nhị phân, ví dụ như `giới tính`. Hàm được cung cấp bởi ba đối số trong dấu ngoặc đơn và được phân tách nhau bằng dấu phẩy. Các giá trị được cung cấp cho các đối số thiết lập `linelist` là dataframe được sử dụng, `age_cat5` là cột để đếm và `giới tính` là cột nhị phân để sử dụng chia kim tự tháp theo màu.
 
 ```{r basics_functions_arguments, include=FALSE, results='hide', message=FALSE, warning=FALSE,}
 ## create an age group variable by specifying categorical breaks
@@ -343,7 +343,7 @@ linelist$age_group <- cut(linelist$age, breaks = c(0, 5, 10, 15, 20, 30, 45, 60)
 age_pyramid(data = linelist, age_group = "age_cat5", split_by = "gender")
 ```
 
-Lệnh trên có thể được viết tương tự như bên dưới, theo cách dài hơn với một dòng mới cho mỗi đối số. Phong cách này có thể dễ đọc và dễ viết "bình luận" hơn với `#` để giải thích từng phần (bình luận công khai cũng là một phương pháp hay!). Để chạy lệnh dài hơn này, bạn có thể đánh dấu toàn bộ lệnh và nhấp vào "Run" hoặc chỉ cần đặt con trỏ vào dòng đầu tiên rồi nhấn đồng thời phím Ctrl và phím Enter.
+Lệnh trên có thể được viết tương tự như bên dưới, theo cách dài hơn với một dòng mới cho mỗi đối số. Phong cách này có thể dễ đọc và dễ viết "bình luận" hơn với `#` để giải thích từng phần (bình luận mở rộng là một thực hành tốt!). Để chạy lệnh dài hơn này, bạn có thể bôi đen toàn bộ lệnh và nhấp vào "Run" hoặc chỉ cần đặt con trỏ vào dòng đầu tiên rồi nhấn đồng thời phím Ctrl và phím Enter.
 
 ```{r message=FALSE, warning=FALSE,  out.width = "75%", out.height="75%"}
 # Create an age pyramid
@@ -364,7 +364,7 @@ age_pyramid(linelist, "age_cat5", "gender")
 **Một lệnh `age_pyramid()` phức tạp hơn có thể bao gồm các đối số *tùy chọn* để:**
 
 -   Hiển thị tỷ lệ thay vì số lượng (đặt `proportional = TRUE` khi giá trị mặc định là `FALSE`)\
--   Chỉ định hai màu để sử dụng (`pal =` là viết tắt của "bảng màu" và được cung cấp với một vectơ gồm hai tên màu. Xem chương [đối tượng](#objectstructure) pđể biết cách hàm `c()` tạo ra một vectơ)
+-   Chỉ định hai màu để sử dụng (`pal =` là viết tắt của "bảng màu" và được cung cấp với một vectơ gồm hai tên màu. Xem chương [đối tượng](#objectstructure) để biết cách hàm `c()` tạo ra một vectơ)
 
 [***LƯU Ý:*** Đối với các đối số mà bạn xác định với cả hai phần của đối số (ví dụ: `proportional = TRUE`), thứ tự của chúng trong tất cả các đối số không quan trọng.]{style="color: black;"}
 
@@ -382,10 +382,10 @@ age_pyramid(
 
 ### Viết hàm {.unnumbered}
 
-R là một ngôn ngữ được định hướng quanh hàm, vì thế bạn nên cảm thấy được trao quyền để tự viết các hàm của riêng mình. Việc tạo ra hàm mang đến một vài lợi thế:
+R là một ngôn ngữ được định hướng xung quanh hàm, vì thế bạn nên cảm thấy được trao quyền để tự viết các hàm của riêng mình. Việc tạo ra hàm mang đến một vài lợi thế:
 
 -   Tạo điều kiện thuận lợi cho lập trình mô-đun - tách code thành các phần độc lập và có thể quản lý\
--   Thay thế việc sao chép và dán lặp đi lặp lại, điều mà có thể dễ xảy ra lỗi\
+-   Thay thế việc copy-and-paste lặp đi lặp lại, điều mà có thể dễ xảy ra lỗi\
 -   Đặt tên dễ nhớ cho các đoạn code
 
 Cách viết một hàm được trình bày cụ thể trong chương [Viết hàm].
@@ -466,13 +466,13 @@ ggplot(case_incidence, aes(x = dates))+
 
 **Packages chứa các hàm.**
 
-Một package trong phần mềm R là một gói code và các tài liệu hướng dẫn có thể chia sẻ được chứa càm hàm được định nghĩa trước. Cộng đồng người dùng phần mềm R luôn phát triển những package giúp giải quyết các vấn đề cụ thể, điều này có thể sẽ giúp bạn trong công việc của mình! Bạn sẽ cài đặt và sử dụng hàng trăm package trong quá trình sử dụng phần mềm R.
+Một package trong phần mềm R là một gói code và các tài liệu hướng dẫn có thể chia sẻ được chứa các hàm được định nghĩa trước. Cộng đồng người dùng phần mềm R luôn phát triển những package giúp giải quyết các vấn đề cụ thể, điều này có thể sẽ giúp bạn trong công việc của mình! Bạn sẽ có thể cần cài đặt và sử dụng hàng trăm package trong quá trình sử dụng phần mềm R.
 
-Khi cài đặt, phần mềm R đã có sẵn các package và hàm **"cơ bản"** giúp thực hiện các nhiệm vụ đơn giản. Nhưng nhiều người dùng R tạo ra các hàm chuyên biệt, được cộng đồng R kiểm chứng và bạn có thể tải xuống dưới dạng **package** để sử dụng theo cách của riêng mình. Trong sách này, tên package được viết **đậm**. Một trong những khía cạnh thách thức hơn của R là thường có nhiều hàm hoặc package để lựa chọn và hoàn thành một nhiệm vụ nhất định.
+Khi cài đặt, R đã có sẵn các package và hàm **"cơ bản"** giúp thực hiện các nhiệm vụ đơn giản. Nhưng nhiều người dùng R tạo ra các hàm chuyên biệt, được cộng đồng R kiểm chứng và bạn có thể tải xuống dưới dạng **package** để sử dụng theo cách của riêng mình. Trong sách này, tên package được viết **in đậm**. Một trong những khía cạnh thách thức hơn cả của R đó là thường có nhiều hàm hoặc package để lựa chọn nhằm hoàn thành một nhiệm vụ nhất định.
 
 ### Cài đặt và Gọi {.unnumbered}
 
-*Các hàm* được chứa trong package **packages** có thể được tải ("cài đặt") về máy tính của bạn từ internet. Khi một package được tải xuống, package đó sẽ được lưu trữ trong "thư viện" của bạn. Sau đó, bạn có thể truy cập các hàm mà nó chứa trong phiên làm việc hiện tại trên R của bạn bằng cách "Gọi" package.
+*Các hàm* được chứa trong **packages** có thể được tải ("cài đặt") về máy tính của bạn từ internet. Khi một package được tải xuống, package đó sẽ được lưu trữ trong "thư viện" của bạn. Sau đó, bạn có thể truy cập các hàm mà nó chứa trong phiên làm việc hiện tại trên R của bạn bằng cách "Gọi" package.
 
 *Hãy coi R là thư viện cá nhân của bạn*: Khi bạn tải xuống một package, thư viện của bạn nhận được một cuốn sách mới gồm các hàm, nhưng mỗi lần bạn muốn sử dụng một hàm trong cuốn sách đó, bạn phải mượn ("gọi") cuốn sách đó từ thư viện của mình.
 
@@ -487,26 +487,26 @@ Tóm lại: để sử dụng các hàm có sẵn trong package R, phải thực
 
 Bạn có thể in ra đường dẫn tệp đến thư viện của mình bằng cách gõ lệnh `.libPaths()` (dấu ngoặc bỏ trống). Điều này trở nên đặc biệt quan trọng nếu làm việc với [R trên ổ cứng mạng].
 
-#### Cài đặt CRAN {.unnumbered}
+#### Cài đặt từ CRAN {.unnumbered}
 
 Thông thường, người dùng R tải các package xuống từ CRAN. CRAN (Comprehensive R Archive Network - Mạng lưu trữ R toàn diện) là một kho công cộng trực tuyến gồm các package R đã được xuất bản bởi các thành viên cộng đồng R.
 
-Bạn có cần lo lắng về vi-rút và bảo mật khi tải xuống một package từ CRAN? Đọc [bài viết sau](https://support.rstudio.com/hc/en-us/articles/360042593974-R-and-R-Package-Security) về chủ đề này.
+Bạn có cần lo lắng về vi-rút và bảo mật khi tải xuống một package từ CRAN? Đọc [bài viết sau](https://support.rstudio.com/hc/en-us/articles/360042593974-R-and-R-Package-Security) để hiểm thêm về chủ đề này.
 
 #### Làm thế nào để cài đặt và gọi {.unnumbered}
 
 Trong sách này, chúng tôi khuyên bạn nên sử dụng package **pacman** (viết tắt của "package manager"). Nó cung cấp một hàm thuận tiện `p_load()` mà sẽ cài đặt một package nếu cần *và* gọi nó để sử dụng trong phiên làm việc hiện tại.
 
-Cú pháp khá đơn giản. Chỉ cần liệt kê tên của các package trong dấu ngoặc đơn `p_load()` phân tách bằng dấu phẩy. Lệnh này sẽ cài đặt các package sau **rio**, **tidyverse**, và **here** nếu chúng chưa được cài đặt và sẽ gọi chúng ra để sử dụng. Điều này làm cho cách tiếp cận `p_load()` trở nên thuận tiện và ngắn gọn nếu chia sẻ scripts với người khác. Lưu ý rằng tên package có phân biệt chữ hoa chữ thường.
+Cú pháp khá đơn giản. Chỉ cần liệt kê tên của các package trong dấu ngoặc đơn của hàm `p_load()` và phân tách chúng bằng dấu phẩy. Lệnh dưới đây sẽ cài đặt các package sau **rio**, **tidyverse**, và **here** nếu chúng chưa được cài đặt và sẽ gọi chúng ra để sử dụng. Điều này làm cho cách tiếp cận `p_load()` trở nên thuận tiện và ngắn gọn nếu chia sẻ scripts với người khác. Lưu ý rằng tên package có phân biệt chữ hoa chữ thường.
 
 ```{r}
 # Install (if necessary) and load packages for use
 pacman::p_load(rio, tidyverse, here)
 ```
 
-Lưu ý rằng chúng ta đã sử dụng cú pháp `pacman::p_load()` để viết rõ ràng tên package (**pacman**) trước tên hàm (`p_load()`), được nối với nhau bằng hai dấu hai chấm `::`. Cú pháp này tiện dụng vì nó cũng gọi package **pacman** (giả sử package đã được cài đặt).
+Lưu ý rằng chúng ta đã sử dụng cú pháp `pacman::p_load()` để viết rõ ràng tên package (**pacman**) trước tên hàm (`p_load()`), được nối với nhau bằng hai dấu hai chấm `::`. Cú pháp này tiện dụng vì nó cũng gọi package **pacman** (giả sử package này đã được cài đặt).
 
-Có các hàm **base** R thay thế mà bạn sẽ thấy thường xuyên. Hàm **base** để cài đặt một package là `install.packages()`. Tên của package muốn cài đặt phải được đặt trong dấu ngoặc đơn bên trong *dấu ngoặc kép*. Nếu bạn muốn cài đặt nhiều package trong một lệnh, chúng phải được liệt kê trong một vectơ ký tự `c()`.
+Ngoài ra còn có các hàm **base** R thay thế mà bạn sẽ gặp thường xuyên. Hàm **base** R để cài đặt một package là `install.packages()`. Tên của package muốn cài đặt phải được đặt trong dấu ngoặc đơn bên trong *dấu ngoặc kép*. Nếu bạn muốn cài đặt nhiều package trong một lệnh, chúng phải được liệt kê trong một vectơ dạng ký tự `c()`.
 
 Lưu ý: lệnh này *cài đặt* một package, nhưng *không* gọi nó ra để sử dụng trong phiên làm việc hiện tại.
 
@@ -520,7 +520,7 @@ install.packages(c("tidyverse", "rio", "here"))
 
 Việc cài đặt cũng có thể được thực hiện bằng cách chọn và nhấp chuột vào cửa sổ RStudio "Package" và chọn "Install", sau đó tìm kiếm tên package mong muốn cài đặt.
 
-Hàm R **base** để **gọi** một package ra sử dụng (sau khi nó đã được cài đặt) là `library()`. Nó chỉ có thể tải một package tại một thời điểm (cách khác của lệnh `p_load()`). Bạn có thể nhập tên package có hoặc không có dấu ngoặc kép.
+Hàm **base** R để **gọi** một package ra sử dụng (sau khi nó đã được cài đặt) là `library()`. Hàm này chỉ có thể gọi một package tại một thời điểm (cách khác của lệnh `p_load()`). Bạn có thể nhập tên package có hoặc không có dấu ngoặc kép.
 
 ```{r, eval=F}
 # load packages for use, with base R
@@ -529,19 +529,19 @@ library(rio)
 library(here)
 ```
 
-Để kiểm tra xem một package đã được cài đặt và / hoặc đã được gọi hay chưa, bạn có thể xem Cửa số Package trong RStudio. Nếu package được cài đặt, nó sẽ hiển thị ở đó với số phiên bản. Nếu hộp của nó được chọn, nó sẽ được gọi cho phiên hiện tại.
+Để kiểm tra xem một package đã được cài đặt và/hoặc đã được gọi hay chưa, bạn có thể xem Cửa số Package trong RStudio. Nếu package được cài đặt, nó sẽ hiển thị ở đó với số phiên bản. Nếu checkbox của nó được đánh dấu nghĩa là nó đã được gọi cho phiên làm việc hiện tại.
 
 **Cài đặt từ Github**
 
-Đôi khi, bạn cần cài đặt một package chưa có sẵn từ CRAN. Hoặc có lẽ package có sẵn trên CRAN nhưng bạn muốn *phiên bản mới hơn* với các tính năng mới chưa được cung cấp trong phiên bản cũ. TChúng thường được lưu trữ trên trang web [github.com](https://github.com/) trong một "kho lưu trữ" code công khai, miễn phí. Đọc thêm về Github trong trang sách này ở mục [Kiểm soát phiên bản và cộng tác với Git và Github].
+Đôi khi, bạn cần cài đặt một package chưa có sẵn từ CRAN. Hoặc có lẽ package đã có sẵn trên CRAN nhưng bạn muốn *phiên bản mới hơn* với các tính năng mới chưa được cung cấp trong phiên bản cũ. Chúng thường được lưu trữ trên trang web [github.com](https://github.com/) trong một "kho lưu trữ (repository)" code công khai và miễn phí. Đọc thêm về Github trong chương [Version control với Git và Github].
 
-Để download packages R từ Github, bạn có thể dụng hàm `p_load_gh()` từ **pacman**, hàm này sẽ cài đặt package nếu cần và gọi nó để sử dụng cho phiên làm việc R hiện tại. Cách khác để cài đặt bao gồm sử dụng package **remotes** hoặc **devtools**. Đọc thêm về hàm **pacman** tại [Tài liệu về package](https://cran.r-project.org/web/packages/pacman/pacman.pdf).
+Để download packages R từ Github, bạn có thể dụng hàm `p_load_gh()` từ **pacman**, hàm này sẽ cài đặt package nếu cần và gọi nó để sử dụng cho phiên làm việc R hiện tại. Cách khác để cài đặt bao gồm sử dụng package **remotes** hoặc **devtools**. Đọc thêm về các hàm của **pacman** tại [Tài liệu về package](https://cran.r-project.org/web/packages/pacman/pacman.pdf).
 
-Để cài đặt từ Github, bạn phải cung cấp thêm thông tin sau:
+Để cài đặt từ Github, bạn phải cung cấp thêm các thông tin sau:
 
-1)  Github ID của chủ sở hữu kho lưu trữ
-2)  Tên kho chứa package\
-3)  *(Tùy chọn) Tên của "nhánh" (phiên bản phát triển) mà bạn muốn tải xuống*
+1)  Github ID của chủ sở hữu
+2)  Tên của repository chứa package\
+3)  *(Tùy chọn) Tên của "nhánh" (phiên bản phát triển cụ thể) mà bạn muốn tải xuống*
 
 Trong các ví dụ dưới đây, từ đầu tiên trong dấu ngoặc kép là Github ID của chủ sở hữu kho lưu trữ, sau dấu gạch chéo là tên của kho lưu trữ (tên của package).
 
@@ -550,7 +550,7 @@ Trong các ví dụ dưới đây, từ đầu tiên trong dấu ngoặc kép l�
 p_load_gh("reconhub/epicontacts")
 ```
 
-Nếu bạn muốn cài đặt từ một "nhánh" (phiên bản) khác với nhánh chính, hãy thêm tên nhánh sau dấu "\@", sau tên kho lưu trữ.
+Nếu bạn muốn cài đặt từ một "nhánh" (phiên bản) khác với nhánh chính, hãy thêm tên nhánh sau dấu "\@", được đặt phía sau tên kho lưu trữ.
 
 ```{r, eval=F}
 # install the "timeline" branch of the epicontacts package from Github
@@ -570,13 +570,13 @@ install.packages(packageurl, repos=NULL, type="source")
 
 Hoặc, tải xuống máy tính của bạn dưới dạng tệp nén:
 
-Lựa chọn 1: sử dụng lệnh `install_local()` từ package **remotes**
+Cách 1: sử dụng lệnh `install_local()` từ package **remotes**
 
 ```{r, eval=F}
 remotes::install_local("~/Downloads/dplyr-master.zip")
 ```
 
-Lựa chọn 2: sử dụng lệnh `install.packages()` từ R **base**, cung cấp đường dẫn tệp đến tệp ZIP và cài đặt `type = "source` và `repos = NULL`.
+Cách 2: sử dụng lệnh `install.packages()` của **base** R, cung cấp đường dẫn tệp đến tệp ZIP và thiết lập `type = "source` và `repos = NULL`.
 
 ```{r, eval=F}
 install.packages("~/Downloads/dplyr-master.zip", repos=NULL, type="source")
@@ -584,51 +584,51 @@ install.packages("~/Downloads/dplyr-master.zip", repos=NULL, type="source")
 
 ### Cú pháp code {.unnumbered}
 
-Để rõ ràng trong sách này, các hàm đôi khi được đặt trước tên package của chúng bằng cách sử dụng ký hiệu `::` theo cách sau: `package_name::function_name()`
+Để tăng sự tường minh trong cuốn sách này, các hàm đôi khi sẽ được đặt sau tên package của chúng bằng cách sử dụng ký hiệu `::` theo cách sau: `package_name::function_name()`
 
-Khi một package được tải cho một phiên làm việc, cách làm này là không cần thiết. Người ta chỉ có thể sử dụng `function_name()`. Tuy nhiên, việc viết tên package sẽ hữu ích khi một tên hàm phổ biến và có thể tồn tại trong nhiều package (ví dụ: `plot()`). Việc viết tên package sẽ giúp tải package nếu nó chưa được tải.
+Khi một package được gọi cho một phiên làm việc, việc làm này là không cần thiết. Bạn chỉ cần sử dụng `function_name()`. Tuy nhiên, việc viết tên package sẽ hữu ích khi một tên hàm phổ biến và có thể tồn tại trong nhiều package (ví dụ: `plot()`). Việc viết tên package sẽ giúp gọi package trong trường hợp nó chưa được gọi ra.
 
 ```{r eval=FALSE}
 # This command uses the package "rio" and its function "import()" to import a dataset
 linelist <- rio::import("linelist.xlsx", which = "Sheet1")
 ```
 
-### Hàm help {.unnumbered}
+### Trợ giúp về hàm {.unnumbered}
 
-Để đọc thông tin về một hàm, bạn có thể tìm kiếm hàm đó trong cửa sổ Help của RStudio phía dưới bên phải. Bạn cũng có thể chạy một lệnh như `?thefunctionname` (đặt tên của hàm sau dấu chấm hỏi) và trang Help sẽ xuất hiện trong cửa sổ Help. Cuối cùng, hãy thử tìm kiếm trên internet.
+Để đọc thêm thông tin về một hàm, bạn có thể tìm kiếm hàm đó trong cửa sổ Help của RStudio nằm ở góc dưới bên phải. Hoặc bạn cũng có thể chạy một lệnh chẳng hạn như `?thefunctionname` (đặt tên của hàm sau dấu chấm hỏi) và trang Trợ giúp sẽ xuất hiện trong cửa sổ Help. Cuối cùng, hãy thử tìm kiếm trên internet.
 
 ### Cập nhật packages {.unnumbered}
 
-YBạn có thể cập nhật các packages bằng cách cài đặt lại chúng. Bạn cũng có thể nhấp vào nút "Update" màu xanh lá cây trong cửa sổ packages RStudio để xem packages nào có phiên bản mới để cài đặt. Lưu ý rằng code cũ của bạn có thể cần được cập nhật nếu có một bản sửa đổi lớn về cách hoạt động của một hàm!
+Bạn có thể cập nhật các packages bằng cách cài đặt lại chúng. Bạn cũng có thể bấm vào nút "Update" màu xanh lá cây trong cửa sổ packages của RStudio để xem packages nào có phiên bản mới để cài đặt. Lưu ý rằng code cũ của bạn có thể cần được cập nhật nếu có một bản sửa đổi lớn về cách hoạt động của một hàm!
 
 ### Xóa packages {.unnumbered}
 
-Sử dụng `p_delete()` từ **pacman**, hoặc `remove.packages()` từ R **base**. Ngoài ra, hãy tìm thư mục chứa thư viện của bạn và xóa thư mục theo cách thủ công.
+Sử dụng `p_delete()` từ **pacman**, hoặc `remove.packages()` từ **base** R. Ngoài ra, hãy tìm thư mục chứa thư viện của bạn và xóa thư mục theo cách thủ công.
 
 ### Sự phụ thuộc {.unnumbered}
 
-Các packages thường phụ thuộc vào các packages khác để hoạt động. Chúng được gọi là sự phụ thuộc. Nếu một phần phụ thuộc không cài đặt được, thì packages phụ thuộc đó cũng có thể không cài đặt được.
+Các packages thường phụ thuộc vào các packages khác để hoạt động. Chúng được gọi là sự phụ thuộc. Nếu một package không cài đặt được, thì package phụ thuộc vào nó có khả năng cũng không thể cài đặt được.
 
-Xem các phụ thuộc của một package với `p_depends()`, và xem package nào phụ thuộc vào nó với `p_depends_reverse()`
+Xem sự phụ thuộc của một package với lệnh `p_depends()`, và xem package nào phụ thuộc vào nó với `p_depends_reverse()`
 
-### Hàm Masked {.unnumbered}
+### Hàm bị che giấu {.unnumbered}
 
-Không có gì lạ khi hai hoặc nhiều packages chứa cùng một tên hàm. Ví dụ: packages **dplyr** có hàm `filter()`, nhưng package **stats** cũng vậy. Hàm `filter()` mặc định phụ thuộc vào thứ tự các packages này được tải lần đầu tiên trong phiên làm việc R - packages sau sẽ là mặc định cho lệnh `filter()`.
+Không có gì lạ nếu hai hoặc nhiều packages chứa cùng một tên hàm. Ví dụ: packages **dplyr** có hàm `filter()`, nhưng package **stats** cũng vậy. Hàm `filter()` mặc định phụ thuộc vào thứ tự các package này được gọi lên trong phiên làm việc R - packages được gọi ra sau sẽ là mặc định cho hàm `filter()`.
 
-Bạn có thể kiểm tra thứ tự trong cửa sổ Environment của R Studio - nhấp vào menu thả xuống "Global Environment" và xem thứ tự của các packages. Các hàm từ các packages *lower* trong danh sách thả xuống đó sẽ đè lên các hàm cùng tên trong các packages xuất hiện bên trên trong danh sách thả xuống. Khi lần đầu tiên tải một package, R sẽ cảnh báo bạn trong bảng điều khiển nếu xảy ra hiện tượng này, nhưng điều này thường hay bị bỏ quên.
+Bạn có thể kiểm tra thứ tự của chúng trong cửa sổ Environment của R Studio - nhấp vào menu thả xuống "Global Environment" và xem thứ tự của các packages. Các hàm thuộc các packages *ở vị trí thấp hơn* trong danh sách thả xuống đó sẽ che giấu các hàm cùng tên trong các packages xuất hiện ở vị trí bên trên trong danh sách thả xuống. Khi bạn vừa gọi một package, R sẽ cảnh báo bạn trong bảng điều khiển nếu xảy ra hiện tượng này, nhưng điều này rất hay bị bỏ quên.
 
 ```{r out.width = "50%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "masking_functions.png"))
 ```
 
-Dưới đây là những cách bạn có thể sửa lỗi đè:
+Dưới đây là những cách bạn có thể sửa lỗi hàm bị che giấu:
 
-1)  Chỉ định tên package trong lệnh. Ví dụ, sử dụng `dplyr::filter()`\
-2)  ắp xếp lại thứ tự mà các package được tải (ví dụ trong `p_load()`), và **bắt đầu một phiên làm việc R mới**
+1)  Ghi rõ tên package trong lệnh. Ví dụ, sử dụng `dplyr::filter()`\
+2)  Sắp xếp lại thứ tự mà các package được tải (ví dụ trong `p_load()`), và **bắt đầu một phiên làm việc R mới**
 
 ### Gỡ package {.unnumbered}
 
-Để gỡ một package, hãy sử dụng lệnh này, với tên package chính xác và chỉ có một dấu hai chấm. Lưu ý rằng điều này có thể không giải quyết được việc đè.
+Để gỡ (detach) một package, hãy sử dụng lệnh dưới đây, với tên package chính xác và chỉ có một dấu hai chấm. Lưu ý rằng điều này có thể không giải quyết được việc hàm bị che giấu.
 
 ```{r, eval=F}
 detach(package:PACKAGE_NAME_HERE, unload=TRUE)
@@ -640,24 +640,24 @@ Xem [hướng dẫn](https://support.rstudio.com/hc/en-us/articles/219949047-Ins
 
 ### Packages đề xuất {.unnumbered}
 
-Xem trang về [Package đề xuất] để biết danh sách các packages thường được sử dụng cho dịch tễ học.
+Xem chương [Package đề xuất] để biết danh sách các packages thường được sử dụng trong dịch tễ học.
 
 <!-- ======================================================= -->
 
 ## Scripts {#scripts}
 
-Scripts là một phần cơ bản của lập trình. Chúng là các tài liệu chứa các câu lệnh của bạn (ví dụ: các hàm để tạo và chỉnh sửa bộ số liệu, các hàm để in các biểu đồ trực quan hóa số liệu, v.v.). Bạn có thể lưu một scripts và chạy lại sau. Có nhiều lợi ích để lưu trữ và chạy các lệnh của bạn từ một scripts (so với nhập từng lệnh vào "dòng lệnh" của R console):
+Scripts là một phần cơ bản của lập trình. Chúng là các tài liệu chứa các câu lệnh của bạn (ví dụ: các hàm để tạo và chỉnh sửa bộ số liệu, các hàm để in các biểu đồ trực quan hóa số liệu, v.v.). Bạn có thể lưu một scripts và chạy lại sau này. Có nhiều lợi ích để lưu trữ và chạy các lệnh của bạn từ một scripts (so với nhập "từng lệnh" vào R console):
 
 -   Tiện dụng - bạn có thể chia sẻ công việc của mình với người khác bằng cách gửi cho họ các tập lệnh của bạn\
 -   Khả năng tái lập - để bạn và những người khác biết chính xác những gì bạn đã làm\
 -   Kiểm soát phiên bản - để bạn có thể theo dõi các thay đổi do chính bạn hoặc đồng nghiệp thực hiện\
--   Dễ dàng nhận xét / chú thích - để giải thích cho đồng nghiệp của bạn những gì bạn đã làm
+-   Dễ dàng nhận xét/chú thích - để giải thích cho đồng nghiệp của bạn những gì bạn đã làm
 
-### Nhận xét {.unnumbered}
+### Bình luận {.unnumbered}
 
-Trong một script, bạn cũng có thể chú thích ("nhận xét") xung quanh code R của bạn. Nhận xét là hữu ích để giải thích cho chính bạn và những người đọc khác về những gì bạn đang làm. Bạn có thể thêm nhận xét bằng cách nhập ký hiệu thăng (\#) và viết nhận xét của bạn sau đó. Nội dung nhận xét sẽ xuất hiện với màu khác với code R.
+Khi viết script, bạn có thể thêm các chú thích ("bình luận") xung quanh code R của bạn. Bình luận là cần thiết để giải thích cho chính bạn và những người đọc khác hiểu những gì bạn đang làm. Bạn có thể thêm bình luận bằng cách nhập dấu thăng (\#) và viết bình luận của bạn sau đó. Nội dung bình luận sẽ xuất hiện với màu khác với code R.
 
-Bất kỳ code nào được viết sau dấu \# sẽ không được chạy. Do đó, đặt dấu \# trước dòng code cũng là một cách hữu ích để tạm thời khóa một dòng code ("comment out") nếu bạn không muốn xóa nó). Bạn có thể comment out/in nhiều dòng cùng một lúc bằng cách bôi đen chúng và nhấn Ctrl + Shift + c (Cmd + Shift + c trong Mac).
+Bất kỳ code nào được viết sau dấu \# sẽ không được chạy. Do đó, đặt dấu \# trước dòng code cũng là một cách hữu ích để tạm thời vô hiệu hóa một dòng code ("comment out") nếu bạn không muốn xóa nó). Bạn có thể comment out/in nhiều dòng cùng một lúc bằng cách bôi đen chúng và nhấn Ctrl + Shift + c (Cmd + Shift + c trong Mac).
 
 ```{r, eval = F}
 # A comment can be on a line by itself
@@ -668,19 +668,19 @@ linelist <- import("linelist_raw.xlsx") %>%   # a comment can also come after co
 
 ```
 
--   Nhận xét *Những gì* bạn đang làm *và về **Tại sao** bạn đang làm như vậy*.\
--   • Chia code của bạn thành các phần hợp lý\
--   • Kèm theo code của bạn với mô tả từng bước bằng văn bản về những gì bạn đang làm (ví dụ: các bước được đánh số)
+-   Bình luận *những gì* bạn đang làm *và **tại sao** bạn làm như vậy*.\
+-   Chia code của bạn thành các phần hợp lý\
+-   Kèm theo code của bạn với mô tả từng bước về những gì đang được thực hiện (ví dụ: các bước được đánh số)
 
 ### Phong cách viết code {.unnumbered}
 
-Phong cách viết code của bạn rất quan trọng - đặc biệt là nếu làm việc theo nhóm. Chúng tôi giới thiệu [Phong cách viết code](https://style.tidyverse.org/) **tidyverse** . Ngoài ra còn có các packages khác như **styler** và **lintr** sẽ giúp bạn tuân theo phong cách này.
+Phong cách viết code của bạn rất quan trọng - đặc biệt là khi làm việc theo nhóm. Chúng tôi khuyên bạn nên tuân theo [hướng dẫn](https://style.tidyverse.org/) phong cách viết code **tidyverse** . Bên cạnh đó còn có các packages khác như **styler** và **lintr** để giúp bạn tuân theo phong cách này.
 
 Một vài điểm rất cơ bản để làm cho code của bạn dễ dàng đọc được đối với người khác:\
 \* Khi đặt tên cho các đối tượng, chỉ sử dụng các chữ cái viết thường, số và dấu gạch dưới `_`, ví dụ: `my_data`\
-\* UThường xuyên sử dụng dấu cách, bao gồm cả các toán tử xung quanh, ví dụ: `n = 1` và `age_new <- age_old + 3`
+\* Thường xuyên sử dụng dấu cách, bao gồm cả xung quanh các toán tử, ví dụ: `n = 1` và `age_new <- age_old + 3`
 
-### Ví dụ của Script {.unnumbered}
+### Ví dụ về Script {.unnumbered}
 
 Dưới đây là một ví dụ về một đoạn ngắn R script. Hãy nhớ rằng, bạn càng giải thích ngắn gọn lệnh code của mình trong phần bình luận, thì đồng nghiệp của bạn sẽ càng thích bạn!
 
@@ -692,48 +692,48 @@ knitr::include_graphics(here::here("images", "example_script.png"))
 
 ### R markdown {.unnumbered}
 
-R markdown là một dạng của R script và có khả năng *xuất* xuất ra các file (PDF, Word, HTML, Powerpoint, v.v.). Đây là những công cụ vô cùng hữu ích và linh hoạt thường được sử dụng để tạo các báo cáo tự động. Ngay cả trang web và cuốn sách này cũng được viết trên R markdown!
+R markdown là một dạng của R script và có khả năng *xuất* thành các tệp đầu ra (PDF, Word, HTML, Powerpoint, v.v.). Đây là những công cụ vô cùng hữu ích và linh hoạt thường được sử dụng để tạo các báo cáo tự động. Ngay cả trang web và cuốn sách này cũng được viết bằng R markdown!
 
-ICần lưu ý rằng người mới bắt đầu dùng R cũng có thể sử dụng R Markdown - đừng sợ! Để tìm hiểu thêm, hãy xem chương [Báo cáo với R Markdown] cuốn sách này để hiểu thêm về báo cáo với R Markdown.
+Bạn cần biết rằng những người mới bắt đầu dùng R cũng có thể sử dụng R Markdown - do đó đừng sợ! Để tìm hiểu thêm, hãy xem chương [Báo cáo với R Markdown] trong cuốn sách này.
 
 <!-- ======================================================= -->
 
 ### R notebooks {.unnumbered}
 
-Không có sự khác biệt giữa R markdown và R notebook. Tuy nhiên, việc thực hiện các lệnh hơi khác một chút. Xem trang [Web](http://uc-r.github.io/r_notebook) này để biết thêm chi tiết.
+Không có sự khác biệt trong cách viết giữa R markdown và R notebook. Tuy nhiên, việc thực thi của hai loại file này hơi khác nhau một chút. Xem trang [Web](http://uc-r.github.io/r_notebook) này để biết thêm chi tiết.
 
 <!-- ======================================================= -->
 
 ### Shiny {.unnumbered}
 
-SShiny apps/websites được chứa trong một tập lệnh (script), có tên `app.R`. TTệp này có ba thành phần:
+Shiny apps/websites được chứa trong một script có tên `app.R`. Tệp này có ba thành phần:
 
 1)  Giao diện người dùng (ui)\
 2)  Một hàm máy chú\
-3)  Gọi hàm `shinyApp`
+3)  Một lệng gọi hàm `shinyApp`
 
-Xem thêm trong cuốn sách này tại chương [Dashboards với Shiny], oặc hướng dẫn trực tuyến này: [Shiny tutorial](https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/)
+Xem thêm trong cuốn sách này tại chương [Dashboards với Shiny], hoặc hướng dẫn trực tuyến này: [Shiny tutorial](https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/)
 
-*In older times, the above file was split into two files (`ui.R` and `server.R`)*
+*Trước đây, tệp bên trên được chia thành 2 tệp con (`ui.R` và `server.R`)*
 
-### Rút gọn Code {.unnumbered}
+### Thu gọn Code {.unnumbered}
 
-Bạn có thể rút gọn các đoạn code để làm cho script của bạn dễ đọc hơn.
+Bạn có thể thu gọn các đoạn code để làm cho script của bạn dễ đọc hơn.
 
-Để làm điều này, hãy tạo tiêu đề văn bản bằng dấu thăng \#, viết tiêu đề của bạn và theo sau nó với ít nhất 4 dấu trong các dấu sau: dấu gạch ngang (-), dấu thăng (\#) or equals (=). hoặc bằng (=). Ngay sau đó, một mũi tên nhỏ sẽ xuất hiện trong rãnh, bên cạnh số dòng ở bên trái của dòng lệnh. Bạn có thể nhấp vào mũi tên này và code bên dưới sẽ thu gọn cho đến trước tiêu đề tiếp theo và một mũi tên kép cũng xuất hiện ở đây.
+Để làm điều này, hãy tạo tiêu đề văn bản bằng dấu thăng \#, viết tiêu đề của bạn và thêm vào phía sau nó ít nhất hoặc là 4 dấu gạch ngang (-), dấu thăng (\#) hoặc dấu bằng (=). Ngay sau đó, một mũi tên nhỏ sẽ xuất bên cạnh ở bên phải số thự tự của dòng lệnh. Bạn có thể nhấp vào mũi tên này và phần code bên dưới sẽ được thu gọn cho đến trước tiêu đề tiếp theo và một mũi tên hai chiều xuất hiện ở đây.
 
-Để mở rộng đoạn code đã thu gọn, hãy nhấp lại vào mũi tên trong rãnh hoặc biểu tượng mũi tên kép. Ngoài ra còn có thể sử dụng thêm các phím tắt, xem thêm giải thích trong [Phần RStudio](#rstudio) của sách này.
+Để mở rộng lại đoạn code đã thu gọn, hãy nhấp lại vào mũi tên hoặc biểu tượng mũi tên hai chiều. Ngoài ra còn có thể sử dụng thêm các phím tắt như đã được giải thích trong [mục RStudio](#rstudio) của chương này.
 
 Bằng cách tạo tiêu đề bằng \#, bạn cũng sẽ kích hoạt Mục lục ở cuối tập lệnh của mình (xem bên dưới) mà bạn có thể sử dụng để điều hướng tập lệnh của mình. Bạn có thể tạo tiêu đề phụ bằng cách thêm các ký hiệu \#, ví dụ: \# \# cho tiêu đề chính, \#\# fcho tiêu đề thứ hai, và \#\#\# cho tiêu đề thứ ba.
 
-BDưới đây là hai phiên bản của một ví dụ cho script. Ở bên trái là bản gốc với các tiêu đề được chú thích. Ở bên phải, bốn dấu gạch ngang đã được viết sau mỗi tiêu đề, làm cho chúng có thể thu gọn được. Hai trong số chúng đã được thu gọn và bạn có thể thấy Mục lục ở dưới cùng hiện hiển thị từng phần.
+Dưới đây là hai phiên bản của một ví dụ cho script. Ở bên trái là bản gốc với các tiêu đề được chú thích. Ở bên phải, bốn dấu gạch ngang đã được viết sau mỗi tiêu đề, làm cho chúng có thể thu gọn được. Hai trong số chúng đã được thu gọn và bạn có thể thấy Mục lục ở dưới cùng hiện hiển thị từng phần.
 
 ```{r, out.width = c('50%'), fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "code_folding1.png"))
 knitr::include_graphics(here::here("images", "code_folding2.png"))
 ```
 
-Các phần code khác tự động đủ điều kiện để thu gọn bao gồm các phần "braced" với dấu ngoặc nhọn `{ }` schẳng hạn như định nghĩa hàm hoặc các khối điều kiện (câu lệnh if else). Bạn có thể đọc thêm về cách thu gọn code tại Rstudio [web](https://support.rstudio.com/hc/en-us/articles/200484568-Code-Folding-and-Sections).
+Các phần code khác mặc định đủ điều kiện để thu gọn bao gồm các phần "nằm giữa" hai dấu ngoặc nhọn `{ }`, chẳng hạn như định nghĩa hàm hoặc các khối điều kiện (câu lệnh if else). Bạn có thể đọc thêm về cách thu gọn code tại [trang của Rstudio](https://support.rstudio.com/hc/en-us/articles/200484568-Code-Folding-and-Sections).
 
 <!-- ======================================================= -->
 
@@ -741,9 +741,11 @@ Các phần code khác tự động đủ điều kiện để thu gọn bao g�
 
 <!-- ======================================================= -->
 
-## Working directory
+## Thư mục làm việc
 
-Thư mục làm việc là vị trí thư mục gốc được R sử dụng cho công việc của bạn - nơi R tìm kiếm và lưu các tệp theo mặc định. Theo mặc định, nó sẽ lưu các tệp mới và xuất tệp vào vị trí này, đồng thời sẽ tìm kiếm các tệp để nạp dữ liệu (ví dụ: tập dữ liệu) tại đây. Thư mục làm việc xuất hiện bằng dòng chữ màu xám ở đầu cửa sổ Rstudio Console. Bạn cũng có thể in thư mục làm việc hiện tại bằng cách chạy lệnh `getwd()` (để trống dấu ngoặc đơn).
+Thư mục làm việc là vị trí thư mục gốc được R sử dụng cho công việc của bạn - nơi R tìm kiếm và lưu các tệp theo mặc định. Mặc định là, R sẽ lưu các tệp mới và xuất tệp vào vị trí này, đồng thời sẽ tìm kiếm các tệp để nhập dữ liệu (ví dụ: bộ dữ liệu) tại đây.
+
+Thư mục làm việc xuất hiện bằng dòng chữ màu xám ở phía trên cửa sổ Rstudio Console. Bạn cũng có thể in thư mục làm việc hiện tại bằng cách chạy lệnh `getwd()` (để trống dấu ngoặc đơn).
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "working_directory_1.png"))
@@ -751,8 +753,8 @@ knitr::include_graphics(here::here("images", "working_directory_1.png"))
 
 ### Gợi ý cách tiếp cận {.unnumbered}
 
-**Xem thêm tại [Dự án R] để biết chi tiết về các gợi ý về cách tiếp cận của chúng tôi để quản lý thư mục làm việc của bạn.**\
-Một cách phổ biến, hiệu quả và không gặp sự cố để quản lý thư mục làm việc và đường dẫn tệp mà bạn có thể làm là kết hợp 3 yếu tố này trong một quy trình làm việc theo định hướng [Dự án R][R projects]:
+**Xem thêm tại chương [Dự án R] để biết chi tiết về gợi ý các cách tiếp cận của chúng tôi trong việc quản lý thư mục làm việc của bạn.**\
+Một cách phổ biến, hiệu quả và không gặp sự cố khi quản lý thư mục làm việc và đường dẫn tệp là kết hợp 3 yếu tố này trong một quy trình làm việc với [Dự án R][R projects] có định hướng :
 
 1)  Một dự án R để lưu trữ tất cả tệp của bạn (xem tại chương [Dự án R])\
 2)  Package **here** để định vị tệp (xem tại [Import and export])\
@@ -760,9 +762,11 @@ Một cách phổ biến, hiệu quả và không gặp sự cố để quản l
 
 <!-- ======================================================= -->
 
-### Thiết lập thư mục làm việc bằng lệnh {.unnumbered}
+### Thiết lập bằng lệnh {.unnumbered}
 
-Gần đây, nhiều người học R đã được dạy để bắt đầu script của họ bằng lệnh `setwd()`. Hãy thay đổi thói quen đó bằng [Dự án R][R projects]-đọc thêm tài liệu sau để điều chỉnh quy trình làm việc [Lý do để sử dụng `setwd()`](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/). Tóm lại, công việc của bạn trở nên cụ thể đối với máy tính của bạn, các đường dẫn tệp được sử dụng để nhập và xuất tệp trở nên "dễ lỗi" và điều này cản trở nghiêm trọng đến việc cộng tác và sử dụng code của bạn trên bất kỳ máy tính nào khác. Bạn có thể lựa chọn nhiều cách thay thế dễ dàng hơn dưới đây! **tidyverse** Như đã lưu ý ở trên, mặc dù chúng tôi không khuyến nghị phương pháp này trong hầu hết các trường hợp, bạn có thể sử dụng lệnh `setwd()` với đường dẫn tệp thư mục mong muốn trong trích dẫn, ví dụ:
+Cho tới gần đây, nhiều người học R đã được dạy để bắt đầu script của họ bằng lệnh `setwd()`. Hãy thay đổi thói quen đó bằng cách sử dụng [Dự án R][R projects] và đọc thêm tài liệu sau để hiểu [lý do không nên sử dụng `setwd()`](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/). Một cách ngắn gọn là, công việc của bạn chỉ thực hiện được trên máy tính của bạn, các đường dẫn tệp được sử dụng để nhập và xuất tệp trở nên "dễ lỗi" và điều này cản trở nghiêm trọng đến việc cộng tác và sử dụng code của bạn trên bất kỳ máy tính nào khác. Bạn có những lựa chọn khác dễ dàng hơn!
+
+Như đã nói ở trên, mặc dù chúng tôi không khuyến nghị phương pháp này trong hầu hết các trường hợp, bạn vẫn có thể sử dụng lệnh `setwd()` với đường dẫn tệp thư mục mong muốn trong dấu ngoặc kép, ví dụ:
 
 ```{r, eval=F}
 setwd("C:/Documents/R Files/My analysis")
@@ -772,90 +776,89 @@ setwd("C:/Documents/R Files/My analysis")
 
 <!-- ======================================================= -->
 
-### Thiết lập thư mục làm việc một cách thủ công {.unnumbered}
+### Thiết lập thủ công {.unnumbered}
 
-Để thiết lập thư mục làm việc một cách thủ công (chỉ sử dụng nhấp chuột có thể thay thế cho `setwd()`), chọn mục Secction trên thanh công cụ và chọn "Set Working Directory" và sau đó chọn "Choose Directory". Chú ý: nếu sử dụng phương pháp này, bạn sẽ phải thực hiện việc này theo cách thủ công mỗi khi mở RStudio.
+Để thiết lập thư mục làm việc một cách thủ công (trỏ và nhấp tương đương với `setwd()`), hãy chọn mục Session trên thanh công cụ và chọn "Set Working Directory", sau đó chọn "Choose Directory". Chú ý: nếu sử dụng phương pháp này, bạn sẽ phải thực hiện việc này theo cách thủ công mỗi khi mở RStudio.
 
 <!-- ======================================================= -->
 
-### Trong một dự án R {.unnumbered}
+### Thiết lập bên trong một dự án R {.unnumbered}
 
-Nếu sử dụng dự án R, thư mục làm việc sẽ mặc định là thư mục gốc của dự án R có chứa tệp ".rproj". Điều này sẽ áp dụng nếu bạn mở RStudio bằng cách nhấp vào mở R Project (tệp có phần mở rộng ".rproj").
+Nếu bạn đang mở một dự án R, thư mục làm việc sẽ mặc định là thư mục gốc của dự án R có chứa tệp ".rproj". Điều này sẽ áp dụng nếu bạn mở RStudio bằng cách nhấp vào mở R Project (tệp có phần mở rộng ".rproj").
 
 <!-- ======================================================= -->
 
 ### Thư mục làm việc với R markdown {.unnumbered}
 
-Trong script ở R markdown, thư mục làm việc mặc định là thư mục chứa tệp R markdown (`.Rmd`). Nếu sử dụng dự án R và package **here**, điều này sẽ không được áp dụng và sử dụng lệnh `here()` để tạo thư mục làm việc, xem thêm giải thích tại chương [Dự án R].
+Trong script ở R markdown, thư mục làm việc mặc định là thư mục chứa tệp R markdown (`.Rmd`). Nếu sử dụng dự án R và package **here**, điều này sẽ không được áp dụng. Để biết thư mục làm việc là gì, sử dụng lệnh `here()` như đã được giải thích tại chương [Dự án R].
 
-Nếu bạn muốn thay đổi thư mục làm việc của một tệp độc lập ở R markdown (không phải ở dự án R), nếu bạn sử dụng `setwd()` điều này sẽ chỉ áp dụng cho đoạn mã cụ thể đó. Để thực hiện thay đổi cho tất cả các đoạn mã trong R markdown, hãy chỉnh sửa đoạn thiết lập để thêm tham số `root.dir =`, như bên dưới:
+Nếu bạn muốn thay đổi thư mục làm việc của một tệp độc lập ở R markdown (không phải ở dự án R), nếu bạn sử dụng `setwd()` điều này sẽ chỉ áp dụng chỉ cho đoạn code đó. Để thực hiện thay đổi cho tất cả các đoạn code trong R markdown, hãy điều chỉnh ở bước thiết lập để thêm tham số `root.dir =`, như bên dưới:
 
 ```{r, eval=F}
 knitr::opts_knit$set(root.dir = 'desired/directorypath')
 ```
 
-Cách này dễ hơn nhiều so với chỉ sử dụng R markdown trong một dự án R và sử dụng package **here**.
+Cách này dễ hơn nhiều so với chỉ sử dụng R markdown bên trong một dự án R và sử dụng package **here**.
 
 <!-- ======================================================= -->
 
 ### Cung cấp đường dẫn tệp {.unnumbered}
 
-Perhaps the most common source of frustration for an R beginner (at least on a Windows machine) is typing in a file path to import or export data. There is a thorough explanation of how to best input file paths in the [Import and export] page, but here are a few key points: Có lẽ sự thất bại phổ biến nhất đối với người mới bắt đầu sử dụng R (ít nhất là trên máy Windows) là nhập đường dẫn tệp để nhập hoặc xuất dữ liệu. Có một lời giải thích cặn kẽ về cách tạo đường dẫn tệp đầu vào tốt nhất trong trang [Nhập và xuất], nhưng đây là một số điểm chính:
+Có lẽ điều khiến những người mới bắt đầu với R cảm thấy nản nhất (ít nhất là với người dùng máy tính Windows) đó là gõ đường dẫn tệp để nhập xuất dữ liệu. Chúng tôi có giải thích cặn kẽ về cách tạo đường dẫn tệp đầu vào tốt nhất trong chương [Nhập xuất dữ liệu], nhưng dưới đây là một số điểm chính:
 
 **Đường dẫn tệp bị lỗi**
 
-Dưới đây là ví dụ về đường dẫn tệp "tuyệt đối" hoặc "địa chỉ đầy đủ". Chúng có thể bị lỗi nếu được sử dụng bởi một máy tính khác. Một ngoại lệ là nếu bạn đang sử dụng ổ đĩa chia sẻ / mạng.
+Dưới đây là ví dụ về đường dẫn tệp "tuyệt đối" hoặc "địa chỉ đầy đủ". Chúng có thể bị lỗi nếu được sử dụng bởi một máy tính khác. Một ngoại lệ là nếu bạn đang sử dụng ổ đĩa chia sẻ/mạng.
 
     C:/Users/Name/Document/Analytic Software/R/Projects/Analysis2019/data/March2019.csv  
 
-**Thư mục với dấu gạch chéo**
+**Đường dẫn với dấu gạch chéo**
 
-*Nếu nhập đường dẫn tệp, hãy lưu ý hướng của các dấu gạch chéo.* Sử dụng *gạch lên* (`/`) để tách các thành phần ("data/provincial.csv"). Đối với người dùng Windows, cách mặc định mà đường dẫn tệp được hiển thị là dấu *gạch chéo ngược* (\\) - vì vậy bạn sẽ cần phải thay đổi hướng của mỗi dấu gạch chéo. Nếu bạn sử dụng package **here** được miêu tả ở [Dự án R] thì dấu gạch chéo không còn là vấn đề với bạn nữa.
+*Nếu nhập đường dẫn tệp, hãy lưu ý hướng của các dấu gạch chéo.* Sử dụng dấu *gạch chéo xuôi* (`/`) để tách các thành phần ("data/provincial.csv"). Đối với người dùng Windows, cách mặc định mà đường dẫn tệp được hiển thị là dấu *gạch chéo ngược* (\\) - vì vậy bạn sẽ cần phải thay đổi hướng của mỗi dấu gạch chéo. Nếu bạn sử dụng package **here** được miêu tả ở [Dự án R] thì dấu gạch chéo không còn là vấn đề với bạn nữa.
 
 **Đường dẫn tệp tương đối**
 
-Nói chung, chúng tôi khuyên bạn nên cung cấp các đường dẫn tệp "tương đối" - nghĩa là, đường dẫn *liên quan đến* gốc của Dự án R của bạn. Bạn có thể thực hiện việc này bằng cách sử dụng package **here** như được giải thích trong chương [Dự án R]. Một đường dẫn tệp tương đối có thể trông như thế này:
+Nói chung, chúng tôi khuyên bạn nên cung cấp các đường dẫn tệp theo cách "tương đối" - nghĩa là, đường dẫn *liên quan đến* thư mục gốc Dự án R của bạn. Bạn có thể thực hiện việc này bằng cách sử dụng package **here** như được giải thích trong chương [Dự án R]. Một đường dẫn tệp tương đối sẽ trông như thế này:
 
 ```{r, eval=F}
 # Import csv linelist from the data/linelist/clean/ sub-folders of an R project
 linelist <- import(here("data", "clean", "linelists", "marin_country.csv"))
 ```
 
-Ngay cả khi sử dụng đường dẫn tệp tương đối trong dự án R, bạn vẫn có thể sử dụng đường dẫn tuyệt đối để nhập / xuất dữ liệu bên ngoài dự án R của mình.
+Ngay cả khi sử dụng đường dẫn tệp tương đối trong dự án R, bạn vẫn có thể sử dụng đường dẫn tuyệt đối để nhập/xuất dữ liệu ở bên ngoài dự án R của bạn.
 
 <!-- ======================================================= -->
 
 ## Đối tượng {#objects}
 
-Mọi thứ trong R là một đối tượng, và R là một ngôn ngữ "Lấy đối tượng làm trung tâm". Các phần dưới đây sẽ giải thích:
+Mọi thứ trong R đều là một đối tượng, và R là một ngôn ngữ "lập trình hướng đối tượng". Các phần dưới đây sẽ giải thích:
 
 -   Cách tạo ra các đối tượng (`<-`)
 -   Các loại đối tượng (ví dụ: data frames, vectors..)\
--   Cách truy cập các tập con của các đối tượng (ví dụ: Các biến trong một bộ dữ liệu)\
--   Phân hạng đối tượng (ví dụ: numeric, logical, integer, double, character, factor)
+-   Cách truy cập các tập con của đối tượng (ví dụ: các biến số trong một bộ dữ liệu)\
+-   Các loại đối tượng (ví dụ: numeric, logical, integer, double, character, factor)
 
 <!-- ======================================================= -->
 
 ### Mọi thứ đều là một đối tượng {.unnumbered}
 
-*This section is adapted from the [R4Epis project](https://r4epis.netlify.app/training/r_basics/objects/).*\
-Everything you store in R - datasets, variables, a list of village names, a total population number, even outputs such as graphs - are **objects** which are **assigned a name** and **can be referenced** in later commands. *Phần này được chuyển thể từ [Dự án R4Epis](https://r4epis.netlify.app/training/r_basics/objects/).*\
-Mọi thứ lưu trữ trong R - bộ dữ liệu, biến số, danh sách tên làng, tổng số dân, thậm chí cả kết quả đầu ra như biểu đồ - đều là **đối tượng**, chúng được **gán tên** và **có thể được tham chiếu** trong cách lệnh sau đó.
+*Phần này được dựa theo sách [R4Epis project](https://r4epis.netlify.app/training/r_basics/objects/).*\
+Mọi thứ bạn lưu trữ trong R - bao gồm bộ dữ liệu, biến số, danh sách tên làng, tổng số dân, thậm chí cả kết quả đầu ra như biểu đồ - đều là **các đối tượng**, được **gán tên** và **có thể được tham chiếu** trong các lệnh sau đó.
 
-Một đối tượng tồn tại khi bạn đã gán giá trị cho nó (xem phần gán bên dưới). Khi nó được gán một giá trị, đối tượng sẽ xuất hiện trong cửa sổ Environment (xem cửa sổ phía trên bên phải của RStudio). Sau đó, nó có thể được vận hành, thao tác, thay đổi và xác định lại.
+Một đối tượng tồn tại khi bạn đã gán giá trị cho nó (xem phần gán bên dưới). Khi nó được gán một giá trị, đối tượng sẽ xuất hiện trong cửa sổ Environment (xem cửa sổ phía trên bên phải của RStudio). Sau đó, nó có thể được sử dụng, thao tác, thay đổi và định nghĩa lại.
 
 <!-- ======================================================= -->
 
 ### Định nghĩa một đối tượng (`<-`) {.unnumbered}
 
 **Tạo ra một đối tượng *bằng cách gán cho chúng một giá trị* bằng toán tử \<-.**\
-Bạn có thể nghĩ về toán tử gán `<-` tương đương với từ "được định nghĩa là". Các lệnh gán thường tuân theo một thứ tự tiêu chuẩn:
+Bạn có thể nghĩ về toán tử gán `<-` tương đương với từ "được định nghĩa là". Các lệnh gán thường tuân theo một trật tự quy định:
 
-**đối tượng_tên** \<- **giá trị của đối tượng** (hoặc quy trình / tính toán tạo ra giá trị)
+**tên đối tượng** \<- **giá trị của đối tượng** (hoặc quy trình / tính toán tạo ra giá trị)
 
-Ví dụ: bạn có thể muốn ghi lại tuần báo cáo dịch tễ học hiện tại như một đối tượng để trích dẫn trong code của bạn sau này. Trong ví dụ này, đối tượng `current_week` được tạo khi nó được gán giá trị `"2018-W10"` (dấu ngoặc kép sẽ quy định đây là giá trị dạng chữ). Đối tượng `current_week` sẽ xuất hiện trong cửa sổ RStudio Environment (phía trên bên phải) và có thể được trích dẫn trong các lệnh sau này.
+Ví dụ: bạn muốn ghi nhận một báo cáo tuần dịch tễ học hiện tại dưới dạng một đối tượng để tham chiếu tới code của bạn sau này. Trong ví dụ này, đối tượng `current_week` được tạo khi nó được gán giá trị `"2018-W10"` (dấu ngoặc kép sẽ quy định đây là giá trị dạng chữ). Đối tượng `current_week` sẽ xuất hiện trong cửa sổ RStudio Environment (phía trên bên phải) và có thể được tham chiếu tới các lệnh sau này.
 
-Xem các lệnh R và kết quả của chúng trong các hộp bên dưới.
+Xem các lệnh R và kết quả của chúng như dưới đây.
 
 ```{r basics_objects_assignment}
 current_week <- "2018-W10"   # this command creates the object current_week by assigning it a value
@@ -864,9 +867,9 @@ current_week                 # this command prints the current value of current_
 
 [***CHÚ Ý:*** Lưu ý rằng số `[1]` trong kết quả ở R console đơn giản là chỉ ra rằng bạn đang xem mục đầu tiên của đầu ra]{style="color: black;"}
 
-[***THẬN TRỌNG:*** **Giá trị của một đối tượng có thể bị ghi đè** bất kỳ lúc nào bằng cách chạy lệnh gán để xác định lại giá trị của nó. Do đó, **thứ tự của các lệnh chạy rất quan trọng**.]{style="color: orange;"}
+[***THẬN TRỌNG:*** **Giá trị của một đối tượng có thể bị ghi đè** bất kỳ lúc nào bằng cách chạy lệnh gán để định nghĩa lại giá trị của nó. Do đó, **thứ tự của các lệnh được chạy rất quan trọng**.]{style="color: orange;"}
 
-Lệnh sau sẽ xác định lại giá trị của đối tượng `current_week`:
+Lệnh sau sẽ định nghĩa lại giá trị của đối tượng `current_week`:
 
 ```{r basics_objects_reassignment}
 current_week <- "2018-W51"   # assigns a NEW value to the object current_week
@@ -877,37 +880,37 @@ current_week                 # prints the current value of current_week in the c
 
 Bạn cũng sẽ thấy các dấu bằng trong R code:
 
--   Một dấu bằng kép `==` giữa hai đối tượng hoặc giá trị đặt ra một *câu hỏi* logic: "cái này bằng cái kia?".\
--   Bạn cũng sẽ thấy các dấu bằng trong các hàm được sử dụng để chỉ định giá trị của các đối số của hàm (đọc về chúng trong các phần bên dưới), ví dụ: `max(age, na.rm = TRUE)`.\
--   Bạn *có thể* sử dụng một dấu bằng `=` thay cho dấu `<-` để tạo và xác định các đối tượng, nhưng điều này không được khuyến khích. Bạn có thể đọc về lý do tại sao điều này không được khuyến khích ở [đây](https://renkun.me/2014/01/28/difference-between-assignment-operators-in-r/).
+-   Hai dấu bằng `==` giữa hai đối tượng hoặc giá trị dùng để đặt một *câu hỏi* logic: "cái này có bằng cái kia không?".\
+-   Bạn cũng sẽ thấy các dấu bằng trong các hàm được sử dụng để xác định giá trị của các đối số của hàm (đọc thêm ở các phần bên dưới), ví dụ: `max(age, na.rm = TRUE)`.\
+-   Bạn *có thể* sử dụng một dấu bằng `=` thay cho dấu `<-` để tạo và định nghĩa các đối tượng, nhưng điều này không được khuyến khích. Bạn có thể đọc về lý do tại sao điều này không được khuyến khích ở [đây](https://renkun.me/2014/01/28/difference-between-assignment-operators-in-r/).
 
 **Bộ dữ liệu**
 
-Datasets are also objects (typically "dataframes") and must be assigned names when they are imported. In the code below, the object `linelist` is created and assigned the value of a CSV file imported with the **rio** package and its `import()` function. Bộ dữ liệu (datasets) cũng là đối tượng (thường là "dataframes") và phải được gán tên khi chúng được nhập. Trong đoạn mã dưới đây, đối tượng `linelist` được tạo và gán giá trị của tệp CSV, tệp này được nhập bằng package **rio** và hàm `import()` trong package này.
+Bộ dữ liệu (datasets) cũng là một đối tượng (thường là một "dataframes") và phải được gán tên khi chúng được nhập. Trong đoạn mã dưới đây, đối tượng `linelist` được tạo và gán giá trị từ tệp CSV, tệp này được nhập bằng package **rio** và hàm `import()` của package này.
 
 ```{r basics_objects_dataframes, eval=FALSE}
 # linelist is created and assigned the value of the imported CSV file
 linelist <- import("my_linelist.csv")
 ```
 
-Bạn có thể đọc thêm về nhập và xuất tập dữ liệu với phần [Nhập xuất dữ liệu].
+Bạn có thể đọc thêm về nhập và xuất dữ liệu trong chương [Nhập xuất dữ liệu].
 
 [***THẬN TRỌNG:*** Lưu ý nhanh về cách đặt tên đối tượng:]{style="color: orange;"}
 
 -   Tên đối tượng không được chứa dấu cách, nhưng bạn nên sử dụng dấu gạch dưới (\_) hoặc dấu chấm (.) thay vì dấu cách.\
--   Tên đối tượng phân biệt chữ hoa chữ thường (nghĩa là Dataset_A khác với dataset_A).
+-   Tên đối tượng phân biệt chữ hoa và chữ thường (nghĩa là Dataset_A khác với dataset_A).
 -   Tên đối tượng phải bắt đầu bằng chữ cái (không được bắt đầu bằng số như 1, 2 hoặc 3).
 
 **Kết quả đầu ra**
 
-Các kết quả đầu ra như bảng và biểu đồ cung cấp một ví dụ về cách các kết quả đầu ra có thể được lưu dưới dạng đối tượng hoặc chỉ được in ra mà không cần lưu. Một bảng chéo về giới tính và kết quả bằng cách sử dụng hàm `table()` trong R **base**, có thể được in trực tiếp vào R console (*mà không* được lưu).
+Các kết quả đầu ra như bảng và biểu đồ cung cấp một ví dụ về cách các kết quả đầu ra có thể được lưu dưới dạng đối tượng hoặc chỉ được in ra mà không cần lưu. Ví dụ, một bảng chéo giữa giới tính và biến kết cục được tạo ra bởi hàm `table()` trong **base** R, có thể được in trực tiếp vào R console (*mà không* cần lưu).
 
 ```{r}
 # printed to R console only
 table(linelist$gender, linelist$outcome)
 ```
 
-Nhưng bảng này cũng có thể được lưu dưới dạng một đối tượng được đặt tên. Sau đó, một cách tùy chọn, nó có thể được in.
+Nhưng bảng này cũng có thể được lưu dưới dạng một đối tượng được đặt tên. Sau đó, bạn có thể in nó ra.
 
 ```{r}
 # save
@@ -919,16 +922,16 @@ gen_out_table
 
 **Cột**
 
-Các cột trong tập dữ liệu cũng là các đối tượng và có thể được xác định, ghi đè và tạo như được mô tả bên dưới trong phần Cột.
+Các cột trong tập dữ liệu cũng là các đối tượng và có thể được định nghĩa, ghi đè và tạo như được mô tả bên dưới trong phần Cột.
 
-Bạn có thể sử dụng toán tử gán từ R **base** để tạo một cột mới. Dưới đây, cột mới `bmi` (Body Mass Index) is created, được tạo và ứng với mỗi hàng, giá trị mới là kết quả của một phép toán trên giá trị của các hàng trong cột `wt_kg` và `ht_cm`.
+Bạn có thể sử dụng toán tử gán từ **base** R để tạo một cột mới. Dưới đây, cột mới `bmi` (Body Mass Index) được tạo, và giá trị mới ứng với mỗi hàng là kết quả của một phép toán trên giá trị của các hàng trong cột `wt_kg` và cột `ht_cm`.
 
 ```{r, eval=F}
 # create new "bmi" column using base R syntax
 linelist$bmi <- linelist$wt_kg / (linelist$ht_cm/100)^2
 ```
 
-Tuy nhiên, trong sách này, chúng tôi nhấn mạnh một cách tiếp cận khác để xác định cột, sử dụng hàm `mutate()` trong package **dplyr** và *piping* với toán tử pipe (`%>%`). Cú pháp dễ đọc hơn và có những ưu điểm khác được giải thích trong sách ở chương [Làm sạch số liệu và các hàm quan trọng]. Bạn có thể đọc thêm về *piping* trong phần Piping bên dưới.
+Tuy nhiên, trong cuốn sách này, chúng tôi tập trung vào một cách tiếp cận khác để định nghĩa cột, sử dụng hàm `mutate()` trong package **dplyr** và *piping* với toán tử pipe (`%>%`). Cú pháp dễ đọc hơn và có những ưu điểm khác đã được giải thích trong cuốn sách này ở chương [Làm sạch số liệu và các hàm quan trọng]. Bạn có thể đọc thêm về *piping* trong phần Piping phía bên dưới.
 
 ```{r, eval=F}
 # create new "bmi" column using dplyr syntax
@@ -938,17 +941,17 @@ linelist <- linelist %>%
 
 <!-- ======================================================= -->
 
-### Cấu trúc đối tượng {.unnumbered}
+### Cấu trúc đối tượng {#objectstructure}
 
 **Các đối tượng có thể là một phần dữ liệu đơn lẻ (ví dụ: `my_number <- 24`), hoặc chúng có thể bao gồm dữ liệu có cấu trúc.**
 
-Hình ảnh dưới đây được tham khảo từ [hướng dẫn R trực tuyến này](http://venus.ifca.unican.es/Rintro/dataStruct.html). Nó cho thấy một số cấu trúc dữ liệu phổ biến và tên của chúng. Hình ảnh dưới đây không chứa dữ liệu không gian, xem thêm về dữ liệu không gian tại chương [GIS cơ bản].
+Hình ảnh dưới đây được tham khảo từ [hướng dẫn R trực tuyến này](http://venus.ifca.unican.es/Rintro/dataStruct.html). Nó cho thấy một số cấu trúc dữ liệu phổ biến và tên của chúng. Hình ảnh này không bao gồm dữ liệu không gian. Bạn có thể xem thêm về dữ liệu không gian tại chương [GIS cơ bản].
 
 ```{r basics_objects_structures, echo=F, out.width = "75%", out.height="50%", fig.align = "center"}
 knitr::include_graphics(here::here("images", "R_data_structures.png"))
 ```
 
-Trong dịch tễ học (và đặc biệt là dịch tễ học thực địa), bạn sẽ *thường* gặp data frames và vectors nhất:
+Trong dịch tễ học (và đặc biệt là dịch tễ học thực địa), bạn sẽ *thường xuyên* phải tiếp xúc với data frames và vectors:
 
 +--------------------+--------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
 | Cấu trúc thường gặ | p \| Giái thích                                                                                  | \| Ví dụ                                                            |
@@ -962,33 +965,33 @@ Lưu ý rằng để tạo một vectơ "độc lập" (mà không phải là m�
 
 <!-- ======================================================= -->
 
-### Phân loại đối tượng {.unnumbered}
+### Kiểu đối tượng {.unnumbered}
 
-Tất cả các đối tượng được lưu trữ trong R đều được *phan loại* nó cho R biết cách xử lý đối tượng. Có thể có nhiều loại, nhưng những loại phổ biến bao gồm:
+Tất cả các đối tượng được lưu trữ trong R đều có một *kiểu* dữ liệu cho biết cách nó được xử lý. Có nhiều kiểu đối tượng, nhưng những kiểu phổ biến bao gồm:
 
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| Phân loại  | Giải thích                                                                                                                                                                                                   | Ví dụ                                                                                                              |
-+============+==============================================================================================================================================================================================================+====================================================================================================================+
-| ký tự      | Là văn bản/từ/câu **"trong dấu ngoặc kép"**. Đối tượng kiểu ký tự thì không thể tính toán                                                                                                                    | "Những ký tự nằm trong dấu ngoặc kép"                                                                              |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| số nguyên  | Các số **nguyên** (không có số thập phân)                                                                                                                                                                    | -5, 14, hoặc 2000                                                                                                  |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| số         | Các số và **có thể bao gồm số thập phân**. Nếu trong dấu ngoặc kép, chúng sẽ được coi là dạng ký tự                                                                                                          | 23.1 hoặc 14                                                                                                       |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| Factor     | Đây là các vector có **thứ tự cụ thể** or hoặc các giá trị có thứ bậc                                                                                                                                        | Biến số của tình trạng kinh tế với các giá trị theo tứ tự                                                          |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| ngày tháng | **Khi R được thông báo rằng một dữ liệu ở dạng ngày tháng R**,những số liệu này có thể được thao tác và hiển thị theo những cách đặc biệt. Xem thêm về biến ngày tháng tại chương [Làm việc với ngày tháng]. | 2018-04-12 hoặc 15/3/1954 or Wed 4 Jan 1980                                                                        |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| biến logic | Giá trị của biến chỉ có thể là hai giá trị đặc biệt sau TRUE hoặc FALSE (lưu ý đây **không phải** là "TRUE" và"FALSE" trong dấu ngoặc kép)                                                                   | TRUE hoặc FALSE                                                                                                    |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| data.frame | Một data.frame trong R lưu trữ một **tập dữ liệu điển hình**. Data.frame bao gồm các vector (cột) dữ liệu liên kết với nhau, tất cả đều có cùng một số lượng quan sát (hàng).                                | Tập dữ liệu AJS mẫu có tên là `linelist_raw`chứa 68 biến với 300 quan sát (mỗi hàng)                               |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| tibble     | tibbles là một dạng khác của data.frame, sự khác biệt chính là tibble in đẹp hơn vào R console (hiển thị 10 hàng đầu tiên và chỉ các cột vừa với màn hình)                                                   | data frame, danh sách, hoặc ma trận có thể chuyển đổi thành tibble bằng hàm `as_tibble()`                          |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
-| danh sách  | Một danh sách giống như một vector, nhưng chứa các đối tượng có loại khác nhau                                                                                                                               | Một danh sách có thể chứa một số duy nhất, một data.frame, một vector và thâm chí một danh sách khác bên trong nó! |
-+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Kiểu       | Giải thích                                                                                                                                                                                                    | Ví dụ                                                                                                              |
++============+===============================================================================================================================================================================================================+====================================================================================================================+
+| Ký tự      | Là các chữ/từ/câu được đặt **"trong dấu ngoặc kép"**. Đối tượng kiểu ký tự thì không thể tính toán                                                                                                            | "Những ký tự nằm trong dấu ngoặc kép"                                                                              |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Số nguyên  | Các số **nguyên** (không có phần thập phân)                                                                                                                                                                   | -5, 14, hoặc 2000                                                                                                  |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Số thực    | Bao gồm các số nguyên và **có thể bao gồm phần thập phân**. Nếu trong dấu ngoặc kép, chúng sẽ được coi là dạng ký tự                                                                                          | 23.1 hoặc 14                                                                                                       |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Factor     | Đây là các vector có **trật tự xác định** hoặc các giá trị có nhiều danh mục                                                                                                                                  | Biến số của tình trạng kinh tế với các giá trị theo tứ tự                                                          |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Ngày tháng | **Khi R được thông báo rằng một dữ liệu ở dạng ngày tháng R**, những dữ liệu này có thể được thao tác và hiển thị theo những cách đặc biệt. Xem thêm về biến ngày tháng tại chương [Làm việc với ngày tháng]. | 2018-04-12 hoặc 15/3/1954 hoặc Wed 4 Jan 1980                                                                      |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Logic      | Giá trị của biến chỉ có thể là hai giá trị đặc biệt sau TRUE hoặc FALSE (lưu ý đây **không phải** là "TRUE" và"FALSE" trong dấu ngoặc kép)                                                                    | TRUE hoặc FALSE                                                                                                    |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| data.frame | Một data.frame trong R lưu trữ một **tập dữ liệu điển hình**. Data.frame bao gồm các vector (cột) dữ liệu được liên kết với nhau, tất cả chúng đều có cùng một số lượng quan sát (hàng).                      | Tập dữ liệu mẫu AJS có tên là `linelist_raw`chứa 68 biến với 300 quan sát (mỗi hàng)                               |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| tibble     | tibbles là một dạng khác của data.frame, sự khác biệt chính là tibble in đẹp hơn trong R console (hiển thị 10 hàng đầu tiên và chỉ các cột vừa với màn hình)                                                  | data frame, danh sách, hoặc ma trận có thể chuyển đổi thành tibble bằng hàm `as_tibble()`                          |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Danh sách  | Một danh sách giống như một vector, nhưng chứa các đối tượng có kiểu khác nhau                                                                                                                                | Một danh sách có thể chứa một số duy nhất, một data.frame, một vector và thậm chí một danh sách khác bên trong nó! |
++------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
 
-**Bạn có thể kiểm tra loại của một đối tượng bằng cách cung cấp tên của nó cho hàm `class()`**. NLưu ý: bạn có thể tham chiếu một cột cụ thể trong tập dữ liệu bằng cách sử dụng ký hiệu `$` để phân tách tên của tập dữ liệu và tên của cột.
+**Bạn có thể kiểm tra kiểu của một đối tượng bằng cách cung cấp tên của nó tới hàm `class()`**. Lưu ý: bạn có thể tham chiếu một cột cụ thể trong tập dữ liệu bằng cách sử dụng ký hiệu `$` để phân tách tên của tập dữ liệu và tên của cột.
 
 ```{r, echo=TRUE,}
 class(linelist)         # class should be a data frame or tibble
@@ -998,7 +1001,7 @@ class(linelist$age)     # class should be numeric
 class(linelist$gender)  # class should be character
 ```
 
-Đôi khi, một cột sẽ được tự động chuyển đổi thành một dạng khác bởi R. Hãy coi chừng điều này! Ví dụ: nếu bạn có một vectơ hoặc cột số, nhưng một giá trị ký tự được chèn vào ... thì toàn bộ cột sẽ thay đổi thành dạng ký tự.
+Đôi khi, một cột sẽ được tự động chuyển đổi thành một kiểu khác bởi R. Hãy coi chừng điều này! Ví dụ: nếu bạn có một vectơ hoặc cột kiểu số, nhưng một giá trị ký tự được chèn vào ... thì toàn bộ cột sẽ thay đổi thành kiểu ký tự.
 
 ```{r}
 num_vector <- c(1,2,3,4,5) # define vector as all numbers
@@ -1007,7 +1010,9 @@ num_vector[3] <- "three"   # convert the third element to a character
 class(num_vector)          # vector is now character class
 ```
 
-Một ví dụ phổ biến của điều này là khi thao tác với một data frame để in bảng - nếu bạn tạo một hàng tổng và cố gắng dán / dán các phần trăm với nhau trong cùng một ô với các số (ví dụ: `23 (40%)`), toàn bộ cột số ở trên sẽ chuyển đổi thành ký tự và không còn có thể được sử dụng cho các phép tính toán học nữa.**Đôi khi, bạn sẽ cần chuyển đổi các đối tượng hoặc cột sang một loại khác.**
+Một ví dụ phổ biến của điều này là khi thao tác với một data frame để in bảng - nếu bạn tạo một hàng tính tổng và cố gắng dán /gắn phần trăm với số trong cùng một ô (ví dụ: `23 (40%)`), toàn bộ cột dạng số ở trên sẽ chuyển đổi thành ký tự và không còn có thể được sử dụng cho các phép tính toán học nữa.
+
+**Đôi khi, bạn sẽ cần chuyển đổi các đối tượng hoặc cột sang một loại khác.**
 
 +------------------+-----------------------------------------------------------------------------------------------------------------------------------+
 | Hàm              | Chức năng                                                                                                                         |
@@ -1023,17 +1028,17 @@ Một ví dụ phổ biến của điều này là khi thao tác với một dat
 | `factor()`       | Chuyển sang kiểu factor - Chú ý: nếu muốn định nghĩa lại thứ tự của các giá trị trong biến factor thì cần thêm các đối số bổ sung |
 +------------------+-----------------------------------------------------------------------------------------------------------------------------------+
 
-Tương tự như vậy, một số hàm R **base** có thể kiểm tra xem một đối tượng CÓ thuộc của một loại biến cụ thể hay không, chẳng hạn như `is.numeric()`, `is.character()`, `is.double()`, `is.factor()`, `is.integer()`
+Tương tự như vậy, một số hàm **base** R có thể kiểm tra xem một đối tượng CÓ thuộc của một kiểu dữ liệu cụ thể nào hay không, chẳng hạn như `is.numeric()`, `is.character()`, `is.double()`, `is.factor()`, `is.integer()`
 
-Đây là [Một tài liệu trực tuyến đẩy đủ về các loại và cấu trúc dữ liệu trong R](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/).
+Bạn có thể tham khảo [một tài liệu trực tuyến về các kiểu và cấu trúc dữ liệu trong R](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/) tại đây.
 
 <!-- ======================================================= -->
 
-### Cột / Biến (`$`) {.unnumbered}
+### Cột / Biến số (`$`) {.unnumbered}
 
-**Một cột trong data frame về mặt kỹ thuật là một "vector" (xem bảng ở trên)** - một chuỗi các giá trị phải cùng một loại (ký tự, số, biến lôgic, v.v.).
+**Một cột trong data frame về mặt kỹ thuật là một "vector" (xem bảng ở trên)** - bao gồm một chuỗi các giá trị cùng loại (ký tự, số, lôgic, v.v.).
 
-Một vectơ có thể tồn tại độc lập với một data frame, ví dụ: vectơ tên cột mà bạn muốn đưa vào làm biến giải thích trong mô hình. Để tạo một vectơ "độc lập", hãy sử dụng hàm `c()` như bên dưới:
+Một vectơ có thể tồn tại độc lập với một data frame, ví dụ: vectơ tên cột mà bạn muốn đưa vào làm biến giải thích trong mô hình. Để tạo một vectơ "độc lập", hãy sử dụng hàm `c()` như dưới đây:
 
 ```{r, warning=F, message=F}
 # define the stand-alone vector of character values
@@ -1043,7 +1048,7 @@ explanatory_vars <- c("gender", "fever", "chills", "cough", "aches", "vomit")
 explanatory_vars
 ```
 
-**Các cột trong data frame cũng là vectơ và có thể được gọi, tham chiếu, trích xuất hoặc tạo bằng ký hiệu `$`.** Ký hiệu `$` kết nối tên của cột với tên của data frame tương ứng. Trong cuốn sách này, chúng tôi cố gắng sử dụng từ "cột" thay vì "biến".
+**Các cột trong data frame cũng là vectơ và có thể được gọi, tham chiếu, trích xuất hoặc tạo bằng ký hiệu `$`.** Ký hiệu `$` kết nối tên của cột với tên của data frame tương ứng. Trong cuốn sách này, chúng tôi cố gắng sử dụng từ "cột" thay vì "biến số".
 
 ```{r basics_objects_call, eval=F}
 # Retrieve the length of the vector age_years
@@ -1051,19 +1056,19 @@ length(linelist$age) # (age is a column in the linelist data frame)
 
 ```
 
-Để nhập tên của một dataframe, bạn ấn ký tự `$`, sau đó, bạn sẽ thấy menu gợi ý của tất cả các tên cột trong dataframe. Bạn có thể kéo thả chúng bằng phím mũi tên, chọn một bằng phím Enter để tránh lỗi chính tả!
+Bằng cách nhập tên của một dataframe, theo sau bởi ký tự `$`, bạn sẽ thấy menu gợi ý của tất cả các tên cột trong dataframe. Bạn có thể di chuyển giữa các cột bằng phím mũi tên, chọn cột bằng phím Enter để tránh lỗi chính tả!
 
 ```{r echo=F, out.width = "100%", fig.align = "center"}
 knitr::include_graphics(here::here("images", "Calling_Names.gif"))
 ```
 
-[***MẸO NÂNG CAO:*** Một số đối tượng phức tạp hơn (ví dụ: một danh sách hoặc đối tượng `epicontacts`) có thể có nhiều cấp độ có thể được truy cập thông qua nhiều ký hiệu đô la. Ví dụ: `epicontacts$linelist$date_onset`]{style="color: darkgreen;"}
+[***MẸO NÂNG CAO:*** Một số đối tượng phức tạp hơn (ví dụ: một danh sách hoặc đối tượng `epicontacts`) có thể có nhiều cấp độ có thể được truy cập thông qua nhiều ký tự đô la. Ví dụ: `epicontacts$linelist$date_onset`]{style="color: darkgreen;"}
 
 <!-- ======================================================= -->
 
-### Truy cập / xem đối tượng bằng dấu ngoặc vuông (`[ ]`) {.unnumbered}
+### Truy cập / indexing đối tượng bằng dấu ngoặc vuông (`[ ]`) {.unnumbered}
 
-Khi cần xem các phần của đối tượng, còn được gọi là "indexing", bạn có thể sử dụng dấu ngoặc vuông `[ ]`. Sử dụng `$` trên dataframe để truy cập một cột cũng là một kiểu indexing.
+Khi cần xem một phần của đối tượng, còn được gọi là "indexing", bạn có thể sử dụng dấu ngoặc vuông `[ ]`. Sử dụng `$` trên dataframe để truy cập một cột cũng là một kiểu indexing.
 
 ```{r}
 my_vector <- c("a", "b", "c", "d", "e", "f")  # define the vector
@@ -1117,9 +1122,9 @@ View(linelist[2:20, "date_onset"])
 new_table <- linelist[2:20, c("date_onset")] 
 ```
 
-Lưu ý rằng bạn cũng có thể indexing hàng / cột đối với một data frames và tibbles bằng cách sử dụng cú pháp của package **dplyr** (hàm `filter()` cho hàng, và `select()` cho cột). Đọc thêm về các hàm quan trọng này trong chương [Làm sạch số liệu và các hàm quan trọng].
+Lưu ý rằng bạn cũng có thể indexing hàng / cột trong một data frames và tibbles bằng cách sử dụng cú pháp của package **dplyr** (hàm `filter()` đối với hàng, và `select()` đối với cột). Đọc thêm về các hàm quan trọng này trong chương [Làm sạch số liệu và các hàm quan trọng].
 
-Để lọc dựa trên "số hàng", bạn có thể sử dụng hàm `row_number()`trong package **dplyr** với dấu ngoặc đơn mở như một phần của câu lệnh lọc logic. Thường thì bạn sẽ sử dụng toán tử `%in%` và một dãy số như một phần của câu lệnh logic đó, như được hiển thị bên dưới. Để xem các N hàng *dầu tiên*, bạn cũng có thể sử dụng hàm `head()` của package **dplyr**.
+Để lọc dựa trên "số thứ tự hàng", bạn có thể sử dụng hàm `row_number()`trong package **dplyr** với dấu ngoặc đơn mở như một phần của biểu thức lọc logic. Thường thì bạn sẽ sử dụng toán tử `%in%` và một khoảng giá trị số như một phần của câu lệnh logic đó, như được trình bày dưới đây. Để xem N hàng *đầu tiên*, bạn cũng có thể sử dụng hàm `head()` của package **dplyr**.
 
 ```{r, eval=F}
 # View first 100 rows
@@ -1132,8 +1137,10 @@ linelist %>% filter(row_number() == 5)
 linelist %>% filter(row_number() %in% 2:20) %>% select(date_onset, outcome, age)
 ```
 
-Khi indexing một đối tượng chứa một **danh sách**, một dấu ngoặc vuông sẽ cho kết quả đầu ra là một danh sách trong dối tượng, ngay cả khi chỉ trả về một đối tượng đơn lẻ. Tuy nhiên, hai dấu ngoặc vuông có thể được sử dụng để truy cập một phần tử đơn lẻ đối mà không phải một danh sách.\
-Dấu ngoặc cũng có thể được viết sau nhau, như được minh họa bên dưới. Đây là [giải thích trực quan về việc indexing với hộp lắc hạt tiêu](https://r4ds.had.co.nz/vectors.html#lists-of-condiments) rất hài hước và hữu ích.
+Khi indexing một đối tượng chứa một **danh sách** bằng một dấu ngoặc vuông sẽ luôn trả về kiểu danh sách, ngay cả khi chỉ một đối tượng được trả về . Tuy nhiên, hai dấu ngoặc vuông có thể được sử dụng để truy cập một phần tử đơn lẻ đối và trả về một kiểu không phải là một danh sách.\
+Dấu ngoặc vuông cũng có thể được viết sau nhau, như được minh họa bên dưới.
+
+Bạn có thể xem một [giải thích trực quan về việc indexing với ví dụ về hộp lắc hạt tiêu](https://r4ds.had.co.nz/vectors.html#lists-of-condiments) tại đây, rất hài hước và hữu ích.
 
 ```{r}
 # define demo list
@@ -1149,7 +1156,7 @@ my_list <- list(
   )
 ```
 
-Đây là cách my_list được trả về trong R console. Hai phần tử trong my_list được đặt tên như sau:
+Đây là cách mà một danh sách được in trong R console. Có hai phần tử được đặt tên:
 
 -   `hospitals`, một vector chứa ký tự\
 -   `addresses`, một data frame chứa các địa chỉ
@@ -1177,7 +1184,7 @@ my_list[[2]][1] # This returns the first column ("street") of the address data f
 
 ### Xóa đối tượng {.unnumbered}
 
-You can remove individual objects from your R environment by putting the name in the `rm()` function (no quote marks): Bạn có thể xóa các đối tượng riêng lẻ khỏi cửa sổ R environment của bạn bằng cách để tên của đối tượng cần xóa trong hàm `rm()` (không có dấu ngoặc kép):
+Bạn có thể xóa từng đối tượng riêng lẻ khỏi cửa sổ R environment bằng cách để tên của đối tượng cần xóa vào trong hàm `rm()` (không có dấu ngoặc kép):
 
 ```{r, eval=F}
 rm(object_name)
@@ -1199,24 +1206,24 @@ rm(list = ls(all = TRUE))
 
 **Hai cách tiếp cận chung để làm việc với các đối tượng là:**
 
-1)  **Pipes/tidyverse** - pipes chuyển một đối tượng từ chức năng này sang chức năng khác - nhấn mạnh vào *hành động* không phải đối tượng\
-2)  **Xác định đối tượng trung gian** - một đối tượng được xác định lại nhiều lần - nhấn mạnh vào đối tượng
+1)  **Pipes/tidyverse** - pipes chuyển một đối tượng từ hàm này sang hàm khác - tập trung vào *hành động* chứ không phải đối tượng\
+2)  **Xác định đối tượng trung gian** - một đối tượng được xác định lại nhiều lần - tập trung vào đối tượng
 
 <!-- ======================================================= -->
 
 ### **Pipes** {.unnumbered}
 
-**Giải thích một cách đơn giản, toán tử pipe (`%>%`) chuyển một đầu ra trung gian từ chức năng này sang chức năng tiếp theo.**\
-Hiểu đơn giản pipe nghĩa là "sau đó". Nhiều chức năng có thể được liên kết với nhau với `%>%`.
+**Giải thích một cách đơn giản, toán tử pipe (`%>%`) chuyển một đầu ra trung gian từ hàm này sang hàm tiếp theo.**\
+Hiểu đơn giản pipe nghĩa là "sau đó". Nhiều hàm có thể được liên kết với nhau bằng toán tử `%>%`.
 
 -   **Piping nhấn mạnh một chuỗi các hành động, không phải đối tượng mà các hành động đang áp dụng**\
 -   Pipes được áp dụng tốt nhất khi một chuỗi hành động phải được thực hiện trên một đối tượng\
--   Pipes dến từ package **magrittr**, package này nằm trong packages **dplyr** và **tidyverse**
+-   Pipes đến từ package **magrittr**, và đã tự động được thêm vào packages **dplyr** và **tidyverse**
 -   Pipes làm cho code sạch hơn, dễ đọc hơn và trực quan hơn
 
 Đọc thêm về cách tiếp cận này trong package tidyverse tại đây [Hướng dẫn](https://style.tidyverse.org/pipes.html)
 
-Đây là một ví dụ giả để so sánh, sử dụng các chức năng hư cấu để "nướng bánh". Đầu tiên, phương pháp pipe:
+Đây là một ví dụ mô phỏng dùng để so sánh, sử dụng các hàm hư cấu để "nướng bánh". Đầu tiên, phương pháp pipe:
 
 ```{r piping_example_pipe, eval=F}
 # A fake example of how to bake a cake using piping syntax
@@ -1236,7 +1243,7 @@ cake <- flour %>%       # to define cake, start with flour, and then...
 
 Đây là một [link](https://cfss.uchicago.edu/notes/pipes/#:~:text=Pipes%20are%20an%20extremely%20useful,code%20and%20combine%20multiple%20operations) khác mô tả công dụng của pipe.
 
-Piping không phải là một hàm trong R **base**. Để sử dụng piping, package **magrittr** phải được cài đặt và gọi ra phiên làm việc hiện tại (điều này thường được thực hiện bằng cách tải package **tidyverse** hoặc **dplyr**). Bạn có thể [đọc thêm về piping trong tài liệu magrittr](https://magrittr.tidyverse.org/).
+Piping không phải là một hàm trong **base** R. Để sử dụng piping, package **magrittr** phải được cài đặt và gọi ra trong phiên làm việc hiện tại (điều này thường được thực hiện bằng cách gọi package **tidyverse** hoặc **dplyr**). Bạn có thể [đọc thêm về piping trong tài liệu magrittr](https://magrittr.tidyverse.org/).
 
 Lưu ý rằng cũng giống như các lệnh R khác, các pipes có thể được sử dụng để hiển thị kết quả hoặc lưu/lưu lại một đối tượng, tùy thuộc vào toán tử `<-` được code như thế nào. Xem hai ví dụ dưới đây:
 
@@ -1254,7 +1261,7 @@ linelist %>%
 
 **`%<>%`**\
 
-Đây là một "assignment pipe (pipe dùng để gán" từ package **magrittr**, package này sẽ *gán một đối tượng thei chiều tiến lên và cũng định nghĩa lại đối tượng*. Đối tượng cần đứng đầu trong chuỗi pipe code. Nó nhanh hơn sử dụng pipe thông thường. Hai lệnh dưới đây là tương đương với nhau:
+Đây là một "assignment pipe (pipe dùng để gán" từ package **magrittr**, package này sẽ *pipe một đối tượng theo chiều tiến lên và cũng tái định nghĩa lại đối tượng*. Đối tượng cần đứng đầu trong chuỗi pipe. Nó nhanh hơn sử dụng pipe thông thường. Hai lệnh dưới đây là tương đương với nhau:
 
 ```{r, eval=F}
 linelist <- linelist %>%
@@ -1265,20 +1272,22 @@ linelist %<>% filter(age > 50)
 
 <!-- ======================================================= -->
 
-### Xác định các đối tượng trung gian {.unnumbered}
+### Định nghĩa đối tượng trung gian {.unnumbered}
 
-Cách tiếp cận để thay đổi đối tượng/dataframes này có thể tốt hơn nếu:
+Cách tiếp cận này dùng để thay đổi đối tượng/dataframes sẽ phát huy hiệu quả nếu:
 
--   Bạn cần thao tác nhiều đối tượng\
--   Các bước trung gian cần có ý nghĩa nhất định và phù hợp với các tên đối tượng riêng biệt
+-   Bạn cần thao tác trên nhiều đối tượng\
+-   Các bước trung gian có ý nghĩa cụ thể và xứng đáng tạo các tên đối tượng riêng biệt
 
 **Các nguy cơ:**
 
 -   Tạo đối tượng mới cho mỗi bước có nghĩa là bạn sẽ tạo thêm rất nhiều đối tượng. Nếu bạn sử dụng không cẩn thận, bạn có thể dễ dàng bị nhầm lẫn!\
--   Đặt them nhiều tên cho nhiều đối tượng có thể gây nhầm lẫn\
--   Dễ bị lỗi Đặt tên cho từng đối tượng trung gian hoặc ghi đè lên đối tượng gốc hoặc kết hợp tất cả các chức năng với nhau. Tất cả đều đi kèm với rủi ro của riêng chúng.
+-   Đặt thêm nhiều tên cho nhiều đối tượng có thể gây nhầm lẫn\
+-   Nếu có lỗi thì không dễ để phát hiện
 
-Dưới đây là ví dụ giả "bánh" tương tự như trên, nhưng sử dụng phong cách này:
+Đặt tên cho từng đối tượng trung gian hoặc ghi đè lên đối tượng gốc hoặc kết hợp tất cả hàm với nhau đều đi kèm với những rủi ro.
+
+Dưới đây vẫn là ví dụ mô phỏng quy trình làm "bánh" tương tự như trên, nhưng sử dụng phong cách này:
 
 ```{r piping_example_redefine, eval=F}
 # a fake example of how to bake a cake using this method (defining intermediate objects)
@@ -1302,16 +1311,7 @@ cake <- let_cool(bake(mix_together(batter_3, utensil = spoon, minutes = 2), degr
 
 <!-- ======================================================= -->
 
-## Các toán tử chính và chức năng {#operators}
-
-This section details operators in R, such as:
-
--   Definitional operators\
--   Relational operators (less than, equal too..)\
--   Logical operators (and, or...)\
--   Handling missing values\
--   Mathematical operators and functions (+/-, \>, sum(), median(), ...)\
--   The `%in%` operator
+## Các toán tử và hàm chính {#operators}
 
 Mục này sẽ trình bày chi tiết các toán tử trong R, chẳng hạn như :
 
@@ -1334,18 +1334,18 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 
 **`<<-`**
 
-Nếu [Viết hàm], hoặc sử dụng R theo với scripts có nguồn trích dẫn, thì bạn có thể cần sử dụng toán tử gán này `<<-` (từ R **base**). oán tử này được sử dụng để xác định một đối tượng trong một 'parent' R Environment cao hơn. Xem them tại [Nguồn tham khảo online này](https://stat.ethz.ch/R-manual/R-devel/library/base/html/assignOps.html).
+Khi [Viết hàm], hoặc khi sử dụng R với scipt nguồn, thì bạn có thể cần sử dụng toán tử gán này `<<-` (từ **base** R). Toán tử này được sử dụng để định nghĩa một đối tượng trong một hàm lồng trong một hàm khác. Xem thêm tại [nguồn tham khảo online này](https://stat.ethz.ch/R-manual/R-devel/library/base/html/assignOps.html).
 
 **`%<>%`**
 
-Đây là một "assignment pipe" từ package **magrittr**, package này sẽ *gán một đối tượng thei chiều tiến lên và cũng định nghĩa lại đối tượng*. Đối tượng cần đứng đầu trong chuỗi pipe code. Nó nhanh hơn sử dụng pipe thông thường. Hai lệnh dưới đây là tương đương với nhau:
+Đây là một "pipe gán" từ package **magrittr**, package này sẽ *gán một đối tượng theo chiều tiến lên và cũng định nghĩa lại đối tượng*. Pipe gán phải là toán tử đầu tiên trong chuỗi pipe code. Đây là cách viết ngắn gọn, như được trình bày dưới đây là hai ví dụ tương đương với nhau:
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   mutate(age_months = age_years * 12)
 ```
 
-bên trên tương đương với bên dưới:
+Đoạn code bên trên tương đương với code dưới đây:
 
 ```{r, eval=F}
 linelist %<>% mutate(age_months = age_years * 12)
@@ -1353,47 +1353,47 @@ linelist %<>% mutate(age_months = age_years * 12)
 
 **`%<+%`**
 
-Toán tử này được sử dụng dể thêm vào số liệu trong Cây phả hệ với package **ggtree**. Xem thêm chương [Cây phả hệ] hoặc [Sách online này](https://yulab-smu.top/treedata-book/).
+Toán tử này được sử dụng dể thêm dữ liệu vào Cây phả hệ với package **ggtree**. Xem thêm chương [Cây phả hệ] hoặc [Sách online này](https://yulab-smu.top/treedata-book/).
 
 <!-- ======================================================= -->
 
 ### Toán tử quan hệ và logic {.unnumbered}
 
-Toán tử quan hệ so sánh các giá trị và thường được sử dụng khi xác định các biến mới và tập con của tập dữ liệu. Dưới đây là các toán tử quan hệ phổ biến trong R:
+Toán tử quan hệ so sánh các giá trị và thường được sử dụng khi định nghĩa các biến mới và tập con của bộ dữ liệu. Dưới đây là các toán tử quan hệ phổ biến trong R:
 
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Ý nghĩa               | Toán tử    | Ví dụ        | Kết quả đầu ra của ví dụ                                                                                                                      |
-+=======================+============+==============+===============================================================================================================================================+
-| Bằng                  | `==`       | `"A" == "a"` | `FALSE` (vì R phân biệt chữ hoa chữ thường) Lưu ý rằng *== (dấu bằng kép) khác với = (dấu bằng đơn), dấu bằng đơn giống với toán tử gán `<-`* |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Không bằng            | `!=`       | `2 != 0`     | `TRUE`                                                                                                                                        |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Lớn hơn               | `>`        | `4 > 2`      | `TRUE`                                                                                                                                        |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Nhỏ hơn               | `<`        | `4 < 2`      | `FALSE`                                                                                                                                       |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Lớn hơn hoặc bằng     | `>=`       | `6 >= 4`     | `TRUE`                                                                                                                                        |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Nhỏ hơn hoặc bằng     | `<=`       | `6 <= 4`     | `FALSE`                                                                                                                                       |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Giá trị bị missing    | `is.na()`  | `is.na(7)`   | `FALSE` (Xem thêm chương [Dữ liệu Missing])                                                                                                   |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-| Giá trị không missing | `!is.na()` | `!is.na(7)`  | `TRUE`                                                                                                                                        |
-+-----------------------+------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Ý nghĩa               | Toán tử    | Ví dụ        | Kết quả đầu ra của ví dụ                                                                                                                                   |
++=======================+============+==============+============================================================================================================================================================+
+| Bằng                  | `==`       | `"A" == "a"` | `FALSE` (vì R phân biệt chữ hoa chữ thường) Lưu ý rằng *== (hai dấu bằng) khác với = (một dấu bằng), một dấu bằng hoạt động tương tự với toán tử gán `<-`* |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Không bằng            | `!=`       | `2 != 0`     | `TRUE`                                                                                                                                                     |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Lớn hơn               | `>`        | `4 > 2`      | `TRUE`                                                                                                                                                     |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Nhỏ hơn               | `<`        | `4 < 2`      | `FALSE`                                                                                                                                                    |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Lớn hơn hoặc bằng     | `>=`       | `6 >= 4`     | `TRUE`                                                                                                                                                     |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Nhỏ hơn hoặc bằng     | `<=`       | `6 <= 4`     | `FALSE`                                                                                                                                                    |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Giá trị bị missing    | `is.na()`  | `is.na(7)`   | `FALSE` (Xem thêm chương [Dữ liệu Missing])                                                                                                                |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Giá trị không missing | `!is.na()` | `!is.na(7)`  | `TRUE`                                                                                                                                                     |
++-----------------------+------------+--------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-Các toán tử logic, chẳng hạn như AND và OR, thường được sử dụng để kết nối các nhà khai thác quan hệ và tạo ra tiêu chí phức tạp hơn. Các câu lệnh phức tạp có thể yêu cầu dấu ngoặc đơn () để phân nhóm và thứ tự áp dụng.
+Các toán tử logic, chẳng hạn như AND và OR, thường được sử dụng để kết nối các quan hệ và tạo ra các điều kiện phức tạp hơn. Các biểu thức phức tạp có thể yêu cầu dấu ngoặc đơn () để phân nhóm và thứ tự áp dụng.
 
 +---------------+---------------------------------------------------------------------------------+
 | Ý nghĩa       | Toán tử                                                                         |
 +===============+=================================================================================+
-| VÀ            | `&`                                                                             |
+| AND           | `&`                                                                             |
 +---------------+---------------------------------------------------------------------------------+
-| HOẶC          | `|` (thanh dọc)                                                                 |
+| OR            | `|` (thanh dọc)                                                                 |
 +---------------+---------------------------------------------------------------------------------+
 | Dấu ngoặc đơn | `( )` Được sử dụng để nhóm các tiêu chí lại với nhau và làm rõ thứ tự hoạt động |
 +---------------+---------------------------------------------------------------------------------+
 
-Ví dụ: bên dưới, chúng tôi có một số liệu tên là linelist với hai biến mà chúng tôi muốn sử dụng để minh họa, `hep_e_rdt`, kết quả của một thử nghiệm và `other_cases_in_hh`, những trường hợp khác trong gia đình. Lệnh dưới đây sử dụng hàm `case_when()` để tạo biến `case_def` như sau:
+Ví dụ: chúng ta có một số liệu có tên linelist với hai biến mà chúng tôi muốn sử dụng để minh họa, `hep_e_rdt`: kết quả xét nghiệm và `other_cases_in_hh`: những trường hợp khác trong gia đình. Lệnh dưới đây sử dụng hàm `case_when()` để tạo biến mới `case_def` như sau:
 
 ```{r eval=FALSE}
 linelist_cleaned <- linelist %>%
@@ -1406,7 +1406,7 @@ linelist_cleaned <- linelist %>%
 ```
 
 +---------------------------------------------------------------------------------------------------------+-------------------------------------------+
-| Tiêu chí trong ví dụ ở trên                                                                             | Giá trị kết quả trong biến mới "case_def" |
+| Điều kiện trong ví dụ ở trên                                                                            | Giá trị kết quả trong biến mới "case_def" |
 +=========================================================================================================+===========================================+
 | Nếu giá trị của biến `rdt_result` và `other_cases_in_home` bị missing                                   | `NA` (missing)                            |
 +---------------------------------------------------------------------------------------------------------+-------------------------------------------+
@@ -1423,7 +1423,7 @@ Lưu ý rằng R có phân biệt chữ hoa chữ thường, vì vậy *"Positiv
 
 ### Giá trị Missing {.unnumbered}
 
-Trong R, giá trị missing values được biểu diễn bằng giá trị đặc biệt `NA` (giá trị "dành riêng cho missing") (cchữ N và A viết hoa - không nằm trong dấu ngoặc kép). Nếu dữ liệu bạn nhập vào R bị missing theo cách khác (ví dụ: 99, "Missing", or .), bạn có thể muốn mã lại các giá trị đó thành `NA`. Cách thực hiện việc này được đề cập trong chương [Nhập xuất dữ liệu].
+Trong R, giá trị missing được biểu diễn bằng giá trị đặc biệt `NA` (giá trị "dành riêng cho missing") (chữ N và A viết hoa - không nằm trong dấu ngoặc kép). Nếu dữ liệu bạn nhập vào R bị missing theo cách khác (ví dụ: 99, "Missing", or .), bạn có thể sẽ cần phải mã hóa lại các giá trị đó thành `NA`. Cách thực hiện việc này được đề cập trong chương [Nhập xuất dữ liệu].
 
 **Để kiểm tra xem một giá trị có phải là `NA` hay không, sử dụng hàm đặc biệt `is.na()`**, kết quả sẽ trả về `TRUE` hoặc `FALSE`.
 
@@ -1432,16 +1432,17 @@ rdt_result <- c("Positive", "Suspected", "Positive", NA)   # two positive cases,
 is.na(rdt_result)  # Tests whether the value of rdt_result is NA
 ```
 
-Đọc thêm về missing, vô hạn, `NULL`, và giá trị impossible trong chương [Dữ liệu Missing]. Tìm hiểu cách chuyển đổi các giá trị bị missing khi nhập dữ liệu trong chương [Nhập xuất dữ liệu].
+Đọc thêm về missing, vô hạn, `NULL`, và các giá trị không thể trong chương [Dữ liệu Missing]. Tìm hiểu thêm cách chuyển đổi các giá trị bị missing khi nhập dữ liệu trong chương [Nhập xuất dữ liệu].
 
 <!-- ======================================================= -->
 
-### Toán học và thống kê 
- {.unnumbered}
+### Toán học và thống kê
 
-Tất cả các toán tử và hàm trong trang này đều có sẵn tự động bằng cách sử dụng R **base**.
+{.unnumbered}
 
-#### Toán tử toán học  {.unnumbered}
+Tất cả các toán tử và hàm trong chương này đều có sẵn bằng cách sử dụng **base** R.
+
+#### Toán tử toán học {.unnumbered}
 
 Chúng thường được sử dụng để thực hiện phép cộng, phép chia, để tạo cột mới, v.v. Dưới đây là các toán tử toán học phổ biến trong R. Việc bạn có đặt dấu cách xung quanh các toán tử hay không là không quan trọng.
 
@@ -1450,46 +1451,43 @@ Chúng thường được sử dụng để thực hiện phép cộng, phép ch
 | phép cộng        | 2 + 3         |
 | phép trừ         | 2 - 3         |
 | phép nhân        | 2 \* 3        |
-| phép nhân        | 30 / 5        |
+| phép chia        | 30 / 5        |
 | số mũ            | 2\^3          |
 | thứ tự hoạt động | ( )           |
 
-#### Các hàm toán học 
- {.unnumbered}
+#### Các hàm toán học {.unnumbered}
 
-| Mục tiêu               | Hàm                                   |
-|------------------------|---------------------------------------|
-| làm tròn               | round(x, digits = n)                  |
-| làm tròn               | janitor::round_half_up(x, digits = n) |
-| ceiling (làm tròn lên) | ceiling(x)                            |
-| floor (làm tròn xuống) | floor(x)                              |
-| giá trị tuyệt đối      | abs(x)                                |
-| căn bậc hai            | sqrt(x)                               |
-| số mũ                  | exponent(x)                           |
-| logarit tự nhiên       | log(x)                                |
-| logarit cơ số 10       | log10(x)                              |
-| llogarit cơ số 2       | log2(x)                               |
+| Mục tiêu          | Hàm                                   |
+|-------------------|---------------------------------------|
+| làm tròn          | round(x, digits = n)                  |
+| làm tròn          | janitor::round_half_up(x, digits = n) |
+| làm tròn lên      | ceiling(x)                            |
+| làm tròn xuống    | floor(x)                              |
+| giá trị tuyệt đối | abs(x)                                |
+| căn bậc hai       | sqrt(x)                               |
+| số mũ             | exponent(x)                           |
+| logarit tự nhiên  | log(x)                                |
+| logarit cơ số 10  | log10(x)                              |
+| logarit cơ số 2   | log2(x)                               |
 
-Note: for `round()` the `digits =` specifies the number of decimal placed. Use `signif()` to round to a number of significant figures.
+lưu ý: sử dụng hàm `round()` và `digits =` để xác định số chữ số thập phân được hiển thị. Sử dụng hàm `signif()` để làm tròn đến số chữ số nhất định.
 
-lưu ý: sử dụng hàm `round()` và `digits =` để chỉ định số thập phân. Sử dụng `signif()` để làm tròn đến một số nhất định.
+#### Ký hiệu khoa học {.unnumbered}
 
-#### Scientific notation {.unnumbered}
+Khả năng ký hiệu khoa học được sử dụng phụ thuộc vào giá trị của `scipen`.
 
-The likelihood of scientific notation being used depends on the value of the `scipen` option.
+Từ tài liệu hướng dẫn của `?options`: scipen được áp dụng khi quyết định in các giá trị số theo ký hiệu cố định hoặc hàm mũ. Giá trị dương thuộc về ký hiệu cố định còn giá trị âm thuộc về ký hiệu khoa học: ký hiệu cố định sẽ luôn được ưu tiên trừ khi có nhiều chữ số 'scipen'.
 
-From the documentation of `?options`: scipen is a penalty to be applied when deciding to print numeric values in fixed or exponential notation. Positive values bias towards fixed and negative towards scientific notation: fixed notation will be preferred unless it is more than 'scipen' digits wider.
-
-If it is set to a low number (e.g. 0) it will be "turned on" always. To "turn off" scientific notation in your R session, set it to a very high number, for example:
+Nếu như có rất nhiều số bé cần hiển thị (vd: số 0), mặc định tính năng này sẽ "được bật". Để "tắt" tính năng ký hiệu khoa học trong phiên làm việc của bạn, hãy thiết lập nó với một số rất lớn, ví dụ:
 
 ```{r, eval=F}
 # turn off scientific notation
 options(scipen=999)
 ```
 
-#### Rounding {.unnumbered}
+#### Làm tròn {.unnumbered}
 
-[***DANGER:*** `round()` uses "banker's rounding" which rounds up from a .5 only if the upper number is even. Use `round_half_up()` from **janitor** to consistently round halves up to the nearest whole number. See [this explanation](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)]{style="color: red;"}
+[***NGUY HIỂM:*** Hàm `round()` sử dụng "cách làm tròn của ngân hàng" nghĩa là chỉ làm tròn với số .5 nếu số được làm tròn lên là số chẵn. Sử dụng hàm `round_half_up()` từ package **janitor** để thống nhất cách làm tròn với giá trị .5. Xem thêm [giải thích sau đây](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)]{style="color: red;"}
 
 ```{r}
 # use the appropriate rounding function for your work
@@ -1498,28 +1496,28 @@ round(c(2.5, 3.5))
 janitor::round_half_up(c(2.5, 3.5))
 ```
 
-#### Statistical functions {.unnumbered}
+#### Các hàm thống kê {.unnumbered}
 
-[***CAUTION:*** The functions below will by default include missing values in calculations. Missing values will result in an output of `NA`, unless the argument `na.rm = TRUE` is specified. This can be written shorthand as `na.rm = T`.]{style="color: orange;"}
+[***CẨN TRỌNG:*** Các hàm sau đây sẽ mặc định bao gồm cả giá trị missing khi tính toán. Giá trị missing sẽ trả về kết quả đầu ra chứa `NA`, trừ khi đối số `na.rm = TRUE` được xác định khi viết hàm. Nó cũng có thể viết ngắn gọn thành `na.rm = T`.]{style="color: orange;"}
 
-| Objective               | Function           |
-|-------------------------|--------------------|
-| mean (average)          | mean(x, na.rm=T)   |
-| median                  | median(x, na.rm=T) |
-| standard deviation      | sd(x, na.rm=T)     |
-| quantiles\*             | quantile(x, probs) |
-| sum                     | sum(x, na.rm=T)    |
-| minimum value           | min(x, na.rm=T)    |
-| maximum value           | max(x, na.rm=T)    |
-| range of numeric values | range(x, na.rm=T)  |
-| summary\*\*             | summary(x)         |
+| Mục đích          | Hàm                |
+|-------------------|--------------------|
+| trung bình        | mean(x, na.rm=T)   |
+| trung vị          | median(x, na.rm=T) |
+| độ lệch chuẩn     | sd(x, na.rm=T)     |
+| phân vị\*         | quantile(x, probs) |
+| tổng              | sum(x, na.rm=T)    |
+| giá trị nhỏ nhất  | min(x, na.rm=T)    |
+| giá trị lớn nhất  | max(x, na.rm=T)    |
+| khoảng giá trị số | range(x, na.rm=T)  |
+| tóm tắt\*\*       | summary(x)         |
 
 Notes:
 
--   `*quantile()`: `x` is the numeric vector to examine, and `probs =` is a numeric vector with probabilities within 0 and 1.0, e.g `c(0.5, 0.8, 0.85)`
--   `**summary()`: gives a summary on a numeric vector including mean, median, and common percentiles
+-   `*quantile()`: `x` là vectơ số cần khảo sát, và `probs =` là một vectơ số với các xác suất nằm giữa 0 và 1.0, ví dụ `c(0.5, 0.8, 0.85)`
+-   `**summary()`: trả về tóm tắt một vectơ số bao gồm giá trị trung bình, trung vị, và các khoảng phân vị thường gặp
 
-[***DANGER:*** If providing a vector of numbers to one of the above functions, be sure to wrap the numbers within `c()` .]{style="color: red;"}
+[***NGUY HIỂM:*** Nếu cung cấp một vectơ số cho một trong các hàm trên, hãy đảm bảo các số được đặt trong hàm `c()` .]{style="color: red;"}
 
 ```{r}
 # If supplying raw numbers to a function, wrap them in c()
@@ -1528,25 +1526,25 @@ mean(1, 6, 12, 10, 5, 0)    # !!! INCORRECT !!!
 mean(c(1, 6, 12, 10, 5, 0)) # CORRECT
 ```
 
-#### Other useful functions {.unnumbered}
+#### Một số hàm hữu ích khác {.unnumbered}
 
-+----------------------------+-------------------+-------------------------------------------------+
-| Objective                  | Function          | Example                                         |
-+============================+===================+=================================================+
-| create a sequence          | seq(from, to, by) | `seq(1, 10, 2)`                                 |
-+----------------------------+-------------------+-------------------------------------------------+
-| repeat x, n times          | rep(x, ntimes)    | `rep(1:3, 2)` or `rep(c("a", "b", "c"), 3)`     |
-+----------------------------+-------------------+-------------------------------------------------+
-| subdivide a numeric vector | cut(x, n)         | `cut(linelist$age, 5)`                          |
-+----------------------------+-------------------+-------------------------------------------------+
-| take a random sample       | sample(x, size)   | `sample(linelist$id, size = 5, replace = TRUE)` |
-+----------------------------+-------------------+-------------------------------------------------+
++------------------------+-------------------+-------------------------------------------------+
+| Mục đích               | Hàm               | Ví dụ                                           |
++========================+===================+=================================================+
+| Tạo chuỗi số liên tục  | seq(from, to, by) | `seq(1, 10, 2)`                                 |
++------------------------+-------------------+-------------------------------------------------+
+| lặp x, n lần           | rep(x, ntimes)    | `rep(1:3, 2)` or `rep(c("a", "b", "c"), 3)`     |
++------------------------+-------------------+-------------------------------------------------+
+| chia nhỏ một vectơ số  | cut(x, n)         | `cut(linelist$age, 5)`                          |
++------------------------+-------------------+-------------------------------------------------+
+| lấy một mẫu ngẫu nhiên | sample(x, size)   | `sample(linelist$id, size = 5, replace = TRUE)` |
++------------------------+-------------------+-------------------------------------------------+
 
 <!-- ======================================================= -->
 
 ### `%in%` {.unnumbered}
 
-A very useful operator for matching values, and for quickly assessing if a value is within a vector or dataframe.
+Một toán tử rất hữu ích để nhanh chóng đánh giá xem một giá trị có nằm trong một vectơ hoặc một dataframe hay không.
 
 ```{r}
 my_vector <- c("a", "b", "c", "d")
@@ -1557,7 +1555,7 @@ my_vector <- c("a", "b", "c", "d")
 "h" %in% my_vector
 ```
 
-To ask if a value is **not** `%in%` a vector, put an exclamation mark (!) **in front** of the logic statement:
+Để truy vấn một giá trị **không** `%in%` một vectơ, hãy đặt dấu chấm than (!) **phía trước** biểu thức logic:
 
 ```{r}
 # to negate, put an exclamation in front
@@ -1565,7 +1563,7 @@ To ask if a value is **not** `%in%` a vector, put an exclamation mark (!) **in f
 !"h" %in% my_vector
 ```
 
-`%in%` is very useful when using the **dplyr** function `case_when()`. You can define a vector previously, and then reference it later. For example:
+`%in%` sẽ rất hữu dụng khi dùng hàm `case_when()` của package **dplyr**. Bạn có thể định nghĩa một vectơ trước đó, sau đó tham chiếu đến nó. ví dụ:
 
 ```{r eval=F}
 affirmative <- c("1", "Yes", "YES", "yes", "y", "Y", "oui", "Oui", "Si")
@@ -1576,9 +1574,9 @@ linelist <- linelist %>%
     TRUE                                      ~ "Not"))
 ```
 
-Note: If you want to detect a partial string, perhaps using `str_detect()` from **stringr**, it will not accept a character vector like `c("1", "Yes", "yes", "y")`. Instead, it must be given a *regular expression* - one condensed string with OR bars, such as "1\|Yes\|yes\|y". For example, `str_detect(hospitalized, "1|Yes|yes|y")`. See the page on [Characters and strings] for more information.
+Lưu ý: Nếu bạn muốn phát hiện một phần của chuỗi, có lẽ việc sử dụng hàm `str_detect()` từ package **stringr**, sẽ không chấp nhận một vectơ ký tự kiểu như `c("1", "Yes", "yes", "y")`. Thay vào đó, nó cần được cung cấp dưới dạng một *biểu thức chính quy* - một chuối cô đọng với thanh dọc cho phép so sánh OR, chẳng hạn như "1\|Yes\|yes\|y". Ví dụ, `str_detect(hospitalized, "1|Yes|yes|y")`. Xem thêm chương [Ký tự và chuỗi] để biết thêm chi tiết.
 
-You can convert a character vector to a named regular expression with this command:
+Bạn có thể chuyển đổi một vectơ ký tự thành một biểu thức chính quy được đặt tên bằng lệnh này:
 
 ```{r}
 affirmative <- c("1", "Yes", "YES", "yes", "y", "Y", "oui", "Oui", "Si")
@@ -1597,47 +1595,47 @@ affirmative_str_search
 
 <!-- ======================================================= -->
 
-## Errors & warnings
+## Lỗi và cảnh báo
 
-This section explains:
+Phần này giải thích:
 
--   The difference between errors and warnings\
--   General syntax tips for writing R code\
--   Code assists
+-   Sự khác biệt giữa lỗi và cảnh báo\
+-   Mẹo cú pháp chung để viết code R\
+-   Trợ giúp viết code
 
-Common errors and warnings and troubleshooting tips can be found in the page on [Errors and help].
-
-<!-- ======================================================= -->
-
-### Error versus Warning {.unnumbered}
-
-When a command is run, the R Console may show you warning or error messages in red text.
-
--   A **warning** means that R has completed your command, but had to take additional steps or produced unusual output that you should be aware of.
-
--   An **error** means that R was not able to complete your command.
-
-Look for clues:
-
--   The error/warning message will often include a line number for the problem.
-
--   If an object "is unknown" or "not found", perhaps you spelled it incorrectly, forgot to call a package with library(), or forgot to re-run your script after making changes.
-
-If all else fails, copy the error message into Google along with some key terms - chances are that someone else has worked through this already!
+Các lỗi thường gặp và cảnh báo cũng như mẹo khắc phục sự cố có thể được tìm thấy trong chương [Các lỗi thường gặp].
 
 <!-- ======================================================= -->
 
-### General syntax tips {.unnumbered}
+### Lỗi và Cảnh báo {.unnumbered}
 
-A few things to remember when writing commands in R, to avoid errors and warnings:
+Khi một lệnh được thực thi, cửa sổ R Console có thể hiển thị cho bạn cảnh báo hoặc thông báo lỗi bằng văn bản màu đỏ.
 
--   Always close parentheses - tip: count the number of opening "(" and closing parentheses ")" for each code chunk
--   Avoid spaces in column and object names. Use underscore ( \_ ) or periods ( . ) instead
--   Keep track of and remember to separate a function's arguments with commas
--   R is case-sensitive, meaning `Variable_A` is *different* from `variable_A`
+-   Một **cảnh báo** nghĩa là R đã hoàn thành lệnh của bạn, nhưng phải thực hiện các bước bổ sung hoặc tạo ra kết quả bất thường mà bạn cần lưu ý.
+
+-   Một **lỗi** nghĩa là R không thể hoàn thành lệnh của bạn.
+
+Tìm manh mối:
+
+-   Thông báo lỗi/cảnh báo thường sẽ bao gồm số dòng xảy ra sự cố.
+
+-   Nếu một đối tượng “không xác định được (is unknown)” hoặc “không tìm thấy (not found)”, có lẽ bạn đã viết sai chính tả, quên gọi một package bằng hàm library(), hoặc quên chạy lại tập lệnh của bạn sau khi thực hiện các thay đổi.
+
+Nếu vẫn thất bại, hãy sao chép thông báo lỗi vào Google cùng với một số từ khóa chính - rất có thể ai đó cũng đã gặp lỗi này rồi!
 
 <!-- ======================================================= -->
 
-### Code assists {.unnumbered}
+### Mẹo cú pháp chung {.unnumbered}
 
-Any script (RMarkdown or otherwise) will give clues when you have made a mistake. For example, if you forgot to write a comma where it is needed, or to close a parentheses, RStudio will raise a flag on that line, on the right side of the script, to warn you.
+Một số điều cần nhớ khi viết lệnh trong R, để tránh lỗi và cảnh báo:
+
+-   Luôn đóng dấu ngoặc đơn - mẹo: đếm số lần mở dấu ngoặc đơn “(” và đóng dấu ngoặc đơn “)” cho mỗi đoạn mã
+-   Tránh để khoảng trắng trong tên cột và đối tượng. Thay vào đó, hãy sử dụng dấu gạch dưới (_) hoặc dấu chấm (.)
+-   Theo dõi và nhớ tách các đối số của hàm bằng dấu phẩy
+-   R phân biệt chữ hoa và chữ thường, nghĩa là `Variable_A` *khác* với `variable_A`
+
+<!-- ======================================================= -->
+
+### Trợ giúp viết code {.unnumbered}
+
+Bất kỳ tập lệnh nào (RMarkdown hoặc những cái khác) sẽ cung cấp manh mối khi bạn mắc lỗi. Ví dụ: nếu bạn quên viết dấu phẩy ở vị trí cần thiết hoặc quên đóng dấu ngoặc đơn, RStudio sẽ treo cờ trên dòng đó, ở phía bên trái của script, để cảnh báo bạn.

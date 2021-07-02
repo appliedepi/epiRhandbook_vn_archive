@@ -122,20 +122,20 @@
 <p>It is recommended that someone learning dashboards with <strong>shiny</strong> has good knowledge of data transformation and visualisation, and is comfortable debugging code, and writing functions. Working with dashboards is not intuitive when you’re starting, and is difficult to understand at times, but is a great skill to learn and gets much easier with practice!</p>
 <p>This page will give a short overview of how to make dashboards with <strong>shiny</strong> and its extensions.
 For an alternative method of making dashboards that is faster, easier, but perhaps less customizeable, see the page on <strong>flextable</strong> ([Dashboards with R Markdown]).</p>
-<div id="preparation-33" class="section level2" number="43.1">
+<div id="preparation-31" class="section level2" number="43.1">
 <h2>
-<span class="header-section-number">43.1</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-33"><i class="fas fa-link"></i></a>
+<span class="header-section-number">43.1</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-31"><i class="fas fa-link"></i></a>
 </h2>
-<div id="load-packages-30" class="section level3 unnumbered">
-<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-30"><i class="fas fa-link"></i></a>
+<div id="load-packages-28" class="section level3 unnumbered">
+<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-28"><i class="fas fa-link"></i></a>
 </h3>
 <p>In this handbook we emphasize <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> from <strong>pacman</strong>, which installs the package if necessary <em>and</em> loads it for use. You can also load installed packages with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> from <strong>base</strong> R. See the page on [R basics] for more information on R packages.</p>
 <p>We begin by installing the <strong>shiny</strong> R package:</p>
 <div class="sourceCode" id="cb1841"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="import-data-25" class="section level3 unnumbered">
-<h3>Import data<a class="anchor" aria-label="anchor" href="#import-data-25"><i class="fas fa-link"></i></a>
+<div id="import-data-23" class="section level3 unnumbered">
+<h3>Import data<a class="anchor" aria-label="anchor" href="#import-data-23"><i class="fas fa-link"></i></a>
 </h3>
 <p>If you would like to follow-along with this page, see this section of the <a href="data-used.html#data_shiny">Download handbook and data</a>. There are links to download the R scripts and data files that produce the final Shiny app.</p>
 <p>If you try to re-construct the app using these files, please be aware of the R project folder structure that is created over the course of the demonstration (e.g. folders for “data” and for “funcs”).</p>
@@ -446,7 +446,7 @@ For an alternative method of making dashboards that is faster, easier, but perha
 <p>Let’s test our function!</p>
 <div class="sourceCode" id="cb1849"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">plot_epicurve</span><span class="op">(</span><span class="va">malaria_data</span>, district <span class="op">=</span> <span class="st">"Bolo"</span>, agegroup <span class="op">=</span> <span class="st">"malaria_rdt_0-4"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1443-1.png" width="672"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1444-1.png" width="672"></div>
 <p>With our function working, we now have to understand how this all is going to fit into our shiny app. We mentioned the concept of <em>startup code</em> before, but lets look at how we can actually incorporate this into the structure of our app. There are two ways we can do this!</p>
 <ol style="list-style-type: decimal">
 <li>Put this code in your <em>app.R</em> file at the start of the script (above the UI), or<br>
@@ -959,7 +959,7 @@ For an alternative method of making dashboards that is faster, easier, but perha
 <p>Let’s test it:</p>
 <div class="sourceCode" id="cb1862"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">plot_epicurve</span><span class="op">(</span><span class="va">malaria_data</span>, district <span class="op">=</span> <span class="st">"Spring"</span>, agegroup <span class="op">=</span> <span class="st">"malaria_rdt_0-4"</span>, facility <span class="op">=</span> <span class="st">"Facility 1"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1460-1.png" width="672"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1461-1.png" width="672"></div>
 <p>With all the facilites in our data, it isn’t very clear which facilities correspond to which districts - and the end user won’t know either. This might make using the app quite unintuitive. For this reason, we should make the facility options in the UI change dynamically as the user changes the district - so one filters the other! Since we have so many variables that we’re using in the options, we might also want to generate some of our options for the ui in our <em>global.R</em> file <em>from the data</em>. For example, we can add this code chunk to <em>global.R</em> after we’ve read our data in:</p>
 <div class="sourceCode" id="cb1863"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_districts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"All"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">malaria_data</span><span class="op">$</span><span class="va">District</span><span class="op">)</span><span class="op">)</span>
@@ -1352,9 +1352,9 @@ For an alternative method of making dashboards that is faster, easier, but perha
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#shiny-basics"><span class="header-section-number">43</span> Dashboards với Shiny</a></li>
 <li>
-<a class="nav-link" href="#preparation-33"><span class="header-section-number">43.1</span> Preparation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load-packages-30">Load packages</a></li>
-<li><a class="nav-link" href="#import-data-25">Import data</a></li>
+<a class="nav-link" href="#preparation-31"><span class="header-section-number">43.1</span> Preparation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-packages-28">Load packages</a></li>
+<li><a class="nav-link" href="#import-data-23">Import data</a></li>
 </ul>
 </li>
 <li>
@@ -1400,7 +1400,7 @@ For an alternative method of making dashboards that is faster, easier, but perha
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-22.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

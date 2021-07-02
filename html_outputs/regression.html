@@ -117,27 +117,25 @@
 <span class="header-section-number">19</span> Hồi quy đơn và đa biến<a class="anchor" aria-label="anchor" href="#regression"><i class="fas fa-link"></i></a>
 </h1>
 <!-- ======================================================= -->
-<p>This page demonstrates the use of <strong>base</strong> R regression functions such as <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> and the <strong>gtsummary</strong> package to
-look at associations between variables (e.g. odds ratios, risk ratios and hazard
-ratios). It also uses functions like <code>tidy()</code> from the <strong>broom</strong> package to clean-up regression outputs.</p>
+<p>Trong chương này, chúng tôi trình bày cách sử dụng các hàm hồi quy trong <strong>base</strong> R rnhư hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> và package <strong>gtsummary</strong> để xem xét các mối liên quan giữa các biến (ví dụ như tỷ số chênh, tỷ số nguy cơ, tỷ số rủi ro). Chúng tôi cũng trình bày cách sử dụng các hàm như <code>tidy()</code> trong package <strong>broom</strong> để sắp xếp các kết quả hồi quy.</p>
 <ol style="list-style-type: decimal">
-<li>Univariate: two-by-two tables</li>
-<li>Stratified: mantel-haenszel estimates<br>
+<li>Phân tích đơn biến: bảng 2 x 2</li>
+<li>Phân tích phân tầng: ước lượng của mantel-haenszel<br>
 </li>
-<li>Multivariable: variable selection, model selection, final table</li>
-<li>Forest plots</li>
+<li>Phân tích đa biến: lựa chọn biến số, lựa chọn mô hình, mô hình cuối cùng</li>
+<li>Biểu đồ Forest plot</li>
 </ol>
-<p>For Cox proportional hazard regression, see the [Survival analysis] page.</p>
-<p><span style="color: black;"><strong><em>NOTE:</em></strong> We use the term <em>multivariable</em> to refer to a regression with multiple explanatory variables. In this sense a <em>multivariate</em> model would be a regression with several outcomes - see this <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3518362/">editorial</a> for detail </span></p>
+<p>Đối với hồi quy Cox, xem chương <a href="survival-analysis.html#survival-analysis">Phân tích sống còn</a>.</p>
+<p><span style="color: black;"><strong><em>CHÚ Ý:</em></strong> Chúng tôi sử dụng thuật ngữ <em>đa biến (multivariable)</em> để nói đến một hồi quy có nhiều biến giải thích. Thuật ngữ này khác với mô hình <em>đa biến</em> (multivariate model), là một mô hình đa biến có nhiều biến kết cục – xem chi tiết trong <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3518362/">bài xã luận</a> này</span></p>
 <!-- ======================================================= -->
-<div id="preparation-7" class="section level2" number="19.1">
+<div id="chuẩn-bị-2" class="section level2" number="19.1">
 <h2>
-<span class="header-section-number">19.1</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-7"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-2"><i class="fas fa-link"></i></a>
 </h2>
-<div id="load-packages-10" class="section level3 unnumbered">
-<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-10"><i class="fas fa-link"></i></a>
+<div id="gọi-packages-1" class="section level3 unnumbered">
+<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> from <strong>pacman</strong>, which installs the package if necessary <em>and</em> loads it for use. You can also load installed packages with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> from <strong>base</strong> R. See the page on [R basics] for more information on R packages.</p>
+<p>Đoạn mã này hiển thị cách tải các gói lệnh cần thiết cho phân tích. Trong cuốn sổ tay này, chúng tôi nhấn mạnh hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> thuộc package <strong>pacman</strong>, giúp cài đặt package khi cần thiết <em>và</em> gọi nó ra để sử dụng. Có thể gọi các package đã cài đặt bằng hàm <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> trong <strong>base</strong> R. Xem thêm thông tin về các package của R trong chương <a href="basics.html#basics">R cơ bản</a>.</p>
 <div class="sourceCode" id="cb958"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span>
   <span class="va">rio</span>,          <span class="co"># File import</span>
@@ -152,33 +150,33 @@ ratios). It also uses functions like <code>tidy()</code> from the <strong>broom<
   <span class="va">see</span>          <span class="co"># alternative to visualise forest plots</span>
   <span class="op">)</span></code></pre></div>
 </div>
-<div id="import-data-10" class="section level3 unnumbered">
-<h3>Import data<a class="anchor" aria-label="anchor" href="#import-data-10"><i class="fas fa-link"></i></a>
+<div id="nhập-số-liệu-1" class="section level3 unnumbered">
+<h3>Nhập số liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-s%E1%BB%91-li%E1%BB%87u-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">click to download the “clean” linelist</a> (as .rds file). Import your data with the <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> function from the <strong>rio</strong> package (it accepts many file types like .xlsx, .rds, .csv - see the [Import and export] page for details).</p>
+<p>Chúng tôi nhập bộ số liệu của các ca bệnh được mô phỏng từ một vụ dịch Ebola. Để tiện làm theo, <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">bấm để tải số liệu linelist “đã được làm sạch”</a> (dưới dạng tệp .rds ). Nhập số liệu này bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> trong package <strong>rio</strong> (nó chấp nhận nhiều loại tập tin như .xlsx, .rds, .csv – xem chi tiết trong chương <a href="importing.html#importing">Nhập xuất dữ liệu</a>).</p>
 <div class="sourceCode" id="cb959"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the linelist</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
-<p>The first 50 rows of the linelist are displayed below.</p>
-<div id="htmlwidget-1a5197dda6284e85c667" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1a5197dda6284e85c667">{"x":{"filter":"none","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<p>Bên dưới là hiển thị của 50 hàng đầu tiên của bộ số liệu linelist.</p>
+<div id="htmlwidget-44580eb342eb62960175" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44580eb342eb62960175">{"x":{"filter":"none","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="clean-data" class="section level3 unnumbered">
-<h3>Clean data<a class="anchor" aria-label="anchor" href="#clean-data"><i class="fas fa-link"></i></a>
+<div id="làm-sạch-số-liệu" class="section level3 unnumbered">
+<h3>Làm sạch số liệu<a class="anchor" aria-label="anchor" href="#l%C3%A0m-s%E1%BA%A1ch-s%E1%BB%91-li%E1%BB%87u"><i class="fas fa-link"></i></a>
 </h3>
-<div id="store-explanatory-variables" class="section level4 unnumbered">
-<h4>Store explanatory variables<a class="anchor" aria-label="anchor" href="#store-explanatory-variables"><i class="fas fa-link"></i></a>
+<div id="lưu-trữ-các-biến-giải-thích" class="section level4 unnumbered">
+<h4>Lưu trữ các biến giải thích<a class="anchor" aria-label="anchor" href="#l%C6%B0u-tr%E1%BB%AF-c%C3%A1c-bi%E1%BA%BFn-gi%E1%BA%A3i-th%C3%ADch"><i class="fas fa-link"></i></a>
 </h4>
-<p>We store the names of the explanatory columns as a character vector. This will be referenced later.</p>
+<p>Tên của các biến giải thích sẽ được lưu trữ dưới dạng một véc tơ ký tự. Véc tơ này sẽ được đề cập về sau.</p>
 <div class="sourceCode" id="cb960"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## define variables of interest </span>
 <span class="va">explanatory_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"fever"</span>, <span class="st">"chills"</span>, <span class="st">"cough"</span>, <span class="st">"aches"</span>, <span class="st">"vomit"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="convert-to-1s-and-0s" class="section level4 unnumbered">
-<h4>Convert to 1’s and 0’s<a class="anchor" aria-label="anchor" href="#convert-to-1s-and-0s"><i class="fas fa-link"></i></a>
+<div id="chuyển-đổi-sang-số-1-và-số-0" class="section level4 unnumbered">
+<h4>Chuyển đổi sang số 1 và số 0<a class="anchor" aria-label="anchor" href="#chuy%E1%BB%83n-%C4%91%E1%BB%95i-sang-s%E1%BB%91-1-v%C3%A0-s%E1%BB%91-0"><i class="fas fa-link"></i></a>
 </h4>
-<p>Below we convert the explanatory columns from “yes”/“no”, “m”/“f”, and “dead”/“alive” to <strong>1 / 0</strong>, to cooperate with the expectations of logistic regression models. To do this efficiently, used <code>across()</code> from <strong>dplyr</strong> to transform multiple columns at one time. The function we apply to each column is <code>case_when()</code> (also <strong>dplyr</strong>) which applies logic to convert specified values to 1’s and 0’s. See sections on <code>across()</code> and <code>case_when()</code> in the <a href="cleaning.html#clean_across">Cleaning data and core functions page</a>).</p>
-<p>Note: the “.” below represents the column that is being processed by <code>across()</code> at that moment.</p>
+<p>Sau đây, giá trị của các biến giải thích được chuyển đổi từ “có”/“không”, “nam”/“nữ” và “chết”/“sống” thành 1 / 0, để hợp với các đặc tính của mô hình hồi quy logistic. TĐể thực hiện việc này một cách hiệu quả, sử dụng hàm <code>across()</code> từ <strong>dplyr</strong> để chuyển đổi nhiều biến cùng một lúc. Để áp dụng cho mỗi biến, dùng hàm <code>case_when()</code> (cũng trong package <strong>dplyr</strong>) để chuyển đổi các giá trị cụ thể thành 1 và 0. Xem các mục về <code>across()</code> và <code>case_when()</code> trong chương <a href="cleaning.html#clean_across">Làm sạch số liệu và các hàm quan trọng</a>).</p>
+<p>Chú ý: dấu “.” bên dưới đại diện cho cột`````<code>đang được xử lý trong hàm</code>across()` tại thời điểm đó.</p>
 <div class="sourceCode" id="cb961"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## convert dichotomous variables to 0/1 </span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span>  
@@ -191,12 +189,12 @@ ratios). It also uses functions like <code>tidy()</code> from the <strong>broom<
     <span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 </div>
-<div id="drop-rows-with-missing-values" class="section level4 unnumbered">
-<h4>Drop rows with missing values<a class="anchor" aria-label="anchor" href="#drop-rows-with-missing-values"><i class="fas fa-link"></i></a>
+<div id="loại-bỏ-các-hàng-có-giá-trị-missing" class="section level4 unnumbered">
+<h4>Loại bỏ các hàng có giá trị missing<a class="anchor" aria-label="anchor" href="#lo%E1%BA%A1i-b%E1%BB%8F-c%C3%A1c-h%C3%A0ng-c%C3%B3-gi%C3%A1-tr%E1%BB%8B-missing"><i class="fas fa-link"></i></a>
 </h4>
-<p>To drop rows with missing values, can use the <strong>tidyr</strong> function <code>drop_na()</code>. However, we only want to do this for rows that are missing values in the columns of interest.</p>
-<p>The first thing we must to is make sure our <code>explanatory_vars</code> vector includes the column <code>age</code> (<code>age</code> would have produced an error in the previous <code>case_when()</code> operation, which was only for dichotomous variables). Then we pipe the <code>linelist</code> to <code>drop_na()</code> to remove any rows with missing values in the <code>outcome</code> column or any of the <code>explanatory_vars</code> columns.</p>
-<p>Before running the code, the number of rows in the <code>linelist</code> is <code><a href="https://rdrr.io/r/base/nrow.html">nrow(linelist)</a></code>.</p>
+<p>Để bỏ các hàng có giá trị missing, dùng hàm <code>drop_na()</code> trong package <strong>tidyr</strong>. Tuy nhiên, chúng ta chỉ muốn thực hiện điều này cho các hàng có giá trị missing đối với các cột đang được quan tâm.</p>
+<p>Trước hết, chúng ta phải đảm bảo rằng vectơ <code>explanatory_vars</code> bao gồm các biến <code>age</code> (<code>age</code> có thể tạo ra một lỗi trong thao tác của hàm <code>case_when()</code> trước đó, mà chỉ dành cho biến nhị phân). Sau đó chúng ta pipe bộ dữ liệu <code>linelist</code> tới hàm <code>drop_na()</code> để bỏ các hàng có giá trị missing cho biến <code>outcome</code> hoặc bất kỳ biển giải thích <code>explanatory_vars</code> nào.</p>
+<p>Trước khi thực hiện các lệnh này, kiểm tra số hàng trong bộ số liệu <code>linelist</code> bằng hàm <code><a href="https://rdrr.io/r/base/nrow.html">nrow(linelist)</a></code>.</p>
 <div class="sourceCode" id="cb962"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## add in age_category to the explanatory vars </span>
 <span class="va">explanatory_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">explanatory_vars</span>, <span class="st">"age_cat"</span><span class="op">)</span>
@@ -204,33 +202,33 @@ ratios). It also uses functions like <code>tidy()</code> from the <strong>broom<
 <span class="co">## drop rows with missing information for variables of interest </span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span> 
   <span class="fu">drop_na</span><span class="op">(</span><span class="fu">any_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"outcome"</span>, <span class="va">explanatory_vars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The number of rows remaining in <code>linelist</code> is <code><a href="https://rdrr.io/r/base/nrow.html">nrow(linelist)</a></code>.</p>
+<p>Kiểm tra số hàng còn lại của <code>linelist</code> bằng hàm <code><a href="https://rdrr.io/r/base/nrow.html">nrow(linelist)</a></code>.</p>
 <!-- ======================================================= -->
 </div>
 </div>
 </div>
-<div id="univariate" class="section level2" number="19.2">
+<div id="phân-tích-đơn-biến" class="section level2" number="19.2">
 <h2>
-<span class="header-section-number">19.2</span> Univariate<a class="anchor" aria-label="anchor" href="#univariate"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.2</span> Phân tích đơn biến<a class="anchor" aria-label="anchor" href="#ph%C3%A2n-t%C3%ADch-%C4%91%C6%A1n-bi%E1%BA%BFn"><i class="fas fa-link"></i></a>
 </h2>
-<p>Just like in the page on <a href="https://epirhandbook.com/descriptive-tables.html">Descriptive tables</a>, your use case will determine which R package you use. We present two options for doing univariate analysis:</p>
+<p>Cũng giống như chương <a href="tables-descriptive.html#tables-descriptive">Bảng mô tả</a>, chúng ta cần xác định packahe nào trong R mà chúng ta muốn sử dụng. Chúng tôi trình bày hai chọn lựa để thực hiện các phân tích đơn biến:</p>
 <ul>
-<li>Use functions available in <strong>base</strong> R to quickly print results to the console. Use the <strong>broom</strong> package to tidy up the outputs.<br>
+<li>Dùng hàm có sẵn trong <strong>base</strong> để in nhanh kết quả ra console. Sử dụng package <strong>broom</strong> để làm gọn kết quả.<br>
 </li>
-<li>Use the <strong>gtsummary</strong> package to model and get publication-ready outputs</li>
+<li>Dùng package <strong>gtsummary</strong> để lập mô hình và nhận các kết quả đầu ra sẵn sàng để công bố</li>
 </ul>
 <!-- ======================================================= --><div id="base-r-2" class="section level3 unnumbered">
 <h3>
 <strong>base</strong> R<a class="anchor" aria-label="anchor" href="#base-r-2"><i class="fas fa-link"></i></a>
 </h3>
-<div id="linear-regression" class="section level4 unnumbered">
-<h4>Linear regression<a class="anchor" aria-label="anchor" href="#linear-regression"><i class="fas fa-link"></i></a>
+<div id="hồi-quy-tuyến-tính" class="section level4 unnumbered">
+<h4>Hồi quy tuyến tính<a class="anchor" aria-label="anchor" href="#h%E1%BB%93i-quy-tuy%E1%BA%BFn-t%C3%ADnh"><i class="fas fa-link"></i></a>
 </h4>
-<p>The <strong>base</strong> R function <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> perform linear regression, assessing the relationship between numeric response and explanatory variables that are assumed to have a linear relationship.</p>
-<p>Provide the equation as a formula, with the response and explanatory column names separated by a tilde <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>. Also, specify the dataset to <code>data =</code>. Define the model results as an R object, to use later.</p>
+<p>Hàm <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> trong <strong>base</strong> cho phép thực hiện hồi quy tuyến tính để đánh giá mối quan hệ giữa biến đầu ra dạng số (numeric) và các biến giải thích mà được giả định là có mối quan hệ tuyến tính.</p>
+<p>Cung cấp phương trình dưới dạng công thức với tên của biến đầu ra và các biến giải thích được phân tách bằng dấu ngã <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>. Bên cạnh đó, chỉ rõ bộ số liệu nào được sử dụng với <code>data =</code>. Kết quả của mô hình được định nghĩa dưới dạng đối tượng của R để sử dụng về sau.</p>
 <div class="sourceCode" id="cb963"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lm_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">ht_cm</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span></code></pre></div>
-<p>You can then run <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> on the model results to see the coefficients (Estimates), P-value, residuals, and other measures.</p>
+<p>Sau đó tóm tắt kết quả của mô hình bằng hàm <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> để xem các hệ số (ước tính), P-value, phần dư và các đo lường khác.</p>
 <div class="sourceCode" id="cb964"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_results</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
@@ -251,9 +249,7 @@ ratios). It also uses functions like <code>tidy()</code> from the <strong>broom<
 ## Residual standard error: 23.75 on 4165 degrees of freedom
 ## Multiple R-squared:  0.7675, Adjusted R-squared:  0.7674 
 ## F-statistic: 1.375e+04 on 1 and 4165 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>Alternatively you can use the <code>tidy()</code> function from the <strong>broom</strong> package to pull
-the results in to a table. What the results tell us is that for each year increase in age the height increases
-by 3.5 cm and this is statistically significant.</p>
+<p>Ngoài ra, có thể dùng hàm <code>tidy()</code> trong package <strong>broom</strong> để xuất kết quả vào trong một bảng. Kết quả bên dưới cho chúng ta biết khi tăng thêm một tuổi thì chiều cao tăng 3,5 cm và mối quan hệ này có ý nghĩa thống kê.</p>
 <div class="sourceCode" id="cb966"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tidy</span><span class="op">(</span><span class="va">lm_results</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
@@ -261,9 +257,7 @@ by 3.5 cm and this is statistically significant.</p>
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
 ## 1 (Intercept)    69.9     0.598       117.       0
 ## 2 age             3.44    0.0293      117.       0</code></pre>
-<p>You can then also use this regression to add it to a <strong>ggplot</strong>, to do this we
-first pull the points for the observed data and the fitted line in to one data frame
-using the <code>augment()</code> function from <strong>broom</strong>.</p>
+<p>Sau đó, có thể sử dụng kết quả hồi quy này để đưa vào <strong>ggplot</strong>. Để thực hiện điều này, trước tiên chúng ta đưa các giá trị quan sát và đường thẳng hồi quy (fitted line) vào một data frame bằng cách dùng hàm <code>augment()</code> trong package <strong>broom</strong>.</p>
 <div class="sourceCode" id="cb968"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## pull the regression points and observed data in to one dataset</span>
 <span class="va">points</span> <span class="op">&lt;-</span> <span class="fu">augment</span><span class="op">(</span><span class="va">lm_results</span><span class="op">)</span>
@@ -275,8 +269,7 @@ using the <code>augment()</code> function from <strong>broom</strong>.</p>
   <span class="co">## add your regression line </span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">.fitted</span><span class="op">)</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/lin_reg_res_plot-1.png" width="672"></div>
-<p>It is also possible to add a simple linear regression straight straight in <strong>ggplot</strong>
-using the <code>geom_smooth()</code> function.</p>
+<p>Bạn cũng có thể vẽ đường hồi quy tuyến tính đơn bằng package <strong>ggplot</strong> thông qua hàm <code>geom_smooth()</code>.</p>
 <div class="sourceCode" id="cb969"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## add your data to a plot </span>
  <span class="fu">ggplot</span><span class="op">(</span><span class="va">linelist</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">ht_cm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
@@ -286,31 +279,31 @@ using the <code>geom_smooth()</code> function.</p>
   <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="_main_files/figure-html/geom_smooth-1.png" width="672"></div>
-<p>See the Resource section at the end of this chapter for more detailed tutorials.</p>
+<p>Xem thêm các hướng dẫn chi tiết trong mục Nguồn ở cuối chương này.</p>
 </div>
-<div id="logistic-regression" class="section level4 unnumbered">
-<h4>Logistic regression<a class="anchor" aria-label="anchor" href="#logistic-regression"><i class="fas fa-link"></i></a>
+<div id="hồi-quy-logistic" class="section level4 unnumbered">
+<h4>Hồi quy Logistic<a class="anchor" aria-label="anchor" href="#h%E1%BB%93i-quy-logistic"><i class="fas fa-link"></i></a>
 </h4>
-<p>The function <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> from the <strong>stats</strong> package (part of <strong>base</strong> R) is used to fit Generalized Linear Models (GLM).</p>
-<p><code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> can be used for univariate and multivariable logistic regression (e.g. to get Odds Ratios). Here are the core parts:</p>
+<p>Hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> trong package <strong>stats</strong> (một phần của <strong>base</strong> R) được sử dụng để fit (chọn mô hình dự đoán tối ưu dựa trên số liệu quan sát) đối với Mô hình Tuyến tính Tổng quát (GLM).</p>
+<p><code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> có thể được sử dụng cho cả hồi quy logistic đơn biến và đa biến (ví dụ như để tính tỷ số chênh OR). Sau đây là những thành phần chính của hàm:</p>
 <div class="sourceCode" id="cb971"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># arguments for glm()</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">family</span>, <span class="va">data</span>, <span class="va">weights</span>, <span class="va">subset</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
 <ul>
 <li>
-<code>formula =</code> The model is provided to <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> as an equation, with the outcome on the left and explanatory variables on the right of a tilde <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>.<br>
+<code>formula =</code> Mô hình được cung cấp cho <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> dưới dạng một phương trình với biến kết cục ở bên trái và biến giải thích ở bên phải dấu ngã <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>.<br>
 </li>
 <li>
-<code>family =</code> This determines the type of model to run. For logistic regression, use <code>family = "binomial"</code>, for poisson use <code>family = "poisson"</code>. Other examples are in the table below.<br>
+<code>family =</code> Xác định loại mô hình sẽ thực hiện. Đối với hồi quy logistic, sử dụng <code>family = "binomial"</code>, đối với hồi quy poisson sử dụng <code>family = "poisson"</code>. Các ví dụ khác được trình bày trong bảng bên dưới.<br>
 </li>
 <li>
-<code>data =</code> Specify your data frame</li>
+<code>data =</code> Cụ thể bộ số liệu</li>
 </ul>
-<p>If necessary, you can also specify the link function via the syntax <code>family = familytype(link = "linkfunction"))</code>. You can read more in the documentation about other families and optional arguments such as <code>weights =</code> and <code>subset =</code> (<code><a href="https://rdrr.io/r/stats/glm.html">?glm</a></code>).</p>
+<p>Nếu cần, có thể cụ thể hàm liên kết bằng cú pháp <code>family = familytype(link = "linkfunction"))</code>. Bạn có thể tìm đọc thêm về các họ hồi quy khác và các tùy chọn đối số như là <code>weights =</code> và <code>subset =</code> bằng cách gõ (<code><a href="https://rdrr.io/r/stats/glm.html">?glm</a></code>).</p>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
-<th>Family</th>
-<th>Default link function</th>
+<th>Họ</th>
+<th>Hàm liên kết mặc định</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -347,14 +340,13 @@ using the <code>geom_smooth()</code> function.</p>
 </tr>
 </tbody>
 </table></div>
-<p>When running <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> it is most common to save the results as a named R object. Then you can print the results to your console using <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> as shown below, or perform other operations on the results (e.g. exponentiate).</p>
-<p>If you need to run a negative binomial regression you can use the <strong>MASS</strong> package; the <code>glm.nb()</code> uses the same syntax as <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>.
-For a walk-through of different regressions, see the <a href="https://stats.idre.ucla.edu/other/dae/">UCLA stats page</a>.</p>
+<p>Khi thực hiện <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> , phổ biến nhất là lưu kết quả dưới dạng một đối tượng của R được đặt tên. Sau đó, có thể xuất kết quả ra console bằng cách sử dụng hàm <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> như được trình bày bên dưới, hoặc thực hiện các thao tác khác từ kết quả (ví dụ như lấy lũy thừa).</p>
+<p>Nếu cần thực hiện một hồi quy nhị thức âm, có thể sử dụng package <strong>MASS</strong>. Hàn <code>glm.nb()</code> uses cũng sử dụng cùng cú pháp như <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>. Để xem qua các hồi quy khác, xem trên <a href="https://stats.idre.ucla.edu/other/dae/">trang thống kê của UCLA</a>.</p>
 </div>
-<div id="univariate-glm" class="section level4 unnumbered">
-<h4>Univariate <code>glm()</code><a class="anchor" aria-label="anchor" href="#univariate-glm"><i class="fas fa-link"></i></a>
+<div id="phân-tích-đơn-biến-sử-dụng-glm" class="section level4 unnumbered">
+<h4>Phân tích đơn biến sử dụng <code>glm()</code><a class="anchor" aria-label="anchor" href="#ph%C3%A2n-t%C3%ADch-%C4%91%C6%A1n-bi%E1%BA%BFn-s%E1%BB%AD-d%E1%BB%A5ng-glm"><i class="fas fa-link"></i></a>
 </h4>
-<p>In this example we are assessing the association between different age categories and the outcome of death (coded as 1 in the Preparation section). Below is a univariate model of <code>outcome</code> by <code>age_cat</code>. We save the model output as <code>model</code> and then print it with <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> to the console. Note the estimates provided are the <em>log odds</em> and that the baseline level is the first factor level of <code>age_cat</code> (“0-4”).</p>
+<p>Trong ví dụ này, chúng tôi đánh giá mối liên quan giữa nhóm tuổi và biến kết cục tử vong (được mã hóa là 1 trong phần chuẩn bị). Bên dưới là một mô hình đơn biến của biến kết cục <code>outcome</code> theo <code>age_cat</code>. Chúng tôi lưu kết quả đầu ra được đặt tên là <code>model</code> và sau đó in kết quả đến console bằng hàm <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>. Lưu ý, các ước tính được tạo ra là các giá trị <em>lôgarít của tỷ số chênh (log odds)</em> và giá trị tham chiếu là giá trị đầu tiên của biến <code>age_cat</code> (“0-4”).</p>
 <div class="sourceCode" id="cb972"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">age_cat</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></code></pre></div>
@@ -386,7 +378,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
 ## AIC: 5721.1
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<p>To alter the baseline level of a given variable, ensure the column is class Factor and move the desired level to the first position with <code>fct_relevel()</code> (see page on <a href="factors.html#factors">Factors</a>). For example, below we take column <code>age_cat</code> and set “20-29” as the baseline before piping the modified data frame into <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>.</p>
+<p>Để thay đổi giá trị tham chiếu của một biến Factor và chuyển giá trị mong muốn lên vị trí đầu tiên, dùng hàm <code>fct_relevel()</code> (xem chương <a href="factors.html#factors">Factors</a>). Ở ví dụ bên dưới, chúng tôi lấy biến <code>age_cat</code> và đặt nhóm tuổi “20-29” làm giá trị tham chiếu trước khi chuyển số liệu đã sửa đổi vào hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>.</p>
 <div class="sourceCode" id="cb974"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>age_cat <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span><span class="va">age_cat</span>, <span class="st">"20-29"</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -421,22 +413,22 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div id="printing-results" class="section level4 unnumbered">
-<h4>Printing results<a class="anchor" aria-label="anchor" href="#printing-results"><i class="fas fa-link"></i></a>
+<div id="in-kết-quả" class="section level4 unnumbered">
+<h4>In kết quả<a class="anchor" aria-label="anchor" href="#in-k%E1%BA%BFt-qu%E1%BA%A3"><i class="fas fa-link"></i></a>
 </h4>
-<p>For most uses, several modifications must be made to the above outputs. The function <code>tidy()</code> from the package <strong>broom</strong> is convenient for making the model results presentable.</p>
-<p>Here we demonstrate how to combine model outputs with a table of counts.</p>
+<p>Đối với hầu hết các mục đích sử dụng, kết quả đầu ra cần phải có một số sửa đổi. Hàm làm gọn <code>tidy()</code> trong package <strong>broom</strong> có những tiện lợi để hiển thị kết quả của mô hình.</p>
+<p>Ở đây, chúng tôi trình bày cách để kết hợp các kết quả đầu ra của mô hình vào trong một bảng.</p>
 <ol style="list-style-type: decimal">
-<li>Get the <em>exponentiated</em> log odds ratio estimates and confidence intervals by passing the model to <code>tidy()</code> and setting <code>exponentiate = TRUE</code> and <code>conf.int = TRUE</code>.</li>
+<li>Lấy <em>lũy thừa</em> logarit của ước lượng tỉ số chênh OR và khoảng tin cậy bằng cách đưa mô hình vào hàm <code>tidy()</code> và thiết lập lũy thừa <code>exponentiate = TRUE</code> và <code>conf.int = TRUE</code>.</li>
 </ol>
 <div class="sourceCode" id="cb976"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">age_cat</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">tidy</span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>        <span class="co"># exponentiate and produce CIs</span>
   <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># round all numeric columns</span></code></pre></div>
-<p>Below is the outputted tibble <code>model</code>:</p>
-<div id="htmlwidget-8aecc9f668e6bb5e6563" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8aecc9f668e6bb5e6563">{"x":{"filter":"none","data":[["(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><ol start="2" style="list-style-type: decimal">
-<li>Combine these model results with a table of counts. Below, we create the a counts cross-table with the <code>tabyl()</code> function from <strong>janitor</strong>, as covered in the [Descriptive tables] page.</li>
+<p>Bên dưới là bảng kết quả đầu ra của <code>model</code>:</p>
+<div id="htmlwidget-ae4bd5a83df41a212625" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ae4bd5a83df41a212625">{"x":{"filter":"none","data":[["(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><ol start="2" style="list-style-type: decimal">
+<li>Kết hợp các kết quả của mô hình vào trong một bảng đếm. Dưới đây, chúng tôi tạo một bảng đếm bằng hàm <code>tabyl()</code> từ package <strong>janitor</strong>, như được đề cập trong chương <a href="tables-descriptive.html#tables-descriptive">Bảng mô tả</a>.</li>
 </ol>
 <div class="sourceCode" id="cb977"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">counts_table</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span> 
@@ -451,36 +443,36 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
 <!--   count(age_cat) %>%   ## gets number or rows by unique outcome-age category combinations   -->
 <!--   pivot_wider(names_from = outcome, values_from = n)    ## spread data to wide format (as in cross-tabulation) -->
 <!-- ``` -->
-<p>Here is what this <code>counts_table</code> data frame looks like:</p>
-<div id="htmlwidget-aeed8ae2a6720176499f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-aeed8ae2a6720176499f">{"x":{"filter":"none","data":[["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+"],[338,365,273,238,345,228,35,3],[427,433,396,299,448,307,30,2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_cat<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Now we can bind the <code>counts_table</code> and the <code>model</code> results together horizontally with <code>bind_cols()</code> (<strong>dplyr</strong>). Remember that with <code>bind_cols()</code> the rows in the two data frames must be aligned perfectly. In this code, because we are binding within a pipe chain, we use <code>.</code> to represent the piped object <code>counts_table</code> as we bind it to <code>model</code>. To finish the process, we use <code>select()</code> to pick the desired columns and their order, and finally apply the <strong>base</strong> R <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code> function across all numeric columns to specify 2 decimal places.</p>
+<p>Đây là cách mà bảng <code>counts_table</code> được hiển thị:</p>
+<div id="htmlwidget-a4b509d3f7d5502a8887" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a4b509d3f7d5502a8887">{"x":{"filter":"none","data":[["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+"],[338,365,273,238,345,228,35,3],[427,433,396,299,448,307,30,2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_cat<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bây giờ chúng ta có thể nối bảng <code>counts_table</code> và kết quả của mô hình <code>model</code> lại với nhau theo chiều ngang bằng hàm nối cột <code>bind_cols()</code> (<strong>dplyr</strong>). Hãy nhớ rằng đối với hàm <code>bind_cols()</code> các hàng trong hai cấu trúc dữ liệu trên phải được căn chỉnh hoàn hảo. Trong đoạn code này, bởi vì chúng ta đang thực hiện một chuỗi các thuật toán pipe, chúng ta sử dụng dấu <code>.</code> để đại diện cho đối tượng được nối trong bảng đếm <code>counts_table</code> khi chúng tôi nối nó với kết quả mô hình <code>model</code>. Để kết thúc quy trình này, chúng ta sử dụng hàm <code>select()</code> để chọn các cột mong muốn và thứ tự của nó, và cuối cùng áp dụng hàm <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code> trong <strong>base</strong> R để làm tròn với hai chữ số thập phân cho tất cả các cột.</p>
 <div class="sourceCode" id="cb978"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">counts_table</span> <span class="op">%&gt;%</span>           <span class="co"># begin with table of counts</span>
   <span class="fu">bind_cols</span><span class="op">(</span><span class="va">.</span>, <span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span>              <span class="co"># combine with the outputs of the regression </span>
   <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="va">estimate</span>,          <span class="co"># select and re-order cols</span>
          <span class="va">conf.low</span>, <span class="va">conf.high</span>, <span class="va">p.value</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co">## round to 2 decimal places</span></code></pre></div>
-<p>Here is what the combined data frame looks like, printed nicely as an image with a function from <strong>flextable</strong>. The [Tables for presentation] explains how to customize such tables with <strong>flextable</strong>, or or you can use numerous other packages such as <strong>knitr</strong> or <strong>GT</strong>.</p>
+<p>Đây là hiển thị của cấu trúc đã được kết hợp, nó được xuất gọn gẽ dưới dạng một hình bằng thông qua một hàm trong package <strong>flextable</strong>. Chương <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a> giải thích cách tùy chỉnh các bảng như vậy bằng <strong>flextable</strong>, hoặc có thể sử dụng các gói lệnh khác như <strong>knitr</strong> hoặc <strong>GT</strong>.</p>
 <div class="sourceCode" id="cb979"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op">%&gt;%</span> 
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html">qflextable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="looping-multiple-univariate-models" class="section level4 unnumbered">
-<h4>Looping multiple univariate models<a class="anchor" aria-label="anchor" href="#looping-multiple-univariate-models"><i class="fas fa-link"></i></a>
+<div id="vòng-lặp-cho-nhiều-mô-hình-đơn-biến" class="section level4 unnumbered">
+<h4>Vòng lặp cho nhiều mô hình đơn biến<a class="anchor" aria-label="anchor" href="#v%C3%B2ng-l%E1%BA%B7p-cho-nhi%E1%BB%81u-m%C3%B4-h%C3%ACnh-%C4%91%C6%A1n-bi%E1%BA%BFn"><i class="fas fa-link"></i></a>
 </h4>
-<p>Below we present a method using <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> and <code>tidy()</code> for a more simple approach, see the section on <strong>gtsummary</strong>.</p>
-<p>To run the models on several exposure variables to produce univariate odds ratios (i.e. not controlling for each other), you can use the approach below. It uses <code>str_c()</code> from <strong>stringr</strong> to create univariate formulas (see [Characters and strings]), runs the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> regression on each formula, passes each <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> output to <code>tidy()</code> and finally collapses all the model outputs together with <code>bind_rows()</code> from <strong>tidyr</strong>. This approach uses <code>map()</code> from the package <strong>purrr</strong> to iterate - see the page on [Iteration, loops, and lists] for more information on this tool.</p>
+<p>Sau đây chúng tôi trình bày một phương pháp sử dụng <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> và <code>tidy()</code> để có một cách tiếp cận đơn giản hơn, xem thêm ở phần <strong>gtsummary</strong>.</p>
+<p>Để thực hiện các mô hình cho một số biến giải thích và cho ra các tỷ số chênh trong phân tích đơn biến (nghĩa là không có kiểm soát lẫn nhau), chúng ta có thể sử dụng các cách tiếp cận dưới đây. Sử dụng hàm <code>str_c()</code> từ package <strong>stringr</strong> để tạo ra các công thức cho phân tích đơn biến (xem chương <a href="characters-strings.html#characters-strings">Ký tự và chuỗi</a>), thực hiện hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> cho mỗi công thức, chuyển mỗi kết quả đầu ra của <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> đến hàm <code>tidy()</code> và cuối cùng thu gọn lại tất các kết quả đầu ra của mô hình bằng hàm nối dòng <code>bind_rows()</code> từ <strong>tidyr</strong>. Phương pháp này sử dụng hàm <code>map()</code> từ package <strong>purrr</strong> để lặp - xem chương [Lặp, vòng lặp và danh sách] để biết thêm thông tin về công cụ này.</p>
 <ol style="list-style-type: decimal">
-<li><p>Create a vector of column names of the explanatory variables. We already have this as <code>explanatory_vars</code> from the Preparation section of this page.</p></li>
-<li><p>Use <code>str_c()</code> to create multiple string formulas, with <code>outcome</code> on the left, and a column name from <code>explanatory_vars</code> on the right. The period <code>.</code> substitutes for the column name in <code>explanatory_vars</code>.</p></li>
+<li><p>Tạo một véctơ tên các cột của biến giải thích. Chúng ta đã tạo biến này <code>explanatory_vars</code> trong phần chuẩn bị của chương này.</p></li>
+<li><p>Sử dụng hàm <code>str_c()</code> để tạo các công thức chuỗi với biến kết cục <code>outcome</code> ở bên trái và tên một cột của véctơ <code>explanatory_vars</code> ở bên phải. Dấu chấm <code>.</code> trong hàm này thay thế cho tên cột trong véctơ <code>explanatory_vars</code>.</p></li>
 </ol>
 <div class="sourceCode" id="cb980"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">explanatory_vars</span> <span class="op">%&gt;%</span> <span class="fu">str_c</span><span class="op">(</span><span class="st">"outcome ~ "</span>, <span class="va">.</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "outcome ~ gender"  "outcome ~ fever"   "outcome ~ chills"  "outcome ~ cough"   "outcome ~ aches"   "outcome ~ vomit"   "outcome ~ age_cat"</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Pass these string formulas to <code>map()</code> and set <code>~glm()</code> as the function to apply to each input. Within <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, set the regression formula as <code><a href="https://rdrr.io/r/stats/formula.html">as.formula(.x)</a></code> where <code>.x</code> will be replaced by the string formula defined in the step above. <code>map()</code> will loop over each of the string formulas, running regressions for each one.</p></li>
-<li><p>The outputs of this first <code>map()</code> are passed to a second <code>map()</code> command, which applies <code>tidy()</code> to the regression outputs.</p></li>
-<li><p>Finally the output of the second <code>map()</code> (a list of tidied data frames) is condensed with <code>bind_rows()</code>, resulting in one data frame with all the univariate results.</p></li>
+<li><p>Đưa các công thức chuỗi này vào hàm <code>map()</code> và đặt <code>~glm()</code> làm hàm áp dụng cho mỗi đầu vào. Bên trong hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, thiết lập công thức hồi quy <code><a href="https://rdrr.io/r/stats/formula.html">as.formula(.x)</a></code> trong đó <code>.x</code> sẽ được thay thế bằng các công thức chuỗi đã được tạo bên trên. Hàm <code>map()</code> sẽ lặp từng công thức chuỗi và thực hiện hồi quy cho từng công thức.</p></li>
+<li><p>Kết quả đầu ra của hàm <code>map()</code> đầu tiên sẽ được chuyển đến hàm <code>map()</code> thứ hai mà sử dụng hàm <code>tidy()</code> để làm gọn các kết quả đầu ra.</p></li>
+<li><p>Cuối cùng, kết quả đầu ra của hàm <code>map()</code> thứ hai (một danh sách các data frames đã được làm gọn) được tóm tắt bằng hàm nối dòng <code>bind_rows()</code>, kết quả cho ra một data frame với tất cả các kết quả đơn biến.</p></li>
 </ol>
 <div class="sourceCode" id="cb982"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">models</span> <span class="op">&lt;-</span> <span class="va">explanatory_vars</span> <span class="op">%&gt;%</span>       <span class="co"># begin with variables of interest</span>
@@ -505,9 +497,9 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   
   <span class="co"># round all numeric columns</span>
   <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>This time, the end object <code>models</code> is longer because it now represents the combined results of several univariate regressions. Click through to see all the rows of <code>model</code>.</p>
-<div id="htmlwidget-5208221500945f6da0e4" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5208221500945f6da0e4">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.04,0.06,0.07,0.08,0.03,0.08,0.08,0.09,0.03,0.1,0.04,0.06,0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[5.67,-0.04,3.44,0.01,6.98,0.41,1.53,1.58,7.78,-0.66,4.67,1.39,3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>As before, we can create a counts table from the <code>linelist</code> for each explanatory variable, bind it to <code>models</code>, and make a nice table. We begin with the variables, and iterate through them with <code>map()</code>. We iterate through a user-defined function which involves creating a counts table with <strong>dplyr</strong> functions. Then the results are combined and bound with the <code>models</code> model results.</p>
+<p>Lúc này, kết quả xuất ra của <code>models</code> dài hơn bởi vì kết quả bây giờ bao gồm các kết quả đầu ra của một số hồi quy đơn biến. Nhấp nút tiếp theo để xem tất cả các hàng của <code>model</code>.</p>
+<div id="htmlwidget-240683f4593e2ca2ade2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-240683f4593e2ca2ade2">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.04,0.06,0.07,0.08,0.03,0.08,0.08,0.09,0.03,0.1,0.04,0.06,0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[5.67,-0.04,3.44,0.01,6.98,0.41,1.53,1.58,7.78,-0.66,4.67,1.39,3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Như lúc trước, chúng ta có thể tạo một bảng đếm từ bộ số liệu <code>linelist</code> cho mỗi biến giải thích, gắn chúng với <code>models</code>, và tạo ra một bảng đẹp. Chúng ta bắt đầu với các biến giải thích này, và lặp lại các biến này thông qua hàm <code>map()</code>. Chúng ta lặp lại qua một hàm do người dùng tạo ra mà liên quan đến việc tạo ra một bảng đếm bằng cách dùng các hàm trong package <strong>dplyr</strong> Sau đó, kết quả được kết nối trình tự với kết quả của mô hình <code>models</code>.</p>
 <div class="sourceCode" id="cb983"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## for each explanatory variable</span>
 <span class="va">univ_tab_base</span> <span class="op">&lt;-</span> <span class="va">explanatory_vars</span> <span class="op">%&gt;%</span> 
@@ -534,19 +526,19 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   
   <span class="co">## round decimal places</span>
   <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Below is what the data frame looks like. See the page on [Tables for presentation] for ideas on how to further convert this table to pretty HTML output (e.g. with <strong>flextable</strong>).</p>
-<div id="htmlwidget-f497abb4448deff1acee" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f497abb4448deff1acee">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[909,916,340,1485,1472,353,272,1553,1636,189,931,894,338,365,273,238,345,228,35,3],[1168,1174,436,1906,1877,465,309,2033,2114,228,1144,1198,427,433,396,299,448,307,30,2],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n      <th>estimate<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<p>Bên dưới là cấu trúc số liệu kết nối được tạo ra. Xem chương <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a> để có thêm ý tưởng về cách chuyển đổi bảng số liệu này thành một bảng đẹp trên HTML (ví dụ như với package <strong>flextable</strong>).</p>
+<div id="htmlwidget-e7f8c594989a8bc8d1a2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e7f8c594989a8bc8d1a2">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[909,916,340,1485,1472,353,272,1553,1636,189,931,894,338,365,273,238,345,228,35,3],[1168,1174,436,1906,1877,465,309,2033,2114,228,1144,1198,427,433,396,299,448,307,30,2],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n      <th>estimate<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
 <div id="reg_gt_uni" class="section level3 unnumbered">
 <h3>
 <strong>gtsummary</strong> package<a class="anchor" aria-label="anchor" href="#reg_gt_uni"><i class="fas fa-link"></i></a>
 </h3>
-<p>Below we present the use of <code>tbl_uvregression()</code> from the <strong>gtsummary</strong> package. Just like in the page on <a href="https://epirhandbook.com/descriptive-tables.html">Descriptive tables</a>, <strong>gtsummary</strong> functions do a good job of running statistics <em>and</em> producing professional-looking outputs. This function produces a table of univariate regression results.</p>
-<p>We select only the necessary columns from the <code>linelist</code> (explanatory variables and the outcome variable) and pipe them into <code>tbl_uvregression()</code>. We are going to run univariate regression on each of the columns we defined as <code>explanatory_vars</code> in the data Preparation section (gender, fever, chills, cough, aches, vomit, and age_cat).</p>
-<p>Within the function itself, we provide the <code>method =</code> as <code>glm</code> (no quotes), the <code>y =</code> outcome column (<code>outcome</code>), specify to <code>method.args =</code> that we want to run logistic regression via <code>family = binomial</code>, and we tell it to exponentiate the results.</p>
-<p>The output is HTML and contains the counts</p>
+<p>Sau đây chúng tôi sẽ trình bày cách sử dụng hàm <code>tbl_uvregression()</code> từ package <strong>gtsummary</strong>. Cũng giống như trong chương <a href="https://epirhandbook.com/descriptive-tables.html">Bảng mô tả</a>, các hàm trong <strong>gtsummary</strong> thực hiện tốt các thống kê <em>và</em> xuất ra các kết quả khá chuyên nghiệp. Hàm này xuất ra một bảng kết quả của hồi quy đơn biến.</p>
+<p>Chúng ta chỉ chọn các cột cần thiết từ bộ số liệu <code>linelist</code> (ecác biến giải thích và biến kết cục) và pipe chúng vào hàm <code>tbl_uvregression()</code>. Chúng ta sẽ thực hiện hồi quy đơn biến cho mỗi cột như được xác định trong véctơ <code>explanatory_vars</code> trong mục Chuẩn bị (gender, fever, chills, cough, aches, vomit, và age_cat).</p>
+<p>Trong hàm này, chúng ta cung cấp thêm phương pháp thực hiện <code>method =</code> là <code>glm</code> (không có dấu ngoặc kép), biến kết cục <code>y =</code> cột kết quả (biến <code>outcome</code>), cụ thể <code>method.args =</code> mà chúng ta muốn thực hiện hồi quy logistic qua <code>family = binomial</code>, và lấy lũy thừa của kết quả.</p>
+<p>Kết quả đầu ra dưới dạng HTML và chứa cột đếm</p>
 <div class="sourceCode" id="cb984"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">univ_tab</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">explanatory_vars</span>, <span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co">## select variables of interest</span>
@@ -564,7 +556,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#iyzuqhvulp .gt_table {
+#pqcltdbbiv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -589,7 +581,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-left-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_heading {
+#pqcltdbbiv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -601,7 +593,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-right-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_title {
+#pqcltdbbiv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -611,7 +603,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-bottom-width: 0;
 }
 
-#iyzuqhvulp .gt_subtitle {
+#pqcltdbbiv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -621,13 +613,13 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-top-width: 0;
 }
 
-#iyzuqhvulp .gt_bottom_border {
+#pqcltdbbiv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_col_headings {
+#pqcltdbbiv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -642,7 +634,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-right-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_col_heading {
+#pqcltdbbiv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -662,7 +654,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   overflow-x: hidden;
 }
 
-#iyzuqhvulp .gt_column_spanner_outer {
+#pqcltdbbiv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -674,15 +666,15 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   padding-right: 4px;
 }
 
-#iyzuqhvulp .gt_column_spanner_outer:first-child {
+#pqcltdbbiv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iyzuqhvulp .gt_column_spanner_outer:last-child {
+#pqcltdbbiv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iyzuqhvulp .gt_column_spanner {
+#pqcltdbbiv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -694,7 +686,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   width: 100%;
 }
 
-#iyzuqhvulp .gt_group_heading {
+#pqcltdbbiv .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -716,7 +708,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   vertical-align: middle;
 }
 
-#iyzuqhvulp .gt_empty_group_heading {
+#pqcltdbbiv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -731,15 +723,15 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   vertical-align: middle;
 }
 
-#iyzuqhvulp .gt_from_md > :first-child {
+#pqcltdbbiv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iyzuqhvulp .gt_from_md > :last-child {
+#pqcltdbbiv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iyzuqhvulp .gt_row {
+#pqcltdbbiv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -758,7 +750,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   overflow-x: hidden;
 }
 
-#iyzuqhvulp .gt_stub {
+#pqcltdbbiv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -770,7 +762,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   padding-left: 12px;
 }
 
-#iyzuqhvulp .gt_summary_row {
+#pqcltdbbiv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -780,7 +772,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   padding-right: 5px;
 }
 
-#iyzuqhvulp .gt_first_summary_row {
+#pqcltdbbiv .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -790,7 +782,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-top-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_grand_summary_row {
+#pqcltdbbiv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -800,7 +792,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   padding-right: 5px;
 }
 
-#iyzuqhvulp .gt_first_grand_summary_row {
+#pqcltdbbiv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -810,11 +802,11 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-top-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_striped {
+#pqcltdbbiv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iyzuqhvulp .gt_table_body {
+#pqcltdbbiv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -823,7 +815,7 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-bottom-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_footnotes {
+#pqcltdbbiv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -837,13 +829,13 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-right-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_footnote {
+#pqcltdbbiv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#iyzuqhvulp .gt_sourcenotes {
+#pqcltdbbiv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -857,46 +849,46 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
   border-right-color: #D3D3D3;
 }
 
-#iyzuqhvulp .gt_sourcenote {
+#pqcltdbbiv .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#iyzuqhvulp .gt_left {
+#pqcltdbbiv .gt_left {
   text-align: left;
 }
 
-#iyzuqhvulp .gt_center {
+#pqcltdbbiv .gt_center {
   text-align: center;
 }
 
-#iyzuqhvulp .gt_right {
+#pqcltdbbiv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iyzuqhvulp .gt_font_normal {
+#pqcltdbbiv .gt_font_normal {
   font-weight: normal;
 }
 
-#iyzuqhvulp .gt_font_bold {
+#pqcltdbbiv .gt_font_bold {
   font-weight: bold;
 }
 
-#iyzuqhvulp .gt_font_italic {
+#pqcltdbbiv .gt_font_italic {
   font-style: italic;
 }
 
-#iyzuqhvulp .gt_super {
+#pqcltdbbiv .gt_super {
   font-size: 65%;
 }
 
-#iyzuqhvulp .gt_footnote_marks {
+#pqcltdbbiv .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="iyzuqhvulp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="pqcltdbbiv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N</strong></th>
@@ -1026,35 +1018,34 @@ For a walk-through of different regressions, see the <a href="https://stats.idre
       </td>
     </tr></tfoot>
 </table></div></div>
-<p>There are many modifications you can make to this table output, such as adjusting the text labels, bolding rows by their p-value, etc. See tutorials <a href="http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html">here</a> and elsewhere online.</p>
+<p>Chúng ta có thể sửa đổi đối với kết quả đầu ra của bảng này, ví dụ như điều chỉnh các nhãn, tô đậm các hàng theo giá trị p, .v.v. Xem hướng dẫn <a href="http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html">tại đây</a> và các tài liệu trực tuyến khác.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="stratified" class="section level2" number="19.3">
+<div id="phân-tích-phân-tầng" class="section level2" number="19.3">
 <h2>
-<span class="header-section-number">19.3</span> Stratified<a class="anchor" aria-label="anchor" href="#stratified"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.3</span> Phân tích phân tầng<a class="anchor" aria-label="anchor" href="#ph%C3%A2n-t%C3%ADch-ph%C3%A2n-t%E1%BA%A7ng"><i class="fas fa-link"></i></a>
 </h2>
-<p>Stratified analysis is currently still being worked on for <strong>gtsummary</strong>,
-this page will be updated in due course.</p>
+<p>Hiện tại, phân tích phần tầng sử dụng package <strong>gtsummary</strong> đang được xây dựng, phần này sẽ được cập nhật trong thời gian thích hợp.</p>
 </div>
-<div id="multivariable" class="section level2" number="19.4">
+<div id="phân-tích-đa-biến" class="section level2" number="19.4">
 <h2>
-<span class="header-section-number">19.4</span> Multivariable<a class="anchor" aria-label="anchor" href="#multivariable"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.4</span> Phân tích đa biến<a class="anchor" aria-label="anchor" href="#ph%C3%A2n-t%C3%ADch-%C4%91a-bi%E1%BA%BFn"><i class="fas fa-link"></i></a>
 </h2>
-<p>For multivariable analysis, we again present two approaches:</p>
+<p>Đối với phân tích đa biến, chúng tôi trình bày hai cách tiếp cận:</p>
 <ul>
 <li>
-<code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> and <code>tidy()</code><br>
+<code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> và <code>tidy()</code><br>
 </li>
-<li>
-<strong>gtsummary</strong> package</li>
+<li>Package <strong>gtsummary</strong>
+</li>
 </ul>
-<p>The workflow is similar for each and only the last step of pulling together a final table is different.</p>
-<div id="conduct-multivariable" class="section level3 unnumbered">
-<h3>Conduct multivariable<a class="anchor" aria-label="anchor" href="#conduct-multivariable"><i class="fas fa-link"></i></a>
+<p>Quy trình thực hiện khá tương tự và chỉ khác ở bước cuối cùng để kết nối kết quả lại với nhau.</p>
+<div id="thực-hiện-phân-tích-đa-biến" class="section level3 unnumbered">
+<h3>Thực hiện phân tích đa biến<a class="anchor" aria-label="anchor" href="#th%E1%BB%B1c-hi%E1%BB%87n-ph%C3%A2n-t%C3%ADch-%C4%91a-bi%E1%BA%BFn"><i class="fas fa-link"></i></a>
 </h3>
-<p>Here we use <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> but add more variables to the right side of the equation, separated by plus symbols (<code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>).</p>
-<p>To run the model with all of our explanatory variables we would run:</p>
+<p>Ở đây chúng tôi sử dụng hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> nhưng thêm nhiều biến hơn vào bên phải của phương trình và được phân tách với nhau bằng dấu cộng (<code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>).</p>
+<p>Để thực hiện mô hình với tất cả các biến giải thích, chúng ta thực hiện lệnh sau:</p>
 <div class="sourceCode" id="cb985"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mv_reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">fever</span> <span class="op">+</span> <span class="va">chills</span> <span class="op">+</span> <span class="va">cough</span> <span class="op">+</span> <span class="va">aches</span> <span class="op">+</span> <span class="va">vomit</span> <span class="op">+</span> <span class="va">age_cat</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span>
 
@@ -1092,10 +1083,10 @@ this page will be updated in due course.</p>
 ## AIC: 5728.2
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<p>If you want to include two variables and an interaction between them you can separate them with an asterisk <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code> instead of a <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>. Separate them with a colon <code><a href="https://rdrr.io/r/base/Colon.html">:</a></code> if you are only specifying the interaction. For example:</p>
+<p>Nếu muốn bao gồm hai biến và tương tác của hai biến này, chúng ta có thể phân tách chúng bằng dấu hoa thị <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code> thay cho dấu <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>. Nếu chúng ta chỉ muốn cụ thể sự tương tác, phân tách chúng bằng dấu hai chấm <code><a href="https://rdrr.io/r/base/Colon.html">:</a></code>. Ví dụ:</p>
 <div class="sourceCode" id="cb987"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">age_cat</span> <span class="op">*</span> <span class="va">fever</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span></code></pre></div>
-<p><em>Optionally</em>, you can use this code to leverage the pre-defined vector of column names and re-create the above command using <code>str_c()</code>. This might be useful if your explanatory variable names are changing, or you don’t want to type them all out again.</p>
+<p><em>Một tùy chọn khác</em>, chúng ta có thể sử dụng đoạn mã này để sử dụng một véc tơ đã được định nghĩa trước của các cột và tạo lại lệnh trên bằng cách sử dụng hàm <code>str_c()</code>. Điều này có thể hữu ích nếu chúng ta thay đổi tên các biến giải thích, hoặc bạn không muốn gõ lại tất cả mọi thứ.</p>
 <div class="sourceCode" id="cb988"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## run a regression with all variables of interest </span>
 <span class="va">mv_reg</span> <span class="op">&lt;-</span> <span class="va">explanatory_vars</span> <span class="op">%&gt;%</span>  <span class="co">## begin with vector of explanatory column names</span>
@@ -1103,11 +1094,11 @@ this page will be updated in due course.</p>
   <span class="fu">str_c</span><span class="op">(</span><span class="st">"outcome ~ "</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span>    <span class="co">## combine the names of variables of interest with outcome in formula style</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"binomial"</span>,      <span class="co">## define type of glm as logistic,</span>
       data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span>          <span class="co">## define your dataset</span></code></pre></div>
-<div id="building-the-model" class="section level4 unnumbered">
-<h4>Building the model<a class="anchor" aria-label="anchor" href="#building-the-model"><i class="fas fa-link"></i></a>
+<div id="xây-dựng-mô-hình" class="section level4 unnumbered">
+<h4>Xây dựng mô hình<a class="anchor" aria-label="anchor" href="#x%C3%A2y-d%E1%BB%B1ng-m%C3%B4-h%C3%ACnh"><i class="fas fa-link"></i></a>
 </h4>
-<p>You can build your model step-by-step, saving various models that include certain explanatory variables. You can compare these models with likelihood-ratio tests using <code>lrtest()</code> from the package <strong>lmtest</strong>, as below:</p>
-<p><span style="color: black;"><strong><em>NOTE:</em></strong> Using <strong>base</strong> <code>anova(model1, model2, test = "Chisq)</code> produces the same results </span></p>
+<p>Chúng ta có thể xây dựng mô hình theo từng bước, lưu các mô hình khác nhau với một số biến giải thích. Chúng ta có thể sử dụng kiểm định tỷ số khả dĩ (likelihood-ratio tests) để so sánh các mô hình này bằng cách sử dụng hàm <code>lrtest()</code> từ package <strong>lmtest</strong>, như dưới đây:</p>
+<p><span style="color: black;"><strong><em>CHÚ Ý:</em></strong> Sử dụng hàn <code>anova(model1, model2, test = "Chisq)</code> trong <strong>base</strong> R cũng cho kết quả tương tự</span></p>
 <div class="sourceCode" id="cb989"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">age_cat</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span>
 <span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">age_cat</span> <span class="op">+</span> <span class="va">gender</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span>
@@ -1120,45 +1111,43 @@ this page will be updated in due course.</p>
 ##   #Df  LogLik Df  Chisq Pr(&gt;Chisq)
 ## 1   8 -2852.6                     
 ## 2   9 -2852.6  1 0.0002     0.9883</code></pre>
-<p>Another option is to take the model object and apply the <code><a href="https://rdrr.io/r/stats/step.html">step()</a></code> function from the <strong>stats</strong> package. Specify which variable selection direction you want use when building the model.</p>
+<p>Một tùy chọn khác là lấy đối tượng của mô hình và sử dụng hàm <code><a href="https://rdrr.io/r/stats/step.html">step()</a></code> từ package <strong>stats</strong>. Chỉ rõ hướng lựa chọn biến mà chúng ta muốn sử dụng khi xây dựng mô hình.</p>
 <div class="sourceCode" id="cb991"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## choose a model using forward selection based on AIC</span>
 <span class="co">## you can also do "backward" or "both" by adjusting the direction</span>
 <span class="va">final_mv_reg</span> <span class="op">&lt;-</span> <span class="va">mv_reg</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/step.html">step</a></span><span class="op">(</span>direction <span class="op">=</span> <span class="st">"forward"</span>, trace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>You can also turn off scientific notation in your R session, for clarity:</p>
+<p>Để hiển thị rõ số, chúng ta có thể tắt ký hiệu khoa học trong R bằng lệnh sau</p>
 <div class="sourceCode" id="cb992"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>scipen<span class="op">=</span><span class="fl">999</span><span class="op">)</span></code></pre></div>
-<p>As described in the section on univariate analysis, pass the model output to <code>tidy()</code> to exponentiate the log odds and CIs. Finally we round all numeric columns to two decimal places. Scroll through to see all the rows.</p>
+<p>Như được mô tả trong phần phân tích đơn biến, chuyển kết quả đầu ra của mô hình vào hàm <code>tidy()</code> để lấy lũy thừa cho các hệ số và khoảng tin cậy (CIs). Cuối cùng, làm tròn tất cả các cột số với hai số thập phân. Kéo qua để xem tất cả các hàng.</p>
 <div class="sourceCode" id="cb993"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mv_tab_base</span> <span class="op">&lt;-</span> <span class="va">final_mv_reg</span> <span class="op">%&gt;%</span> 
   <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>  <span class="co">## get a tidy dataframe of estimates </span>
   <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>          <span class="co">## round </span></code></pre></div>
-<p>Here is what the resulting data frame looks like:</p>
-<div id="htmlwidget-7db357c6821dfbc44e76" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7db357c6821dfbc44e76">{"x":{"filter":"none","data":[["(Intercept)","gender","fever","chills","cough","aches","vomit","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.07,1,1,1.03,1.15,0.93,1.09,0.94,1.15,0.99,1.03,1.06,0.68,0.52],[0.13,0.07,0.08,0.08,0.09,0.1,0.06,0.1,0.11,0.11,0.1,0.12,0.26,0.92],[0.52,0.04,0.05,0.43,1.54,-0.68,1.37,-0.62,1.27,-0.1,0.26,0.51,-1.48,-0.71],[0.6,0.97,0.96,0.67,0.12,0.5,0.17,0.53,0.2,0.92,0.8,0.61,0.14,0.48],[0.83,0.88,0.86,0.89,0.96,0.76,0.96,0.77,0.93,0.79,0.84,0.85,0.4,0.07],[1.39,1.14,1.18,1.21,1.37,1.14,1.23,1.15,1.41,1.24,1.26,1.33,1.13,3.19]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<p>Đây là hiển thị kết quả dưới dạng data frame looks:</p>
+<div id="htmlwidget-d9543f83eb6f21a7610b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d9543f83eb6f21a7610b">{"x":{"filter":"none","data":[["(Intercept)","gender","fever","chills","cough","aches","vomit","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.07,1,1,1.03,1.15,0.93,1.09,0.94,1.15,0.99,1.03,1.06,0.68,0.52],[0.13,0.07,0.08,0.08,0.09,0.1,0.06,0.1,0.11,0.11,0.1,0.12,0.26,0.92],[0.52,0.04,0.05,0.43,1.54,-0.68,1.37,-0.62,1.27,-0.1,0.26,0.51,-1.48,-0.71],[0.6,0.97,0.96,0.67,0.12,0.5,0.17,0.53,0.2,0.92,0.8,0.61,0.14,0.48],[0.83,0.88,0.86,0.89,0.96,0.76,0.96,0.77,0.93,0.79,0.84,0.85,0.4,0.07],[1.39,1.14,1.18,1.21,1.37,1.14,1.23,1.15,1.41,1.24,1.26,1.33,1.13,3.19]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
-<div id="combine-univariate-and-multivariable" class="section level3 unnumbered">
-<h3>Combine univariate and multivariable<a class="anchor" aria-label="anchor" href="#combine-univariate-and-multivariable"><i class="fas fa-link"></i></a>
+<div id="gộp-kết-quả-phân-tích-đơn-biến-và-đa-biến" class="section level3 unnumbered">
+<h3>Gộp kết quả phân tích đơn biến và đa biến<a class="anchor" aria-label="anchor" href="#g%E1%BB%99p-k%E1%BA%BFt-qu%E1%BA%A3-ph%C3%A2n-t%C3%ADch-%C4%91%C6%A1n-bi%E1%BA%BFn-v%C3%A0-%C4%91a-bi%E1%BA%BFn"><i class="fas fa-link"></i></a>
 </h3>
-<div id="combine-with-gtsummary" class="section level4 unnumbered">
-<h4>Combine with <strong>gtsummary</strong><a class="anchor" aria-label="anchor" href="#combine-with-gtsummary"><i class="fas fa-link"></i></a>
+<div id="gộp-bằng-package-gtsummary" class="section level4 unnumbered">
+<h4>Gộp bằng package <strong>gtsummary</strong><a class="anchor" aria-label="anchor" href="#g%E1%BB%99p-b%E1%BA%B1ng-package-gtsummary"><i class="fas fa-link"></i></a>
 </h4>
-<p>The <strong>gtsummary</strong> package provides the <code>tbl_regression()</code> function, which will
-take the outputs from a regression (<code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> in this case) and produce an nice
-summary table.</p>
+<p>Hàm <code>tbl_regression()</code> trong package <strong>gtsummary</strong> sẽ lấy kết quả đầu tra từ một hồi quy (hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> trong trường hợp này) và tạo ra một bảng tóm tắt đẹp.</p>
 <div class="sourceCode" id="cb994"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## show results table of final regression </span>
 <span class="va">mv_tab</span> <span class="op">&lt;-</span> <span class="fu">tbl_regression</span><span class="op">(</span><span class="va">final_mv_reg</span>, exponentiate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>Let’s see the table:</p>
+<p>Hãy xem bảng sau:</p>
 <div class="sourceCode" id="cb995"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mv_tab</span></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rrezkiaqcb .gt_table {
+#bbywtwqpsy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1183,7 +1172,7 @@ summary table.</p>
   border-left-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_heading {
+#bbywtwqpsy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1195,7 +1184,7 @@ summary table.</p>
   border-right-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_title {
+#bbywtwqpsy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1205,7 +1194,7 @@ summary table.</p>
   border-bottom-width: 0;
 }
 
-#rrezkiaqcb .gt_subtitle {
+#bbywtwqpsy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1215,13 +1204,13 @@ summary table.</p>
   border-top-width: 0;
 }
 
-#rrezkiaqcb .gt_bottom_border {
+#bbywtwqpsy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_col_headings {
+#bbywtwqpsy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1236,7 +1225,7 @@ summary table.</p>
   border-right-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_col_heading {
+#bbywtwqpsy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1256,7 +1245,7 @@ summary table.</p>
   overflow-x: hidden;
 }
 
-#rrezkiaqcb .gt_column_spanner_outer {
+#bbywtwqpsy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1268,15 +1257,15 @@ summary table.</p>
   padding-right: 4px;
 }
 
-#rrezkiaqcb .gt_column_spanner_outer:first-child {
+#bbywtwqpsy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rrezkiaqcb .gt_column_spanner_outer:last-child {
+#bbywtwqpsy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rrezkiaqcb .gt_column_spanner {
+#bbywtwqpsy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1288,7 +1277,7 @@ summary table.</p>
   width: 100%;
 }
 
-#rrezkiaqcb .gt_group_heading {
+#bbywtwqpsy .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1310,7 +1299,7 @@ summary table.</p>
   vertical-align: middle;
 }
 
-#rrezkiaqcb .gt_empty_group_heading {
+#bbywtwqpsy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1325,15 +1314,15 @@ summary table.</p>
   vertical-align: middle;
 }
 
-#rrezkiaqcb .gt_from_md > :first-child {
+#bbywtwqpsy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rrezkiaqcb .gt_from_md > :last-child {
+#bbywtwqpsy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rrezkiaqcb .gt_row {
+#bbywtwqpsy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1352,7 +1341,7 @@ summary table.</p>
   overflow-x: hidden;
 }
 
-#rrezkiaqcb .gt_stub {
+#bbywtwqpsy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1364,7 +1353,7 @@ summary table.</p>
   padding-left: 12px;
 }
 
-#rrezkiaqcb .gt_summary_row {
+#bbywtwqpsy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1374,7 +1363,7 @@ summary table.</p>
   padding-right: 5px;
 }
 
-#rrezkiaqcb .gt_first_summary_row {
+#bbywtwqpsy .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1384,7 +1373,7 @@ summary table.</p>
   border-top-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_grand_summary_row {
+#bbywtwqpsy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1394,7 +1383,7 @@ summary table.</p>
   padding-right: 5px;
 }
 
-#rrezkiaqcb .gt_first_grand_summary_row {
+#bbywtwqpsy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1404,11 +1393,11 @@ summary table.</p>
   border-top-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_striped {
+#bbywtwqpsy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rrezkiaqcb .gt_table_body {
+#bbywtwqpsy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1417,7 +1406,7 @@ summary table.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_footnotes {
+#bbywtwqpsy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1431,13 +1420,13 @@ summary table.</p>
   border-right-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_footnote {
+#bbywtwqpsy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#rrezkiaqcb .gt_sourcenotes {
+#bbywtwqpsy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1451,46 +1440,46 @@ summary table.</p>
   border-right-color: #D3D3D3;
 }
 
-#rrezkiaqcb .gt_sourcenote {
+#bbywtwqpsy .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#rrezkiaqcb .gt_left {
+#bbywtwqpsy .gt_left {
   text-align: left;
 }
 
-#rrezkiaqcb .gt_center {
+#bbywtwqpsy .gt_center {
   text-align: center;
 }
 
-#rrezkiaqcb .gt_right {
+#bbywtwqpsy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rrezkiaqcb .gt_font_normal {
+#bbywtwqpsy .gt_font_normal {
   font-weight: normal;
 }
 
-#rrezkiaqcb .gt_font_bold {
+#bbywtwqpsy .gt_font_bold {
   font-weight: bold;
 }
 
-#rrezkiaqcb .gt_font_italic {
+#bbywtwqpsy .gt_font_italic {
   font-style: italic;
 }
 
-#rrezkiaqcb .gt_super {
+#bbywtwqpsy .gt_super {
   font-size: 65%;
 }
 
-#rrezkiaqcb .gt_footnote_marks {
+#bbywtwqpsy .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="rrezkiaqcb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="bbywtwqpsy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -1604,8 +1593,7 @@ summary table.</p>
       </td>
     </tr></tfoot>
 </table></div></div>
-<p>You can also combine several different output tables produced by <strong>gtsummary</strong> with
-the <code>tbl_merge()</code> function. We now combine the multivariable results with the <strong>gtsummary</strong> <em>univariate</em> results that we created <a href="regression.html#reg_gt_uni">above</a>:</p>
+<p>Chúng ta cũng có thể kết hợp một số bảng kết quả đầu ra bằng cách dùng hàm <code>tbl_merge()</code> trong package <strong>gtsummary</strong>. Bây giờ chúng ta hộp các kết quả đa biến với kết quả <em>đơn biến</em> đã được tạo <a href="regression.html#reg_gt_uni">bên trên</a> bằng package <strong>gtsummary</strong>:</p>
 <div class="sourceCode" id="cb996"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## combine with univariate results </span>
 <span class="fu">tbl_merge</span><span class="op">(</span>
@@ -1615,7 +1603,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#fgxlbkpmbx .gt_table {
+#azadesszsy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1640,7 +1628,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-left-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_heading {
+#azadesszsy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1652,7 +1640,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-right-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_title {
+#azadesszsy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1662,7 +1650,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-bottom-width: 0;
 }
 
-#fgxlbkpmbx .gt_subtitle {
+#azadesszsy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1672,13 +1660,13 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-top-width: 0;
 }
 
-#fgxlbkpmbx .gt_bottom_border {
+#azadesszsy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_col_headings {
+#azadesszsy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1693,7 +1681,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-right-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_col_heading {
+#azadesszsy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1713,7 +1701,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   overflow-x: hidden;
 }
 
-#fgxlbkpmbx .gt_column_spanner_outer {
+#azadesszsy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1725,15 +1713,15 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   padding-right: 4px;
 }
 
-#fgxlbkpmbx .gt_column_spanner_outer:first-child {
+#azadesszsy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fgxlbkpmbx .gt_column_spanner_outer:last-child {
+#azadesszsy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fgxlbkpmbx .gt_column_spanner {
+#azadesszsy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1745,7 +1733,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   width: 100%;
 }
 
-#fgxlbkpmbx .gt_group_heading {
+#azadesszsy .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1767,7 +1755,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   vertical-align: middle;
 }
 
-#fgxlbkpmbx .gt_empty_group_heading {
+#azadesszsy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1782,15 +1770,15 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   vertical-align: middle;
 }
 
-#fgxlbkpmbx .gt_from_md > :first-child {
+#azadesszsy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fgxlbkpmbx .gt_from_md > :last-child {
+#azadesszsy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fgxlbkpmbx .gt_row {
+#azadesszsy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1809,7 +1797,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   overflow-x: hidden;
 }
 
-#fgxlbkpmbx .gt_stub {
+#azadesszsy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1821,7 +1809,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   padding-left: 12px;
 }
 
-#fgxlbkpmbx .gt_summary_row {
+#azadesszsy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1831,7 +1819,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   padding-right: 5px;
 }
 
-#fgxlbkpmbx .gt_first_summary_row {
+#azadesszsy .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1841,7 +1829,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-top-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_grand_summary_row {
+#azadesszsy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1851,7 +1839,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   padding-right: 5px;
 }
 
-#fgxlbkpmbx .gt_first_grand_summary_row {
+#azadesszsy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1861,11 +1849,11 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-top-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_striped {
+#azadesszsy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fgxlbkpmbx .gt_table_body {
+#azadesszsy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1874,7 +1862,7 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-bottom-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_footnotes {
+#azadesszsy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1888,13 +1876,13 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-right-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_footnote {
+#azadesszsy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#fgxlbkpmbx .gt_sourcenotes {
+#azadesszsy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1908,46 +1896,46 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
   border-right-color: #D3D3D3;
 }
 
-#fgxlbkpmbx .gt_sourcenote {
+#azadesszsy .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#fgxlbkpmbx .gt_left {
+#azadesszsy .gt_left {
   text-align: left;
 }
 
-#fgxlbkpmbx .gt_center {
+#azadesszsy .gt_center {
   text-align: center;
 }
 
-#fgxlbkpmbx .gt_right {
+#azadesszsy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fgxlbkpmbx .gt_font_normal {
+#azadesszsy .gt_font_normal {
   font-weight: normal;
 }
 
-#fgxlbkpmbx .gt_font_bold {
+#azadesszsy .gt_font_bold {
   font-weight: bold;
 }
 
-#fgxlbkpmbx .gt_font_italic {
+#azadesszsy .gt_font_italic {
   font-style: italic;
 }
 
-#fgxlbkpmbx .gt_super {
+#azadesszsy .gt_super {
   font-size: 65%;
 }
 
-#fgxlbkpmbx .gt_footnote_marks {
+#azadesszsy .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="fgxlbkpmbx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="azadesszsy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings">
 <tr>
 <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1"><strong>Characteristic</strong></th>
@@ -2140,16 +2128,16 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
     </tr></tfoot>
 </table></div></div>
 </div>
-<div id="combine-with-dplyr" class="section level4 unnumbered">
-<h4>Combine with <strong>dplyr</strong><a class="anchor" aria-label="anchor" href="#combine-with-dplyr"><i class="fas fa-link"></i></a>
+<div id="gộp-bằng-package-dplyr" class="section level4 unnumbered">
+<h4>Gộp bằng package <strong>dplyr</strong><a class="anchor" aria-label="anchor" href="#g%E1%BB%99p-b%E1%BA%B1ng-package-dplyr"><i class="fas fa-link"></i></a>
 </h4>
-<p>An alternative way of combining the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>/<code>tidy()</code> univariate and multivariable outputs is with the <strong>dplyr</strong> join functions.</p>
+<p>Một cách khác để gộp các kết quả đơn biến và đa biến từ các hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>/<code>tidy()</code> bằng cách sử dụng các hàm kết nối từ package <strong>dplyr</strong>.</p>
 <ul>
-<li>Join the univariate results from earlier (<code>univ_tab_base</code>, which contains counts) with the tidied multivariable results <code>mv_tab_base</code><br>
+<li>Kết nối kết quả đơn biến trước đó (<code>univ_tab_base</code>, chứa được các cột đếm) với kết quả đa biến đã được làm gọn <code>mv_tab_base</code><br>
 </li>
-<li>Use <code>select()</code> to keep only the columns we want, specify their order, and re-name them<br>
+<li>Sử dụng hàm <code>select()</code> để giữ lại, sắp xếp lại thứ tự và đặt lại tên các cột mà chúng ta muốn<br>
 </li>
-<li>Use <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code> with two decimal places on all the column that are class Double</li>
+<li>Sử dụng hàm <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code> để làm tròn tất cả các cột với hai số thập phân</li>
 </ul>
 <div class="sourceCode" id="cb997"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## combine univariate and multivariable tables </span>
@@ -2196,29 +2184,27 @@ the <code>tbl_merge()</code> function. We now combine the multivariable results 
 </div>
 </div>
 </div>
-<div id="forest-plot" class="section level2" number="19.5">
+<div id="biểu-đồ-forest-plot" class="section level2" number="19.5">
 <h2>
-<span class="header-section-number">19.5</span> Forest plot<a class="anchor" aria-label="anchor" href="#forest-plot"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.5</span> Biểu đồ Forest plot<a class="anchor" aria-label="anchor" href="#bi%E1%BB%83u-%C4%91%E1%BB%93-forest-plot"><i class="fas fa-link"></i></a>
 </h2>
-<p>This section shows how to produce a plot with the outputs of your regression.
-There are two options, you can build a plot yourself using <strong>ggplot2</strong> or use a
-meta-package called <strong>easystats</strong> (a package that includes many packages).</p>
-<p>See the page on [ggplot basics] if you are unfamiliar with the <strong>ggplot2</strong> plotting package.</p>
+<p>Phần này hướng dẫn cách tạo ra một biểu đồ của các kết quả hồi quy. Có hai lựa chọn để tạo biểu đồ, chúng ta có thể tự tạo một biểu đồ bằng cách sử dụng package <strong>ggplot2</strong> hoặc sử dụng một meta-package có tên <strong>easystats</strong> (một package gồm nhiều package).</p>
+<p>Nếu chưa quen thuộc với gói lệnh tạo biểu đồ <strong>ggplot2</strong>, xem thêm chương <a href="ggplot-basics.html#ggplot-basics">ggplot cơ bản</a>.</p>
 <!-- ======================================================= -->
 <div id="ggplot2-package" class="section level3 unnumbered">
 <h3>
 <strong>ggplot2</strong> package<a class="anchor" aria-label="anchor" href="#ggplot2-package"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can build a forest plot with <code>ggplot()</code> by plotting elements of the multivariable regression results. Add the layers of the plots using these “geoms”:</p>
+<p>Bạn có thể xây dựng một forest plot với hàm <code>ggplot()</code> bằng cách vẽ các thành phần của kết quả hồi quy đa biến. Thêm các lớp của biều đồ bằng cách sử dụng các “geoms”:</p>
 <ul>
-<li>estimates with <code>geom_point()</code><br>
+<li>Các ước lượng bằng hàm <code>geom_point()</code><br>
 </li>
-<li>confidence intervals with <code>geom_errorbar()</code><br>
+<li>Khoảng tin cậy bằng hàm <code>geom_errorbar()</code><br>
 </li>
-<li>a vertical line at OR = 1 with <code>geom_vline()</code>
+<li>Đường thẳng đứng ở vị trí OR = 1 bằng hàm <code>geom_vline()</code>
 </li>
 </ul>
-<p>Before plotting, you may want to use <code>fct_relevel()</code> from the <strong>forcats</strong> package to set the order of the variables/levels on the y-axis. <code>ggplot()</code> may display them in alpha-numeric order which would not work well for these age category values (“30” would appear before “5”). See the page on <a href="factors.html#factors">Factors</a> for more details.</p>
+<p>Trước khi tạo biểu đồ, chúng ta sử dụng hàm <code>fct_relevel()</code> từ package <strong>forcats</strong> để đặt thứ tự các biến trên trục y. Hàm <code>ggplot()</code> cho phép hiển thị theo thứ tự chữ-số mà có thể không hiển thị tốt cho các giá trị của biến tuổi (“30” có thể hiển thị trước “5”). Xem chương <a href="factors.html#factors">Factors</a> để biết thêm chi tiết.</p>
 <div class="sourceCode" id="cb999"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## remove the intercept term from your multivariable results</span>
 <span class="va">mv_tab_base</span> <span class="op">%&gt;%</span> 
@@ -2251,10 +2237,8 @@ meta-package called <strong>easystats</strong> (a package that includes many pac
 <h3>
 <strong>easystats</strong> packages<a class="anchor" aria-label="anchor" href="#easystats-packages"><i class="fas fa-link"></i></a>
 </h3>
-<p>An alternative, if you do not want to the fine level of control that <strong>ggplot2</strong> provides, is to use a combination of <strong>easystats</strong> packages.</p>
-<p>The function <code>model_parameters()</code> from the <strong>parameters</strong> package does the equivalent
-of the <strong>broom</strong> package function <code>tidy()</code>. The <strong>see</strong> package then accepts those outputs
-and creates a default forest plot as a <code>ggplot()</code> object.</p>
+<p>Lựa chọn thứ hai là sử dụng một sự kết hợp của các package trong <strong>easystats</strong>, nếu chúng ta không muốn mức độ kiểm soát chặt chẽ mà package <strong>ggplot2</strong> cung cấp.</p>
+<p>Hàm <code>model_parameters()</code> từ package <strong>parameters</strong> thực hiện tương đương với hàm <code>tidy()</code> trong package <strong>broom</strong> . Sau đó, package <strong>see</strong> chấp nhận các kết quả đầu ra và tạo một biểu đồ forest plot mặc định giống như cho một đối tượng <code>ggplot()</code>.</p>
 <div class="sourceCode" id="cb1000"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">easystats</span><span class="op">)</span>
 
@@ -2266,11 +2250,11 @@ and creates a default forest plot as a <code>ggplot()</code> object.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="resources-9" class="section level2" number="19.6">
+<div id="nguồn-3" class="section level2" number="19.6">
 <h2>
-<span class="header-section-number">19.6</span> Resources<a class="anchor" aria-label="anchor" href="#resources-9"><i class="fas fa-link"></i></a>
+<span class="header-section-number">19.6</span> Nguồn<a class="anchor" aria-label="anchor" href="#ngu%E1%BB%93n-3"><i class="fas fa-link"></i></a>
 </h2>
-<p>The content of this page was informed by these resources and vignettes online:</p>
+<p>Nội dung của chương này được tham khảo từ các nguồn sau:</p>
 <p><a href="https://www.datacamp.com/community/tutorials/linear-regression-R">Linear regression in R</a></p>
 <p><a href="http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html">gtsummary</a></p>
 <p><a href="https://stats.idre.ucla.edu/other/dae/">UCLA stats page</a></p>
@@ -2286,32 +2270,32 @@ and creates a default forest plot as a <code>ggplot()</code> object.</p>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#regression"><span class="header-section-number">19</span> Hồi quy đơn và đa biến</a></li>
 <li>
-<a class="nav-link" href="#preparation-7"><span class="header-section-number">19.1</span> Preparation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load-packages-10">Load packages</a></li>
-<li><a class="nav-link" href="#import-data-10">Import data</a></li>
-<li><a class="nav-link" href="#clean-data">Clean data</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-2"><span class="header-section-number">19.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#g%E1%BB%8Di-packages-1">Gọi packages</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-s%E1%BB%91-li%E1%BB%87u-1">Nhập số liệu</a></li>
+<li><a class="nav-link" href="#l%C3%A0m-s%E1%BA%A1ch-s%E1%BB%91-li%E1%BB%87u">Làm sạch số liệu</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#univariate"><span class="header-section-number">19.2</span> Univariate</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#ph%C3%A2n-t%C3%ADch-%C4%91%C6%A1n-bi%E1%BA%BFn"><span class="header-section-number">19.2</span> Phân tích đơn biến</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#base-r-2">base R</a></li>
 <li><a class="nav-link" href="#reg_gt_uni">gtsummary package</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#stratified"><span class="header-section-number">19.3</span> Stratified</a></li>
+<li><a class="nav-link" href="#ph%C3%A2n-t%C3%ADch-ph%C3%A2n-t%E1%BA%A7ng"><span class="header-section-number">19.3</span> Phân tích phân tầng</a></li>
 <li>
-<a class="nav-link" href="#multivariable"><span class="header-section-number">19.4</span> Multivariable</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#conduct-multivariable">Conduct multivariable</a></li>
-<li><a class="nav-link" href="#combine-univariate-and-multivariable">Combine univariate and multivariable</a></li>
+<a class="nav-link" href="#ph%C3%A2n-t%C3%ADch-%C4%91a-bi%E1%BA%BFn"><span class="header-section-number">19.4</span> Phân tích đa biến</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#th%E1%BB%B1c-hi%E1%BB%87n-ph%C3%A2n-t%C3%ADch-%C4%91a-bi%E1%BA%BFn">Thực hiện phân tích đa biến</a></li>
+<li><a class="nav-link" href="#g%E1%BB%99p-k%E1%BA%BFt-qu%E1%BA%A3-ph%C3%A2n-t%C3%ADch-%C4%91%C6%A1n-bi%E1%BA%BFn-v%C3%A0-%C4%91a-bi%E1%BA%BFn">Gộp kết quả phân tích đơn biến và đa biến</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#forest-plot"><span class="header-section-number">19.5</span> Forest plot</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#bi%E1%BB%83u-%C4%91%E1%BB%93-forest-plot"><span class="header-section-number">19.5</span> Biểu đồ Forest plot</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#ggplot2-package">ggplot2 package</a></li>
 <li><a class="nav-link" href="#easystats-packages">easystats packages</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#resources-9"><span class="header-section-number">19.6</span> Resources</a></li>
+<li><a class="nav-link" href="#ngu%E1%BB%93n-3"><span class="header-section-number">19.6</span> Nguồn</a></li>
 </ul>
 
       <div class="book-extra">
@@ -2328,7 +2312,7 @@ and creates a default forest plot as a <code>ggplot()</code> object.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-22.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
