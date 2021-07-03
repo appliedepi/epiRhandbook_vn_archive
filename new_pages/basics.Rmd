@@ -289,7 +289,7 @@ Các hàm là phần cốt lõi của việc sử dụng R. Hàm là cách bạn
 Phần khái niệm cơ bản của hàm giải thích:
 
 -   Thế nào là một hàm và cách mà chúng hoạt động\
--   WThế nào là *đối số* của hàm\
+-   Thế nào là *đối số* của hàm\
 -   Làm cách nào để nhận được sự trợ giúp khi tìm hiểu một hàm
 
 *Lưu ý nhanh về cú pháp:* Trong cuốn sổ tay này, các hàm được viết dưới dạng code văn bản với dấu mở ngoặc đơn như sau: `filter()`. Như đã giải thích trong phần [packages](#packages), các hàm được tải xuống có sẵn trong các *packages*. Trong sổ tay này, tên các package được **in đậm**, ví dụ như **dplyr**. Đôi khi trong code ví dụ, bạn có thể thấy tên hàm được liên kết rõ ràng với tên package của chính hàm đó bằng hai dấu hai chấm (`::`) như thế này: `dplyr::filter()`. Mục đích của việc liên kết này sẽ được giải thích trong phần package.
