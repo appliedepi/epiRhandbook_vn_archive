@@ -10,25 +10,25 @@ knitr::include_graphics(here::here("images", "likert.png"))
 ```
 
 
-Demographic pyramids are useful to show distributions of age and gender. Similar code can be used to visualize the results of Likert-style survey questions (e.g. "Strongly agree", "Agree", "Neutral", "Disagree", "Strongly disagree"). In this page we cover the following:  
+Kim tự tháp nhân khẩu học rất hữu ích khi bạn muốn hiển thị sự phân bố về độ tuổi và giới tính. Code tương tự cũng có thể được sử dụng để trực quan hóa kết quả của các câu hỏi khảo sát kiểu Likert (ví dụ: “Hoàn toàn đồng ý”, “Đồng ý”, “Trung lập”, “Không đồng ý”, “Hoàn toàn không đồng ý”). Trong chương này, chúng tôi đề cập đến những điều sau
 
-* Fast & easy pyramids using the **apyramid** package  
-* More customizeable pyramids using `ggplot()`  
-* Displaying "baseline" demographics in the background of the pyramid  
-* Using pyramid-style plots to show other types of data (e.g responses to **Likert-style** survey questions)  
+* Tạo một tháp dân số nhanh & dễ dàng với package **apyramid**  
+* Tùy biến tháp dân số với `ggplot()`  
+* Hiển thị dữ liệu nhân khẩu học "nền" trong tháp dân số  
+* Sử dụng các biểu đồ kiểu kim tự tháp để hiển thị các loại dữ liệu khác (ví dụ: câu trả lời cho các câu hỏi khảo sát **kiểu Likert**)  
 
 
 
 
 
 <!-- ======================================================= -->
-## Preparation {}
+## Chuẩn bị {}
 
 
 
-### Load packages {.unnumbered}
+### Gọi package {.unnumbered}
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm `p_load()` từ package **pacman**, giúp cài đặt các package cần thiết *và* gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` của **base** R. Xem thêm chương [R cơ bản] để có thêm thông tin về các packages trong R.  
 
 ```{r}
 pacman::p_load(rio,       # to import data
@@ -42,9 +42,9 @@ pacman::p_load(rio,       # to import data
 
 
 
-### Import data {.unnumbered}  
+### Nhập dữ liệu {.unnumbered}  
 
-To begin, we import the cleaned linelist of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import data with the `import()` function from the **rio** package (it handles many file types like .xlsx, .csv, .rds - see the [Import and export] page for details).  
+Để bắt đầu, chúng ta nhập bộ dữ liệu có tên linelist đã làm sạch bao gồm các trường hợp từ vụ dịch Ebola mô phỏng. Để tiện theo dõi, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải dữ liệu linelist "đã được làm sạch" </a> (dưới dạng tệp .rds). Nhập dữ liệu bằng hàm `import()` từ package **rio** (nó xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem thêm chương [Nhập xuất dữ liệu] để biết thêm chi tiết.    
 
 ```{r, echo=F}
 # import the linelist into R
@@ -56,23 +56,23 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-The first 50 rows of the linelist are displayed below.
+50 hàng đầu tiên của bộ dữ liệu được hiển thị như bên dưới.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-### Cleaning {.unnumbered}  
+### Làm sạch {.unnumbered}  
 
-To make a traditional age/gender demographic pyramid, the data must first be cleaned in the following ways:  
+Để tạo tháp nhân khẩu học theo độ tuổi/giới tính truyền thống, trước tiên dữ liệu phải được làm sạch theo những cách sau:  
 
-* The gender column must be cleaned.  
-* Depending on your method, age should be stored as either a numeric or in an *age category* column.  
+* Cột gender phải được làm sạch.  
+* Tùy thuộc vào phương pháp của bạn, độ tuổi phải được lưu trữ dưới dạng số hoặc trong cột *age category*.  
 
-If using age categories, the column values should be corrected ordered, either by default alpha-numeric or intentionally set by converting to class factor.  
+Nếu sử dụng nhóm tuổi, các giá trị trong cột phải được sắp xếp thứ tự, hoặc là thứ tự chữ-số mặc định hoặc được đặt có chủ ý bằng cách chuyển đổi thành kiểu factor.  
 
-Below we use `tabyl()` from **janitor** to inspect the columns `gender` and `age_cat5`.  
+Sau đây chúng ta sử dụng hàm `tabyl()` từ package **janitor** để khảo sát hai cột `gender` và `age_cat5`.  
 
 ```{r}
 linelist %>% 
@@ -80,7 +80,7 @@ linelist %>%
 ```
 
 
-We also run a quick histogram on the `age` column to ensure it is clean and correctly classified:  
+Chúng ta có thể vẽ biểu đồ histogram đối với cột `age` để chắc chắn rằng nó đã được làm sạch và phân loại chính xác:  
 
 ```{r}
 hist(linelist$age)
@@ -90,16 +90,16 @@ hist(linelist$age)
 <!-- ======================================================= -->
 ## **apyramid** package {}
 
-The package **apyramid** is a product of the [R4Epis](https://r4epis.netlify.com/) project. You can read more about this package [here](https://cran.r-project.org/web/packages/apyramid/vignettes/intro.html). It allows you to quickly make an age pyramid. For more nuanced situations, see the section below [using `ggplot()`](#demo_pyr_gg). You can read more about the **apyramid** package in its Help page by entering `?age_pyramid` in your R console. 
+Package **apyramid** là một sản phẩm của dự án [R4Epis](https://r4epis.netlify.com/). Bạn có thể đọc thêm về package này [tại đây](https://cran.r-project.org/web/packages/apyramid/vignettes/intro.html). Nó cho phép bạn nhanh chóng tạo một tháp tuổi. Để tùy biến đẹp hơn, xem mục [sử dụng `ggplot()`](#demo_pyr_gg). Bạn có thể đọc thêm về package **apyramid** tại trang Help bằng cách nhập `?age_pyramid` vào R console. 
 
-### Linelist data {.unnumbered}  
+### Dữ liệu Linelist {.unnumbered}  
 
 
-Using the cleaned `linelist` dataset, we can create an age pyramid with one simple `age_pyramid()` command. In this command:  
+Sử dụng dữ liệu `linelist` đã làm sạch, chúng ta có thể tạo một tháp tuổi chỉ với một lệnh `age_pyramid()` cơ bản. Trong lệnh này:  
 
-* The `data = ` argument is set as the `linelist` data frame  
-* The `age_group = ` argument (for y-axis) is set to the name of the categorical age column (in quotes)  
-* The `split_by = ` argument (for x-axis) is set to the gender column  
+* Đối số `data = ` sử dụng bộ dữ liệu `linelist`  
+* Đối số `age_group = ` (trục y) lấy thông tin từ cột nhóm tuổi (trong ngoặc kép)  
+* Đối số `split_by = ` (trục x) lấy thông tin từ cột giới  
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(data = linelist,
@@ -108,7 +108,7 @@ apyramid::age_pyramid(data = linelist,
 ```
 
 
-The pyramid can be displayed with percent of all cases on the x-axis, instead of counts, by including `proportional = TRUE`.  
+Tháp có thể hiện thị phần trăm của tất cả các trường hợp trên trục x, thay vì chỉ số lượng, bằng cách thêm `proportional = TRUE`.  
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(data = linelist,
@@ -118,7 +118,7 @@ apyramid::age_pyramid(data = linelist,
 ```
 
 
-When using **agepyramid** package, if the `split_by` column is binary (e.g. male/female, or yes/no), then the result will appear as a pyramid. However if there are more than two values in the `split_by` column (not including `NA`), the pyramid will appears as a faceted bar plot with grey bars in the "background" indicating the range of the un-faceted data for that age group. In this case, values of `split_by = ` will appear as labels at top of each facet panel. For example, below is what occurs if the `split_by = ` is assigned the column `hospital`.  
+Khi sử dụng package **agepyramid**, nếu cột được phân chia `split_by` là nhị phân (vd. nam/nữ, hoặc có/không), thì kết quả sẽ xuất hiện dưới dạng một kim tự tháp. Tuy nhiên nếu có nhiều hơn hai giá trị trong cột được phân chia `split_by` (không bao gồm `NA`), kim tự tháp sẽ xuất hiện dưới dạng nhiều biểu đồ cột ngang với các thanh màu xám trong "background" cho biết phạm vi của dữ liệu không có mặt cho nhóm tuổi đó. Trong trường hợp này, giá trị của `split_by = ` sẽ xuất hiện dưới dạng nhãn ở đỉnh mỗi biểu đồ. Chẳng hạn, bên dưới là những gì xảy ra nếu `split_by = ` được chỉ định tới cột `hospital`.  
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(data = linelist,
@@ -126,9 +126,9 @@ apyramid::age_pyramid(data = linelist,
                       split_by = "hospital")  
 ```
 
-#### Missing values {.unnumbered}  
+#### Giá trị Missing {.unnumbered}  
 
-Rows that have `NA` missing values in the `split_by = ` or `age_group = ` columns, if coded as `NA`, will not trigger the faceting shown above. By default these rows will not be shown. However you can specify that they appear, in an adjacent barplot and as a separate age group at the top, by specifying `na.rm = FALSE`.  
+Các hàng chứa giá trị missing `NA` của các cột `split_by = ` hoặc `age_group = `, nếu được mã hóa là `NA`, sẽ không tự động kích hoạt việc phân chia biểu đồ như được hiển thị ở trên. Mặc định những hàng này không được hiển thị. Tuy nhiên, bạn có thể chỉ định các giá trị missing hiển thị, trong một biểu đồ liền kề và dưới dạng một nhóm tuổi riêng biệt, bằng cách chỉ định `na.rm = FALSE`.  
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(data = linelist,
@@ -137,11 +137,11 @@ apyramid::age_pyramid(data = linelist,
                       na.rm = FALSE)         # show patients missing age or gender
 ```
 
-#### Proportions, colors, & aesthetics {.unnumbered}  
+#### Tỷ lệ, màu sắc, & thẩm mỹ {.unnumbered}  
 
-By default, the bars display counts (not %), a dashed mid-line for each group is shown, and the colors are green/purple. Each of these parameters can be adjusted, as shown below:  
+Theo mặc định, các cột hiển thị số lượng (không phải %), đường gạch ngang giữa cho mỗi nhóm được hiển thị và màu sắc là xanh lục/tím. Các thông số này có thể được điều chỉnh, như được trình bày dưới đây:
 
-You can also add additional `ggplot()` commands to the plot using the standard `ggplot()` "+" syntax, such as aesthetic themes and label adjustments: 
+Bạn cũng có thể thêm các lệnh `ggplot()` vào biểu đồ bằng cách sử dụng các cú pháp chuẩn của `ggplot()` "+" , chẳng hạn như chủ đề trang trí và điều chỉnh nhãn: 
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(
@@ -172,11 +172,11 @@ apyramid::age_pyramid(
 
 
 
-### Aggregated data {.unnumbered}  
+### Dữ liệu được tổng hợp {.unnumbered}  
 
-The examples above assume your data are in a linelist format, with one row per observation. If your data are already aggregated into counts by age category, you can still use the **apyramid** package, as shown below.  
+Ví dụ bên trên giả định rằng dữ liệu của bạn có định dạng mỗi hàng cho một quan sát. Nếu dữ liệu của bạn đã được tổng hợp thành số lượng theo nhóm tuổi, bạn vẫn có thể sử dụng package **apyramid**, như được trình bày dưới đây.  
 
-For demonstration, we aggregate the linelist data into counts by age category and gender, into a "wide" format. This will simulate as if your data were in counts to begin with. Learn more about [Grouping data] and [Pivoting data] in their respective pages.  
+Để minh họa, chúng ta sẽ tổng hợp dữ liệu linelist theo số lượng đối với nhóm tuổi và giới, dưới định dạng "ngang". Việc này sẽ mô phỏng như thể dữ liệu ban đầu của bạn đang được trình bày dưới dạng số lượng. Tìm hiểu thêm về [Nhóm dữ liệu] và [Xoay trục dữ liệu] ở các chương tương ứng.  
 
 ```{r, warning=F, message=F}
 demo_agg <- linelist %>% 
@@ -188,14 +188,14 @@ demo_agg <- linelist %>%
   rename(`missing_gender` = `NA`)
 ```
 
-...which makes the dataset looks like this: with columns for age category, and male counts, female counts, and missing counts.  
+...lệnh trên sẽ khiến bộ dữ liệu trông như thế này: bao gồm các cột nhóm tuổi, số lượng nam, nữ, và missing.  
 
 ```{r, echo=F, warning=F, message=F}
 # View the aggregated data
 DT::datatable(demo_agg, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-To set-up these data for the age pyramid, we will pivot the data to be "long" with the `pivot_longer()` function from **dplyr**. This is because `ggplot()` generally prefers "long" data, and **apyramid** is using `ggplot()`.  
+Để thiết lập chủ đề cho tháp tuổi, chúng ta sẽ xoay trục dữ liệu sang dạng "dọc" bằng hàm `pivot_longer()` trong package **dplyr**. Đó là bởi vì `ggplot()` thường thích dữ liệu được bố trí ở dạng "dọc", và package **apyramid** đang sử dụng `ggplot()`.  
 
 ```{r, warning=F, message=F}
 # pivot the aggregated data into long format
@@ -213,7 +213,7 @@ demo_agg_long <- demo_agg %>%
 DT::datatable(demo_agg_long, rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Then use the `split_by = ` and `count = ` arguments of `age_pyramid()` to specify the respective columns in the data:  
+Sau đó sử dụng các đối số `split_by = ` và `count = ` của hàm `age_pyramid()` để chỉ định các cột tương ứng trong bộ dữ liệu:  
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(data = demo_agg_long,
@@ -222,7 +222,7 @@ apyramid::age_pyramid(data = demo_agg_long,
                       count = "counts")      # column name for case counts
 ```
 
-Note in the above, that the factor order of "m" and "f" is different (pyramid reversed). To adjust the order you must re-define gender in the aggregated data as a Factor and order the levels as desired. See the [Factors] page.  
+Lưu ý rằng ở trên, thứ tự của "m" và "f" là khác nhau (tháp bị đảo ngược). Để điều chỉnh thự tự, bạn phải định nghĩa lại cột giới trong dữ liệu được tổng hợp thành kiểu Factor và sắp xếp thứ tự như mong muốn. Xem chương [Factors].  
 
 
 
@@ -231,35 +231,35 @@ Note in the above, that the factor order of "m" and "f" is different (pyramid re
 ## `ggplot()` {#demo_pyr_gg}
 
 
-Using `ggplot()` to build your age pyramid allows for more flexibility, but requires more effort and understanding of how `ggplot()` works. It is also easier to accidentally make mistakes.  
+Sử dụng `ggplot()` cho phép bạn xây dựng tháp tuổi một cách linh hoạt hơn, nhưng đòi hỏi nhiều nỗ lực và hiểu biết hơn về cách hoạt động của `ggplot()`. Việc vô tình mắc sai lầm cũng dễ dàng hơn.  
 
-To use `ggplot()` to make demographic pyramids, you create two bar plots (one for each gender), convert the values in one plot to negative, and finally flip the x and y axes to display the bar plots vertically, their bases meeting in the plot middle.  
+Để sử dụng `ggplot()` tạo tháp nhân khẩu học, bạn tạo hai biểu đồ cột (cho từng giới tính), chuyển đổi các giá trị trong một biểu đồ thành âm và cuối cùng lật các trục x và y để hiển thị các biểu đồ cột theo chiều dọc, xuất phát điểm của chúng gặp nhau ở chính giữa biểu đồ.  
 
 
-### Preparation {.unnumbered}
+### Chuẩn bị {.unnumbered}
 
-This approach uses the *numeric* age column, not the *categorical* column of `age_cat5`. So we will check to ensure the class of this column is indeed numeric.  
+Cách tiếp cận này sử dụng cột tuổi ở dạng *numeric*, không phải cột nhóm tuổi `age_cat5` dạng *categorical*. Vì vậy, chúng ta cần kiểm tra để đảm bảo rằng kiểu của cột này thực sự là dạng số.  
 
 ```{r}
 class(linelist$age)
 ```
 
-You could use the same logic below to build a pyramid from categorical data using `geom_col()` instead of `geom_histogram()`.  
+Bạn có thể sử dụng logic tương tự như dưới đây để xây dựng một kim tự tháp từ dữ liệu dạng danh mục sử dụng `geom_col()` thay vì `geom_histogram()`.  
 
 <!-- ======================================================= -->
-### Constructing the plot {.unnumbered} 
+### Xây dựng biểu đồ {.unnumbered} 
 
-First, understand that to make such a pyramid using `ggplot()` the approach is as follows:
+Trước tiên, hãy hiểu rằng để tạo một kim tự tháp như vậy bằng cách sử dụng `ggplot()`, cách tiếp cận sẽ là như sau:
 
-* Within the `ggplot()`, create **two** histograms using the numeric age column. Create one for each of the two grouping values (in this case genders male and female). To do this, the data for each histogram are specified within their respective `geom_histogram()` commands, with the respective filters applied to `linelist`.    
+* Bên trong hàm `ggplot()`, tạo **hai** biểu đồ histograms sử dụng cột tuổi dạng numeric, tương ứng cho hai nhóm (trong trường hợp này là giới nam và nữ). Để thực hiện việc này, dữ liệu cho mỗi biểu đồ được chỉ định trong các lệnh `geom_histogram()` tương ứng của chúng, với các bộ lọc tương ứng được áp dụng cho bộ dữ liệu `linelist`.    
 
-* One graph will have positive count values, while the other will have its counts converted to negative values - this creates the "pyramid" with the `0` value in the middle of the plot. The negative values are created using a special **ggplot2** term `..count..` and multiplying by -1.  
+* Một biểu đồ sẽ có các giá trị dương, trong khi biểu đồ kia sẽ có các giá trị được chuyển thành giá trị âm - điều này tạo ra “kim tự tháp” với giá trị `0` ở giữa biểu đồ. Các giá trị âm được tạo bằng cách sử dụng thuật ngữ đặc biệt của  **ggplot2** là `..count..` và nhân với -1.  
 
-* The command `coord_flip()` switches the X and Y axes, resulting in the graphs turning vertical and creating the pyramid.
+* Lệnh `coord_flip()` chuyển trục X và Y, dẫn đến các đồ thị quay dọc và tạo ra hình kim tự tháp.
 
-* Lastly, the counts-axis value labels must be altered so they appear as "positive" counts on both sides of the pyramid (despite the underlying values on one side being negative). 
+* Cuối cùng, các nhãn giá trị trục đếm phải được thay đổi để chúng xuất hiện dưới dạng số "dương" trên cả hai mặt của kim tự tháp (mặc dù các giá trị thực tế ở một mặt là âm). 
 
-A **simple** version of this, using `geom_histogram()`, is below:
+Một phiên bản **đơn giản** của biểu đồ, sử dụng hàm `geom_histogram()`, như dưới đây:
 
 ```{r, warning=F, message=F}
   # begin ggplot
@@ -285,16 +285,16 @@ A **simple** version of this, using `geom_histogram()`, is below:
                      labels = abs(seq(-600, 900, 100)))
 ```
 
-<span style="color: red;">**_DANGER:_** If the **limits** of your counts axis are set too low, and a counts bar exceeds them, the bar will disappear entirely or be artificially shortened! Watch for this if analyzing data which is routinely updated. Prevent it by having your count-axis limits auto-adjust to your data, as below.</span>  
+<span style="color: red;">**_NGUY HIỂM:_** Nếu như **giới hạn** của trục counts được thiết lập quá nhỏ, và cột số lượng vượt quá giá trị đó, cột sẽ biến mất hoàn toàn hoặc bị rút ngắn một cách không tự nhiên! Hãy chú ý điều này nếu dữ liệu phân tích thường xuyên được cập nhật. Có thể ngăn chặn điều này bằng cách tự động điều chỉnh các giới hạn trục count cho phù hợp với dữ liệu của bạn, như dưới đây.</span>  
 
-There are many things you can change/add to this simple version, including:  
+Có nhiều thứ bạn có thể thay đổi/thêm vào phiên bản đơn giản này, bao gồm:  
 
-* Auto adjust counts-axis scale to your data (avoid errors discussed in warning below)  
-* Manually specify colors and legend labels  
+* Tự động điều chỉnh tỷ lệ trục count cho dữ liệu của bạn (tránh các lỗi được thảo luận trong cảnh báo bên dưới)  
+* Chỉ định màu sắc và nhãn chú giải một cách thủ công  
 
-**Convert counts to percents**  
+**Chuyển đổi số lượng thành tỷ lệ phần trăm**  
 
-To convert counts to percents (of total), do this in your data prior to plotting. Below, we get the age-gender counts, then `ungroup()`, and then `mutate()` to create new percent columns. If you want percents by gender, skip the ungroup step.  
+Để chuyển đổi số lượng thành phần trăm (của tổng số), hãy thực hiện điều này với dữ liệu của bạn trước khi vẽ biểu đồ. Dưới đây, chúng ta lấy số lượng của age-gender, sau đó `ungroup()`, và tiếp tục `mutate()` để tạo cột phần trăm mới. Nếu bạn muốn phần trăm theo giới tính, hãy bỏ qua bước hủy nhóm.  
 
 
 ```{r, warning=F, message=F}
@@ -311,7 +311,7 @@ pyramid_data <- linelist %>%
             TRUE          ~ NA_real_))    # NA val must by numeric as well
 ```
 
-Importantly, we save the max and min values so we know what the limits of the scale should be. These will be used in the `ggplot()` command below.    
+Quan trọng là, chúng ta lưu các giá trị lớn nhất vầ nhỏ nhất để chúng ta biết giới hạn của thang đo. Chúng sẽ được sử dụng trong lệnh `ggplot()` dưới đây.    
 
 ```{r}
 max_per <- max(pyramid_data$percent, na.rm=T)
@@ -321,7 +321,7 @@ max_per
 min_per
 ```
 
-Finally we make the `ggplot()` on the percent data. We specify `scale_y_continuous()` to extend the pre-defined lengths in each direction (positive and "negative"). We use `floor()` and `ceiling()` to round decimals the appropriate direction (down or up) for the side of the axis.  
+Cuối cùng, chúng ta dùng hàm `ggplot()` trên dữ liệu phần trăm. Chúng ta chỉ rõ `scale_y_continuous()` để mở rộng độ dài được xác định trước theo mỗi hướng (dương và "âm"). Chúng ta sử dụng hàm `floor()` vả `ceiling()` để làm tròn số thập phân theo cách thích hợp (làm tròn xuống hoặc lên).  
 
 ```{r, warning=F, message=F}
 # begin ggplot
@@ -380,11 +380,13 @@ Finally we make the `ggplot()` on the percent data. We specify `scale_y_continuo
 
 
 <!-- ======================================================= -->
-### Compare to baseline  {.unnumbered} 
+### So sánh với đường cơ sở  {.unnumbered} 
 
 With the flexibility of `ggplot()`, you can have a second layer of bars in the background that represent the "true" or "baseline" population pyramid. This can provide a nice visualization to compare the observed with the baseline.  
 
-Import and view the population data (see [Download handbook and data] page):
+Với sự linh hoạt của `ggplot()`, bạn có thể có lớp thanh thứ hai trong nền đại diện cho tháp dân số “chuẩn” hoặc “đường cơ sở”. Điều này có thể cung cấp khả năng trực quan hóa tốt để so sánh những gì quan sát được với đường cơ sở.
+
+Nhập và xem dữ liệu dân số (xem chương [Tải sách và dữ liệu]):
 
 ```{r echo=F}
 # import the population demographics data
@@ -402,9 +404,9 @@ DT::datatable(pop, rownames = FALSE, options = list(pageLength = 10, scrollX=T),
 ```
 
 
-First some data management steps:  
+Đầu tiên là một số bước quản lý dữ liệu:  
 
-Here we record the order of age categories that we want to appear. Due to some quirks the way the `ggplot()` is implemented, in this specific scenario it is easiest to store these as a character vector and use them later in the plotting function.  
+Ở đây chúng ta sắp xếp lại thứ tự của các danh mục tuổi mà chúng ta muốn chúng xuất hiện. Do một số điểm khác biệt trong cách thực thi `ggplot()`, trong trường hợp cụ thể này, dễ dàng nhất là lưu trữ chúng dưới dạng vectơ ký tự và sử dụng chúng sau này trong hàm vẽ đồ thị.  
 
 ```{r}
 # record correct age cat levels
@@ -414,11 +416,11 @@ age_levels <- c("0-4","5-9", "10-14", "15-19", "20-24",
                 "75-79", "80-84", "85+")
 ```
 
-Combine the population and case data through the **dplyr** function `bind_rows()`:  
+Kết hợp dữ liệu quần thể và dữ liệu trường hợp thông qua hàm `bind_rows()` của package  **dplyr**:  
 
-* First, ensure they have the *exact same* column names, age categories values, and gender values  
-* Make them have the same data structure: columns of age category, gender, counts, and percent of total  
-* Bind them together, one on-top of the other (`bind_rows()`)  
+* Trước tiên, hãy đảm bảo hai bộ dữ liệu có tên cột *giống nhau*, các giá trị nhóm tuổi và giá trị giới tính  
+* Làm cho chúng có cấu trúc dữ liệu giống nhau: cột nhóm tuổi, giới tính, số lượng và phần trăm tổng số 
+* Gắn chúng lại với nhau, một bộ dữ liệu này ở trên bộ dữ liệu kia (`bind_rows()`)  
 
 
 
@@ -439,14 +441,14 @@ pop_data <- pop %>%
      TRUE          ~ NA_real_))
 ```
 
-Review the changed population dataset
+Xem lại bộ dữ liệu dân số đã thay đổi
 
 ```{r, echo=F, warning=F, message=F}
 # display the linelist data as a table
 DT::datatable(pop_data, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Now implement the same for the case linelist.  Slightly different because it begins with case-rows, not counts.  
+Bây giờ thực hiện tương tự cho bộ linelist. Sẽ hơi khác một chút bởi vì nó bắt đầu với các trường hợp theo hàng, không phải số lượng.  
 
 ```{r, warning=F, message=F}
 # create case data by age/gender, with percent of total
@@ -462,14 +464,14 @@ case_data <- linelist %>%
       TRUE          ~ NA_real_))
 ```
 
-Review the changed case dataset  
+Xem lại bộ dữ liệu trường hợp đã thay đổi  
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(case_data, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Now the two data frames are combined, one on top of the other (they have the same column names). We can "name" each of the data frame, and use the `.id = ` argument to create a new column "data_source" that will indicate which data frame each row originated from. We can use this column to filter in the `ggplot()`.  
+Bây giờ hai data frame sẽ được kết hợp, cái này ở trên cái kia (chúng có cùng tên cột). Chúng ta có thể "đặt tên" cho từng data frame, và sử dụng đối số `.id = ` để tạo một cột mới "data_source" sẽ cho biết dữ liệu có nguồn gốc từ data frame nào. Chúng tôi có thể sử dụng cột này để lọc với hàm `ggplot()`.  
 
 
 
@@ -478,7 +480,7 @@ Now the two data frames are combined, one on top of the other (they have the sam
 pyramid_data <- bind_rows("cases" = case_data, "population" = pop_data, .id = "data_source")
 ```
 
-Store the maximum and minimum percent values, used in the plotting function to define the extent of the plot (and not cut short any bars!)  
+Lưu trữ các giá trị phần trăm tối đa và tối thiểu, được sử dụng trong hàm vẽ biểu đồ để xác định phạm vi của biểu đồ (và không cắt ngắn bất kỳ cột nào!)
 
 ```{r}
 # Define extent of percent axis, used for plot limits
@@ -486,10 +488,10 @@ max_per <- max(pyramid_data$percent, na.rm=T)
 min_per <- min(pyramid_data$percent, na.rm=T)
 ```
 
-Now the plot is made with `ggplot()`: 
+Bây giờ biểu đồ được tạo bởi `ggplot()` có: 
 
-* One bar graph of population data (wider, more transparent bars)
-* One bar graph of case data (small, more solid bars)  
+* Một biểu đồ cột ngang của dữ liệu dan số (rộng hơn, trong suốt)
+* Một biểu đồ cột ngang của dữ liệu các trường hợp (nhỏ hơn, đậm hơn)  
 
 
 ```{r, warning=F, message=F}
@@ -564,9 +566,9 @@ ggplot()+  # default x-axis is age in years;
 
 
 <!-- ======================================================= -->
-## Likert scale {}
+## Thang đo Likert {}
 
-The techniques used to make a population pyramid with `ggplot()` can also be used to make plots of Likert-scale survey data.  
+Các kỹ thuật được sử dụng để tạo tháp dân số với `ggplot()` cũng có thể được sử dụng để lập các biểu đồ của dữ liệu khảo sát từ thang đo Likert.  
 
 ```{r, eval=F, echo=F}
 data_raw <- import("P:/Shared/equateur_mve_2020/lessons learned/Ebola After-Action Survey - HQ epi team (form responses).csv")
@@ -595,7 +597,7 @@ table(likert_data$status)
 rio::export(likert_data, here::here("data", "likert_data.csv"))
 ```
 
-Import the data (see [Download handbook and data] page if desired).  
+Nhập dữ liệu (xem chương [Tải sách và dữ liệu] nếu cần).  
 
 ```{r echo=F}
 # import the likert survey response data
@@ -607,19 +609,19 @@ likert_data <- rio::import(here::here("data", "likert_data.csv"))
 likert_data <- rio::import("likert_data.csv")
 ```
 
-Start with data that looks like this, with a categorical classification of each respondent (`status`) and their answers to 8 questions on a 4-point Likert-type scale ("Very poor", "Poor", "Good", "Very good").  
+Bắt đầu với dữ liệu giống như sau, với một biến phân loại từng người trả lời (`status`) và câu trả lời của họ cho 8 câu hỏi trên thang điểm Likert 4 mức độ ("Rất kém", "Kém", "Tốt", "Rất tốt").  
 
 ```{r, echo=F, message=FALSE}
 # display the linelist data as a table
 DT::datatable(likert_data, rownames = FALSE, filter="top", options = list(pageLength = 10, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-First, some data management steps:  
+Đầu tiên là một vài bước quản lý số liệu:  
 
-* Pivot the data longer  
-* Create new column `direction` depending on whether response was generally "positive" or "negative"  
-* Set the Factor level order for the `status` column and the `Response` column  
-* Store the max count value so limits of plot are appropriate  
+* Xoay trục dữ liệu dài hơn
+* Tạo cột mới `direction` tùy thuộc vào việc phản hồi "tích cực" hay "tiêu cực"
+* Thiết lập thứ bậc kiểu factor cho cột `status` và cột `Response`  
+* Lưu trữ giá trị đếm tối đa để các giới hạn của biểu đồ là phù hợp  
 
 
 ```{r, warning=F, message=F}
@@ -648,9 +650,9 @@ melted_max <- melted %>%
 ```
 
 
-Now make the plot. As in the age pyramids above, we are creating two bar plots and inverting the values of one of them to negative. 
+Bây giờ hãy cùng vẽ biểu đồ. Tương tự các tháp tuổi ở trên, chúng ta đang tạo hai biểu đồ thanh và đảo các giá trị của một trong số chúng thành âm. 
 
-We use `geom_bar()` because our data are one row per observation, not aggregated counts. We use the special **ggplot2** term `..count..` in one of the bar plots to invert the values negative (*-1), and we set `position = "stack"` so the values stack on top of each other.  
+Chúng ta sử dụng hàm `geom_bar()` bởi vì dữ liệu của chúng ta mỗi quan sát nằm trên một hàng, không phải là số lượng tổng hợp. Chúng ta sử dụng thuật ngữ đặc biệt của **ggplot2** là `..count..` ở một biểu đồ thanh để đảo ngược các giá trị thành âm(*-1), sau đó chúng ta thiết lập `position = "stack"` để các giá trị xếp chồng lên nhau.  
 
 ```{r, warning=F, message=F}
 # make plot
@@ -730,7 +732,7 @@ ggplot()+
 
 
 <!-- ======================================================= -->
-## Resources {}
+## Nguồn {}
 
 [apyramid documentation](https://cran.r-project.org/web/packages/apyramid/vignettes/intro.html)
 
