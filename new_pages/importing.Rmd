@@ -1,145 +1,135 @@
 # Nhập xuất dữ liệu {#importing}
 
-
 ```{r, out.width=c('100%'), echo=F, message=F}
 knitr::include_graphics(here::here("images", "Import_Export_1500x500.png"))
 ```
 
+Trong chương này, chúng tôi mô tả các cách để định vị, nhập và xuất tệp:
 
+-   Sử dụng package **rio** để `import()` và `export()` linh hoạt nhiều loại tệp\
 
-In this page we describe ways to locate, import, and export files:  
+-   Sử dụng package **here** để định vị tệp liên quan đến dự án R gốc - để ngăn ngừa sự phức tạp do nhiều đường dẫn tệp chỉ dành riêng cho một máy tính\
 
-* Use of the **rio** package to flexibly `import()` and `export()` many types of files  
-* Use of the **here** package to locate files relative to an R project root - to prevent complications from file paths that are specific to one computer  
-* Specific import scenarios, such as:  
-  * Specific Excel sheets  
-  * Messy headers and skipping rows  
-  * From Google sheets  
-  * From data posted to websites  
-  * With APIs  
-  * Importing the *most recent* file  
-* Manual data entry  
-* R-specific file types such as RDS and RData  
-* Exporting/saving files and plots  
+-   Các trường hợp nhập cụ thể:
 
+    -   Excel sheet cụ thể\
+    -   Tiêu đề sắp xếp lộn xộn và hàng bị bỏ qua\
+    -   Từ Google sheet\
+    -   Từ dữ liệu được đăng lên các trang web\
+    -   Với APIs\
+    -   Nhập tệp *gần đây nhất*\
 
-<!-- ======================================================= -->
-## Overview
+-   Nhập dữ liệu thủ công\
 
-When you import a "dataset" into R, you are generally creating a new *data frame* object in your R environment and defining it as an imported file (e.g. Excel, CSV, TSV, RDS) that is located in your folder directories at a certain file path/address.  
+-   Các loại tệp R cụ thể ví dụ như RDS và RData\
 
-You can import/export many types of files, including those created by other statistical programs (SAS, STATA, SPSS). You can also connect to relational databases.  
-
-R even has its own data formats:  
-
-* An RDS file (.rds) stores a single R object such as a data frame. These are useful to store cleaned data, as they maintain R column classes. Read more in [this section](#import_rds).    
-* An RData file (.Rdata) can be used to store multiple objects, or even a complete R workspace. Read more in [this section](#import_rdata).  
-
+-   Xuất/lưu tệp và plot
 
 <!-- ======================================================= -->
-## The **rio** package {}  
 
-The R package we recommend is: **rio**. The name "rio" is an abbreviation of "R I/O" (input/output).  
+## Tổng quan
 
-Its functions `import()` and `export()` can handle many different file types (e.g. .xlsx, .csv, .rds, .tsv). When you provide a file path to either of these functions (including the file extension like ".csv"), **rio** will read the extension and use the correct tool to import or export the file.  
+Khi bạn nhập một "dataset" vào R, bạn thường tạo ra một đối tượng *data frame* mới trong môi trường R của mình và xác định nó là tệp được nhập (ví dụ: Excel, CSV, TSV, RDS), tệp mà được đặt trong các thư mục của bạn tại một đường dẫn/địa chỉ tệp nhất định.
 
-The alternative to using **rio** is to use functions from many other packages, each of which is specific to a type of file. For example, `read.csv()` (**base** R), `read.xlsx()` (**openxlsx** package), and `write_csv()` (**readr** pacakge), etc. These alternatives can be difficult to remember, whereas using `import()` and `export()` from **rio** is easy.  
+Bạn có thể nhập/xuất nhiều loại tệp, bao gồm cả những tệp được tạo bởi các chương trình thống kê khác (SAS, STATA, SPSS). Bạn cũng có thể kết nối với các cơ sở dữ liệu liên quan.
 
-**rio**'s functions `import()` and `export()` use the appropriate package and function for a given file, based on its file extension. See the end of this page for a complete table of which packages/functions **rio** uses in the background. It can also be used to import STATA, SAS, and SPSS files, among dozens of other file types.  
+R thậm chí còn có các định dạng dữ liệu riêng:
 
-Import/export of shapefiles requires other packages, as detailed in the page on [GIS basics].    
+-   Một tệp RDS (.rds) lưu trữ một đối tượng R đơn lẻ chẳng hạn như một data frame. Chúng hữu ích trong việc lưu trữ dữ liệu đã được làm sạch, vì chúng duy trì các lớp cột R. Đọc thêm trong [mục này](#import_rds).\
+-   Một tệp RData (.Rdata) có thể được sử dụng để lưu trữ nhiều đối tượng hoặc thậm chí là một không gian làm việc R hoàn chỉnh. Đọc thêm trong [mục này](#import_rdata).
 
+<!-- ======================================================= -->
 
+## Package **rio**
 
+Package R chúng tôi gợi ý là: **rio**. Tên "rio" là chữ viết tắt của "R I/O" (dữ liệu đầu vào (input)/kết quả đầu ra (output)).
 
+Hàm `import()` và `export()` có thể xử lý nhiều loại tệp khác nhau (ví dụ: .xlsx, .csv, .rds, .tsv). Khi bạn cung cấp đường dẫn tệp đến một trong các hàm này (bao gồm cả đuôi file mở rộng như ".csv"), **rio** sẽ đọc phần mở rộng và sử dụng đúng công cụ để nhập hoặc xuất tệp.
 
-## The **here** package {#here}
+Giải pháp thay thế cho việc sử dụng **rio** là sử dụng các hàm từ nhiều package khác, mỗi gói cụ thể cho một loại tệp. Ví dụ như, `read.csv()` (**base** R), `read.xlsx()` (package **openxlsx**) và `write_csv()` (package **readr**), v.v... Những lựa chọn thay thế này có thể khó nhớ, trong khi sử dụng `import()` và `export()` từ **rio** rất dễ dàng.
 
-The package **here** and its function `here()` make it easy to tell R where to find and to save your files - in essence, it builds file paths.  
+Các hàm `import()` và `export()` của **rio** sử dụng package và lệnh phù hợp cho một tệp nhất định, dựa trên phần mở rộng của tệp đó. Xem phần cuối của chương này để thấy bảng đầy đủ về các package/hàm **rio** sử dụng trong nền. Hàm này cũng có thể được sử dụng để nhập các tệp STATA, SAS và SPSS trong hàng tá các loại tệp khác.
 
-Used in conjunction with an R project, **here** allows you to describe the location of files in your R project in relation to the R project's *root directory* (the top-level folder). This is useful when the R project may be shared or accessed by multiple people/computers. It prevents complications due to the unique file paths on different computers (e.g. `"C:/Users/Laura/Documents..."` by "starting" the file path in a place common to all users (the R project root).  
+Nhập/xuất các dạng tệp theo yêu cầu của các package khác, được mô tả cụ thể trong chương [GIS cơ bản].
 
-This is how `here()` works within an R project:  
+## Package **here** {#here}
 
-* When the **here** package is first loaded within the R project, it places a small file called ".here" in the root folder of your R project as a "benchmark" or "anchor"  
-* In your scripts, to reference a file in the R project's sub-folders, you use the function `here()` to build the file path *in relation to that anchor*
-* To build the file path, write the names of folders beyond the root, within quotes, separated by commas, finally ending with the file name and file extension as shown below  
-* `here()` file paths can be used for both importing and exporting  
+Package **here** và hàm `here()` của nó giúp R dễ dàng biết nơi tìm và lưu tệp của bạn - về bản chất, nó xây dựng đường dẫn tệp.
 
-For example, below, the function `import()` is being provided a file path constructed with `here()`.  
+Được sử dụng cùng với dự án R, **here** cho phép bạn mô tả vị trí các tệp trong dự án R của bạn trong *thư mục gốc (root directory*) của dự án R (thư mục cấp cao nhất). Điều này hữu ích khi dự án R có thể được chia sẻ hoặc truy cập bởi nhiều người dùng/máy tính. Package này ngăn ngừa sự phức tạp do các đường dẫn tệp là duy nhất trên các máy tính khác nhau (ví dụ: `"C:/Users/Laura/Documents..."`) bằng cách "khởi động (starting)" đường dẫn tệp ở thư mục chung cho tất cả người dùng (dự án R gốc).
+
+Đây là cách `here()` làm việc trong một dự án R:
+
+-   Khi package **here** được tải lần đầu tiên trong dự án R, nó đặt một tệp nhỏ có tên là ".here" trong thư mục gốc dự án R của bạn như là một "benchmark" hoặc "anchor"\
+-   Trong script của bạn, để tham chiếu một tệp trong các thư mục con của dự án R, bạn sử dụng hàm `here()` để tạo đường dẫn tệp *liên quan đến thư mục gốc (anchor)*
+-   Để tạo đường dẫn tệp, viết tên các thư mục bên ngoài thư mục gốc, trong dấu ngoặc kép, được phân tách bằng dấu phẩy, cuối cùng kết thúc bằng tên và phần mở rộng của tệp như hình dưới đây\
+-   Các đường dẫn tệp `here()` có thể được sử dụng cả để nhập và xuất dữ liệu
+
+Ví dụ, dưới đây, một đường dẫn tệp được tạo bởi `here()` đang cung cấp cho hàm `import()`
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
 ```
 
-The command `here("data", "linelists", "ebola_linelist.xlsx")` is actually providing the full file path that is *unique to the user's computer*:  
+Lệnh `here("data", "linelists", "ebola_linelist.xlsx")` đang cung cấp đường dẫn tệp đầy đủ mà *duy nhất cho máy tính của người dùng:*
 
-```
-"C:/Users/Laura/Documents/my_R_project/data/linelists/ebola_linelist.xlsx"
-```
+    "C:/Users/Laura/Documents/my_R_project/data/linelists/ebola_linelist.xlsx"
 
-The beauty is that the R command using `here()` can be successfully run on any computer accessing the R project.   
+Ưu điểm là lệnh `here()` được R sử dụng có thể chạy thành công trên bất kỳ máy tính nào truy cập dự án R.
 
+[***MẸO:*** Nếu bạn không chắc gốc ".here" được đặt ở đâu, hãy chạy lệnh `here()` với dấu ngoặc đơn trống.]{style="color: darkgreen;"}
 
-<span style="color: darkgreen;">**_TIP:_** If you are unsure where the “.here” root is set to, run the function `here()` with empty parentheses.</span>  
-
-Read more about the **here** package [at this link](https://here.r-lib.org/).  
-
-
+Đọc thêm về package **here** [tại đường dẫn này](https://here.r-lib.org/).
 
 <!-- ======================================================= -->
-## File paths  
 
-When importing or exporting data, you must provide a file path. You can do this one of three ways:  
+## Đường dẫn tệp
 
-1) *Recommended:* provide a "relative" file path with the **here** package  
-2) Provide the "full" / "absolute" file path  
-3) Manual file selection  
+Khi nhập hoặc xuất dữ liệu, bạn phải cung cấp một đường dẫn tệp. Bạn có thể thực hiện thao tác này bằng một trong ba cách sau:
 
+1)  *Khuyên dùng:* cung cấp một đường dẫn tệp "tương đối" bằng package **here**\
+2)  Cung cấp đường dẫn tệp "đầy đủ" / "tuyệt đối" \
+3)  Chọn tệp theo cách thủ công
 
+### Đường dẫn tệp "tương đối"  {.unnumbered}
 
-### "Relative" file paths {.unnumbered}
+Trong R, đường dẫn tệp "tương đối" bao gồm đường dẫn tệp mà *liên* *quan* đến phần gốc của dự án R. Chúng cho phép nhiều đường dẫn tệp đơn giản hơn có thể làm việc trên nhiều máy tính khác nhau (ví dụ: nếu dự án R nằm trên bộ nhớ dùng chung hoặc được gửi qua thư điện tử). Như đã được [mô tả ở trên](#here), đường dẫn tệp tương đối được tạo ra dễ dàng bằng cách sử dụng package **here**.
 
-In R, "relative" file paths consist of the file path *relative to* the root of an R project. They allow for more simple file paths that can work on different computers (e.g. if the R project is on a shared drive or is sent by email). As described [above](#here), relative file paths are facilitated by use of the **here** package.  
-
-An example of a relative file path constructed with `here()` is below. We assume the work is in an R project that contains a sub-folder "data" and within that a subfolder "linelists", in which there is the .xlsx file of interest.  
+Dưới đây là một ví dụ về đường dẫn tệp tương đối được tạo bằng package `here()`. Chúng tôi giả sử công việc nằm trong một dự án R có chứa một thư mục con "data" và bên trong thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
 ```
 
+### Đường dẫn tệp "tuyệt đối"  {.unnumbered}
 
+Đường dẫn tệp tuyệt đối hay "đầy đủ" có thể được cung cấp cho các hàm như `import()` nhưng chúng "dễ vỡ" vì chúng là độc nhất cho mỗi máy tính cụ thể của người dùng và do đó *không được khuyến khích* sử dụng.
 
-### "Absolute" file paths {.unnumbered}  
-
-Absolute or "full" file paths can be provided to functions like `import()` but they are "fragile" as they are unique to the user's specific computer and therefore *not recommended*. 
-
-Below is an example of an absolute file path, where in Laura's computer there is a folder "analysis", a sub-folder "data" and within that a sub-folder "linelists", in which there is the .xlsx file of interest.  
+Dưới đây là một ví dụ về đường dẫn tệp tuyệt đối, trong máy tính của Laura có một thư mục "analysis", một thư mục con "data" và bên trong là thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
 
 ```{r, eval=F}
 linelist <- import("C:/Users/Laura/Documents/analysis/data/linelists/ebola_linelist.xlsx")
 ```
 
-A few things to note about absolute file paths:  
+Một vài điều cần lưu ý về đường dẫn tệp tuyệt đối:
 
-* **Avoid using absolute file paths** as they will break if the script is run on a different computer
-* Use *forward* slashes (`/`), as in the example above (note: this is *NOT* the default for Windows file paths)  
-* File paths that begin with double slashes (e.g. "//...") will likely **not be recognized by R** and will produce an error. Consider moving your work to a "named" or "lettered" drive that begins with a letter (e.g. "J:" or "C:"). See the page on [Directory interactions] for more details on this issue.  
+-   **Tránh sử dụng đường dẫn tệp tuyệt đối** vì chúng sẽ bị vỡ nếu script được chạy trên một máy tính khác
+-   Sử dụng dấu gạch chéo *lên* (`/`), như trong ví dụ trên (lưu ý: đây *KHÔNG* phải là mặc định cho đường dẫn file Windows) \
+-   Đường dẫn tệp bắt đầu với hai dấu gạch chéo (ví dụ: "//...") sẽ có khả năng **không được R nhận ra** và tạo ra lỗi. Cân nhắc chuyển công việc của bạn sang ổ đĩa "có tên" hoặc "có chữ" bắt đầu bằng một chữ cái (ví dụ: "J:" hoặc "C:"). Xem trang về [Tương tác với thư mục làm việc] để biết thêm chi tiết về vấn đề này.
 
-One scenario where absolute file paths may be appropriate is when you want to import a file from a shared drive that has the same full file path for all users.  
+Một tình huống mà đường dẫn tệp tuyệt đối có thể phù hợp là khi bạn muốn nhập một tệp từ bộ nhớ dùng chung có cùng đường dẫn tệp đầy đủ cho tất cả người dùng.
 
-<span style="color: darkgreen;">**_TIP:_** To quickly convert all `\` to `/`, highlight the code of interest, use Ctrl+f (in Windows), check the option box for "In selection", and then use the replace functionality to convert them.</span>  
-
-
+[***MẸO:*** Để nhanh chóng chuyển đổi tất cả `\` thành `/`, đánh dấu code được quan tâm, sử dụng Ctrl + f (trong Windows), kiểm tra hộp tùy chọn cho "In selection", sau đó sử dụng chức năng thay thế (replace) để chuyển đổi chúng.]{style="color: darkgreen;"}
 
 <!-- ======================================================= -->
-### Select file manually {.unnumbered}
 
-You can import data manually via one of these methods:  
+### Chọn tệp theo cách thủ công {.unnumbered}
 
-1) Environment RStudio Pane, click "Import Dataset", and select the type of data 
-2) Click File / Import Dataset / (select the type of data)  
-3) To hard-code manual selection, use the *base R* command `file.choose()` (leaving the parentheses empty) to trigger appearance of a **pop-up window** that allows the user to manually select the file from their computer. For example:  
+Bạn có thể nhập dữ liệu theo cách thủ công thông qua một trong các phương pháp này:
+
+1)  Cửa sổ Environment trong RStudio, nhấp vào "Import Dataset" và chọn loại dữ liệu
+2)  Nhấp vào File / Import Dataset / (chọn loại dữ liệu)\
+3)  Để lựa chọn thủ công bằng hard-code, hãy sử dụng lệnh *base R* `file.choose()` (để trống dấu ngoặc đơn) để kích hoạt sự xuất hiện của **cửa sổ pop-up** cho phép người dùng chọn tệp theo cách thủ công từ máy tính của họ. Ví dụ:
 
 ```{r import_choose, eval=F}
 # Manual selection of a file. When this command is run, a POP-UP window will appear. 
@@ -148,99 +138,84 @@ You can import data manually via one of these methods:
 my_data <- import(file.choose())
 ```
 
-<span style="color: darkgreen;">**_TIP:_** The **pop-up window** may appear BEHIND your RStudio window.</span>
+[***MẸO:*** **Cửa sổ pop-up** có thể xuất hiện SAU cửa sổ RStudio của bạn.]{style="color: darkgreen;"}
 
+## Nhập dữ liệu
 
+Sử dụng lệnh `import()` để nhập một bộ dữ liệu khá đơn giản. Chỉ cần cung cấp đường dẫn đến tệp (bao gồm tên và phần mở rộng của tệp) trong dấu ngoặc kép. Nếu sử dụng `here()` để xây dựng đường dẫn tệp, hãy làm theo hướng dẫn ở trên. Dưới đây là một vài ví dụ:
 
-## Import data  
-
-To use `import()` to import a dataset is quite simple. Simply provide the path to the file (including the file name and file extension) in quotes. If using `here()` to build the file path, follow the instructions above. Below are a few examples:  
-
-Importing a csv file that is located in your "working directory" or in the R project root folder:  
+Nhập tệp csv nằm trong "thư mục làm việc (working directory)" của bạn hoặc trong thư mục gốc của dự án R:
 
 ```{r, eval=F}
 linelist <- import("linelist_cleaned.csv")
 ```
 
-
-Importing the first sheet of an Excel workbook that is located in "data" and "linelists" sub-folders of the R project (the file path built using `here()`):  
+Nhập sheet đầu tiên Excel workbook nằm trong thư mục con "data" và "linelists" của dự án R (đường dẫn tệp được tạo bằng `here()`):
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "linelist_cleaned.xlsx"))
 ```
 
-
-Importing a data frame (a .rds file) using an absolute file path:  
+Nhập một data frame (một tệp .rds ) sử dụng đường dẫn tệp tuyệt đối:
 
 ```{r, eval=F}
 linelist <- import("C:/Users/Laura/Documents/tuberculosis/data/linelists/linelist_cleaned.rds")
 ```
 
+### Excel sheet cụ thể {.unnumbered}
 
-
-
-
-### Specific Excel sheets {.unnumbered}
-
-By default, if you provide an Excel workbook (.xlsx) to `import()`, the workbook's first sheet will be imported. If you want to import a specific **sheet**, include the sheet name to the `which = ` argument. For example:  
+Theo mặc định, nếu bạn cung cấp một Excel workbook (.xlsx) để `import()`, sheet đầu tiên của workbook sẽ được nhập. Nếu bạn muốn nhập một **sheet** cụ thể, hãy nhập tên sheet vào đối số `which =`. Ví dụ:
 
 ```{r eval=F}
 my_data <- import("my_excel_file.xlsx", which = "Sheetname")
 ```
 
-If using the `here()` method to provide a relative pathway to `import()`, you can still indicate a specific sheet by adding the `which = ` argument after the closing parentheses of the `here()` function.  
+Nếu sử dụng hàm `here()` để cung cấp một đường dẫn tương đối đến `import()`, bạn vẫn có thể chỉ ra một sheet cụ thể bằng cách thêm đối số `which =` sau dấu đóng ngoặc của hàm `here()`.
 
 ```{r import_sheet_here, eval=F}
 # Demonstration: importing a specific Excel sheet when using relative pathways with the 'here' package
 linelist_raw <- import(here("data", "linelist.xlsx"), which = "Sheet1")`  
 ```
 
-To *export* a data frame from R to a specific Excel sheet and have the rest of the Excel workbook remain unchanged, you will have to import, edit, and export with an alternative package catered to this purpose such as **openxlsx**. See more information in the page on [Directory interactions] or [at this github page](https://ycphs.github.io/openxlsx/).
+Để *xuất* một data frame từ R sang một Excel sheet cụ thể và phần còn lại của Excel workbook không thay đổi, bạn sẽ phải nhập, chỉnh sửa và xuất với một package thay thế phục vụ cho mục đích này, chẳng hạn như **openxlsx**. Xem thêm thông tin trong chương về [Tương tác với thư mục làm việc] hoặc [tại trang github này](https://ycphs.github.io/openxlsx/).
 
-If your Excel workbook is .xlsb (binary format Excel workbook) you may not be able to import it using **rio**. Consider re-saving it as .xlsx, or using a package like **readxlsb** which is built for [this purpose](https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html).  
-
-
-
-
-
+Nếu Excel workbook của bạn là .xlsb (định dạng nhị phân của Excel workbook) bạn có thể không nhập được bằng **rio**. Cân nhắc lưu lại nó dưới dạng .xlsx hoặc sử dụng một package như **readxlsb**, package được xây dựng cho [mục đích này](https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html).
 
 <!-- ======================================================= -->
-### Missing values {#import_missing .unnumbered} 
 
-You may want to designate which value(s) in your dataset should be considered as missing. As explained in the page on [Missing data], the value in R for missing data is `NA`, but perhaps the dataset you want to import uses 99, "Missing", or just empty character space "" instead.  
+### Giá trị missing {#import_missing .unnumbered}
 
-Use the `na = ` argument for `import()` and provide the value(s) within quotes (even if they are numbers). You can specify multiple values by including them within a vector, using `c()` as shown below.  
+Bạn có thể muốn xác định (các) giá trị nào trong bộ dữ liệu của mình nên được coi là missing. Như đã giải thích trong chương về [Dữ liệu missing], giá trị trong R cho dữ liệu missing là `NA`, nhưng có thể bộ dữ liệu bạn muốn nhập sử dụng giá trị 99, "Missing" hoặc chỉ là khoảng trống ký tự "".
 
-Here, the value "99" in the imported dataset is considered missing and converted to `NA` in R.  
+Sử dụng đối số `na =` để `import()` và cung cấp (các) giá trị trong dấu ngoặc kép (ngay cả khi chúng là các số). Bạn có thể chỉ định nhiều giá trị bằng cách gộp chúng trong một vectơ, sử dụng `c()` như được thể hiện dưới đây.
+
+Tại đây, giá trị "99" trong bộ dữ liệu đã nhập được coi là missing và được chuyển đổi thành `NA` trong R.
 
 ```{r, eval=F}
 linelist <- import(here("data", "my_linelist.xlsx"), na = "99")
 ```
 
-Here, any of the values "Missing", "" (empty cell), or " " (single space) in the imported dataset are converted to `NA` in R.  
+Tại đây, bất kỳ giá trị "Missing", "" (ô trống) hoặc "" (khoảng trắng) nào trong bộ dữ liệu đã nhập đều được chuyển đổi thành `NA` trong R.
 
 ```{r, eval=F}
 linelist <- import(here("data", "my_linelist.csv"), na = c("Missing", "", " "))
 ```
 
-
 <!-- ======================================================= -->
-### Skip rows {.unnumbered} 
 
-Sometimes, you may want to avoid importing a row of data. You can do this with the argument `skip = ` if using `import()` from **rio** on a .xlsx or .csv file. Provide the number of rows you want to skip. 
+### Bỏ qua một số hàng {.unnumbered}
 
+Đôi khi, bạn có thể muốn tránh nhập một hàng dữ liệu. Bạn có thể thực hiện thao tác này với đối số `skip =` nếu sử dụng `import()` từ **rio** trên tệp .xlsx hoặc .csv. Cung cấp số hàng bạn muốn bỏ qua.
 
 ```{r, eval=F}
 linelist_raw <- import("linelist_raw.xlsx", skip = 1)  # does not import header row
 ```
 
-Unfortunately `skip = ` only accepts one integer value, *not* a range (e.g. "2:10" does not work). To skip import of specific rows that are not consecutive from the top, consider importing multiple times and using `bind_rows()` from **dplyr**. See the example below of skipping only row 2.  
+Không may `skip =` chỉ chấp nhận một giá trị số nguyên, *không* chấp nhận một khoảng (ví dụ: "2:10" sẽ không hoạt động). Để bỏ qua việc nhập các hàng cụ thể không liên tiếp từ trên cùng, hãy cân nhắc nhập nhiều lần và sử dụng `bind_rows()` từ **dplyr**.
 
+### Quản lý hàng tiêu đề thứ hai {.unnumbered}
 
-
-### Manage a second header row {.unnumbered}  
-
-Sometimes, your data may have a *second* row, for example if it is a "data dictionary" row as shown below. This situation can be problematic because it can result in all columns being imported as class "character".  
+Đôi khi, dữ liệu của bạn có thể có hàng *thứ hai*, chẳng hạn nếu đó là hàng "data dictionary" như hình dưới đây. Trường hợp này có thể xảy ra vấn đề vì nó có thể dẫn đến việc tất cả các cột được nhập vào dưới dạng nhóm "ký tự (character)".
 
 ```{r, echo=F}
 # HIDDEN FROM READER
@@ -273,24 +248,24 @@ linelist_2headers <- rio::import(here::here("data", "case_linelists", "linelist_
                 time_admission = "time of hospital admission HH:MM")
 ```
 
-Below is an example of this kind of dataset (with the first row being the data dictionary).  
+Dưới đây là một ví dụ về loại bộ dữ liệu này (với hàng đầu tiên là từ điển dữ liệu).
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist_2headers, 5), rownames = FALSE, filter="top", options = list(pageLength = 4, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-#### Remove the second header row {.unnumbered}  
+### Xóa hàng tiêu đề thứ hai {.unnumbered}
 
-To drop the second header row, you will likely need to import the data twice.  
+Để bỏ hàng tiêu đề thứ hai, bạn có thể sẽ cần nhập dữ liệu hai lần.
 
-1) Import the data in order to store the correct column names  
-2) Import the data again, skipping the first *two* rows (header and second rows)  
-3) Bind the correct names onto the reduced dataframe
+1)  Nhập dữ liệu để lưu trữ các tên cột chính xác\
+2)  Nhập lại dữ liệu, bỏ qua *hai* hàng đầu tiên (hàng tiêu đề và hàng thứ hai) Import the data again, skipping the first *two* rows (header and second rows)\
+3)  Liên kết các tên chính xác vào dataframe thu nhỏ
 
-The exact argument used to bind the correct column names depends on the type of data file (.csv, .tsv, .xlsx, etc.). This is because **rio** is using a different function for the different file types (see table above).  
+Đối số chính xác được sử dụng để liên kết các tên cột chính xác tùy thuộc vào loại tệp dữ liệu (.csv, .tsv, .xlsx, v.v.). Điều này là do **rio** đang sử dụng một chức năng khác cho các loại tệp khác nhau (xem bảng ở trên).
 
-**For Excel files:** (`col_names = `)  
+**Đối với tệp Excel:** (`col_names =`)
 
 ```{r, eval=F}
 # import first time; store the column names
@@ -303,7 +278,7 @@ linelist_raw <- import("linelist_raw.xlsx",
                        ) 
 ```
 
-**For CSV files:** (`col.names = `)  
+**Đối với tệp CSV:** (`col.names =`)
 
 ```{r, eval=F}
 # import first time; sotre column names
@@ -316,18 +291,16 @@ linelist_raw <- import("linelist_raw.csv",
                        ) 
 ```
 
-**Backup option** - changing column names as a separate command
+**Tùy chọn sao lưu** - thay đổi tên cột dưới dạng một lệnh riêng biệt
 
 ```{r, eval=F}
 # assign/overwrite headers using the base 'colnames()' function
 colnames(linelist_raw) <- linelist_raw_names
 ```
 
+#### Tạo từ điển dữ liệu {.unnumbered}
 
-#### Make a data dictionary {.unnumbered}  
-
-Bonus! If you do have a second row that is a data dictionary, you can easily create a proper data dictionary from it. This tip is adapted from this [post](https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/).  
-
+Thông tin thêm! Nếu bạn có hàng thứ hai là từ điển dữ liệu, bạn có thể dễ dàng tạo từ điển dữ liệu thích hợp từ nó. Mẹo này được điều chỉnh từ [bài đăng](https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/) này.
 
 ```{r}
 dict <- linelist_2headers %>%             # begin: linelist with dictionary as first row
@@ -337,123 +310,107 @@ dict <- linelist_2headers %>%             # begin: linelist with dictionary as f
                values_to = "Description")
 ```
 
-
 ```{r message=FALSE, echo=F}
 DT::datatable(dict, rownames = FALSE, filter="top", options = list(pageLength = 4, scrollX=T), class = 'white-space: nowrap' )
 ```
 
+#### Kết hợp hai hàng tiêu đề {.unnumbered}
 
+Trong một số trường hợp khi bộ dữ liệu thô của bạn có *hai* hàng tiêu đề (hoặc cụ thể hơn, hàng dữ liệu thứ 2 là tiêu đề phụ), bạn có thể muốn "kết hợp" chúng hoặc thêm các giá trị trong hàng tiêu đề thứ hai vào hàng tiêu đề đầu tiên.
 
-#### Combine the two header rows {.unnumbered}  
-
-In some cases when your raw dataset has *two* header rows (or more specifically, the 2nd row of data is a secondary header), you may want to "combine" them or add the values in the second header row into the first header row.  
-
-The command below will define the data frame's column names as the combination (pasting together) of the first (true) headers with the value immediately underneath (in the first row).  
+Lệnh dưới đây sẽ xác định tên cột của data frame là sự kết hợp (dán với nhau) của các tiêu đề (đúng) đầu tiên với giá trị ngay bên dưới (trong hàng đầu tiên).
 
 ```{r, eval=F}
 names(my_data) <- paste(names(my_data), my_data[1, ], sep = "_")
 ```
 
-
-
 <!-- ======================================================= -->
-### Google sheets {.unnumbered}
 
-You can import data from an online Google spreadsheet with the **googlesheet4** package and by authenticating your access to the spreadsheet.  
+### Google sheet {.unnumbered}
 
+Bạn có thể nhập dữ liệu từ một bảng tính Google trực tuyến với package **googlesheet4** và bằng cách xác thực quyền truy cập của bạn vào spreadsheet.
 
 ```{r, eval=F}
 pacman::p_load("googlesheets4")
 ```
 
-Below, a demo Google sheet is imported and saved. This command may prompt confirmation of authentification of your Google account. Follow prompts and pop-ups in your internet browser to grant Tidyverse API packages permissions to edit, create, and delete your spreadsheets in Google Drive.  
+Dưới đây, một Google sheet bản thử nghiệm được nhập và lưu. Lệnh này có thể nhắc xác nhận việc xác thực tài khoản Google của bạn. Làm theo lời nhắc và cửa sổ bật lên trong trình duyệt internet của bạn để cấp cho các package Tidyverse API quyền chỉnh sửa, tạo và xóa spreadsheet của bạn trong Google Drive.
 
-
-The sheet below is "viewable for anyone with the link" and you can try to import it.  
+Sheet dưới đây "có thể được xem bởi bất kỳ ai có liên kết" và bạn có thể thử nhập sheet đó.
 
 ```{r, eval=F}
 Gsheets_demo <- read_sheet("https://docs.google.com/spreadsheets/d/1scgtzkVLLHAe5a6_eFQEwkZcc14yFUx1KgOMZ4AKUfY/edit#gid=0")
 ```
 
-The sheet can also be imported using only the sheet ID, a shorter part of the URL:  
+Sheet cũng có thể được nhập chỉ bằng ID của sheet, một phần ngắn hơn của URL:
 
 ```{r, eval=F}
 Gsheets_demo <- read_sheet("1scgtzkVLLHAe5a6_eFQEwkZcc14yFUx1KgOMZ4AKUfY")
 ```
 
+Một package khác, **googledrive** cung cấp các chức năng hữu ích để viết, chỉnh sửa và xóa Google sheet. Ví dụ: các hàm được sử dụng `gs4_create()` và `sheet_write()` đều được tìm thấy trong package này.
 
-Another package, **googledrive** offers useful functions for writing, editing, and deleting Google sheets. For example, using the  `gs4_create()` and `sheet_write()` functions found in this package. 
+Dưới đây là một số hướng dẫn trực tuyến hữu ích khác:\
+[hướng dẫn nhập Google sheet cơ bản](https://arbor-analytics.com/post/getting-your-data-into-r-from-google-sheets/)\
+[hướng dẫn chi tiết hơn](https://googlesheets4.tidyverse.org/articles/googlesheets4.html)\
+[tương tác giữa googlesheets4 và tidyverse](https://googlesheets4.tidyverse.org/articles/articles/drive-and-sheets.html)
 
-Here are some other helpful online tutorials:  
-[basic Google sheets importing tutorial](https://arbor-analytics.com/post/getting-your-data-into-r-from-google-sheets/)  
-[more detailed tutorial](https://googlesheets4.tidyverse.org/articles/googlesheets4.html)  
-[interaction between the googlesheets4 and tidyverse](https://googlesheets4.tidyverse.org/articles/articles/drive-and-sheets.html)  
+## Nhập, xuất, tách, kết hợp - nhiều tệp
 
-
-
-
-## Multiple files - import, export, split, combine  
-
-See the page on [Iteration, loops, and lists] for examples of how to import and combine multiple files, or multiple Excel workbook files. That page also has examples on how to split a data frame into parts and export each one separately, or as named sheets in an Excel workbook.  
-
-
-
+Xem chương về [Lặp, vòng lặp và danh sách] để biết ví dụ về cách nhập và kết hợp nhiều tệp hoặc nhiều Excel workbook. Chương này cũng có các ví dụ về cách chia một data frame thành các phần và xuất từng phần riêng biệt hoặc dưới dạng các sheet được đặt tên trong một Excel workbook.
 
 <!-- ======================================================= -->
-## Import from Github {#import_github}
 
-Importing data directly from Github into R can be very easy or can require a few steps - depending on the file type. Below are some approaches:  
+## Nhập từ Github {#import_github}
 
-### CSV files {.unnumbered}  
+Nhập dữ liệu trực tiếp từ Github vào R có thể rất dễ dàng hoặc có thể yêu cầu một vài bước - tùy thuộc vào loại tệp. Dưới đây là một số cách tiếp cận:
 
-It can be easy to import a .csv file directly from Github into R with an R command.  
+### Tệp CSV {.unnumbered}
 
-1) Go to the Github repo, locate the file of interest, and click on it  
-3) Click on the "Raw" button (you will then see the "raw" csv data, as shown below)  
-4) Copy the URL (web address)  
-5) Place the URL in quotes within the `import()` R command  
+Có thể dễ dàng nhập tệp .csv trực tiếp từ Github vào R bằng lệnh R.
+
+1)  Đi tới repo Github, tìm tệp quan tâm và nhấp vào tệp đó\
+2)  Nhấp vào nút "Raw" (sau đó bạn sẽ thấy dữ liệu csv "thô", như được hiển thị bên dưới)\
+3)  Sao chép URL (địa chỉ web)\
+4)  Đặt URL trong dấu ngoặc kép trong lệnh R `import()`
 
 ```{r, out.width=c('100%', '100%'), fig.align = "left", echo=F}
 knitr::include_graphics(here::here("images", "download_csv_raw.png"))
 ```
 
-### XLSX files {.unnumbered}  
+### Tệp XLSX {.unnumbered}
 
-You may not be able to view the "Raw" data for some files (e.g. .xlsx, .rds, .nwk, .shp)  
+Bạn có thể không xem được dữ liệu "Thô" cho một số tệp (ví dụ: .xlsx, .rds, .nwk, .shp)
 
-1) Go to the Github repo, locate the file of interest, and click on it  
-2) Click the "Download" button, as shown below  
-3) Save the file on your computer, and import it into R  
-
+1)  Đi tới repo Github, tìm tệp quan tâm và nhấp vào tệp đó\
+2)  Nhấp vào nút "Download", như được hiển thị bên dưới\
+3)  Lưu tệp trên máy tính của bạn và nhập tệp đó vào R
 
 ```{r , out.width=c('100%', '100%'), fig.align = "left", echo=F}
 knitr::include_graphics(here::here("images", "download_xlsx.png"))
 ```
 
-### Shapefiles {.unnumbered} 
+### Định dạng tệp {.unnumbered}
 
-Shapefiles have many sub-component files, each with a different file extention. One file will have the ".shp" extension, but others may have ".dbf", ".prj", etc.  To download a shapefile from Github, you will need to download each of the sub-component files individually, and save them in the *same* folder on your computer. In Github, click on each file individually and download them by clicking on the "Download" button.  
+Các định dạng tệp có nhiều tệp thành phần phụ, mỗi tệp có một phần mở rộng khác nhau. Một tệp sẽ có phần mở rộng ".shp", nhưng những tệp khác có thể là ".dbf", ".prj", v.v. Để tải xuống định dạng tệp từ Github, bạn sẽ cần tải xuống từng tệp thành phần phụ riêng lẻ và lưu chúng trong cùng một thư mục trên máy tính của bạn. Trong Github, nhấp vào từng tệp riêng lẻ và tải chúng xuống bằng cách nhấp vào nút "Download".
 
-Once saved to your computer you can import the shapefile as shown in the [GIS basics] page using `st_read()` from the **sf** package. You only need to provide the filepath and name of the ".shp" file - as long as the other related files are within the same folder on your computer.  
+Một khi được lưu vào máy tính, bạn có thể nhập định dạng tệp như được trình bày trong chương [GIS cơ bản] bằng cách sử dụng `st_read()` từ package **sf**. Bạn chỉ cần cung cấp đường dẫn tệp và tên của tệp ".shp" - miễn là các tệp liên quan khác nằm trong cùng một thư mục trên máy tính của bạn.
 
-Below, you can see how the shapefile "sle_adm3" consists of many files - each of which must be downloaded from Github.  
+Dưới đây, bạn có thể thấy định dạnh tệp "sl_adm3" bao gồm nhiều tệp như thế nào - mỗi tệp phải được tải xuống từ Github.
 
 ```{r , out.width=c('100%', '100%'), fig.align = "left", echo=F}
 knitr::include_graphics(here::here("images", "download_shp.png"))
 ```
 
-
-
-
-
 <!-- ======================================================= -->
-## Manual data entry {}
 
-### Entry by rows {.unnumbered}  
+## Nhập dữ liệu thủ công
 
-Use the `tribble` function from the **tibble** package from the tidyverse ([online tibble reference](https://tibble.tidyverse.org/reference/tribble.html)).  
-  
-Note how column headers start with a *tilde* (`~`).  Also note that each column must contain only one class of data (character, numeric, etc.). You can use tabs, spacing, and new rows to make the data entry more intuitive and readable. Spaces do not matter between values, but each row is represented by a new line of code. For example:  
+### Nhập theo hàng {.unnumbered}
+
+Sử dụng hàm `tribble` của package **tibble** từ tidyverse ([tài liệu tham khảo trực tuyến](https://tibble.tidyverse.org/reference/tribble.html)).
+
+Lưu ý cách tiêu đề cột bắt đầu bằng dấu ngã (`~`). Cũng lưu ý rằng mỗi cột chỉ được chứa một nhóm dữ liệu (ký tự, số, v.v.). Bạn có thể sử dụng các tab, khoảng cách và hàng mới để làm cho việc nhập dữ liệu trực quan và dễ đọc hơn. Khoảng trắng không quan trọng giữa các giá trị, nhưng mỗi hàng được biểu thị bằng một dòng code mới. Ví dụ:
 
 ```{r import_manual_row}
 # create the dataset manually by row
@@ -465,17 +422,16 @@ manual_entry_rows <- tibble::tribble(
   )
 ```
 
-And now we display the new dataset:  
+Và giờ chúng tôi hiển thị bộ dữ liệu mới:
 
 ```{r, echo=F}
 # display the new dataset
 DT::datatable(manual_entry_rows)
 ```
 
+### Nhập theo cột {.unnumbered}
 
-### Entry by columns {.unnumbered}  
-
-Since a data frame consists of vectors (vertical columns), the **base** approach to manual dataframe creation in R expects you to define each column and then bind them together. This can be counter-intuitive in epidemiology, as we usually think about our data in rows (as above). 
+Vì data frame bao gồm các vectơ (cột dọc), cách tiếp cận **cơ bản** để tạo data frame thủ công trong R muốn bạn xác định từng cột và sau đó liên kết chúng lại với nhau. Điều này có thể phản trực quan trong dịch tễ học, vì chúng ta thường nghĩ về dữ liệu của mình theo hàng (như trên).
 
 ```{r import_manual_col}
 # define each vector (vertical column) separately, each with its own name
@@ -484,39 +440,36 @@ Treatment <- c("Yes", "No", "Yes", "Yes")
 Death     <- c(1, 0, 1, 0)
 ```
 
-<span style="color: orange;">**_CAUTION:_** All vectors must be the same length (same number of values).</span>
+[***CHÚ Ý:*** Tất cả các vectơ phải có cùng độ dài (cùng số giá trị).]{style="color: orange;"}
 
-The vectors can then be bound together using the function `data.frame()`:  
+Các vectơ sau đó có thể được liên kết với nhau bằng cách sử dụng lệnh `data.frame()`:
 
 ```{r}
 # combine the columns into a data frame, by referencing the vector names
 manual_entry_cols <- data.frame(PatientID, Treatment, Death)
 ```
 
-And now we display the new dataset:  
+Và giờ chúng tôi hiển thị bộ dữ liệu mới:
 
 ```{r, echo=F}
 # display the new dataset
 DT::datatable(manual_entry_cols)
 ```
 
+### Dán từ clipboard {.unnumbered}
 
+Nếu bạn sao chép dữ liệu từ nơi khác và có nó trên , bạn có thể thử một trong hai cách dưới đây:
 
-
-### Pasting from clipboard {.unnumbered}  
-
-If you copy data from elsewhere and have it on your clipboard, you can try one of the two ways below:  
-
-From the **clipr** package, you can use `read_clip_tbl()` to import as a data frame, or just just `read_clip()` to import as a character vector. In both cases, leave the parentheses empty.    
+Từ package **clipr**, bạn có thể sử dụng `read_clip_tbl()` để nhập dưới dạng data frame hoặc chỉ `read_clip()` để nhập dưới dạng một vectơ ký tự. Trong cả hai trường hợp, hãy để trống dấu ngoặc đơn.
 
 ```{r, eval=F}
 linelist <- clipr::read_clip_tbl()  # imports current clipboard as data frame
 linelist <- clipr::read_clip()      # imports as character vector
 ```
-You can also easily export to your system's clipboard with **clipr**. See the section below on Export.  
 
+Bạn cũng có thể dễ dàng xuất sang clipboard của hệ thống bằng **clipr**. Xem mục bên dưới về Xuất dữ liệu.
 
-Alternatively, you can use the the `read.table()` function from **base** R with `file = "clipboard")` to import as a data frame:  
+Ngoài ra, bạn có thể sử dụng lệnh `read.table()` từ **base** R với `file = "clipboard")` để nhập dưới dạng data frame:
 
 ```{r, eval=F}
 df_from_clipboard <- read.table(
@@ -525,59 +478,52 @@ df_from_clipboard <- read.table(
   header=TRUE)         # if there is a header row
 ```
 
+## Nhập tệp gần đây nhất
 
+Thường thì bạn có thể nhận được các bản cập nhật hàng ngày cho bộ dữ liệu của mình. Trong trường hợp này, bạn sẽ muốn viết code mà nhập tệp gần đây nhất. Dưới đây, chúng tôi trình bày hai cách để tiếp cận điều này:
 
+-   Chọn tệp dựa trên ngày trong tên tệp\
+-   Chọn tệp dựa trên siêu dữ liệu của tệp (lần sửa đổi cuối cùng)
 
+### Ngày trong tên tệp {.unnumbered}
 
+Cách tiếp cận này dựa trên ba cơ sở:
 
-## Import most recent file  
+1)  Bạn tin tưởng ngày tháng trong tên tệp\
+2)  Ngày tháng ở dạng số và *thường* xuất hiện ở cùng một định dạng (ví dụ: năm rồi tháng rồi ngày)\
+3)  Không có số nào khác trong tên tệp
 
-Often you may receive daily updates to your datasets. In this case you will want to write code that imports the most recent file. Below we present two ways to approach this:  
+Chúng tôi sẽ giải thích từng bước và sau đó cho bạn thấy cách chúng được kết hợp ở phần cuối.
 
-* Selecting the file based on the date in the file name  
-* Selecting the file based on file metadata (last modification)  
-
-
-### Dates in file name {.unnumbered}  
-
-This approach depends on three premises:  
-
-1) You trust the dates in the file names  
-2) The dates are numeric and appear in *generally* the same format (e.g. year then month then day)  
-3) There are no other numbers in the file name  
-
-We will explain each step, and then show you them combined at the end.  
-
-First, use `dir()` from **base** R to extract just the file names for each file in the folder of interest. See the page on [Directory interactions] for more details about `dir()`. In this example, the folder of interest is the folder "linelists" within the folder "example" within "data" within the R project. 
+Đầu tiên, sử dụng `dir()` từ **base** R để chỉ trích xuất tên tệp cho mỗi tệp trong thư mục quan tâm. Xem chương về [Tương tác với thư mục làm việc] để biết thêm chi tiết về `dir()`. Trong ví dụ này, thư mục quan tâm là thư mục "linelists" trong thư mục "example" trong "data" trong dự án R.
 
 ```{r}
 linelist_filenames <- dir(here("data", "example", "linelists")) # get file names from folder
 linelist_filenames                                              # print
 ```
 
-Once you have this vector of names, you can extract the dates from them by applying `str_extract()` from **stringr** using this regular expression. It extracts any numbers in the file name (including any other characters in the middle such as dashes or slashes). You can read more about **stringr** in the [Strings and characters] page.  
+Một khi bạn có vectơ các tên này, bạn có thể trích xuất ngày với chúng bằng cách áp dụng `str_extract()` từ **stringr** qua việc sử dụng biểu thức chính quy này. Nó trích xuất bất kỳ số nào trong tên tệp (bao gồm bất kỳ ký tự nào khác ở giữa như dấu gạch ngang hoặc dấu gạch chéo). Bạn có thể đọc thêm về **stringr** trong chương [Ký tự và chuỗi].
 
 ```{r}
 linelist_dates_raw <- stringr::str_extract(linelist_filenames, "[0-9].*[0-9]") # extract numbers and any characters in between
 linelist_dates_raw  # print
 ```
 
-Assuming the dates are written in generally the same date format (e.g. Year then Month then Day) and the years are 4-digits, you can use **lubridate**'s flexible conversion functions (`ymd()`, `dmy()`, or `mdy()`) to convert them to dates. For these functions, the dashes, spaces, or slashes do not matter, only the order of the numbers. Read more in the [Working with dates] page.  
+Giả sử ngày thường được viết theo cùng một định dạng ngày (ví dụ: Năm rồi Tháng rồi Ngày) và năm có 4 chữ số, bạn có thể sử dụng các hàm chuyển đổi linh hoạt của **lubridate** (`ymd()`, `dmy()`, or `mdy()`) để chuyển đổi chúng đến ngày. Đối với các hàm này, dấu gạch ngang, dấu cách hoặc dấu gạch chéo không quan trọng, quan trọng chỉ là thứ tự của các số. Đọc thêm trong chương [Làm việc với ngày tháng].
 
 ```{r}
 linelist_dates_clean <- lubridate::ymd(linelist_dates_raw)
 linelist_dates_clean
 ```
 
-
-The **base** R function `which.max()` can then be used to return the index position (e.g. 1st, 2nd, 3rd, ...) of the maximum date value. The latest file is correctly identified as the 6th file - "case_linelist_2020-10-08.xlsx".  
+Sau đó, hàm **base** R `which.max()` có thể được sử dụng để trả về vị trí chỉ mục (ví dụ: 1, 2, 3,...) của giá trị ngày lớn nhất. Tệp mới nhất được xác định chính xác là tệp thứ 6 - "case_linelist_2020-10-08.xlsx".
 
 ```{r}
 index_latest_file <- which.max(linelist_dates_clean)
 index_latest_file
 ```
 
-If we condense all these commands, the complete code could look like below. Note that the `.` in the last line is a placeholder for the piped object at that point in the pipe sequence. At that point the value is simply the number 6. This is placed in double brackets to extract the 6th element of the vector of file names produced by `dir()`.    
+Nếu chúng ta tổng hợp tất cả các lệnh này, code hoàn chỉnh có thể trông giống như bên dưới. Lưu ý rằng . ở dòng cuối cùng là nơi giữ chỗ cho đối tượng được đặt tại điểm đó trong chuỗi ống. Tại thời điểm đó, giá trị chỉ đơn giản là số 6. Giá trị này được đặt trong dấu ngoặc kép để trích xuất phần tử thứ 6 của vectơ tên tệp được tạo bởi `dir()`.
 
 ```{r}
 # load packages
@@ -599,30 +545,26 @@ latest_file <- dir(here("data", "example", "linelists")) %>%  # file names from 
 latest_file  # print name of latest file
 ```
 
-You can now use this name to finish the relative file path, with `here()`:  
+Bây giờ bạn có thể sử dụng tên này để kết thúc đường dẫn tệp tương đối, với `here()`:
 
 ```{r, eval=F}
 here("data", "example", "linelists", latest_file) 
 ```
 
-And you can now import the latest file:  
+Và bây giờ bạn có thể nhập tệp mới nhất:
 
 ```{r, eval=F}
 # import
 import(here("data", "example", "linelists", latest_file)) # import 
 ```
 
- 
+### Sử dụng thông tin tệp {.unnumbered}
 
+Nếu tệp của bạn không có ngày trong tên của chúng (hoặc bạn không tin tưởng vào những ngày đó), bạn có thể thử trích xuất ngày sửa đổi cuối cùng từ siêu dữ liệu tệp. Sử dụng các hàm từ package **fs** để kiểm tra thông tin siêu dữ liệu cho từng tệp, bao gồm thời gian sửa đổi cuối cùng và đường dẫn tệp.
 
+Dưới đây, chúng tôi cung cấp thư mục quan tâm tới `dir_info()` của **fs**. Trong trường hợp này, thư mục quan tâm nằm trong dự án R trong thư mục "data", thư mục con "example" và thư mục con thư mục này "linelists". Kết quả là một data frame với một dòng cho mỗi tệp và các cột cho `modification_time`, `path`, v.v. Bạn có thể xem ví dụ trực quan về điều này trong chương về [Tương tác với thư mục làm việc].
 
-### Use the file info {.unnumbered}  
-
-If your files do not have dates in their names (or you do not trust those dates), you can try to extract the last modification date from the file metadata. Use functions from the package **fs** to examine the metadata information for each file, which includes the last modification time and the file path.  
-
-Below, we provide the folder of interest to **fs**'s `dir_info()`. In this case, the folder of interest is in the R project in the folder "data", the sub-folder "example", and its sub-folder "linelists".  The result is a data frame with one line per file and columns for `modification_time`, `path`, etc. You can see a visual example of this in the page on [Directory interactions].    
-
-We can sort this data frame of files by the column `modification_time`, and then keep only the top/latest row (file) with **base** R's `head()`. Then we can extract the file path of this latest file only with the **dplyr** function `pull()` on the column `path`. Finally we can pass this file path to `import()`. The imported file is saved as `latest_file`.  
+Chúng ta có thể sắp xếp data frame này của các tệp theo cột với `modification_time`, và sau đó chỉ giữ lại hàng trên cùng/mới nhất (tệp) với `head()`của **base** R. Sau đó, chúng ta có thể trích xuất đường dẫn tệp của tệp mới nhất này chỉ với hàm `pull()` của **dplyr** trên `path` cột. Cuối cùng, chúng ta có thể chuyển đường dẫn tệp này đến `import()`. Tệp đã nhập được lưu dưới dạng `latest_file`.
 
 ```{r, eval=F}
 latest_file <- dir_info(here("data", "example", "linelists")) %>%  # collect file info on all files in directory
@@ -633,62 +575,58 @@ latest_file <- dir_info(here("data", "example", "linelists")) %>%  # collect fil
 
 ```
 
-
-
 <!-- ======================================================= -->
-## APIs {#import_api}
 
-An "Automated Programming Interface" (API) can be used to directly request data from a website. APIs are a set of rules that allow one software application to interact with another. The client (you) sends a "request" and receives a "response" containing content. The R packages **httr** and **jsonlite** can facilitate this process. 
+## API {#import_api}
 
-Each API-enabled website will have its own documentation and specifics to become familiar with. Some sites are publicly available and can be accessed by anyone. Others, such as platforms with user IDs and credentials, require authentication to access their data. 
+Một "Giao diện lập trình tự động (Automated Programming Interface)" (API) có thể được sử dụng để yêu cầu trực tiếp dữ liệu từ một trang web. API là một tập hợp các quy tắc cho phép một ứng dụng phần mềm tương tác với một ứng dụng phần mềm khác. Khách hàng (bạn) gửi một "yêu cầu (request)" và nhận được một "phản hồi (response)" có chứa nội dung. Các package R **httr** và **jsonlite** có thể hỗ trợ quá trình này.
 
-Needless to say, it is necessary to have an internet connection to import data via API. We will briefly give examples of use of APIs to import data, and link you to further resources.  
+Mỗi trang web hỗ trợ API sẽ có tài liệu và chi tiết cụ thể riêng để làm quen. Một số trang web có sẵn công khai và có thể được truy cập bởi bất kỳ ai. Những nền tảng khác, chẳng hạn như nền tảng có ID người dùng và thông tin đăng nhập, yêu cầu xác thực để truy cập dữ liệu của họ.
 
-*Note: recall that data may be *posted* on a website without an API, which may be easier to retrieve. For example a posted CSV file may be accessible simply by providing the site URL to `import()` as described in the section on [importing from Github](#import_github).*  
+Không cần phải nói, để nhập dữ liệu qua API thì cần phải có kết nối internet. Chúng tôi sẽ đưa ra các ví dụ ngắn gọn về việc sử dụng API để nhập dữ liệu và liên kết bạn với các tài nguyên khác.
 
+*Lưu ý: Hãy nhớ lại rằng dữ liệu có thể được đăng trên một trang web không có API, điều này có thể dễ dàng truy xuất hơn. Ví dụ: một tệp CSV đã đăng có thể được truy cập chỉ bằng cách cung cấp URL của trang web để `import()` như được mô tả trong mục [nhập từ Github](#import_github).*
 
-### HTTP request {.unnumbered}  
+### Yêu cầu HTTP (HTTP request) {.unnumbered}
 
-The API exchange is most commonly done through an HTTP request. HTTP is Hypertext Transfer Protocol, and is the underlying format of a request/response between a client and a server. The exact input and output may vary depending on the type of API but the process is the same - a "Request" (often HTTP Request) from the user, often containing a query, followed by a "Response", containing status information about the request and possibly the requested content.  
+Trao đổi API thường được thực hiện thông qua một HTTP request. HTTP là Giao thức truyền siêu văn bản (Hypertext Transfer Protocol) và là định dạng cơ bản của request/response giữa máy khách và máy chủ. Đầu vào và đầu ra chính xác có thể khác nhau tùy thuộc vào loại API nhưng quy trình là giống nhau - "Request" (thường là HTTP request) từ người dùng, thường chứa một truy vấn, theo sau là "Response", chứa thông tin trạng thái về request và có thể là nội dung được yêu cầu.
 
-Here are a few components of an *HTTP request*:  
+Dưới đây là một số thành phần của một *HTTP request*:
 
-* The URL of the API endpoint  
-* The "Method" (or "Verb")  
-* Headers  
-* Body  
+-   URL của điểm cuối API\
+-   "Method (Phương thức)" (hoặc "Verb (Động từ)")\
+-   Các tiêu đề\
+-   Phần thân
 
-The HTTP request "method" is the action your want to perform. The two most common HTTP methods are `GET` and `POST` but others could include `PUT`, `DELETE`, `PATCH`, etc. When importing data into R it is most likely that you will use `GET`.  
+HTTP request "method" là hành động bạn muốn thực hiện. Hai method HTTP phổ biến nhất là `GET` và `POST` nhưng những method khác có thể bao gồm `PUT`, `DELETE`, `PATCH`, v.v. Khi nhập dữ liệu vào R, rất có thể bạn sẽ sử dụng `GET`.
 
-After your request, your computer will receive a "response" in a format similar to what you sent, including URL, HTTP status (Status 200 is what you want!), file type, size, and the desired content. You will then need to parse this response and turn it into a workable data frame within your R environment.
+Sau request của bạn, máy tính của bạn sẽ nhận được "response" ở định dạng tương tự như những gì bạn đã gửi, bao gồm URL, trạng thái HTTP (Trạng thái 200 là những gì bạn muốn!), loại tệp, kích thước và nội dung mong muốn. Sau đó, bạn sẽ cần phân tích cú pháp phản hồi này và biến nó thành một data frame khả thi trong môi trường R của bạn.
 
+### Package {.unnumbered}
 
-### Packages {.unnumbered}  
-
-The **httr** package works well for handling HTTP requests in R. It requires little prior knowledge of Web APIs and can be used by people less familiar with software development terminology. In addition, if the HTTP response is .json, you can use **jsonlite** to parse the response.  
+Package **httr** hoạt động tốt để xử lý các yêu cầu HTTP trong R. Nó đòi hỏi ít kiến thức trước về API Web và có thể được sử dụng bởi những người ít quen thuộc với thuật ngữ phát triển phần mềm. Ngoài ra, nếu phản hồi HTTP là .json, bạn có thể sử dụng **jsonlite** để phân tích cú pháp phản hồi.
 
 ```{r, eval=F}
 # load packages
 pacman::p_load(httr, jsonlite, tidyverse)
 ```
 
+### Dữ liệu công khai {.unnumbered}
 
-### Publicly-available data {.unnumbered}  
+Dưới đây là một ví dụ về một HTTP request, được mượn từ một hướng dẫn từ [Phòng thí nghiệm Dữ liệu Trafford](https://www.trafforddatalab.io/open_data_companion/#A_quick_introduction_to_APIs). Trang web này chứa một số tài nguyên khác để tìm hiểu và các bài tập về API.
 
-Below is an example of an HTTP request, borrowed from a tutorial from [the Trafford Data Lab](https://www.trafforddatalab.io/open_data_companion/#A_quick_introduction_to_APIs). This site has several other resources to learn and API exercises.
+Bối cảnh: Chúng tôi muốn nhập một danh sách các cửa hàng thức ăn nhanh ở thành phố Trafford, Vương quốc Anh. Dữ liệu có thể được truy cập từ API của Cơ quan Tiêu chuẩn Thực phẩm, cơ quan cung cấp dữ liệu xếp hạng vệ sinh thực phẩm cho Vương quốc Anh.
 
-Scenario: We want to import a list of fast food outlets in the city of Trafford, UK. The data can be accessed from the API of the Food Standards Agency, which provides food hygiene rating data for the United Kingdom.  
+Dưới đây là các thông số cho yêu cầu của chúng tôi:
 
-Here are the parameters for our request:  
+-   HTTP verb: GET\
+-   URL của điểm cuối API: <http://api.ratings.food.gov.uk/Establishments>\
+-   Các thông số đã chọn: tên, địa chỉ, kinh độ, vĩ độ, businessTypeId, ratingKey, localAuthorityId\
+-   Các tiêu đề: "x-api-version", 2\
+-   (Các) Định dạng dữ liệu: JSON, XML\
+-   Tài liệu: <http://api.ratings.food.gov.uk/help>
 
-* HTTP verb: GET  
-* API endpoint URL: http://api.ratings.food.gov.uk/Establishments  
-* Selected parameters: name, address, longitude, latitude, businessTypeId, ratingKey, localAuthorityId  
-* Headers: “x-api-version”, 2  
-* Data format(s): JSON, XML  
-* Documentation: http://api.ratings.food.gov.uk/help  
-
-The R code would be as follows:  
+R code sẽ như sau:
 
 ```{r, eval=F, warning=F, message=F}
 # prepare the request
@@ -711,17 +649,15 @@ response <- content(request, as = "text", encoding = "UTF-8") %>%
   as_tibble()
 ```
 
-You can now clean and use the `response` data frame, which contains one row per fast food facility.  
+Bây giờ bạn có thể làm sạch và sử dụng `response` data frame, lệnh mà chứa một hàng cho mỗi cơ sở thức ăn nhanh.
 
+### Yêu cầu xác thực {.unnumbered}
 
-### Authentication required {.unnumbered}  
+Một số API yêu cầu xác thực - để bạn chứng minh mình là ai và có thể truy cập vào dữ liệu bị hạn chế. Để nhập những dữ liệu này, trước tiên bạn có thể cần sử dụng method POST để cung cấp tên người dùng, mật khẩu hoặc code. Điều này sẽ trả về một mã thông báo truy cập, có thể được sử dụng cho các yêu cầu method GET tiếp theo để truy xuất dữ liệu mong muốn.
 
-Some APIs require authentication - for you to prove who you are, so you can access restricted data. To import these data, you may need to first use a POST method to provide a username, password, or code. This will return an access token, that can be used for subsequent GET method requests to retrieve the desired data.  
+Dưới đây là một ví dụ về truy vấn dữ liệu từ *Go.Data*, một công cụ điều tra ổ dịch. *Go.Data* sử dụng một API cho tất cả các tương tác giữa giao diện người dùng web và các ứng dụng điện thoại thông minh được sử dụng để thu thập dữ liệu. *Go.Data* được sử dụng trên khắp thế giới. Bởi vì dữ liệu bùng phát là nhạy cảm và bạn chỉ có thể truy cập vào dữ liệu cho đợt bùng phát *của mình*, nên xác thực là bắt buộc.
 
-Below is an example of querying data from *Go.Data*, which is an outbreak investigation tool. *Go.Data* uses an API for all interactions between the web front-end and smartphone applications used for data collection. *Go.Data* is used throughout the world. Because outbreak data are sensitive and you should only be able to access data for *your* outbreak, authentication is required.  
-
-Below is some sample R code using **httr** and **jsonlite** for connecting to the *Go.Data* API to import data on contact follow-up from your outbreak.  
-
+Dưới đây là một số code R mẫu sử dụng **httr** và **jsonlite** để kết nối với API *Go.Data* để nhập dữ liệu liên hệ truy vết từ đợt bùng phát của bạn.
 
 ```{r, eval=F}
 # set credentials for authorization
@@ -762,145 +698,161 @@ json_contacts <- content(response_contacts, as = "text")         # convert to te
 contacts <- as_tibble(fromJSON(json_contacts, flatten = TRUE))   # flatten JSON to tibble
 ```
 
-<span style="color: orange;">**_CAUTION:_** If you are importing large amounts of data from an API requiring authentication, it may time-out. To avoid this, retrieve access_token again before each API GET request and try using filters or limits in the query. </span> 
+[***CHÚ Ý:*** Nếu bạn đang nhập một lượng lớn dữ liệu từ một API yêu cầu xác thực, nó có thể hết thời gian chờ. Để tránh điều này, hãy truy xuất lại access_token trước mỗi yêu cầu API GET và thử sử dụng các bộ lọc hoặc giới hạn trong truy vấn.]{style="color: orange;"}
 
-<span style="color: darkgreen;">**_TIP:_** The `fromJSON()` function in the **jsonlite** package does not fully un-nest the first time it's executed, so you will likely still have list items in your resulting tibble. You will need to further un-nest for certain variables; depending on how nested your .json is. To view more info on this, view the documentation for the **jsonlite** package, such as the [`flatten()` function](https://rdrr.io/cran/jsonlite/man/flatten.html). </span>
+[***MẸO:*** Lệnh `fromJSON()` từ package **jsonlite** không hoàn toàn không - lồng ghép vào lần đầu tiên nó được chạy, vì vậy bạn vẫn có thể có danh sách các hàng trong phần kết quả của mình. Bạn sẽ cần phải bỏ lồng ghép thêm cho một số biến nhất định; tùy thuộc vào cách .json của bạn được lồng ghép vào nhau. Để xem thêm thông tin về điều này, hãy xem tài liệu về package **jsonlite**, chẳng hạn như [`flatten()` function](https://rdrr.io/cran/jsonlite/man/flatten.html).]{style="color: darkgreen;"}
 
+Để biết thêm chi tiết, hãy xem tài liệu trên [LoopBack Explorer](https://loopback.io/doc/en/lb4/index.html), chương [Truy vết tiếp xúc] hoặc các mẹo API trên [Go.Data Github repository](https://worldhealthorganization.github.io/godata/api-docs)
 
-For more details, View documentation on [LoopBack Explorer](https://loopback.io/doc/en/lb4/index.html), the [Contact Tracing] page or API tips on [Go.Data Github repository](https://worldhealthorganization.github.io/godata/api-docs)
+Bạn có thể đọc thêm về *httr* trong package [here](https://httr.r-lib.org/articles/quickstart.html)
 
-You can read more about the *httr* package [here](https://httr.r-lib.org/articles/quickstart.html)  
-
-This section was also informed by [this tutorial](https://www.dataquest.io/blog/r-api-tutorial/) and [this tutorial](https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1). 
-
-
-
+Phần này cũng đã được trình bày trong [hướng dẫn này ](https://www.dataquest.io/blog/r-api-tutorial/)và [hướng dẫn này](https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1) hướng dẫn này.
 
 <!-- ======================================================= -->
-## Export {}  
 
-### With **rio** package {.unnumbered}
-With **rio**, you can use the `export()` function in a very similar way to `import()`. First give the name of the R object you want to save (e.g. `linelist`) and then in quotes put the file path where you want to save the file, including the desired file name and file extension. For example:  
+## Xuất dữ liệu
 
-This saves the data frame `linelist` as an Excel workbook to the working directory/R project root folder:  
+### Với package **rio** {.unnumbered}
+
+Với **rio**, bạn có thể sử dụng lệnh `export()` theo cách tương tự với `import()`. Đầu tiên, cung cấp tên của đối tượng R bạn muốn lưu (ví dụ: `linelist`), sau đó trong dấu ngoặc kép đặt đường dẫn tệp nơi bạn muốn lưu tệp, bao gồm tên tệp mong muốn và phần mở rộng tệp. Ví dụ:
+
+Thao tác này lưu data frame `linelist` dưới dạng một Excel workbook vào thư mục làm việc/thư mục gốc của dự án R:
 
 ```{r, eval=F}
 export(linelist, "my_linelist.xlsx") # will save to working directory
 ```
 
-You could save the same data frame as a csv file by changing the extension. For example, we also save it to a file path constructed with `here()`:  
+Bạn có thể lưu cùng một data frame dưới dạng tệp csv bằng cách thay đổi phần mở rộng. Ví dụ, chúng tôi cũng lưu nó vào một đường dẫn tệp được tạo bằng `here()`:
 
 ```{r, eval=F}
 export(linelist, here("data", "clean", "my_linelist.csv"))
 ```
 
+### Tới clipboard {.unnumbered}
 
-### To clipboard {.unnumbered}
-
-To export a data frame to your computer's "clipboard" (to then paste into another software like Excel, Google Spreadsheets, etc.) you can use `write_clip()` from the **clipr** package. 
+Để xuất khung dữ liệu sang "clipboard" của máy tính (để sau đó dán vào một phần mềm khác như Excel, Google Spreadsheets, v.v.), bạn có thể sử dụng `write_clip()` từ package **clipr**.
 
 ```{r, eval=F}
 # export the linelist data frame to your system's clipboard
 clipr::write_clip(linelist)
 ```
 
+## File RDS {#import_rds}
 
+Cùng với .csv, .xlsx, v.v., bạn cũng có thể xuất/lưu các R data frame dưới dạng tệp .rds. Đây là định dạng tệp dành riêng cho R và rất hữu ích nếu bạn biết mình sẽ làm việc lại với dữ liệu đã xuất trong R.
 
+Các nhóm của cột được lưu trữ, vì vậy bạn không cần phải làm sạch lại khi chúng được nhập (với Excel hoặc thậm chí là tệp CSV, điều này có thể khiến bạn đau đầu!). Nó cũng là một tệp nhỏ hơn, hữu ích cho việc xuất và nhập nếu bộ dữ liệu của bạn lớn.
 
-## RDS files {#import_rds}
-
-Along with .csv, .xlsx, etc, you can also export/save R data frames as .rds files. This is a file format specific to R, and is very useful if you know you will work with the exported data again in R. 
-
-The classes of columns are stored, so you don't have do to cleaning again when it is imported (with an Excel or even a CSV file this can be a headache!). It is also a smaller file, which is useful for export and import if your dataset is large.  
-
-For example, if you work in an Epidemiology team and need to send files to a GIS team for mapping, and they use R as well, just send them the .rds file! Then all the column classes are retained and they have less work to do.  
+Ví dụ: nếu bạn làm việc trong nhóm Dịch tễ học và cần gửi tệp cho nhóm GIS để lập bản đồ và họ cũng sử dụng R, chỉ cần gửi tệp .rds cho họ! Sau đó, tất cả các nhóm cột được giữ lại và có ít việc phải xử lý hơn.
 
 ```{r, eval=F}
 export(linelist, here("data", "clean", "my_linelist.rds"))
 ```
 
-
-
 <!-- ======================================================= -->
-## Rdata files and lists {#import_rdata}
 
-`.Rdata` files can store multiple R objects - for example multiple data frames, model results, lists, etc. This can be very useful to consolidate or share a lot of your data for a given project.  
+## Tệp và danh sách Rdata {#import_rdata}
 
-In the below example, multiple R objects are stored within the exported file "my_objects.Rdata":  
+Tệp `.Rdata` có thể lưu trữ nhiều đối tượng R - ví dụ: nhiều data frame, kết quả mô hình, danh sách, v.v. Điều này có thể rất hữu ích để hợp nhất hoặc chia sẻ nhiều dữ liệu của bạn cho một dự án nhất định.
+
+Trong ví dụ dưới đây, nhiều đối tượng R được lưu trữ trong tệp "my_objects.Rdata" đã xuất:
 
 ```{r, eval=F}
 rio::export(my_list, my_dataframe, my_vector, "my_objects.Rdata")
 ```
 
-Note: if you are trying to *import* a list, use `import_list()` from **rio** to import it with the complete original structure and contents.  
+Lưu ý: nếu bạn đang thử *nhập* một danh sách, hãy sử dụng `import_list()` từ **rio** để nhập nó với cấu trúc và nội dung gốc hoàn chỉnh.
 
 ```{r, eval=F}
 rio::import_list("my_list.Rdata")
 ```
 
+<!-- ======================================================= -->
 
+## Lưu plot
 
+Hướng dẫn về cách lưu các plot, chẳng hạn như các plot được tạo bởi `ggplot()`, được thảo luận sâu trong chương [ggplot cơ bản].
 
+Tóm lại, chạy `ggsave("my_plot_filepath_and_name.png")` sau khi in plot của bạn. Bạn có thể cung cấp một đối tượng plot đã lưu cho đối số `plot =` hoặc chỉ xác định đường dẫn tệp đích (với phần mở rộng tệp) để lưu plot được hiển thị-gần đây nhất. Bạn cũng có thể kiểm soát `width =`, `height =`, `units =` và `dpi =`.
 
-
+Cách lưu đồ thị mạng, chẳng hạn như cây lây nhiễm, được đề cập trong chương [Chuỗi lây nhiễm].
 
 <!-- ======================================================= -->
-## Saving plots {} 
 
-Instructions on how to save plots, such as those created by `ggplot()`, are discussed in depth in the [ggplot basics] page.  
+## Tài nguyên học liệu
 
-In brief, run `ggsave("my_plot_filepath_and_name.png")` after printing your plot. You can either provide a saved plot object to the `plot = ` argument, or only specify the destination file path (with file extension) to save the most recently-displayed plot. You can also control the `width = `, `height = `, `units = `, and `dpi = `.  
+[R Data Import/Export Manual](https://cran.r-project.org/doc/manuals/r-release/R-data.html)\
+[R 4 Data Science chapter on data import](https://r4ds.had.co.nz/data-import.html#data-import)\
+[ggsave() documentation](https://ggplot2.tidyverse.org/reference/ggsave.html)
 
-How to save a network graph, such as a transmission tree, is addressed in the page on [Transmission chains]. 
+Dưới đây là một bảng, lấy từ **rio** [vignette](https://cran.r-project.org/web/packages/rio/vignettes/rio.html) trực tuyến. Đối với mỗi loại dữ liệu, nó hiển thị: phần mở rộng tệp dự kiến, package **rio** sử dụng để nhập hoặc xuất dữ liệu và trả lời chức năng này có được bao gồm trong phiên bản **rio** được cài đặt mặc định hay không.
 
-
-<!-- ======================================================= -->
-## Resources {} 
-
-The [R Data Import/Export Manual](https://cran.r-project.org/doc/manuals/r-release/R-data.html)  
-[R 4 Data Science chapter on data import](https://r4ds.had.co.nz/data-import.html#data-import)  
-[ggsave() documentation](https://ggplot2.tidyverse.org/reference/ggsave.html)  
-
-
-Below is a table, taken from the **rio** online [vignette](https://cran.r-project.org/web/packages/rio/vignettes/rio.html). For each type of data it shows: the expected file extension, the package **rio** uses to import or export the data, and whether this functionality is included in the default installed version of **rio**.  
-
-
-
-Format                     | Typical Extension | Import Package    | Export Package     | Installed by Default
----------------------------|-------------------|-------------------|--------------------|---------------------
-Comma-separated data | .csv | data.table `fread()` | data.table |	Yes
-Pipe-separated data |	.psv | data.table `fread()` | data.table | Yes
-Tab-separated data| .tsv | data.table `fread()` | data.table | Yes
-SAS | .sas7bdat | haven | haven | Yes
-SPSS | .sav | haven | haven | Yes
-Stata | .dta | haven | haven | Yes
-SAS | XPORT | .xpt | haven | haven | Yes
-SPSS Portable | .por | haven | | Yes
-Excel | .xls | readxl | | Yes
-Excel | .xlsx | readxl | openxlsx | Yes
-R syntax | .R	| base | base | Yes
-Saved R objects | .RData, .rda | base | base | Yes
-Serialized R objects | .rds | base | base | Yes
-Epiinfo | .rec | foreign | | Yes
-Minitab | .mtp | foreign | | Yes
-Systat | .syd |	foreign | | Yes
-“XBASE” | database files | .dbf | foreign | foreign | Yes
-Weka Attribute-Relation File Format | .arff | foreign | foreign | Yes
-Data Interchange Format | .dif | utils | | Yes
-Fortran data | no recognized extension | utils | | Yes
-Fixed-width format data | .fwf | utils | utils | Yes
-gzip comma-separated data | .csv.gz | utils | utils | Yes
-CSVY (CSV + YAML metadata header) | .csvy | csvy | csvy | No
-EViews | .wf1 |hexView | | No
-Feather R/Python interchange format | .feather | feather | feather | No
-Fast Storage | .fst | fst |	fst | No
-JSON | .json | jsonlite | jsonlite | No
-Matlab | .mat | rmatio | rmatio | No
-OpenDocument Spreadsheet | .ods | readODS | readODS | No
-HTML Tables | .html | xml2 | xml2 | No
-Shallow XML documents | .xml | xml2 | xml2 | No
-YAML | .yml | yaml | yaml	| No
-Clipboard	default is tsv | |  clipr | clipr | No
-
-
-
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Định dạng                                 | Phần mở rộng điển hình  | Package nhập         | Package xuất | Được cài đặt theo mặc định |
++===========================================+=========================+======================+==============+============================+
+| Dữ liệu được phân tách bằng-dấu phẩy      | .csv                    | data.table `fread()` | data.table   | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Dữ liệu được phân tách bằng-dấu gạch      | .psv                    | data.table `fread()` | data.table   | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Dữ liệu được phân tách bằng-tab           | .tsv                    | data.table `fread()` | data.table   | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| SAS                                       | .sas7bdat               | haven                | haven        | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| SPSS                                      | .sav                    | haven                | haven        | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Stata                                     | .dta                    | haven                | haven        | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| SAS                                       | XPORT                   | .xpt                 | haven        | haven                      |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| SPSS Portable                             | .por                    | haven                |              | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Excel                                     | .xls                    | readxl               |              | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Excel                                     | .xlsx                   | readxl               | openxlsx     | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Cú pháp R                                 | .R                      | base                 | base         | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Đối tượng R được lưu                      | .RData, .rda            | base                 | base         | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Đối tượng R được nối tiếp                 | .rds                    | base                 | base         | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Epiinfo                                   | .rec                    | foreign              |              | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Minitab                                   | .mtp                    | foreign              |              | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Systat                                    | .syd                    | foreign              |              | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| "XBASE"                                   | database files          | .dbf                 | foreign      | foreign                    |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Định dạng tệp Weka Attribute-Relation     | .arff                   | foreign              | foreign      | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Định dạng trao đổi dữ liệu                | .dif                    | utils                |              | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Dữ liệu Fortran                           | no recognized extension | utils                |              | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Định dạng dữ liệu Fixed-width             | .fwf                    | utils                | utils        | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Dữ liệu gzip được phân tách bằng-dấu phẩy | .csv.gz                 | utils                | utils        | Yes                        |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| CSVY (Tiêu đề siêu dữ liệu CSV + YAML)    | .csvy                   | csvy                 | csvy         | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| EViews                                    | .wf1                    | hexView              |              | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Định dạng trao đổi Feather R/Python       | .feather                | feather              | feather      | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Fast Storage                              | .fst                    | fst                  | fst          | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| JSON                                      | .json                   | jsonlite             | jsonlite     | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Matlab                                    | .mat                    | rmatio               | rmatio       | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| OpenDocument Spreadsheet                  | .ods                    | readODS              | readODS      | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Bảng HTML                                 | .html                   | xml2                 | xml2         | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Tài liệu XML nông                         | .xml                    | xml2                 | xml2         | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| YAML                                      | .yml                    | yaml                 | yaml         | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
+| Clipboard mặc định tsv                    |                         | clipr                | clipr        | No                         |
++-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
