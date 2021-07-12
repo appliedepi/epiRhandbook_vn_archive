@@ -61,7 +61,7 @@
 <li><a class="" href="cleaning.html"><span class="header-section-number">8</span> Làm sạch số liệu và các hàm quan trọng</a></li>
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
-<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
+<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors/</a></li>
 <li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
@@ -116,98 +116,98 @@
 <h1>
 <span class="header-section-number">47</span> Các lỗi thường gặp<a class="anchor" aria-label="anchor" href="#errors"><i class="fas fa-link"></i></a>
 </h1>
-<p>This page includes a running list of common errors and suggests solutions for troubleshooting them.</p>
-<div id="interpreting-error-messages" class="section level2" number="47.1">
+<p>Chương này bao gồm một danh sách các lỗi phổ biến và các giải pháp đề xuất để khắc phục chúng.</p>
+<div id="phiên-giải-thông-báo-lỗi" class="section level2" number="47.1">
 <h2>
-<span class="header-section-number">47.1</span> Interpreting error messages<a class="anchor" aria-label="anchor" href="#interpreting-error-messages"><i class="fas fa-link"></i></a>
+<span class="header-section-number">47.1</span> Phiên giải thông báo lỗi<a class="anchor" aria-label="anchor" href="#phi%C3%AAn-gi%E1%BA%A3i-th%C3%B4ng-b%C3%A1o-l%E1%BB%97i"><i class="fas fa-link"></i></a>
 </h2>
-<p>R errors can be cryptic at times, so Google is your friend. Search the error message with “R” and look for recent posts in <a href="StackExchange.com">StackExchange.com</a>, <a href="stackoverflow.com">stackoverflow.com</a>, <a href="community.rstudio.com">community.rstudio.com</a>, twitter (#rstats), and other forums used by programmers to filed questions and answers. Try to find recent posts that have solved similar problems.</p>
-<p>If after much searching you cannot find an answer to your problem, consider creating a <em>reproducible example</em> (“reprex”) and posting the question yourself. See the page on [Getting help] for tips on how to create and post a reproducible example to forums.</p>
+<p>Các lỗi trong R đôi khi có thể khó hiểu, vì vậy Google là bạn của bạn. Tìm kiếm thông báo lỗi với “R” và tìm các bài đăng gần đây trong <a href="StackExchange.com">StackExchange.com</a>, <a href="stackoverflow.com">stackoverflow.com</a>, <a href="community.rstudio.com">community.rstudio.com</a>, twitter (#rstats), và các diễn đàn khác được lập trình viên sử dụng để gửi câu hỏi và câu trả lời. Hãy cố gắng tìm các bài đăng gần đây đã giải quyết các vấn đề tương tự.</p>
+<p>Nếu sau nhiều lần tìm kiếm, bạn không thể tìm thấy câu trả lời cho vấn đề của mình, hãy cân nhắc tạo một <em>ví dụ có thể tái tạo</em> (“reprex”) và tự đăng câu hỏi. Xem chương <a href="help.html#help">Nhờ sự trợ giúp</a> để biết các mẹo về cách tạo và đăng một ví dụ có thể tái tạo lên diễn đàn.</p>
 </div>
-<div id="common-errors" class="section level2" number="47.2">
+<div id="các-lỗi-thường-gặp" class="section level2" number="47.2">
 <h2>
-<span class="header-section-number">47.2</span> Common errors<a class="anchor" aria-label="anchor" href="#common-errors"><i class="fas fa-link"></i></a>
+<span class="header-section-number">47.2</span> Các lỗi thường gặp<a class="anchor" aria-label="anchor" href="#c%C3%A1c-l%E1%BB%97i-th%C6%B0%E1%BB%9Dng-g%E1%BA%B7p"><i class="fas fa-link"></i></a>
 </h2>
-<p>Below, we list some common errors and potential explanations/solutions. Some of these are borrowed from Noam Ross who analyzed the most common forum posts on Stack Overflow about R error messages (see analysis <a href="https://github.com/noamross/zero-dependency-problems/blob/master/misc/stack-overflow-common-r-errors.md">here</a>)</p>
-<div id="typo-errors" class="section level3 unnumbered">
-<h3>Typo errors<a class="anchor" aria-label="anchor" href="#typo-errors"><i class="fas fa-link"></i></a>
+<p>Dưới đây, chúng tôi liệt kê một số lỗi phổ biến và các giải thích/giải pháp tiềm năng. Một số trong số này được mượn từ Noam Ross, người đã phân tích các bài đăng phổ biến nhất trên diễn đàn Stack Overflow về các thông báo lỗi trên R (xem bài phân tích <a href="https://github.com/noamross/zero-dependency-problems/blob/master/misc/stack-overflow-common-r-errors.md">tại đây</a>)</p>
+<div id="lỗi-đánh-máy" class="section level3 unnumbered">
+<h3>Lỗi đánh máy<a class="anchor" aria-label="anchor" href="#l%E1%BB%97i-%C4%91%C3%A1nh-m%C3%A1y"><i class="fas fa-link"></i></a>
 </h3>
 <pre><code>Error: unexpected symbol in:
 "  geom_histogram(stat = "identity")+
   tidyquant::geom_ma(n=7, size = 2, color = "red" lty"</code></pre>
-<p>If you see “unexpected symbol”, check for missing commas</p>
+<p>Nếu bạn thấy lỗi “unexpected symbol”, kiểm tra xem có thiếu dấu phẩy không</p>
 </div>
-<div id="package-errors" class="section level3 unnumbered">
-<h3>Package errors<a class="anchor" aria-label="anchor" href="#package-errors"><i class="fas fa-link"></i></a>
+<div id="các-lỗi-liên-quan-đến-package" class="section level3 unnumbered">
+<h3>Các lỗi liên quan đến Package<a class="anchor" aria-label="anchor" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-%C4%91%E1%BA%BFn-package"><i class="fas fa-link"></i></a>
 </h3>
 <pre><code>could not find function "x"...</code></pre>
-<p>This likely means that you typed the function name incorrectly, or forgot to install or load a package.</p>
+<p>Điều này có thể có nghĩa là bạn đã nhập sai tên hàm hoặc quên cài đặt hoặc gọi một package.</p>
 <pre><code>Error in select(data, var) : unused argument (var)</code></pre>
-<p>You think you are using <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code> but the <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> function has been masked by <code><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">MASS::select()</a></code> - specify <code>dplyr::</code> or re-order your package loading so that dplyr is after all the others.</p>
-<p>Other common masking errors stem from: <code><a href="https://rdrr.io/pkg/plyr/man/summarise.html">plyr::summarise()</a></code> and <code><a href="https://rdrr.io/r/stats/filter.html">stats::filter()</a></code>. Consider using the <a href="https://www.tidyverse.org/blog/2018/06/conflicted/"><strong>conflicted</strong> package</a>.</p>
+<p>Bạn nghĩ rằng bạn đang sử dụng <code><a href="https://dplyr.tidyverse.org/reference/select.html">dplyr::select()</a></code> nhưng thực tế là hàm <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> đã bị đè bởi hàm <code><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">MASS::select()</a></code> - hãy ghi rõ <code>dplyr::</code> hoặc sắp xếp lại thứ tự các package được gọi để dplyr đứng sau tất cả các package khác.</p>
+<p>Các lỗi hàm bị đè phổ biến khác bắt nguồn từ: <code><a href="https://rdrr.io/pkg/plyr/man/summarise.html">plyr::summarise()</a></code> và <code><a href="https://rdrr.io/r/stats/filter.html">stats::filter()</a></code>. Cân nhắc sử dụng <a href="https://www.tidyverse.org/blog/2018/06/conflicted/"><strong>conflicted</strong> package</a>.</p>
 <pre><code>Error in install.packages : ERROR: failed to lock directory ‘C:\Users\Name\Documents\R\win-library\4.0’ for modifying
 Try removing ‘C:\Users\Name\Documents\R\win-library\4.0/00LOCK’</code></pre>
-<p>If you get an error saying you need to remove an “00LOCK” file, go to your “R” library in your computer directory (e.g. R/win-library/) and look for a folder called “00LOCK”. Delete this manually, and try installing the package again. A previous install process was probably interrupted, which led to this.</p>
+<p>Nếu bạn gặp lỗi thông báo rằng bạn cần xóa tệp “00LOCK”, go to your “R” library in your computer directory (e.g. R/win-library/) and look for a folder called “00LOCK”. Delete this manually, and try installing the package again. A previous install process was probably interrupted, which led to this.</p>
 </div>
-<div id="object-errors" class="section level3 unnumbered">
-<h3>Object errors<a class="anchor" aria-label="anchor" href="#object-errors"><i class="fas fa-link"></i></a>
+<div id="các-lỗi-liên-quan-tới-đối-tượng" class="section level3 unnumbered">
+<h3>Các lỗi liên quan tới đối tượng<a class="anchor" aria-label="anchor" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-t%E1%BB%9Bi-%C4%91%E1%BB%91i-t%C6%B0%E1%BB%A3ng"><i class="fas fa-link"></i></a>
 </h3>
 <pre><code>No such file or directory:</code></pre>
-<p>If you see an error like this when you try to export or import: Check the spelling of the file and filepath, and if the path contains slashes make sure they are forward <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> and not backward <code>\</code>. Also make sure you used the correct file extension (e.g. .csv, .xlsx).</p>
+<p>Nếu bạn gặp lỗi như thế này khi cố gắng xuất hoặc nhập: Hãy kiểm tra lỗi chính tả của tệp và đường dẫn tệp và nếu đường dẫn chứa dấu gạch chéo, hãy đảm bảo rằng bạn đang dùng dấu gạch chéo xuôi <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> chứ không phải dấu gạch chéo ngược <code>\</code>. Ngoài ra, hãy đảm bảo rằng bạn đã sử dụng đúng phần mở rộng tệp (ví dụ: .csv, .xlsx).</p>
 <pre><code>object 'x' not found </code></pre>
-<p>This means that an object you are referencing does not exist. Perhaps code above did not run properly?</p>
+<p>Điều này có nghĩa là một đối tượng bạn đang tham chiếu không tồn tại. Có lẽ code trên đã không chạy đúng cách?</p>
 <pre><code>Error in 'x': subscript out of bounds</code></pre>
-<p>This means you tried to access something (an element of a vector or a list) that was not there.</p>
+<p>Điều này có nghĩa là bạn đã cố gắng truy cập vào thứ gì đó (một phần tử của vectơ hoặc danh sách) không có ở đó.</p>
 </div>
-<div id="function-syntax-errors" class="section level3 unnumbered">
-<h3>Function syntax errors<a class="anchor" aria-label="anchor" href="#function-syntax-errors"><i class="fas fa-link"></i></a>
+<div id="các-lỗi-liên-quan-tới-cú-pháp-hàm" class="section level3 unnumbered">
+<h3>Các lỗi liên quan tới cú pháp hàm<a class="anchor" aria-label="anchor" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-t%E1%BB%9Bi-c%C3%BA-ph%C3%A1p-h%C3%A0m"><i class="fas fa-link"></i></a>
 </h3>
 <pre><code># ran recode without re-stating the x variable in mutate(x = recode(x, OLD = NEW)
 Error: Problem with `mutate()` input `hospital`.
 x argument ".x" is missing, with no default
 i Input `hospital` is `recode(...)`.</code></pre>
-<p>This error above (<code>argument .x is missing, with no default</code>) is common in <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> if you are supplying a function like <code>recode()</code> or <code>replace_na()</code> where it expects you to provide the column name as the first argument. This is easy to forget.</p>
+<p>Lỗi bên trên (<code>argument .x is missing, with no default</code>) thường gặp với hàm <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> nếu bạn đang cung cấp một hàm như <code>recode()</code> hoặc <code>replace_na()</code> trong đó nó yêu cầu bạn cung cấp tên cột làm đối số đầu tiên. Điều này rất dễ quên.</p>
 </div>
-<div id="logic-errors" class="section level3 unnumbered">
-<h3>Logic errors<a class="anchor" aria-label="anchor" href="#logic-errors"><i class="fas fa-link"></i></a>
+<div id="các-lỗi-logic" class="section level3 unnumbered">
+<h3>Các lỗi logic<a class="anchor" aria-label="anchor" href="#c%C3%A1c-l%E1%BB%97i-logic"><i class="fas fa-link"></i></a>
 </h3>
 <pre><code>Error in if</code></pre>
-<p>This likely means an <code>if</code> statement was applied to something that was not TRUE or FALSE.</p>
+<p>Điều này có thể có nghĩa là một mệnh đề <code>if</code> đã được áp dụng cho một cái gì đó không phải là TRUE hoặc FALSE.</p>
 </div>
-<div id="factor-errors" class="section level3 unnumbered">
-<h3>Factor errors<a class="anchor" aria-label="anchor" href="#factor-errors"><i class="fas fa-link"></i></a>
+<div id="các-lỗi-liên-quan-tới-factor" class="section level3 unnumbered">
+<h3>Các lỗi liên quan tới Factor<a class="anchor" aria-label="anchor" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-t%E1%BB%9Bi-factor"><i class="fas fa-link"></i></a>
 </h3>
 <pre><code>#Tried to add a value ("Missing") to a factor (with replace_na operating on a factor)
 Problem with `mutate()` input `age_cat`.
 i invalid factor level, NA generated
 i Input `age_cat` is `replace_na(age_cat, "Missing")`.invalid factor level, NA generated</code></pre>
-<p>If you see this error about invalid factor levels, you likely have a column of class Factor (which contains pre-defined levels) and tried to add a new value to it. Convert it to class Character before adding a new value.</p>
+<p>Nếu bạn nhìn thấy lỗi liên quan tới thứ bậc kiểu factor không hợp lệ, có thể bạn đang có một cột kiểu Factor(chứa các thứ bậc đã được xác định) và bạn đang cố gắng thêm một giá trị mới vào nó. Chuyển nó thành kiểu ký tự trước khi thêm giá trị mới.</p>
 </div>
-<div id="plotting-errors" class="section level3 unnumbered">
-<h3>Plotting errors<a class="anchor" aria-label="anchor" href="#plotting-errors"><i class="fas fa-link"></i></a>
+<div id="lỗi-khi-vẽ-biểu-đồ" class="section level3 unnumbered">
+<h3>Lỗi khi vẽ biểu đồ<a class="anchor" aria-label="anchor" href="#l%E1%BB%97i-khi-v%E1%BA%BD-bi%E1%BB%83u-%C4%91%E1%BB%93"><i class="fas fa-link"></i></a>
 </h3>
 <p><code>Error: Insufficient values in manual scale. 3 needed but only 2 provided.</code>
-ggplot() scale_fill_manual() values = c(“orange”, “purple”) … insufficient for number of factor levels … consider whether NA is now a factor level…</p>
+Đây có thể là lỗi khi bạn vẽ biểu đồ bằng ggplot, sử dụng scale_fill_manual() values = c(“orange”, “purple”), trong đó bạn chưa cung cấp đủ số lượng màu cho hàm. Nếu cột này dạng factor, hãy cân nhắc liệu NA có phải là một bậc của factor hay không.</p>
 <pre><code>Can't add x object</code></pre>
-<p>You probably have an extra <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> at the end of a ggplot command that you need to delete.</p>
+<p>Bạn có thể thừa dấu <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> ở cuối lệnh ggplot mà bạn cần xóa.</p>
 </div>
-<div id="r-markdown-errors" class="section level3 unnumbered">
-<h3>R Markdown errors<a class="anchor" aria-label="anchor" href="#r-markdown-errors"><i class="fas fa-link"></i></a>
+<div id="lỗi-r-markdown" class="section level3 unnumbered">
+<h3>Lỗi R Markdown<a class="anchor" aria-label="anchor" href="#l%E1%BB%97i-r-markdown"><i class="fas fa-link"></i></a>
 </h3>
-<p>If the error message contains something like <code>Error in options[[sprintf("fig.%s", i)]]</code>, check that your knitr options at the top of each chunk correctly use the <code>out.width =</code> or <code>out.height =</code> and <em>not</em> <code>fig.width=</code> and <code>fig.height=</code>.</p>
+<p>Nếu thông báo lỗi là <code>Error in options[[sprintf("fig.%s", i)]]</code>, kiểm tra xem các tùy chọn của knitr ở đầu mỗi đoạn code có sử dụng chính xác <code>out.width =</code> hoặc <code>out.height =</code> và <em>không phải</em> <code>fig.width=</code> và <code>fig.height=</code> hay không.</p>
 </div>
-<div id="miscellaneous-2" class="section level3 unnumbered">
-<h3>Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-2"><i class="fas fa-link"></i></a>
+<div id="tổng-hợp" class="section level3 unnumbered">
+<h3>Tổng hợp<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-h%E1%BB%A3p"><i class="fas fa-link"></i></a>
 </h3>
-<p>Consider whether you re-arranged piped <strong>dplyr</strong> verbs and didn’t replace a pipe in the middle, or didn’t remove a pipe from the end after re-arranging.</p>
+<p>Cân nhắc liệu bạn có đã sắp xếp lại các động từ <strong>dplyr</strong> đã được pipe và đã không thay thế một pipe ở giữa, hoặc đã không xóa một pipe ở cuối sau khi sắp xếp lại.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="resources-34" class="section level2" number="47.3">
+<div id="nguồn-7" class="section level2" number="47.3">
 <h2>
-<span class="header-section-number">47.3</span> Resources<a class="anchor" aria-label="anchor" href="#resources-34"><i class="fas fa-link"></i></a>
+<span class="header-section-number">47.3</span> Nguồn<a class="anchor" aria-label="anchor" href="#ngu%E1%BB%93n-7"><i class="fas fa-link"></i></a>
 </h2>
-<p>This is another blog post that lists common <a href="https://www.r-bloggers.com/2016/06/common-r-programming-errors-faced-by-beginners/">R programming errors faced by beginners</a></p>
+<p>Đây là một bài đăng trên blog khác liệt kê <a href="https://www.r-bloggers.com/2016/06/common-r-programming-errors-faced-by-beginners/">Các lỗi lập trình R phổ biến mà người mới bắt đầu gặp phải</a></p>
 
 </div>
 </div>
@@ -218,21 +218,21 @@ ggplot() scale_fill_manual() values = c(“orange”, “purple”) … insuffic
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#errors"><span class="header-section-number">47</span> Các lỗi thường gặp</a></li>
-<li><a class="nav-link" href="#interpreting-error-messages"><span class="header-section-number">47.1</span> Interpreting error messages</a></li>
+<li><a class="nav-link" href="#phi%C3%AAn-gi%E1%BA%A3i-th%C3%B4ng-b%C3%A1o-l%E1%BB%97i"><span class="header-section-number">47.1</span> Phiên giải thông báo lỗi</a></li>
 <li>
-<a class="nav-link" href="#common-errors"><span class="header-section-number">47.2</span> Common errors</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#typo-errors">Typo errors</a></li>
-<li><a class="nav-link" href="#package-errors">Package errors</a></li>
-<li><a class="nav-link" href="#object-errors">Object errors</a></li>
-<li><a class="nav-link" href="#function-syntax-errors">Function syntax errors</a></li>
-<li><a class="nav-link" href="#logic-errors">Logic errors</a></li>
-<li><a class="nav-link" href="#factor-errors">Factor errors</a></li>
-<li><a class="nav-link" href="#plotting-errors">Plotting errors</a></li>
-<li><a class="nav-link" href="#r-markdown-errors">R Markdown errors</a></li>
-<li><a class="nav-link" href="#miscellaneous-2">Miscellaneous</a></li>
+<a class="nav-link" href="#c%C3%A1c-l%E1%BB%97i-th%C6%B0%E1%BB%9Dng-g%E1%BA%B7p"><span class="header-section-number">47.2</span> Các lỗi thường gặp</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#l%E1%BB%97i-%C4%91%C3%A1nh-m%C3%A1y">Lỗi đánh máy</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-%C4%91%E1%BA%BFn-package">Các lỗi liên quan đến Package</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-t%E1%BB%9Bi-%C4%91%E1%BB%91i-t%C6%B0%E1%BB%A3ng">Các lỗi liên quan tới đối tượng</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-t%E1%BB%9Bi-c%C3%BA-ph%C3%A1p-h%C3%A0m">Các lỗi liên quan tới cú pháp hàm</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-l%E1%BB%97i-logic">Các lỗi logic</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-l%E1%BB%97i-li%C3%AAn-quan-t%E1%BB%9Bi-factor">Các lỗi liên quan tới Factor</a></li>
+<li><a class="nav-link" href="#l%E1%BB%97i-khi-v%E1%BA%BD-bi%E1%BB%83u-%C4%91%E1%BB%93">Lỗi khi vẽ biểu đồ</a></li>
+<li><a class="nav-link" href="#l%E1%BB%97i-r-markdown">Lỗi R Markdown</a></li>
+<li><a class="nav-link" href="#t%E1%BB%95ng-h%E1%BB%A3p">Tổng hợp</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#resources-34"><span class="header-section-number">47.3</span> Resources</a></li>
+<li><a class="nav-link" href="#ngu%E1%BB%93n-7"><span class="header-section-number">47.3</span> Nguồn</a></li>
 </ul>
 
       <div class="book-extra">
@@ -249,7 +249,7 @@ ggplot() scale_fill_manual() values = c(“orange”, “purple”) … insuffic
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

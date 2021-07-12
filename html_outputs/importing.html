@@ -61,7 +61,7 @@
 <li><a class="" href="cleaning.html"><span class="header-section-number">8</span> Làm sạch số liệu và các hàm quan trọng</a></li>
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
-<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
+<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors/</a></li>
 <li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
@@ -117,210 +117,208 @@
 <span class="header-section-number">7</span> Nhập xuất dữ liệu<a class="anchor" aria-label="anchor" href="#importing"><i class="fas fa-link"></i></a>
 </h1>
 <div class="inline-figure"><img src="images/Import_Export_1500x500.png" width="100%"></div>
-<p>In this page we describe ways to locate, import, and export files:</p>
+<p>Trong chương này, chúng tôi mô tả các cách để định vị, nhập và xuất tệp:</p>
 <ul>
-<li>Use of the <strong>rio</strong> package to flexibly <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> and <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> many types of files<br>
-</li>
-<li>Use of the <strong>here</strong> package to locate files relative to an R project root - to prevent complications from file paths that are specific to one computer<br>
-</li>
-<li>Specific import scenarios, such as:
+<li><p>Sử dụng package <strong>rio</strong> để <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> và <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> linh hoạt nhiều loại tệp<br></p></li>
+<li><p>Sử dụng package <strong>here</strong> để định vị tệp liên quan đến dự án R gốc - để ngăn ngừa sự phức tạp do nhiều đường dẫn tệp chỉ dành riêng cho một máy tính<br></p></li>
+<li>
+<p>Các trường hợp nhập cụ thể:</p>
 <ul>
-<li>Specific Excel sheets<br>
+<li>Excel sheet cụ thể<br>
 </li>
-<li>Messy headers and skipping rows<br>
+<li>Tiêu đề sắp xếp lộn xộn và bỏ qua một số hàng<br>
 </li>
-<li>From Google sheets<br>
+<li>Từ Google sheet<br>
 </li>
-<li>From data posted to websites<br>
+<li>Từ dữ liệu được đăng lên các trang web<br>
 </li>
-<li>With APIs<br>
+<li>Với APIs<br>
 </li>
-<li>Importing the <em>most recent</em> file<br>
+<li>Nhập tệp <em>gần đây nhất</em><br>
 </li>
 </ul>
 </li>
-<li>Manual data entry<br>
-</li>
-<li>R-specific file types such as RDS and RData<br>
-</li>
-<li>Exporting/saving files and plots</li>
+<li><p>Nhập dữ liệu thủ công<br></p></li>
+<li><p>Các loại tệp R cụ thể ví dụ như RDS và RData<br></p></li>
+<li><p>Xuất/lưu tệp và biểu đồ</p></li>
 </ul>
-<!-- ======================================================= --><div id="overview" class="section level2" number="7.1">
+<!-- ======================================================= --><div id="tổng-quan" class="section level2" number="7.1">
 <h2>
-<span class="header-section-number">7.1</span> Overview<a class="anchor" aria-label="anchor" href="#overview"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.1</span> Tổng quan<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-quan"><i class="fas fa-link"></i></a>
 </h2>
-<p>When you import a “dataset” into R, you are generally creating a new <em>data frame</em> object in your R environment and defining it as an imported file (e.g. Excel, CSV, TSV, RDS) that is located in your folder directories at a certain file path/address.</p>
-<p>You can import/export many types of files, including those created by other statistical programs (SAS, STATA, SPSS). You can also connect to relational databases.</p>
-<p>R even has its own data formats:</p>
+<p>Khi bạn nhập một “dataset” vào R, bạn thường tạo ra một đối tượng <em>data frame</em> mới trong môi trường R của mình và định nghĩa nó là tệp được nhập (ví dụ: Excel, CSV, TSV, RDS), từ trong các thư mục của bạn tại một đường dẫn/địa chỉ tệp nhất định.</p>
+<p>Bạn có thể nhập/xuất nhiều loại tệp, bao gồm cả những tệp được tạo bởi các chương trình thống kê khác (SAS, STATA, SPSS). Bạn cũng có thể kết nối với các cơ sở dữ liệu liên quan.</p>
+<p>R thậm chí còn có các định dạng dữ liệu riêng:</p>
 <ul>
-<li>An RDS file (.rds) stores a single R object such as a data frame. These are useful to store cleaned data, as they maintain R column classes. Read more in <a href="importing.html#import_rds">this section</a>.<br>
+<li>Một tệp RDS (.rds) lưu trữ một đối tượng R đơn lẻ chẳng hạn như một data frame. Chúng hữu ích trong việc lưu trữ dữ liệu đã được làm sạch, vì chúng giữ lại kiểu dữ liệu cho các cột R. Đọc thêm trong <a href="importing.html#import_rds">mục này</a>.<br>
 </li>
-<li>An RData file (.Rdata) can be used to store multiple objects, or even a complete R workspace. Read more in <a href="importing.html#import_rdata">this section</a>.</li>
+<li>Một tệp RData (.Rdata) có thể được sử dụng để lưu trữ nhiều đối tượng hoặc thậm chí là một không gian làm việc trong R hoàn chỉnh. Đọc thêm trong <a href="importing.html#import_rdata">mục này</a>.</li>
 </ul>
 <!-- ======================================================= -->
 </div>
-<div id="the-rio-package" class="section level2" number="7.2">
+<div id="package-rio" class="section level2" number="7.2">
 <h2>
-<span class="header-section-number">7.2</span> The <strong>rio</strong> package<a class="anchor" aria-label="anchor" href="#the-rio-package"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.2</span> Package <strong>rio</strong><a class="anchor" aria-label="anchor" href="#package-rio"><i class="fas fa-link"></i></a>
 </h2>
-<p>The R package we recommend is: <strong>rio</strong>. The name “rio” is an abbreviation of “R I/O” (input/output).</p>
-<p>Its functions <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> and <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> can handle many different file types (e.g. .xlsx, .csv, .rds, .tsv). When you provide a file path to either of these functions (including the file extension like “.csv”), <strong>rio</strong> will read the extension and use the correct tool to import or export the file.</p>
-<p>The alternative to using <strong>rio</strong> is to use functions from many other packages, each of which is specific to a type of file. For example, <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> (<strong>base</strong> R), <code>read.xlsx()</code> (<strong>openxlsx</strong> package), and <code>write_csv()</code> (<strong>readr</strong> pacakge), etc. These alternatives can be difficult to remember, whereas using <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> and <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> from <strong>rio</strong> is easy.</p>
-<p><strong>rio</strong>’s functions <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> and <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> use the appropriate package and function for a given file, based on its file extension. See the end of this page for a complete table of which packages/functions <strong>rio</strong> uses in the background. It can also be used to import STATA, SAS, and SPSS files, among dozens of other file types.</p>
-<p>Import/export of shapefiles requires other packages, as detailed in the page on [GIS basics].</p>
+<p>Package R chúng tôi gợi ý là: <strong>rio</strong>. Tên “rio” là chữ viết tắt của “R I/O” (dữ liệu đầu vào (input)/kết quả đầu ra (output)).</p>
+<p>Hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> và <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> có thể xử lý nhiều loại tệp khác nhau (ví dụ: .xlsx, .csv, .rds, .tsv). Khi bạn cung cấp đường dẫn tệp đến một trong các hàm này (bao gồm cả đuôi file mở rộng như “.csv”), <strong>rio</strong> sẽ đọc phần mở rộng và sử dụng đúng công cụ để nhập hoặc xuất tệp.</p>
+<p>Giải pháp thay thế cho việc sử dụng <strong>rio</strong> là sử dụng các hàm từ nhiều package khác, mỗi gói cụ thể cho một loại tệp. Ví dụ như, <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> (<strong>base</strong> R), <code>read.xlsx()</code> (package <strong>openxlsx</strong>) và <code>write_csv()</code> (package <strong>readr</strong>), v.v… Những lựa chọn thay thế này có thể khó nhớ, trong khi sử dụng <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> và <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> từ <strong>rio</strong> rất dễ dàng.</p>
+<p>Các hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> và <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> của <strong>rio</strong> sử dụng package và lệnh phù hợp cho một tệp nhất định, dựa trên phần mở rộng của tệp đó. Xem phần cuối của chương này để thấy bảng đầy đủ về các package/hàm <strong>rio</strong> có thể xử lý được. Hàm này cũng có thể được sử dụng để nhập các tệp STATA, SAS và SPSS trong hàng tá các loại tệp khác.</p>
+<p>Nhập/xuất shapefiles đòi hỏi các package khác, được mô tả cụ thể trong chương <a href="data-used.html#gis">GIS cơ bản</a>.</p>
 </div>
 <div id="here" class="section level2" number="7.3">
 <h2>
-<span class="header-section-number">7.3</span> The <strong>here</strong> package<a class="anchor" aria-label="anchor" href="#here"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3</span> Package <strong>here</strong><a class="anchor" aria-label="anchor" href="#here"><i class="fas fa-link"></i></a>
 </h2>
-<p>The package <strong>here</strong> and its function <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> make it easy to tell R where to find and to save your files - in essence, it builds file paths.</p>
-<p>Used in conjunction with an R project, <strong>here</strong> allows you to describe the location of files in your R project in relation to the R project’s <em>root directory</em> (the top-level folder). This is useful when the R project may be shared or accessed by multiple people/computers. It prevents complications due to the unique file paths on different computers (e.g. <code>"C:/Users/Laura/Documents..."</code> by “starting” the file path in a place common to all users (the R project root).</p>
-<p>This is how <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> works within an R project:</p>
+<p>Package <strong>here</strong> và hàm <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> của nó giúp R dễ dàng biết nơi tìm và lưu tệp của bạn - về bản chất, nó xây dựng đường dẫn tệp.</p>
+<p>Được sử dụng cùng với dự án R, <strong>here</strong> cho phép bạn mô tả vị trí các tệp trong dự án R của bạn trong <em>thư mục gốc (root directory</em>) của dự án R (thư mục cấp cao nhất). Điều này hữu ích khi dự án R có thể được chia sẻ hoặc truy cập bởi nhiều người dùng/máy tính. Package này ngăn ngừa sự phức tạp do các đường dẫn tệp là duy nhất trên các máy tính khác nhau (ví dụ: <code>"C:/Users/Laura/Documents..."</code>) bằng cách “khởi động (starting)” đường dẫn tệp ở thư mục chung cho tất cả người dùng (dự án R gốc).</p>
+<p>Đây là cách <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> làm việc trong một dự án R:</p>
 <ul>
-<li>When the <strong>here</strong> package is first loaded within the R project, it places a small file called “.here” in the root folder of your R project as a “benchmark” or “anchor”<br>
+<li>Khi package <strong>here</strong> được tải lần đầu tiên trong dự án R, nó đặt một tệp nhỏ có tên là “.here” trong thư mục gốc dự án R của bạn như là một “điểm chuẩn” hoặc “mỏ neo”<br>
 </li>
-<li>In your scripts, to reference a file in the R project’s sub-folders, you use the function <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> to build the file path <em>in relation to that anchor</em>
+<li>Trong script của bạn, để tham chiếu một tệp trong các thư mục con của dự án R, bạn sử dụng hàm <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> để tạo đường dẫn tệp <em>liên quan đến thư mục gốc (anchor)</em>
 </li>
-<li>To build the file path, write the names of folders beyond the root, within quotes, separated by commas, finally ending with the file name and file extension as shown below<br>
+<li>Để tạo đường dẫn tệp, viết tên các thư mục bên ngoài thư mục gốc, trong dấu ngoặc kép, được phân tách bằng dấu phẩy, cuối cùng kết thúc bằng tên và phần mở rộng của tệp như được trình bày dưới đây<br>
 </li>
-<li>
-<code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> file paths can be used for both importing and exporting</li>
+<li>Các đường dẫn tệp <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> có thể được sử dụng cả để nhập và xuất dữ liệu</li>
 </ul>
-<p>For example, below, the function <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> is being provided a file path constructed with <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>.</p>
+<p>Ví dụ, dưới đây, một đường dẫn tệp được tạo bởi <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> đang cung cấp cho hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code></p>
 <div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"linelists"</span>, <span class="st">"ebola_linelist.xlsx"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The command <code><a href="https://here.r-lib.org//reference/here.html">here("data", "linelists", "ebola_linelist.xlsx")</a></code> is actually providing the full file path that is <em>unique to the user’s computer</em>:</p>
+<p>Lệnh <code><a href="https://here.r-lib.org//reference/here.html">here("data", "linelists", "ebola_linelist.xlsx")</a></code> đang cung cấp đường dẫn tệp đầy đủ mà <em>duy nhất cho máy tính của người dùng:</em></p>
 <pre><code>"C:/Users/Laura/Documents/my_R_project/data/linelists/ebola_linelist.xlsx"</code></pre>
-<p>The beauty is that the R command using <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> can be successfully run on any computer accessing the R project.</p>
-<p><span style="color: darkgreen;"><strong><em>TIP:</em></strong> If you are unsure where the “.here” root is set to, run the function <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> with empty parentheses.</span></p>
-<p>Read more about the <strong>here</strong> package <a href="https://here.r-lib.org/">at this link</a>.</p>
+<p>Ưu điểm là lệnh <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> được R sử dụng có thể chạy thành công trên bất kỳ máy tính nào truy cập dự án R.</p>
+<p><span style="color: darkgreen;"><strong><em>MẸO:</em></strong> Nếu bạn không chắc gốc “.here” được đặt ở đâu, hãy chạy lệnh <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> với dấu ngoặc đơn trống.</span></p>
+<p>Đọc thêm về package <strong>here</strong> <a href="https://here.r-lib.org/">tại đường dẫn này</a>.</p>
 <!-- ======================================================= -->
 </div>
-<div id="file-paths" class="section level2" number="7.4">
+<div id="đường-dẫn-tệp" class="section level2" number="7.4">
 <h2>
-<span class="header-section-number">7.4</span> File paths<a class="anchor" aria-label="anchor" href="#file-paths"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.4</span> Đường dẫn tệp<a class="anchor" aria-label="anchor" href="#%C4%91%C6%B0%E1%BB%9Dng-d%E1%BA%ABn-t%E1%BB%87p"><i class="fas fa-link"></i></a>
 </h2>
-<p>When importing or exporting data, you must provide a file path. You can do this one of three ways:</p>
+<p>Khi nhập hoặc xuất dữ liệu, bạn phải cung cấp một đường dẫn tệp. Bạn có thể thực hiện thao tác này bằng một trong ba cách sau:</p>
 <ol style="list-style-type: decimal">
 <li>
-<em>Recommended:</em> provide a “relative” file path with the <strong>here</strong> package<br>
+<em>Khuyên dùng:</em> cung cấp một đường dẫn tệp “tương đối” bằng package <strong>here</strong><br>
 </li>
-<li>Provide the “full” / “absolute” file path<br>
+<li>Cung cấp đường dẫn tệp “đầy đủ” / “tuyệt đối”<br>
 </li>
-<li>Manual file selection</li>
+<li>Chọn tệp theo cách thủ công</li>
 </ol>
-<div id="relative-file-paths" class="section level3 unnumbered">
-<h3>“Relative” file paths<a class="anchor" aria-label="anchor" href="#relative-file-paths"><i class="fas fa-link"></i></a>
+<div id="đường-dẫn-tệp-tương-đối" class="section level3 unnumbered">
+<h3>Đường dẫn tệp “tương đối”<a class="anchor" aria-label="anchor" href="#%C4%91%C6%B0%E1%BB%9Dng-d%E1%BA%ABn-t%E1%BB%87p-t%C6%B0%C6%A1ng-%C4%91%E1%BB%91i"><i class="fas fa-link"></i></a>
 </h3>
-<p>In R, “relative” file paths consist of the file path <em>relative to</em> the root of an R project. They allow for more simple file paths that can work on different computers (e.g. if the R project is on a shared drive or is sent by email). As described <a href="importing.html#here">above</a>, relative file paths are facilitated by use of the <strong>here</strong> package.</p>
-<p>An example of a relative file path constructed with <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> is below. We assume the work is in an R project that contains a sub-folder “data” and within that a subfolder “linelists”, in which there is the .xlsx file of interest.</p>
+<p>Trong R, đường dẫn tệp “tương đối” bao gồm đường dẫn tệp mà <em>liên quan</em> đến phần gốc của dự án R. Chúng cho phép nhiều đường dẫn tệp đơn giản hơn có thể làm việc trên nhiều máy tính khác nhau (ví dụ: nếu dự án R nằm trên bộ nhớ dùng chung hoặc được gửi qua thư điện tử). Như đã được <a href="importing.html#here">mô tả ở trên</a>, đường dẫn tệp tương đối được tạo ra dễ dàng bằng cách sử dụng package <strong>here</strong>.</p>
+<p>Dưới đây là một ví dụ về đường dẫn tệp tương đối được tạo bằng package <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>. Chúng tôi giả sử công việc nằm trong một dự án R có chứa một thư mục con “data” và bên trong thư mục con “linelists”, trong đó có tệp .xlsx được quan tâm.</p>
 <div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"linelists"</span>, <span class="st">"ebola_linelist.xlsx"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="absolute-file-paths" class="section level3 unnumbered">
-<h3>“Absolute” file paths<a class="anchor" aria-label="anchor" href="#absolute-file-paths"><i class="fas fa-link"></i></a>
+<div id="đường-dẫn-tệp-tuyệt-đối" class="section level3 unnumbered">
+<h3>Đường dẫn tệp “tuyệt đối”<a class="anchor" aria-label="anchor" href="#%C4%91%C6%B0%E1%BB%9Dng-d%E1%BA%ABn-t%E1%BB%87p-tuy%E1%BB%87t-%C4%91%E1%BB%91i"><i class="fas fa-link"></i></a>
 </h3>
-<p>Absolute or “full” file paths can be provided to functions like <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> but they are “fragile” as they are unique to the user’s specific computer and therefore <em>not recommended</em>.</p>
-<p>Below is an example of an absolute file path, where in Laura’s computer there is a folder “analysis”, a sub-folder “data” and within that a sub-folder “linelists”, in which there is the .xlsx file of interest.</p>
+<p>Đường dẫn tệp tuyệt đối hay “đầy đủ” có thể được cung cấp cho các hàm như <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> nhưng chúng “dễ vỡ” vì chúng là duy nhất cho cho các máy tính khác nhau của người dùng và do đó <em>không được khuyến khích</em> sử dụng.</p>
+<p>Dưới đây là một ví dụ về đường dẫn tệp tuyệt đối, trong máy tính của Laura có một thư mục “analysis”, một thư mục con “data” và bên trong là thư mục con “linelists”, trong đó có tệp .xlsx được quan tâm.</p>
 <div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"C:/Users/Laura/Documents/analysis/data/linelists/ebola_linelist.xlsx"</span><span class="op">)</span></code></pre></div>
-<p>A few things to note about absolute file paths:</p>
+<p>Một vài điều cần lưu ý về đường dẫn tệp tuyệt đối:</p>
 <ul>
 <li>
-<strong>Avoid using absolute file paths</strong> as they will break if the script is run on a different computer</li>
-<li>Use <em>forward</em> slashes (<code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>), as in the example above (note: this is <em>NOT</em> the default for Windows file paths)<br>
+<strong>Tránh sử dụng đường dẫn tệp tuyệt đối</strong> vì chúng sẽ bị vỡ nếu script được chạy trên một máy tính khác</li>
+<li>Sử dụng dấu gạch chéo <em>lên</em> (<code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>), như trong ví dụ trên (lưu ý: đây <em>KHÔNG</em> phải là mặc định đối với đường dẫn tệp trong Windows)<br>
 </li>
-<li>File paths that begin with double slashes (e.g. “//…”) will likely <strong>not be recognized by R</strong> and will produce an error. Consider moving your work to a “named” or “lettered” drive that begins with a letter (e.g. “J:” or “C:”). See the page on [Directory interactions] for more details on this issue.</li>
+<li>Đường dẫn tệp bắt đầu với hai dấu gạch chéo (ví dụ: “//…”) sẽ có khả năng <strong>không được R nhận ra</strong> và tạo ra lỗi. Cân nhắc chuyển công việc của bạn sang ổ đĩa “có tên” hoặc “có chữ” bắt đầu bằng một chữ cái (ví dụ: “J:” hoặc “C:”). Xem trang về <a href="directories.html#directories">Tương tác với thư mục làm việc</a> để biết thêm chi tiết về vấn đề này.</li>
 </ul>
-<p>One scenario where absolute file paths may be appropriate is when you want to import a file from a shared drive that has the same full file path for all users.</p>
-<p><span style="color: darkgreen;"><strong><em>TIP:</em></strong> To quickly convert all <code>\</code> to <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>, highlight the code of interest, use Ctrl+f (in Windows), check the option box for “In selection”, and then use the replace functionality to convert them.</span></p>
+<p>Một tình huống mà đường dẫn tệp tuyệt đối có thể phù hợp là khi bạn muốn nhập một tệp từ bộ nhớ dùng chung có cùng đường dẫn tệp đầy đủ cho tất cả người dùng.</p>
+<p><span style="color: darkgreen;"><strong><em>MẸO:</em></strong> Để nhanh chóng chuyển đổi tất cả <code>\</code> thành <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>, đánh dấu code được quan tâm, sử dụng Ctrl + f (trong Windows), kiểm tra hộp tùy chọn cho “In selection”, sau đó sử dụng chức năng thay thế (replace) để chuyển đổi chúng.</span></p>
 <!-- ======================================================= -->
 </div>
-<div id="select-file-manually" class="section level3 unnumbered">
-<h3>Select file manually<a class="anchor" aria-label="anchor" href="#select-file-manually"><i class="fas fa-link"></i></a>
+<div id="chọn-tệp-theo-cách-thủ-công" class="section level3 unnumbered">
+<h3>Chọn tệp theo cách thủ công<a class="anchor" aria-label="anchor" href="#ch%E1%BB%8Dn-t%E1%BB%87p-theo-c%C3%A1ch-th%E1%BB%A7-c%C3%B4ng"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can import data manually via one of these methods:</p>
+<p>Bạn có thể nhập dữ liệu theo cách thủ công thông qua một trong các phương pháp sau:</p>
 <ol style="list-style-type: decimal">
-<li>Environment RStudio Pane, click “Import Dataset”, and select the type of data</li>
-<li>Click File / Import Dataset / (select the type of data)<br>
+<li>Từ cửa sổ Environment trong RStudio, nhấp vào “Import Dataset” và chọn loại dữ liệu</li>
+<li>Nhấp vào File / Import Dataset / (chọn loại dữ liệu)<br>
 </li>
-<li>To hard-code manual selection, use the <em>base R</em> command <code><a href="https://rdrr.io/r/base/file.choose.html">file.choose()</a></code> (leaving the parentheses empty) to trigger appearance of a <strong>pop-up window</strong> that allows the user to manually select the file from their computer. For example:</li>
+<li>Để lựa chọn thủ công bằng hard-code, hãy sử dụng lệnh <em>base R</em> <code><a href="https://rdrr.io/r/base/file.choose.html">file.choose()</a></code> (để trống dấu ngoặc đơn) để kích hoạt sự xuất hiện của <strong>cửa sổ pop-up</strong> cho phép người dùng chọn tệp theo cách thủ công từ máy tính của họ. Ví dụ:</li>
 </ol>
 <div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Manual selection of a file. When this command is run, a POP-UP window will appear. </span>
 <span class="co"># The file path selected will be supplied to the import() command.</span>
 
 <span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.choose.html">file.choose</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><span style="color: darkgreen;"><strong><em>TIP:</em></strong> The <strong>pop-up window</strong> may appear BEHIND your RStudio window.</span></p>
+<p><span style="color: darkgreen;"><strong><em>MẸO:</em></strong> <strong>Cửa sổ pop-up</strong> có thể xuất hiện SAU cửa sổ RStudio của bạn.</span></p>
 </div>
 </div>
-<div id="import-data" class="section level2" number="7.5">
+<div id="nhập-dữ-liệu" class="section level2" number="7.5">
 <h2>
-<span class="header-section-number">7.5</span> Import data<a class="anchor" aria-label="anchor" href="#import-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.5</span> Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u"><i class="fas fa-link"></i></a>
 </h2>
-<p>To use <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> to import a dataset is quite simple. Simply provide the path to the file (including the file name and file extension) in quotes. If using <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> to build the file path, follow the instructions above. Below are a few examples:</p>
-<p>Importing a csv file that is located in your “working directory” or in the R project root folder:</p>
+<p>Sử dụng lệnh <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> để nhập một bộ dữ liệu khá đơn giản. Chỉ cần cung cấp đường dẫn đến tệp (bao gồm tên và phần mở rộng của tệp) trong dấu ngoặc kép. Nếu sử dụng <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> để xây dựng đường dẫn tệp, hãy làm theo hướng dẫn ở trên. Dưới đây là một vài ví dụ:</p>
+<p>Nhập tệp csv nằm trong “thư mục làm việc (working directory)” của bạn hoặc trong thư mục gốc của dự án R:</p>
 <div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.csv"</span><span class="op">)</span></code></pre></div>
-<p>Importing the first sheet of an Excel workbook that is located in “data” and “linelists” sub-folders of the R project (the file path built using <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>):</p>
+<p>Nhập sheet đầu tiên Excel workbook nằm trong thư mục con “data” và “linelists” của dự án R (đường dẫn tệp được tạo bằng <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>):</p>
 <div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"linelists"</span>, <span class="st">"linelist_cleaned.xlsx"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Importing a data frame (a .rds file) using an absolute file path:</p>
+<p>Nhập một data frame (một tệp .rds ) sử dụng đường dẫn tệp tuyệt đối:</p>
 <div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"C:/Users/Laura/Documents/tuberculosis/data/linelists/linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
-<div id="specific-excel-sheets" class="section level3 unnumbered">
-<h3>Specific Excel sheets<a class="anchor" aria-label="anchor" href="#specific-excel-sheets"><i class="fas fa-link"></i></a>
+<div id="trang-tính-excel-cụ-thể" class="section level3 unnumbered">
+<h3>Trang tính Excel cụ thể<a class="anchor" aria-label="anchor" href="#trang-t%C3%ADnh-excel-c%E1%BB%A5-th%E1%BB%83"><i class="fas fa-link"></i></a>
 </h3>
-<p>By default, if you provide an Excel workbook (.xlsx) to <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>, the workbook’s first sheet will be imported. If you want to import a specific <strong>sheet</strong>, include the sheet name to the <code>which =</code> argument. For example:</p>
+<p>Theo mặc định, nếu bạn cung cấp một Excel workbook (.xlsx) để <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>, trang tính đầu tiên của workbook sẽ được nhập. Nếu bạn muốn nhập một <strong>trang tính</strong> cụ thể, hãy nhập tên trang tính vào đối số <code>which =</code>. Ví dụ:</p>
 <div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"my_excel_file.xlsx"</span>, which <span class="op">=</span> <span class="st">"Sheetname"</span><span class="op">)</span></code></pre></div>
-<p>If using the <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> method to provide a relative pathway to <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>, you can still indicate a specific sheet by adding the <code>which =</code> argument after the closing parentheses of the <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> function.</p>
+<p>Nếu sử dụng hàm <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> để cung cấp một đường dẫn tương đối đến <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>, bạn vẫn có thể chỉ ra một trang tính cụ thể bằng cách thêm đối số <code>which =</code> sau dấu đóng ngoặc của hàm <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>.</p>
 <div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="importing.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Demonstration: importing a specific Excel sheet when using relative pathways with the 'here' package</span></span>
 <span id="cb140-2"><a href="importing.html#cb140-2" aria-hidden="true" tabindex="-1"></a>linelist_raw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"linelist.xlsx"</span>), <span class="at">which =</span> <span class="st">"Sheet1"</span>)<span class="st">`</span><span class="at">  </span></span></code></pre></div>
-<p>To <em>export</em> a data frame from R to a specific Excel sheet and have the rest of the Excel workbook remain unchanged, you will have to import, edit, and export with an alternative package catered to this purpose such as <strong>openxlsx</strong>. See more information in the page on [Directory interactions] or <a href="https://ycphs.github.io/openxlsx/">at this github page</a>.</p>
-<p>If your Excel workbook is .xlsb (binary format Excel workbook) you may not be able to import it using <strong>rio</strong>. Consider re-saving it as .xlsx, or using a package like <strong>readxlsb</strong> which is built for <a href="https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html">this purpose</a>.</p>
+<p>Để <em>xuất</em> một data frame từ R sang một trang tính Excel sheet và phần còn lại của Excel workbook không thay đổi, bạn sẽ phải nhập, chỉnh sửa và xuất với một package thay thế phục vụ cho mục đích này, chẳng hạn như <strong>openxlsx</strong>. Xem thêm thông tin trong chương về <a href="directories.html#directories">Tương tác với thư mục làm việc</a> hoặc <a href="https://ycphs.github.io/openxlsx/">tại trang github này</a>.</p>
+<p>Nếu Excel workbook của bạn là .xlsb (định dạng nhị phân của Excel workbook) bạn có thể không nhập được bằng <strong>rio</strong>. Cân nhắc lưu lại nó dưới dạng .xlsx hoặc sử dụng một package như <strong>readxlsb</strong>, là package được xây dựng cho <a href="https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html">mục đích này</a>.</p>
 <!-- ======================================================= -->
 </div>
 <div id="import_missing" class="section level3 unnumbered">
-<h3>Missing values<a class="anchor" aria-label="anchor" href="#import_missing"><i class="fas fa-link"></i></a>
+<h3>Giá trị missing<a class="anchor" aria-label="anchor" href="#import_missing"><i class="fas fa-link"></i></a>
 </h3>
-<p>You may want to designate which value(s) in your dataset should be considered as missing. As explained in the page on [Missing data], the value in R for missing data is <code>NA</code>, but perhaps the dataset you want to import uses 99, “Missing”, or just empty character space "" instead.</p>
-<p>Use the <code>na =</code> argument for <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> and provide the value(s) within quotes (even if they are numbers). You can specify multiple values by including them within a vector, using <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> as shown below.</p>
-<p>Here, the value “99” in the imported dataset is considered missing and converted to <code>NA</code> in R.</p>
+<p>Bạn có thể muốn xác định (các) giá trị nào trong bộ dữ liệu của mình nên được coi là missing. Như đã giải thích trong chương về <a href="missing-data.html#missing-data">Dữ liệu missing</a>, giá trị trong R cho dữ liệu missing là <code>NA</code>, nhưng có thể bộ dữ liệu bạn muốn nhập sử dụng giá trị 99, “Missing” hoặc chỉ là khoảng trống ký tự "".</p>
+<p>Sử dụng đối số <code>na =</code> để <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> và cung cấp (các) giá trị trong dấu ngoặc kép (ngay cả khi chúng là các số). Bạn có thể chỉ định nhiều giá trị bằng cách gộp chúng trong một vectơ, sử dụng <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> như được thể hiện dưới đây.</p>
+<p>Tại đây, giá trị “99” trong bộ dữ liệu đã nhập được coi là missing và được chuyển đổi thành <code>NA</code> trong R.</p>
 <div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"my_linelist.xlsx"</span><span class="op">)</span>, na <span class="op">=</span> <span class="st">"99"</span><span class="op">)</span></code></pre></div>
-<p>Here, any of the values “Missing”, "" (empty cell), or " " (single space) in the imported dataset are converted to <code>NA</code> in R.</p>
+<p>Tại đây, bất kỳ giá trị “Missing”, "" (ô trống) hoặc "" (khoảng trắng) nào trong bộ dữ liệu đã nhập đều được chuyển đổi thành <code>NA</code> trong R.</p>
 <div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"my_linelist.csv"</span><span class="op">)</span>, na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Missing"</span>, <span class="st">""</span>, <span class="st">" "</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
-<div id="skip-rows" class="section level3 unnumbered">
-<h3>Skip rows<a class="anchor" aria-label="anchor" href="#skip-rows"><i class="fas fa-link"></i></a>
+<div id="bỏ-qua-một-số-hàng" class="section level3 unnumbered">
+<h3>Bỏ qua một số hàng<a class="anchor" aria-label="anchor" href="#b%E1%BB%8F-qua-m%E1%BB%99t-s%E1%BB%91-h%C3%A0ng"><i class="fas fa-link"></i></a>
 </h3>
-<p>Sometimes, you may want to avoid importing a row of data. You can do this with the argument <code>skip =</code> if using <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> from <strong>rio</strong> on a .xlsx or .csv file. Provide the number of rows you want to skip.</p>
+<p>Đôi khi, bạn có thể không muốn nhập một hàng dữ liệu. Bạn có thể thực hiện thao tác này với đối số <code>skip =</code> nếu sử dụng <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ <strong>rio</strong> trên tệp .xlsx hoặc .csv. Cung cấp số hàng bạn muốn bỏ qua.</p>
 <div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_raw.xlsx"</span>, skip <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># does not import header row</span></code></pre></div>
-<p>Unfortunately <code>skip =</code> only accepts one integer value, <em>not</em> a range (e.g. “2:10” does not work). To skip import of specific rows that are not consecutive from the top, consider importing multiple times and using <code>bind_rows()</code> from <strong>dplyr</strong>. See the example below of skipping only row 2.</p>
+<p>Không may <code>skip =</code> chỉ chấp nhận một giá trị số nguyên, <em>không</em> chấp nhận một khoảng (ví dụ: “2:10” sẽ không hoạt động). Để bỏ qua việc nhập các hàng cụ thể không liên tiếp từ trên cùng, hãy cân nhắc nhập nhiều lần và sử dụng <code>bind_rows()</code> từ <strong>dplyr</strong>. Hãy xem ví dụ dưới đây về việc chỉ bỏ qua hàng thứ 2.</p>
 </div>
-<div id="manage-a-second-header-row" class="section level3 unnumbered">
-<h3>Manage a second header row<a class="anchor" aria-label="anchor" href="#manage-a-second-header-row"><i class="fas fa-link"></i></a>
+<div id="quản-lý-hàng-tiêu-đề-thứ-hai" class="section level3 unnumbered">
+<h3>Quản lý hàng tiêu đề thứ hai<a class="anchor" aria-label="anchor" href="#qu%E1%BA%A3n-l%C3%BD-h%C3%A0ng-ti%C3%AAu-%C4%91%E1%BB%81-th%E1%BB%A9-hai"><i class="fas fa-link"></i></a>
 </h3>
-<p>Sometimes, your data may have a <em>second</em> row, for example if it is a “data dictionary” row as shown below. This situation can be problematic because it can result in all columns being imported as class “character”.</p>
-<p>Below is an example of this kind of dataset (with the first row being the data dictionary).</p>
-<div id="htmlwidget-e11e5b26de4d9f7a4c3c" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e11e5b26de4d9f7a4c3c">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["case identification number assigned by MOH","5fe599","8689b7","11f8ea","b8812a"],["transmission chain generation number","4","4","2","3"],["estimated date of infection, mm/dd/yyyy","2014-05-08",null,null,"2014-05-04"],["date of symptom onset, YYYY-MM-DD","2014-05-13","2014-05-13","2014-05-16","2014-05-18"],["date of initial hospitalization, mm/dd/yyyy","2014-05-15","2014-05-14","2014-05-18","2014-05-20"],["date of outcome status determination",null,"2014-05-18","2014-05-30",null],["either 'Death' or 'Recovered' or 'Unknown'",null,"Recover","Recover",null],["either 'm' or 'f' or 'unknown'","m","f","m","f"],["age number","2","3","56","18"],["age unit, either 'years' or 'months' or 'days'","years","years","years","years"],[null,"2","3","56","18"],[null,"0-4","0-4","50-69","15-19"],[null,"0-4","0-4","55-59","15-19"],["Name of hospital of first admission","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital"],["longitude of residence, approx","-13.2157351064963","-13.2152339775486","-13.212910703914","-13.2363711169728"],["latitude of residence, approx","8.46897295100924","8.45171855856465","8.46481700596819","8.4754761613651"],["case_id of infector","f547d6",null,null,"f90f5f"],["context of known transmission event","other",null,null,"other"],[null,"27","25","91","41"],[null,"48","59","238","135"],[null,"22","22","21","23"],["presence of fever on admission, either 'yes' or 'no'","no",null,null,"no"],["presence of chills on admission, either 'yes' or 'no'","no",null,null,"no"],["presence of cough on admission, either 'yes' or 'no'","yes",null,null,"no"],["presence of aches on admission, either 'yes' or 'no'","no",null,null,"no"],["presence of vomiting on admission, either 'yes' or 'no'","yes",null,null,"no"],[null,"36.8","36.9","36.9","36.8"],["time of hospital admission HH:MM",null,"09:36","16:48","11:22"],[null,"117.1875","71.8184429761563","16.0652496292635","22.4965706447188"],[null,"2","1","2","2"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><div id="remove-the-second-header-row" class="section level4 unnumbered">
-<h4>Remove the second header row<a class="anchor" aria-label="anchor" href="#remove-the-second-header-row"><i class="fas fa-link"></i></a>
-</h4>
-<p>To drop the second header row, you will likely need to import the data twice.</p>
+<p>Đôi khi, dữ liệu của bạn có thể có hàng <em>thứ hai</em>, với chức năng như là “từ điển dữ liệu” như hình dưới đây. Trường hợp này có thể xảy ra vấn đề vì nó có thể dẫn đến việc tất cả các cột được nhập vào dưới dạng nhóm “ký tự (character)”.</p>
+<p>Dưới đây là một ví dụ về loại bộ dữ liệu này (với hàng đầu tiên là từ điển dữ liệu).</p>
+<div id="htmlwidget-2be7661d4a9e391292de" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2be7661d4a9e391292de">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["case identification number assigned by MOH","5fe599","8689b7","11f8ea","b8812a"],["transmission chain generation number","4","4","2","3"],["estimated date of infection, mm/dd/yyyy","2014-05-08",null,null,"2014-05-04"],["date of symptom onset, YYYY-MM-DD","2014-05-13","2014-05-13","2014-05-16","2014-05-18"],["date of initial hospitalization, mm/dd/yyyy","2014-05-15","2014-05-14","2014-05-18","2014-05-20"],["date of outcome status determination",null,"2014-05-18","2014-05-30",null],["either 'Death' or 'Recovered' or 'Unknown'",null,"Recover","Recover",null],["either 'm' or 'f' or 'unknown'","m","f","m","f"],["age number","2","3","56","18"],["age unit, either 'years' or 'months' or 'days'","years","years","years","years"],[null,"2","3","56","18"],[null,"0-4","0-4","50-69","15-19"],[null,"0-4","0-4","55-59","15-19"],["Name of hospital of first admission","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital"],["longitude of residence, approx","-13.2157351064963","-13.2152339775486","-13.212910703914","-13.2363711169728"],["latitude of residence, approx","8.46897295100924","8.45171855856465","8.46481700596819","8.4754761613651"],["case_id of infector","f547d6",null,null,"f90f5f"],["context of known transmission event","other",null,null,"other"],[null,"27","25","91","41"],[null,"48","59","238","135"],[null,"22","22","21","23"],["presence of fever on admission, either 'yes' or 'no'","no",null,null,"no"],["presence of chills on admission, either 'yes' or 'no'","no",null,null,"no"],["presence of cough on admission, either 'yes' or 'no'","yes",null,null,"no"],["presence of aches on admission, either 'yes' or 'no'","no",null,null,"no"],["presence of vomiting on admission, either 'yes' or 'no'","yes",null,null,"no"],[null,"36.8","36.9","36.9","36.8"],["time of hospital admission HH:MM",null,"09:36","16:48","11:22"],[null,"117.1875","71.8184429761563","16.0652496292635","22.4965706447188"],[null,"2","1","2","2"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="xóa-hàng-tiêu-đề-thứ-hai" class="section level3 unnumbered">
+<h3>Xóa hàng tiêu đề thứ hai<a class="anchor" aria-label="anchor" href="#x%C3%B3a-h%C3%A0ng-ti%C3%AAu-%C4%91%E1%BB%81-th%E1%BB%A9-hai"><i class="fas fa-link"></i></a>
+</h3>
+<p>Để bỏ hàng tiêu đề thứ hai, bạn có thể sẽ cần nhập dữ liệu hai lần.</p>
 <ol style="list-style-type: decimal">
-<li>Import the data in order to store the correct column names<br>
+<li>Nhập dữ liệu vào để lấy tên các cột một cách chính xác<br>
 </li>
-<li>Import the data again, skipping the first <em>two</em> rows (header and second rows)<br>
+<li>Nhập lại dữ liệu, bỏ qua <em>hai</em> hàng đầu tiên (hàng tiêu đề và hàng thứ hai)<br>
 </li>
-<li>Bind the correct names onto the reduced dataframe</li>
+<li>Liên kết dataframe đã xóa bỏ 2 hàng đầu tiên với tên cột ở bước 1</li>
 </ol>
-<p>The exact argument used to bind the correct column names depends on the type of data file (.csv, .tsv, .xlsx, etc.). This is because <strong>rio</strong> is using a different function for the different file types (see table above).</p>
-<p><strong>For Excel files:</strong> (<code>col_names =</code>)</p>
+<p>Đối số chính xác được sử dụng để liên kết các tên cột tùy thuộc vào loại tệp dữ liệu (.csv, .tsv, .xlsx, v.v.). Điều này là do <strong>rio</strong> sử dụng các hàm khác nhau cho các loại tệp khác nhau (xem bảng ở trên).</p>
+<p><strong>Đối với tệp Excel:</strong> (<code>col_names =</code>)</p>
 <div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import first time; store the column names</span>
 <span class="va">linelist_raw_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_raw.xlsx"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># save true column names</span>
@@ -330,7 +328,7 @@
                        skip <span class="op">=</span> <span class="fl">2</span>,
                        col_names <span class="op">=</span> <span class="va">linelist_raw_names</span>
                        <span class="op">)</span> </code></pre></div>
-<p><strong>For CSV files:</strong> (<code>col.names =</code>)</p>
+<p><strong>Đối với tệp CSV:</strong> (<code>col.names =</code>)</p>
 <div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import first time; sotre column names</span>
 <span class="va">linelist_raw_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_raw.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># save true column names</span>
@@ -340,110 +338,110 @@
                        skip <span class="op">=</span> <span class="fl">2</span>,
                        col.names <span class="op">=</span> <span class="va">linelist_raw_names</span>
                        <span class="op">)</span> </code></pre></div>
-<p><strong>Backup option</strong> - changing column names as a separate command</p>
+<p><strong>Tùy chọn sao lưu</strong> - thay đổi tên cột dưới dạng một lệnh riêng biệt</p>
 <div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># assign/overwrite headers using the base 'colnames()' function</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">linelist_raw</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">linelist_raw_names</span></code></pre></div>
-</div>
-<div id="make-a-data-dictionary" class="section level4 unnumbered">
-<h4>Make a data dictionary<a class="anchor" aria-label="anchor" href="#make-a-data-dictionary"><i class="fas fa-link"></i></a>
+<div id="tạo-từ-điển-dữ-liệu" class="section level4 unnumbered">
+<h4>Tạo từ điển dữ liệu<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1o-t%E1%BB%AB-%C4%91i%E1%BB%83n-d%E1%BB%AF-li%E1%BB%87u"><i class="fas fa-link"></i></a>
 </h4>
-<p>Bonus! If you do have a second row that is a data dictionary, you can easily create a proper data dictionary from it. This tip is adapted from this <a href="https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/">post</a>.</p>
+<p>Thông tin thêm! Nếu bạn có hàng thứ hai là từ điển dữ liệu, bạn có thể dễ dàng tạo từ điển dữ liệu thích hợp từ nó. Mẹo này được điều chỉnh từ <a href="https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/">bài đăng</a> này.</p>
 <div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dict</span> <span class="op">&lt;-</span> <span class="va">linelist_2headers</span> <span class="op">%&gt;%</span>             <span class="co"># begin: linelist with dictionary as first row</span>
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>                             <span class="co"># keep only column names and first dictionary row                </span>
   <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">everything</span><span class="op">(</span><span class="op">)</span>,       <span class="co"># pivot all columns to long format</span>
                names_to <span class="op">=</span> <span class="st">"Column"</span>,       <span class="co"># assign new column names</span>
                values_to <span class="op">=</span> <span class="st">"Description"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-d7cba9b88d7b6ed09d4e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d7cba9b88d7b6ed09d4e">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["case_id","generation","date_infection","date_onset","date_hospitalisation","date_outcome","outcome","gender","age","age_unit","age_years","age_cat","age_cat5","hospital","lon","lat","infector","source","wt_kg","ht_cm","ct_blood","fever","chills","cough","aches","vomit","temp","time_admission","bmi","days_onset_hosp"],["case identification number assigned by MOH","transmission chain generation number","estimated date of infection, mm/dd/yyyy","date of symptom onset, YYYY-MM-DD","date of initial hospitalization, mm/dd/yyyy","date of outcome status determination","either 'Death' or 'Recovered' or 'Unknown'","either 'm' or 'f' or 'unknown'","age number","age unit, either 'years' or 'months' or 'days'",null,null,null,"Name of hospital of first admission","longitude of residence, approx","latitude of residence, approx","case_id of infector","context of known transmission event",null,null,null,"presence of fever on admission, either 'yes' or 'no'","presence of chills on admission, either 'yes' or 'no'","presence of cough on admission, either 'yes' or 'no'","presence of aches on admission, either 'yes' or 'no'","presence of vomiting on admission, either 'yes' or 'no'",null,"time of hospital admission HH:MM",null,null]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Column<\/th>\n      <th>Description<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-df354ff51ce54814f0e7" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-df354ff51ce54814f0e7">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["case_id","generation","date_infection","date_onset","date_hospitalisation","date_outcome","outcome","gender","age","age_unit","age_years","age_cat","age_cat5","hospital","lon","lat","infector","source","wt_kg","ht_cm","ct_blood","fever","chills","cough","aches","vomit","temp","time_admission","bmi","days_onset_hosp"],["case identification number assigned by MOH","transmission chain generation number","estimated date of infection, mm/dd/yyyy","date of symptom onset, YYYY-MM-DD","date of initial hospitalization, mm/dd/yyyy","date of outcome status determination","either 'Death' or 'Recovered' or 'Unknown'","either 'm' or 'f' or 'unknown'","age number","age unit, either 'years' or 'months' or 'days'",null,null,null,"Name of hospital of first admission","longitude of residence, approx","latitude of residence, approx","case_id of infector","context of known transmission event",null,null,null,"presence of fever on admission, either 'yes' or 'no'","presence of chills on admission, either 'yes' or 'no'","presence of cough on admission, either 'yes' or 'no'","presence of aches on admission, either 'yes' or 'no'","presence of vomiting on admission, either 'yes' or 'no'",null,"time of hospital admission HH:MM",null,null]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Column<\/th>\n      <th>Description<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"scrollX":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="combine-the-two-header-rows" class="section level4 unnumbered">
-<h4>Combine the two header rows<a class="anchor" aria-label="anchor" href="#combine-the-two-header-rows"><i class="fas fa-link"></i></a>
+<div id="kết-hợp-hai-hàng-tiêu-đề" class="section level4 unnumbered">
+<h4>Kết hợp hai hàng tiêu đề<a class="anchor" aria-label="anchor" href="#k%E1%BA%BFt-h%E1%BB%A3p-hai-h%C3%A0ng-ti%C3%AAu-%C4%91%E1%BB%81"><i class="fas fa-link"></i></a>
 </h4>
-<p>In some cases when your raw dataset has <em>two</em> header rows (or more specifically, the 2nd row of data is a secondary header), you may want to “combine” them or add the values in the second header row into the first header row.</p>
-<p>The command below will define the data frame’s column names as the combination (pasting together) of the first (true) headers with the value immediately underneath (in the first row).</p>
+<p>Trong một số trường hợp khi bộ dữ liệu thô của bạn có <em>hai</em> hàng tiêu đề (hoặc cụ thể hơn, hàng dữ liệu thứ 2 là tiêu đề phụ), bạn có thể muốn “kết hợp” chúng hoặc thêm các giá trị trong hàng tiêu đề thứ hai vào hàng tiêu đề đầu tiên.</p>
+<p>Lệnh dưới đây sẽ xác định tên cột của data frame là sự kết hợp (dán với nhau) của các tiêu đề (đúng) đầu tiên với giá trị ngay bên dưới (trong hàng đầu tiên).</p>
 <div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span>, <span class="va">my_data</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="google-sheets" class="section level3 unnumbered">
-<h3>Google sheets<a class="anchor" aria-label="anchor" href="#google-sheets"><i class="fas fa-link"></i></a>
+<div id="trang-tính-google" class="section level3 unnumbered">
+<h3>Trang tính Google<a class="anchor" aria-label="anchor" href="#trang-t%C3%ADnh-google"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can import data from an online Google spreadsheet with the <strong>googlesheet4</strong> package and by authenticating your access to the spreadsheet.</p>
+<p>Bạn có thể nhập dữ liệu từ một trang tính Google trực tuyến với package <strong>googlesheet4</strong> và bằng cách xác thực quyền truy cập của bạn vào trang tính.</p>
 <div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"googlesheets4"</span><span class="op">)</span></code></pre></div>
-<p>Below, a demo Google sheet is imported and saved. This command may prompt confirmation of authentification of your Google account. Follow prompts and pop-ups in your internet browser to grant Tidyverse API packages permissions to edit, create, and delete your spreadsheets in Google Drive.</p>
-<p>The sheet below is “viewable for anyone with the link” and you can try to import it.</p>
+<p>Dưới đây là một trang tính Google minh họa được nhập và lưu. Lệnh này có thể yêu cầu xác thực tài khoản Google của bạn. Làm theo lời nhắc và cửa sổ bật lên trong trình duyệt Internet của bạn để cấp cho các package Tidyverse API quyền chỉnh sửa, tạo và xóa trang tính của bạn trong Google Drive.</p>
+<p>Trang tính dưới đây “có thể được xem bởi bất kỳ ai có liên kết” và bạn có thể thử nhập trang tính đó.</p>
 <div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Gsheets_demo</span> <span class="op">&lt;-</span> <span class="fu">read_sheet</span><span class="op">(</span><span class="st">"https://docs.google.com/spreadsheets/d/1scgtzkVLLHAe5a6_eFQEwkZcc14yFUx1KgOMZ4AKUfY/edit#gid=0"</span><span class="op">)</span></code></pre></div>
-<p>The sheet can also be imported using only the sheet ID, a shorter part of the URL:</p>
+<p>Trang tính cũng có thể được nhập chỉ bằng ID của sheet, một phần ngắn hơn của URL:</p>
 <div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Gsheets_demo</span> <span class="op">&lt;-</span> <span class="fu">read_sheet</span><span class="op">(</span><span class="st">"1scgtzkVLLHAe5a6_eFQEwkZcc14yFUx1KgOMZ4AKUfY"</span><span class="op">)</span></code></pre></div>
-<p>Another package, <strong>googledrive</strong> offers useful functions for writing, editing, and deleting Google sheets. For example, using the <code>gs4_create()</code> and <code>sheet_write()</code> functions found in this package.</p>
-<p>Here are some other helpful online tutorials:<br><a href="https://arbor-analytics.com/post/getting-your-data-into-r-from-google-sheets/">basic Google sheets importing tutorial</a><br><a href="https://googlesheets4.tidyverse.org/articles/googlesheets4.html">more detailed tutorial</a><br><a href="https://googlesheets4.tidyverse.org/articles/articles/drive-and-sheets.html">interaction between the googlesheets4 and tidyverse</a></p>
+<p>Một package khác, <strong>googledrive</strong> cung cấp các hàm hữu ích để viết, chỉnh sửa và xóa các trang tính Google. Ví dụ: các hàm được sử dụng <code>gs4_create()</code> và <code>sheet_write()</code> đều được tìm thấy trong package này.</p>
+<p>Dưới đây là một số hướng dẫn trực tuyến hữu ích khác:<br><a href="https://arbor-analytics.com/post/getting-your-data-into-r-from-google-sheets/">hướng dẫn nhập Google sheet cơ bản</a><br><a href="https://googlesheets4.tidyverse.org/articles/googlesheets4.html">hướng dẫn chi tiết hơn</a><br><a href="https://googlesheets4.tidyverse.org/articles/articles/drive-and-sheets.html">tương tác giữa googlesheets4 và tidyverse</a></p>
 </div>
 </div>
-<div id="multiple-files---import-export-split-combine" class="section level2" number="7.6">
+<div id="nhập-xuất-tách-kết-hợp---nhiều-tệp" class="section level2" number="7.6">
 <h2>
-<span class="header-section-number">7.6</span> Multiple files - import, export, split, combine<a class="anchor" aria-label="anchor" href="#multiple-files---import-export-split-combine"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.6</span> Nhập, xuất, tách, kết hợp - nhiều tệp<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-xu%E1%BA%A5t-t%C3%A1ch-k%E1%BA%BFt-h%E1%BB%A3p---nhi%E1%BB%81u-t%E1%BB%87p"><i class="fas fa-link"></i></a>
 </h2>
-<p>See the page on [Iteration, loops, and lists] for examples of how to import and combine multiple files, or multiple Excel workbook files. That page also has examples on how to split a data frame into parts and export each one separately, or as named sheets in an Excel workbook.</p>
+<p>Xem chương về [Lặp, vòng lặp và danh sách] để biết ví dụ về cách nhập và kết hợp nhiều tệp hoặc nhiều Excel workbook. Chương này cũng có các ví dụ về cách chia một data frame thành các phần và xuất từng phần riêng biệt hoặc dưới dạng các sheet được đặt tên trong một Excel workbook.</p>
 <!-- ======================================================= -->
 </div>
 <div id="import_github" class="section level2" number="7.7">
 <h2>
-<span class="header-section-number">7.7</span> Import from Github<a class="anchor" aria-label="anchor" href="#import_github"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.7</span> Nhập từ Github<a class="anchor" aria-label="anchor" href="#import_github"><i class="fas fa-link"></i></a>
 </h2>
-<p>Importing data directly from Github into R can be very easy or can require a few steps - depending on the file type. Below are some approaches:</p>
-<div id="csv-files" class="section level3 unnumbered">
-<h3>CSV files<a class="anchor" aria-label="anchor" href="#csv-files"><i class="fas fa-link"></i></a>
+<p>Nhập dữ liệu trực tiếp từ Github vào R có thể rất dễ dàng hoặc có thể yêu cầu một vài bước - tùy thuộc vào loại tệp. Dưới đây là một số cách tiếp cận:</p>
+<div id="tệp-csv" class="section level3 unnumbered">
+<h3>Tệp CSV<a class="anchor" aria-label="anchor" href="#t%E1%BB%87p-csv"><i class="fas fa-link"></i></a>
 </h3>
-<p>It can be easy to import a .csv file directly from Github into R with an R command.</p>
+<p>Có thể dễ dàng nhập tệp .csv trực tiếp từ Github vào R bằng lệnh R.</p>
 <ol style="list-style-type: decimal">
-<li>Go to the Github repo, locate the file of interest, and click on it<br>
+<li>Đi tới repo Github, tìm tệp quan tâm và nhấp vào tệp đó<br>
 </li>
-<li>Click on the “Raw” button (you will then see the “raw” csv data, as shown below)<br>
+<li>Nhấp vào nút “Raw” (sau đó bạn sẽ thấy dữ liệu csv “thô”, như được hiển thị bên dưới)<br>
 </li>
-<li>Copy the URL (web address)<br>
+<li>Sao chép URL (địa chỉ web)<br>
 </li>
-<li>Place the URL in quotes within the <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> R command</li>
+<li>Đặt URL trong dấu ngoặc kép trong lệnh R <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>
+</li>
 </ol>
 <div class="inline-figure"><img src="images/download_csv_raw.png" width="100%" style="display: block; margin: auto auto auto 0;"></div>
 </div>
-<div id="xlsx-files" class="section level3 unnumbered">
-<h3>XLSX files<a class="anchor" aria-label="anchor" href="#xlsx-files"><i class="fas fa-link"></i></a>
+<div id="tệp-xlsx" class="section level3 unnumbered">
+<h3>Tệp XLSX<a class="anchor" aria-label="anchor" href="#t%E1%BB%87p-xlsx"><i class="fas fa-link"></i></a>
 </h3>
-<p>You may not be able to view the “Raw” data for some files (e.g. .xlsx, .rds, .nwk, .shp)</p>
+<p>Bạn có thể không xem được dữ liệu “Thô” cho một số tệp (ví dụ: .xlsx, .rds, .nwk, .shp)</p>
 <ol style="list-style-type: decimal">
-<li>Go to the Github repo, locate the file of interest, and click on it<br>
+<li>Đi tới repo Github, tìm tệp quan tâm và nhấp vào tệp đó<br>
 </li>
-<li>Click the “Download” button, as shown below<br>
+<li>Nhấp vào nút “Download”, như được hiển thị bên dưới<br>
 </li>
-<li>Save the file on your computer, and import it into R</li>
+<li>Lưu tệp trên máy tính của bạn và nhập tệp đó vào R</li>
 </ol>
 <div class="inline-figure"><img src="images/download_xlsx.png" width="100%" style="display: block; margin: auto auto auto 0;"></div>
 </div>
 <div id="shapefiles" class="section level3 unnumbered">
 <h3>Shapefiles<a class="anchor" aria-label="anchor" href="#shapefiles"><i class="fas fa-link"></i></a>
 </h3>
-<p>Shapefiles have many sub-component files, each with a different file extention. One file will have the “.shp” extension, but others may have “.dbf”, “.prj”, etc. To download a shapefile from Github, you will need to download each of the sub-component files individually, and save them in the <em>same</em> folder on your computer. In Github, click on each file individually and download them by clicking on the “Download” button.</p>
-<p>Once saved to your computer you can import the shapefile as shown in the [GIS basics] page using <code>st_read()</code> from the <strong>sf</strong> package. You only need to provide the filepath and name of the “.shp” file - as long as the other related files are within the same folder on your computer.</p>
-<p>Below, you can see how the shapefile “sle_adm3” consists of many files - each of which must be downloaded from Github.</p>
+<p>Các Shapefiles có nhiều tệp thành phần phụ, mỗi tệp có một phần mở rộng khác nhau. Một tệp sẽ có phần mở rộng “.shp”, nhưng những tệp khác có thể là “.dbf”, “.prj”, v.v. Để tải xuống shapefiles từ Github, bạn sẽ cần tải xuống từng tệp thành phần phụ riêng lẻ và lưu chúng trong cùng một thư mục trên máy tính của bạn. Trong Github, nhấp vào từng tệp riêng lẻ và tải chúng xuống bằng cách nhấp vào nút “Download”.</p>
+<p>Một khi được lưu vào máy tính, bạn có thể nhập định dạng tệp như được trình bày trong chương <a href="data-used.html#gis">GIS cơ bản</a> bằng cách sử dụng hàm <code>st_read()</code> từ package <strong>sf</strong>. Bạn chỉ cần cung cấp đường dẫn tệp và tên của tệp “.shp” - miễn là các tệp liên quan khác nằm trong cùng một thư mục trên máy tính của bạn.</p>
+<p>Dưới đây, bạn có thể thấy shapefiles tên “sl_adm3” bao gồm nhiều tệp như thế nào - mỗi tệp phải được tải xuống từ Github.</p>
 <div class="inline-figure"><img src="images/download_shp.png" width="100%" style="display: block; margin: auto auto auto 0;"></div>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="manual-data-entry" class="section level2" number="7.8">
+<div id="nhập-dữ-liệu-thủ-công" class="section level2" number="7.8">
 <h2>
-<span class="header-section-number">7.8</span> Manual data entry<a class="anchor" aria-label="anchor" href="#manual-data-entry"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.8</span> Nhập dữ liệu thủ công<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-th%E1%BB%A7-c%C3%B4ng"><i class="fas fa-link"></i></a>
 </h2>
-<div id="entry-by-rows" class="section level3 unnumbered">
-<h3>Entry by rows<a class="anchor" aria-label="anchor" href="#entry-by-rows"><i class="fas fa-link"></i></a>
+<div id="nhập-theo-hàng" class="section level3 unnumbered">
+<h3>Nhập theo hàng<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-theo-h%C3%A0ng"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use the <code>tribble</code> function from the <strong>tibble</strong> package from the tidyverse (<a href="https://tibble.tidyverse.org/reference/tribble.html">online tibble reference</a>).</p>
-<p>Note how column headers start with a <em>tilde</em> (<code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>). Also note that each column must contain only one class of data (character, numeric, etc.). You can use tabs, spacing, and new rows to make the data entry more intuitive and readable. Spaces do not matter between values, but each row is represented by a new line of code. For example:</p>
+<p>Sử dụng hàm <code>tribble</code> của package <strong>tibble</strong> từ tidyverse (<a href="https://tibble.tidyverse.org/reference/tribble.html">tài liệu tham khảo trực tuyến</a>).</p>
+<p>Lưu ý cách tiêu đề cột bắt đầu bằng dấu ngã (<code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>). Cũng lưu ý rằng mỗi cột chỉ được chứa một nhóm dữ liệu (ký tự, số, v.v.). Bạn có thể sử dụng các tab, khoảng cách và hàng mới để làm cho việc nhập dữ liệu trực quan và dễ đọc hơn. Khoảng trắng không quan trọng giữa các giá trị, nhưng mỗi hàng được biểu thị bằng một dòng code mới. Ví dụ:</p>
 <div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create the dataset manually by row</span>
 <span class="va">manual_entry_rows</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
@@ -452,38 +450,38 @@
   <span class="st">"b"</span>,   <span class="fl">2</span>,
   <span class="st">"c"</span>,   <span class="fl">3</span>
   <span class="op">)</span></code></pre></div>
-<p>And now we display the new dataset:</p>
-<div id="htmlwidget-e9d5b4b5707111bd9a02" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e9d5b4b5707111bd9a02">{"x":{"filter":"none","data":[["1","2","3"],["a","b","c"],[1,2,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>colA<\/th>\n      <th>colB<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Và giờ chúng ta hiển thị bộ dữ liệu mới:</p>
+<div id="htmlwidget-4af9df6197dd2132c5d3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4af9df6197dd2132c5d3">{"x":{"filter":"none","data":[["1","2","3"],["a","b","c"],[1,2,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>colA<\/th>\n      <th>colB<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="entry-by-columns" class="section level3 unnumbered">
-<h3>Entry by columns<a class="anchor" aria-label="anchor" href="#entry-by-columns"><i class="fas fa-link"></i></a>
+<div id="nhập-theo-cột" class="section level3 unnumbered">
+<h3>Nhập theo cột<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-theo-c%E1%BB%99t"><i class="fas fa-link"></i></a>
 </h3>
-<p>Since a data frame consists of vectors (vertical columns), the <strong>base</strong> approach to manual dataframe creation in R expects you to define each column and then bind them together. This can be counter-intuitive in epidemiology, as we usually think about our data in rows (as above).</p>
+<p>Vì data frame bao gồm các vectơ (cột dọc), cách tiếp cận <strong>cơ bản</strong> để tạo data frame thủ công trong R muốn bạn xác định từng cột và sau đó liên kết chúng lại với nhau. Điều này có thể phản trực quan trong dịch tễ học, vì chúng ta thường nghĩ về dữ liệu của mình theo hàng (như trên).</p>
 <div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># define each vector (vertical column) separately, each with its own name</span>
 <span class="va">PatientID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">235</span>, <span class="fl">452</span>, <span class="fl">778</span>, <span class="fl">111</span><span class="op">)</span>
 <span class="va">Treatment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span>, <span class="st">"Yes"</span>, <span class="st">"Yes"</span><span class="op">)</span>
 <span class="va">Death</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></code></pre></div>
-<p><span style="color: orange;"><strong><em>CAUTION:</em></strong> All vectors must be the same length (same number of values).</span></p>
-<p>The vectors can then be bound together using the function <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code>:</p>
+<p><span style="color: orange;"><strong><em>CHÚ Ý:</em></strong> Tất cả các vectơ phải có cùng độ dài (cùng số giá trị).</span></p>
+<p>Các vectơ sau đó có thể được liên kết với nhau bằng cách sử dụng lệnh <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code>:</p>
 <div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># combine the columns into a data frame, by referencing the vector names</span>
 <span class="va">manual_entry_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">PatientID</span>, <span class="va">Treatment</span>, <span class="va">Death</span><span class="op">)</span></code></pre></div>
-<p>And now we display the new dataset:</p>
-<div id="htmlwidget-dd1ebdcd8f4e93e8ff89" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-dd1ebdcd8f4e93e8ff89">{"x":{"filter":"none","data":[["1","2","3","4"],[235,452,778,111],["Yes","No","Yes","Yes"],[1,0,1,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PatientID<\/th>\n      <th>Treatment<\/th>\n      <th>Death<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Và giờ chúng ta hiển thị bộ dữ liệu mới:</p>
+<div id="htmlwidget-0da272c29e88a06abc8c" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0da272c29e88a06abc8c">{"x":{"filter":"none","data":[["1","2","3","4"],[235,452,778,111],["Yes","No","Yes","Yes"],[1,0,1,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>PatientID<\/th>\n      <th>Treatment<\/th>\n      <th>Death<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="pasting-from-clipboard" class="section level3 unnumbered">
-<h3>Pasting from clipboard<a class="anchor" aria-label="anchor" href="#pasting-from-clipboard"><i class="fas fa-link"></i></a>
+<div id="dán-từ-bộ-nhớ-tạm" class="section level3 unnumbered">
+<h3>Dán từ bộ nhớ tạm<a class="anchor" aria-label="anchor" href="#d%C3%A1n-t%E1%BB%AB-b%E1%BB%99-nh%E1%BB%9B-t%E1%BA%A1m"><i class="fas fa-link"></i></a>
 </h3>
-<p>If you copy data from elsewhere and have it on your clipboard, you can try one of the two ways below:</p>
-<p>From the <strong>clipr</strong> package, you can use <code>read_clip_tbl()</code> to import as a data frame, or just just <code>read_clip()</code> to import as a character vector. In both cases, leave the parentheses empty.</p>
+<p>Nếu bạn sao chép dữ liệu từ nơi khác và có nó trong bộ nhớ tạm, bạn có thể thử một trong hai cách dưới đây:</p>
+<p>Từ package <strong>clipr</strong>, bạn có thể sử dụng hàm <code>read_clip_tbl()</code> để nhập dưới dạng data frame hoặc chỉ cần hàm <code>read_clip()</code> để nhập dưới dạng một vectơ ký tự. Trong cả hai trường hợp, hãy để trống dấu ngoặc đơn.</p>
 <div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu">clipr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/read_clip_tbl.html">read_clip_tbl</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># imports current clipboard as data frame</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu">clipr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/read_clip.html">read_clip</a></span><span class="op">(</span><span class="op">)</span>      <span class="co"># imports as character vector</span></code></pre></div>
-<p>You can also easily export to your system’s clipboard with <strong>clipr</strong>. See the section below on Export.</p>
-<p>Alternatively, you can use the the <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> function from <strong>base</strong> R with <code>file = "clipboard")</code> to import as a data frame:</p>
+<p>Bạn cũng có thể dễ dàng xuất sang clipboard của hệ thống bằng <strong>clipr</strong>. Xem mục bên dưới về Xuất dữ liệu.</p>
+<p>Ngoài ra, bạn có thể sử dụng lệnh <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> từ <strong>base</strong> R với <code>file = "clipboard")</code> để nhập dưới dạng data frame:</p>
 <div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df_from_clipboard</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span>
   file <span class="op">=</span> <span class="st">"clipboard"</span>,  <span class="co"># specify this as "clipboard"</span>
@@ -491,50 +489,54 @@
   header<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>         <span class="co"># if there is a header row</span></code></pre></div>
 </div>
 </div>
-<div id="import-most-recent-file" class="section level2" number="7.9">
+<div id="nhập-tệp-gần-đây-nhất" class="section level2" number="7.9">
 <h2>
-<span class="header-section-number">7.9</span> Import most recent file<a class="anchor" aria-label="anchor" href="#import-most-recent-file"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.9</span> Nhập tệp gần đây nhất<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-t%E1%BB%87p-g%E1%BA%A7n-%C4%91%C3%A2y-nh%E1%BA%A5t"><i class="fas fa-link"></i></a>
 </h2>
-<p>Often you may receive daily updates to your datasets. In this case you will want to write code that imports the most recent file. Below we present two ways to approach this:</p>
+<p>Thường thì bạn có thể nhận được các bản cập nhật hàng ngày cho bộ dữ liệu của mình. Trong trường hợp này, bạn sẽ muốn viết code mà nhập tệp gần đây nhất. Dưới đây, chúng tôi trình bày hai cách để tiếp cận điều này:</p>
 <ul>
-<li>Selecting the file based on the date in the file name<br>
+<li>Chọn tệp dựa trên ngày trong tên tệp<br>
 </li>
-<li>Selecting the file based on file metadata (last modification)</li>
+<li>Chọn tệp dựa trên siêu dữ liệu (metadata) của tệp (lần sửa đổi cuối cùng)</li>
 </ul>
-<div id="dates-in-file-name" class="section level3 unnumbered">
-<h3>Dates in file name<a class="anchor" aria-label="anchor" href="#dates-in-file-name"><i class="fas fa-link"></i></a>
+<div id="ngày-trong-tên-tệp" class="section level3 unnumbered">
+<h3>Ngày trong tên tệp<a class="anchor" aria-label="anchor" href="#ng%C3%A0y-trong-t%C3%AAn-t%E1%BB%87p"><i class="fas fa-link"></i></a>
 </h3>
-<p>This approach depends on three premises:</p>
+<p>Cách tiếp cận này dựa trên ba cơ sở:</p>
 <ol style="list-style-type: decimal">
-<li>You trust the dates in the file names<br>
+<li>Bạn tin tưởng ngày tháng trong tên tệp<br>
 </li>
-<li>The dates are numeric and appear in <em>generally</em> the same format (e.g. year then month then day)<br>
+<li>Ngày tháng ở dạng số và <em>thường</em> xuất hiện ở cùng một định dạng (ví dụ: năm rồi tháng rồi ngày)<br>
 </li>
-<li>There are no other numbers in the file name</li>
+<li>Không có số nào khác trong tên tệp</li>
 </ol>
-<p>We will explain each step, and then show you them combined at the end.</p>
-<p>First, use <code><a href="https://rdrr.io/r/base/list.files.html">dir()</a></code> from <strong>base</strong> R to extract just the file names for each file in the folder of interest. See the page on [Directory interactions] for more details about <code><a href="https://rdrr.io/r/base/list.files.html">dir()</a></code>. In this example, the folder of interest is the folder “linelists” within the folder “example” within “data” within the R project.</p>
+<p>Chúng tôi sẽ giải thích từng bước và sau đó cho bạn thấy cách chúng được kết hợp ở phần cuối.</p>
+<p>Đầu tiên, sử dụng <code><a href="https://rdrr.io/r/base/list.files.html">dir()</a></code> từ <strong>base</strong> R để chỉ trích xuất tên tệp cho mỗi tệp trong thư mục quan tâm. Xem chương về <a href="directories.html#directories">Tương tác với thư mục làm việc</a> để biết thêm chi tiết về <code><a href="https://rdrr.io/r/base/list.files.html">dir()</a></code>. Trong ví dụ này, thư mục quan tâm là thư mục “linelists” trong thư mục “example” chứa trong thư mục “data” của dự án R.</p>
 <div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist_filenames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"example"</span>, <span class="st">"linelists"</span><span class="op">)</span><span class="op">)</span> <span class="co"># get file names from folder</span>
 <span class="va">linelist_filenames</span>                                              <span class="co"># print</span></code></pre></div>
-<pre><code>## [1] "20201007linelist.csv"          "case_linelist_2020-10-02.csv"  "case_linelist_2020-10-03.csv"  "case_linelist_2020-10-04.csv"  "case_linelist_2020-10-05.csv" 
-## [6] "case_linelist_2020-10-08.xlsx" "case_linelist20201006.csv"</code></pre>
-<p>Once you have this vector of names, you can extract the dates from them by applying <code>str_extract()</code> from <strong>stringr</strong> using this regular expression. It extracts any numbers in the file name (including any other characters in the middle such as dashes or slashes). You can read more about <strong>stringr</strong> in the [Strings and characters] page.</p>
+<pre><code>## [1] "20201007linelist.csv"          "case_linelist_2020-10-02.csv" 
+## [3] "case_linelist_2020-10-03.csv"  "case_linelist_2020-10-04.csv" 
+## [5] "case_linelist_2020-10-05.csv"  "case_linelist_2020-10-08.xlsx"
+## [7] "case_linelist20201006.csv"</code></pre>
+<p>Một khi bạn có vectơ chứa các tên này, bạn có thể trích xuất ngày với chúng bằng cách áp dụng hàm <code>str_extract()</code> từ <strong>stringr</strong> với việc sử dụng biểu thức chính quy sau đây. Nó giúp trích xuất bất kỳ số nào trong tên tệp (bao gồm bất kỳ ký tự nào khác ở giữa như dấu gạch ngang hoặc dấu gạch chéo). Bạn có thể đọc thêm về <strong>stringr</strong> trong chương <a href="characters-strings.html#characters-strings">Ký tự và chuỗi</a>.</p>
 <div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist_dates_raw</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">linelist_filenames</span>, <span class="st">"[0-9].*[0-9]"</span><span class="op">)</span> <span class="co"># extract numbers and any characters in between</span>
 <span class="va">linelist_dates_raw</span>  <span class="co"># print</span></code></pre></div>
-<pre><code>## [1] "20201007"   "2020-10-02" "2020-10-03" "2020-10-04" "2020-10-05" "2020-10-08" "20201006"</code></pre>
-<p>Assuming the dates are written in generally the same date format (e.g. Year then Month then Day) and the years are 4-digits, you can use <strong>lubridate</strong>’s flexible conversion functions (<code>ymd()</code>, <code>dmy()</code>, or <code>mdy()</code>) to convert them to dates. For these functions, the dashes, spaces, or slashes do not matter, only the order of the numbers. Read more in the <a href="dates.html#working-with-dates">Working with dates</a> page.</p>
+<pre><code>## [1] "20201007"   "2020-10-02" "2020-10-03" "2020-10-04" "2020-10-05" "2020-10-08"
+## [7] "20201006"</code></pre>
+<p>Giả sử ngày thường được viết theo cùng một định dạng ngày (ví dụ: Năm rồi Tháng rồi Ngày) và năm có 4 chữ số, bạn có thể sử dụng các hàm chuyển đổi linh hoạt của <strong>lubridate</strong> (<code>ymd()</code>, <code>dmy()</code>, or <code>mdy()</code>) để chuyển đổi chúng thành ngày. Đối với các hàm này, dấu gạch ngang, dấu cách hoặc dấu gạch chéo không quan trọng, quan trọng chỉ là thứ tự của các số. Đọc thêm trong chương <a href="dates.html#dates">Làm việc với ngày tháng</a>.</p>
 <div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist_dates_clean</span> <span class="op">&lt;-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="http://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">linelist_dates_raw</span><span class="op">)</span>
 <span class="va">linelist_dates_clean</span></code></pre></div>
-<pre><code>## [1] "2020-10-07" "2020-10-02" "2020-10-03" "2020-10-04" "2020-10-05" "2020-10-08" "2020-10-06"</code></pre>
-<p>The <strong>base</strong> R function <code><a href="https://rdrr.io/r/base/which.min.html">which.max()</a></code> can then be used to return the index position (e.g. 1st, 2nd, 3rd, …) of the maximum date value. The latest file is correctly identified as the 6th file - “case_linelist_2020-10-08.xlsx”.</p>
+<pre><code>## [1] "2020-10-07" "2020-10-02" "2020-10-03" "2020-10-04" "2020-10-05" "2020-10-08"
+## [7] "2020-10-06"</code></pre>
+<p>Sau đó, hàm <strong>base</strong> R <code><a href="https://rdrr.io/r/base/which.min.html">which.max()</a></code> có thể được sử dụng để trả về vị trí chỉ mục (ví dụ: 1, 2, 3,…) của giá trị ngày lớn nhất. Tệp mới nhất được xác định chính xác là tệp thứ 6 - “case_linelist_2020-10-08.xlsx”.</p>
 <div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">index_latest_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.max</a></span><span class="op">(</span><span class="va">linelist_dates_clean</span><span class="op">)</span>
 <span class="va">index_latest_file</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
-<p>If we condense all these commands, the complete code could look like below. Note that the <code>.</code> in the last line is a placeholder for the piped object at that point in the pipe sequence. At that point the value is simply the number 6. This is placed in double brackets to extract the 6th element of the vector of file names produced by <code><a href="https://rdrr.io/r/base/list.files.html">dir()</a></code>.</p>
+<p>Nếu chúng ta tổng hợp tất cả các lệnh này, code hoàn chỉnh có thể trông giống như bên dưới. Lưu ý rằng dấu <code>.</code> ở dòng cuối cùng thay thế cho thành phần được piping vào hàm đó. Tại thời điểm đó, giá trị chỉ đơn giản là số 6. Giá trị này được đặt trong dấu ngoặc kép để trích xuất phần tử thứ 6 của vectơ tên tệp được tạo bởi <code><a href="https://rdrr.io/r/base/list.files.html">dir()</a></code>.</p>
 <div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load packages</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span>
@@ -554,20 +556,20 @@
 
 <span class="va">latest_file</span>  <span class="co"># print name of latest file</span></code></pre></div>
 <pre><code>## [1] "case_linelist_2020-10-08.xlsx"</code></pre>
-<p>You can now use this name to finish the relative file path, with <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>:</p>
+<p>Bây giờ bạn có thể sử dụng tên này để kết thúc đường dẫn tệp tương đối, với <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>:</p>
 <div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"example"</span>, <span class="st">"linelists"</span>, <span class="va">latest_file</span><span class="op">)</span> </code></pre></div>
-<p>And you can now import the latest file:</p>
+<p>Và bây giờ bạn có thể nhập tệp mới nhất:</p>
 <div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import</span>
 <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"example"</span>, <span class="st">"linelists"</span>, <span class="va">latest_file</span><span class="op">)</span><span class="op">)</span> <span class="co"># import </span></code></pre></div>
 </div>
-<div id="use-the-file-info" class="section level3 unnumbered">
-<h3>Use the file info<a class="anchor" aria-label="anchor" href="#use-the-file-info"><i class="fas fa-link"></i></a>
+<div id="sử-dụng-thông-tin-tệp" class="section level3 unnumbered">
+<h3>Sử dụng thông tin tệp<a class="anchor" aria-label="anchor" href="#s%E1%BB%AD-d%E1%BB%A5ng-th%C3%B4ng-tin-t%E1%BB%87p"><i class="fas fa-link"></i></a>
 </h3>
-<p>If your files do not have dates in their names (or you do not trust those dates), you can try to extract the last modification date from the file metadata. Use functions from the package <strong>fs</strong> to examine the metadata information for each file, which includes the last modification time and the file path.</p>
-<p>Below, we provide the folder of interest to <strong>fs</strong>’s <code>dir_info()</code>. In this case, the folder of interest is in the R project in the folder “data”, the sub-folder “example”, and its sub-folder “linelists”. The result is a data frame with one line per file and columns for <code>modification_time</code>, <code>path</code>, etc. You can see a visual example of this in the page on [Directory interactions].</p>
-<p>We can sort this data frame of files by the column <code>modification_time</code>, and then keep only the top/latest row (file) with <strong>base</strong> R’s <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>. Then we can extract the file path of this latest file only with the <strong>dplyr</strong> function <code>pull()</code> on the column <code>path</code>. Finally we can pass this file path to <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>. The imported file is saved as <code>latest_file</code>.</p>
+<p>Nếu tệp của bạn không có ngày trong tên của chúng (hoặc bạn không tin tưởng vào những ngày đó), bạn có thể thử trích xuất ngày sửa đổi cuối cùng từ siêu dữ liệu tệp. Sử dụng các hàm từ package <strong>fs</strong> để kiểm tra thông tin siêu dữ liệu cho từng tệp, bao gồm thời gian sửa đổi cuối cùng và đường dẫn tệp.</p>
+<p>Dưới đây, chúng tôi cung cấp thư mục quan tâm tới <code>dir_info()</code> của <strong>fs</strong>. Trong trường hợp này, thư mục quan tâm nằm trong dự án R trong thư mục “data”, thư mục con “example” và thư mục con thư mục này “linelists”. Kết quả là một data frame với một dòng cho mỗi tệp và các cột cho <code>modification_time</code>, <code>path</code>, v.v. Bạn có thể xem ví dụ trực quan về điều này trong chương về <a href="directories.html#directories">Tương tác với thư mục làm việc</a>.</p>
+<p>Chúng ta có thể sắp xếp data frame này của các tệp theo cột với <code>modification_time</code>, và sau đó chỉ giữ lại hàng trên cùng/mới nhất (tệp) với <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>của <strong>base</strong> R. Sau đó, chúng ta có thể trích xuất đường dẫn tệp của tệp mới nhất này chỉ với hàm <code>pull()</code> của <strong>dplyr</strong> trên <code>path</code> cột. Cuối cùng, chúng ta có thể chuyển đường dẫn tệp này đến <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>. Tệp đã nhập được lưu dưới dạng <code>latest_file</code>.</p>
 <div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">latest_file</span> <span class="op">&lt;-</span> <span class="fu">dir_info</span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"example"</span>, <span class="st">"linelists"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>  <span class="co"># collect file info on all files in directory</span>
   <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">modification_time</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>      <span class="co"># sort by modification time</span>
@@ -579,58 +581,58 @@
 </div>
 <div id="import_api" class="section level2" number="7.10">
 <h2>
-<span class="header-section-number">7.10</span> APIs<a class="anchor" aria-label="anchor" href="#import_api"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.10</span> API<a class="anchor" aria-label="anchor" href="#import_api"><i class="fas fa-link"></i></a>
 </h2>
-<p>An “Automated Programming Interface” (API) can be used to directly request data from a website. APIs are a set of rules that allow one software application to interact with another. The client (you) sends a “request” and receives a “response” containing content. The R packages <strong>httr</strong> and <strong>jsonlite</strong> can facilitate this process.</p>
-<p>Each API-enabled website will have its own documentation and specifics to become familiar with. Some sites are publicly available and can be accessed by anyone. Others, such as platforms with user IDs and credentials, require authentication to access their data.</p>
-<p>Needless to say, it is necessary to have an internet connection to import data via API. We will briefly give examples of use of APIs to import data, and link you to further resources.</p>
-<p><em>Note: recall that data may be </em>posted* on a website without an API, which may be easier to retrieve. For example a posted CSV file may be accessible simply by providing the site URL to <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> as described in the section on <a href="importing.html#import_github">importing from Github</a>.*</p>
-<div id="http-request" class="section level3 unnumbered">
-<h3>HTTP request<a class="anchor" aria-label="anchor" href="#http-request"><i class="fas fa-link"></i></a>
+<p>Một “Giao diện lập trình tự động (Automated Programming Interface)” (API) có thể được sử dụng để yêu cầu trực tiếp dữ liệu từ một trang web. API là một tập hợp các quy tắc cho phép một ứng dụng phần mềm tương tác với một ứng dụng phần mềm khác. Khách hàng (bạn) gửi một “yêu cầu (request)” và nhận được một “phản hồi (response)” có chứa nội dung. Các package R <strong>httr</strong> và <strong>jsonlite</strong> có thể hỗ trợ quá trình này.</p>
+<p>Mỗi trang web hỗ trợ API sẽ có tài liệu và chi tiết cụ thể riêng để làm quen. Một số trang web công khai API và cho phép có thể được truy cập bởi bất kỳ ai. Những nền tảng khác, chẳng hạn như nền tảng có ID người dùng và thông tin đăng nhập, yêu cầu xác thực để truy cập dữ liệu của họ.</p>
+<p>Không cần phải nói, để nhập dữ liệu qua API thì cần phải có kết nối internet. Chúng tôi sẽ đưa ra các ví dụ ngắn gọn về việc sử dụng API để nhập dữ liệu và liên kết bạn với các tài nguyên khác.</p>
+<p><em>Lưu ý: Hãy nhớ lại rằng dữ liệu có thể được đăng trên một trang web không có API, điều này có thể dễ dàng truy xuất hơn. Ví dụ: một tệp CSV đã đăng có thể được truy cập chỉ bằng cách cung cấp URL của trang web để <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> như được mô tả trong mục <a href="importing.html#import_github">nhập từ Github</a>.</em></p>
+<div id="yêu-cầu-http-http-request" class="section level3 unnumbered">
+<h3>Yêu cầu HTTP (HTTP request)<a class="anchor" aria-label="anchor" href="#y%C3%AAu-c%E1%BA%A7u-http-http-request"><i class="fas fa-link"></i></a>
 </h3>
-<p>The API exchange is most commonly done through an HTTP request. HTTP is Hypertext Transfer Protocol, and is the underlying format of a request/response between a client and a server. The exact input and output may vary depending on the type of API but the process is the same - a “Request” (often HTTP Request) from the user, often containing a query, followed by a “Response”, containing status information about the request and possibly the requested content.</p>
-<p>Here are a few components of an <em>HTTP request</em>:</p>
+<p>Trao đổi API thường được thực hiện thông qua một HTTP request. HTTP là Giao thức truyền siêu văn bản (Hypertext Transfer Protocol) và là định dạng cơ bản của giao thức yêu cầu (request)/phản hồi (response) giữa máy khách và máy chủ. Đầu vào và đầu ra chính xác có thể khác nhau tùy thuộc vào loại API nhưng quy trình là giống nhau - “Request” (thường là HTTP request) từ người dùng, thường chứa một truy vấn, theo sau là “Response”, chứa thông tin trạng thái về request và có thể là nội dung được yêu cầu.</p>
+<p>Dưới đây là một số thành phần của một <em>HTTP request</em>:</p>
 <ul>
-<li>The URL of the API endpoint<br>
+<li>URL của điểm cuối API<br>
 </li>
-<li>The “Method” (or “Verb”)<br>
+<li>“Method (Phương thức)” (hoặc “Verb (Động từ)”)<br>
 </li>
-<li>Headers<br>
+<li>Các tiêu đề<br>
 </li>
-<li>Body</li>
+<li>Phần thân</li>
 </ul>
-<p>The HTTP request “method” is the action your want to perform. The two most common HTTP methods are <code>GET</code> and <code>POST</code> but others could include <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, etc. When importing data into R it is most likely that you will use <code>GET</code>.</p>
-<p>After your request, your computer will receive a “response” in a format similar to what you sent, including URL, HTTP status (Status 200 is what you want!), file type, size, and the desired content. You will then need to parse this response and turn it into a workable data frame within your R environment.</p>
+<p>HTTP request “method” là hành động bạn muốn thực hiện. Hai phương thức HTTP phổ biến nhất là <code>GET</code> và <code>POST</code> nhưng những phương thức khác có thể bao gồm <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, v.v. Khi nhập dữ liệu vào R, rất có thể bạn sẽ sử dụng <code>GET</code>.</p>
+<p>Sau request của bạn, máy tính của bạn sẽ nhận được “phản hồi” ở định dạng tương tự như những gì bạn đã gửi, bao gồm URL, trạng thái HTTP (Trạng thái 200 là thứ bạn muốn!), loại tệp, kích thước và nội dung mong muốn. Sau đó, bạn sẽ cần phân tích cú pháp phản hồi này và biến nó thành một data frame khả thi trong môi trường R của bạn.</p>
 </div>
-<div id="packages-1" class="section level3 unnumbered">
-<h3>Packages<a class="anchor" aria-label="anchor" href="#packages-1"><i class="fas fa-link"></i></a>
+<div id="package" class="section level3 unnumbered">
+<h3>Package<a class="anchor" aria-label="anchor" href="#package"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>httr</strong> package works well for handling HTTP requests in R. It requires little prior knowledge of Web APIs and can be used by people less familiar with software development terminology. In addition, if the HTTP response is .json, you can use <strong>jsonlite</strong> to parse the response.</p>
+<p>Package <strong>httr</strong> hoạt động tốt để xử lý các yêu cầu HTTP trong R. Nó đòi hỏi ít kiến thức về API Web và có thể được sử dụng bởi những người ít quen thuộc với thuật ngữ phát triển phần mềm. Ngoài ra, nếu phản hồi HTTP là .json, bạn có thể sử dụng <strong>jsonlite</strong> để phân tích cú pháp phản hồi.</p>
 <div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load packages</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">httr</span>, <span class="va">jsonlite</span>, <span class="va">tidyverse</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="publicly-available-data" class="section level3 unnumbered">
-<h3>Publicly-available data<a class="anchor" aria-label="anchor" href="#publicly-available-data"><i class="fas fa-link"></i></a>
+<div id="dữ-liệu-công-khai" class="section level3 unnumbered">
+<h3>Dữ liệu công khai<a class="anchor" aria-label="anchor" href="#d%E1%BB%AF-li%E1%BB%87u-c%C3%B4ng-khai"><i class="fas fa-link"></i></a>
 </h3>
-<p>Below is an example of an HTTP request, borrowed from a tutorial from <a href="https://www.trafforddatalab.io/open_data_companion/#A_quick_introduction_to_APIs">the Trafford Data Lab</a>. This site has several other resources to learn and API exercises.</p>
-<p>Scenario: We want to import a list of fast food outlets in the city of Trafford, UK. The data can be accessed from the API of the Food Standards Agency, which provides food hygiene rating data for the United Kingdom.</p>
-<p>Here are the parameters for our request:</p>
+<p>Dưới đây là một ví dụ về một HTTP request, được mượn từ một hướng dẫn từ <a href="https://www.trafforddatalab.io/open_data_companion/#A_quick_introduction_to_APIs">Phòng thí nghiệm Dữ liệu Trafford</a>. Trang web này chứa một số tài nguyên khác để tìm hiểu và các bài tập về API.</p>
+<p>Tình huống: Chúng ta muốn nhập một danh sách các cửa hàng thức ăn nhanh ở thành phố Trafford, Vương quốc Anh. Dữ liệu có thể được truy cập từ API của Cơ quan Tiêu chuẩn Thực phẩm, cơ quan cung cấp dữ liệu xếp hạng vệ sinh thực phẩm cho Vương quốc Anh.</p>
+<p>Dưới đây là các thông số cho yêu cầu của chúng tôi:</p>
 <ul>
-<li>HTTP verb: GET<br>
+<li>Phương thức HTTP: GET<br>
 </li>
-<li>API endpoint URL: <a href="http://api.ratings.food.gov.uk/Establishments" class="uri">http://api.ratings.food.gov.uk/Establishments</a><br>
+<li>URL của điểm cuối API: <a href="http://api.ratings.food.gov.uk/Establishments" class="uri">http://api.ratings.food.gov.uk/Establishments</a><br>
 </li>
-<li>Selected parameters: name, address, longitude, latitude, businessTypeId, ratingKey, localAuthorityId<br>
+<li>Các thông số đã chọn: tên, địa chỉ, kinh độ, vĩ độ, businessTypeId, ratingKey, localAuthorityId<br>
 </li>
-<li>Headers: “x-api-version”, 2<br>
+<li>Các tiêu đề: “x-api-version”, 2<br>
 </li>
-<li>Data format(s): JSON, XML<br>
+<li>(Các) Định dạng dữ liệu: JSON, XML<br>
 </li>
-<li>Documentation: <a href="http://api.ratings.food.gov.uk/help" class="uri">http://api.ratings.food.gov.uk/help</a>
+<li>Tài liệu: <a href="http://api.ratings.food.gov.uk/help" class="uri">http://api.ratings.food.gov.uk/help</a>
 </li>
 </ul>
-<p>The R code would be as follows:</p>
+<p>R code sẽ như sau:</p>
 <div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># prepare the request</span>
 <span class="va">path</span> <span class="op">&lt;-</span> <span class="st">"http://api.ratings.food.gov.uk/Establishments"</span>
@@ -650,14 +652,14 @@
   <span class="fu">fromJSON</span><span class="op">(</span>flatten <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">pluck</span><span class="op">(</span><span class="st">"establishments"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>You can now clean and use the <code>response</code> data frame, which contains one row per fast food facility.</p>
+<p>Bây giờ bạn có thể làm sạch và sử dụng data frame có tên <code>response</code>, với mỗi hàng là một cơ sở thức ăn nhanh.</p>
 </div>
-<div id="authentication-required" class="section level3 unnumbered">
-<h3>Authentication required<a class="anchor" aria-label="anchor" href="#authentication-required"><i class="fas fa-link"></i></a>
+<div id="yêu-cầu-xác-thực" class="section level3 unnumbered">
+<h3>Yêu cầu xác thực<a class="anchor" aria-label="anchor" href="#y%C3%AAu-c%E1%BA%A7u-x%C3%A1c-th%E1%BB%B1c"><i class="fas fa-link"></i></a>
 </h3>
-<p>Some APIs require authentication - for you to prove who you are, so you can access restricted data. To import these data, you may need to first use a POST method to provide a username, password, or code. This will return an access token, that can be used for subsequent GET method requests to retrieve the desired data.</p>
-<p>Below is an example of querying data from <em>Go.Data</em>, which is an outbreak investigation tool. <em>Go.Data</em> uses an API for all interactions between the web front-end and smartphone applications used for data collection. <em>Go.Data</em> is used throughout the world. Because outbreak data are sensitive and you should only be able to access data for <em>your</em> outbreak, authentication is required.</p>
-<p>Below is some sample R code using <strong>httr</strong> and <strong>jsonlite</strong> for connecting to the <em>Go.Data</em> API to import data on contact follow-up from your outbreak.</p>
+<p>Một số API yêu cầu xác thực - để bạn chứng minh mình là ai và có thể truy cập vào dữ liệu bị hạn chế. Để nhập những dữ liệu này, trước tiên bạn có thể cần sử dụng phương thức POST để cung cấp tên người dùng, mật khẩu hoặc code. Điều này sẽ trả về một mã thông báo truy cập, có thể được sử dụng cho các yêu cầu phương thức GET tiếp theo để truy xuất dữ liệu mong muốn.</p>
+<p>Dưới đây là một ví dụ về truy vấn dữ liệu từ <em>Go.Data</em>, một công cụ điều tra ổ dịch. <em>Go.Data</em> sử dụng một API cho tất cả các tương tác giữa giao diện người dùng web và các ứng dụng điện thoại thông minh được sử dụng để thu thập dữ liệu. <em>Go.Data</em> được sử dụng trên khắp thế giới. Bởi vì dữ liệu các vụ dịch là nhạy cảm và bạn nên là người duy nhất có thể truy cập vào dữ liệu vụ dịch <em>của mình</em>, nên việc xác thực là bắt buộc.</p>
+<p>Dưới đây là một số code R mẫu sử dụng <strong>httr</strong> và <strong>jsonlite</strong> để kết nối với API <em>Go.Data</em> để nhập dữ liệu liên hệ truy vết từ vụ dịch của bạn.</p>
 <div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># set credentials for authorization</span>
 <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://godatasampleURL.int/"</span>           <span class="co"># valid Go.Data instance url</span>
@@ -695,33 +697,33 @@
 <span class="va">json_contacts</span> <span class="op">&lt;-</span> <span class="fu">content</span><span class="op">(</span><span class="va">response_contacts</span>, as <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span>         <span class="co"># convert to text JSON</span>
 
 <span class="va">contacts</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="fu">fromJSON</span><span class="op">(</span><span class="va">json_contacts</span>, flatten <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>   <span class="co"># flatten JSON to tibble</span></code></pre></div>
-<p><span style="color: orange;"><strong><em>CAUTION:</em></strong> If you are importing large amounts of data from an API requiring authentication, it may time-out. To avoid this, retrieve access_token again before each API GET request and try using filters or limits in the query. </span></p>
-<p><span style="color: darkgreen;"><strong><em>TIP:</em></strong> The <code>fromJSON()</code> function in the <strong>jsonlite</strong> package does not fully un-nest the first time it’s executed, so you will likely still have list items in your resulting tibble. You will need to further un-nest for certain variables; depending on how nested your .json is. To view more info on this, view the documentation for the <strong>jsonlite</strong> package, such as the <a href="https://rdrr.io/cran/jsonlite/man/flatten.html"><code>flatten()</code> function</a>. </span></p>
-<p>For more details, View documentation on <a href="https://loopback.io/doc/en/lb4/index.html">LoopBack Explorer</a>, the [Contact Tracing] page or API tips on <a href="https://worldhealthorganization.github.io/godata/api-docs">Go.Data Github repository</a></p>
-<p>You can read more about the <em>httr</em> package <a href="https://httr.r-lib.org/articles/quickstart.html">here</a></p>
-<p>This section was also informed by <a href="https://www.dataquest.io/blog/r-api-tutorial/">this tutorial</a> and <a href="https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1">this tutorial</a>.</p>
+<p><span style="color: orange;"><strong><em>CẨN TRỌNG:</em></strong> Nếu bạn đang nhập một lượng lớn dữ liệu từ một API yêu cầu xác thực, nó có thể hết thời gian chờ. Để tránh điều này, hãy truy xuất lại access_token trước mỗi yêu cầu API GET và thử sử dụng các bộ lọc hoặc giới hạn trong truy vấn.</span></p>
+<p><span style="color: darkgreen;"><strong><em>MẸO:</em></strong> Lệnh <code>fromJSON()</code> từ package <strong>jsonlite</strong> không hoàn toàn không - lồng ghép vào lần đầu tiên nó được chạy, vì vậy bạn vẫn có thể có danh sách các hàng trong phần kết quả của mình. Bạn sẽ cần phải bỏ lồng ghép thêm cho một số biến nhất định; tùy thuộc vào cách .json của bạn được lồng ghép vào nhau. Để xem thêm thông tin về điều này, hãy xem tài liệu về package <strong>jsonlite</strong>, chẳng hạn như <a href="https://rdrr.io/cran/jsonlite/man/flatten.html"><code>flatten()</code> function</a>.</span></p>
+<p>Để biết thêm chi tiết, hãy xem tài liệu trên <a href="https://loopback.io/doc/en/lb4/index.html">LoopBack Explorer</a>, chương <a href="contact-tracing.html#contact-tracing">Truy vết tiếp xúc</a> hoặc các mẹo API trên <a href="https://worldhealthorganization.github.io/godata/api-docs">Go.Data Github repository</a></p>
+<p>Bạn có thể đọc thêm về <em>httr</em> trong package <a href="https://httr.r-lib.org/articles/quickstart.html">here</a></p>
+<p>Phần này cũng đã được trình bày trong <a href="https://www.dataquest.io/blog/r-api-tutorial/">hướng dẫn này</a>và <a href="https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1">hướng dẫn này</a> hướng dẫn này.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="export" class="section level2" number="7.11">
+<div id="xuất-dữ-liệu" class="section level2" number="7.11">
 <h2>
-<span class="header-section-number">7.11</span> Export<a class="anchor" aria-label="anchor" href="#export"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.11</span> Xuất dữ liệu<a class="anchor" aria-label="anchor" href="#xu%E1%BA%A5t-d%E1%BB%AF-li%E1%BB%87u"><i class="fas fa-link"></i></a>
 </h2>
-<div id="with-rio-package" class="section level3 unnumbered">
-<h3>With <strong>rio</strong> package<a class="anchor" aria-label="anchor" href="#with-rio-package"><i class="fas fa-link"></i></a>
+<div id="với-package-rio" class="section level3 unnumbered">
+<h3>Với package <strong>rio</strong><a class="anchor" aria-label="anchor" href="#v%E1%BB%9Bi-package-rio"><i class="fas fa-link"></i></a>
 </h3>
-<p>With <strong>rio</strong>, you can use the <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> function in a very similar way to <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>. First give the name of the R object you want to save (e.g. <code>linelist</code>) and then in quotes put the file path where you want to save the file, including the desired file name and file extension. For example:</p>
-<p>This saves the data frame <code>linelist</code> as an Excel workbook to the working directory/R project root folder:</p>
+<p>Với <strong>rio</strong>, bạn có thể sử dụng lệnh <code><a href="https://rdrr.io/pkg/rio/man/export.html">export()</a></code> theo cách tương tự với <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>. Đầu tiên, cung cấp tên của đối tượng R bạn muốn lưu (ví dụ: <code>linelist</code>), sau đó trong dấu ngoặc kép đặt đường dẫn tệp nơi bạn muốn lưu tệp, bao gồm tên tệp mong muốn và phần mở rộng tệp. Ví dụ:</p>
+<p>Thao tác này lưu data frame <code>linelist</code> dưới dạng một Excel workbook vào thư mục làm việc/thư mục gốc của dự án R:</p>
 <div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/rio/man/export.html">export</a></span><span class="op">(</span><span class="va">linelist</span>, <span class="st">"my_linelist.xlsx"</span><span class="op">)</span> <span class="co"># will save to working directory</span></code></pre></div>
-<p>You could save the same data frame as a csv file by changing the extension. For example, we also save it to a file path constructed with <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>:</p>
+<p>Bạn có thể lưu cùng một data frame dưới dạng tệp csv bằng cách thay đổi phần mở rộng. Ví dụ, chúng tôi cũng lưu nó vào một đường dẫn tệp được tạo bằng <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code>:</p>
 <div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/rio/man/export.html">export</a></span><span class="op">(</span><span class="va">linelist</span>, <span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"clean"</span>, <span class="st">"my_linelist.csv"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="to-clipboard" class="section level3 unnumbered">
-<h3>To clipboard<a class="anchor" aria-label="anchor" href="#to-clipboard"><i class="fas fa-link"></i></a>
+<div id="tới-bộ-nhớ-tạm" class="section level3 unnumbered">
+<h3>Tới bộ nhớ tạm<a class="anchor" aria-label="anchor" href="#t%E1%BB%9Bi-b%E1%BB%99-nh%E1%BB%9B-t%E1%BA%A1m"><i class="fas fa-link"></i></a>
 </h3>
-<p>To export a data frame to your computer’s “clipboard” (to then paste into another software like Excel, Google Spreadsheets, etc.) you can use <code>write_clip()</code> from the <strong>clipr</strong> package.</p>
+<p>Để xuất khung dữ liệu sang “bộ nhớ tạm” của máy tính (để sau đó dán vào một phần mềm khác như Excel, Google Spreadsheets, v.v.), bạn có thể sử dụng <code>write_clip()</code> từ package <strong>clipr</strong>.</p>
 <div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># export the linelist data frame to your system's clipboard</span>
 <span class="fu">clipr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clipr/man/write_clip.html">write_clip</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">)</span></code></pre></div>
@@ -729,96 +731,103 @@
 </div>
 <div id="import_rds" class="section level2" number="7.12">
 <h2>
-<span class="header-section-number">7.12</span> RDS files<a class="anchor" aria-label="anchor" href="#import_rds"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.12</span> Tệp RDS<a class="anchor" aria-label="anchor" href="#import_rds"><i class="fas fa-link"></i></a>
 </h2>
-<p>Along with .csv, .xlsx, etc, you can also export/save R data frames as .rds files. This is a file format specific to R, and is very useful if you know you will work with the exported data again in R.</p>
-<p>The classes of columns are stored, so you don’t have do to cleaning again when it is imported (with an Excel or even a CSV file this can be a headache!). It is also a smaller file, which is useful for export and import if your dataset is large.</p>
-<p>For example, if you work in an Epidemiology team and need to send files to a GIS team for mapping, and they use R as well, just send them the .rds file! Then all the column classes are retained and they have less work to do.</p>
+<p>Giống như .csv, .xlsx, v.v., bạn cũng có thể xuất/lưu các R data frame dưới dạng tệp .rds. Đây là định dạng tệp dành riêng cho R và rất hữu ích nếu bạn biết mình sẽ làm việc lại với dữ liệu đã xuất trong R.</p>
+<p>Các nhóm của cột được lưu trữ, vì vậy bạn không cần phải làm sạch lại khi chúng được nhập (với Excel hoặc thậm chí là tệp CSV, điều này có thể khiến bạn đau đầu!). Nó cũng là một tệp nhỏ hơn, hữu ích cho việc xuất và nhập nếu bộ dữ liệu của bạn lớn.</p>
+<p>Ví dụ: nếu bạn làm việc trong nhóm Dịch tễ học và cần gửi tệp cho nhóm GIS để lập bản đồ và họ cũng sử dụng R, chỉ cần gửi tệp .rds cho họ! Sau đó, tất cả các nhóm cột được giữ lại và có ít việc phải xử lý hơn.</p>
 <div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/rio/man/export.html">export</a></span><span class="op">(</span><span class="va">linelist</span>, <span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"clean"</span>, <span class="st">"my_linelist.rds"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
 <div id="import_rdata" class="section level2" number="7.13">
 <h2>
-<span class="header-section-number">7.13</span> Rdata files and lists<a class="anchor" aria-label="anchor" href="#import_rdata"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.13</span> Tệp và danh sách Rdata<a class="anchor" aria-label="anchor" href="#import_rdata"><i class="fas fa-link"></i></a>
 </h2>
-<p><code>.Rdata</code> files can store multiple R objects - for example multiple data frames, model results, lists, etc. This can be very useful to consolidate or share a lot of your data for a given project.</p>
-<p>In the below example, multiple R objects are stored within the exported file “my_objects.Rdata”:</p>
+<p>Tệp <code>.Rdata</code> có thể lưu trữ nhiều đối tượng R - ví dụ: nhiều data frame, kết quả mô hình, danh sách, v.v. Điều này có thể rất hữu ích để hợp nhất hoặc chia sẻ nhiều dữ liệu của bạn cho một dự án nhất định.</p>
+<p>Trong ví dụ dưới đây, nhiều đối tượng R được lưu trữ trong tệp “my_objects.Rdata” đã xuất:</p>
 <div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/export.html">export</a></span><span class="op">(</span><span class="va">my_list</span>, <span class="va">my_dataframe</span>, <span class="va">my_vector</span>, <span class="st">"my_objects.Rdata"</span><span class="op">)</span></code></pre></div>
-<p>Note: if you are trying to <em>import</em> a list, use <code><a href="https://rdrr.io/pkg/rio/man/import_list.html">import_list()</a></code> from <strong>rio</strong> to import it with the complete original structure and contents.</p>
+<p>Lưu ý: nếu bạn đang thử <em>nhập</em> một danh sách, hãy sử dụng <code><a href="https://rdrr.io/pkg/rio/man/import_list.html">import_list()</a></code> từ <strong>rio</strong> để nhập nó với cấu trúc và nội dung gốc hoàn chỉnh.</p>
 <div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import_list.html">import_list</a></span><span class="op">(</span><span class="st">"my_list.Rdata"</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
-<div id="saving-plots" class="section level2" number="7.14">
+<div id="lưu-biểu-đồ" class="section level2" number="7.14">
 <h2>
-<span class="header-section-number">7.14</span> Saving plots<a class="anchor" aria-label="anchor" href="#saving-plots"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.14</span> Lưu biểu đồ<a class="anchor" aria-label="anchor" href="#l%C6%B0u-bi%E1%BB%83u-%C4%91%E1%BB%93"><i class="fas fa-link"></i></a>
 </h2>
-<p>Instructions on how to save plots, such as those created by <code>ggplot()</code>, are discussed in depth in the [ggplot basics] page.</p>
-<p>In brief, run <code>ggsave("my_plot_filepath_and_name.png")</code> after printing your plot. You can either provide a saved plot object to the <code>plot =</code> argument, or only specify the destination file path (with file extension) to save the most recently-displayed plot. You can also control the <code>width =</code>, <code>height =</code>, <code>units =</code>, and <code>dpi =</code>.</p>
-<p>How to save a network graph, such as a transmission tree, is addressed in the page on [Transmission chains].</p>
+<p>Hướng dẫn về cách lưu các biểu đồ, chẳng hạn như các biểu đồ được tạo bởi <code>ggplot()</code>, được thảo luận sâu trong chương <a href="ggplot-basics.html#ggplot-basics">ggplot cơ bản</a>.</p>
+<p>Tóm lại, chạy lệnh <code>ggsave("my_plot_filepath_and_name.png")</code> sau khi in biểu đồ của bạn. Bạn có thể cung cấp một đối tượng biểu đồ đã lưu cho đối số <code>plot =</code> hoặc chỉ cần xác định đường dẫn tệp đích (với phần mở rộng tệp) để lưu biểu đồ được hiển thị gần đây nhất. Bạn cũng có thể kiểm soát <code>width =</code>, <code>height =</code>, <code>units =</code> và <code>dpi =</code>.</p>
+<p>Cách để lưu đồ thị mạng lưới (network graph), chẳng hạn như cây lây nhiễm, được đề cập trong chương <a href="transmission-chains.html#transmission-chains">Chuỗi lây nhiễm</a>.</p>
 <!-- ======================================================= -->
 </div>
-<div id="resources" class="section level2" number="7.15">
+<div id="tài-nguyên-học-liệu" class="section level2" number="7.15">
 <h2>
-<span class="header-section-number">7.15</span> Resources<a class="anchor" aria-label="anchor" href="#resources"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.15</span> Tài nguyên học liệu<a class="anchor" aria-label="anchor" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u"><i class="fas fa-link"></i></a>
 </h2>
-<p>The <a href="https://cran.r-project.org/doc/manuals/r-release/R-data.html">R Data Import/Export Manual</a><br><a href="https://r4ds.had.co.nz/data-import.html#data-import">R 4 Data Science chapter on data import</a><br><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave() documentation</a></p>
-<p>Below is a table, taken from the <strong>rio</strong> online <a href="https://cran.r-project.org/web/packages/rio/vignettes/rio.html">vignette</a>. For each type of data it shows: the expected file extension, the package <strong>rio</strong> uses to import or export the data, and whether this functionality is included in the default installed version of <strong>rio</strong>.</p>
+<p><a href="https://cran.r-project.org/doc/manuals/r-release/R-data.html">R Data Import/Export Manual</a><br><a href="https://r4ds.had.co.nz/data-import.html#data-import">R 4 Data Science chapter on data import</a><br><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave() documentation</a></p>
+<p>Dưới đây là một bảng, lấy từ <strong>rio</strong> <a href="https://cran.r-project.org/web/packages/rio/vignettes/rio.html">vignette</a> trực tuyến. Đối với mỗi loại dữ liệu, nó hiển thị: phần mở rộng tệp dự kiến, package <strong>rio</strong> sử dụng để nhập hoặc xuất dữ liệu và trả lời chức năng này có được bao gồm trong phiên bản <strong>rio</strong> được cài đặt mặc định hay không.</p>
 <div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="32%">
+<col width="18%">
+<col width="16%">
+<col width="10%">
+<col width="21%">
+</colgroup>
 <thead><tr class="header">
-<th>Format</th>
-<th>Typical Extension</th>
-<th>Import Package</th>
-<th>Export Package</th>
-<th>Installed by Default</th>
+<th>Định dạng</th>
+<th>Phần mở rộng điển hình</th>
+<th>Package nhập</th>
+<th>Package xuất</th>
+<th>Được cài đặt theo mặc định</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>Comma-separated data</td>
+<td>Dữ liệu được phân tách bằng-dấu phẩy</td>
 <td>.csv</td>
 <td>data.table <code>fread()</code>
 </td>
 <td>data.table</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
-<td>Pipe-separated data</td>
+<td>Dữ liệu được phân tách bằng-dấu gạch</td>
 <td>.psv</td>
 <td>data.table <code>fread()</code>
 </td>
 <td>data.table</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
-<td>Tab-separated data</td>
+<td>Dữ liệu được phân tách bằng-tab</td>
 <td>.tsv</td>
 <td>data.table <code>fread()</code>
 </td>
 <td>data.table</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
 <td>SAS</td>
 <td>.sas7bdat</td>
 <td>haven</td>
 <td>haven</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
 <td>SPSS</td>
 <td>.sav</td>
 <td>haven</td>
 <td>haven</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
 <td>Stata</td>
 <td>.dta</td>
 <td>haven</td>
 <td>haven</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
 <td>SAS</td>
@@ -832,63 +841,63 @@
 <td>.por</td>
 <td>haven</td>
 <td></td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
 <td>Excel</td>
 <td>.xls</td>
 <td>readxl</td>
 <td></td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
 <td>Excel</td>
 <td>.xlsx</td>
 <td>readxl</td>
 <td>openxlsx</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
-<td>R syntax</td>
+<td>Cú pháp R</td>
 <td>.R</td>
 <td>base</td>
 <td>base</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
-<td>Saved R objects</td>
+<td>Đối tượng R được lưu</td>
 <td>.RData, .rda</td>
 <td>base</td>
 <td>base</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
-<td>Serialized R objects</td>
+<td>Đối tượng R được nối tiếp</td>
 <td>.rds</td>
 <td>base</td>
 <td>base</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
 <td>Epiinfo</td>
 <td>.rec</td>
 <td>foreign</td>
 <td></td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
 <td>Minitab</td>
 <td>.mtp</td>
 <td>foreign</td>
 <td></td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
 <td>Systat</td>
 <td>.syd</td>
 <td>foreign</td>
 <td></td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
 <td>“XBASE”</td>
@@ -898,116 +907,116 @@
 <td>foreign</td>
 </tr>
 <tr class="even">
-<td>Weka Attribute-Relation File Format</td>
+<td>Định dạng tệp Weka Attribute-Relation</td>
 <td>.arff</td>
 <td>foreign</td>
 <td>foreign</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
-<td>Data Interchange Format</td>
+<td>Định dạng trao đổi dữ liệu</td>
 <td>.dif</td>
 <td>utils</td>
 <td></td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
-<td>Fortran data</td>
+<td>Dữ liệu Fortran</td>
 <td>no recognized extension</td>
 <td>utils</td>
 <td></td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
-<td>Fixed-width format data</td>
+<td>Định dạng dữ liệu Fixed-width</td>
 <td>.fwf</td>
 <td>utils</td>
 <td>utils</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="even">
-<td>gzip comma-separated data</td>
+<td>Dữ liệu gzip được phân tách bằng-dấu phẩy</td>
 <td>.csv.gz</td>
 <td>utils</td>
 <td>utils</td>
-<td>Yes</td>
+<td>Có</td>
 </tr>
 <tr class="odd">
-<td>CSVY (CSV + YAML metadata header)</td>
+<td>CSVY (Tiêu đề siêu dữ liệu CSV + YAML)</td>
 <td>.csvy</td>
 <td>csvy</td>
 <td>csvy</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="even">
 <td>EViews</td>
 <td>.wf1</td>
 <td>hexView</td>
 <td></td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="odd">
-<td>Feather R/Python interchange format</td>
+<td>Định dạng trao đổi Feather giữa R/Python</td>
 <td>.feather</td>
 <td>feather</td>
 <td>feather</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="even">
 <td>Fast Storage</td>
 <td>.fst</td>
 <td>fst</td>
 <td>fst</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="odd">
 <td>JSON</td>
 <td>.json</td>
 <td>jsonlite</td>
 <td>jsonlite</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="even">
 <td>Matlab</td>
 <td>.mat</td>
 <td>rmatio</td>
 <td>rmatio</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="odd">
 <td>OpenDocument Spreadsheet</td>
 <td>.ods</td>
 <td>readODS</td>
 <td>readODS</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="even">
-<td>HTML Tables</td>
+<td>Bảng HTML</td>
 <td>.html</td>
 <td>xml2</td>
 <td>xml2</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="odd">
-<td>Shallow XML documents</td>
+<td>Tài liệu XML cạn</td>
 <td>.xml</td>
 <td>xml2</td>
 <td>xml2</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="even">
 <td>YAML</td>
 <td>.yml</td>
 <td>yaml</td>
 <td>yaml</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 <tr class="odd">
-<td>Clipboard default is tsv</td>
+<td>Bộ nhớ tạm mặc định là tsv</td>
 <td></td>
 <td>clipr</td>
 <td>clipr</td>
-<td>No</td>
+<td>Không</td>
 </tr>
 </tbody>
 </table></div>
@@ -1023,64 +1032,65 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#importing"><span class="header-section-number">7</span> Nhập xuất dữ liệu</a></li>
-<li><a class="nav-link" href="#overview"><span class="header-section-number">7.1</span> Overview</a></li>
-<li><a class="nav-link" href="#the-rio-package"><span class="header-section-number">7.2</span> The rio package</a></li>
-<li><a class="nav-link" href="#here"><span class="header-section-number">7.3</span> The here package</a></li>
+<li><a class="nav-link" href="#t%E1%BB%95ng-quan"><span class="header-section-number">7.1</span> Tổng quan</a></li>
+<li><a class="nav-link" href="#package-rio"><span class="header-section-number">7.2</span> Package rio</a></li>
+<li><a class="nav-link" href="#here"><span class="header-section-number">7.3</span> Package here</a></li>
 <li>
-<a class="nav-link" href="#file-paths"><span class="header-section-number">7.4</span> File paths</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#relative-file-paths">“Relative” file paths</a></li>
-<li><a class="nav-link" href="#absolute-file-paths">“Absolute” file paths</a></li>
-<li><a class="nav-link" href="#select-file-manually">Select file manually</a></li>
+<a class="nav-link" href="#%C4%91%C6%B0%E1%BB%9Dng-d%E1%BA%ABn-t%E1%BB%87p"><span class="header-section-number">7.4</span> Đường dẫn tệp</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%C4%91%C6%B0%E1%BB%9Dng-d%E1%BA%ABn-t%E1%BB%87p-t%C6%B0%C6%A1ng-%C4%91%E1%BB%91i">Đường dẫn tệp “tương đối”</a></li>
+<li><a class="nav-link" href="#%C4%91%C6%B0%E1%BB%9Dng-d%E1%BA%ABn-t%E1%BB%87p-tuy%E1%BB%87t-%C4%91%E1%BB%91i">Đường dẫn tệp “tuyệt đối”</a></li>
+<li><a class="nav-link" href="#ch%E1%BB%8Dn-t%E1%BB%87p-theo-c%C3%A1ch-th%E1%BB%A7-c%C3%B4ng">Chọn tệp theo cách thủ công</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#import-data"><span class="header-section-number">7.5</span> Import data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#specific-excel-sheets">Specific Excel sheets</a></li>
-<li><a class="nav-link" href="#import_missing">Missing values</a></li>
-<li><a class="nav-link" href="#skip-rows">Skip rows</a></li>
-<li><a class="nav-link" href="#manage-a-second-header-row">Manage a second header row</a></li>
-<li><a class="nav-link" href="#google-sheets">Google sheets</a></li>
+<a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u"><span class="header-section-number">7.5</span> Nhập dữ liệu</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#trang-t%C3%ADnh-excel-c%E1%BB%A5-th%E1%BB%83">Trang tính Excel cụ thể</a></li>
+<li><a class="nav-link" href="#import_missing">Giá trị missing</a></li>
+<li><a class="nav-link" href="#b%E1%BB%8F-qua-m%E1%BB%99t-s%E1%BB%91-h%C3%A0ng">Bỏ qua một số hàng</a></li>
+<li><a class="nav-link" href="#qu%E1%BA%A3n-l%C3%BD-h%C3%A0ng-ti%C3%AAu-%C4%91%E1%BB%81-th%E1%BB%A9-hai">Quản lý hàng tiêu đề thứ hai</a></li>
+<li><a class="nav-link" href="#x%C3%B3a-h%C3%A0ng-ti%C3%AAu-%C4%91%E1%BB%81-th%E1%BB%A9-hai">Xóa hàng tiêu đề thứ hai</a></li>
+<li><a class="nav-link" href="#trang-t%C3%ADnh-google">Trang tính Google</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#multiple-files---import-export-split-combine"><span class="header-section-number">7.6</span> Multiple files - import, export, split, combine</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-xu%E1%BA%A5t-t%C3%A1ch-k%E1%BA%BFt-h%E1%BB%A3p---nhi%E1%BB%81u-t%E1%BB%87p"><span class="header-section-number">7.6</span> Nhập, xuất, tách, kết hợp - nhiều tệp</a></li>
 <li>
-<a class="nav-link" href="#import_github"><span class="header-section-number">7.7</span> Import from Github</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#csv-files">CSV files</a></li>
-<li><a class="nav-link" href="#xlsx-files">XLSX files</a></li>
+<a class="nav-link" href="#import_github"><span class="header-section-number">7.7</span> Nhập từ Github</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#t%E1%BB%87p-csv">Tệp CSV</a></li>
+<li><a class="nav-link" href="#t%E1%BB%87p-xlsx">Tệp XLSX</a></li>
 <li><a class="nav-link" href="#shapefiles">Shapefiles</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#manual-data-entry"><span class="header-section-number">7.8</span> Manual data entry</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#entry-by-rows">Entry by rows</a></li>
-<li><a class="nav-link" href="#entry-by-columns">Entry by columns</a></li>
-<li><a class="nav-link" href="#pasting-from-clipboard">Pasting from clipboard</a></li>
+<a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-th%E1%BB%A7-c%C3%B4ng"><span class="header-section-number">7.8</span> Nhập dữ liệu thủ công</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#nh%E1%BA%ADp-theo-h%C3%A0ng">Nhập theo hàng</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-theo-c%E1%BB%99t">Nhập theo cột</a></li>
+<li><a class="nav-link" href="#d%C3%A1n-t%E1%BB%AB-b%E1%BB%99-nh%E1%BB%9B-t%E1%BA%A1m">Dán từ bộ nhớ tạm</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#import-most-recent-file"><span class="header-section-number">7.9</span> Import most recent file</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#dates-in-file-name">Dates in file name</a></li>
-<li><a class="nav-link" href="#use-the-file-info">Use the file info</a></li>
+<a class="nav-link" href="#nh%E1%BA%ADp-t%E1%BB%87p-g%E1%BA%A7n-%C4%91%C3%A2y-nh%E1%BA%A5t"><span class="header-section-number">7.9</span> Nhập tệp gần đây nhất</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ng%C3%A0y-trong-t%C3%AAn-t%E1%BB%87p">Ngày trong tên tệp</a></li>
+<li><a class="nav-link" href="#s%E1%BB%AD-d%E1%BB%A5ng-th%C3%B4ng-tin-t%E1%BB%87p">Sử dụng thông tin tệp</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#import_api"><span class="header-section-number">7.10</span> APIs</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#http-request">HTTP request</a></li>
-<li><a class="nav-link" href="#packages-1">Packages</a></li>
-<li><a class="nav-link" href="#publicly-available-data">Publicly-available data</a></li>
-<li><a class="nav-link" href="#authentication-required">Authentication required</a></li>
+<a class="nav-link" href="#import_api"><span class="header-section-number">7.10</span> API</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#y%C3%AAu-c%E1%BA%A7u-http-http-request">Yêu cầu HTTP (HTTP request)</a></li>
+<li><a class="nav-link" href="#package">Package</a></li>
+<li><a class="nav-link" href="#d%E1%BB%AF-li%E1%BB%87u-c%C3%B4ng-khai">Dữ liệu công khai</a></li>
+<li><a class="nav-link" href="#y%C3%AAu-c%E1%BA%A7u-x%C3%A1c-th%E1%BB%B1c">Yêu cầu xác thực</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#export"><span class="header-section-number">7.11</span> Export</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#with-rio-package">With rio package</a></li>
-<li><a class="nav-link" href="#to-clipboard">To clipboard</a></li>
+<a class="nav-link" href="#xu%E1%BA%A5t-d%E1%BB%AF-li%E1%BB%87u"><span class="header-section-number">7.11</span> Xuất dữ liệu</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#v%E1%BB%9Bi-package-rio">Với package rio</a></li>
+<li><a class="nav-link" href="#t%E1%BB%9Bi-b%E1%BB%99-nh%E1%BB%9B-t%E1%BA%A1m">Tới bộ nhớ tạm</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#import_rds"><span class="header-section-number">7.12</span> RDS files</a></li>
-<li><a class="nav-link" href="#import_rdata"><span class="header-section-number">7.13</span> Rdata files and lists</a></li>
-<li><a class="nav-link" href="#saving-plots"><span class="header-section-number">7.14</span> Saving plots</a></li>
-<li><a class="nav-link" href="#resources"><span class="header-section-number">7.15</span> Resources</a></li>
+<li><a class="nav-link" href="#import_rds"><span class="header-section-number">7.12</span> Tệp RDS</a></li>
+<li><a class="nav-link" href="#import_rdata"><span class="header-section-number">7.13</span> Tệp và danh sách Rdata</a></li>
+<li><a class="nav-link" href="#l%C6%B0u-bi%E1%BB%83u-%C4%91%E1%BB%93"><span class="header-section-number">7.14</span> Lưu biểu đồ</a></li>
+<li><a class="nav-link" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u"><span class="header-section-number">7.15</span> Tài nguyên học liệu</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1101,7 +1111,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -61,7 +61,7 @@
 <li><a class="" href="cleaning.html"><span class="header-section-number">8</span> Làm sạch số liệu và các hàm quan trọng</a></li>
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
-<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
+<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors/</a></li>
 <li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
@@ -132,12 +132,12 @@
 </li>
 <li>Dùng <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> từ <strong>base</strong> R nếu bạn không có khả năng truy cập vào các package trên</li>
 </ul>
-<!-- ======================================================= --><div id="chuẩn-bị-1" class="section level2" number="17.1">
+<!-- ======================================================= --><div id="chuẩn-bị-2" class="section level2" number="17.1">
 <h2>
-<span class="header-section-number">17.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">17.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-2"><i class="fas fa-link"></i></a>
 </h2>
-<div id="gọi-packages" class="section level3 unnumbered">
-<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages"><i class="fas fa-link"></i></a>
+<div id="gọi-packages-1" class="section level3 unnumbered">
+<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>Đoạn code này hiển thị việc gọi các packages cần thiết cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến lệnh <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> từ <strong>pacman</strong>, giúp cài đặt các package nếu cần <em>và</em> gọi chúng để sử dụng. Bạn cũng có thể gọi các package đã được cài đặt với <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> từ <strong>base</strong> R. Xem chương <a href="basics.html#basics">R cơ bản</a> để biết thêm thông tin về các package của R.</p>
 <div class="sourceCode" id="cb820"><pre class="downlit sourceCode r">
@@ -153,16 +153,16 @@
   <span class="va">flextable</span>     <span class="co"># converting tables to pretty images</span>
   <span class="op">)</span></code></pre></div>
 </div>
-<div id="nhập-dữ-liệu" class="section level3 unnumbered">
-<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u"><i class="fas fa-link"></i></a>
+<div id="nhập-dữ-liệu-2" class="section level3 unnumbered">
+<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-2"><i class="fas fa-link"></i></a>
 </h3>
 <p>Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn theo dõi, <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">bấm để tải xuống dữ liệu linelist “đã làm sạch”</a> (as .rds file). Nhập dữ liệu của bạn bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong> (chấp nhận nhiều loại tệp như .xlsx, .rds, .csv - xem thêm chi tiết tại chương <a href="importing.html#importing">Nhập xuất dữ liệu</a>).</p>
 <div class="sourceCode" id="cb821"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the linelist</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
 <p>50 hàng đầu tiên của linelist được hiển thị như dưới đây.</p>
-<div id="htmlwidget-cf9e6ef959d4d4b8408f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cf9e6ef959d4d4b8408f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<div id="htmlwidget-3a5ad7c6b793b8d31371" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3a5ad7c6b793b8d31371">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
 <div id="duyệt-dữ-liệu" class="section level2" number="17.2">
@@ -180,7 +180,7 @@
 <span class="fu">skim</span><span class="op">(</span><span class="va">linelist</span><span class="op">)</span></code></pre></div>
 <div class="inline-table"><table style="width: auto;" class="table table-condensed">
 <caption>
-<span id="tab:unnamed-chunk-656">Table 17.1: </span>Data summary
+<span id="tab:unnamed-chunk-655">Table 17.1: </span>Data summary
 </caption>
 <thead><tr>
 <th style="text-align:left;">
@@ -1280,7 +1280,7 @@ days_onset_hosp
 ##      70+    6 0.001019022   0.001034126
 ##     &lt;NA&gt;   86 0.014605978            NA</code></pre>
 <p>Như bạn có thể thấy ở trên, các giá trị missing sẽ được hiển thị trong một hàng có nhãn <code>&lt;NA&gt;</code>. Bạn có thể ngăn điều này bằng cách thêm <code>show_na = FALSE</code>. Nếu không có giá trị missing, hàng này sẽ không xuất hiện. Nếu có giá trị missing, tất cả các tỷ lệ sẽ được trình bày dưới dạng thô (mẫu số bao gồm cả <code>NA</code>) và “hợp lý” (mẫu số không bao gồm <code>NA</code>).</p>
-<p>Nếu giá trị cột là dạng Factor và chỉ một vài level nhất định có trong dữ liệu của bạn, thì tất cả các level sẽ vẫn xuất hiện trong bảng. Bạn có thể loại bỏ tính năng này bằng cách thêm <code>show_missing_levels = FALSE</code>. Đọc thêm trong chương <a href="factors.html#factors">Factors</a>.</p>
+<p>Nếu giá trị cột là dạng Factor và chỉ một vài level nhất định có trong dữ liệu của bạn, thì tất cả các level sẽ vẫn xuất hiện trong bảng. Bạn có thể loại bỏ tính năng này bằng cách thêm <code>show_missing_levels = FALSE</code>. Đọc thêm trong chương [Factors].</p>
 </div>
 <div id="bảng-chéo" class="section level3 unnumbered">
 <h3>Bảng chéo<a class="anchor" aria-label="anchor" href="#b%E1%BA%A3ng-ch%C3%A9o"><i class="fas fa-link"></i></a>
@@ -1417,78 +1417,78 @@ days_onset_hosp
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html">flextable</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>    <span class="co"># convert to pretty image</span>
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/autofit.html">autofit</a></span><span class="op">(</span><span class="op">)</span>          <span class="co"># format to one line per row </span></code></pre></div>
 <div class="tabwid">
-<style>.cl-209aa480{border-collapse:collapse;}.cl-2078fd62{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2079c03a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-207a8308{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a8309{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a830a{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a830b{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a830c{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a830d{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a830e{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a830f{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a8310{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a8311{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207a8312{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-207aa9f0{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-209aa480">
+<style>.cl-cd5a5924{border-collapse:collapse;}.cl-cd4e4eb8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-cd4e75a0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-cd4eea8a{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea8b{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea8c{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea8d{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea8e{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea8f{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea90{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea91{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea92{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea93{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4eea94{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cd4f1082{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-cd5a5924">
 <thead><tr style="overflow-wrap:break-word;">
-<td class="cl-207a8310"><p class="cl-2079c03a"><span class="cl-2078fd62">Age Category/Gender</span></p></td>
-<td class="cl-207a8311"><p class="cl-2079c03a"><span class="cl-2078fd62">f</span></p></td>
-<td class="cl-207a8311"><p class="cl-2079c03a"><span class="cl-2078fd62">m</span></p></td>
-<td class="cl-207a8312"><p class="cl-2079c03a"><span class="cl-2078fd62">NA_</span></p></td>
-<td class="cl-207aa9f0"><p class="cl-2079c03a"><span class="cl-2078fd62">Total</span></p></td>
+<td class="cl-cd4eea92"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">Age Category/Gender</span></p></td>
+<td class="cl-cd4eea93"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">f</span></p></td>
+<td class="cl-cd4eea93"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">m</span></p></td>
+<td class="cl-cd4eea94"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">NA_</span></p></td>
+<td class="cl-cd4f1082"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">Total</span></p></td>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">0-4</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">640 (22.8%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">416 (14.8%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62">39 (14.0%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62">1095 (18.6%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">0-4</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">640 (22.8%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">416 (14.8%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">39 (14.0%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">1095 (18.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">5-9</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">641 (22.8%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">412 (14.7%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62">42 (15.1%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62">1095 (18.6%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">5-9</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">641 (22.8%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">412 (14.7%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">42 (15.1%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">1095 (18.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">10-14</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">518 (18.5%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">383 (13.7%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62">40 (14.4%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62"> 941 (16.0%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">10-14</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">518 (18.5%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">383 (13.7%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">40 (14.4%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8"> 941 (16.0%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">15-19</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">359 (12.8%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">364 (13.0%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62">20  (7.2%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62"> 743 (12.6%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">15-19</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">359 (12.8%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">364 (13.0%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">20  (7.2%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8"> 743 (12.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">20-29</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">468 (16.7%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">575 (20.5%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62">30 (10.8%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62">1073 (18.2%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">20-29</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">468 (16.7%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">575 (20.5%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">30 (10.8%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">1073 (18.2%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">30-49</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">179  (6.4%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">557 (19.9%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62">18  (6.5%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62"> 754 (12.8%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">30-49</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">179  (6.4%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">557 (19.9%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">18  (6.5%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8"> 754 (12.8%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">50-69</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">  2  (0.1%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62"> 91  (3.2%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62"> 2  (0.7%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62">  95  (1.6%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">50-69</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">  2  (0.1%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8"> 91  (3.2%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8"> 2  (0.7%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">  95  (1.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830a"><p class="cl-2079c03a"><span class="cl-2078fd62">70+</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">  0  (0.0%)</span></p></td>
-<td class="cl-207a830b"><p class="cl-2079c03a"><span class="cl-2078fd62">  5  (0.2%)</span></p></td>
-<td class="cl-207a8309"><p class="cl-2079c03a"><span class="cl-2078fd62"> 1  (0.4%)</span></p></td>
-<td class="cl-207a8308"><p class="cl-2079c03a"><span class="cl-2078fd62">   6  (0.1%)</span></p></td>
+<td class="cl-cd4eea8c"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">70+</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">  0  (0.0%)</span></p></td>
+<td class="cl-cd4eea8d"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">  5  (0.2%)</span></p></td>
+<td class="cl-cd4eea8b"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8"> 1  (0.4%)</span></p></td>
+<td class="cl-cd4eea8a"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">   6  (0.1%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-207a830f"><p class="cl-2079c03a"><span class="cl-2078fd62"></span></p></td>
-<td class="cl-207a830d"><p class="cl-2079c03a"><span class="cl-2078fd62">  0  (0.0%)</span></p></td>
-<td class="cl-207a830d"><p class="cl-2079c03a"><span class="cl-2078fd62">  0  (0.0%)</span></p></td>
-<td class="cl-207a830e"><p class="cl-2079c03a"><span class="cl-2078fd62">86 (30.9%)</span></p></td>
-<td class="cl-207a830c"><p class="cl-2079c03a"><span class="cl-2078fd62">  86  (1.5%)</span></p></td>
+<td class="cl-cd4eea91"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8"></span></p></td>
+<td class="cl-cd4eea8f"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">  0  (0.0%)</span></p></td>
+<td class="cl-cd4eea8f"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">  0  (0.0%)</span></p></td>
+<td class="cl-cd4eea90"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">86 (30.9%)</span></p></td>
+<td class="cl-cd4eea8e"><p class="cl-cd4e75a0"><span class="cl-cd4e4eb8">  86  (1.5%)</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -1652,7 +1652,7 @@ days_onset_hosp
 </h3>
 <p>Nếu bạn tạo bảng cho một cột có kiểu dữ liệu là <em>factor</em>, bạn có thể chắc chắng rằng <em>tất cả</em> các cấp độ được trình bày (không chỉ các cấp có giá trị trong dữ liệu) bằng cách thêm <code>.drop = FALSE</code> vào lệnh <code>summarise()</code> hoặc <code>count()</code>.</p>
 <p>Kỹ thuật này rất hữu ích để chuẩn hóa các bảng/biểu đồ của bạn. Ví dụ: nếu bạn đang tạo số liệu cho nhiều nhóm con, hoặc liên tục tạo số liệu cho các báo cáo thường quy. Trong các trường hợp này, sự hiện diện của các giá trị trong dữ liệu có thể dao động, nhưng bạn có thể xác định các mức không đổi.</p>
-<p>Xem chương <a href="factors.html#factors">Factors</a> để có nhiều thông tin hơn.</p>
+<p>Xem chương [Factors] để có nhiều thông tin hơn.</p>
 </div>
 <div id="tbl_dplyr_prop" class="section level3 unnumbered">
 <h3>Tỷ lệ<a class="anchor" aria-label="anchor" href="#tbl_dplyr_prop"><i class="fas fa-link"></i></a>
@@ -1684,8 +1684,8 @@ days_onset_hosp
   <span class="fu">group_by</span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>                         <span class="co"># group by outcome </span>
   <span class="fu">count</span><span class="op">(</span><span class="va">age_cat</span><span class="op">)</span> <span class="op">%&gt;%</span>                            <span class="co"># group and count by age_cat, and then remove age_cat grouping</span>
   <span class="fu">mutate</span><span class="op">(</span>percent <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/label_percent.html">percent</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># calculate percent - note the denominator is by outcome group</span></code></pre></div>
-<div id="htmlwidget-eb584b3eb28a95f24721" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eb584b3eb28a95f24721">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f35e93715f2cf3cf36c1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f35e93715f2cf3cf36c1">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="vẽ-biểu-đồ" class="section level3 unnumbered">
 <h3>Vẽ biểu đồ<a class="anchor" aria-label="anchor" href="#v%E1%BA%BD-bi%E1%BB%83u-%C4%91%E1%BB%93"><i class="fas fa-link"></i></a>
@@ -1700,7 +1700,7 @@ days_onset_hosp
         x <span class="op">=</span> <span class="va">outcome</span>,              <span class="co"># map outcome to x-axis</span>
         fill <span class="op">=</span> <span class="va">age_cat</span>,           <span class="co"># map age_cat to the fill</span>
         y <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span>                   <span class="co"># map the counts column `n` to the height</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-678-1.png" width="672"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-677-1.png" width="672"></div>
 </div>
 <div id="tổng-hợp-thống-kê" class="section level3 unnumbered">
 <h3>Tổng hợp thống kê<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-h%E1%BB%A3p-th%E1%BB%91ng-k%C3%AA"><i class="fas fa-link"></i></a>
@@ -1732,14 +1732,14 @@ days_onset_hosp
 
 <span class="va">summary_table</span>  <span class="co"># print</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 7
-##   hospital                             cases delay_max delay_mean delay_sd delay_3 pct_delay_3
-##   &lt;chr&gt;                                &lt;int&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;int&gt; &lt;chr&gt;      
-## 1 Central Hospital                       454        12        1.9      1.9     108 24%        
-## 2 Military Hospital                      896        15        2.1      2.4     253 28%        
-## 3 Missing                               1469        22        2.1      2.3     399 27%        
-## 4 Other                                  885        18        2        2.2     234 26%        
-## 5 Port Hospital                         1762        16        2.1      2.2     470 27%        
-## 6 St. Mark's Maternity Hospital (SMMH)   422        18        2.1      2.3     116 27%</code></pre>
+##   hospital                         cases delay_max delay_mean delay_sd delay_3 pct_delay_3
+##   &lt;chr&gt;                            &lt;int&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;int&gt; &lt;chr&gt;      
+## 1 Central Hospital                   454        12        1.9      1.9     108 24%        
+## 2 Military Hospital                  896        15        2.1      2.4     253 28%        
+## 3 Missing                           1469        22        2.1      2.3     399 27%        
+## 4 Other                              885        18        2        2.2     234 26%        
+## 5 Port Hospital                     1762        16        2.1      2.2     470 27%        
+## 6 St. Mark's Maternity Hospital (~   422        18        2.1      2.3     116 27%</code></pre>
 <p>Một vài mẹp:</p>
 <ul>
 <li><p>Sử dụng <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> với một biểu thức logic để “đếm” các dòng đáp ứng các tiêu chí nhất định (<code><a href="https://rdrr.io/r/base/Comparison.html">==</a></code>)<br></p></li>
@@ -1798,14 +1798,22 @@ days_onset_hosp
     <span class="st">"Delay 3+ days"</span>   <span class="op">=</span> <span class="va">delay_3</span>,
     <span class="st">"% delay 3+ days"</span> <span class="op">=</span> <span class="va">pct_delay_3</span>
     <span class="op">)</span></code></pre></div>
-<pre><code>##                         Hospital Name Cases Max delay Mean (sd) Delay 3+ days % delay 3+ days
-##                      Central Hospital   454        12 1.9 (1.9)           108             24%
-##                     Military Hospital   896        15 2.1 (2.4)           253             28%
-##                               Missing  1469        22 2.1 (2.3)           399             27%
-##                                 Other   885        18   2 (2.2)           234             26%
-##                         Port Hospital  1762        16 2.1 (2.2)           470             27%
-##  St. Mark's Maternity Hospital (SMMH)   422        18 2.1 (2.3)           116             27%
-##                                 Total  5888       101         -          1580               -</code></pre>
+<pre><code>##                         Hospital Name Cases Max delay Mean (sd) Delay 3+ days
+##                      Central Hospital   454        12 1.9 (1.9)           108
+##                     Military Hospital   896        15 2.1 (2.4)           253
+##                               Missing  1469        22 2.1 (2.3)           399
+##                                 Other   885        18   2 (2.2)           234
+##                         Port Hospital  1762        16 2.1 (2.2)           470
+##  St. Mark's Maternity Hospital (SMMH)   422        18 2.1 (2.3)           116
+##                                 Total  5888       101         -          1580
+##  % delay 3+ days
+##              24%
+##              28%
+##              27%
+##              26%
+##              27%
+##              27%
+##                -</code></pre>
 <div id="bách-phân-vị" class="section level4 unnumbered">
 <h4>Bách phân vị<a class="anchor" aria-label="anchor" href="#b%C3%A1ch-ph%C3%A2n-v%E1%BB%8B"><i class="fas fa-link"></i></a>
 </h4>
@@ -1958,11 +1966,12 @@ days_onset_hosp
                    .fns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"mean"</span> <span class="op">=</span> <span class="va">mean</span>, <span class="st">"sd"</span> <span class="op">=</span> <span class="va">sd</span><span class="op">)</span>,    <span class="co"># multiple functions </span>
                    na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span>                                 <span class="co"># extra arguments</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 9
-##   outcome age_years_mean age_years_sd temp_mean temp_sd wt_kg_mean wt_kg_sd ht_cm_mean ht_cm_sd
-##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
-## 1 Death             15.9         12.3      38.6   0.962       52.6     18.4       125.     48.7
-## 2 Recover           16.1         13.0      38.6   0.997       52.5     18.6       125.     50.1
-## 3 &lt;NA&gt;              16.2         12.8      38.6   0.976       53.0     18.9       125.     50.4</code></pre>
+##   outcome age_years_mean age_years_sd temp_mean temp_sd wt_kg_mean wt_kg_sd ht_cm_mean
+##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Death             15.9         12.3      38.6   0.962       52.6     18.4       125.
+## 2 Recover           16.1         13.0      38.6   0.997       52.5     18.6       125.
+## 3 &lt;NA&gt;              16.2         12.8      38.6   0.976       53.0     18.9       125.
+## # ... with 1 more variable: ht_cm_sd &lt;dbl&gt;</code></pre>
 <p>Dưới đây là danh sách các hàm trợ giúp “tidyselect” bạn có thể cung cấp cho <code>.cols =</code> để lựa chọn cột:</p>
 <ul>
 <li>
@@ -2001,11 +2010,12 @@ days_onset_hosp
     .fns <span class="op">=</span> <span class="va">mean</span>,
     na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 12
-##   outcome generation   age age_years   lon   lat wt_kg ht_cm ct_blood  temp   bmi days_onset_hosp
-##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;
-## 1 Death         16.7  15.9      15.9 -13.2  8.47  52.6  125.     21.3  38.6  45.6            1.84
-## 2 Recover       16.4  16.2      16.1 -13.2  8.47  52.5  125.     21.1  38.6  47.7            2.34
-## 3 &lt;NA&gt;          16.5  16.3      16.2 -13.2  8.47  53.0  125.     21.2  38.6  48.3            2.07</code></pre>
+##   outcome generation   age age_years   lon   lat wt_kg ht_cm ct_blood  temp   bmi
+##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Death         16.7  15.9      15.9 -13.2  8.47  52.6  125.     21.3  38.6  45.6
+## 2 Recover       16.4  16.2      16.1 -13.2  8.47  52.5  125.     21.1  38.6  47.7
+## 3 &lt;NA&gt;          16.5  16.3      16.2 -13.2  8.47  53.0  125.     21.2  38.6  48.3
+## # ... with 1 more variable: days_onset_hosp &lt;dbl&gt;</code></pre>
 </div>
 <div id="tbls_pivot_wider" class="section level3 unnumbered">
 <h3>Xoay trục ngang (Pivot wider)<a class="anchor" aria-label="anchor" href="#tbls_pivot_wider"><i class="fas fa-link"></i></a>
@@ -2017,8 +2027,8 @@ days_onset_hosp
   <span class="fu">group_by</span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>                         <span class="co"># group by outcome </span>
   <span class="fu">count</span><span class="op">(</span><span class="va">age_cat</span><span class="op">)</span> <span class="op">%&gt;%</span>                            <span class="co"># group and count by age_cat, and then remove age_cat grouping</span>
   <span class="fu">mutate</span><span class="op">(</span>percent <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/label_percent.html">percent</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># calculate percent - note the denominator is by outcome group</span></code></pre></div>
-<div id="htmlwidget-adad30563b15d69ad5d0" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-adad30563b15d69ad5d0">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Để xoay trục ngang, chúng ta tạo các cột mới từ các <em>giá trị</em> trong cột hiện có <code>age_cat</code> (bằng cách đặt <code>names_from = age_cat</code>). Chúng ta cũng chỉ định rằng các giá trị bảng mới sẽ đến từ cột hiện có <code>n</code>, với <code>values_from = n</code>. Các cột không được đề cập trong lệnh pivoting (<code>outcome</code>) sẽ không thay đổi ở phía ngoài cùng bên trái.</p>
+<div id="htmlwidget-5cf0835388d846993ebc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5cf0835388d846993ebc">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Để xoay trục ngang, chúng ta tạo các cột mới từ các <em>giá trị</em> trong cột hiện có <code>age_cat</code> (bằng cách đặt <code>names_from = age_cat</code>). Chúng ta cũng chỉ định rằng các giá trị bảng mới sẽ đến từ cột hiện có <code>n</code>, với <code>values_from = n</code>. Các cột không được đề cập trong lệnh pivoting (<code>outcome</code>) sẽ không thay đổi ở phía ngoài cùng bên trái.</p>
 <div class="sourceCode" id="cb888"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">age_by_outcome</span> <span class="op">%&gt;%</span> 
   <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">percent</span><span class="op">)</span> <span class="op">%&gt;%</span>   <span class="co"># keep only counts for simplicity</span>
@@ -2108,8 +2118,8 @@ days_onset_hosp
 <code class="sourceCode R"><span class="va">table_long</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">by_hospital</span>, <span class="va">totals</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>hospital <span class="op">=</span> <span class="fu">replace_na</span><span class="op">(</span><span class="va">hospital</span>, <span class="st">"Total"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Đây là bảng mới với các hàng “Tổng” ở các hàng dưới cùng của bảng.</p>
-<div id="htmlwidget-bed12cf6541cc356a6b7" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bed12cf6541cc356a6b7">{"x":{"filter":"none","data":[["Central Hospital","Central Hospital","Military Hospital","Military Hospital","Other","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Total","Total"],["Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover"],[193,165,399,309,395,290,785,579,199,126,1971,1469],[22,22,21,22,22,21,22,21,22,22,22,22]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>hospital<\/th>\n      <th>outcome<\/th>\n      <th>N<\/th>\n      <th>ct_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bảng này đang có định dạng “dài”, có thể là những gì bạn muốn. <em>Tuy nhiên</em>, bạn có thể <em>xoay</em> bảng này <em>rộng hơn</em> theo chiều ngang để dễ đọc. Xem thêm ở phần Xoay trục ngang (Pivot wider) bên trên, và chương <a href="pivoting.html#pivoting">Xoay trục dữ liệu</a>. Bạn cũng có thêm nhiều cột nữa, và sắp xếp chúng một cách đẹp mắt. Phần code được trình bày bên dưới.</p>
+<div id="htmlwidget-e5a218b7b3ba3f7f3292" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e5a218b7b3ba3f7f3292">{"x":{"filter":"none","data":[["Central Hospital","Central Hospital","Military Hospital","Military Hospital","Other","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Total","Total"],["Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover"],[193,165,399,309,395,290,785,579,199,126,1971,1469],[22,22,21,22,22,21,22,21,22,22,22,22]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>hospital<\/th>\n      <th>outcome<\/th>\n      <th>N<\/th>\n      <th>ct_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bảng này đang có định dạng “dài”, có thể là những gì bạn muốn. <em>Tuy nhiên</em>, bạn có thể <em>xoay</em> bảng này <em>rộng hơn</em> theo chiều ngang để dễ đọc. Xem thêm ở phần Xoay trục ngang (Pivot wider) bên trên, và chương <a href="pivoting.html#pivoting">Xoay trục dữ liệu</a>. Bạn cũng có thêm nhiều cột nữa, và sắp xếp chúng một cách đẹp mắt. Phần code được trình bày bên dưới.</p>
 <div class="sourceCode" id="cb897"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">table_long</span> <span class="op">%&gt;%</span> 
   
@@ -2130,104 +2140,104 @@ days_onset_hosp
   <span class="fu">arrange</span><span class="op">(</span><span class="va">N_Known</span><span class="op">)</span>                                  <span class="co"># Arrange rows from lowest to highest (Total row at bottom)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 8
 ## # Groups:   hospital [6]
-##   hospital                             N_Known N_Recover Pct_Recover ct_value_Recover N_Death Pct_Death ct_value_Death
-##   &lt;chr&gt;                                  &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;   &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;
-## 1 St. Mark's Maternity Hospital (SMMH)     325       126 38.8%                     22     199 61.2%                 22
-## 2 Central Hospital                         358       165 46.1%                     22     193 53.9%                 22
-## 3 Other                                    685       290 42.3%                     21     395 57.7%                 22
-## 4 Military Hospital                        708       309 43.6%                     22     399 56.4%                 21
-## 5 Port Hospital                           1364       579 42.4%                     21     785 57.6%                 22
-## 6 Total                                   3440      1469 42.7%                     22    1971 57.3%                 22</code></pre>
+##   hospital N_Known N_Recover Pct_Recover ct_value_Recover N_Death Pct_Death ct_value_Death
+##   &lt;chr&gt;      &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;   &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;
+## 1 St. Mar~     325       126 38.8%                     22     199 61.2%                 22
+## 2 Central~     358       165 46.1%                     22     193 53.9%                 22
+## 3 Other        685       290 42.3%                     21     395 57.7%                 22
+## 4 Militar~     708       309 43.6%                     22     399 56.4%                 21
+## 5 Port Ho~    1364       579 42.4%                     21     785 57.6%                 22
+## 6 Total       3440      1469 42.7%                     22    1971 57.3%                 22</code></pre>
 <p>Tiếp đó bạn có thể in bảng kết quả dưới dạng một bức ảnh đẹp - sau đây là output được in bằng <strong>flextable</strong>. Bạn có thể đọc chuyên sâu hơn về ví dụ này và cách tạo được bảng “đẹp” tương tự thế này trong chương <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a>.</p>
 <div class="tabwid">
-<style>.cl-25dd21c0{border-collapse:collapse;}.cl-25c7acaa{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-25c7acab{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-25c7faa2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-25c7faa3{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-25c9323c{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c9323d{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c9323e{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c9323f{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c93240{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c93241{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c93242{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c93243{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c93244{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c93245{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c93246{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c95924{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c95925{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c95926{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c95927{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c95928{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c95929{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c9592a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c9592b{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25c9592c{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-25dd21c0">
+<style>.cl-cf8aaf50{border-collapse:collapse;}.cl-cf7c8876{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-cf7c8877{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-cf7caf68{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-cf7caf69{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-cf7d240c{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d240d{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d240e{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d240f{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d2410{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d2411{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d2412{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d2413{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d2414{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d2415{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d2416{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4afe{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4aff{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4b00{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4b01{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4b02{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4b03{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4b04{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4b05{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cf7d4b06{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-cf8aaf50">
 <thead>
 <tr style="overflow-wrap:break-word;">
-<td rowspan="2" class="cl-25c95927"><p class="cl-25c7faa2"><span class="cl-25c7acaa">Hospital</span></p></td>
-<td rowspan="2" class="cl-25c95925"><p class="cl-25c7faa3"><span class="cl-25c7acaa">Total cases with known outcome</span></p></td>
-<td colspan="3" class="cl-25c95924"><p class="cl-25c7faa3"><span class="cl-25c7acaa">Recovered</span></p></td>
-<td colspan="3" class="cl-25c95924"><p class="cl-25c7faa3"><span class="cl-25c7acaa">Died</span></p></td>
+<td rowspan="2" class="cl-cf7d4b01"><p class="cl-cf7caf68"><span class="cl-cf7c8876">Hospital</span></p></td>
+<td rowspan="2" class="cl-cf7d4aff"><p class="cl-cf7caf69"><span class="cl-cf7c8876">Total cases with known outcome</span></p></td>
+<td colspan="3" class="cl-cf7d4afe"><p class="cl-cf7caf69"><span class="cl-cf7c8876">Recovered</span></p></td>
+<td colspan="3" class="cl-cf7d4afe"><p class="cl-cf7caf69"><span class="cl-cf7c8876">Died</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c9592a"><p class="cl-25c7faa3"><span class="cl-25c7acab">Total</span></p></td>
-<td class="cl-25c9592b"><p class="cl-25c7faa3"><span class="cl-25c7acab">% of cases</span></p></td>
-<td class="cl-25c95928"><p class="cl-25c7faa3"><span class="cl-25c7acab">Median CT values</span></p></td>
-<td class="cl-25c9592a"><p class="cl-25c7faa3"><span class="cl-25c7acab">Total</span></p></td>
-<td class="cl-25c9592b"><p class="cl-25c7faa3"><span class="cl-25c7acab">% of cases</span></p></td>
-<td class="cl-25c9592b"><p class="cl-25c7faa3"><span class="cl-25c7acab">Median CT values</span></p></td>
+<td class="cl-cf7d4b04"><p class="cl-cf7caf69"><span class="cl-cf7c8877">Total</span></p></td>
+<td class="cl-cf7d4b05"><p class="cl-cf7caf69"><span class="cl-cf7c8877">% of cases</span></p></td>
+<td class="cl-cf7d4b02"><p class="cl-cf7caf69"><span class="cl-cf7c8877">Median CT values</span></p></td>
+<td class="cl-cf7d4b04"><p class="cl-cf7caf69"><span class="cl-cf7c8877">Total</span></p></td>
+<td class="cl-cf7d4b05"><p class="cl-cf7caf69"><span class="cl-cf7c8877">% of cases</span></p></td>
+<td class="cl-cf7d4b05"><p class="cl-cf7caf69"><span class="cl-cf7c8877">Median CT values</span></p></td>
 </tr>
 </thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c9323d"><p class="cl-25c7faa2"><span class="cl-25c7acab">St. Mark's Maternity Hospital (SMMH)</span></p></td>
-<td class="cl-25c9323e"><p class="cl-25c7faa3"><span class="cl-25c7acab">325</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">126</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">38.8%</span></p></td>
-<td class="cl-25c9323f"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">199</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">61.2%</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
+<td class="cl-cf7d240d"><p class="cl-cf7caf68"><span class="cl-cf7c8877">St. Mark's Maternity Hospital (SMMH)</span></p></td>
+<td class="cl-cf7d240e"><p class="cl-cf7caf69"><span class="cl-cf7c8877">325</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">126</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">38.8%</span></p></td>
+<td class="cl-cf7d240f"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">199</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">61.2%</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c9323d"><p class="cl-25c7faa2"><span class="cl-25c7acab">Central Hospital</span></p></td>
-<td class="cl-25c9323e"><p class="cl-25c7faa3"><span class="cl-25c7acab">358</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">165</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">46.1%</span></p></td>
-<td class="cl-25c9323f"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">193</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">53.9%</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
+<td class="cl-cf7d240d"><p class="cl-cf7caf68"><span class="cl-cf7c8877">Central Hospital</span></p></td>
+<td class="cl-cf7d240e"><p class="cl-cf7caf69"><span class="cl-cf7c8877">358</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">165</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">46.1%</span></p></td>
+<td class="cl-cf7d240f"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">193</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">53.9%</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c9323d"><p class="cl-25c7faa2"><span class="cl-25c7acab">Other</span></p></td>
-<td class="cl-25c9323e"><p class="cl-25c7faa3"><span class="cl-25c7acab">685</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">290</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">42.3%</span></p></td>
-<td class="cl-25c9323f"><p class="cl-25c7faa3"><span class="cl-25c7acab">21</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">395</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">57.7%</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
+<td class="cl-cf7d240d"><p class="cl-cf7caf68"><span class="cl-cf7c8877">Other</span></p></td>
+<td class="cl-cf7d240e"><p class="cl-cf7caf69"><span class="cl-cf7c8877">685</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">290</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">42.3%</span></p></td>
+<td class="cl-cf7d240f"><p class="cl-cf7caf69"><span class="cl-cf7c8877">21</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">395</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">57.7%</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c9323d"><p class="cl-25c7faa2"><span class="cl-25c7acab">Military Hospital</span></p></td>
-<td class="cl-25c9323e"><p class="cl-25c7faa3"><span class="cl-25c7acab">708</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">309</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">43.6%</span></p></td>
-<td class="cl-25c9323f"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">399</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">56.4%</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">21</span></p></td>
+<td class="cl-cf7d240d"><p class="cl-cf7caf68"><span class="cl-cf7c8877">Military Hospital</span></p></td>
+<td class="cl-cf7d240e"><p class="cl-cf7caf69"><span class="cl-cf7c8877">708</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">309</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">43.6%</span></p></td>
+<td class="cl-cf7d240f"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">399</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">56.4%</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">21</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c9323d"><p class="cl-25c7faa2"><span class="cl-25c7acab">Missing</span></p></td>
-<td class="cl-25c9323e"><p class="cl-25c7faa3"><span class="cl-25c7acab">1,125</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">514</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">45.7%</span></p></td>
-<td class="cl-25c9323f"><p class="cl-25c7faa3"><span class="cl-25c7acab">21</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acab">611</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">54.3%</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acab">21</span></p></td>
+<td class="cl-cf7d240d"><p class="cl-cf7caf68"><span class="cl-cf7c8877">Missing</span></p></td>
+<td class="cl-cf7d240e"><p class="cl-cf7caf69"><span class="cl-cf7c8877">1,125</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">514</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">45.7%</span></p></td>
+<td class="cl-cf7d240f"><p class="cl-cf7caf69"><span class="cl-cf7c8877">21</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8877">611</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">54.3%</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8877">21</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c9323d"><p class="cl-25c7faa2"><span class="cl-25c7acaa">Port Hospital</span></p></td>
-<td class="cl-25c9323e"><p class="cl-25c7faa3"><span class="cl-25c7acaa">1,364</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acaa">579</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acaa">42.4%</span></p></td>
-<td class="cl-25c9323f"><p class="cl-25c7faa3"><span class="cl-25c7acaa">21</span></p></td>
-<td class="cl-25c93240"><p class="cl-25c7faa3"><span class="cl-25c7acaa">785</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acaa">57.6%</span></p></td>
-<td class="cl-25c9323c"><p class="cl-25c7faa3"><span class="cl-25c7acaa">22</span></p></td>
+<td class="cl-cf7d240d"><p class="cl-cf7caf68"><span class="cl-cf7c8876">Port Hospital</span></p></td>
+<td class="cl-cf7d240e"><p class="cl-cf7caf69"><span class="cl-cf7c8876">1,364</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8876">579</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8876">42.4%</span></p></td>
+<td class="cl-cf7d240f"><p class="cl-cf7caf69"><span class="cl-cf7c8876">21</span></p></td>
+<td class="cl-cf7d2410"><p class="cl-cf7caf69"><span class="cl-cf7c8876">785</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8876">57.6%</span></p></td>
+<td class="cl-cf7d240c"><p class="cl-cf7caf69"><span class="cl-cf7c8876">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-25c93244"><p class="cl-25c7faa2"><span class="cl-25c7acab">Total</span></p></td>
-<td class="cl-25c93241"><p class="cl-25c7faa3"><span class="cl-25c7acab">3,440</span></p></td>
-<td class="cl-25c93243"><p class="cl-25c7faa3"><span class="cl-25c7acab">1,469</span></p></td>
-<td class="cl-25c93242"><p class="cl-25c7faa3"><span class="cl-25c7acab">42.7%</span></p></td>
-<td class="cl-25c93245"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
-<td class="cl-25c93243"><p class="cl-25c7faa3"><span class="cl-25c7acab">1,971</span></p></td>
-<td class="cl-25c93242"><p class="cl-25c7faa3"><span class="cl-25c7acab">57.3%</span></p></td>
-<td class="cl-25c93242"><p class="cl-25c7faa3"><span class="cl-25c7acab">22</span></p></td>
+<td class="cl-cf7d2414"><p class="cl-cf7caf68"><span class="cl-cf7c8877">Total</span></p></td>
+<td class="cl-cf7d2411"><p class="cl-cf7caf69"><span class="cl-cf7c8877">3,440</span></p></td>
+<td class="cl-cf7d2413"><p class="cl-cf7caf69"><span class="cl-cf7c8877">1,469</span></p></td>
+<td class="cl-cf7d2412"><p class="cl-cf7caf69"><span class="cl-cf7c8877">42.7%</span></p></td>
+<td class="cl-cf7d2415"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
+<td class="cl-cf7d2413"><p class="cl-cf7caf69"><span class="cl-cf7c8877">1,971</span></p></td>
+<td class="cl-cf7d2412"><p class="cl-cf7caf69"><span class="cl-cf7c8877">57.3%</span></p></td>
+<td class="cl-cf7d2412"><p class="cl-cf7caf69"><span class="cl-cf7c8877">22</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -2254,7 +2264,7 @@ days_onset_hosp
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#wylkqsgihn .gt_table {
+#kktpbfjrez .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2279,7 +2289,7 @@ days_onset_hosp
   border-left-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_heading {
+#kktpbfjrez .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2291,7 +2301,7 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_title {
+#kktpbfjrez .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2301,7 +2311,7 @@ days_onset_hosp
   border-bottom-width: 0;
 }
 
-#wylkqsgihn .gt_subtitle {
+#kktpbfjrez .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2311,13 +2321,13 @@ days_onset_hosp
   border-top-width: 0;
 }
 
-#wylkqsgihn .gt_bottom_border {
+#kktpbfjrez .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_col_headings {
+#kktpbfjrez .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2332,7 +2342,7 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_col_heading {
+#kktpbfjrez .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2352,7 +2362,7 @@ days_onset_hosp
   overflow-x: hidden;
 }
 
-#wylkqsgihn .gt_column_spanner_outer {
+#kktpbfjrez .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2364,15 +2374,15 @@ days_onset_hosp
   padding-right: 4px;
 }
 
-#wylkqsgihn .gt_column_spanner_outer:first-child {
+#kktpbfjrez .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wylkqsgihn .gt_column_spanner_outer:last-child {
+#kktpbfjrez .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wylkqsgihn .gt_column_spanner {
+#kktpbfjrez .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2384,7 +2394,7 @@ days_onset_hosp
   width: 100%;
 }
 
-#wylkqsgihn .gt_group_heading {
+#kktpbfjrez .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2406,7 +2416,7 @@ days_onset_hosp
   vertical-align: middle;
 }
 
-#wylkqsgihn .gt_empty_group_heading {
+#kktpbfjrez .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2421,15 +2431,15 @@ days_onset_hosp
   vertical-align: middle;
 }
 
-#wylkqsgihn .gt_from_md > :first-child {
+#kktpbfjrez .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wylkqsgihn .gt_from_md > :last-child {
+#kktpbfjrez .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wylkqsgihn .gt_row {
+#kktpbfjrez .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2448,7 +2458,7 @@ days_onset_hosp
   overflow-x: hidden;
 }
 
-#wylkqsgihn .gt_stub {
+#kktpbfjrez .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2460,7 +2470,7 @@ days_onset_hosp
   padding-left: 12px;
 }
 
-#wylkqsgihn .gt_summary_row {
+#kktpbfjrez .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2470,7 +2480,7 @@ days_onset_hosp
   padding-right: 5px;
 }
 
-#wylkqsgihn .gt_first_summary_row {
+#kktpbfjrez .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2480,7 +2490,7 @@ days_onset_hosp
   border-top-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_grand_summary_row {
+#kktpbfjrez .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2490,7 +2500,7 @@ days_onset_hosp
   padding-right: 5px;
 }
 
-#wylkqsgihn .gt_first_grand_summary_row {
+#kktpbfjrez .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2500,11 +2510,11 @@ days_onset_hosp
   border-top-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_striped {
+#kktpbfjrez .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wylkqsgihn .gt_table_body {
+#kktpbfjrez .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2513,7 +2523,7 @@ days_onset_hosp
   border-bottom-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_footnotes {
+#kktpbfjrez .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2527,13 +2537,13 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_footnote {
+#kktpbfjrez .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#wylkqsgihn .gt_sourcenotes {
+#kktpbfjrez .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2547,46 +2557,46 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#wylkqsgihn .gt_sourcenote {
+#kktpbfjrez .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#wylkqsgihn .gt_left {
+#kktpbfjrez .gt_left {
   text-align: left;
 }
 
-#wylkqsgihn .gt_center {
+#kktpbfjrez .gt_center {
   text-align: center;
 }
 
-#wylkqsgihn .gt_right {
+#kktpbfjrez .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wylkqsgihn .gt_font_normal {
+#kktpbfjrez .gt_font_normal {
   font-weight: normal;
 }
 
-#wylkqsgihn .gt_font_bold {
+#kktpbfjrez .gt_font_bold {
   font-weight: bold;
 }
 
-#wylkqsgihn .gt_font_italic {
+#kktpbfjrez .gt_font_italic {
   font-style: italic;
 }
 
-#wylkqsgihn .gt_super {
+#kktpbfjrez .gt_super {
   font-size: 65%;
 }
 
-#wylkqsgihn .gt_footnote_marks {
+#kktpbfjrez .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="wylkqsgihn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="kktpbfjrez" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -2714,7 +2724,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#flgizcvypn .gt_table {
+#iqjbaufepd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2739,7 +2749,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-left-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_heading {
+#iqjbaufepd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2751,7 +2761,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_title {
+#iqjbaufepd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2761,7 +2771,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-width: 0;
 }
 
-#flgizcvypn .gt_subtitle {
+#iqjbaufepd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2771,13 +2781,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-width: 0;
 }
 
-#flgizcvypn .gt_bottom_border {
+#iqjbaufepd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_col_headings {
+#iqjbaufepd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2792,7 +2802,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_col_heading {
+#iqjbaufepd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2812,7 +2822,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#flgizcvypn .gt_column_spanner_outer {
+#iqjbaufepd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2824,15 +2834,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 4px;
 }
 
-#flgizcvypn .gt_column_spanner_outer:first-child {
+#iqjbaufepd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#flgizcvypn .gt_column_spanner_outer:last-child {
+#iqjbaufepd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#flgizcvypn .gt_column_spanner {
+#iqjbaufepd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2844,7 +2854,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   width: 100%;
 }
 
-#flgizcvypn .gt_group_heading {
+#iqjbaufepd .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2866,7 +2876,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#flgizcvypn .gt_empty_group_heading {
+#iqjbaufepd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2881,15 +2891,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#flgizcvypn .gt_from_md > :first-child {
+#iqjbaufepd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#flgizcvypn .gt_from_md > :last-child {
+#iqjbaufepd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#flgizcvypn .gt_row {
+#iqjbaufepd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2908,7 +2918,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#flgizcvypn .gt_stub {
+#iqjbaufepd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2920,7 +2930,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-left: 12px;
 }
 
-#flgizcvypn .gt_summary_row {
+#iqjbaufepd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2930,7 +2940,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#flgizcvypn .gt_first_summary_row {
+#iqjbaufepd .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2940,7 +2950,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_grand_summary_row {
+#iqjbaufepd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2950,7 +2960,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#flgizcvypn .gt_first_grand_summary_row {
+#iqjbaufepd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2960,11 +2970,11 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_striped {
+#iqjbaufepd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#flgizcvypn .gt_table_body {
+#iqjbaufepd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2973,7 +2983,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_footnotes {
+#iqjbaufepd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2987,13 +2997,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_footnote {
+#iqjbaufepd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#flgizcvypn .gt_sourcenotes {
+#iqjbaufepd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3007,46 +3017,46 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#flgizcvypn .gt_sourcenote {
+#iqjbaufepd .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#flgizcvypn .gt_left {
+#iqjbaufepd .gt_left {
   text-align: left;
 }
 
-#flgizcvypn .gt_center {
+#iqjbaufepd .gt_center {
   text-align: center;
 }
 
-#flgizcvypn .gt_right {
+#iqjbaufepd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#flgizcvypn .gt_font_normal {
+#iqjbaufepd .gt_font_normal {
   font-weight: normal;
 }
 
-#flgizcvypn .gt_font_bold {
+#iqjbaufepd .gt_font_bold {
   font-weight: bold;
 }
 
-#flgizcvypn .gt_font_italic {
+#iqjbaufepd .gt_font_italic {
   font-style: italic;
 }
 
-#flgizcvypn .gt_super {
+#iqjbaufepd .gt_super {
   font-size: 65%;
 }
 
-#flgizcvypn .gt_footnote_marks {
+#iqjbaufepd .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="flgizcvypn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="iqjbaufepd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3084,7 +3094,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rbfcbzkmbs .gt_table {
+#ioxdpybsoi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3109,7 +3119,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-left-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_heading {
+#ioxdpybsoi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3121,7 +3131,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_title {
+#ioxdpybsoi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3131,7 +3141,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-width: 0;
 }
 
-#rbfcbzkmbs .gt_subtitle {
+#ioxdpybsoi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3141,13 +3151,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-width: 0;
 }
 
-#rbfcbzkmbs .gt_bottom_border {
+#ioxdpybsoi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_col_headings {
+#ioxdpybsoi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3162,7 +3172,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_col_heading {
+#ioxdpybsoi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3182,7 +3192,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#rbfcbzkmbs .gt_column_spanner_outer {
+#ioxdpybsoi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3194,15 +3204,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 4px;
 }
 
-#rbfcbzkmbs .gt_column_spanner_outer:first-child {
+#ioxdpybsoi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rbfcbzkmbs .gt_column_spanner_outer:last-child {
+#ioxdpybsoi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rbfcbzkmbs .gt_column_spanner {
+#ioxdpybsoi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3214,7 +3224,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   width: 100%;
 }
 
-#rbfcbzkmbs .gt_group_heading {
+#ioxdpybsoi .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3236,7 +3246,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#rbfcbzkmbs .gt_empty_group_heading {
+#ioxdpybsoi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3251,15 +3261,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#rbfcbzkmbs .gt_from_md > :first-child {
+#ioxdpybsoi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rbfcbzkmbs .gt_from_md > :last-child {
+#ioxdpybsoi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rbfcbzkmbs .gt_row {
+#ioxdpybsoi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3278,7 +3288,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#rbfcbzkmbs .gt_stub {
+#ioxdpybsoi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3290,7 +3300,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-left: 12px;
 }
 
-#rbfcbzkmbs .gt_summary_row {
+#ioxdpybsoi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3300,7 +3310,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#rbfcbzkmbs .gt_first_summary_row {
+#ioxdpybsoi .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3310,7 +3320,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_grand_summary_row {
+#ioxdpybsoi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3320,7 +3330,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#rbfcbzkmbs .gt_first_grand_summary_row {
+#ioxdpybsoi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3330,11 +3340,11 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_striped {
+#ioxdpybsoi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rbfcbzkmbs .gt_table_body {
+#ioxdpybsoi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3343,7 +3353,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_footnotes {
+#ioxdpybsoi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3357,13 +3367,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_footnote {
+#ioxdpybsoi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#rbfcbzkmbs .gt_sourcenotes {
+#ioxdpybsoi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3377,46 +3387,46 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#rbfcbzkmbs .gt_sourcenote {
+#ioxdpybsoi .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#rbfcbzkmbs .gt_left {
+#ioxdpybsoi .gt_left {
   text-align: left;
 }
 
-#rbfcbzkmbs .gt_center {
+#ioxdpybsoi .gt_center {
   text-align: center;
 }
 
-#rbfcbzkmbs .gt_right {
+#ioxdpybsoi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rbfcbzkmbs .gt_font_normal {
+#ioxdpybsoi .gt_font_normal {
   font-weight: normal;
 }
 
-#rbfcbzkmbs .gt_font_bold {
+#ioxdpybsoi .gt_font_bold {
   font-weight: bold;
 }
 
-#rbfcbzkmbs .gt_font_italic {
+#ioxdpybsoi .gt_font_italic {
   font-style: italic;
 }
 
-#rbfcbzkmbs .gt_super {
+#ioxdpybsoi .gt_super {
   font-size: 65%;
 }
 
-#rbfcbzkmbs .gt_footnote_marks {
+#ioxdpybsoi .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="rbfcbzkmbs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="ioxdpybsoi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3483,7 +3493,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#cicizvxbol .gt_table {
+#qjgmroaido .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3508,7 +3518,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-left-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_heading {
+#qjgmroaido .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3520,7 +3530,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_title {
+#qjgmroaido .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3530,7 +3540,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-width: 0;
 }
 
-#cicizvxbol .gt_subtitle {
+#qjgmroaido .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3540,13 +3550,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-width: 0;
 }
 
-#cicizvxbol .gt_bottom_border {
+#qjgmroaido .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_col_headings {
+#qjgmroaido .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3561,7 +3571,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_col_heading {
+#qjgmroaido .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3581,7 +3591,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#cicizvxbol .gt_column_spanner_outer {
+#qjgmroaido .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3593,15 +3603,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 4px;
 }
 
-#cicizvxbol .gt_column_spanner_outer:first-child {
+#qjgmroaido .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cicizvxbol .gt_column_spanner_outer:last-child {
+#qjgmroaido .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cicizvxbol .gt_column_spanner {
+#qjgmroaido .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3613,7 +3623,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   width: 100%;
 }
 
-#cicizvxbol .gt_group_heading {
+#qjgmroaido .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3635,7 +3645,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#cicizvxbol .gt_empty_group_heading {
+#qjgmroaido .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3650,15 +3660,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#cicizvxbol .gt_from_md > :first-child {
+#qjgmroaido .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cicizvxbol .gt_from_md > :last-child {
+#qjgmroaido .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cicizvxbol .gt_row {
+#qjgmroaido .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3677,7 +3687,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#cicizvxbol .gt_stub {
+#qjgmroaido .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3689,7 +3699,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-left: 12px;
 }
 
-#cicizvxbol .gt_summary_row {
+#qjgmroaido .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3699,7 +3709,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#cicizvxbol .gt_first_summary_row {
+#qjgmroaido .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3709,7 +3719,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_grand_summary_row {
+#qjgmroaido .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3719,7 +3729,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#cicizvxbol .gt_first_grand_summary_row {
+#qjgmroaido .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3729,11 +3739,11 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_striped {
+#qjgmroaido .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cicizvxbol .gt_table_body {
+#qjgmroaido .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3742,7 +3752,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_footnotes {
+#qjgmroaido .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3756,13 +3766,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_footnote {
+#qjgmroaido .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#cicizvxbol .gt_sourcenotes {
+#qjgmroaido .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3776,46 +3786,46 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#cicizvxbol .gt_sourcenote {
+#qjgmroaido .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#cicizvxbol .gt_left {
+#qjgmroaido .gt_left {
   text-align: left;
 }
 
-#cicizvxbol .gt_center {
+#qjgmroaido .gt_center {
   text-align: center;
 }
 
-#cicizvxbol .gt_right {
+#qjgmroaido .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cicizvxbol .gt_font_normal {
+#qjgmroaido .gt_font_normal {
   font-weight: normal;
 }
 
-#cicizvxbol .gt_font_bold {
+#qjgmroaido .gt_font_bold {
   font-weight: bold;
 }
 
-#cicizvxbol .gt_font_italic {
+#qjgmroaido .gt_font_italic {
   font-style: italic;
 }
 
-#cicizvxbol .gt_super {
+#qjgmroaido .gt_super {
   font-size: 65%;
 }
 
-#cicizvxbol .gt_footnote_marks {
+#qjgmroaido .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="cicizvxbol" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="qjgmroaido" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3952,7 +3962,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yaupiqytta .gt_table {
+#qsncghyyua .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3977,7 +3987,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-left-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_heading {
+#qsncghyyua .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3989,7 +3999,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_title {
+#qsncghyyua .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3999,7 +4009,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-width: 0;
 }
 
-#yaupiqytta .gt_subtitle {
+#qsncghyyua .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4009,13 +4019,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-width: 0;
 }
 
-#yaupiqytta .gt_bottom_border {
+#qsncghyyua .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_col_headings {
+#qsncghyyua .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4030,7 +4040,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_col_heading {
+#qsncghyyua .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4050,7 +4060,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#yaupiqytta .gt_column_spanner_outer {
+#qsncghyyua .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4062,15 +4072,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 4px;
 }
 
-#yaupiqytta .gt_column_spanner_outer:first-child {
+#qsncghyyua .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yaupiqytta .gt_column_spanner_outer:last-child {
+#qsncghyyua .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yaupiqytta .gt_column_spanner {
+#qsncghyyua .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4082,7 +4092,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   width: 100%;
 }
 
-#yaupiqytta .gt_group_heading {
+#qsncghyyua .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4104,7 +4114,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#yaupiqytta .gt_empty_group_heading {
+#qsncghyyua .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4119,15 +4129,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#yaupiqytta .gt_from_md > :first-child {
+#qsncghyyua .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yaupiqytta .gt_from_md > :last-child {
+#qsncghyyua .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yaupiqytta .gt_row {
+#qsncghyyua .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4146,7 +4156,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#yaupiqytta .gt_stub {
+#qsncghyyua .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4158,7 +4168,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-left: 12px;
 }
 
-#yaupiqytta .gt_summary_row {
+#qsncghyyua .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4168,7 +4178,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#yaupiqytta .gt_first_summary_row {
+#qsncghyyua .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4178,7 +4188,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_grand_summary_row {
+#qsncghyyua .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4188,7 +4198,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#yaupiqytta .gt_first_grand_summary_row {
+#qsncghyyua .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4198,11 +4208,11 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_striped {
+#qsncghyyua .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yaupiqytta .gt_table_body {
+#qsncghyyua .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4211,7 +4221,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_footnotes {
+#qsncghyyua .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4225,13 +4235,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_footnote {
+#qsncghyyua .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#yaupiqytta .gt_sourcenotes {
+#qsncghyyua .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4245,46 +4255,46 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#yaupiqytta .gt_sourcenote {
+#qsncghyyua .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#yaupiqytta .gt_left {
+#qsncghyyua .gt_left {
   text-align: left;
 }
 
-#yaupiqytta .gt_center {
+#qsncghyyua .gt_center {
   text-align: center;
 }
 
-#yaupiqytta .gt_right {
+#qsncghyyua .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yaupiqytta .gt_font_normal {
+#qsncghyyua .gt_font_normal {
   font-weight: normal;
 }
 
-#yaupiqytta .gt_font_bold {
+#qsncghyyua .gt_font_bold {
   font-weight: bold;
 }
 
-#yaupiqytta .gt_font_italic {
+#qsncghyyua .gt_font_italic {
   font-style: italic;
 }
 
-#yaupiqytta .gt_super {
+#qsncghyyua .gt_super {
   font-size: 65%;
 }
 
-#yaupiqytta .gt_footnote_marks {
+#qsncghyyua .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="yaupiqytta" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="qsncghyyua" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 5,888</strong></th>
@@ -4422,85 +4432,85 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"Age Category"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html">flextable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="tabwid">
-<style>.cl-31555de2{border-collapse:collapse;}.cl-313a952a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-313ae336{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-313ae337{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-313b7eea{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-313b7eeb{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-313b7eec{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-313b7eed{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-313b7eee{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-313b7eef{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-31555de2">
+<style>.cl-d889a55c{border-collapse:collapse;}.cl-d87eb066{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d87ed758{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-d87ed759{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-d87f2546{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d87f2547{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d87f2548{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d87f2549{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d87f254a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d87f254b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-d889a55c">
 <thead><tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eef"><p class="cl-313ae336"><span class="cl-313a952a">Age Category</span></p></td>
-<td class="cl-313b7eee"><p class="cl-313ae337"><span class="cl-313a952a">Death</span></p></td>
-<td class="cl-313b7eee"><p class="cl-313ae337"><span class="cl-313a952a">Recover</span></p></td>
-<td class="cl-313b7eee"><p class="cl-313ae337"><span class="cl-313a952a">(Missing)</span></p></td>
-<td class="cl-313b7eee"><p class="cl-313ae337"><span class="cl-313a952a">Sum</span></p></td>
+<td class="cl-d87f254b"><p class="cl-d87ed758"><span class="cl-d87eb066">Age Category</span></p></td>
+<td class="cl-d87f254a"><p class="cl-d87ed759"><span class="cl-d87eb066">Death</span></p></td>
+<td class="cl-d87f254a"><p class="cl-d87ed759"><span class="cl-d87eb066">Recover</span></p></td>
+<td class="cl-d87f254a"><p class="cl-d87ed759"><span class="cl-d87eb066">(Missing)</span></p></td>
+<td class="cl-d87f254a"><p class="cl-d87ed759"><span class="cl-d87eb066">Sum</span></p></td>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">0-4</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">471</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">364</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">260</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">1,095</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">0-4</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">471</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">364</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">260</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">1,095</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">5-9</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">476</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">391</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">228</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">1,095</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">5-9</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">476</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">391</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">228</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">1,095</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">10-14</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">438</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">303</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">200</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">941</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">10-14</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">438</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">303</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">200</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">941</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">15-19</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">323</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">251</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">169</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">743</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">15-19</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">323</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">251</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">169</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">743</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">20-29</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">477</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">367</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">229</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">1,073</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">20-29</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">477</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">367</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">229</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">1,073</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">30-49</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">329</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">238</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">187</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">754</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">30-49</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">329</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">238</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">187</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">754</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">50-69</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">33</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">38</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">24</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">95</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">50-69</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">33</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">38</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">24</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">95</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">70+</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">3</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">3</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">0</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">6</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">70+</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">3</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">3</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">0</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">6</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eea"><p class="cl-313ae336"><span class="cl-313a952a">(Missing)</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">32</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">28</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">26</span></p></td>
-<td class="cl-313b7eeb"><p class="cl-313ae337"><span class="cl-313a952a">86</span></p></td>
+<td class="cl-d87f2546"><p class="cl-d87ed758"><span class="cl-d87eb066">(Missing)</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">32</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">28</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">26</span></p></td>
+<td class="cl-d87f2547"><p class="cl-d87ed759"><span class="cl-d87eb066">86</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-313b7eed"><p class="cl-313ae336"><span class="cl-313a952a">Sum</span></p></td>
-<td class="cl-313b7eec"><p class="cl-313ae337"><span class="cl-313a952a">2,582</span></p></td>
-<td class="cl-313b7eec"><p class="cl-313ae337"><span class="cl-313a952a">1,983</span></p></td>
-<td class="cl-313b7eec"><p class="cl-313ae337"><span class="cl-313a952a">1,323</span></p></td>
-<td class="cl-313b7eec"><p class="cl-313ae337"><span class="cl-313a952a">5,888</span></p></td>
+<td class="cl-d87f2549"><p class="cl-d87ed758"><span class="cl-d87eb066">Sum</span></p></td>
+<td class="cl-d87f2548"><p class="cl-d87ed759"><span class="cl-d87eb066">2,582</span></p></td>
+<td class="cl-d87f2548"><p class="cl-d87ed759"><span class="cl-d87eb066">1,983</span></p></td>
+<td class="cl-d87f2548"><p class="cl-d87ed759"><span class="cl-d87eb066">1,323</span></p></td>
+<td class="cl-d87f2548"><p class="cl-d87ed759"><span class="cl-d87eb066">5,888</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -4526,9 +4536,9 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#tables-descriptive"><span class="header-section-number">17</span> Bảng mô tả</a></li>
 <li>
-<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-1"><span class="header-section-number">17.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#g%E1%BB%8Di-packages">Gọi packages</a></li>
-<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u">Nhập dữ liệu</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-2"><span class="header-section-number">17.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#g%E1%BB%8Di-packages-1">Gọi packages</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-2">Nhập dữ liệu</a></li>
 </ul>
 </li>
 <li>
@@ -4595,7 +4605,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

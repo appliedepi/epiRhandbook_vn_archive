@@ -7,59 +7,59 @@ knitr::include_graphics(here::here("images", "markdown/rmarkdown_overview.png"))
 
 R Markdown là một công cụ được sử dụng rộng rãi nhằm tạo ra tài liệu tự động, tái lập và chia sẻ được, như các báo cáo. Nó có thể tạo ra kết quả thống kê hoặc tương tác, ở định dạng Word, pdf, html, powerpoint, và các định dạng khác. 
 
-Một bản thảo R Markdown có rải rác các code R và chữ khiến cho các bản thảo thật sự *trở thành một tài liệu đầu ra*. Bạn có thể tạo ra một tài liệu đã được định dạng toàn bộ, gồm có chữ thuần túy (có thể là động lực để thay đổi dựa trên số liệu của bạn), bảng, biểu đồ, đầu mục/số, thư mục, vân vân.   
+Một R Markdown script chứa xen kẽ các code R và văn bản khiến script này thật sự *trở thành một tài liệu đầu ra của bạn*. Bạn có thể tạo ra một tài liệu đã được định dạng toàn bộ, gồm có văn bản thuần túy (có thể thay đổi dựa trên số liệu của bạn), bảng, biểu đồ, đầu mục/số, thư mục, v.v.   
 
 Những tài liệu như vậy có thể được cập nhật thường xuyên (ví dụ: báo cáo giám sát hàng ngày) và/hoặc chạy một tập dữ liệu (ví dụ: báo cáo cho mỗi *jurisdiction*-quyền xét xử).    
 
-Những chương khác trong quyển sổ tay này mở rộng các chủ đề khác:  
+Những chương khác trong cuốn sách này mở rộng các chủ đề khác:  
 
-* Trang [Sắp xếp các báo cáo định kì] trình bày cách tự động hóa các báo cáo sản phẩm với các tập tin tự tạo kèm theo thời gian.  
-* Trang [Dashboards với R Markdown] giải thích cách định dạng một báo cáo R Markdown dưới dạng bảng điều khiển.  
+* Chương [Tổ chức báo cáo định kỳ] trình bày cách tự động hóa các báo cáo sản phẩm với các tập tin tự tạo kèm theo thời gian.  
+* Chương [Dashboards với R Markdown] giải thích cách định dạng một báo cáo R Markdown dưới dạng một dashboard.  
 
 
-Một lưu ý là dự án [R4Epis](https://r4epis.netlify.app/) đã tạo ra các mẫu bản thảo R Markdown cho những đợt dịch và trường hợp khảo sát được đặt ở vị trí dự án MSF.  
+Một lưu ý là dự án [R4Epis](https://r4epis.netlify.app/) đã tạo ra các mẫu R Markdown script cho những đợt dịch và trường hợp khảo sát phổ biến ở vị trí dự án MSF.  
 
 
 <!-- ======================================================= -->
 ## Chuẩn bị {  }
 
-**Background to R Markdown**
+**Nền tảng về R Markdown**
 
-Nhằm giải thích một số khái niệm và packages gồm có:
+Nhằm giải thích một số khái niệm và packages cần thiết:
 
 * **Markdown** là một "ngôn ngữ" cho phép bạn soạn tài liệu bằng chữ thuần túy, sau đó có thể chuyển đổi sang html và các định dạng khác. Nó không dành riêng cho R. Các tệp được viết trong Markdown có đuôi '.md'.  
-* **R Markdown**: là một biến thể trên markdown _chỉ dành riêng cho R_ - nó cho phép bạn soạn một tài liệu dùng markdown để tạo chữ, *nhúng code R và hiển thị kết quả đầu ra*. Các tệp R Markdown có đuôi '.Rmd'.   
+* **R Markdown**: là một biến thể trên markdown _chỉ dành riêng cho R_ - nó cho phép bạn soạn một tài liệu sử dụng markdown để tạo chữ cũng như *nhúng code R và hiển thị kết quả đầu ra*. Các tệp R Markdown có đuôi '.Rmd'.   
 * **Package rmarkdown**: Package được R sử dụng để chuyển tệp .Rmd thành đầu ra mong muốn. Nó tập trung vào việc chuyển cú pháp markdown (chữ), vì vậy chúng ta cũng cần tới... 
-* **knitr**: Package R này sẽ đọc đoạn code, thực thi chúng, và 'knit' (kết hợp) chúng vào lại tài liệu. Đây là cách bảng, biểu đồ được đưa vào cùng chữ.  
+* **knitr**: Package R này sẽ đọc các đoạn code, thực thi chúng, và 'knit' (kết hợp) chúng vào lại tài liệu. Đây là cách bảng, biểu đồ được thêm vào văn bản.  
 * **Pandoc**: Cuối cùng, pandoc thật sự chuyển đổi kết quả đầu ra thành word/pdf/powerpoint, v.v. Nó là một phần mềm tách biệt khỏi R nhưng được cài đặt tự động cùng với RStudio.  
 
-Tổng kết lại, quá trình được tiến hành *trong nền* (bạn không cần biết tới tất cả những bước này!), gồm chuyển tệp .Rmd thành **knitr** để thực thi các đoạn code R và tạo một tệp .md (markdown) mới có cả code R lẫn kết quả đầu ra đã được chuyển. Các tệp .md này sau đó được pandoc chạy để tạo ra sản phẩm hoàn thiện: Một tài liệu Microsoft Word, tệp HTML, tài liệu powerpoint, pdf, v.v.  
+Tổng kết lại, quá trình được tiến hành *trong nền* (bạn không cần biết tới tất cả những bước này!), gồm chuyển tệp .Rmd tới **knitr** để thực thi các đoạn code R và tạo một tệp .md (markdown) mới bao gồm cả code R lẫn kết quả đầu ra đã được chuyển đổi. Các tệp .md này sau đó được pandoc chạy để tạo ra sản phẩm hoàn thiện như là một tài liệu Microsoft Word, tệp HTML, tài liệu powerpoint, pdf, v.v.  
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "markdown/0_rmd.png"))
 ```
 
-(source: https://rmarkdown.rstudio.com/authoring_quick_tour.html):
+(Nguồn: https://rmarkdown.rstudio.com/authoring_quick_tour.html):
 
 **Cài đặt**
 
-Để tạo một kết quả đầu ra R Markdown, bạn cần phải cài đặt:  
+Để tạo một kết quả đầu ra của R Markdown, bạn cần phải cài đặt:  
 
 * Package **rmarkdown** (**knitr** cũng sẽ được cài đặt tự động)  
 * Pandoc sẽ được cài đặt cùng với RStudio. Nếu bạn không dùng RStudio, bạn có thể tải Pandoc tại đây:  http://pandoc.org.  
-* Nếu bạn muốn tạo đầu ra PDF (phức tạp hơn một chút), bạn sẽ cần cài đặt LaTex. Với những người dùng R Markdown chưa cài đặt LaTex trước đó, các bạn có thể cài đặt TinyTeX (https://yihui.name/tinytex/). Bạn có thể sử dụng đoạn lệnh sau:
+* Nếu bạn muốn tạo đầu ra là tệp PDF (phức tạp hơn một chút), bạn sẽ cần cài đặt LaTex. Với những người dùng R Markdown chưa cài đặt LaTex trước đó, các bạn có thể cài đặt TinyTeX (https://yihui.name/tinytex/). Bạn có thể sử dụng lệnh sau để cài đặt:
 
 ```{r, eval=F}
-pacman::p_load(tinytex)     # cài đặt tinytex package
-tinytex::install_tinytex()  # Lệnh R để cài đặt phần mềm TinyTeX 
+pacman::p_load(tinytex)     # install tinytex package
+tinytex::install_tinytex()  # R command to install TinyTeX software 
 ```
 
 <!-- ======================================================= -->
 ## Bắt đầu {  }
 
-### Cài đặt R package rmarkdown  {.unnumbered}
+### Cài đặt package rmarkdown  {.unnumbered}
 
-Cài đặt R package **rmarkdown** . Trong quyển sổ tay này chúng tôi nhấn mạnh `p_load()` từ **pacman**, cài đặt package nếu cần *và* gọi sử dụng. Bạn cũng có thể cài đặt package với `library()` từ **base** R. Xem thêm ở chương [R cơ bản] để biết thêm thông tin về R packages.  
+Cài đặt R package **rmarkdown**. Trong quyển sổ tay này chúng tôi nhấn mạnh việc sử dụng hàm `p_load()` từ package **pacman**, giúp cài đặt package nếu cần *và* gọi ra để sử dụng. Bạn cũng có thể cài đặt package với `library()` từ **base** R. Xem thêm ở chương [R cơ bản] để biết thêm thông tin về R packages.  
 
 ```{r, eval=F}
 pacman::p_load(rmarkdown)
@@ -73,7 +73,7 @@ Trong RStudio, để mở một tệp R markdown mới, bắt đầu với 'File
 knitr::include_graphics(here::here("images", "markdown/1_gettingstarted.png"))
 ```
 
-R Studio sẽ đưa ra cho bạn một số lựa chọn kết quả đầu ra. Trong ví dụ bên dưới, chúng tôi chọn "HTML" bởi chúng tôi muốn tạo ra một văn bản html. Tiêu đề và tên các tác giả không quan trọng. Nếu loại tài liệu đầu ra bạn muốn không có, đừng lo - bạn có thể chọn bất kỳ loại nào và thay đổi trong bản thảo sau đó.  
+R Studio sẽ đưa ra cho bạn một số lựa chọn kết quả đầu ra. Trong ví dụ bên dưới, chúng tôi chọn "HTML" bởi chúng tôi muốn tạo ra một văn bản html. Tiêu đề và tên các tác giả không quan trọng. Nếu loại tài liệu đầu ra bạn muốn không có, đừng lo - bạn có thể chọn bất kỳ loại nào và thay đổi trong script sau đó.  
 
 ```{r out.width = "50%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "markdown/1_gettingstartedB.png"))
@@ -85,21 +85,21 @@ Như vậy sẽ mở ra một script .Rmd mới.
  
 **Thư mục làm việc**
 
-Thư mục làm việc của một tệp markdown là ở bất kỳ vị trí nào tệp được lưu. Ví dụ, nếu R project nằm trong `~/Documents/projectX ` và tệp Rmd được lưu ở thư mục con `~/Documents/projectX/markdownfiles/markdown.Rmd`, code `read.csv(“data.csv”)` trong markdown sẽ tìm tệp csv trong thư mục `markdownfiles`, mà không phải là ở thư mục nguồn nơi scripts trong projects sẽ thường tự động xem.  
+Thư mục làm việc của một tệp markdown là ở bất kỳ vị trí nào tệp được lưu. Ví dụ, nếu R project nằm trong `~/Documents/projectX ` và tệp Rmd được lưu ở thư mục con `~/Documents/projectX/markdownfiles/markdown.Rmd`, thì lệnh `read.csv(“data.csv”)` trong markdown sẽ tìm tệp csv trong thư mục `markdownfiles`, mà không phải là ở thư mục gốc nơi mà scripts trong projects sẽ thường tự động tìm kiếm.  
 
-Để nhắc tới các tệp này ở chỗ khác, bạn sẽ vừa cần sử dụng cả đường dẫn tệp đầy đủ và sử dụng package **here**. Package **here** cài đặt thư mục làm việc tới thư mục nguồn của R project và sẽ được giải thích chi tiết trong các chương [Dự án R] và [Nhập xuất dữ liệu] của sổ tay này. Ví dụ, để nhập một tệp tên "data.csv" từ trong thư mục `projectX`, code sẽ là `import(here(“data.csv”))`.  
+Để tìm kiếm các tệp này ở chỗ khác, bạn sẽ vừa cần sử dụng cả đường dẫn tệp đầy đủ và sử dụng package **here**. Package **here** cài đặt thư mục làm việc tới thư mục gốc của R project và sẽ được giải thích chi tiết trong các chương [Dự án R] và [Nhập xuất dữ liệu] của sổ tay này. Ví dụ, để nhập một tệp tên "data.csv" từ trong thư mục `projectX`, code sẽ là `import(here(“data.csv”))`.  
 
 Lưu ý rằng không nên sử dụng `setwd()` trong R Markdown scripts - nó chỉ dùng cho các đoạn code được viết trong đó. 
 
-**Làm việc với ổ cứng so với trên máy tính của bạn**
+**Làm việc với ổ cứng mạng so với trên máy tính của bạn**
 
-Vì R Markdown có thể gặp phải vấn đề pandoc khi chạy trên một ổ cứng mạng được chia sẻ, thư mục của bạn nên nằm ở máy gốc, ví dụ trong dự án thuộc 'My Documents'. Nếu bạn dùng Git (rất khuyến khích!), nó sẽ thân thuộc hơn. Để biết thêm chi tiết, xem thêm chương [R trên ổ cứng mạng] và [Các lỗi và sự trợ giúp].  
+Vì R Markdown có thể gặp các vấn đề với pandoc khi chạy trên một ổ cứng mạng được chia sẻ, thư mục của bạn nên nằm ở ở cứng vật lý, ví dụ trong dự án thuộc 'My Documents'. Nếu bạn dùng Git (rất khuyến khích!), nó sẽ thân thuộc hơn. Để biết thêm chi tiết, xem thêm chương [R trên ổ cứng mạng] và [Các lỗi thường gặp].  
 
 
 <!-- ======================================================= -->
 ## Các cấu phần của R Markdown {  }
 
-Một tài liệu R Markdown có thể sửa trong RStudio giống như một R script tiêu chuẩn. Khi bạn tạo một R Markdown script mới, RStudio tỏ ra hữu ích bằng cách đưa ra một mẫu có các phần khác nhau của một R Markdown script.  
+Một tài liệu R Markdown có thể chỉnh sửa trong RStudio giống như một R script tiêu chuẩn. Khi bạn tạo một R Markdown script mới, RStudio vô cùng hữu ích bằng cách đưa ra một mẫu có các phần khác nhau của một tệp R Markdown script.  
 
 Dưới đây là khung hiển thị khi bắt đầu một Rmd script mới có kết quả đầu ra là html (như phần trước)  
 
@@ -123,7 +123,7 @@ knitr::include_graphics(here::here("images", "markdown/rmarkdown_translation.png
 
 Phần này phải được bắt đầu với với một dòng gồm có 3 dấu gạch ngang `---` và phải kết thúc với một dòng chỉ có 3 dấu gạch ngang `---`. Tham số của YAML ở dạng cặp `key:value`. Dấu hai chấm trong YAML có vị trí quan trọng - cặp `key:value` được tách ra bởi dấu hai chấm (không phải dấu bằng!)  
 
-YAML nên bắt đầu với metadata cho tài liệu. Thứ tự của những tham số YAML chính (không thụt dòng) không quan trọng. Ví dụ:  
+YAML nên bắt đầu với metadata cho tài liệu. Thứ tự của những tham số YAML chính (không thụt lề) không quan trọng. Ví dụ:  
 
 ```yaml
 title: "My document"
@@ -136,11 +136,11 @@ Bạn có thể sử dụng code R trong giá trị YAML bằng cách viết nó
 Trong hình ảnh phía trên, vì chúng ta ấn vào kết quả đầu ra mặc định là tệp html, chúng ta có thể thấy rằng YAML hiện `output: html_document`. Tuy nhiên, chúng ta cũng có thể thay đổi thành `powerpoint_presentation` hoặc `word_document` hoặc cả `pdf_document`.
 
 
-### Chữ {.unnumbered}
+### Văn bản {.unnumbered}
 
-Đây là phần tường thuật tài liệu của bạn, gồm các tiêu đề và đề mục. Nó được viết bằng ngôn ngữ "markdown", được sử dụng trên nhiều phần mềm khác nhau.  
+Đây là phần diễn giải trong tài liệu của bạn, gồm các tiêu đề và đề mục. Nó được viết bằng ngôn ngữ "markdown", được sử dụng trên nhiều phần mềm khác nhau.  
 
-Dưới đây là những cách cốt lõi để viết văn bản này. Xem thêm tài liệu mở rộng có sẵn trên R Markdown "cheatsheet" tại [Trang web RStudio](https://rstudio.com/resources/cheatsheets/).  
+Dưới đây là những cách cốt lõi để viết văn bản định dạng này. Xem thêm tài liệu mở rộng có sẵn trên R Markdown "cheatsheet" tại [Trang web RStudio](https://rstudio.com/resources/cheatsheets/).  
 
 #### Dòng mới {.unnumbered}  
 
@@ -160,7 +160,7 @@ Phông chữ hiển thị thực tế có thể được đặt bằng cách s�
 
 #### Màu sắc {.unnumbered}  
 
-Không có cơ chế đơn giản nào để thay đổi màu chữ trong R Markdown. Một giải pháp khác, *NẾU đầu ra của bạn là tệp HTML*, là thêm một dòng HTML vào văn bản markdown. Đoạn mã HTML dưới đây sẽ in một dòng văn bản có màu đỏ đậm.  
+Không có cơ chế đơn giản nào để thay đổi màu chữ trong R Markdown. Một giải pháp khác, *NẾU đầu ra của bạn là tệp HTML*, là thêm một dòng HTML vào văn bản markdown. Đoạn mã HTML dưới đây sẽ in ra một dòng văn bản có màu đỏ đậm.  
 
 ```md
 <span style="color: red;">**_DANGER:_** This is a warning.</span>  
@@ -171,9 +171,9 @@ Không có cơ chế đơn giản nào để thay đổi màu chữ trong R Mark
 
 #### Tiêu đề và đầu mục {.unnumbered}  
 
-Dấu băm trong phần văn bản của một script R Markdown tạo ra đầu mục. Điều này khác với một đoạn code R trong script, trong đó ký hiệu băm là cơ chế nhận xét/chú thích/hủy kích hoạt, như trong R script bình thường.  
+Dấu thăng trong phần văn bản của một script R Markdown tạo ra đầu mục. Điều này khác với một đoạn code R trong script, trong đó ký hiệu thăng là cơ chế nhận xét/chú thích/hủy kích hoạt, như trong R script bình thường.  
 
-Các mức tiêu đề khác nhau được thiết lập với số lượng ký hiệu băm khác nhau khi bắt đầu một dòng mới. Một ký hiệu băm là tiêu đề hoặc đầu mục chính. Hai ký hiệu băm là một đầu mục cấp hai. Các đầu mục cấp ba và cấp bốn có thể được tạo bằng các ký hiệu băm liên tiếp.  
+Các mức tiêu đề khác nhau được thiết lập với số lượng ký hiệu thăng khác nhau khi bắt đầu một dòng mới. Một ký hiệu thăng là tiêu đề hoặc đầu mục chính. Hai ký hiệu thăng là một đầu mục cấp hai. Các đầu mục cấp ba và cấp bốn có thể được tạo bằng các ký hiệu thăng liên tiếp.  
 
 ```md
 # Đầu mục cấp một / Tiêu đề
@@ -202,7 +202,7 @@ Sử dụng dấu hoa thị (`*`) để tạo danh sách gạch đầu dòng. K�
 
 #### Chữ chú giải {.unnumbered}
 
-Bạn có thể "chú giải" văn bản R Markdown giống như bạn sử dụng "#" để chú giải một dòng code R trong một đoạn R. Chỉ cần đánh dấu văn bản và nhấn Ctrl+Shift+c (Cmd+Shift+c cho Mac). Văn bản sẽ được bao quanh bởi các mũi tên và chuyển sang màu xanh lục. Nó sẽ không xuất hiện trong đầu ra của bạn.  
+Bạn có thể "chú giải" văn bản R Markdown giống như bạn sử dụng "#" để chú giải một dòng code R trong một đoạn code R. Chỉ cần đánh dấu văn bản và nhấn Ctrl+Shift+c (Cmd+Shift+c cho Mac). Văn bản sẽ được bao quanh bởi các mũi tên và chuyển sang màu xanh lục. Nó sẽ không xuất hiện trong kết quả đầu ra của bạn.  
 
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
@@ -212,27 +212,27 @@ knitr::include_graphics(here::here("images", "markdown/rmarkdown_hide_text.png")
 
 ### Đoạn Code {.unnumbered}
 
-Các phần của tập lệnh dành riêng để chạy code R được gọi là "đoạn". Đây là nơi bạn có thể tải các package, nhập dữ liệu và thực hiện quản lý và trực quan hóa dữ liệu thực tế. Có thể có nhiều đoạn code, vì vậy chúng có thể giúp bạn tổ chức code R của mình thành các phần, có thể xen kẽ với văn bản. Cần lưu ý:  
-Những 'đoạn' này sẽ có màu nền hơi khác so với phần tường thuật của tài liệu.  
+Các phần của script dành riêng để chạy code R được gọi là "chunk - đoạn". Đây là nơi bạn có thể tải các package, nhập dữ liệu và thực hiện quản lý và trực quan hóa dữ liệu thực tế. Có thể có nhiều đoạn code, vì vậy chúng có thể giúp bạn tổ chức code R của mình thành các phần, có thể xen kẽ với văn bản. Cần lưu ý:  
+Những 'đoạn' này sẽ có màu nền hơi khác so với phần diễn giải của tài liệu.  
 
 Mỗi đoạn code được mở với một dòng bắt đầu với 3 dấu nháy đơn ngược, và ngoặc nhọn chứa các tham số cho đoạn (`{ }`). Đoạn code kết thúc với 3 dấu nháy đơn ngược.    
 
-Bạn có thể tạo một đoạn code mới bằng cách tự gõ nó ra, bằng cách sử dụng phím tắt "Ctrl + Alt + i" (hoặc Cmd + Shift + r trong Mac), hoặc bằng cách nhấp vào biểu tượng 'chèn đoạn code mới' màu xanh lục ở đầu trình chỉnh sửa tập lệnh của bạn.  
+Bạn có thể tạo một đoạn code mới bằng cách tự gõ nó ra, hoặc bằng cách sử dụng phím tắt "Ctrl + Alt + i" (hoặc Cmd + Shift + r trong Mac), hoặc bằng cách nhấp vào biểu tượng 'insert a new code chunk' màu xanh lục ở đầu trình chỉnh sửa script của bạn.  
 
-Một số lưu ý về nội dung của dấu ngoặc nhọn `{ }`:
+Một số lưu ý về nội dung bên trong dấu ngoặc nhọn `{ }`:
 
 *	Chúng bắt đầu bằng ‘r’ để chỉ ra rằng tên ngôn ngữ trong đoạn này là R
-*	Sau chữ r, bạn có thể tùy ý viết "tên" đoạn - những thứ này không cần thiết nhưng có thể giúp bạn sắp xếp công việc của mình. Lưu ý rằng nếu bạn đặt tên cho các phần của mình, bạn phải LUÔN sử dụng các tên độc nhất, nếu không R sẽ báo lại khi bạn cố gắng kết xuất.  
+*	Sau chữ r, bạn có thể tùy ý viết "tên" đoạn - việc này không cần thiết nhưng có thể giúp bạn sắp xếp công việc của mình tốt hơn. Lưu ý rằng nếu bạn đặt tên cho các phần của mình, bạn phải LUÔN sử dụng các tên độc nhất, nếu không R sẽ báo lỗi khi bạn cố gắng kết xuất.  
 *	Dấu ngoặc nhọn cũng có thể bao gồm các tùy chọn khác, được viết dưới dạng `tag = value`, chẳng hạn như:  
   * `eval = FALSE` để không chạy code R   
   * `echo = FALSE` để không hiển thị mã nguồn code R của đoạn trong kết quả đầu ra  
   * `warning = FALSE` để không hiển thị cảnh báo được tạo bởi code R  
-  * `message = FALSE` để không hiển thị bất kỳ tin nhắn nào được tạo bởi code R  
+  * `message = FALSE` để không hiển thị bất kỳ thông báo nào được tạo bởi code R  
   * `include =` TRUE/FALSE có bao gồm đầu ra đoạn code (ví dụ: các đồ thị) trong tài liệu hay không  
-  * `out.width = ` và `out.height =` - đưa ra theo dạng `out.width = "75%"`  
+  * `out.width = ` và `out.height =` - cung cấp theo kiểu `out.width = "75%"`  
   * `fig.align = "center"` điều chỉnh cách một hình được căn trên trang  
-  * `fig.show='hold'` nếu đoạn code của bạn hiển thị nhiều biểu đồ và bạn muốn chúng hiển thị cạnh nhau  (cùng với `out.width = c("33%", "67%")`. Có thể đặt là `fig.show='asis'` để hiển thị chúng dưới code tạo chúng, `'hide'` để ẩn, hoặc `'animate'` để nối nhiều cái thành một hoạt hình.  
-* Tiêu đề đoạn phải được viết trong *một dòng*   
+  * `fig.show='hold'` nếu đoạn code của bạn hiển thị nhiều biểu đồ và bạn muốn chúng hiển thị cạnh nhau  (cùng với `out.width = c("33%", "67%")`. Có thể đặt là `fig.show='asis'` để hiển thị chúng dưới code tạo chúng, `'hide'` để ẩn, hoặc `'animate'` để nối nhiều cái thành một ảnh động.  
+* Tiêu đề đoạn phải được viết trên *một dòng*   
 * Cố gắng tránh dấu chấm, dấu gạch dưới và dấu cách. Sử dụng dấu gạch ngang ( - ) thay thế nếu bạn cần dấu ngăn cách.  
 
 Đọc kĩ hơn về các tùy chọn **knitr** [tại đây](https://yihui.org/knitr/options/).  
@@ -254,7 +254,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 
-#### Code R trong đoạn chữ {.unnumbered}  
+#### Code R trong văn bản {.unnumbered}  
 
 Bạn cũng có thể bao gồm code R đơn giản trong dấu nháy đơn ngược. Trong dấu nháy đơn ngược, hãy bắt đầu mã bằng "r" và một dấu cách, để RStudio biết đánh giá code đó là code R. Xem ví dụ bên dưới.  
 
@@ -318,10 +318,10 @@ Cột 1    |Cột  2    |Cột 3
 Ô D      |Ô E       |Ô F
 
 
-### Các phần được gắn tab {.unnumbered}  
+### Các phần được chia thẻ {.unnumbered}  
 
 
-Đối với đầu ra HTML, bạn có thể sắp xếp các phần thành "tab". Chỉ cần thêm `.tabset` vào trong dấu ngoặc nhọn` {} `được đặt *sau đề mục*. Bất kỳ đề mục phụ nào bên dưới tiêu đề đó (cho đến khi tiêu đề khác cùng cấp) sẽ xuất hiện dưới dạng các tab mà người dùng có thể nhấp qua. Đọc thêm [tại đây](https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html)  
+Đối với đầu ra là tệp HTML, bạn có thể sắp xếp các phần thành các "tab - thẻ". Chỉ cần thêm `.tabset` vào trong dấu ngoặc nhọn` {} `được đặt *sau đề mục*. Bất kỳ đề mục phụ nào bên dưới tiêu đề đó (cho đến khi tiêu đề khác cùng cấp) sẽ xuất hiện dưới dạng các tab mà người dùng có thể nhấp qua. Đọc thêm [tại đây](https://bookdown.org/yihui/rmarkdown-cookbook/html-tabs.html)  
 
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
@@ -331,7 +331,7 @@ knitr::include_graphics(here::here("images", "markdown/tabbed_view.gif"))
 ```
 
 
-Bạn có thể thêm một tùy chọn bổ sung `.tabset-Drugs` sau` .tabset` để tạo cho các tab có giao diện "xếp chồng". Lưu ý rằng khi xem đầu ra HTML theo tab, chức năng tìm kiếm Ctrl+f sẽ chỉ tìm kiếm các tab "đang hoạt động" chứ không phải các tab ẩn.  
+Bạn có thể thêm một tùy chọn bổ sung `.tabset-pills` sau `.tabset` để tạo cho các thẻ có giao diện "được tô màu". Lưu ý rằng khi xem đầu ra HTML theo thẻ, chức năng tìm kiếm Ctrl+f sẽ chỉ tìm kiếm các tab "đang hoạt động" chứ không phải các thẻ ẩn.  
 
 
 
@@ -344,9 +344,9 @@ Bạn có thể thêm một tùy chọn bổ sung `.tabset-Drugs` sau` .tabset` 
 Có nhiều cách để tổ chức R Markdown của bạn và bất kỳ script R nào liên quan. Mỗi cách đều có cả ưu điểm và nhược điểm:  
 
 * R Markdown khép kín - mọi thứ cần thiết cho báo cáo đều được nhập hoặc tạo trong R Markdown  
-  * Nguồn các tệp khác - Bạn có thể chạy các script R bên ngoài bằng lệnh `source ()` và sử dụng đầu ra của chúng trong Rmd  
+  * Nguồn từ các tệp khác - Bạn có thể chạy các script R bên ngoài bằng lệnh `source ()` và sử dụng đầu ra của chúng trong Rmd  
   * Scipt con - một cơ chế thay thế cho `source()`  
-* Sử dụng "runfile" - Chạy các lệnh trong script R *trước khi* kết xuất R Markdown  
+* Sử dụng "runfile" - Chạy các lệnh trong script R *trước khi* kết xuất tệp R Markdown  
 
 
 ### Rmd khép kín {.unnumbered}  
@@ -354,7 +354,7 @@ Có nhiều cách để tổ chức R Markdown của bạn và bất kỳ script
 Đối với một báo cáo tương đối đơn giản, bạn có thể chọn tổ chức tập lệnh R Markdown của mình sao cho nó "khép kín" và không liên quan đến bất kỳ tập lệnh bên ngoài nào.    
 
 
-Mọi thứ bạn cần để chạy R markdown đều được nhập hoặc tạo trong tệp Rmd, bao gồm tất cả các đoạn code và package. Cách tiếp cận "khép kín" này phù hợp khi bạn không cần xử lý nhiều dữ liệu (ví dụ: nó mang đến một tệp dữ liệu sạch hoặc bán sạch) và việc kết xuất R Markdown sẽ không mất quá nhiều thời gian.  
+Mọi thứ bạn cần để chạy R markdown đều được nhập hoặc tạo trong tệp Rmd, bao gồm tất cả các đoạn code và package. Cách tiếp cận "khép kín" này phù hợp khi bạn không cần xử lý nhiều dữ liệu (ví dụ: nó mang đến một tệp dữ liệu sạch hoặc gần sạch) và việc kết xuất R Markdown sẽ không mất quá nhiều thời gian.  
 
 Trong trường hợp này, một cấu trúc hợp lý của script R Markdown có thể là:  
 
@@ -365,9 +365,9 @@ Trong trường hợp này, một cấu trúc hợp lý của script R Markdown 
 5) Tạo kết quả đầu ra (bảng, đồ thị, etc.)  
 6) Lưu kết quả đầu ra nếu cần (.csv, .png, v.v.)  
 
-#### Nguồn các tệp khác {.unnumbered}
+#### Nguồn từ các tệp khác {.unnumbered}
 
-Một biến thể của cách tiếp cận "khép kín" là có các đoạn code R Markdown "nguồn" (chạy) các script R khác. Điều này có thể làm cho tập lệnh R Markdown của bạn ít lộn xộn hơn, đơn giản hơn và dễ tổ chức hơn. Nó cũng có thể hữu ích nếu bạn muốn hiển thị số liệu cuối cùng ở đầu báo cáo. Theo cách tiếp cận này, script R Markdown cuối cùng chỉ đơn giản là kết hợp các đầu ra được xử lý trước thành một tài liệu.  
+Một biến thể của cách tiếp cận "khép kín" là có các đoạn code R Markdown "nguồn" (chạy) chạy các script R khác. Điều này có thể làm cho tập lệnh R Markdown của bạn ít lộn xộn hơn, đơn giản hơn và dễ tổ chức hơn. Nó cũng có thể hữu ích nếu bạn muốn hiển thị số liệu cuối cùng ở đầu báo cáo. Theo cách tiếp cận này, script R Markdown cuối cùng chỉ đơn giản là kết hợp các đầu ra được xử lý trước thành một tài liệu.  
 
 Một cách để làm điều này là cung cấp script R (đường dẫn tệp và tên có phần mở rộng) cho lệnh R **base** `source()`.  
 
@@ -378,7 +378,7 @@ source("your-script.R", local = knitr::knit_global())
 
 Lưu ý rằng khi sử dụng `source ()` *trong* R Markdown, các tệp bên ngoài sẽ vẫn được chạy *trong quá trình kết xuất tệp Rmd* của bạn. Do đó, mỗi tập lệnh được chạy mỗi lần bạn kết xuất báo cáo. Do đó, việc có các lệnh `source ()` này *trong* R Markdown không tăng tốc thời gian chạy của bạn, cũng như không hỗ trợ nhiều cho việc gỡ lỗi, vì lỗi vẫn được hiển thị khi tạo R Markdown.  
 
-Một giải pháp thay thế là sử dụng tùy chọn `child = ` **knitr**. GIẢI THÍCH THÊM VIỆC LÀM
+Một giải pháp thay thế là sử dụng tùy chọn `child = ` của **knitr**. GIẢI THÍCH THÊM ĐỂ LÀM
 
 Bạn phải để ý các *môi trường* R khác nhau. Các đối tượng được tạo trong một môi trường sẽ không nhất thiết phải có sẵn cho môi trường được R Markdown sử dụng.
 
@@ -387,7 +387,7 @@ Bạn phải để ý các *môi trường* R khác nhau. Các đối tượng �
 
 Cách tiếp cận này liên quan đến việc sử dụng R script có chứa (các) lệnh `render ()` để xử lý trước các đối tượng đưa vào R markdown.  
 
-Ví dụ, bạn có thể tải các package, tải và làm sạch dữ liệu, và thậm chí tạo các biểu đồ trước khi `render()`. Các bước này có thể xảy ra trong R script hoặc trong các script khác được lưu nguồn. Miễn là các lệnh này xảy ra trong cùng một phiên RStudio và các đối tượng được lưu vào môi trường, các đối tượng sau đó có thể được gọi trong nội dung Rmd. Sau đó, bản thân R markdown sẽ chỉ được sử dụng cho bước cuối cùng - để tạo ra kết quả với tất cả các đối tượng được xử lý trước. Điều này dễ dàng hơn để gỡ lỗi nếu có sự cố.  
+Ví dụ, bạn có thể tải các package, tải và làm sạch dữ liệu, và thậm chí tạo các biểu đồ trước khi `render()`. Các bước này có thể xảy ra trong R script hoặc trong các script khác được lưu nguồn. Miễn là các lệnh này diễn ra trong cùng một phiên RStudio và các đối tượng được lưu vào môi trường, các đối tượng sau đó có thể được gọi trong nội dung Rmd. Sau đó, bản thân R markdown sẽ chỉ được sử dụng cho bước cuối cùng - để tạo ra kết quả với tất cả các đối tượng được xử lý trước. Điều này dễ dàng hơn để gỡ lỗi nếu có sự cố.  
 
 
 Cách tiếp cận này hữu ích vì những lý do sau:  
@@ -414,7 +414,7 @@ rmarkdown::render(input = "create_output.Rmd")   # Create Rmd file
 
 ### Cấu trúc thư mục {.unnumbered}  
 
-Quy trình làm việc cũng liên quan đến cấu trúc thư mục tổng thể, chẳng hạn như có thư mục 'đầu ra' cho các tài liệu và số liệu đã tạo và thư mục 'dữ liệu' hoặc 'đầu vào' cho dữ liệu đã được làm sạch. Chúng tôi không đi sâu vào chi tiết ở đây, nhưng hãy xem chương [Tổ chức báo cáo thường kỳ].  
+Quy trình làm việc cũng liên quan đến cấu trúc thư mục tổng thể, chẳng hạn như có thư mục 'đầu ra' cho các tài liệu và số liệu đã tạo và thư mục 'dữ liệu' hoặc 'đầu vào' cho dữ liệu đã được làm sạch. Chúng tôi không đi sâu vào chi tiết ở đây, nhưng hãy xem chương [Tổ chức báo cáo định kỳ].  
 
 
 
@@ -472,24 +472,24 @@ rmarkdown::render(
   output_file = stringr::str_glue("outputs/Report_{Sys.Date()}.docx")) 
 ```
 
-Như file kết xuất, RStudio Console sẽ cho bạn thấy quá trình kết xuất tới 100%, và một thông báo cuối để báo rằng quá trình kết xuất đã hoàn thành.  
+Khi file đang kết xuất, RStudio Console sẽ cho bạn thấy quá trình kết xuất tới 100%, và một thông báo cuối để báo rằng quá trình kết xuất đã hoàn thành.  
 
 
 ###  Cách 3: **reportfactory**  package {.unnumbered}  
 
 
-R package **reportfactory** cung cấp một phương pháp thay thế để tổ chức và soạn báo cáo R Markdown *phù hợp với các tình huống mà bạn chạy báo cáo thường xuyên (ví dụ hàng ngày, hàng tuần ...).* Nó giúp giảm bớt việc soạn nhiều tệp R Markdown và tổ chức đầu ra của chúng. Về bản chất, nó cung cấp một "nhà máy" mà từ đó bạn có thể chạy báo cáo R Markdown, nhận các thư mục được đánh dấu ngày tháng và thời gian tự động cho kết quả đầu ra và có quyền kiểm soát phiên bản "nhẹ".  
+R package **reportfactory** cung cấp một phương pháp thay thế để tổ chức và soạn báo cáo R Markdown *phù hợp với các tình huống mà bạn chạy báo cáo thường xuyên (ví dụ hàng ngày, hàng tuần ...).* Nó giúp giảm bớt việc soạn nhiều tệp R Markdown và tổ chức đầu ra của chúng. Về bản chất, nó cung cấp một "nhà máy" mà từ đó bạn có thể chạy báo cáo R Markdown, nhận các thư mục được đánh dấu ngày tháng và thời gian tự động cho kết quả đầu ra và có cách kiểm soát phiên bản "nhẹ nhàng".  
 
-Đọc thêm về quy trình công việc này trong chương về [Tổ chức các báo cáo thường kỳ].  
+Đọc thêm về quy trình công việc này trong chương về [Tổ chức báo cáo định kỳ].  
 
 
 
 <!-- ======================================================= -->
 ## Báo cáo được tham số hóa {  }
 
-Bạn có thể sử dụng tham số hóa để tạo báo cáo động, sao cho báo cáo có thể được chạy với cài đặt cụ thể (ví dụ: ngày hoặc địa điểm cụ thể hoặc với các tùy chọn knit nhất định). Dưới đây, chúng tôi tập trung vào những điều cơ bản, nhưng có thêm [chi tiết trực tuyến](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html) về các báo cáo được tham số hóa.  
+Bạn có thể sử dụng tham số hóa để tạo báo cáo động, sao cho báo cáo có thể được chạy với cài đặt cụ thể (ví dụ: ngày hoặc địa điểm cụ thể hoặc với các tùy chọn knit nhất định). Dưới đây, chúng tôi tập trung vào những điều cơ bản, nhưng có thêm các tài liệu [chi tiết trực tuyến](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html) về các báo cáo được tham số hóa.  
 
-Sử dụng danh sách dòng Ebola làm ví dụ, giả sử chúng ta muốn chạy một báo cáo giám sát tiêu chuẩn cho từng bệnh viện mỗi ngày. Chúng ta chỉ ra cách người ta có thể làm điều này bằng cách sử dụng các tham số.  
+Sử dụng bộ dữ liệu Ebola có tên linelist làm ví dụ, giả sử chúng ta muốn chạy một báo cáo giám sát tiêu chuẩn cho từng bệnh viện mỗi ngày. Chúng ta chỉ ra cách người ta có thể làm điều này bằng cách sử dụng các tham số.  
 
 *Quan trọng: các báo cáo động cũng có thể thực hiện được mà không có cấu trúc tham số chính thức (không có `params:`), bằng cách sử dụng các đối tượng R đơn giản trong R script liền kề. Điều này được giải thích ở cuối phần này.*
 
@@ -501,7 +501,7 @@ Bạn có nhiều cách để chỉ định giá trị tham số cho đầu ra R
 
 #### Cách 1: Đặt tham số trong YAML {.unnumbered}
 
-Chỉnh sửa YAML để bao gồm tùy chọn `params:`, với các câu lệnh thụt lề cho mỗi tham số bạn muốn xác định. Trong ví dụ này, chúng tôi tạo các tham số `date` và` hospital`, với các giá trị mà chúng tôi chỉ định. Các giá trị này có thể thay đổi mỗi khi chạy báo cáo. Nếu bạn sử dụng nút "Knit" để tạo ra đầu ra, các tham số sẽ có các giá trị mặc định này. Tương tự như vậy, nếu bạn sử dụng `render ()`, các tham số sẽ có các giá trị mặc định này trừ khi được chỉ định khác trong lệnh `render ()`.  
+Chỉnh sửa YAML để bao gồm tùy chọn `params:`, với các biểu thức được thụt lề cho mỗi tham số bạn muốn xác định. Trong ví dụ này, chúng tôi tạo các tham số `date` và` hospital`, với các giá trị mà chúng tôi chỉ định. Các giá trị này có thể thay đổi mỗi khi chạy báo cáo. Nếu bạn sử dụng nút "Knit" để tạo ra đầu ra, các tham số sẽ có các giá trị mặc định này. Tương tự như vậy, nếu bạn sử dụng `render ()`, các tham số sẽ có các giá trị mặc định này trừ khi được chỉ định khác trong lệnh `render ()`.  
 
 
 ```yaml
@@ -516,7 +516,7 @@ params:
 
 Ở chế độ nền, các giá trị tham số này được chứa trong danh sách chỉ đọc được gọi là `params`. Do đó, bạn có thể chèn các giá trị tham số trong code R như cách bạn làm với một đối tượng/giá trị R khác trong môi trường của bạn. Chỉ cần gõ `params $` theo sau là tên tham số. Ví dụ: `params $ Hospital` để đại diện cho tên bệnh viện ("Central Hospital" theo mặc định).  
 
-Lưu ý rằng các tham số cũng có thể giữ các giá trị `true` hoặc `false`, và vì vậy chúng có thể được đưa vào các tùy chọn **precisiontr** của bạn cho một đoạn R. Ví dụ: bạn có thể đặt `{r, eval=params$run}` thay vì `{r, eval=FALSE}`, và bây giờ việc đoạn chạy hay không phụ thuộc vào giá trị của tham số `run:`.  
+Lưu ý rằng các tham số cũng có thể giữ các giá trị `true` hoặc `false`, và vì vậy chúng có thể được đưa vào các tùy chọn **knitr** của bạn trong một đoạn code R. Ví dụ: bạn có thể đặt `{r, eval=params$run}` thay vì `{r, eval=FALSE}`, và bây giờ việc đoạn code chạy hay không phụ thuộc vào giá trị của tham số `run:`.  
 
 Lưu ý rằng đối với các tham số là ngày tháng, chúng sẽ được nhập dưới dạng một chuỗi. Vì vậy, để `params$date` được diễn giải trong code R, nó có thể sẽ cần được bao bọc bằng `as.Date()` hoặc một hàm tương tự để chuyển đổi thành lớp Date.
 
@@ -529,7 +529,7 @@ Như đã đề cập ở trên, thay thế cho việc nhấn nút "Knit" để 
 
 Lưu ý rằng bất kỳ giá trị tham số nào được cung cấp ở đây sẽ *ghi đè* các giá trị mặc định của chúng nếu được viết trong YAML. Chúng tôi viết các giá trị trong dấu ngoặc kép vì trong trường hợp này chúng phải được định nghĩa là giá trị ký tự/chuỗi.  
 
-Lệnh dưới đây hiển thị "tracking_report.Rmd", chỉ định tên và thư mục tệp đầu ra động, đồng thời cung cấp `list()` gồm hai tham số và giá trị của chúng cho đối số `params = `.  
+Lệnh dưới đây kết xuất tệp "surveillance_report.Rmd", chỉ định tên và thư mục tệp đầu ra động, đồng thời cung cấp một `list()` gồm hai tham số và giá trị của chúng cho đối số `params = `.  
 
 ```{r, eval=F}
 rmarkdown::render(
@@ -539,9 +539,9 @@ rmarkdown::render(
 ```
 
 
-#### Cách 3:  Đặt tham số dùng Giao diện Người dùng Đồ họa (Graphical User Interface) {.unnumbered}  
+#### Cách 3:  Đặt tham số sử Giao diện Người dùng (GUI) {.unnumbered}  
 
-Để có cảm giác tương tác hơn, bạn cũng có thể sử dụng Giao diện Người dùng Đồ họa (Graphical User Interface - GUI) để chọn thủ công các giá trị cho các tham số. Để thực hiện việc này, chúng ta có thể nhấp vào menu thả xuống bên cạnh nút ‘Knit’ và chọn ‘Knit with parameter’.  
+Để có cảm giác tương tác hơn, bạn cũng có thể sử dụng Giao diện Người dùng (Graphical User Interface - GUI) để chọn thủ công các giá trị cho các tham số. Để thực hiện việc này, chúng ta có thể nhấp vào menu thả xuống bên cạnh nút ‘Knit’ và chọn ‘Knit with parameter’.  
 
 Một cửa sổ bật lên sẽ xuất hiện cho phép bạn nhập các giá trị cho các tham số được thiết lập trong YAML của tài liệu.  
 
@@ -564,9 +564,9 @@ Tuy nhiên, việc nhập giá trị vào cửa sổ bật lên này có thể x
 * `label: ` là cách tiêu đề cho menu thả xuống cụ thể đó  
 * `value: ` là giá trị mặc định (bắt đầu)  
 * `input: ` đặt thành `select` cho menu thả xuống  
-* `choices: ` Cung cấp các giá trị đủ điều kiện trong menu thả xuống  
+* `choices: ` cung cấp các giá trị đủ điều kiện trong menu thả xuống  
 
-Dưới đây, các thông số kỹ thuật này được viết cho tham số `bệnh viện`.  
+Dưới đây, các thông số kỹ thuật này được viết cho tham số `hospital`.  
 
 ```yaml
 ---
@@ -595,7 +595,7 @@ knitr::include_graphics(here::here("images", "markdown/5_parametersGUIB.png"))
 
 Đoạn mã sau đây tạo các tham số cho `date` và `hospital`, được sử dụng trong R Markdown tương ứng là `params$date` và `params$hospital`.
 
-Trong kết quả đầu ra của báo cáo, hãy xem cách dữ liệu được lọc cho bệnh viện cụ thể và tiêu đề biểu đồ đề cập đến bệnh viện và ngày chính xác. Chúng tôi sử dụng tệp "linelist_cleaned.rds" ở đây, nhưng nó sẽ đặc biệt thích hợp nếu bản thân danh sách dòng cũng có một dấu dữ liệu bên trong nó để căn chỉnh với ngày được tham số hóa.  
+Trong kết quả đầu ra của báo cáo, hãy xem cách dữ liệu được lọc cho bệnh viện cụ thể và tiêu đề biểu đồ đề cập đến bệnh viện và ngày chính xác. Chúng tôi sử dụng tệp "linelist_cleaned.rds" ở đây, nhưng nó sẽ đặc biệt thích hợp nếu bản thân tệp linelist cũng có một dấu ngày tháng bên trong nó để căn chỉnh với ngày được tham số hóa.  
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "markdown/6_Rmdexample.png"))
@@ -631,11 +631,11 @@ Làm theo cách này có nghĩa là bạn không thể “knit với các tham s
 
 <!-- ======================================================= -->
 
-## Báo cáo vòng lặp  {  }
+## Tạo vòng lặp nhiều báo cáo   {  }
 
-Chúng ta có thể muốn chạy một báo cáo nhiều lần, thay đổi các thông số đầu vào, để tạo ra một báo cáo cho từng khu vực pháp lý/đơn vị. Điều này có thể được thực hiện bằng cách sử dụng các công cụ cho *lặp lại*, được giải thích chi tiết trong chương về [Lặp lại, vòng lặp và danh sách]. Các tùy chọn bao gồm package **purrr** hoặc sử dụng *vòng lặp for* như được giải thích bên dưới.  
+Chúng ta có thể muốn chạy một báo cáo nhiều lần, thay đổi các thông số đầu vào, để tạo ra một báo cáo cho từng khu vực pháp lý/đơn vị. Điều này có thể được thực hiện bằng cách sử dụng các công cụ cho việc *lặp lại*, được giải thích chi tiết trong chương về [Lặp, vòng lặp và danh sách]. Các tùy chọn bao gồm package **purrr** hoặc sử dụng *vòng lặp for* như được giải thích bên dưới.  
 
-Dưới đây, chúng tôi sử dụng  *vòng lặp for* đơn giản để tạo báo cáo giám sát cho tất cả các bệnh viện được chọn. Điều này được thực hiện bằng một lệnh (thay vì thay đổi từng thông số bệnh viện theo cách thủ công). Lệnh kết xuất báo cáo phải tồn tại trong một script riêng biệt *bên ngoài* báo cáo Rmd. Script này cũng sẽ chứa các đối tượng được xác định để "lặp qua" - ngày hôm nay và vectơ tên bệnh viện để lặp qua.
+Dưới đây, chúng tôi sử dụng  *vòng lặp for* đơn giản để tạo báo cáo giám sát cho tất cả các bệnh viện được chọn. Điều này được thực hiện bằng một lệnh (thay vì thay đổi từng thông số bệnh viện theo cách thủ công). Lệnh kết xuất báo cáo phải tồn tại trong một script riêng biệt *bên ngoài* báo cáo Rmd. Script này cũng sẽ chứa các đối tượng được xác định để "lặp qua" - ngày hôm nay và một vectơ tên bệnh viện để lặp qua.
 
 
 ```{r, eval=F}
@@ -648,7 +648,7 @@ hospitals <- c("Central Hospital",
 Sau đó, chúng tôi cung cấp từng giá trị này vào lệnh `render()` bằng cách sử dụng một vòng lặp, lệnh này chạy lệnh một lần cho mỗi giá trị trong vectơ `hospitals`. Chữ cái `i` đại diện cho vị trí chỉ mục (từ 1 đến 4) của bệnh viện hiện đang được sử dụng trong lần lặp đó, như vậy `hospital_list[1]` sẽ là “Central Hospital”. Thông tin này được cung cấp ở hai nơi trong lệnh `render()`:  
 
 1) Đối với tên tệp, sao cho tên tệp của lần lặp đầu tiên nếu được tạo vào ngày 10 tháng 4 năm 2021 sẽ là “Report_Central Hospital_2021-04-10.docx”, được lưu trong thư mục con ‘output’ của thư mục làm việc.  
-2) Với `params =` sao cho Rmd sử dụng tên bệnh viện trong nội bộ bất cứ khi nào giá trị `params$hospital` được gọi (ví dụ: chỉ để lọc tập dữ liệu cho bệnh viện cụ thể). Trong ví dụ này, bốn tệp sẽ được tạo - một tệp cho mỗi bệnh viện.  
+2) Với `params =` sao cho Rmd sử dụng tên bệnh viện trong nội bộ bất cứ khi nào giá trị `params$hospital` được gọi (ví dụ: chỉ để lọc tập dữ liệu cho bệnh viện cụ thể). Trong ví dụ này, bốn tệp sẽ được tạo - mỗi tệp cho một bệnh viện.  
 
 ```{r, eval=F}
 for(i in 1:length(hospitals)){
@@ -679,7 +679,7 @@ for(i in 1:length(hospitals)){
 <!-- ======================================================= -->
 ## Mẫu  
 
-Bằng cách sử dụng tài liệu mẫu có chứa bất kỳ định dạng mong muốn nào, bạn có thể điều chỉnh tính thẩm mỹ của đầu ra Rmd sẽ trông như thế nào. Ví dụ, bạn có thể tạo tệp MS Word hoặc Powerpoint chứa các trang/trang trình bày với kích thước, hình mờ, hình nền và phông chữ mong muốn.  
+Bằng cách sử dụng tài liệu mẫu có chứa bất kỳ định dạng mong muốn nào, bạn có thể điều chỉnh tính thẩm mỹ của đầu ra Rmd sẽ trông như thế nào. Ví dụ, bạn có thể tạo tệp MS Word hoặc Powerpoint chứa các trang/trang trình bày với kích thước, hình đóng dấu, hình nền và phông chữ mong muốn.  
 
 ### Tài liệu Word {.unnumbered}
 
@@ -787,7 +787,7 @@ Nếu tập dữ liệu của bạn rất lớn, hãy xem xét chỉ hiển th�
 Một số ví dụ phổ biến về các tiện ích này bao gồm:  
 
 * Plotly (được sử dụng trong chương sổ tay này và trong chương [Biểu đồ tương tác])
-* visNetwork (được sử dụng trong chương [Chuỗi truyền] của sổ tay này)  
+* visNetwork (được sử dụng trong chương [Chuỗi lây nhiễm] của sổ tay này)  
 * Leaflet (được sử dụng trong chương [GIS Cơ bản] của sổ tay này)  
 * dygraphs ( hữu ích để hiển thị dữ liệu chuỗi thời gian tương tác)  
 * DT (`datatable()`) (được sử dụng để hiển thị các bảng động với bộ lọc, sắp xếp, v.v.)  
@@ -801,6 +801,6 @@ Tìm thêm thông tin tại:
 * https://bookdown.org/yihui/rmarkdown/
 * https://rmarkdown.rstudio.com/articles_intro.html
 
-Một giải thích tốt về markdown so với knitr và Rmarkdown ở đây: https://stackoverflow.com/questions/40563479/relationship-between-r-markdown-knitr-pandoc-and-bookdown
+Một giải thích tốt về so sánh giữa markdown, knitr và Rmarkdown ở đây: https://stackoverflow.com/questions/40563479/relationship-between-r-markdown-knitr-pandoc-and-bookdown
 
 

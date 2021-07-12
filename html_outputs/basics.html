@@ -61,7 +61,7 @@
 <li><a class="" href="cleaning.html"><span class="header-section-number">8</span> Làm sạch số liệu và các hàm quan trọng</a></li>
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
-<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
+<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors/</a></li>
 <li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
@@ -449,7 +449,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <ul>
 <li>Thế nào là một hàm và cách mà chúng hoạt động<br>
 </li>
-<li>WThế nào là <em>đối số</em> của hàm<br>
+<li>Thế nào là <em>đối số</em> của hàm<br>
 </li>
 <li>Làm cách nào để nhận được sự trợ giúp khi tìm hiểu một hàm</li>
 </ul>
@@ -489,7 +489,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create an age pyramid</span>
 <span class="fu">age_pyramid</span><span class="op">(</span>data <span class="op">=</span> <span class="va">linelist</span>, age_group <span class="op">=</span> <span class="st">"age_cat5"</span>, split_by <span class="op">=</span> <span class="st">"gender"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="75%" height="75%"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="75%" height="75%"></div>
 <p>Lệnh trên có thể được viết tương tự như bên dưới, theo cách dài hơn với một dòng mới cho mỗi đối số. Phong cách này có thể dễ đọc và dễ viết “bình luận” hơn với <code>#</code> để giải thích từng phần (bình luận mở rộng là một thực hành tốt!). Để chạy lệnh dài hơn này, bạn có thể bôi đen toàn bộ lệnh và nhấp vào “Run” hoặc chỉ cần đặt con trỏ vào dòng đầu tiên rồi nhấn đồng thời phím Ctrl và phím Enter.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create an age pyramid</span>
@@ -498,7 +498,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
   age_group <span class="op">=</span> <span class="st">"age_cat5"</span>, <span class="co"># provide age group column</span>
   split_by <span class="op">=</span> <span class="st">"gender"</span>     <span class="co"># use gender column for two sides of pyramid</span>
   <span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="75%" height="75%"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="75%" height="75%"></div>
 <p>Không cần xác định nửa đầu của phép gán đối số (ví dụ: <code>data =</code>) nếu các đối số được viết theo một thứ tự cụ thể (được chỉ định trong tài liệu của hàm). Đoạn code dưới đây tạo ra cùng một kim tự tháp như ở trên, bởi vì hàm kì vọng thứ tự đối số là: data frame, biến <code>age_group</code>, biến <code>split_by</code>.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This command will produce the exact same graphic as above</span>
@@ -518,7 +518,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
   proportional <span class="op">=</span> <span class="cn">TRUE</span>,         <span class="co"># percents instead of counts</span>
   pal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"orange"</span>, <span class="st">"purple"</span><span class="op">)</span>  <span class="co"># colors</span>
   <span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="75%" height="75%"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="75%" height="75%"></div>
 <!-- ======================================================= -->
 </div>
 <div id="viết-hàm" class="section level3 unnumbered">
@@ -1868,7 +1868,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 </li>
 <li>Trợ giúp viết code</li>
 </ul>
-<p>Các lỗi thường gặp và cảnh báo cũng như mẹo khắc phục sự cố có thể được tìm thấy trong chương <a href="errors.html#errors">Các lỗi thường gặp</a>.</p>
+<p>Các lỗi thường gặp và cảnh báo cũng như mẹo khắc phục sự cố có thể được tìm thấy trong chương <a href="errors.html#c%C3%A1c-l%E1%BB%97i-th%C6%B0%E1%BB%9Dng-g%E1%BA%B7p">Các lỗi thường gặp</a>.</p>
 <!-- ======================================================= -->
 <div id="lỗi-và-cảnh-báo-1" class="section level3 unnumbered">
 <h3>Lỗi và Cảnh báo<a class="anchor" aria-label="anchor" href="#l%E1%BB%97i-v%C3%A0-c%E1%BA%A3nh-b%C3%A1o-1"><i class="fas fa-link"></i></a>
@@ -2029,7 +2029,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
