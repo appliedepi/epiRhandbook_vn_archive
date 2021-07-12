@@ -61,7 +61,7 @@
 <li><a class="" href="cleaning.html"><span class="header-section-number">8</span> Làm sạch số liệu và các hàm quan trọng</a></li>
 <li><a class="" href="dates.html"><span class="header-section-number">9</span> Làm việc với ngày tháng</a></li>
 <li><a class="" href="characters-strings.html"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
-<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors/</a></li>
+<li><a class="" href="factors.html"><span class="header-section-number">11</span> Factors</a></li>
 <li><a class="" href="pivoting.html"><span class="header-section-number">12</span> Xoay trục dữ liệu</a></li>
 <li><a class="" href="grouping.html"><span class="header-section-number">13</span> Nhóm dữ liệu</a></li>
 <li><a class="" href="joining-matching.html"><span class="header-section-number">14</span> Nối dữ liệu</a></li>
@@ -158,8 +158,8 @@
 <code class="sourceCode R"><span class="co"># import the linelist</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
 <p>Bên dưới là hiển thị của 50 hàng đầu tiên của bộ số liệu linelist.</p>
-<div id="htmlwidget-854d69d38cabfbfdb0cc" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-854d69d38cabfbfdb0cc">{"x":{"filter":"none","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-453d3f92e0aedfe7adbd" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-453d3f92e0aedfe7adbd">{"x":{"filter":"none","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="làm-sạch-số-liệu" class="section level3 unnumbered">
 <h3>Làm sạch số liệu<a class="anchor" aria-label="anchor" href="#l%C3%A0m-s%E1%BA%A1ch-s%E1%BB%91-li%E1%BB%87u"><i class="fas fa-link"></i></a>
@@ -180,7 +180,7 @@
 <div class="sourceCode" id="cb961"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## convert dichotomous variables to 0/1 </span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span>  
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span>                                      
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span>                                      
     .cols <span class="op">=</span> <span class="fu">all_of</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">explanatory_vars</span>, <span class="st">"outcome"</span><span class="op">)</span><span class="op">)</span>,  <span class="co">## for each column listed and "outcome"</span>
     .fns <span class="op">=</span> <span class="op">~</span><span class="fu">case_when</span><span class="op">(</span>                              
       <span class="va">.</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"m"</span>, <span class="st">"yes"</span>, <span class="st">"Death"</span><span class="op">)</span>   <span class="op">~</span> <span class="fl">1</span>,           <span class="co">## recode male, yes and death to 1</span>
@@ -263,16 +263,16 @@
 <span class="va">points</span> <span class="op">&lt;-</span> <span class="fu">augment</span><span class="op">(</span><span class="va">lm_results</span><span class="op">)</span>
 
 <span class="co">## plot the data using age as the x-axis </span>
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">points</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+<span class="fu">ggplot</span><span class="op">(</span><span class="va">points</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="co">## add points for height </span>
-  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">ht_cm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_point</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">ht_cm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="co">## add your regression line </span>
-  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">.fitted</span><span class="op">)</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">geom_line</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">.fitted</span><span class="op">)</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/lin_reg_res_plot-1.png" width="672"></div>
 <p>Bạn cũng có thể vẽ đường hồi quy tuyến tính đơn bằng package <strong>ggplot</strong> thông qua hàm <code>geom_smooth()</code>.</p>
 <div class="sourceCode" id="cb969"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## add your data to a plot </span>
- <span class="fu">ggplot</span><span class="op">(</span><span class="va">linelist</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">ht_cm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+ <span class="fu">ggplot</span><span class="op">(</span><span class="va">linelist</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span>, y <span class="op">=</span> <span class="va">ht_cm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="co">## show points</span>
   <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="co">## add a linear regression </span>
@@ -378,10 +378,10 @@
 ## AIC: 5721.1
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<p>Để thay đổi giá trị tham chiếu của một biến Factor và chuyển giá trị mong muốn lên vị trí đầu tiên, dùng hàm <code>fct_relevel()</code> (xem chương [Factors]). Ở ví dụ bên dưới, chúng tôi lấy biến <code>age_cat</code> và đặt nhóm tuổi “20-29” làm giá trị tham chiếu trước khi chuyển số liệu đã sửa đổi vào hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>.</p>
+<p>Để thay đổi giá trị tham chiếu của một biến Factor và chuyển giá trị mong muốn lên vị trí đầu tiên, dùng hàm <code>fct_relevel()</code> (xem chương <a href="factors.html#factors">Factors</a>). Ở ví dụ bên dưới, chúng tôi lấy biến <code>age_cat</code> và đặt nhóm tuổi “20-29” làm giá trị tham chiếu trước khi chuyển số liệu đã sửa đổi vào hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>.</p>
 <div class="sourceCode" id="cb974"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">%&gt;%</span> 
-  <span class="fu">mutate</span><span class="op">(</span>age_cat <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span><span class="va">age_cat</span>, <span class="st">"20-29"</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>age_cat <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span><span class="va">age_cat</span>, <span class="st">"20-29"</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">age_cat</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
@@ -424,10 +424,10 @@
 <div class="sourceCode" id="cb976"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">age_cat</span>, family <span class="op">=</span> <span class="st">"binomial"</span>, data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">tidy</span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>        <span class="co"># exponentiate and produce CIs</span>
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># round all numeric columns</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># round all numeric columns</span></code></pre></div>
 <p>Bên dưới là bảng kết quả đầu ra của <code>model</code>:</p>
-<div id="htmlwidget-1b17348ab6ea0f065b6f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1b17348ab6ea0f065b6f">{"x":{"filter":"none","data":[["(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><ol start="2" style="list-style-type: decimal">
+<div id="htmlwidget-2f09aa0c0fa71b4abbc5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2f09aa0c0fa71b4abbc5">{"x":{"filter":"none","data":[["(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><ol start="2" style="list-style-type: decimal">
 <li>Kết hợp các kết quả của mô hình vào trong một bảng đếm. Dưới đây, chúng tôi tạo một bảng đếm bằng hàm <code>tabyl()</code> từ package <strong>janitor</strong>, như được đề cập trong chương <a href="tables-descriptive.html#tables-descriptive">Bảng mô tả</a>.</li>
 </ol>
 <div class="sourceCode" id="cb977"><pre class="downlit sourceCode r">
@@ -444,14 +444,14 @@
 <!--   pivot_wider(names_from = outcome, values_from = n)    ## spread data to wide format (as in cross-tabulation) -->
 <!-- ``` -->
 <p>Đây là cách mà bảng <code>counts_table</code> được hiển thị:</p>
-<div id="htmlwidget-445fec5b515c844424a8" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-445fec5b515c844424a8">{"x":{"filter":"none","data":[["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+"],[338,365,273,238,345,228,35,3],[427,433,396,299,448,307,30,2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_cat<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bây giờ chúng ta có thể nối bảng <code>counts_table</code> và kết quả của mô hình <code>model</code> lại với nhau theo chiều ngang bằng hàm nối cột <code>bind_cols()</code> (<strong>dplyr</strong>). Hãy nhớ rằng đối với hàm <code>bind_cols()</code> các hàng trong hai cấu trúc dữ liệu trên phải được căn chỉnh hoàn hảo. Trong đoạn code này, bởi vì chúng ta đang thực hiện một chuỗi các thuật toán pipe, chúng ta sử dụng dấu <code>.</code> để đại diện cho đối tượng được nối trong bảng đếm <code>counts_table</code> khi chúng tôi nối nó với kết quả mô hình <code>model</code>. Để kết thúc quy trình này, chúng ta sử dụng hàm <code>select()</code> để chọn các cột mong muốn và thứ tự của nó, và cuối cùng áp dụng hàm <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code> trong <strong>base</strong> R để làm tròn với hai chữ số thập phân cho tất cả các cột.</p>
+<div id="htmlwidget-69a3c215da3c05285520" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-69a3c215da3c05285520">{"x":{"filter":"none","data":[["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+"],[338,365,273,238,345,228,35,3],[427,433,396,299,448,307,30,2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_cat<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bây giờ chúng ta có thể nối bảng <code>counts_table</code> và kết quả của mô hình <code>model</code> lại với nhau theo chiều ngang bằng hàm nối cột <code>bind_cols()</code> (<strong>dplyr</strong>). Hãy nhớ rằng đối với hàm <code>bind_cols()</code> các hàng trong hai cấu trúc dữ liệu trên phải được căn chỉnh hoàn hảo. Trong đoạn code này, bởi vì chúng ta đang thực hiện một chuỗi các thuật toán pipe, chúng ta sử dụng dấu <code>.</code> để đại diện cho đối tượng được nối trong bảng đếm <code>counts_table</code> khi chúng tôi nối nó với kết quả mô hình <code>model</code>. Để kết thúc quy trình này, chúng ta sử dụng hàm <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> để chọn các cột mong muốn và thứ tự của nó, và cuối cùng áp dụng hàm <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code> trong <strong>base</strong> R để làm tròn với hai chữ số thập phân cho tất cả các cột.</p>
 <div class="sourceCode" id="cb978"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">counts_table</span> <span class="op">%&gt;%</span>           <span class="co"># begin with table of counts</span>
   <span class="fu">bind_cols</span><span class="op">(</span><span class="va">.</span>, <span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span>              <span class="co"># combine with the outputs of the regression </span>
-  <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="va">estimate</span>,          <span class="co"># select and re-order cols</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="va">estimate</span>,          <span class="co"># select and re-order cols</span>
          <span class="va">conf.low</span>, <span class="va">conf.high</span>, <span class="va">p.value</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co">## round to 2 decimal places</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co">## round to 2 decimal places</span></code></pre></div>
 <p>Đây là hiển thị của cấu trúc đã được kết hợp, nó được xuất gọn gẽ dưới dạng một hình bằng thông qua một hàm trong package <strong>flextable</strong>. Chương <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a> giải thích cách tùy chỉnh các bảng như vậy bằng <strong>flextable</strong>, hoặc có thể sử dụng các gói lệnh khác như <strong>knitr</strong> hoặc <strong>GT</strong>.</p>
 <div class="sourceCode" id="cb979"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">combined</span> <span class="op">%&gt;%</span> 
@@ -468,8 +468,7 @@
 </ol>
 <div class="sourceCode" id="cb980"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">explanatory_vars</span> <span class="op">%&gt;%</span> <span class="fu">str_c</span><span class="op">(</span><span class="st">"outcome ~ "</span>, <span class="va">.</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "outcome ~ gender"  "outcome ~ fever"   "outcome ~ chills"  "outcome ~ cough"  
-## [5] "outcome ~ aches"   "outcome ~ vomit"   "outcome ~ age_cat"</code></pre>
+<pre><code>## [1] "outcome ~ gender"  "outcome ~ fever"   "outcome ~ chills"  "outcome ~ cough"   "outcome ~ aches"   "outcome ~ vomit"   "outcome ~ age_cat"</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Đưa các công thức chuỗi này vào hàm <code>map()</code> và đặt <code>~glm()</code> làm hàm áp dụng cho mỗi đầu vào. Bên trong hàm <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, thiết lập công thức hồi quy <code><a href="https://rdrr.io/r/stats/formula.html">as.formula(.x)</a></code> trong đó <code>.x</code> sẽ được thay thế bằng các công thức chuỗi đã được tạo bên trên. Hàm <code>map()</code> sẽ lặp từng công thức chuỗi và thực hiện hồi quy cho từng công thức.</p></li>
 <li><p>Kết quả đầu ra của hàm <code>map()</code> đầu tiên sẽ được chuyển đến hàm <code>map()</code> thứ hai mà sử dụng hàm <code>tidy()</code> để làm gọn các kết quả đầu ra.</p></li>
@@ -497,23 +496,23 @@
   <span class="fu">bind_rows</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   
   <span class="co"># round all numeric columns</span>
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Lúc này, kết quả xuất ra của <code>models</code> dài hơn bởi vì kết quả bây giờ bao gồm các kết quả đầu ra của một số hồi quy đơn biến. Nhấp nút tiếp theo để xem tất cả các hàng của <code>model</code>.</p>
-<div id="htmlwidget-685f16de9a79e3565030" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-685f16de9a79e3565030">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.04,0.06,0.07,0.08,0.03,0.08,0.08,0.09,0.03,0.1,0.04,0.06,0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[5.67,-0.04,3.44,0.01,6.98,0.41,1.53,1.58,7.78,-0.66,4.67,1.39,3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Như lúc trước, chúng ta có thể tạo một bảng đếm từ bộ số liệu <code>linelist</code> cho mỗi biến giải thích, gắn chúng với <code>models</code>, và tạo ra một bảng đẹp. Chúng ta bắt đầu với các biến giải thích này, và lặp lại các biến này thông qua hàm <code>map()</code>. Chúng ta lặp lại qua một hàm do người dùng tạo ra mà liên quan đến việc tạo ra một bảng đếm bằng cách dùng các hàm trong package <strong>dplyr</strong> Sau đó, kết quả được kết nối trình tự với kết quả của mô hình <code>models</code>.</p>
+<div id="htmlwidget-f165ceaee56bc1621d53" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f165ceaee56bc1621d53">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[0.04,0.06,0.07,0.08,0.03,0.08,0.08,0.09,0.03,0.1,0.04,0.06,0.07,0.1,0.11,0.11,0.1,0.11,0.26,0.92],[5.67,-0.04,3.44,0.01,6.98,0.41,1.53,1.58,7.78,-0.66,4.67,1.39,3.21,-0.62,1.29,-0.05,0.27,0.56,-1.5,-0.7],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Như lúc trước, chúng ta có thể tạo một bảng đếm từ bộ số liệu <code>linelist</code> cho mỗi biến giải thích, gắn chúng với <code>models</code>, và tạo ra một bảng đẹp. Chúng ta bắt đầu với các biến giải thích này, và lặp lại các biến này thông qua hàm <code>map()</code>. Chúng ta lặp lại qua một hàm do người dùng tạo ra mà liên quan đến việc tạo ra một bảng đếm bằng cách dùng các hàm trong package <strong>dplyr</strong> Sau đó, kết quả được kết nối trình tự với kết quả của mô hình <code>models</code>.</p>
 <div class="sourceCode" id="cb983"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## for each explanatory variable</span>
 <span class="va">univ_tab_base</span> <span class="op">&lt;-</span> <span class="va">explanatory_vars</span> <span class="op">%&gt;%</span> 
   <span class="fu">map</span><span class="op">(</span>.f <span class="op">=</span> 
     <span class="op">~</span><span class="op">{</span><span class="va">linelist</span> <span class="op">%&gt;%</span>                <span class="co">## begin with linelist</span>
-        <span class="fu">group_by</span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>     <span class="co">## group data set by outcome</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>     <span class="co">## group data set by outcome</span>
         <span class="fu">count</span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span>    <span class="co">## produce counts for variable of interest</span>
         <span class="fu">pivot_wider</span><span class="op">(</span>              <span class="co">## spread to wide format (as in cross-tabulation)</span>
           names_from <span class="op">=</span> <span class="va">outcome</span>,
           values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span> <span class="op">%&gt;%</span> 
         <span class="fu">drop_na</span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span>         <span class="co">## drop rows with missings</span>
-        <span class="fu">rename</span><span class="op">(</span><span class="st">"variable"</span> <span class="op">=</span> <span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span>      <span class="co">## change variable of interest column to "variable"</span>
-        <span class="fu">mutate</span><span class="op">(</span>variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span><span class="op">)</span><span class="op">}</span> <span class="co">## convert to character, else non-dichotomous (categorical) variables come out as factor and cant be merged</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="st">"variable"</span> <span class="op">=</span> <span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span>      <span class="co">## change variable of interest column to "variable"</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span><span class="op">)</span><span class="op">}</span> <span class="co">## convert to character, else non-dichotomous (categorical) variables come out as factor and cant be merged</span>
       <span class="op">)</span> <span class="op">%&gt;%</span> 
   
   <span class="co">## collapse the list of count outputs in to one data frame</span>
@@ -523,13 +522,13 @@
   <span class="fu">bind_cols</span><span class="op">(</span><span class="va">.</span>, <span class="va">models</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   
   <span class="co">## only keep columns interested in </span>
-  <span class="fu">select</span><span class="op">(</span><span class="va">term</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="va">estimate</span>, <span class="va">conf.low</span>, <span class="va">conf.high</span>, <span class="va">p.value</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="va">estimate</span>, <span class="va">conf.low</span>, <span class="va">conf.high</span>, <span class="va">p.value</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   
   <span class="co">## round decimal places</span>
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Bên dưới là cấu trúc số liệu kết nối được tạo ra. Xem chương <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a> để có thêm ý tưởng về cách chuyển đổi bảng số liệu này thành một bảng đẹp trên HTML (ví dụ như với package <strong>flextable</strong>).</p>
-<div id="htmlwidget-ede81191e52456991800" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ede81191e52456991800">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[909,916,340,1485,1472,353,272,1553,1636,189,931,894,338,365,273,238,345,228,35,3],[1168,1174,436,1906,1877,465,309,2033,2114,228,1144,1198,427,433,396,299,448,307,30,2],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n      <th>estimate<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<div id="htmlwidget-8264d9f00a3e9bf6410b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8264d9f00a3e9bf6410b">{"x":{"filter":"none","data":[["(Intercept)","gender","(Intercept)","fever","(Intercept)","chills","(Intercept)","cough","(Intercept)","aches","(Intercept)","vomit","(Intercept)","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[909,916,340,1485,1472,353,272,1553,1636,189,931,894,338,365,273,238,345,228,35,3],[1168,1174,436,1906,1877,465,309,2033,2114,228,1144,1198,427,433,396,299,448,307,30,2],[1.28,1,1.28,1,1.28,1.03,1.14,1.15,1.29,0.93,1.23,1.09,1.26,0.94,1.15,0.99,1.03,1.07,0.68,0.53],[1.18,0.88,1.11,0.85,1.19,0.89,0.97,0.97,1.21,0.76,1.13,0.96,1.1,0.77,0.93,0.8,0.84,0.85,0.41,0.07],[1.4,1.13,1.48,1.17,1.37,1.21,1.34,1.37,1.38,1.14,1.34,1.23,1.46,1.15,1.42,1.24,1.26,1.33,1.13,3.2],[0,0.97,0,0.99,0,0.68,0.13,0.11,0,0.51,0,0.17,0,0.54,0.2,0.96,0.79,0.58,0.13,0.49]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>0<\/th>\n      <th>1<\/th>\n      <th>estimate<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n      <th>p.value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
 <div id="reg_gt_uni" class="section level3 unnumbered">
@@ -557,7 +556,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bflmezrjmi .gt_table {
+#lrurctupcx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -582,7 +581,7 @@
   border-left-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_heading {
+#lrurctupcx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -594,7 +593,7 @@
   border-right-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_title {
+#lrurctupcx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -604,7 +603,7 @@
   border-bottom-width: 0;
 }
 
-#bflmezrjmi .gt_subtitle {
+#lrurctupcx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -614,13 +613,13 @@
   border-top-width: 0;
 }
 
-#bflmezrjmi .gt_bottom_border {
+#lrurctupcx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_col_headings {
+#lrurctupcx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -635,7 +634,7 @@
   border-right-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_col_heading {
+#lrurctupcx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -655,7 +654,7 @@
   overflow-x: hidden;
 }
 
-#bflmezrjmi .gt_column_spanner_outer {
+#lrurctupcx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -667,15 +666,15 @@
   padding-right: 4px;
 }
 
-#bflmezrjmi .gt_column_spanner_outer:first-child {
+#lrurctupcx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bflmezrjmi .gt_column_spanner_outer:last-child {
+#lrurctupcx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bflmezrjmi .gt_column_spanner {
+#lrurctupcx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -687,7 +686,7 @@
   width: 100%;
 }
 
-#bflmezrjmi .gt_group_heading {
+#lrurctupcx .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -709,7 +708,7 @@
   vertical-align: middle;
 }
 
-#bflmezrjmi .gt_empty_group_heading {
+#lrurctupcx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -724,15 +723,15 @@
   vertical-align: middle;
 }
 
-#bflmezrjmi .gt_from_md > :first-child {
+#lrurctupcx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bflmezrjmi .gt_from_md > :last-child {
+#lrurctupcx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bflmezrjmi .gt_row {
+#lrurctupcx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -751,7 +750,7 @@
   overflow-x: hidden;
 }
 
-#bflmezrjmi .gt_stub {
+#lrurctupcx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -763,7 +762,7 @@
   padding-left: 12px;
 }
 
-#bflmezrjmi .gt_summary_row {
+#lrurctupcx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -773,7 +772,7 @@
   padding-right: 5px;
 }
 
-#bflmezrjmi .gt_first_summary_row {
+#lrurctupcx .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -783,7 +782,7 @@
   border-top-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_grand_summary_row {
+#lrurctupcx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -793,7 +792,7 @@
   padding-right: 5px;
 }
 
-#bflmezrjmi .gt_first_grand_summary_row {
+#lrurctupcx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -803,11 +802,11 @@
   border-top-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_striped {
+#lrurctupcx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bflmezrjmi .gt_table_body {
+#lrurctupcx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -816,7 +815,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_footnotes {
+#lrurctupcx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -830,13 +829,13 @@
   border-right-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_footnote {
+#lrurctupcx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#bflmezrjmi .gt_sourcenotes {
+#lrurctupcx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -850,46 +849,46 @@
   border-right-color: #D3D3D3;
 }
 
-#bflmezrjmi .gt_sourcenote {
+#lrurctupcx .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#bflmezrjmi .gt_left {
+#lrurctupcx .gt_left {
   text-align: left;
 }
 
-#bflmezrjmi .gt_center {
+#lrurctupcx .gt_center {
   text-align: center;
 }
 
-#bflmezrjmi .gt_right {
+#lrurctupcx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bflmezrjmi .gt_font_normal {
+#lrurctupcx .gt_font_normal {
   font-weight: normal;
 }
 
-#bflmezrjmi .gt_font_bold {
+#lrurctupcx .gt_font_bold {
   font-weight: bold;
 }
 
-#bflmezrjmi .gt_font_italic {
+#lrurctupcx .gt_font_italic {
   font-style: italic;
 }
 
-#bflmezrjmi .gt_super {
+#lrurctupcx .gt_super {
   font-size: 65%;
 }
 
-#bflmezrjmi .gt_footnote_marks {
+#lrurctupcx .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="bflmezrjmi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="lrurctupcx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N</strong></th>
@@ -1125,10 +1124,10 @@
 <div class="sourceCode" id="cb993"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mv_tab_base</span> <span class="op">&lt;-</span> <span class="va">final_mv_reg</span> <span class="op">%&gt;%</span> 
   <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span>exponentiate <span class="op">=</span> <span class="cn">TRUE</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>  <span class="co">## get a tidy dataframe of estimates </span>
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>          <span class="co">## round </span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">round</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>          <span class="co">## round </span></code></pre></div>
 <p>Đây là hiển thị kết quả dưới dạng data frame looks:</p>
-<div id="htmlwidget-23d7b8f4fdd9ff055d58" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-23d7b8f4fdd9ff055d58">{"x":{"filter":"none","data":[["(Intercept)","gender","fever","chills","cough","aches","vomit","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.07,1,1,1.03,1.15,0.93,1.09,0.94,1.15,0.99,1.03,1.06,0.68,0.52],[0.13,0.07,0.08,0.08,0.09,0.1,0.06,0.1,0.11,0.11,0.1,0.12,0.26,0.92],[0.52,0.04,0.05,0.43,1.54,-0.68,1.37,-0.62,1.27,-0.1,0.26,0.51,-1.48,-0.71],[0.6,0.97,0.96,0.67,0.12,0.5,0.17,0.53,0.2,0.92,0.8,0.61,0.14,0.48],[0.83,0.88,0.86,0.89,0.96,0.76,0.96,0.77,0.93,0.79,0.84,0.85,0.4,0.07],[1.39,1.14,1.18,1.21,1.37,1.14,1.23,1.15,1.41,1.24,1.26,1.33,1.13,3.19]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<div id="htmlwidget-61b2cdc1d52b5e5fcdc1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-61b2cdc1d52b5e5fcdc1">{"x":{"filter":"none","data":[["(Intercept)","gender","fever","chills","cough","aches","vomit","age_cat5-9","age_cat10-14","age_cat15-19","age_cat20-29","age_cat30-49","age_cat50-69","age_cat70+"],[1.07,1,1,1.03,1.15,0.93,1.09,0.94,1.15,0.99,1.03,1.06,0.68,0.52],[0.13,0.07,0.08,0.08,0.09,0.1,0.06,0.1,0.11,0.11,0.1,0.12,0.26,0.92],[0.52,0.04,0.05,0.43,1.54,-0.68,1.37,-0.62,1.27,-0.1,0.26,0.51,-1.48,-0.71],[0.6,0.97,0.96,0.67,0.12,0.5,0.17,0.53,0.2,0.92,0.8,0.61,0.14,0.48],[0.83,0.88,0.86,0.89,0.96,0.76,0.96,0.77,0.93,0.79,0.84,0.85,0.4,0.07],[1.39,1.14,1.18,1.21,1.37,1.14,1.23,1.15,1.41,1.24,1.26,1.33,1.13,3.19]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std.error<\/th>\n      <th>statistic<\/th>\n      <th>p.value<\/th>\n      <th>conf.low<\/th>\n      <th>conf.high<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
 <div id="gộp-kết-quả-phân-tích-đơn-biến-và-đa-biến" class="section level3 unnumbered">
@@ -1148,7 +1147,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vzmdswitxv .gt_table {
+#qmaajyczlq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1173,7 +1172,7 @@
   border-left-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_heading {
+#qmaajyczlq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1185,7 +1184,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_title {
+#qmaajyczlq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1195,7 +1194,7 @@
   border-bottom-width: 0;
 }
 
-#vzmdswitxv .gt_subtitle {
+#qmaajyczlq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1205,13 +1204,13 @@
   border-top-width: 0;
 }
 
-#vzmdswitxv .gt_bottom_border {
+#qmaajyczlq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_col_headings {
+#qmaajyczlq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1226,7 +1225,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_col_heading {
+#qmaajyczlq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1246,7 +1245,7 @@
   overflow-x: hidden;
 }
 
-#vzmdswitxv .gt_column_spanner_outer {
+#qmaajyczlq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1258,15 +1257,15 @@
   padding-right: 4px;
 }
 
-#vzmdswitxv .gt_column_spanner_outer:first-child {
+#qmaajyczlq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vzmdswitxv .gt_column_spanner_outer:last-child {
+#qmaajyczlq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vzmdswitxv .gt_column_spanner {
+#qmaajyczlq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1278,7 +1277,7 @@
   width: 100%;
 }
 
-#vzmdswitxv .gt_group_heading {
+#qmaajyczlq .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1300,7 +1299,7 @@
   vertical-align: middle;
 }
 
-#vzmdswitxv .gt_empty_group_heading {
+#qmaajyczlq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1315,15 +1314,15 @@
   vertical-align: middle;
 }
 
-#vzmdswitxv .gt_from_md > :first-child {
+#qmaajyczlq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vzmdswitxv .gt_from_md > :last-child {
+#qmaajyczlq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vzmdswitxv .gt_row {
+#qmaajyczlq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1342,7 +1341,7 @@
   overflow-x: hidden;
 }
 
-#vzmdswitxv .gt_stub {
+#qmaajyczlq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1354,7 +1353,7 @@
   padding-left: 12px;
 }
 
-#vzmdswitxv .gt_summary_row {
+#qmaajyczlq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1364,7 +1363,7 @@
   padding-right: 5px;
 }
 
-#vzmdswitxv .gt_first_summary_row {
+#qmaajyczlq .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1374,7 +1373,7 @@
   border-top-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_grand_summary_row {
+#qmaajyczlq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1384,7 +1383,7 @@
   padding-right: 5px;
 }
 
-#vzmdswitxv .gt_first_grand_summary_row {
+#qmaajyczlq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1394,11 +1393,11 @@
   border-top-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_striped {
+#qmaajyczlq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vzmdswitxv .gt_table_body {
+#qmaajyczlq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1407,7 +1406,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_footnotes {
+#qmaajyczlq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1421,13 +1420,13 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_footnote {
+#qmaajyczlq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#vzmdswitxv .gt_sourcenotes {
+#qmaajyczlq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1441,46 +1440,46 @@
   border-right-color: #D3D3D3;
 }
 
-#vzmdswitxv .gt_sourcenote {
+#qmaajyczlq .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#vzmdswitxv .gt_left {
+#qmaajyczlq .gt_left {
   text-align: left;
 }
 
-#vzmdswitxv .gt_center {
+#qmaajyczlq .gt_center {
   text-align: center;
 }
 
-#vzmdswitxv .gt_right {
+#qmaajyczlq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vzmdswitxv .gt_font_normal {
+#qmaajyczlq .gt_font_normal {
   font-weight: normal;
 }
 
-#vzmdswitxv .gt_font_bold {
+#qmaajyczlq .gt_font_bold {
   font-weight: bold;
 }
 
-#vzmdswitxv .gt_font_italic {
+#qmaajyczlq .gt_font_italic {
   font-style: italic;
 }
 
-#vzmdswitxv .gt_super {
+#qmaajyczlq .gt_super {
   font-size: 65%;
 }
 
-#vzmdswitxv .gt_footnote_marks {
+#qmaajyczlq .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="vzmdswitxv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="qmaajyczlq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -1604,7 +1603,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#oilrqhkhuo .gt_table {
+#spxacahlzs .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1629,7 +1628,7 @@
   border-left-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_heading {
+#spxacahlzs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1641,7 +1640,7 @@
   border-right-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_title {
+#spxacahlzs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1651,7 +1650,7 @@
   border-bottom-width: 0;
 }
 
-#oilrqhkhuo .gt_subtitle {
+#spxacahlzs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1661,13 +1660,13 @@
   border-top-width: 0;
 }
 
-#oilrqhkhuo .gt_bottom_border {
+#spxacahlzs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_col_headings {
+#spxacahlzs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1682,7 +1681,7 @@
   border-right-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_col_heading {
+#spxacahlzs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1702,7 +1701,7 @@
   overflow-x: hidden;
 }
 
-#oilrqhkhuo .gt_column_spanner_outer {
+#spxacahlzs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1714,15 +1713,15 @@
   padding-right: 4px;
 }
 
-#oilrqhkhuo .gt_column_spanner_outer:first-child {
+#spxacahlzs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oilrqhkhuo .gt_column_spanner_outer:last-child {
+#spxacahlzs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oilrqhkhuo .gt_column_spanner {
+#spxacahlzs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1734,7 +1733,7 @@
   width: 100%;
 }
 
-#oilrqhkhuo .gt_group_heading {
+#spxacahlzs .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1756,7 +1755,7 @@
   vertical-align: middle;
 }
 
-#oilrqhkhuo .gt_empty_group_heading {
+#spxacahlzs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1771,15 +1770,15 @@
   vertical-align: middle;
 }
 
-#oilrqhkhuo .gt_from_md > :first-child {
+#spxacahlzs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oilrqhkhuo .gt_from_md > :last-child {
+#spxacahlzs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oilrqhkhuo .gt_row {
+#spxacahlzs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1798,7 +1797,7 @@
   overflow-x: hidden;
 }
 
-#oilrqhkhuo .gt_stub {
+#spxacahlzs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1810,7 +1809,7 @@
   padding-left: 12px;
 }
 
-#oilrqhkhuo .gt_summary_row {
+#spxacahlzs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1820,7 +1819,7 @@
   padding-right: 5px;
 }
 
-#oilrqhkhuo .gt_first_summary_row {
+#spxacahlzs .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1830,7 +1829,7 @@
   border-top-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_grand_summary_row {
+#spxacahlzs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1840,7 +1839,7 @@
   padding-right: 5px;
 }
 
-#oilrqhkhuo .gt_first_grand_summary_row {
+#spxacahlzs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1850,11 +1849,11 @@
   border-top-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_striped {
+#spxacahlzs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oilrqhkhuo .gt_table_body {
+#spxacahlzs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1863,7 +1862,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_footnotes {
+#spxacahlzs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1877,13 +1876,13 @@
   border-right-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_footnote {
+#spxacahlzs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#oilrqhkhuo .gt_sourcenotes {
+#spxacahlzs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1897,46 +1896,46 @@
   border-right-color: #D3D3D3;
 }
 
-#oilrqhkhuo .gt_sourcenote {
+#spxacahlzs .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#oilrqhkhuo .gt_left {
+#spxacahlzs .gt_left {
   text-align: left;
 }
 
-#oilrqhkhuo .gt_center {
+#spxacahlzs .gt_center {
   text-align: center;
 }
 
-#oilrqhkhuo .gt_right {
+#spxacahlzs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oilrqhkhuo .gt_font_normal {
+#spxacahlzs .gt_font_normal {
   font-weight: normal;
 }
 
-#oilrqhkhuo .gt_font_bold {
+#spxacahlzs .gt_font_bold {
   font-weight: bold;
 }
 
-#oilrqhkhuo .gt_font_italic {
+#spxacahlzs .gt_font_italic {
   font-style: italic;
 }
 
-#oilrqhkhuo .gt_super {
+#spxacahlzs .gt_super {
   font-size: 65%;
 }
 
-#oilrqhkhuo .gt_footnote_marks {
+#spxacahlzs .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="oilrqhkhuo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="spxacahlzs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings">
 <tr>
 <th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1"><strong>Characteristic</strong></th>
@@ -2136,7 +2135,7 @@
 <ul>
 <li>Kết nối kết quả đơn biến trước đó (<code>univ_tab_base</code>, chứa được các cột đếm) với kết quả đa biến đã được làm gọn <code>mv_tab_base</code><br>
 </li>
-<li>Sử dụng hàm <code>select()</code> để giữ lại, sắp xếp lại thứ tự và đặt lại tên các cột mà chúng ta muốn<br>
+<li>Sử dụng hàm <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> để giữ lại, sắp xếp lại thứ tự và đặt lại tên các cột mà chúng ta muốn<br>
 </li>
 <li>Sử dụng hàm <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code> để làm tròn tất cả các cột với hai số thập phân</li>
 </ul>
@@ -2144,7 +2143,7 @@
 <code class="sourceCode R"><span class="co">## combine univariate and multivariable tables </span>
 <span class="fu">left_join</span><span class="op">(</span><span class="va">univ_tab_base</span>, <span class="va">mv_tab_base</span>, by <span class="op">=</span> <span class="st">"term"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="co">## choose columns and rename them</span>
-  <span class="fu">select</span><span class="op">(</span> <span class="co"># new name =  old name</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span> <span class="co"># new name =  old name</span>
     <span class="st">"characteristic"</span> <span class="op">=</span> <span class="va">term</span>, 
     <span class="st">"recovered"</span>      <span class="op">=</span> <span class="st">"0"</span>, 
     <span class="st">"dead"</span>           <span class="op">=</span> <span class="st">"1"</span>, 
@@ -2157,31 +2156,30 @@
     <span class="st">"mv_ci_high"</span>     <span class="op">=</span> <span class="va">conf.high.y</span>,
     <span class="st">"mv_pval"</span>        <span class="op">=</span> <span class="va">p.value.y</span> 
   <span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">mutate</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.double</span><span class="op">)</span>, <span class="va">round</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>   </code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.double</span><span class="op">)</span>, <span class="va">round</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>   </code></pre></div>
 <pre><code>## # A tibble: 20 x 11
-##    characteristic recovered  dead univ_or univ_ci_low univ_ci_high univ_pval mv_or
-##    &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
-##  1 (Intercept)          909  1168    1.28        1.18         1.4       0     1.07
-##  2 gender               916  1174    1           0.88         1.13      0.97  1   
-##  3 (Intercept)          340   436    1.28        1.11         1.48      0     1.07
-##  4 fever               1485  1906    1           0.85         1.17      0.99  1   
-##  5 (Intercept)         1472  1877    1.28        1.19         1.37      0     1.07
-##  6 chills               353   465    1.03        0.89         1.21      0.68  1.03
-##  7 (Intercept)          272   309    1.14        0.97         1.34      0.13  1.07
-##  8 cough               1553  2033    1.15        0.97         1.37      0.11  1.15
-##  9 (Intercept)         1636  2114    1.29        1.21         1.38      0     1.07
-## 10 aches                189   228    0.93        0.76         1.14      0.51  0.93
-## 11 (Intercept)          931  1144    1.23        1.13         1.34      0     1.07
-## 12 vomit                894  1198    1.09        0.96         1.23      0.17  1.09
-## 13 (Intercept)          338   427    1.26        1.1          1.46      0     1.07
-## 14 age_cat5-9           365   433    0.94        0.77         1.15      0.54  0.94
-## 15 age_cat10-14         273   396    1.15        0.93         1.42      0.2   1.15
-## 16 age_cat15-19         238   299    0.99        0.8          1.24      0.96  0.99
-## 17 age_cat20-29         345   448    1.03        0.84         1.26      0.79  1.03
-## 18 age_cat30-49         228   307    1.07        0.85         1.33      0.58  1.06
-## 19 age_cat50-69          35    30    0.68        0.41         1.13      0.13  0.68
-## 20 age_cat70+             3     2    0.53        0.07         3.2       0.49  0.52
-## # ... with 3 more variables: mvv_ci_low &lt;dbl&gt;, mv_ci_high &lt;dbl&gt;, mv_pval &lt;dbl&gt;</code></pre>
+##    characteristic recovered  dead univ_or univ_ci_low univ_ci_high univ_pval mv_or mvv_ci_low mv_ci_high mv_pval
+##    &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;
+##  1 (Intercept)          909  1168    1.28        1.18         1.4       0     1.07       0.83       1.39    0.6 
+##  2 gender               916  1174    1           0.88         1.13      0.97  1          0.88       1.14    0.97
+##  3 (Intercept)          340   436    1.28        1.11         1.48      0     1.07       0.83       1.39    0.6 
+##  4 fever               1485  1906    1           0.85         1.17      0.99  1          0.86       1.18    0.96
+##  5 (Intercept)         1472  1877    1.28        1.19         1.37      0     1.07       0.83       1.39    0.6 
+##  6 chills               353   465    1.03        0.89         1.21      0.68  1.03       0.89       1.21    0.67
+##  7 (Intercept)          272   309    1.14        0.97         1.34      0.13  1.07       0.83       1.39    0.6 
+##  8 cough               1553  2033    1.15        0.97         1.37      0.11  1.15       0.96       1.37    0.12
+##  9 (Intercept)         1636  2114    1.29        1.21         1.38      0     1.07       0.83       1.39    0.6 
+## 10 aches                189   228    0.93        0.76         1.14      0.51  0.93       0.76       1.14    0.5 
+## 11 (Intercept)          931  1144    1.23        1.13         1.34      0     1.07       0.83       1.39    0.6 
+## 12 vomit                894  1198    1.09        0.96         1.23      0.17  1.09       0.96       1.23    0.17
+## 13 (Intercept)          338   427    1.26        1.1          1.46      0     1.07       0.83       1.39    0.6 
+## 14 age_cat5-9           365   433    0.94        0.77         1.15      0.54  0.94       0.77       1.15    0.53
+## 15 age_cat10-14         273   396    1.15        0.93         1.42      0.2   1.15       0.93       1.41    0.2 
+## 16 age_cat15-19         238   299    0.99        0.8          1.24      0.96  0.99       0.79       1.24    0.92
+## 17 age_cat20-29         345   448    1.03        0.84         1.26      0.79  1.03       0.84       1.26    0.8 
+## 18 age_cat30-49         228   307    1.07        0.85         1.33      0.58  1.06       0.85       1.33    0.61
+## 19 age_cat50-69          35    30    0.68        0.41         1.13      0.13  0.68       0.4        1.13    0.14
+## 20 age_cat70+             3     2    0.53        0.07         3.2       0.49  0.52       0.07       3.19    0.48</code></pre>
 <!-- ======================================================= -->
 </div>
 </div>
@@ -2206,29 +2204,29 @@
 <li>Đường thẳng đứng ở vị trí OR = 1 bằng hàm <code>geom_vline()</code>
 </li>
 </ul>
-<p>Trước khi tạo biểu đồ, chúng ta sử dụng hàm <code>fct_relevel()</code> từ package <strong>forcats</strong> để đặt thứ tự các biến trên trục y. Hàm <code>ggplot()</code> cho phép hiển thị theo thứ tự chữ-số mà có thể không hiển thị tốt cho các giá trị của biến tuổi (“30” có thể hiển thị trước “5”). Xem chương [Factors] để biết thêm chi tiết.</p>
+<p>Trước khi tạo biểu đồ, chúng ta sử dụng hàm <code>fct_relevel()</code> từ package <strong>forcats</strong> để đặt thứ tự các biến trên trục y. Hàm <code>ggplot()</code> cho phép hiển thị theo thứ tự chữ-số mà có thể không hiển thị tốt cho các giá trị của biến tuổi (“30” có thể hiển thị trước “5”). Xem chương <a href="factors.html#factors">Factors</a> để biết thêm chi tiết.</p>
 <div class="sourceCode" id="cb999"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## remove the intercept term from your multivariable results</span>
 <span class="va">mv_tab_base</span> <span class="op">%&gt;%</span> 
   
   <span class="co">#set order of levels to appear along y-axis</span>
-  <span class="fu">mutate</span><span class="op">(</span>term <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>term <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span>
     <span class="va">term</span>,
     <span class="st">"vomit"</span>, <span class="st">"gender"</span>, <span class="st">"fever"</span>, <span class="st">"cough"</span>, <span class="st">"chills"</span>, <span class="st">"aches"</span>,
     <span class="st">"age_cat5-9"</span>, <span class="st">"age_cat10-14"</span>, <span class="st">"age_cat15-19"</span>, <span class="st">"age_cat20-29"</span>,
     <span class="st">"age_cat30-49"</span>, <span class="st">"age_cat50-69"</span>, <span class="st">"age_cat70+"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   
   <span class="co"># remove "intercept" row from plot</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">!=</span> <span class="st">"(Intercept)"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">!=</span> <span class="st">"(Intercept)"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   
   <span class="co">## plot with variable on the y axis and estimate (OR) on the x axis</span>
-  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">estimate</span>, y <span class="op">=</span> <span class="va">term</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">estimate</span>, y <span class="op">=</span> <span class="va">term</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   
   <span class="co">## show the estimate as a point</span>
   <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   
   <span class="co">## add in an error bar for the confidence intervals</span>
-  <span class="fu">geom_errorbar</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">conf.low</span>, xmax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_errorbar</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">conf.low</span>, xmax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   
   <span class="co">## show where OR = 1 is for reference as a dashed line</span>
   <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">1</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></code></pre></div>
