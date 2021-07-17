@@ -89,7 +89,7 @@ Chúng tôi là những nhà dịch tễ học đến từ khắp mọi nơi tr�
 
 -   Gửi [**biểu mẫu phản hồi**](https://forms.gle/A5SnRVws7tPD15Js9)\
 -   Email tới [**epiRhandbook\@gmail.com**](mailto:epiRhandbook@gmail.com){.email} hoặc tweet [**\@epiRhandbook**](https://twitter.com/epirhandbook)\
--   Gửi các vấn đề cho chúng tôi tại [**Github repository**](https://github.com/epirhandbook/Epi_R_handbook)
+-   Gửi các vấn đề cho chúng tôi tại [**Github repository**](https://github.com/appliedepi/epirhandbook_eng)
 
 </div>
 :::
