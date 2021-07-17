@@ -1,63 +1,59 @@
 
 # Nhờ sự trợ giúp {#help}
 
-This page covers how to get help by posting a Github issue or by posting a reproducible example ("reprex") to an online forum.  
+Chương này hướng dẫn cách nhận trợ giúp bằng cách đăng vấn đề mà bạn gặp phải lên Github hoặc đưa ra một ví dụ giả lập ("reprex") lên các diễn đàn trực tuyến. 
 
 
 
+## Đăng vấn đề lên Github 
 
-## Github issues  
+Nhiều packages và dự án trong R được lưu trữ mã code của chúng trên trang web Github.com. Bạn có thể trao đổi trực tiếp với các tác giả của các package hoặc dự án này bằng cách đăng một "Issue" qua trang web Github.com..
 
-Many R packages and projects have their code hosted on the website Github.com. You can communicate directly with authors via this website by posting an "Issue".  
+Tìm hiểu thêm về cách lưu trữ các tệp của bạn trên Github trong chương [Version control với Git và Github].
 
-Read more about how to store your work on Github in the page [Collaboration and Github]. 
+Trên Github, mỗi dự án được chứa trong một *kho lưu trữ*. Mỗi kho chứa code, dữ liệu, kết quả đầu ra, tài liệu trợ giúp, v.v. Ngoài ra còn có một cách để trao đổi với các tác giả được gọi là "Issues". 
 
-On Github, each project is contained within a *repository*. Each repository contains code, data, outputs, help documentation, etc. There is also a vehicle to communicate with the authors called "Issues".  
-
-See below the Github page for the **incidence2** package (used to make epidemic curves). You can see the "Issues" tab highlighted in yellow. You can see that there are 5 open issues.  
+Xem các ảnh bên dưới về Github để hiểu thêm về package **incidence2** (được sử dụng để tạo đường cong dịch bệnh). Trong ảnh dưới, bạn có thể thấy mục "Issues" được tô màu vàng. Số 5 bên cạnh chữ "Issues" có nghĩa là có 5 vấn đề đang được mở.  
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "errors_Github_issues.png"))
 ```
 
-Once in the Issues tab, you can see the open issues. Review them to ensure your problem is not already being addressed. You can open a new issue by clicking the green button on the right. You will need a Github account to do this. 
+Ấn vào mục Issues, bạn có thể thấy các vấn đề đang mở được hiện ra. Hãy xem lại chúng để đảm bảo những vấn đề này chưa được giải quyết. Bạn có thể mở một vấn đề mới bằng cách nhấp vào nút màu xanh lá cây "New issue" ở bên phải. Để thực hiện những thao tác này, bạn sẽ cần mở một tài khoản Github. 
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "errors_Github_issues2.png"))
 ```
 
 
-  
-In your issue, follow the instructions below to provide a minimal, reproducible example. And please be courteous! Most people developing R packages and projects are doing so in their spare time (like this handbook!).  
-
-To read more advanced materials about handling issues in your own Github repository, check out the Github [documentation on Issues](https://guides.github.com/features/issues/).  
+Để đọc các tài liệu nâng cao hơn về cách xử lý các vấn đề trong kho lưu trữ Github của riêng bạn, hãy xem [Tài liệu về Issues](https://guides.github.com/features/issues/) trong Github.  
 
 
 
-## Reproducible example  
+## Ví dụ giả lập 
 
-Providing a reproducible example ("reprex") is key to getting help when posting in a forum or in a Github issue. People want to help you, but you have to give them an example that they can work with on their own computer. The example should:  
+Cung cấp một ví dụ giả lập ("reprex") là chìa khóa để nhận được giúp đỡ khi đăng bài thảo luận trên các diễn đàn hoặc trong vấn đề Github issue. Để người khác có thể giúp bạn, bạn phải cho họ một ví dụ cụ thể để họ có thể xử ý vấn dề của bạn trên máy tính của chính họ. Ví dụ của bạn cần phải:
 
-* Demonstrate the problem you encountered  
-* Be *minimal*, in that it includes only the data and code required to reproduce your problem  
-* Be *reproducible*, such that all objects (e.g. data), package calls (e.g. `library()` or `p_load()`) are included
+* Trình bày sự cố bạn gặp phải 
+* Hãy nhớ *ngắn gọn nhất có thể*, bạn chi cân ghi dữ liệu và đoạn code cần thiết để giả lập lại sự cố của bạn
+* Đủ thông tin để *giả lập* lại tình huống của bạn, ví dụ như các thông tin như các đối tượng (ví dụ: dữ liệu), tất cả package được gọi (ví dụ:  `library()` hoặc `p_load()`).
 
-*Also, be sure you do not post any sensitive data with the reprex!* You can create example data frames, or use one of the data frames built into R (enter `data()` to open a list of these datasets).  
+*Ngoài ra, hãy đảm bảo rằng bạn không đăng bất kỳ dữ liệu nhạy cảm nào với reprex!* Bạn có thể tạo các data frames mẫu hoặc sử dụng một trong các data frames có sẵn trong R (nhập `data()`để mở danh sách các tập dữ liệu này). 
 
 
 
-### The **reprex** package {.unnumbered}  
+### Package **reprex**  {.unnumbered}  
 
-The **reprex** package can assist you with making a reproducible example:  
+Package **reprex** có thể hỗ trợ bạn tạo một ví dụ giả lập 
 
-1) **reprex** is installed with **tidyverse**, so load either package  
+1) Package **reprex** được cài đặt với package **tidyverse**, vì vậy hãy gọi một trong hai package: 
 
 ```{r, eval=F}
 # install/load tidyverse (which includes reprex)
 pacman::p_load(tidyverse)
 ```
 
-2) Begin an R script that creates your problem, step-by-step, starting from loading packages and data.  
+2) Bắt đầu một đoạn R script tạo ra vấn đề của bạn, hãy làm từng từng bước một, bắt đầu từ việc tải các package và dữ liệu. 
 
 ```{r, eval=F}
 # load packages
@@ -84,67 +80,66 @@ ggplot(data = outbreak)+
   )
 
 ```
-*Copy* all the code to your clipboard, and run the following command:  
+
+*Sao chép* tất cả code vào bộ nhớ tạm của bạn và chạy lệnh sau: 
 
 ```{r, eval=F}
 reprex::reprex()
 ```
 
-You will see an HTML output appear in the RStudio Viewer pane. It will contain all your code and any warnings, errors, or plot outputs. This output is also copied to your clipboard, so you can post it directly into a Github issue or a forum post.  
+Bạn sẽ thấy một tệp HTML xuất hiện trong cửa sổ RStudio Viewer. Nó sẽ chứa tất cả code của bạn và bất kỳ cảnh báo, lỗi hoặc biểu đồ nào. Tệp này cũng được sao chép vào bộ nhớ tạm của bạn, vì vậy bạn có thể đăng trực tiếp nó lên một vấn đề trên Github hoặc một bài đăng trên diễn đàn. 
 
 ```{r, out.width=c('100%', '100%'), warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "errors_reprex_RStudio1.png"))
 ```
 
 
-* If you set `session_info = TRUE` the output of `sessioninfo::session_info()` with your R and R package versions will be included  
-* You can provide a working directory to `wd = `  
-* You can read more about the arguments and possible variations at the [documentation]() or by entering `?reprex`
+* Nếu bạn đặt `session_info = TRUE`, thì kết quả đầu ra của lệnh `sessioninfo::session_info()` sẽ được bao gồm với các phiên bản R và package R của bạn. 
+* Bạn có thể cung cấp một thư mục làm việc cho `wd = `  
+* Bạn có thể đọc thêm về các đối số và các biến số có thể có tại [Tài liệu này]() hoặc bằng cách nhập `?reprex`
 
-In the example above, the `ggplot()` command did not run because the arguemnt `date_format =` is not correct - it should be `date_labels = `.  
-
-
-### Minimal data {.unnumbered}  
-
-The helpers need to be able to use your data - ideally they need to be able to create it *with code*.  
-
-To create a minumal dataset, consider anonymising and using only a subset of the observations. 
-
-UNDER CONSTRUCTION - you can also use the function `dput()` to create minimal dataset.  
+Trong ví dụ trên, lệnh `ggplot()` không chạy vì đối số `date_format =` không đúng. Nó phải là `date_labels = `. 
 
 
+### Tập dữ liệu tối giản {.unnumbered}  
+
+Những người giúp bạn cần sử dụng dữ liệu của bạn - lý tưởng nhất là họ có thể tạo ra nó *bằng code*.  
+
+Để tạo một tập dữ liệu tối thiểu, hãy xem xét việc ẩn danh và chỉ sử dụng một tập con của các quan sát. 
+
+ĐANG ĐƯỢC PHÁT TRIỂN - Bạn có thể sử dụng lệnh `dput()` để tạo một bộ dữ liệu tối thiểu.  
 
 
-## Posting to a forum  
-
-Read lots of forum posts. Get an understanding for which posts are well-written, and which ones are not.  
-
-1) First, decide whether to ask the question at all. Have you *thoroughly* reviewed the forum website, trying various search terms, to see if your question has already been asked?  
-
-2) Give your question an informative title (not "Help! this isn't working").  
-
-3) Write your question:  
-
-* Introduce your situation and problem  
-* Link to posts of similar issues and explain how they do not answer your question  
-* Include any relevant information to help someone who does not know the context of your work  
-* Give a minimal reproducible example with your R session information  
-* Use proper spelling, grammar, punctuation, and break your question into paragraphs so that it is easier to read  
-
-4) Monitor your question once posted to respond to any requests for clarification. Be courteous and gracious - often the people answering are volunteering their time to help you. If you have a follow-up question consider whether it should be a separate posted question.  
-
-5) Mark the question as answered, *if* you get an answer that meets the *original* request. This helps others later quickly recognize the solution.  
 
 
-Read these posts about [how to ask a good question](https://stackoverflow.com/help/how-to-ask) the [Stack overflow code of conduct](https://stackoverflow.com/conduct).  
+## Đăng lên diễn đàn   
+
+Bạn cần đọc nhiều bài viết trên diễn đàn. Hiểu được bài đăng nào được viết tốt và bài nào thì không.  
+
+1) Đầu tiên, bạn hãy quyết định xem có nên đặt câu hỏi hay không. Bạn đã *kỹ lưỡng* tìm kiếm câu trả lời trên các trang web diễn đàn, thử các cụm từ tìm kiếm khác nhau, để xem liệu câu hỏi của bạn đã được đặt ra chưa? 
+2) Đặt cho câu hỏi của bạn với một tiêu đề thông tin đầy đủ (không phải "Trợ giúp! Điều này không hoạt động").
+3) Viết câu hỏi của bạn:  
+
+* Giới thiệu hoàn cảnh và vấn đề của bạn
+* Liên kết đến các bài đăng về các vấn đề tương tự và giải thích cách họ không trả lời câu hỏi của bạn
+* Ghi bất kỳ thông tin liên quan nào để giúp những người không rõ bối cảnh công việc của bạn
+* Đưa ra một ví dụ giả lập với thông tin tối thiểu về phiên làm việc R của bạn
+* Sử dụng đúng chính tả, ngữ pháp, dấu câu và ngắt câu hỏi của bạn thành các đoạn văn để dễ đọc hơn 
+
+4) Theo dõi câu hỏi của bạn sau khi được đăng để trả lời bất kỳ yêu cầu làm rõ nào. Lịch sự và nhã nhặn - thường những người trả lời đều tình nguyện dành thời gian của họ để giúp bạn. Nếu bạn có một câu hỏi tiếp theo, hãy cân nhắc xem nó có nên là một câu hỏi được đăng riêng hay không. 
+
+5) Đánh dấu câu hỏi là đã trả lời, *nếu* bạn đã nhận được câu trả lời đáp ứng yêu cầu *ban đầu* của bạn. Điều này giúp những người truy cập sau nhanh chóng nhận ra giải pháp cho vấn đề tương tự với bạn. 
+
+
+Đọc những bài đăng này trong các tài liệu [Cách đặt một câu hỏi tốt](https://stackoverflow.com/help/how-to-ask) và [Bộ quy tắc ứng xử](https://stackoverflow.com/conduct).  
 
 
 <!-- ======================================================= -->
-## Resources { }
+## Tài liệu tham khảo { }
 
 
-Tidyverse page on how to [get help!](https://www.tidyverse.org/help/#:~:text=When%20you%20want%20to%20make,to%20load%20the%20reprex%20package.&text=Enter%20reprex()%20in%20the,preview%20of%20your%20rendered%20reprex.)
+Package Tidyverse về cách [nhận trợ giúp!](https://www.tidyverse.org/help/#:~:text=When%20you%20want%20to%20make,to%20load%20the%20reprex%20package.&text=Enter%20reprex()%20in%20the,preview%20of%20your%20rendered%20reprex.)
 
-Tips on [producing a minimal dataset](https://xiangxing98.github.io/R_Learning/R_Reproducible.nb.html#producing-a-minimal-dataset)
+Lời khuyên về [tạo ra một tập dữ liệu tối thiểu](https://xiangxing98.github.io/R_Learning/R_Reproducible.nb.html#producing-a-minimal-dataset)
 
-Documentation for the [dput function](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/dput)
+Tài liệu về [Hàm dput](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/dput)
