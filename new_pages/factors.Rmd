@@ -1,25 +1,24 @@
 # Factors {#factors}
 
-
 ```{r, out.width=c('100%'), echo=F, message=F}
 knitr::include_graphics(here::here("images", "Factors_1500x500.png"))
 ```
 
-In R, *factors* are a class of data that allow for ordered categories with a fixed set of acceptable values.  
+Trong R, *factors* là một kiểu dữ liệu cho phép sắp xếp các danh mục với một tập hợp các giá trị có thể chấp nhận.
 
-Typically, you would convert a column from character or numeric class to a factor if you want to set an intrinsic order to the values ("*levels*") so they can be displayed non-alphabetically in plots and tables. Another common use of factors is to standardise the legends of plots so they do not fluctuate if certain values are temporarily absent from the data.   
+Thông thường, bạn sẽ chuyển đổi một cột từ dạng ký tự hoặc dạng số thành dạng factor khi bạn muốn sắp xếp một thứ đặc biệt cho các giá trị ("*levels*") để chúng không hiển thị mặc định theo thứ tự bảng chữ cái trong các biểu đồ và bảng. Một cách sử dụng phổ biến khác của factor là chuẩn hóa các chú thích của biểu đồ để chúng không thay đổi nếu một giá trị tạm thời không có trong dữ liệu.
 
-This page demonstrates use of functions from the package **forcats** (a short name for "**For** **cat**egorical variables") and some **base** R functions. We also touch upon the use of **lubridate** and **aweek** for special factor cases related to epidemiological weeks.  
+Chương này giới thiệu cách sử dụng các hàm từ package **forcats** (tên viết tắt của "**For** **categorical variables**") và một số hàm **base** R. Chúng tôi cũng đề cập đến việc sử dụng **lubridate** và **aweek** cho các trường hợp factor đặc biệt liên quan đến tuần dịch tễ học.
 
-A complete list of **forcats** functions can be found online [here](https://forcats.tidyverse.org/reference/index.html). Below we demonstrate some of the most common ones.  
-
+Bạn có thể tìm thấy danh sách đầy đủ các hàm của package **forcats** trực tuyến tại đường [link này](https://forcats.tidyverse.org/reference/index.html). Sau đây, chúng tôi sẽ chỉ trình bày một số hàm phổ biến nhất.
 
 <!-- ======================================================= -->
-## Preparation  
 
-### Load packages {.unnumbered}  
+## Chuẩn bị
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+### Gọi packages {.unnumbered}
+
+Đoạn code dưới đây hiển thị cách gọi các package cần thiết cho việc phân tích. Trong sách này, chúng tôi nhấn mạnh đến việc sử dụng hàm `p_load()` từ package **pacman**, giúp cài đặt package nếu nó chưa được cài *và* gọi nó ra cho phiên làm việc. Bạn cũng có thể gọi các package đã được cài đặt bằng hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r}
 pacman::p_load(
@@ -33,33 +32,31 @@ pacman::p_load(
   )
 ```
 
+### Nhập dữ liệu {.unnumbered}
 
 
-### Import data {.unnumbered}  
+Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Để tiện muốn theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải bộ dữ liệu linelist "đã được làm sạch"</a> (as .rds file). Nhập dữ liệu bằng hàm `import()` từ package **rio** (hàm có thể áp dụng với nhiều loại dữ liệu như .xlsx, .rds, .csv - Xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
-We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import your data with the `import()` function from the **rio** package (it accepts many file types like .xlsx, .rds, .csv - see the [Import and export] page for details).  
 
 ```{r, echo=F}
 # import the linelist into R
 linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.rds"))
 ```
 
-
 ```{r, eval=F}
 # import your dataset
 linelist <- import("linelist_cleaned.rds")
 ```
 
+### Thêm biến danh mục mới {#fct_newcat .unnumbered}
 
-### New categorical variable {#fct_newcat .unnumbered}  
+Trong chương này, chúng tôi sẽ minh họa một trường hợp thường gặp, đó là tạo ra một biến danh mục mới.
 
-For demonstration in this page we will use a common scenario - the creation of a new categorical variable.
+Lưu ý rằng khi bạn chuyển đổi một cột dạng số thành dạng factor, bạn sẽ không thể thực hiện các tính toán thống kê đối với dữ liệu dạng số trên cột đó nữa.
 
-Note that if you convert a numeric column to class factor, you will not be able to calculate numeric statistics on it.  
+#### Tạo biến {.unnumbered}
 
-#### Create column {.unnumbered}  
-
-We use the existing column `days_onset_hosp` (days from symptom onset to hospital admission) and create a new column `delay_cat` by classifying each row into one of several categories. We do this with the **dplyr** function `case_when()`, which sequentially applies logical criteria (right-side) to each row and returns the corresponding left-side value for the new column `delay_cat`. Read more about `case_when()` in [Cleaning data and core functions].  
+Chúng ta sẽ sử dụng một biến có sẵn, tên là `days_onset_hosp` (số ngày, tính từ khi bắt đầu có triệu chứng cho đến khi nhập viện) và tạo một biến mới có tên `delay_cat` bằng cách phân loại các giá trị trong mỗi hàng của biến có sẵn đó thành một số nhóm khác nhau. Chúng ta sẽ thực hiện việc này bằng hàm `case_when()` trong package **dplyr**, hàm này sẽ giúp áp dụng tuần tự các tiêu chí logic (phía bên phải) cho mỗi giá trị của biễn có sẵn và trả về giá trị bên trái tương ứng ở biến mới `delay_cat`. Đọc thêm về `case_when()` tại chương [Làm sạch số liệu và các hàm quan trọng].
 
 ```{r}
 linelist <- linelist %>% 
@@ -72,68 +69,65 @@ linelist <- linelist %>%
     TRUE                                       ~ "Check me"))  
 ```
 
+#### Thứ tự mặc định của các giá trị {.unnumbered}
 
-#### Default value order {.unnumbered}  
-
-As created with `case_when()`, the new column `delay_cat` is a categorical column of class Character - *not* yet a factor. Thus, in a frequency table, we see that the unique values appear in a default alpha-numeric order - an order that does not make much intuitive sense:  
+Khi sử dụng hàm `case_when()`, biến mới `delay_cat` tạo ra sẽ là một biến danh mục với kiêu dữ liệu là ký tự - *chưa* phải là một factor. Do đó, trong bảng tần suất dưới đây, chúng ta thấy rằng các giá trị xuất hiện theo thứ tự mặc định của bảng chữ cái, điều này không có nhiều ý nghĩa trực quan:
 
 ```{r}
 table(linelist$delay_cat, useNA = "always")
 ```
 
-Likewise, if we make a bar plot, the values also appear in this order on the x-axis (see the [ggplot basics] page for more on **ggplot2** - the most common visualization package in R).  
+Tương tự như vậy, nếu chúng ta tạo biểu đồ cột, các giá trị cũng xuất hiện theo thứ tự này trên trục x (xem chương [ggplot cơ bản] để hiểu thêm về package **ggplot2** - package giúp trực quan hóa dữ liệu phổ biến nhất trong R).
 
 ```{r, warning=F, message=F}
 ggplot(data = linelist)+
   geom_bar(mapping = aes(x = delay_cat))
 ```
 
+## Chuyển đổi sang factor
 
+Để chuyển đổi một biến dạng ký tự hoặc dạng số sang dạng *factor*, bạn có thể sử dụng bất kỳ hàm nào trong package **forcats** (nhiều hàm được nêu chi tiết tại [mục dưới đây](#fct_adjust)). Các biến sẽ chuyển đổi sang dạng factor và sau đó cũng thực hiện hoặc sắp xếp theo một thứ tự nhất định của các levels - ví dụ: hàm `fct_relevel()` cho phép bạn chỉ định thứ tự levels theo cách thủ công. Hàm `as_factor()` chỉ đơn giản là chuyển đổi biến sang dạng factor mà không có thêm bất kỳ chức năng nào khác.
 
-## Convert to factor  
+Hàm `factor()` trong **base** R chuyển đổi một biến thành factor và cho phép bạn tự sắp xếp thứ tự của các nhóm giá trị, dưới dạng một vectơ ký tự của đối số `levels =`.
 
-To convert a character or numeric column to class *factor*, you can use any function from the **forcats** package (many are detailed [below](#fct_adjust)). They will convert to class factor and then also perform or allow certain ordering of the levels - for example using `fct_relevel()` lets you manually specify the level order. The function `as_factor()` simply converts the class without any further capabilities.  
-
-The **base** R function `factor()` converts a column to factor and allows you to manually specify the order of the levels, as a character vector to its `levels = ` argument.  
-
-Below we use `mutate()` and `fct_relevel()` to convert the column `delay_cat` from class character to class factor. The column `delay_cat` is created in the [Preparation](#fct_newcat) section above. 
+Dưới đây, chúng tôi sử dụng hàm `mutate()` và hàm `fct_relevel()` để chuyển đối biến có sẵn `delay_cat` từ dạng ký tự sang dạng factor. Biến `delay_cat` đã được tạo ở phần [Chuẩn bị](#fct_newcat) bên trên.
 
 ```{r}
 linelist <- linelist %>%
   mutate(delay_cat = fct_relevel(delay_cat))
 ```
 
-*The unique "values" in this column are now considered "levels" of the factor.*  The levels have an *order*, which can be printed with the **base** R function `levels()`, or alternatively viewed in a count table via `table()` from **base** R or `tabyl()` from **janitor**. By default, the order of the levels will be alpha-numeric, as before. Note that `NA` is not a factor level.  
+*Các "giá trị" duy nhất trong biến số được gọi là các "thứ bậc" của biến factor.* Các thứ bậc này được sắp xếp *theo một trật tự nhất định* và có thể được in ra bằng hàm `levels()` từ **base** R, hoặc bạn có thể xem nó bằng một bảng đếm thông qua hàm `table()`từ **base** R, hoặc hàm `tabyl()` từ package **janitor**. Trật tự này sẽ được hiển thị theo thứ tự của bảng chữ cái. Lưu ý rằng `NA` không được xem là một thứ bậc trong factor.
 
 ```{r}
 levels(linelist$delay_cat)
 ```
 
-The function `fct_relevel()` has the additional utility of allowing you to manually specify the level order. Simply write the level values in order, in quotation marks, separated by commas, as shown below. Note that the spelling must exactly match the values. If you want to create levels that do not exist in the data, use [`fct_expand()` instead](#fct_add)).  
+Hàm `fct_relevel()` có thêm chức năng cho phép bạn có thể tự sắp xếp trật tự của các thứ bậc trong factor. Đơn giản, bạn chỉ cần viết các thứ bậc theo thứ tự bạn muốn, để chúng trong dấu ngoặc kép, được phân tách bằng dấu phẩy, như được hiển thị bên dưới. Lưu ý rằng chính tả phải khớp chính xác với tên các thứ bậc. Nếu bạn muốn tạo các thứ bậc không tồn tại trong dữ liệu, hãy sử dụng hàm [`fct_expand()`](#fct_add) nhé.
 
 ```{r}
 linelist <- linelist %>%
   mutate(delay_cat = fct_relevel(delay_cat, "<2 days", "2-5 days", ">5 days"))
 ```
 
-We can now see that the levels are ordered, as specified in the previous command, in a sensible order.  
+Bây giờ chúng ta có thể thấy rằng các thứ bậc đã được sắp xếp theo một thứ tự hợp lý.
 
 ```{r}
 levels(linelist$delay_cat)
 ```
 
-Now the plot order makes more intuitive sense as well.  
+Bây giờ trật tự các cột trong biểu đồ cũng trực quan hơn.
 
 ```{r, warning=F, message=F}
 ggplot(data = linelist)+
   geom_bar(mapping = aes(x = delay_cat))
 ```
 
+## Thêm hoặc xóa thứ bậc
 
-## Add or drop levels  
+### Thêm thứ bậc {#fct_add .unnumbered}
 
-### Add {#fct_add .unnumbered}
-If you need to add levels to a factor, you can do this with `fct_expand()`. Just write the column name followed by the new levels (separated by commas). By tabulating the values, we can see the new levels and the zero counts. You can use `table()` from **base** R, or `tabyl()` from **janitor**:  
+Nếu bạn cần thêm thứ bâc trong factor, bạn có thể sử dụng hàm `fct_expand()`. Bạn chỉ cần viết tên biến và theo sau là tên các thứ bậc mới (phân tách bằng dấu phẩy). Bằng cách lập bảng, chúng ta có thể thấy các thứ bậc mới xuất hiện và chưa nhận giá trị nào. Bạn có thể sử dụng hàm `table()` trong **base** R, hoặc hàm `tabyl()` trong package **janitor**:
 
 ```{r}
 linelist %>% 
@@ -141,13 +135,11 @@ linelist %>%
   tabyl(delay_cat)   # print table
 ```
 
+Lưu ý: Package **forcats** có thể dễ dàng thêm các giá trị missing (`NA`) như là một thứ bậc. Bạn có thể xem thêm tại mục [Giá trị Missing](#fct_missing) dưới đây.
 
-Note: there is a special **forcats** function to easily add missing values (`NA`) as a level. See the section on [Missing values](#fct_missing) below.  
+### Xóa thứ bậc {.unnumbered}
 
-
-### Drop {.unnumbered}  
-
-If you use `fct_drop()`, the "unused" levels with zero counts will be dropped from the set of levels. The levels we added above ("Not admitted to a hospital") exists as a level but no rows actually have those values. So they will be dropped by applying `fct_drop()` to our factor column:  
+Nếu bạn sử dụng hàm `fct_drop()`, các thứ bậc "không được sử dụng" và không có quan sát nào sẽ bị loại bỏ khỏi factors. Thứ bậc mà chúng ta đã thêm ở trên ("Not admitted to a hospital") có tổn tại nhưng không có biến số nào. Vì vậy, chúng sẽ bị loại bỏ khỏi biến factor của chúng ta bằng cách sử dụng hàm `fct_drop()` như sau:
 
 ```{r}
 linelist %>% 
@@ -155,30 +147,25 @@ linelist %>%
   tabyl(delay_cat)
 ```
 
+## Thay đổi trật tự của các thứ bậc {#fct_adjust}
 
+Package **forcats** cung cấp các hàm hữu ích để dễ dàng thay đổi trật tự của các thứ bậc trong một biến kiểu factor (sau khi một biến số được định nghĩa là một factor):
 
+Các hàm trong package này có thể được áp dụng cho biến dạng factor trong hai trường hợp dưới đây:
 
-## Adjust level order {#fct_adjust} 
+1)  Đối với cột trong một data frame, thông thường, việc thay đổi sẽ được giữ nguyên cho các lần sử dụng dữ liệu tiếp theo
+2)  *Trong một biểu đồ*, sự thay đổi trật tự chỉ được áp dụng cho biểu đồ đó
 
-The package **forcats** offers useful functions to easily adjust the order of a factor's levels (after a column been defined as class factor): 
+### Thay đổi thủ công {.unnumbered}
 
-These functions can be applied to a factor column in two contexts:  
+Hàm này được sử dụng để thay đổi trật tự của các thứ bậc trong một biến dạng factor theo cách thủ công. Nếu hàm này được sử dụng trên một biến dạng khác, không phải factor, hàm sẽ giúp chuyển biến đó sang dạng factor trước.
 
-1) To the column in the data frame, as usual, so the transformation is available for any subsequent use of the data  
-2) *Inside of a plot*, so that the change is applied only within the plot  
+Trong dấu ngoặc đơn trước tiên điền tên của biến factor, sau đó điền:
 
+-   Tất cả các thứ bậc trong biến factor mà bạn mong muốn thay đổi trật tự (dưới dạng vector ký tự `c()`), hoặc
+-   Chỉ một giá trị thứ bậc với vị trí tương ứng mong muốn, sử dụng đối số `after =`
 
-
-### Manually {.unnumbered} 
-
-This function is used to manually order the factor levels. If used on a non-factor column, the column will first be converted to class factor.  
-
-Within the parentheses first provide the factor column name, then provide either:  
-
-* All the levels in the desired order (as a character vector `c()`), or  
-* One level and it's corrected placement using the `after = ` argument  
-
-Here is an example of redefining the column `delay_cat` (which is already class Factor) and specifying all the desired order of levels.  
+Dưới đây là một ví dụ về chuyển biến `delay_cat` thành dạng factor (mặc dù biến này đã ở dạng Factor rồi) và sắp xếp lại các thứ bậc theo thứ tự mong muốn.
 
 ```{r}
 # re-define level order
@@ -186,7 +173,7 @@ linelist <- linelist %>%
   mutate(delay_cat = fct_relevel(delay_cat, c("<2 days", "2-5 days", ">5 days")))
 ```
 
-If you only want to move one level, you can specify it to `fct_relevel()` alone and give a number to the `after = ` argument to indicate where in the order it should be. For example, the command below shifts "<2 days" to the second position: 
+Nếu bạn chỉ muốn chỉ định vị trí cho một thứ bậc, bạn có thể dùng hàm `fct_relevel()` và sử dụng đối số `after =` để chỉ định một giá trị thứ bậc với vị trí tương ứng mong muốn. Ví dụ: lệnh dưới đây chuyển thứ bậc "\<2 days" sang vị trí thứ hai:
 
 ```{r, eval=F}
 # re-define level order
@@ -195,22 +182,17 @@ linelist %>%
   tabyl(delay_cat)
 ```
 
+### Đối với biểu đồ {.unnumbered}
 
+Các lệnh trong package **forcats** có thể được sử dụng để thay đổi trật tự của biến trong data frame hoặc trong biểu đồ. Bằng cách sử dụng các lệnh để "gói" tên biến vào *trong* các lệnh vẽ biểu đồ của package `ggplot()`, bạn có thể dảo ngược/thay đổi một trật tự có sẵn của biến. Sự thay đổi này chỉ áp dụng trong biểu đồ đang vẽ.
 
-
-### Within a plot {.unnumbered}  
-
-The **forcats** commands can be used to set the level order in the data frame, or only within a plot. By using the command to "wrap around" the column name *within* the `ggplot()` plotting command, you can reverse/relevel/etc. the transformation will only apply within that plot.  
-
-Below, two plots are created with `ggplot()` (see the [ggplot basics] page). In the first, the `delay_cat` column is mapped to the x-axis of the plot, with it's default level order as in the data `linelist`. In the second example it is wrapped within `fct_relevel()` and the order is changed in the plot.  
+Dưới đây, hai biểu đồ đều được vẽ bởi hàm `ggplot()` (xem thêm tại chương [ggplot cơ bản]). Trong biểu đồ đầu tiên, biến `delay_cat` được vẽ trên trục x của biểu đồ với thứ tự các thứ bậc là mặc định trong dữ liệu `linelist`. Trong biểu đồ thứ hai, biến được đặt trong bởi hàm `fct_relevel()` và trật tự của các thứ bậc đã được sắp xếp lại.
 
 ```{r, echo =F}
 linelist <- linelist %>% 
   mutate(delay_cat = fct_relevel(delay_cat, c("2-5 days", "<2 days", ">5 days")))
 
 ```
-
-
 
 ```{r, warning=F, message=F, out.width = c('50%', '50%'), fig.show='hold'}
 # Alpha-numeric default order - no adjustment within ggplot
@@ -222,25 +204,19 @@ ggplot(data = linelist)+
   geom_bar(mapping = aes(x = fct_relevel(delay_cat, c("<2 days", "2-5 days", ">5 days"))))
 ```
 
-Note that default x-axis title is now quite complicated - you can overwrite this title with the **ggplot2** `labs()` argument.  
+Lưu ý rằng, ở biểu đồ thứ hai, tiêu đề mặc định của trục x được hiện khá phức tạp - bạn có thể sử tiêu đề này bằng đối số `labs()` trong **ggplot2**.
 
+### Đảo ngược thứ tự {.unnumbered}
 
+Bạn sẽ thường xuyên cần đảo ngược trật tự của các thứ bậc trong một biến. Đơn giản, bạn chỉ cần thêm tên biến vào bên trong hàm `fct_rev()`.
 
+Lưu ý rằng, nếu bạn *chỉ* muốn đảo ngược thứ tự trong một biểu đồ chứ không phải thứ tự của biến đó, bạn có thể thực hiện điều đó với hàm `guides()` (Xem thêm tại chương [Các tips với ggplot]).
 
-### Reverse {.unnumbered}  
+### Theo tần suất {.unnumbered}
 
-It is rather common that you want to reverse the level order. Simply wrap the factor with `fct_rev()`.  
+Để sắp xếp trật tự các thứ bậc theo tần suất mà nó xuất hiện trong dữ liệu, hãy sử dụng hàm `fct_infreq()`. Tất cả các giá trị mising (`NA`) sẽ tự động được đưa xuống cuối, trừ khi chúng được chuyển sang một thứ bậc khác (xem thêm ở [mục này](#fct_missing)). Bạn có thể đảo ngược trật tự bằng cách thêm hàm `fct_rev()` vào câu lệnh.
 
-Note that if you want to reverse *only* a plot legend but not the actual factor levels, you can do that with `guides()` (see [ggplot tips]).  
-
-
-
-
-### By frequency {.unnumbered}  
-
-To order by frequency that the value appears in the data, use `fct_infreq()`. Any missing values (`NA`) will automatically be included at the end, unless they are converted to an explicit level (see [this section](#fct_missing)). You can reverse the order by further wrapping with `fct_rev()`.  
-
-This function can be used within a `ggplot()`, as shown below.  
+Hàm này có thể được sử dụng trong `ggplot()`, như hình bên dưới.
 
 ```{r, out.width = c('50%', '50%', '50%'), fig.show='hold', warning=F, message=F}
 # ordered by frequency
@@ -256,21 +232,17 @@ ggplot(data = linelist, aes(x = fct_rev(fct_infreq(delay_cat))))+
        title = "Reverse of order by frequency")
 ```
 
+### Theo sự xuất hiện {.unnumbered}
 
-### By appearance {.unnumbered}  
+Sử dụng hàm `fct_inorder()` để thiết lập thứ bậc tương tự với thứ tự xuất hiện của các giá trị trong dữ liệu, bắt đầu từ hàng đầu tiên. Điều này có thể hữu ích nếu trước đó bạn đã cẩn thận sắp xếp dữ liệu trong data frame bằng hàm `arrange()`, sau đó sử dụng điều này để đặt trật tự các thứ bậc của biến facror.
 
-Use `fct_inorder()` to set the level order to match the order of appearance in the data, starting from the first row. This can be useful if you first carefully `arrange()` the data in the data frame, and then use this to set the factor order.  
+### Theo thống kê tóm tắt của một cột khác {.unnumbered}
 
+Bạn có thể sử dụng hàm `fct_reorder()` để sắp xếp các thứ bậc của một biến *theo thống kê tóm tắt của một biến khác*. Về mặt trực quan, điều này có cho kết quả là các biểu đồ như ý bạn, có các cột/điểm lên hoặc xuống theo một chiều trong toàn bộ biểu đồ.
 
+Trong các ví dụ bên dưới, trục x là `delay_cat`, và trục y là `ct_blood` (giá trị ngưỡng chu kỳ). Biểu đồ Box plots hiển thị phân bố của giá trị CT theo nhóm `delay_cat`. Chúng ta cần sắp xếp các box theo thứ tự tăng dần của giá trị trung vị CT của nhóm.
 
-
-### By summary statistic of another column {.unnumbered}  
-
-You can use `fct_reorder()` to order the levels of one column *by a summary statistic of another column*. Visually, this can result in pleasing plots where the bars/points ascend or descend steadily across the plot.  
-
-In the examples below, the x-axis is `delay_cat`, and the y-axis is numeric column `ct_blood` (cycle-threshold value). Box plots show the CT value distribution by `delay_cat` group. We want to order the box plots in ascending order by the group median CT value. 
-
-In the first example below, the default order alpha-numeric level order is used. You can see the box plot heights are jumbled and not in any particular order. In the second example, the `delay_cat` column (mapped to the x-axis) has been wrapped in `fct_reorder()`, the column `ct_blood` is given as the second argument, and "median" is given as the third argument (you could also use "max", "mean", "min", etc). Thus, the order of the levels of `delay_cat` will now reflect ascending median CT values of each `delay_cat` group's median CT value. This is reflected in the second plot - the box plots have been re-arranged to ascend. Note how `NA` (missing) will appear at the end, unless converted to an explicit level.  
+Trong ví dụ đầu tiên bên dưới, các thứ bậc được sắp xếp một cách mặc định. Bạn có thể thấy các chiều cao của box bị lộn xộn và không theo bất kỳ thứ tự cụ thể nào. Trong ví dụ thứ hai, cột `delay_cat` (được sắp xếp theo trục x) đã được viết lệnh với hàm `fct_reorder()`, cột `ct_blood` được đưa ra làm đối số thứ hai và "trung vị" được đưa ra làm đối số thứ ba (bạn cũng có thể sử dụng "max", "mean", "min", v.v.). Do đó, thứ tự các thứ bậc của biến `delay_cat` bây giờ sẽ phản ánh các giá trị trung vị CT tăng dần theo nhóm `delay_cat`. Điều này được trình bày trong biểu đồ thứ hai - các box đã được sắp xếp lại theo chiều tăng dần. Lưu ý biến missing `NA` sẽ luôn xuất hiện ở cuối, trừ khi được chuyển đổi thành một thứ bậc khác.
 
 ```{r, fig.show='hold', message=FALSE, warning=FALSE, out.width=c('50%', '50%')}
 # boxplots ordered by original factor levels
@@ -297,14 +269,13 @@ ggplot(data = linelist)+
   theme(legend.position = "none")
 ```
 
-Note in this example above there are no steps required prior to the `ggplot()` call - the grouping and calculations are all done internally to the ggplot command.  
+Lưu ý trong ví dụ bên trên không có bước nào được yêu cầu cần thực hiện trước khi gọi hàm `ggplot()` - việc nhóm và tính toán đều được thực hiện bên trong hàm ggplot.
 
+### Theo giá trị cuối {.unnumbered}
 
-### By "end" value {.unnumbered}  
+Sử dụng hàm `fct_reorder2()` cho biểu đồ đường theo nhóm. Hàm sẽ sắp xếp thứ tự xuất hiện các nhóm (bao gồm cả phần *chú giải*) dọc theo biểu đồ. Nói về mặt kỹ thuật, nó "sắp xếp theo các giá trị y tương ứng với các giá trị x lớn nhất."
 
-Use `fct_reorder2()` for grouped line plots. It orders the levels (and therefore the *legend*) to align with the vertical ordering of the lines at the "end" of the plot. Technically speaking, it "orders by the y-values associated with the largest x values."  
-
-For example, if you have lines showing case counts by hospital over time, you can apply `fct_reorder2()` to the `color = ` argument within `aes()`, such that the vertical order of hospitals appearing in the legend aligns with the order of lines at the terminal end of the plot. Read more in the [online documentation](https://forcats.tidyverse.org/reference/fct_reorder.html).  
+Ví dụ, nếu bạn có các dòng hiển thị số lượng trường hợp theo bệnh viện và thời gian, bạn có thể áp dụng hàm `fct_reorder2()` cho đối số `color =` trong `aes()`, sao cho thứ tự của các bệnh viện xuất hiện trong phần chú giải tương đương với thứ tự xuất hiện của các đường trong biểu đồ. Đọc thêm trong [tài liệu trực tuyến sau đây](https://forcats.tidyverse.org/reference/fct_reorder.html).
 
 ```{r, warning=F, message=F}
 epidemic_data <- linelist %>%         # begin with the linelist   
@@ -324,14 +295,11 @@ ggplot(data = epidemic_data)+                       # start plot
        color = "Hospital")                          # change legend title
 ```
 
+## Giá trị Missing {#fct_missing}
 
+Nếu có giá trị missing `NA` trong biến factor của bạn, bạn có thể dễ dàng chuyển đổi chúng thành một thứ bậc được đặt tên với hàm `fct_explicit_na()`. Giá trị missing `NA` được chuyển đổi thành "(Missing)" mặc định sẽ được xếp cuối cùng. Bạn có thể điều chỉnh tên thứ bậc bằng đối số `na_level =`.
 
-
-## Missing values {#fct_missing}  
-
-If you have `NA` values in your factor column, you can easily convert them to a named level such as "Missing" with `fct_explicit_na()`. The `NA` values are converted to "(Missing)" at the end of the level order by default. You can adjust the level name with the argument `na_level = `.  
-
-Below, this opertation is performed on the column `delay_cat` and a table is printed with `tabyl()` with `NA` converted to "Missing delay".  
+Ví dụ dưới đây được thực hiện trên biến `delay_cat` và một bảng được in bằng`tabyl()`với các giá trị missing `NA` được chuyển thành "Missing delay".
 
 ```{r}
 linelist %>% 
@@ -339,33 +307,28 @@ linelist %>%
   tabyl(delay_cat)
 ```
 
+## Kết hợp các thứ bậc trong biến factor
 
+### Kết hợp thủ công {.unnumbered}
 
+Bạn có thể điều chỉnh cách hiển thị của các thứ bậc theo cách thủ công với hàm `fct_recode()`. Điều này giống như hàm `recode()` trong package **dplyr** (xem thêm tại chương [Làm sạch số liệu và các hàm quan trọng]), nhưng nó cho phép tạo các thứ bậc mới trong factor. Nếu bạn đơn giản chỉ sử dụng hàm `recode()` trên một factor, các giá trị được mã hóa mới sẽ bị từ chối trừ khi chúng đã được đặt ở thứ bậc cho phép.
 
+Công cụ này cũng có thể được sử dụng để "kết hợp" các thứ bậc trong factor, bằng cách gán cho nhiều thứ bậc cùng một giá trị được mã hóa lại. Bạn cần cẩn thận để không bị mất thông tin! Cân nhắc thực hiện các bước kết hợp này trong một biến mới (không ghi đè lên biến hiện tại).
 
-## Combine levels  
+Hàm `fct_recode()` có cú pháp khác với hàm `recode()`. Hàm `recode()` sử dụng câu lệnh `OLD = NEW`, trong khi hàm `fct_recode()` sửu dụng câu lệnh `NEW = OLD`.
 
+Những thứ bậc sẵn có của biến `delay_cat` như sau:
 
-### Manually {.unnumbered}  
-
-You can adjust the level displays manually manually with `fct_recode()`. This is like the **dplyr** function `recode()` (see [Cleaning data and core functions]), but it allows the creation of new factor levels. If you use the simple `recode()` on a factor, new re-coded values will be rejected unless they have already been set as permissible levels. 
-
-This tool can also be used to "combine" levels, by assigning multiple levels the same re-coded value. Just be careful to not lose information! Consider doing these combining steps in a new column (not over-writing the existing column).  
-
-`fct_recode()` has a different syntax than `recode()`. `recode()` uses `OLD = NEW`, whereas `fct_recode()` uses `NEW = OLD`.     
-
-The current levels of `delay_cat` are:  
 ```{r, echo=F}
 linelist <- linelist %>% 
   mutate(delay_cat = fct_relevel(delay_cat, "<2 days", after = 0))
 ```
 
-
 ```{r}
 levels(linelist$delay_cat)
 ```
 
-The new levels are created using syntax `fct_recode(column, "new" = "old", "new" = "old", "new" = "old")` and printed:  
+Để tạo một thứ bậc mới, bạn sử dụng câu lệnh sau `fct_recode(column, "new" = "old", "new" = "old", "new" = "old")` và in ra như sau:
 
 ```{r}
 linelist %>% 
@@ -377,8 +340,7 @@ linelist %>%
   tabyl(delay_cat)
 ```
 
-Here they are manually combined with `fct_recode()`. Note there is no error raised at the creation of a new level "Less than 5 days".  
-
+Ở đây các thứ bậc cũ được kết hợp theo cách thủ công với `fct_recode()`. Lưu ý rằng không có lỗi phát sinh khi tạo thứ bậc mới "Less tham 5 days".
 
 ```{r, warning=F, message=F}
 linelist %>% 
@@ -390,13 +352,9 @@ linelist %>%
   tabyl(delay_cat)
 ```
 
+### Rút gọn thành "Other" {.unnumbered}
 
-
-
-
-### Reduce into "Other" {.unnumbered}  
-
-You can use `fct_other()` to manually assign factor levels to an "Other" level. Below, all levels in the column `hospital`, aside from "Port Hospital" and "Central Hospital", are combined into "Other". You can provide a vector to either `keep = `, or `drop = `. You can change the display of the "Other" level with `other_level = `.  
+Bạn có thể sử dụng hàm `fct_other()` để gán các thứ bậc của factor theo cách thủ công cho thứ bậc "Other". Dưới đây, tất cả các thứ bậc trong biến `hospital`, ngoại trừ "Port Hospital" và "Central Hospital", được gộp chung thành "Other". Bạn có thể cung cấp một vectơ để giữ `keep =`, hoặc loại bỏ `drop =`. Bạn có thể thay đổi cách hiển thị của thứ bậc "Other" bằng hàm `other_level =`.
 
 ```{r}
 linelist %>%    
@@ -408,19 +366,16 @@ linelist %>%
 
 ```
 
+### Rút gọn theo tần suất {.unnumbered}
 
+Bạn có thể tự động kết hợp các thứ bậc trong biến factor có tần suất ít nhất bằng cách sử dụng hàm `fct_lump()`.
 
+Để "gộp" nhiều giá trị tần suất thấp lại thành một nhóm khác "Other", hãy thực hiện một trong các thao tác sau:
 
-### Reduce by frequency {.unnumbered}
+-   Đặt `n =` là số nhóm bạn muốn giữ. n thứ bậc có tần suất nhiều nhất sẽ được giữ nguyên và tất cả các cấp độ khác sẽ kết hợp thành nhóm "Other".
+-   Đặt `prop =` là ngưỡng tỷ lệ cho các thứ bậc bạn muốn giữ ở trên. Tất cả các giá trị khác sẽ kết hợp thành nhóm "Other".
 
-You can combine the least-frequent factor levels automatically using `fct_lump()`.  
-
-To "lump" together many low-frequency levels into an "Other" group, do one of the following:  
-
-* Set `n = ` as the number of groups you want to keep. The n most-frequent levels will be kept, and all others will combine into "Other".  
-* Set `prop = ` as the threshold frequency proportion for levels above which you want to keep. All other values will combine into "Other".  
-
-You can change the display of the "Other" level with `other_level = `. Below, all but the two most-frequent hospitals are combined into "Other Hospital".  
+Bạn có thể thay đổi cách hiển thị của thứ bậc "Other" bằng hàm `other_level =`. Dưới đây, tất cả các giá trị ngoài hai bệnh viện phổ biến nhất đều được kết hợp thành nhóm "Other Hospital".
 
 ```{r, warning=F, message=F}
 linelist %>%    
@@ -432,21 +387,17 @@ linelist %>%
 
 ```
 
+## Hiển thị tất cả thứ bậc
 
+Một lợi ích của việc sử dụng factors là chuẩn hóa sự xuất hiện của các chú thích trong biểu đồ và bảng, bất kể giá trị nào thực sự có trong tập dữ liệu.
 
+Nếu bạn đang chuẩn bị nhiều bảng biểu (ví dụ: cho nhiều khu vực pháp lý), bạn sẽ muốn các chú giải và bảng xuất hiện giống hệt nhau ngay cả với các mức độ hoàn thành dữ liệu hoặc thành phần dữ liệu khác nhau.
 
-, warn
-## Show all levels  
+### Trong biểu đồ {.unnumbered}
 
-One benefit of using factors is to standardise the appearance of plot legends and tables, regardless of which values are actually present in a dataset. 
+Trong hàm vẽ biểu đồ `ggplot ()`, chỉ cần thêm đối số `drop = FALSE` trong hàm liên quan `scale_xxxx()`. Tất cả các thứ bậc trong biến factor sẽ được hiển thị, bất kể chúng có trong dữ liệu hay không. Nếu các thứ bậc trong biến factor của bạn được hiển thị bằng cách sử dụng `fill =`, thì trong `scale_fill_discrete ()`, bạn cần thêm `drop = FALSE`, như được trình bày bên dưới. Nếu các thứ bậc trong biến factor của bạn được hiển thị với `x =` (đến trục x) `color =` hoặc `size =`, bạn sẽ cung cấp chúng tới `scale_color_discrete()` hoặc `scale_size_discrete()`.
 
-If you are preparing many figures (e.g. for multiple jurisdictions) you will want the legends and tables to appear identically even with varying levels of data completion or data composition.  
-
-### In plots {.unnumbered}  
-
-In a `ggplot()` figure, simply add the argument `drop = FALSE` in the relevant `scale_xxxx()` function. All factor levels will be displayed, regardless of whether they are present in the data. If your factor column levels are displayed using `fill = `, then in scale_fill_discrete() you include `drop = FALSE`, as shown below. If your levels are displayed with `x = ` (to the x-axis) `color = ` or `size = ` you would provide this to `scale_color_discrete()` or `scale_size_discrete()` accordingly.  
-
-This example is a stacked bar plot of age category, by hospital. Adding `scale_fill_discrete(drop = FALSE)` ensures that all age groups appear in the legend, even if not present in the data. 
+Ví dụ này là một biểu đồ cột chồng của nhóm tuổi, theo bệnh viện. Việc thêm `scale_fill_discrete (drop = FALSE)` đảm bảo rằng tất cả các nhóm tuổi đều xuất hiện trong chú giải, ngay cả khi không có trong dữ liệu.
 
 ```{r}
 ggplot(data = linelist)+
@@ -456,26 +407,24 @@ ggplot(data = linelist)+
     title = "All age groups will appear in legend, even if not present in data")
 ```
 
-### In tables {.unnumbered}  
+### Trong bảng {.unnumbered}
 
-Both the **base** R `table()` and `tabyl()` from **janitor** will show all factor levels (even unused levels).  
+Cả hàm `table()` trong **base** R và hàm `tabyl()` trong package **janitor** đều sẽ hiển thị tất cả các thứ bậc trong factor (ngay cả các thứ bậc không sử dụng).
 
-If you use `count()` or `summarise()` from **dplyr** to make a table, add the argument `.drop = FALSE` to include counts for all factor levels even those unused.  
+Nếu bạn sử dụng hàm `count()` hoặc `summarise()` từ package **dplyr** để tạo bảng, hãy thêm đối số `.drop = FALSE` để hiển thị số lượng cho tất cả các thứ bậc trong factor ngay cả các thứ bậc không sử dụng.
 
-Read more in the [Descriptive tables] page, or at the [scale_discrete documentation](https://ggplot2.tidyverse.org/reference/scale_discrete.html), or the [count() documentation](https://dplyr.tidyverse.org/reference/count.html). You can see another example in the [Contact tracing] page.  
+Đọc thêm tại chương [Bảng mô tả],hoặc tại các link sau [scale_discrete documentation](https://ggplot2.tidyverse.org/reference/scale_discrete.html), hoặc [count() documentation](https://dplyr.tidyverse.org/reference/count.html). Bạn có thể tìm các ví dụ khác tại chương [Truy vết tiếp xúc].
 
+## Tuần dịch tễ
 
-## Epiweeks  
+Vui lòng xem phần thảo luận đầy đủ về cách tạo các tuần dịch tễ trong chương [Nhóm dữ liệu].\
+Vui lòng xem chương [Làm việc với ngày tháng] để biết các mẹo về cách tạo và định dạng các tuần dịch tễ học.
 
-Please see the extensive discussion of how to create epidemiological weeks in the [Grouping data] page.  
-Please also see the [Working with dates] page for tips on how to create and format epidemiological weeks.  
+### Tuần dịch tễ trong biểu đồ {.unnumbered}
 
+Nếu mục tiêu của bạn là tạo các tuần dịch tễ học để hiển thị trong một biểu đồ, bạn có thể thực hiện việc này đơn giản với hàm `floor_date()` trong package **lubridate**, như được giải thích trong chương [Nhóm dữ liệu]. Các giá trị trả về sẽ thuộc loại Ngày tháng với định dạng YYYY-MM-DD. Nếu bạn sử dụng cột này trong một biểu đồ, ngày tháng sẽ tự nhiên được sắp xếp chính xác và bạn không cần phải lo lắng về thứ bậc hoặc chuyển đổi sang dạng factor. Xem biểu đồ histogram trong hàm `ggplot()` về các ngày khởi phát bên dưới.
 
-### Epiweeks in a plot {.unnumbered}  
-
-If your goal is to create epiweeks to display in a plot, you can do this simply with **lubridate**'s `floor_date()`, as explained in the [Grouping data] page. The values returned will be of class Date with format YYYY-MM-DD. If you use this column in a plot, the dates will naturally order correctly, and you do not need to worry about levels or converting to class Factor. See the `ggplot()` histogram of onset dates below.  
-
-In this approach, you can adjust the *display* of the dates on an axis with `scale_x_date()`. See the page on [Epidemic curves] for more information. You can specify a "strptime" display format to the `date_labels = ` argument of `scale_x_date()`. These formats use "%" placeholders and are covered in the [Working with dates] page. Use "%Y" to represent a 4-digit year, and either "%W" or "%U" to represent the week number (Monday or Sunday weeks respectively).  
+Trong cách tiếp cận này, bạn có thể điều chỉnh *việc hiển thị* của ngày tháng trên trục với `scale_x_date()`. Xem thêm tại trang [Đường cong dịch bệnh] để biết thêm thông tin. Bạn có thể chỉ định định dạng hiển thị `date_labels =` cho đối số `scale_x_date()`. Sử dụng "% Y" để đại diện cho năm có 4 chữ số và "% W" hoặc "% U" để đại diện cho số tuần (các tuần thứ Hai hoặc Chủ Nhật tương ứng).
 
 ```{r, warning=F, message=F}
 linelist %>% 
@@ -485,15 +434,13 @@ linelist %>%
   scale_x_date(date_labels = "%Y-W%W")                       # adjust disply of dates to be YYYY-WWw
 ```
 
+### Tuần dịch tễ trong dữ liệu {.unnumbered}
 
-### Epiweeks in the data {.unnumbered}  
+Tuy nhiên, nếu mục đích của bạn với biến factor *không phải* để lập biểu đồ, bạn có thể tiếp cận theo một trong hai cách:
 
-However, if your purpose in factoring is *not* to plot, you can approach this one of two ways:  
+1)  *Để kiểm soát tốt việc hiển thị*, hãy chuyển đổi cột **lubridate** tuần dịch tễ (YYYY-MM-DD) sang định dạng hiển thị mong muốn (YYYY-WWw) *trong chính data frame*, rồi chuyển đổi nó thành dạng factor.
 
-1) *For fine control over the display*, convert the **lubridate** epiweek column (YYYY-MM-DD) to the desired display format (YYYY-WWw) *within the data frame itself*, and then convert it to class Factor.  
-
-First, use `format()` from **base** R to convert the date display from YYYY-MM-DD to YYYY-Www display (see the [Working with dates] page). In this process the class will be converted to character. Then, convert from character to class Factor with `factor()`.  
-
+Đầu tiên, sử dụng hàm `format()` từ **base** R để chuyển đổi hiển thị ngày từ hiển thị YYYY-MM-DD sang hiển thị YYYY-Www (xem thêm tại chương [Làm việc với ngày tháng]). Trong quá trình này, kiểu của biến số sẽ được chuyển đổi thành ký tự. Sau đó, chuyển đổi từ kiểu ký tự sang kiểu Factor với hàm `factor()`.
 
 ```{r}
 linelist <- linelist %>% 
@@ -505,9 +452,9 @@ linelist <- linelist %>%
 levels(linelist$epiweek_formatted)
 ```
 
-<span style="color: red;">**_DANGER:_** If you place the weeks ahead of the years ("Www-YYYY") ("%W-%Y"), the default alpha-numeric level ordering will be incorrect (e.g. 01-2015 will be before 35-2014). You could need to manually adjust the order, which would be a long painful process.</span>  
+[**Nguy hiểm:** Nếu bạn đặt các tuần trước các năm ("Www-YYYY") ("%W-%Y"), thứ tự các thứ bậc sẽ sắp xếp mặc định theo bảng chữ cái và điều này là không chính xác (ví dụ: 01-2015 sẽ là trước 35-2014). Bạn có thể cần phải điều chỉnh thứ tự theo cách thủ công, đây sẽ là một quá trình dài khó khăn .]{style="color: red;"}
 
-2) *For fast default display*, use the **aweek** package and it's function `date2week()`. You can set the `week_start = ` day, and if you set `factor = TRUE` then the output column is an ordered factor. As a bonus, the factor includes levels for *all* possible weeks in the span - even if there are no cases that week.  
+2)  *Để hiển thị nhanh theo mặc định*, sử dụng hàm `date2week()` trong package **aweek**. Bạn có thể đặt ngày theo hàm `week_start =`, và nếu bạn đặt đối số `factor = TRUE` thì cột đầu ra là một factor có thứ tự. Factor sẽ bao gồm các thứ bậc cho *tất cả* các tuần có thể có trong khoảng thời gian - ngay cả khi không có trường hợp nào xuất hiện trong tuần đó.
 
 ```{r, eval=F}
 df <- linelist %>% 
@@ -516,12 +463,11 @@ df <- linelist %>%
 levels(df$epiweek)
 ```
 
-See the [Working with dates] page for more information about **aweek**. It also offers the reverse function `week2date()`.  
-
-
+Xem chương [Làm việc với ngày tháng] để biết thêm thông tin về package **aweek**. Nó cũng cung cấp thông tin về hàm đảo ngược `week2date()`.
 
 <!-- ======================================================= -->
-## Resources {} 
 
-R for Data Science page on [factors](https://r4ds.had.co.nz/factors.html)  
+## Nguồn tham khảo
+
+R trong Khoa học dữ liệu, chương [factors](https://r4ds.had.co.nz/factors.html)\
 [aweek package vignette](https://cran.r-project.org/web/packages/aweek/vignettes/introduction.html)

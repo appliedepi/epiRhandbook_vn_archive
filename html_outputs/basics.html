@@ -153,7 +153,7 @@
 </h3>
 <p><strong>Tài liệu trợ giúp</strong></p>
 <p>Tìm kiếm tab “Help” của RStudio về tài liệu liên quan đến package R và các hàm cụ thể. Tab này nằm trong cửa sổ chứa các tab Files, Plots và Packages (thường ở cửa sổ phía dưới bên phải). Như một lối tắt, bạn cũng có thể nhập tên của một package hoặc câu lệnh vào R Console sau dấu hỏi chấm và không bao gồm dấu ngoặc đơn để mở trang trợ giúp liên quan.</p>
-<p>Ví dụ: <code><a href="https://rdrr.io/r/stats/filter.html">?filter</a></code> hoặc <code>?diagrammeR</code>.</p>
+<p>Ví dụ: <code><a href="https://dplyr.tidyverse.org/reference/filter.html">?filter</a></code> hoặc <code>?diagrammeR</code>.</p>
 <p><strong>Các hướng dẫn có sự tương tác</strong></p>
 <p>R có thể được học thông qua một số tương tác <em>trong</em> RStudio.</p>
 <p>RStudio cung cấp một cửa sổ Tutorial được hỗ trợ bởi package <a href="https://blog.rstudio.com/2020/02/25/rstudio-1-3-integrated-tutorials/"><strong>learnr</strong></a>. Chỉ cần cài đặt package này và mở hướng dẫn qua tab “Tutorial” trong cửa sổ RStudio phía trên bên phải (cũng chứa các tab Environment và History).</p>
@@ -376,7 +376,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <tr class="odd">
 <td>Ctrl + Shift + m</td>
 <td>Cmd + Shift + m</td>
-<td>Chèn <code>%&gt;%</code>
+<td>Chèn <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>
 </td>
 </tr>
 <tr class="even">
@@ -449,11 +449,11 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <ul>
 <li>Thế nào là một hàm và cách mà chúng hoạt động<br>
 </li>
-<li>WThế nào là <em>đối số</em> của hàm<br>
+<li>Thế nào là <em>đối số</em> của hàm<br>
 </li>
 <li>Làm cách nào để nhận được sự trợ giúp khi tìm hiểu một hàm</li>
 </ul>
-<p><em>Lưu ý nhanh về cú pháp:</em> Trong cuốn sổ tay này, các hàm được viết dưới dạng code văn bản với dấu mở ngoặc đơn như sau: <code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code>. Như đã giải thích trong phần <a href="basics.html#packages">packages</a>, các hàm được tải xuống có sẵn trong các <em>packages</em>. Trong sổ tay này, tên các package được <strong>in đậm</strong>, ví dụ như <strong>dplyr</strong>. Đôi khi trong code ví dụ, bạn có thể thấy tên hàm được liên kết rõ ràng với tên package của chính hàm đó bằng hai dấu hai chấm (<code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code>) như thế này: <code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code>. Mục đích của việc liên kết này sẽ được giải thích trong phần package.</p>
+<p><em>Lưu ý nhanh về cú pháp:</em> Trong cuốn sổ tay này, các hàm được viết dưới dạng code văn bản với dấu mở ngoặc đơn như sau: <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>. Như đã giải thích trong phần <a href="basics.html#packages">packages</a>, các hàm được tải xuống có sẵn trong các <em>packages</em>. Trong sổ tay này, tên các package được <strong>in đậm</strong>, ví dụ như <strong>dplyr</strong>. Đôi khi trong code ví dụ, bạn có thể thấy tên hàm được liên kết rõ ràng với tên package của chính hàm đó bằng hai dấu hai chấm (<code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code>) như thế này: <code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code>. Mục đích của việc liên kết này sẽ được giải thích trong phần package.</p>
 <!-- ======================================================= -->
 <div id="các-hàm-cơ-bản" class="section level3 unnumbered">
 <h3>Các hàm cơ bản<a class="anchor" aria-label="anchor" href="#c%C3%A1c-h%C3%A0m-c%C6%A1-b%E1%BA%A3n"><i class="fas fa-link"></i></a>
@@ -489,7 +489,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create an age pyramid</span>
 <span class="fu">age_pyramid</span><span class="op">(</span>data <span class="op">=</span> <span class="va">linelist</span>, age_group <span class="op">=</span> <span class="st">"age_cat5"</span>, split_by <span class="op">=</span> <span class="st">"gender"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="75%" height="75%"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="75%" height="75%"></div>
 <p>Lệnh trên có thể được viết tương tự như bên dưới, theo cách dài hơn với một dòng mới cho mỗi đối số. Phong cách này có thể dễ đọc và dễ viết “bình luận” hơn với <code>#</code> để giải thích từng phần (bình luận mở rộng là một thực hành tốt!). Để chạy lệnh dài hơn này, bạn có thể bôi đen toàn bộ lệnh và nhấp vào “Run” hoặc chỉ cần đặt con trỏ vào dòng đầu tiên rồi nhấn đồng thời phím Ctrl và phím Enter.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create an age pyramid</span>
@@ -498,7 +498,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
   age_group <span class="op">=</span> <span class="st">"age_cat5"</span>, <span class="co"># provide age group column</span>
   split_by <span class="op">=</span> <span class="st">"gender"</span>     <span class="co"># use gender column for two sides of pyramid</span>
   <span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="75%" height="75%"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="75%" height="75%"></div>
 <p>Không cần xác định nửa đầu của phép gán đối số (ví dụ: <code>data =</code>) nếu các đối số được viết theo một thứ tự cụ thể (được chỉ định trong tài liệu của hàm). Đoạn code dưới đây tạo ra cùng một kim tự tháp như ở trên, bởi vì hàm kì vọng thứ tự đối số là: data frame, biến <code>age_group</code>, biến <code>split_by</code>.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This command will produce the exact same graphic as above</span>
@@ -518,7 +518,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
   proportional <span class="op">=</span> <span class="cn">TRUE</span>,         <span class="co"># percents instead of counts</span>
   pal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"orange"</span>, <span class="st">"purple"</span><span class="op">)</span>  <span class="co"># colors</span>
   <span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="75%" height="75%"></div>
+<div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="75%" height="75%"></div>
 <!-- ======================================================= -->
 </div>
 <div id="viết-hàm" class="section level3 unnumbered">
@@ -594,12 +594,12 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <div id="làm-thế-nào-để-cài-đặt-và-gọi" class="section level4 unnumbered">
 <h4>Làm thế nào để cài đặt và gọi<a class="anchor" aria-label="anchor" href="#l%C3%A0m-th%E1%BA%BF-n%C3%A0o-%C4%91%E1%BB%83-c%C3%A0i-%C4%91%E1%BA%B7t-v%C3%A0-g%E1%BB%8Di"><i class="fas fa-link"></i></a>
 </h4>
-<p>Trong sách này, chúng tôi khuyên bạn nên sử dụng package <strong>pacman</strong> (viết tắt của “package manager”). Nó cung cấp một hàm thuận tiện <code>p_load()</code> mà sẽ cài đặt một package nếu cần <em>và</em> gọi nó để sử dụng trong phiên làm việc hiện tại.</p>
-<p>Cú pháp khá đơn giản. Chỉ cần liệt kê tên của các package trong dấu ngoặc đơn của hàm <code>p_load()</code> và phân tách chúng bằng dấu phẩy. Lệnh dưới đây sẽ cài đặt các package sau <strong>rio</strong>, <strong>tidyverse</strong>, và <strong>here</strong> nếu chúng chưa được cài đặt và sẽ gọi chúng ra để sử dụng. Điều này làm cho cách tiếp cận <code>p_load()</code> trở nên thuận tiện và ngắn gọn nếu chia sẻ scripts với người khác. Lưu ý rằng tên package có phân biệt chữ hoa chữ thường.</p>
+<p>Trong sách này, chúng tôi khuyên bạn nên sử dụng package <strong>pacman</strong> (viết tắt của “package manager”). Nó cung cấp một hàm thuận tiện <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> mà sẽ cài đặt một package nếu cần <em>và</em> gọi nó để sử dụng trong phiên làm việc hiện tại.</p>
+<p>Cú pháp khá đơn giản. Chỉ cần liệt kê tên của các package trong dấu ngoặc đơn của hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> và phân tách chúng bằng dấu phẩy. Lệnh dưới đây sẽ cài đặt các package sau <strong>rio</strong>, <strong>tidyverse</strong>, và <strong>here</strong> nếu chúng chưa được cài đặt và sẽ gọi chúng ra để sử dụng. Điều này làm cho cách tiếp cận <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> trở nên thuận tiện và ngắn gọn nếu chia sẻ scripts với người khác. Lưu ý rằng tên package có phân biệt chữ hoa chữ thường.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install (if necessary) and load packages for use</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">rio</span>, <span class="va">tidyverse</span>, <span class="va">here</span><span class="op">)</span></code></pre></div>
-<p>Lưu ý rằng chúng ta đã sử dụng cú pháp <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">pacman::p_load()</a></code> để viết rõ ràng tên package (<strong>pacman</strong>) trước tên hàm (<code>p_load()</code>), được nối với nhau bằng hai dấu hai chấm <code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code>. Cú pháp này tiện dụng vì nó cũng gọi package <strong>pacman</strong> (giả sử package này đã được cài đặt).</p>
+<p>Lưu ý rằng chúng ta đã sử dụng cú pháp <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">pacman::p_load()</a></code> để viết rõ ràng tên package (<strong>pacman</strong>) trước tên hàm (<code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code>), được nối với nhau bằng hai dấu hai chấm <code><a href="https://rdrr.io/r/base/ns-dblcolon.html">::</a></code>. Cú pháp này tiện dụng vì nó cũng gọi package <strong>pacman</strong> (giả sử package này đã được cài đặt).</p>
 <p>Ngoài ra còn có các hàm <strong>base</strong> R thay thế mà bạn sẽ gặp thường xuyên. Hàm <strong>base</strong> R để cài đặt một package là <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>. Tên của package muốn cài đặt phải được đặt trong dấu ngoặc đơn bên trong <em>dấu ngoặc kép</em>. Nếu bạn muốn cài đặt nhiều package trong một lệnh, chúng phải được liệt kê trong một vectơ dạng ký tự <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>.</p>
 <p>Lưu ý: lệnh này <em>cài đặt</em> một package, nhưng <em>không</em> gọi nó ra để sử dụng trong phiên làm việc hiện tại.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -609,7 +609,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <span class="co"># install multiple packages with base R</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"tidyverse"</span>, <span class="st">"rio"</span>, <span class="st">"here"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Việc cài đặt cũng có thể được thực hiện bằng cách chọn và nhấp chuột vào cửa sổ RStudio “Package” và chọn “Install”, sau đó tìm kiếm tên package mong muốn cài đặt.</p>
-<p>Hàm <strong>base</strong> R để <strong>gọi</strong> một package ra sử dụng (sau khi nó đã được cài đặt) là <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>. Hàm này chỉ có thể gọi một package tại một thời điểm (cách khác của lệnh <code>p_load()</code>). Bạn có thể nhập tên package có hoặc không có dấu ngoặc kép.</p>
+<p>Hàm <strong>base</strong> R để <strong>gọi</strong> một package ra sử dụng (sau khi nó đã được cài đặt) là <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>. Hàm này chỉ có thể gọi một package tại một thời điểm (cách khác của lệnh <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code>). Bạn có thể nhập tên package có hoặc không có dấu ngoặc kép.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load packages for use, with base R</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
@@ -618,7 +618,7 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <p>Để kiểm tra xem một package đã được cài đặt và/hoặc đã được gọi hay chưa, bạn có thể xem Cửa số Package trong RStudio. Nếu package được cài đặt, nó sẽ hiển thị ở đó với số phiên bản. Nếu checkbox của nó được đánh dấu nghĩa là nó đã được gọi cho phiên làm việc hiện tại.</p>
 <p><strong>Cài đặt từ Github</strong></p>
 <p>Đôi khi, bạn cần cài đặt một package chưa có sẵn từ CRAN. Hoặc có lẽ package đã có sẵn trên CRAN nhưng bạn muốn <em>phiên bản mới hơn</em> với các tính năng mới chưa được cung cấp trong phiên bản cũ. Chúng thường được lưu trữ trên trang web <a href="https://github.com/">github.com</a> trong một “kho lưu trữ (repository)” code công khai và miễn phí. Đọc thêm về Github trong chương <a href="collaboration.html#collaboration">Version control với Git và Github</a>.</p>
-<p>Để download packages R từ Github, bạn có thể dụng hàm <code>p_load_gh()</code> từ <strong>pacman</strong>, hàm này sẽ cài đặt package nếu cần và gọi nó để sử dụng cho phiên làm việc R hiện tại. Cách khác để cài đặt bao gồm sử dụng package <strong>remotes</strong> hoặc <strong>devtools</strong>. Đọc thêm về các hàm của <strong>pacman</strong> tại <a href="https://cran.r-project.org/web/packages/pacman/pacman.pdf">Tài liệu về package</a>.</p>
+<p>Để download packages R từ Github, bạn có thể dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load_gh.html">p_load_gh()</a></code> từ <strong>pacman</strong>, hàm này sẽ cài đặt package nếu cần và gọi nó để sử dụng cho phiên làm việc R hiện tại. Cách khác để cài đặt bao gồm sử dụng package <strong>remotes</strong> hoặc <strong>devtools</strong>. Đọc thêm về các hàm của <strong>pacman</strong> tại <a href="https://cran.r-project.org/web/packages/pacman/pacman.pdf">Tài liệu về package</a>.</p>
 <p>Để cài đặt từ Github, bạn phải cung cấp thêm các thông tin sau:</p>
 <ol style="list-style-type: decimal">
 <li>Github ID của chủ sở hữu</li>
@@ -629,19 +629,19 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <p>Trong các ví dụ dưới đây, từ đầu tiên trong dấu ngoặc kép là Github ID của chủ sở hữu kho lưu trữ, sau dấu gạch chéo là tên của kho lưu trữ (tên của package).</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install/load the epicontacts package from its Github repository</span>
-<span class="fu">p_load_gh</span><span class="op">(</span><span class="st">"reconhub/epicontacts"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load_gh.html">p_load_gh</a></span><span class="op">(</span><span class="st">"reconhub/epicontacts"</span><span class="op">)</span></code></pre></div>
 <p>Nếu bạn muốn cài đặt từ một “nhánh” (phiên bản) khác với nhánh chính, hãy thêm tên nhánh sau dấu “@”, được đặt phía sau tên kho lưu trữ.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install the "timeline" branch of the epicontacts package from Github</span>
-<span class="fu">p_load_gh</span><span class="op">(</span><span class="st">"reconhub/epicontacts@timeline"</span><span class="op">)</span></code></pre></div>
-<p>Nếu không có sự khác biệt giữa phiên bản Github và phiên bản trên máy tính của bạn, bạn không cần thực hiện thao tác này. Thay vào đó, bạn có thể “buộc” phải cài đặt lại bằng cách sử dụng <code>p_load_current_gh()</code> với đối số <code>update = TRUE</code>. Đọc thêm về <strong>pacman</strong> tại <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">Minh họa trực tuyến</a></p>
+<span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load_gh.html">p_load_gh</a></span><span class="op">(</span><span class="st">"reconhub/epicontacts@timeline"</span><span class="op">)</span></code></pre></div>
+<p>Nếu không có sự khác biệt giữa phiên bản Github và phiên bản trên máy tính của bạn, bạn không cần thực hiện thao tác này. Thay vào đó, bạn có thể “buộc” phải cài đặt lại bằng cách sử dụng <code><a href="https://rdrr.io/pkg/pacman/man/p_load_current_gh.html">p_load_current_gh()</a></code> với đối số <code>update = TRUE</code>. Đọc thêm về <strong>pacman</strong> tại <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">Minh họa trực tuyến</a></p>
 <p><strong>Cài đặt từ ZIP hoặc TAR</strong></p>
 <p>Bạn có thể cài đặt package từ một URL:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">packageurl</span> <span class="op">&lt;-</span> <span class="st">"https://cran.r-project.org/src/contrib/Archive/dsr/dsr_0.2.2.tar.gz"</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">packageurl</span>, repos<span class="op">=</span><span class="cn">NULL</span>, type<span class="op">=</span><span class="st">"source"</span><span class="op">)</span></code></pre></div>
 <p>Hoặc, tải xuống máy tính của bạn dưới dạng tệp nén:</p>
-<p>Cách 1: sử dụng lệnh <code>install_local()</code> từ package <strong>remotes</strong></p>
+<p>Cách 1: sử dụng lệnh <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_local()</a></code> từ package <strong>remotes</strong></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_local.html">install_local</a></span><span class="op">(</span><span class="st">"~/Downloads/dplyr-master.zip"</span><span class="op">)</span></code></pre></div>
 <p>Cách 2: sử dụng lệnh <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> của <strong>base</strong> R, cung cấp đường dẫn tệp đến tệp ZIP và thiết lập <code>type = "source</code> và <code>repos = NULL</code>.</p>
@@ -671,25 +671,25 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <div id="xóa-packages" class="section level3 unnumbered">
 <h3>Xóa packages<a class="anchor" aria-label="anchor" href="#x%C3%B3a-packages"><i class="fas fa-link"></i></a>
 </h3>
-<p>Sử dụng <code>p_delete()</code> từ <strong>pacman</strong>, hoặc <code><a href="https://rdrr.io/r/utils/remove.packages.html">remove.packages()</a></code> từ <strong>base</strong> R. Ngoài ra, hãy tìm thư mục chứa thư viện của bạn và xóa thư mục theo cách thủ công.</p>
+<p>Sử dụng <code><a href="https://rdrr.io/pkg/pacman/man/p_delete.html">p_delete()</a></code> từ <strong>pacman</strong>, hoặc <code><a href="https://rdrr.io/r/utils/remove.packages.html">remove.packages()</a></code> từ <strong>base</strong> R. Ngoài ra, hãy tìm thư mục chứa thư viện của bạn và xóa thư mục theo cách thủ công.</p>
 </div>
 <div id="sự-phụ-thuộc" class="section level3 unnumbered">
 <h3>Sự phụ thuộc<a class="anchor" aria-label="anchor" href="#s%E1%BB%B1-ph%E1%BB%A5-thu%E1%BB%99c"><i class="fas fa-link"></i></a>
 </h3>
 <p>Các packages thường phụ thuộc vào các packages khác để hoạt động. Chúng được gọi là sự phụ thuộc. Nếu một package không cài đặt được, thì package phụ thuộc vào nó có khả năng cũng không thể cài đặt được.</p>
-<p>Xem sự phụ thuộc của một package với lệnh <code>p_depends()</code>, và xem package nào phụ thuộc vào nó với <code>p_depends_reverse()</code></p>
+<p>Xem sự phụ thuộc của một package với lệnh <code><a href="https://rdrr.io/pkg/pacman/man/p_depends.html">p_depends()</a></code>, và xem package nào phụ thuộc vào nó với <code><a href="https://rdrr.io/pkg/pacman/man/p_depends.html">p_depends_reverse()</a></code></p>
 </div>
 <div id="hàm-bị-che-giấu" class="section level3 unnumbered">
 <h3>Hàm bị che giấu<a class="anchor" aria-label="anchor" href="#h%C3%A0m-b%E1%BB%8B-che-gi%E1%BA%A5u"><i class="fas fa-link"></i></a>
 </h3>
-<p>Không có gì lạ nếu hai hoặc nhiều packages chứa cùng một tên hàm. Ví dụ: packages <strong>dplyr</strong> có hàm <code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code>, nhưng package <strong>stats</strong> cũng vậy. Hàm <code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code> mặc định phụ thuộc vào thứ tự các package này được gọi lên trong phiên làm việc R - packages được gọi ra sau sẽ là mặc định cho hàm <code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code>.</p>
+<p>Không có gì lạ nếu hai hoặc nhiều packages chứa cùng một tên hàm. Ví dụ: packages <strong>dplyr</strong> có hàm <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>, nhưng package <strong>stats</strong> cũng vậy. Hàm <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> mặc định phụ thuộc vào thứ tự các package này được gọi lên trong phiên làm việc R - packages được gọi ra sau sẽ là mặc định cho hàm <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>.</p>
 <p>Bạn có thể kiểm tra thứ tự của chúng trong cửa sổ Environment của R Studio - nhấp vào menu thả xuống “Global Environment” và xem thứ tự của các packages. Các hàm thuộc các packages <em>ở vị trí thấp hơn</em> trong danh sách thả xuống đó sẽ che giấu các hàm cùng tên trong các packages xuất hiện ở vị trí bên trên trong danh sách thả xuống. Khi bạn vừa gọi một package, R sẽ cảnh báo bạn trong bảng điều khiển nếu xảy ra hiện tượng này, nhưng điều này rất hay bị bỏ quên.</p>
 <div class="inline-figure"><img src="images/masking_functions.png" width="50%" style="display: block; margin: auto;"></div>
 <p>Dưới đây là những cách bạn có thể sửa lỗi hàm bị che giấu:</p>
 <ol style="list-style-type: decimal">
 <li>Ghi rõ tên package trong lệnh. Ví dụ, sử dụng <code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code><br>
 </li>
-<li>Sắp xếp lại thứ tự mà các package được tải (ví dụ trong <code>p_load()</code>), và <strong>bắt đầu một phiên làm việc R mới</strong>
+<li>Sắp xếp lại thứ tự mà các package được tải (ví dụ trong <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code>), và <strong>bắt đầu một phiên làm việc R mới</strong>
 </li>
 </ol>
 </div>
@@ -962,11 +962,11 @@ Bạn có thể nghĩ về toán tử gán <code><a href="https://rdrr.io/r/base
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create new "bmi" column using base R syntax</span>
 <span class="va">linelist</span><span class="op">$</span><span class="va">bmi</span> <span class="op">&lt;-</span> <span class="va">linelist</span><span class="op">$</span><span class="va">wt_kg</span> <span class="op">/</span> <span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">ht_cm</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></code></pre></div>
-<p>Tuy nhiên, trong cuốn sách này, chúng tôi tập trung vào một cách tiếp cận khác để định nghĩa cột, sử dụng hàm <code>mutate()</code> trong package <strong>dplyr</strong> và <em>piping</em> với toán tử pipe (<code>%&gt;%</code>). Cú pháp dễ đọc hơn và có những ưu điểm khác đã được giải thích trong cuốn sách này ở chương <a href="cleaning.html#cleaning">Làm sạch số liệu và các hàm quan trọng</a>. Bạn có thể đọc thêm về <em>piping</em> trong phần Piping phía bên dưới.</p>
+<p>Tuy nhiên, trong cuốn sách này, chúng tôi tập trung vào một cách tiếp cận khác để định nghĩa cột, sử dụng hàm <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> trong package <strong>dplyr</strong> và <em>piping</em> với toán tử pipe (<code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>). Cú pháp dễ đọc hơn và có những ưu điểm khác đã được giải thích trong cuốn sách này ở chương <a href="cleaning.html#cleaning">Làm sạch số liệu và các hàm quan trọng</a>. Bạn có thể đọc thêm về <em>piping</em> trong phần Piping phía bên dưới.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create new "bmi" column using dplyr syntax</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span> 
-  <span class="fu">mutate</span><span class="op">(</span>bmi <span class="op">=</span> <span class="va">wt_kg</span> <span class="op">/</span> <span class="op">(</span><span class="va">ht_cm</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>bmi <span class="op">=</span> <span class="va">wt_kg</span> <span class="op">/</span> <span class="op">(</span><span class="va">ht_cm</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
 <div id="objectstructure" class="section level3" number="3.10.1">
@@ -1202,17 +1202,17 @@ Bạn có thể nghĩ về toán tử gán <code><a href="https://rdrr.io/r/base
 
 <span class="co"># Save as a new object</span>
 <span class="va">new_table</span> <span class="op">&lt;-</span> <span class="va">linelist</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">20</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"date_onset"</span><span class="op">)</span><span class="op">]</span> </code></pre></div>
-<p>Lưu ý rằng bạn cũng có thể indexing hàng / cột trong một data frames và tibbles bằng cách sử dụng cú pháp của package <strong>dplyr</strong> (hàm <code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code> đối với hàng, và <code>select()</code> đối với cột). Đọc thêm về các hàm quan trọng này trong chương <a href="cleaning.html#cleaning">Làm sạch số liệu và các hàm quan trọng</a>.</p>
+<p>Lưu ý rằng bạn cũng có thể indexing hàng / cột trong một data frames và tibbles bằng cách sử dụng cú pháp của package <strong>dplyr</strong> (hàm <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> đối với hàng, và <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code> đối với cột). Đọc thêm về các hàm quan trọng này trong chương <a href="cleaning.html#cleaning">Làm sạch số liệu và các hàm quan trọng</a>.</p>
 <p>Để lọc dựa trên “số thứ tự hàng”, bạn có thể sử dụng hàm <code>row_number()</code>trong package <strong>dplyr</strong> với dấu ngoặc đơn mở như một phần của biểu thức lọc logic. Thường thì bạn sẽ sử dụng toán tử <code><a href="https://rdrr.io/r/base/match.html">%in%</a></code> và một khoảng giá trị số như một phần của câu lệnh logic đó, như được trình bày dưới đây. Để xem N hàng <em>đầu tiên</em>, bạn cũng có thể sử dụng hàm <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> của package <strong>dplyr</strong>.</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># View first 100 rows</span>
 <span class="va">linelist</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>
 
 <span class="co"># Show row 5 only</span>
-<span class="va">linelist</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">row_number</span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="fl">5</span><span class="op">)</span>
+<span class="va">linelist</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu">row_number</span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="fl">5</span><span class="op">)</span>
 
 <span class="co"># View rows 2 through 20, and three specific columns (note no quotes necessary on column names)</span>
-<span class="va">linelist</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">row_number</span><span class="op">(</span><span class="op">)</span> <span class="op">%in%</span> <span class="fl">2</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="va">date_onset</span>, <span class="va">outcome</span>, <span class="va">age</span><span class="op">)</span></code></pre></div>
+<span class="va">linelist</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu">row_number</span><span class="op">(</span><span class="op">)</span> <span class="op">%in%</span> <span class="fl">2</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">date_onset</span>, <span class="va">outcome</span>, <span class="va">age</span><span class="op">)</span></code></pre></div>
 <p>Khi indexing một đối tượng chứa một <strong>danh sách</strong> bằng một dấu ngoặc vuông sẽ luôn trả về kiểu danh sách, ngay cả khi chỉ một đối tượng được trả về . Tuy nhiên, hai dấu ngoặc vuông có thể được sử dụng để truy cập một phần tử đơn lẻ đối và trả về một kiểu không phải là một danh sách.<br>
 Dấu ngoặc vuông cũng có thể được viết sau nhau, như được minh họa bên dưới.</p>
 <p>Bạn có thể xem một <a href="https://r4ds.had.co.nz/vectors.html#lists-of-condiments">giải thích trực quan về việc indexing với ví dụ về hộp lắc hạt tiêu</a> tại đây, rất hài hước và hữu ích.</p>
@@ -1298,8 +1298,8 @@ Dấu ngoặc vuông cũng có thể được viết sau nhau, như được min
 <h3>
 <strong>Pipes</strong><a class="anchor" aria-label="anchor" href="#pipes"><i class="fas fa-link"></i></a>
 </h3>
-<p><strong>Giải thích một cách đơn giản, toán tử pipe (<code>%&gt;%</code>) chuyển một đầu ra trung gian từ hàm này sang hàm tiếp theo.</strong><br>
-Hiểu đơn giản pipe nghĩa là “sau đó”. Nhiều hàm có thể được liên kết với nhau bằng toán tử <code>%&gt;%</code>.</p>
+<p><strong>Giải thích một cách đơn giản, toán tử pipe (<code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>) chuyển một đầu ra trung gian từ hàm này sang hàm tiếp theo.</strong><br>
+Hiểu đơn giản pipe nghĩa là “sau đó”. Nhiều hàm có thể được liên kết với nhau bằng toán tử <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>.</p>
 <ul>
 <li>
 <strong>Piping nhấn mạnh một chuỗi các hành động, không phải đối tượng mà các hành động đang áp dụng</strong><br>
@@ -1351,9 +1351,9 @@ Hiểu đơn giản pipe nghĩa là “sau đó”. Nhiều hàm có thể đư�
 <p>Đây là một “assignment pipe (pipe dùng để gán” từ package <strong>magrittr</strong>, package này sẽ <em>pipe một đối tượng theo chiều tiến lên và cũng tái định nghĩa lại đối tượng</em>. Đối tượng cần đứng đầu trong chuỗi pipe. Nó nhanh hơn sử dụng pipe thông thường. Hai lệnh dưới đây là tương đương với nhau:</p>
 <div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span>
 
-<span class="va">linelist</span> <span class="op">%&lt;&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
+<span class="va">linelist</span> <span class="op">%&lt;&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
 <div id="định-nghĩa-đối-tượng-trung-gian" class="section level3 unnumbered">
@@ -1425,10 +1425,10 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <p>Đây là một “pipe gán” từ package <strong>magrittr</strong>, package này sẽ <em>gán một đối tượng theo chiều tiến lên và cũng định nghĩa lại đối tượng</em>. Pipe gán phải là toán tử đầu tiên trong chuỗi pipe code. Đây là cách viết ngắn gọn, như được trình bày dưới đây là hai ví dụ tương đương với nhau:</p>
 <div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span> 
-  <span class="fu">mutate</span><span class="op">(</span>age_months <span class="op">=</span> <span class="va">age_years</span> <span class="op">*</span> <span class="fl">12</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>age_months <span class="op">=</span> <span class="va">age_years</span> <span class="op">*</span> <span class="fl">12</span><span class="op">)</span></code></pre></div>
 <p>Đoạn code bên trên tương đương với code dưới đây:</p>
 <div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">linelist</span> <span class="op">%&lt;&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>age_months <span class="op">=</span> <span class="va">age_years</span> <span class="op">*</span> <span class="fl">12</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">linelist</span> <span class="op">%&lt;&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>age_months <span class="op">=</span> <span class="va">age_years</span> <span class="op">*</span> <span class="fl">12</span><span class="op">)</span></code></pre></div>
 <p><strong><code>%&lt;+%</code></strong></p>
 <p>Toán tử này được sử dụng dể thêm dữ liệu vào Cây phả hệ với package <strong>ggtree</strong>. Xem thêm chương <a href="phylogenetic-trees.html#phylogenetic-trees">Cây phả hệ</a> hoặc <a href="https://yulab-smu.top/treedata-book/">Sách online này</a>.</p>
 <!-- ======================================================= -->
@@ -1534,7 +1534,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <p>Ví dụ: chúng ta có một số liệu có tên linelist với hai biến mà chúng tôi muốn sử dụng để minh họa, <code>hep_e_rdt</code>: kết quả xét nghiệm và <code>other_cases_in_hh</code>: những trường hợp khác trong gia đình. Lệnh dưới đây sử dụng hàm <code>case_when()</code> để tạo biến mới <code>case_def</code> như sau:</p>
 <div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist_cleaned</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>case_def <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>case_def <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span>
     <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rdt_result</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">other_case_in_home</span><span class="op">)</span>            <span class="op">~</span> <span class="cn">NA_character_</span>,
     <span class="va">rdt_result</span> <span class="op">==</span> <span class="st">"Positive"</span>                                 <span class="op">~</span> <span class="st">"Confirmed"</span>,
     <span class="va">rdt_result</span> <span class="op">!=</span> <span class="st">"Positive"</span> <span class="op">&amp;</span> <span class="va">other_cases_in_home</span> <span class="op">==</span> <span class="st">"Yes"</span>  <span class="op">~</span> <span class="st">"Probable"</span>,
@@ -1835,7 +1835,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <code class="sourceCode R"><span class="va">affirmative</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"Yes"</span>, <span class="st">"YES"</span>, <span class="st">"yes"</span>, <span class="st">"y"</span>, <span class="st">"Y"</span>, <span class="st">"oui"</span>, <span class="st">"Oui"</span>, <span class="st">"Si"</span><span class="op">)</span>
 
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="va">linelist</span> <span class="op">%&gt;%</span> 
-  <span class="fu">mutate</span><span class="op">(</span>child_hospitaled <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>child_hospitaled <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span>
     <span class="va">hospitalized</span> <span class="op">%in%</span> <span class="va">affirmative</span> <span class="op">&amp;</span> <span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span> <span class="op">~</span> <span class="st">"Hospitalized Child"</span>,
     <span class="cn">TRUE</span>                                      <span class="op">~</span> <span class="st">"Not"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Lưu ý: Nếu bạn muốn phát hiện một phần của chuỗi, có lẽ việc sử dụng hàm <code>str_detect()</code> từ package <strong>stringr</strong>, sẽ không chấp nhận một vectơ ký tự kiểu như <code><a href="https://rdrr.io/r/base/c.html">c("1", "Yes", "yes", "y")</a></code>. Thay vào đó, nó cần được cung cấp dưới dạng một <em>biểu thức chính quy</em> - một chuối cô đọng với thanh dọc cho phép so sánh OR, chẳng hạn như “1|Yes|yes|y”. Ví dụ, <code>str_detect(hospitalized, "1|Yes|yes|y")</code>. Xem thêm chương <a href="characters-strings.html#characters-strings">Ký tự và chuỗi</a> để biết thêm chi tiết.</p>
@@ -1868,7 +1868,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 </li>
 <li>Trợ giúp viết code</li>
 </ul>
-<p>Các lỗi thường gặp và cảnh báo cũng như mẹo khắc phục sự cố có thể được tìm thấy trong chương <a href="errors.html#errors">Các lỗi thường gặp</a>.</p>
+<p>Các lỗi thường gặp và cảnh báo cũng như mẹo khắc phục sự cố có thể được tìm thấy trong chương <a href="errors.html#c%C3%A1c-l%E1%BB%97i-th%C6%B0%E1%BB%9Dng-g%E1%BA%B7p">Các lỗi thường gặp</a>.</p>
 <!-- ======================================================= -->
 <div id="lỗi-và-cảnh-báo-1" class="section level3 unnumbered">
 <h3>Lỗi và Cảnh báo<a class="anchor" aria-label="anchor" href="#l%E1%BB%97i-v%C3%A0-c%E1%BA%A3nh-b%C3%A1o-1"><i class="fas fa-link"></i></a>
@@ -2029,7 +2029,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
