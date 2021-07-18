@@ -87,7 +87,7 @@ Dưới đây là một vài lưu ý bạn có thể gặp trong cuốn sách:
 
 ## Quyết định biên tập
 
-Dưới đây, chúng tôi ghi lại các quyết định biên tập quan trọng về việc lựa chọn package và hàm. Nếu bạn không đồng ý hoặc muốn đưa ra một công cụ mới để xem xét, vui lòng tham gia/bắt đầu cuộc thảo luận trên [Trang Github](https://github.com/epirhandbook/Epi_R_handbook) của chúng tôi.
+Dưới đây, chúng tôi ghi lại các quyết định biên tập quan trọng về việc lựa chọn package và hàm. Nếu bạn không đồng ý hoặc muốn đưa ra một công cụ mới để xem xét, vui lòng tham gia/bắt đầu cuộc thảo luận trên [Trang Github](https://github.com/appliedepi/epirhandbook_eng) của chúng tôi.
 
 **Bảng các package, hàm, và các quyết định biên tập khác**
 
