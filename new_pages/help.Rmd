@@ -101,13 +101,13 @@ knitr::include_graphics(here::here("images", "errors_reprex_RStudio1.png"))
 Trong ví dụ trên, lệnh `ggplot()` không chạy vì đối số `date_format =` không đúng. Nó phải là `date_labels = `. 
 
 
-### Tập dữ liệu tối giản {.unnumbered}  
+### Bộ dữ liệu tối giản {.unnumbered}  
 
 Những người giúp bạn cần sử dụng dữ liệu của bạn - lý tưởng nhất là họ có thể tạo ra nó *bằng code*.  
 
-Để tạo một tập dữ liệu tối thiểu, hãy xem xét việc ẩn danh và chỉ sử dụng một tập con của các quan sát. 
+Để tạo một tập dữ liệu tối giản, hãy xem xét việc ẩn danh và chỉ sử dụng một tập con của các quan sát. 
 
-ĐANG ĐƯỢC PHÁT TRIỂN - Bạn có thể sử dụng lệnh `dput()` để tạo một bộ dữ liệu tối thiểu.  
+ĐANG ĐƯỢC PHÁT TRIỂN - Bạn có thể sử dụng lệnh `dput()` để tạo một bộ dữ liệu tối giản.  
 
 
 
