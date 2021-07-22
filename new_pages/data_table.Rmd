@@ -1,6 +1,6 @@
 # Data Table {#data-table}
 
-Cuốn sổ tay này tập trung vào các hàm "verb" **dplyr** và toán tử pipe **magrittr** `%>%` như một cách để làm sạch và nhóm dữ liệu, tuy nhiên package **data.table** cũng cung cấp một giải pháp thay thế mà bạn có thể sử dụng trong quá trình làm việc với R của mình.
+Cuốn sổ tay này tập trung vào các hàm của **dplyr** và toán tử pipe của **magrittr** `%>%` như một phương pháp để làm sạch và nhóm dữ liệu, tuy nhiên package **data.table** cũng cung cấp một giải pháp thay thế mà bạn có thể sử dụng trong quá trình làm việc với R của mình.
 
 <!-- ======================================================= -->
 
@@ -8,7 +8,7 @@ Cuốn sổ tay này tập trung vào các hàm "verb" **dplyr** và toán tử 
 
 Một data table là một cấu trúc dữ liệu 2-chiều giống như một data frame mà cho phép thực hiện các thao tác phân nhóm phức tạp. Cú pháp data.table được cấu trúc để có thể thực hiện các thao tác trên hàng, cột và nhóm.
 
-Cấu trúc là **DT[i, j, by]**, được chia thành 3 phần; đối số **i, j** và **by**. Đối số **i** cho phép tạo số hàng cần thiết, đối số **j** cho phép bạn tạo số cột và đối số **by** cho phép bạn tạo số cột theo nhóm.
+Cấu trúc là **DT[i, j, by]**, được chia thành 3 phần; đối số **i, j** và **by**. Đối số **i** cho phép tạo tập con trên các hàng được yêu cầu, đối số **j** cho phép bạn vận hành trên cột và đối số **by** cho phép bạn vận hành theo nhóm.
 
 Chương này sẽ giải quyết các chủ đề sau:
 
@@ -21,11 +21,11 @@ Chương này sẽ giải quyết các chủ đề sau:
 
 <!-- ======================================================= -->
 
-## Tải package và nhập dữ liệu
+## Gọi package và nhập dữ liệu
 
-### Tải package {.unnumbered}
+### Gọi package {.unnumbered}
 
-Sử dụng hàm `p_load()` từ **pacman**, chúng tôi tải (và cài đặt nếu cần) các package cần thiết cho phân tích này.
+Sử dụng hàm `p_load()` từ **pacman**, chúng ta sẽ gọi (và cài đặt nếu cần) các package cần thiết cho phân tích này.
 
 ```{r}
 pacman::p_load(
@@ -38,17 +38,17 @@ pacman::p_load(
 
 ### Nhập dữ liệu {.unnumbered}
 
-Chương này sẽ khám phá một số chức năng cốt lõi của **data.table** bằng cách sử dụng linelist trường hợp được tham chiếu trong sổ tay.
+Chương này sẽ khám phá một số hàm cốt lõi của **data.table** thông qua bộ số liệu linelist đã được nhắc đền nhiều lần trong sổ tay này.
 
-Chúng tôi nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn tải dữ liệu để làm theo từng bước, hãy xem hướng dẫn trong chương [Tải sách và dữ liệu]. Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương về [Nhập xuất dữ liệu] để biết các cách nhập dữ liệu khác nhau. Từ đây chúng tôi sử dụng `data.table()` để chuyển data frame thành data table.
+Chúng ta nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn tải dữ liệu để làm theo từng bước, hãy xem hướng dẫn trong chương [Tải sách và dữ liệu]. Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương về [Nhập xuất dữ liệu] để biết các cách nhập dữ liệu khác nhau. Từ đây chúng tôi sử dụng `data.table()` để chuyển data frame thành data table.
 
 ```{r}
 linelist <- rio::import(here("data", "linelist_cleaned.xlsx")) %>% data.table()
 ```
 
-Hàm `fread()` được sử dụng để nhập trực tiếp các tệp được phân tách thông thường, chẳng hạn như tệp .csv, trực tiếp sang định dạng data table. Hàm này và đối tác của nó, `fwrite()`, được sử dụng để ghi data.table dưới dạng các tệp được phân tách thông thường là các tùy chọn rất nhanh và hiệu quả về mặt tính toán đối với cơ sở dữ liệu lớn.
+Hàm `fread()` được sử dụng để nhập trực tiếp các delimited files phổ biến, chẳng hạn như tệp .csv, trực tiếp sang định dạng data table. Hàm này và đối tác của nó, `fwrite()`, được sử dụng để ghi data.table dưới dạng các delimited files phổ biến, là các tùy chọn rất nhanh và hiệu quả về mặt tính toán đối với cơ sở dữ liệu lớn.
 
-20 hàng đầu tiên `linelist`:
+20 hàng đầu tiên của `linelist`:
 
 ```{r message=FALSE, echo=F, eval=FALSE}
 DT::datatable(head(linelist,20), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
@@ -64,7 +64,7 @@ dim(linelist) #gives the number of rows and columns in the data table
 
 ## Đối số i: chọn và lọc hàng
 
-Nhắc lại cấu trúc **DT[i, j, by]**, chúng tôi có thể lọc các hàng bằng cách sử dụng số hàng hoặc biểu thức logic. Đối số i là đối số đầu tiên; do đó, cú pháp **DT[i]** hoặc **DT[i,]** có thể được sử dụng.
+Nhắc lại cấu trúc **DT[i, j, by]**, chúng ta có thể lọc các hàng bằng cách sử dụng số hàng hoặc biểu thức logic. Đối số i là đối số đầu tiên; do đó, cú pháp **DT[i]** hoặc **DT[i,]** có thể được sử dụng.
 
 Ví dụ đầu là việc truy xuất 5 hàng đầu tiên của data table, ví dụ thứ hai là tập hợp các trường hợp từ 18 tuổi trở lên và ví dụ thứ ba là tập hợp các trường hợp từ 18 tuổi trở lên nhưng không được chẩn đoán tại Bệnh viện Trung tâm (Central Hospital):
 
@@ -75,7 +75,7 @@ linelist[age >= 18 & hospital != "Central Hospital"] #subsets cases equal to or 
 
 ```
 
-Sử dụng .N trong đối số i đại diện cho tổng số hàng trong data table. Điều này có thể được sử dụng để thiết lập số hàng:
+Sử dụng .N trong đối số i đại diện cho tổng số hàng trong data table. Điều này có thể được sử dụng để subset dữ liệu dựa trên số thứ tự hàng:
 
 ```{r, eval=F}
 linelist[.N] #returns the last row
@@ -84,9 +84,9 @@ linelist[15:.N] #returns the 15th to the last row
 
 ### Sử dụng hàm trợ giúp để lọc {.unnumbered}
 
-Data table sử dụng các hàm trợ giúp để việc thiết lập các hàng trở nên dễ dàng. Hàm `%like%` được sử dụng để khớp với một pattern trong cột, `%chin%` được sử dụng để khớp với một ký tự cụ thể và hàm trợ giúp `%between%` được sử dụng để khớp các cột số trong một phạm vi xác định trước.
+Data table sử dụng các hàm trợ giúp để việc subset các hàng trở nên dễ dàng. Hàm `%like%` được sử dụng để khớp với một pattern trong cột, `%chin%` được sử dụng để khớp với một ký tự cụ thể và hàm trợ giúp `%between%` được sử dụng để khớp các cột theo số thứ tự trong một phạm vi xác định trước.
 
-Trong các ví dụ dưới đây, chúng tôi: \* lọc các hàng mà biến bệnh viện (hospital variable) có chứa "Hospital" \* lọc các hàng có kết quả là "Recover" hoặc "Death" \* lọc các hàng trong độ tuổi 40-60
+Trong các ví dụ dưới đây, chúng ta: \* lọc các hàng mà biến hospital có chứa "Hospital" \* lọc các hàng có kết quả là "Recover" hoặc "Death" \* lọc các hàng trong độ tuổi 40-60
 
 ```{r, eval=F}
 linelist[hospital %like% "Hospital"] #filter rows where the hospital variable contains “Hospital”
@@ -99,11 +99,11 @@ linelist[age %between% c(40, 60)] #filter rows in the age range 40-60
 
 ## Đối số j: chọn và tính toán trên cột
 
-Sử dụng cấu trúc **DT[i, j, by]**, chúng tôi có thể chọn cột bằng cách sử dụng số hoặc tên. Đối số **j** là đối số thứ hai; do đó, cú pháp **DT[, j]** được sử dụng. Để tạo điều kiện tính toán trên đối số **j**, cột được bao quanh bằng cách sử dụng `list()` hoặc `.()`.
+Sử dụng cấu trúc **DT[i, j, by]**, chúng ta có thể chọn cột bằng cách sử dụng số hoặc tên. Đối số **j** là đối số thứ hai; do đó, cú pháp **DT[, j]** được sử dụng. Để tạo điều kiện tính toán trên đối số **j**, cột được bao quanh bằng cách sử dụng `list()` hoặc `.()`.
 
 ### Chọn cột {.unnumbered}
 
-Ví dụ đầu tiên lấy các cột thứ nhất, thứ ba và thứ năm của data table, ví dụ thứ hai chọn tất cả các cột ngoại trừ các cột chiều cao (height), cân nặng (weight) và giới tính (gender). Ví dụ thứ ba sử dụng `.()` bao quanh để chọn cột **case_id** và **outcome**.
+Ví dụ đầu tiên lấy các cột thứ nhất, thứ ba và thứ năm của data table, ví dụ thứ hai chọn tất cả các cột ngoại trừ các cột height, weight và gender. Ví dụ thứ ba sử dụng `.()` phía trước để chọn cột **case_id** và **outcome**.
 
 ```{r, eval=F}
 linelist[ , c(1,3,5)]
@@ -116,7 +116,7 @@ linelist[ , list(case_id, outcome)] #linelist[ , .(case_id, outcome)] works just
 
 Bằng cách kết hợp các đối số **i** và **j**, có thể lọc các hàng và tính toán trên các cột. Sử dụng **.N** trong đối số **j** cũng thể hiện cho tổng số hàng trong data table và có thể hữu ích để trả về số hàng sau khi lọc.
 
-Trong các ví dụ dưới đây, chúng tôi: \* Đếm số trường hợp nằm viện trên 7 ngày \* Tính tuổi trung bình của các trường hợp tử vong tại bệnh viện quân y (Military) \* Tính toán độ lệch chuẩn, trung vị, tuổi trung bình của các trường hợp đã khỏi bệnh tại Central Hospital
+Trong các ví dụ dưới đây, chúng tôi: \* Đếm số trường hợp nằm viện trên 7 ngày \* Tính tuổi trung bình của các trường hợp tử vong tại military hospital  \* Tính toán độ lệch chuẩn, trung vị, tuổi trung bình của các trường hợp đã khỏi bệnh tại Central Hospital
 
 ```{r}
 linelist[days_onset_hosp > 7 , .N]
@@ -134,7 +134,7 @@ Hãy nhớ rằng việc sử dụng .() bao quanh đối số j sẽ tạo đi�
 
 Đối số **by** là đối số thứ ba trong cấu trúc **DT[i, j, by]**. Đối số **by** chấp nhận cả vectơ ký tự và cú pháp `list()` hoặc `.()`. Sử dụng cú pháp `.()` trong đối số **by** cho phép đổi tên cột một cách nhanh chóng.
 
-Trong các ví dụ dưới đây, chúng tôi:\
+Trong các ví dụ dưới đây, chúng ta:\
 \* nhóm số trường hợp theo bệnh viện \* trường hợp từ 18 tuổi trở lên, tính chiều cao và cân nặng trung bình theo giới tính và theo tình trạng hồi phục hay tử vong \* trong những lần nhập viện kéo dài trên 7 ngày, đếm số trường hợp theo tháng họ nhập viện và theo bệnh viện họ nằm
 
 ```{r}
@@ -154,7 +154,7 @@ linelist[, .N, .(hospital)][order(-N)][1:3] #1st selects all cases by hospital, 
 
 ```
 
-Trong các ví dụ này, chúng tôi đang tuân theo giả định rằng một hàng trong data table tương đương với một trường hợp mới, vì vậy chúng tôi có thể sử dụng **.N** để thể hiện số hàng trong data table. Một hàm hữu ích khác thể hiện số lượng các trường hợp duy nhất là `uniqueN()`, hàm này trả về số lượng các giá trị duy nhất trong một đầu vào nhất định.
+Trong các ví dụ này, chúng ta đang tuân theo giả định rằng một hàng trong data table tương đương với một trường hợp mới, vì vậy chúng ta có thể sử dụng **.N** để thể hiện số hàng trong data table. Một hàm hữu ích khác thể hiện số lượng các trường hợp duy nhất là `uniqueN()`, hàm này trả về số lượng các giá trị duy nhất trong một đầu vào nhất định.
 
 ```{r}
 

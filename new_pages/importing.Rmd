@@ -456,9 +456,9 @@ Và giờ chúng ta hiển thị bộ dữ liệu mới:
 DT::datatable(manual_entry_cols)
 ```
 
-### Dán từ bộ nhớ tạm {.unnumbered}
+### Dán từ clipboard {.unnumbered}
 
-Nếu bạn sao chép dữ liệu từ nơi khác và có nó trong bộ nhớ tạm, bạn có thể thử một trong hai cách dưới đây:
+Nếu bạn sao chép dữ liệu từ nơi khác và có nó trong clipboard (bộ nhớ tạm), bạn có thể thử một trong hai cách dưới đây:
 
 Từ package **clipr**, bạn có thể sử dụng hàm `read_clip_tbl()` để nhập dưới dạng data frame hoặc chỉ cần hàm `read_clip()` để nhập dưới dạng một vectơ ký tự. Trong cả hai trường hợp, hãy để trống dấu ngoặc đơn.
 
@@ -728,9 +728,9 @@ Bạn có thể lưu cùng một data frame dưới dạng tệp csv bằng các
 export(linelist, here("data", "clean", "my_linelist.csv"))
 ```
 
-### Tới bộ nhớ tạm {.unnumbered}
+### Tới clipboard {.unnumbered}
 
-Để xuất khung dữ liệu sang "bộ nhớ tạm" của máy tính (để sau đó dán vào một phần mềm khác như Excel, Google Spreadsheets, v.v.), bạn có thể sử dụng `write_clip()` từ package **clipr**.
+Để xuất khung dữ liệu sang "clipboard" của máy tính (để sau đó dán vào một phần mềm khác như Excel, Google Spreadsheets, v.v.), bạn có thể sử dụng `write_clip()` từ package **clipr**.
 
 ```{r, eval=F}
 # export the linelist data frame to your system's clipboard
@@ -854,5 +854,5 @@ Dưới đây là một bảng, lấy từ **rio** [vignette](https://cran.r-pro
 +-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
 | YAML                                      | .yml                    | yaml                 | yaml         | Không                      |
 +-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+
-| Bộ nhớ tạm mặc định là tsv                |                         | clipr                | clipr        | Không                      |
+| clipboard mặc định là tsv                |                         | clipr                | clipr        | Không                      |
 +-------------------------------------------+-------------------------+----------------------+--------------+----------------------------+

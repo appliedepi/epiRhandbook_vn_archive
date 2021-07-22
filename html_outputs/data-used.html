@@ -135,7 +135,7 @@
 <div id="sử-dụng-link-download" class="section level3 unnumbered">
 <h3>Sử dụng link download<a class="anchor" aria-label="anchor" href="#s%E1%BB%AD-d%E1%BB%A5ng-link-download"><i class="fas fa-link"></i></a>
 </h3>
-<p>Để truy cập nhanh, <strong>nháy phải chuột</strong> vào <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/offline_long/Epi_R_Handbook_offline.html">link này</a> <strong>và lựa chọn “Save link as”</strong>.</p>
+<p>Để truy cập nhanh, <strong>nháy phải chuột</strong> vào <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/offline_long/Epi_R_Handbook_offline.html">link này</a> <strong>và lựa chọn “Save link as”</strong>.</p>
 <p>Nếu trên máy Mac, hãy sử dụng Cmd + Nhấp chuột. Nếu trên điện thoại di động, hãy bấm và giữ liên kết và chọn “Save link”. Sổ tay sẽ tải xuống thiết bị của bạn. Nếu trên màn hình xuất hiện mã HTML gốc, hãy đảm bảo bạn đã làm đúng theo các hướng dẫn bên trên hoặc thử Phương án 2.</p>
 </div>
 <div id="sử-dụng-package-của-chúng-tôi" class="section level3 unnumbered">
@@ -143,7 +143,7 @@
 </h3>
 <p>Chúng tôi cung cấp một R package có tên là <strong>epirhandbook</strong>. Nó bao gồm một hàm có tên <code>download_book()</code> giúp bạn tải xuống sổ tay này từ kho Github của chúng tôi vào máy tính của bạn.</p>
 <p>Package này cũng chứa hàm <code>get_data()</code> giúp tải xuống toàn bộ các dữ liệu minh họa vào máy tính của bạn.</p>
-<p>Chạy dòng code sau để cài đặt package <strong>epirhandbook</strong> từ <a href="https://github.com/appliedepi/epirhandbook">Github repository <em>appliedepi</em></a>. Đây không phải là package thuộc CRAN, do đó cần sử dụng hàm đặc biệt <code><a href="https://rdrr.io/pkg/pacman/man/p_install_gh.html">p_install_gh()</a></code> để cài đặt nó từ Github.</p>
+<p>Chạy dòng code sau để cài đặt package <strong>epirhandbook</strong> từ <a href="https://github.com/appliedepi/epirhandbook">Github repository <em>appliedepi</em></a>. Đây không phải là package thuộc CRAN, do đó cần sử dụng hàm đặc biệt <code>p_install_gh()</code> để cài đặt nó từ Github.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install the latest version of the Epi R Handbook package</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_install_gh.html">p_install_gh</a></span><span class="op">(</span><span class="st">"appliedepi/epirhandbook"</span><span class="op">)</span></code></pre></div>
@@ -166,7 +166,7 @@
 <h3>Sử dụng package của chúng tôi<a class="anchor" aria-label="anchor" href="#s%E1%BB%AD-d%E1%BB%A5ng-package-c%E1%BB%A7a-ch%C3%BAng-t%C3%B4i-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>Cách dễ nhất để tải xuống tất cả dữ liệu là cài đặt package <strong>epirhandbook</strong> của chúng tôi. Nó chứa hàm <code>get_data()</code> giúp lưu toàn bộ dữ liệu minh họa vào một thư mục bạn chọn trên máy tính của mình.</p>
-<p>Để cài đặt package <strong>epirhandbook</strong>, bạn chạy theo code dưới đây. Lưu ý là package này không từ CRAN, do đó cần sử dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_install_gh.html">p_install_gh()</a></code> để cài đặt. Thông tin đầu vào sẽ được chuyển tới trang Github của chúng tôi (“<em>appliedepi</em>”) và package <strong>epirhandbook</strong>.</p>
+<p>Để cài đặt package <strong>epirhandbook</strong>, bạn chạy theo code dưới đây. Lưu ý là package này không từ CRAN, do đó cần sử dụng hàm <code>p_install_gh()</code> để cài đặt. Thông tin đầu vào sẽ được chuyển tới trang Github của chúng tôi (“<em>appliedepi</em>”) và package <strong>epirhandbook</strong>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install the latest version of the Epi R Handbook package</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_install_gh.html">p_install_gh</a></span><span class="op">(</span><span class="st">"appliedepi/epirhandbook"</span><span class="op">)</span></code></pre></div>
@@ -186,7 +186,7 @@
 <code class="sourceCode R"><span class="co"># download a specific file into a folder on your computer</span>
 <span class="fu">get_data</span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
 <p>Khi bạn dùng hàm <code>get_data()</code> để lưu tệp dữ liệu vào máy tính của mình, bạn sẽ vẫn cần nhập dữ liệu vào R. Xem chương <a href="importing.html#importing">Nhập xuất dữ liệu</a> để biết thêm chi tiết.</p>
-<p>Nếu bạn muốn, bạn có thể xem toàn bộ dữ liệu sử dụng trong cuốn sách này ở <a href="https://github.com/epirhandbook/Epi_R_handbook/tree/master/data"><strong>thư mục “dữ liệu”</strong></a> trong kho Github của chúng tôi.</p>
+<p>Nếu bạn muốn, bạn có thể xem toàn bộ dữ liệu sử dụng trong cuốn sách này ở <a href="https://github.com/appliedepi/epirhandbook_eng/tree/master/data"><strong>thư mục “dữ liệu”</strong></a> trong kho Github của chúng tôi.</p>
 </div>
 <div id="tải-từng-thứ-một" class="section level3 unnumbered">
 <h3>Tải từng thứ một<a class="anchor" aria-label="anchor" href="#t%E1%BA%A3i-t%E1%BB%ABng-th%E1%BB%A9-m%E1%BB%99t"><i class="fas fa-link"></i></a>
@@ -197,25 +197,25 @@
 </h4>
 <p>Đây là số liệu bùng phát Ebola giả định, được nhóm tác giả cẩm nang mở rộng từ bộ dữ liệu thực hành <code>ebola_sim</code> trong package <strong>outbreaks</strong>.</p>
 <ul>
-<li><p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_raw.xlsx" class="download-button">Bấm để tải xuống dữ liệu “thô” linelist (.xlsx)</a>. Bộ dữ liệu “thô” là một trang tính Excel với dữ liệu lộn xộn. Sử dụng số liệu này trong chương <a href="cleaning.html#cleaning">Làm sạch số liệu và các hàm quan trọng</a>.</p></li>
-<li><p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">Bấm để tải xuống dữ liệu “đã làm sạch” linelist (.rds)</a>. Sử dụng tệp này cho tất cả các chương khác trong sổ tay có sử dụng bộ dữ liệu linelist. Tệp mở rộng .rds là một kiểu file của R có khả năng lưu trữ các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.</p></li>
+<li><p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx" class="download-button">Bấm để tải xuống dữ liệu “thô” linelist (.xlsx)</a>. Bộ dữ liệu “thô” là một trang tính Excel với dữ liệu lộn xộn. Sử dụng số liệu này trong chương <a href="cleaning.html#cleaning">Làm sạch số liệu và các hàm quan trọng</a>.</p></li>
+<li><p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">Bấm để tải xuống dữ liệu “đã làm sạch” linelist (.rds)</a>. Sử dụng tệp này cho tất cả các chương khác trong sổ tay có sử dụng bộ dữ liệu linelist. Tệp mở rộng .rds là một kiểu file của R có khả năng lưu trữ các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.</p></li>
 </ul>
 <p><em>Các tệp liên quan khác:</em></p>
 <ul>
-<li><p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.xlsx" class="download-button">Bấm để tải xuống dữ liệu “đã làm sạch” linelist dưới dạng tệp Excel</a></p></li>
+<li><p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.xlsx" class="download-button">Bấm để tải xuống dữ liệu “đã làm sạch” linelist dưới dạng tệp Excel</a></p></li>
 <li><p>Một phần của chương làm sạch sử dụng “từ điển làm sạch” (tệp .csv). Bạn có thể tải nó trực tiếp vào R bằng cách chạy các lệnh sau:</p></li>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">rio</span><span class="op">)</span> <span class="co"># install/load the rio package</span>
 
 <span class="co"># import the file directly from Github</span>
-<span class="va">cleaning_dict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/cleaning_dict.csv"</span><span class="op">)</span></code></pre></div>
+<span class="va">cleaning_dict</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/cleaning_dict.csv"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="data_malaria" class="section level4 unnumbered">
 <h4>Dữ liệu số trường hợp sốt rét<a class="anchor" aria-label="anchor" href="#data_malaria"><i class="fas fa-link"></i></a>
 </h4>
 <p>Đây là số liệu giả định về số lượng trường hợp sốt rét theo nhóm tuổi, cơ sở điều trị và ngày. Tệp mở rộng .rds là một kiểu file của R có khả năng lưu trữ các thông tin cột. Điều này đảm bảo bạn sẽ có ít việc phải làm khi làm sạch số liệu sau khi nhập số liệu vào R.</p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_facility_count_data.rds" class="download-button"> Bấm để tải file dữ liệu sốt rét (.rds file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_facility_count_data.rds" class="download-button"> Bấm để tải file dữ liệu sốt rét (.rds file) </a></p>
 </div>
 <div id="dữ-liệu-thang-đo-likert" class="section level4 unnumbered">
 <h4>Dữ liệu thang đo Likert<a class="anchor" aria-label="anchor" href="#d%E1%BB%AF-li%E1%BB%87u-thang-%C4%91o-likert"><i class="fas fa-link"></i></a>
@@ -225,16 +225,16 @@
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">rio</span><span class="op">)</span> <span class="co"># install/load the rio package</span>
 
 <span class="co"># import the file directly from Github</span>
-<span class="va">likert_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/nsbatra/Epi_R_handbook/master/data/likert_data.csv"</span><span class="op">)</span></code></pre></div>
+<span class="va">likert_data</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/nsbatra/Epi_R_handbook/master/data/likert_data.csv"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="flexdashboard" class="section level4 unnumbered">
 <h4>Flexdashboard<a class="anchor" aria-label="anchor" href="#flexdashboard"><i class="fas fa-link"></i></a>
 </h4>
 <p>Dưới đây là các liên kết đến tệp được dùng trong chương <a href="data-used.html#flexdashboard">Dashboards với R Markdown</a>:</p>
 <ul>
-<li>Để tải xuống R Markdown dashboard về một đợt bùng phát dịch, bấm phải chuột vào <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/flexdashboard/outbreak_dashboard.Rmd">link</a> này (Cmd+click đối với Mac) và chọn “Save link as”.<br>
+<li>Để tải xuống R Markdown dashboard về một đợt bùng phát dịch, bấm phải chuột vào <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/flexdashboard/outbreak_dashboard.Rmd">link</a> này (Cmd+click đối với Mac) và chọn “Save link as”.<br>
 </li>
-<li>Để tải xuống HTML dashboard, bấm phải chuột vào <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/flexdashboard/outbreak_dashboard_test.html">link</a> này (Cmd+click đối với Mac) và chọn “Save link as”.</li>
+<li>Để tải xuống HTML dashboard, bấm phải chuột vào <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/flexdashboard/outbreak_dashboard_test.html">link</a> này (Cmd+click đối với Mac) và chọn “Save link as”.</li>
 </ul>
 </div>
 <div id="truy-vết-tiếp-xúc" class="section level4 unnumbered">
@@ -262,11 +262,11 @@
 </h4>
 <p>Xem chương <a href="phylogenetic-trees.html#phylogenetic-trees">Cây phả hệ</a>. Tệp có tên Newick về cây phả hệ được xây dựng từ việc giải trình tự toàn bộ bộ gen của 299 mẫu Shigella sonnei và dữ liệu mẫu tương ứng (được chuyển đổi thành tệp văn bản). Các mẫu và kết quả từ nước Bỉ được cung cấp thông qua Trung tâm tham khảo quốc gia về Salmonella và Shigella (NRC Bỉ) trong phạm vi dự án do EUPHEM Fellow của ECDC thực hiện, và cũng sẽ được xuất bản dưới dạng bản thảo. Dữ liệu quốc tế được cung cấp công khai trên cơ sở dữ liệu công cộng (ncbi) và đã được xuất bản trước đó.</p>
 <ul>
-<li>Để tải xuống file cây phả hệ “Shigella_tree.txt”, nhấn chuột phải vào <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/Shigella_tree.txt">link này</a> (Cmd+click đối với Mac) và chọn “Save link as”.<br>
+<li>Để tải xuống file cây phả hệ “Shigella_tree.txt”, nhấn chuột phải vào <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/phylo/Shigella_tree.txt">link này</a> (Cmd+click đối với Mac) và chọn “Save link as”.<br>
 </li>
-<li>Để tải xuống file “sample_data_Shigella_tree.csv” với thông tin bổ sung cho từng mẫu, nhấn chuột phải vào <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/sample_data_Shigella_tree.csv">link này</a> (Cmd+click đối với Mac) và chọn “Save link as”.<br>
+<li>Để tải xuống file “sample_data_Shigella_tree.csv” với thông tin bổ sung cho từng mẫu, nhấn chuột phải vào <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/phylo/sample_data_Shigella_tree.csv">link này</a> (Cmd+click đối với Mac) và chọn “Save link as”.<br>
 </li>
-<li>Để xem subset-tree mới được tạo, nhấn chuột phải vào <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/phylo/Shigella_subtree_2.txt">link này</a> (Cmd+click đối với Mac) và chọn “Save link as”. Tệp .txt sẽ được tải xuống máy tính của bạn.</li>
+<li>Để xem subset-tree mới được tạo, nhấn chuột phải vào <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/phylo/Shigella_subtree_2.txt">link này</a> (Cmd+click đối với Mac) và chọn “Save link as”. Tệp .txt sẽ được tải xuống máy tính của bạn.</li>
 </ul>
 <p>Sau đó bạn có thể nhập tệp .txt files bằng hàm <code>read.tree()</code> từ <strong>ape</strong> package, như đã được trình bày trong chương này.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -284,61 +284,61 @@
 <span class="co"># Country A</span>
 <span class="co">##############</span>
 <span class="co"># import demographics for country A directly from Github</span>
-<span class="va">A_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/country_demographics.csv"</span><span class="op">)</span>
+<span class="va">A_demo</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/country_demographics.csv"</span><span class="op">)</span>
 
 <span class="co"># import deaths for country A directly from Github</span>
-<span class="va">A_deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/deaths_countryA.csv"</span><span class="op">)</span>
+<span class="va">A_deaths</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/deaths_countryA.csv"</span><span class="op">)</span>
 
 <span class="co">##############</span>
 <span class="co"># Country B</span>
 <span class="co">##############</span>
 <span class="co"># import demographics for country B directly from Github</span>
-<span class="va">B_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/country_demographics_2.csv"</span><span class="op">)</span>
+<span class="va">B_demo</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/country_demographics_2.csv"</span><span class="op">)</span>
 
 <span class="co"># import deaths for country B directly from Github</span>
-<span class="va">B_deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/deaths_countryB.csv"</span><span class="op">)</span>
+<span class="va">B_deaths</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/deaths_countryB.csv"</span><span class="op">)</span>
 
 
 <span class="co">###############</span>
 <span class="co"># Reference Pop</span>
 <span class="co">###############</span>
 <span class="co"># import demographics for country B directly from Github</span>
-<span class="va">standard_pop_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/world_standard_population_by_sex.csv"</span><span class="op">)</span></code></pre></div>
+<span class="va">standard_pop_data</span> <span class="op">&lt;-</span> <span class="fu">import</span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/world_standard_population_by_sex.csv"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="data_outbreak" class="section level4 unnumbered">
 <h4>Chuỗi thời gian và phát hiện ổ dịch<a class="anchor" aria-label="anchor" href="#data_outbreak"><i class="fas fa-link"></i></a>
 </h4>
 <p>Xem trong chương <a href="data-used.html#data_outbreak">Chuỗi thời gian và phát hiện ổ dịch</a>. Chúng tôi sử dụng các trường hợp campylobacter được báo cáo ở Đức từ 2002-2011, có sẵn từ package <strong>surveillance</strong> của R. (<em>lưu ý.</em> tập dữ liệu này đã được điều chỉnh từ bản gốc, trong đó 3 tháng dữ liệu cuối năm 2011 đã bị xóa để dùng với mục đích minh họa)</p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/campylobacter_germany.xlsx" class="download-button"> Bấm để tải xuống dữ liệu Campylobacter ở Đức (.xlsx) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/campylobacter_germany.xlsx" class="download-button"> Bấm để tải xuống dữ liệu Campylobacter ở Đức (.xlsx) </a></p>
 <p>Chúng tôi cũng sử dụng dữ liệu khí hậu ở Đức từ 2002-2011 (nhiệt độ tính bằng độ C và lượng mưa tính bằng milimet). Dữ liệu được tải xuống từ tập dữ liệu phân tích vệ tinh Copernicus của EU bằng cách sử dụng package <strong>ecmwfr</strong> . Bạn sẽ cần tải xuống tất cả những thứ này và nhập chúng vào R bằng hàm <code><a href="https://r-spatial.github.io/stars/reference/read_stars.html">stars::read_stars()</a></code> như đã được giải thích trong chương chuỗi thời gian.</p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2002.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2002 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2003.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2003 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2004.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2004 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2005.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2005 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2006.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2006 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2007.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2007 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2008.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2008 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2009.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2009 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2010.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2010 (.nc file) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/time_series/weather/germany_weather2011.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2011 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2002.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2002 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2003.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2003 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2004.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2004 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2005.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2005 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2006.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2006 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2007.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2007 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2008.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2008 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2009.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2009 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2010.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2010 (.nc file) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/time_series/weather/germany_weather2011.nc" class="download-button"> Bấm để tải dữ liệu thời tiết ở Đức 2011 (.nc file) </a></p>
 </div>
 <div id="data_survey" class="section level4 unnumbered">
 <h4>Phân tích sống còn<a class="anchor" aria-label="anchor" href="#data_survey"><i class="fas fa-link"></i></a>
 </h4>
 <p>Đối với chương <a href="https://epirhandbook.com/survey-analysis.html">phân tích sống còn</a>, chúng tôi sử dụng dữ liệu khảo sát tử vong giả định dựa trên mẫu khảo sát của MSF OCA. Dữ liệu giả định này là một phần của <a href="https://r4epis.netlify.app/">Dự án “R4Epis”</a>.</p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/survey_data.xlsx" class="download-button"> Bấm để tài xuống dữ liệu khảo sát giả định (.xlsx) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/survey_dict.xlsx" class="download-button"> Bấm để tài xuống từ điển dữ liệu khảo sát giả định (.xlsx) </a></p>
-<p><a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/surveys/population.xlsx" class="download-button"> Bấm để tài xuống dữ liệu khảo sát quần thể giả định (.xlsx) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/surveys/survey_data.xlsx" class="download-button"> Bấm để tài xuống dữ liệu khảo sát giả định (.xlsx) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/surveys/survey_dict.xlsx" class="download-button"> Bấm để tài xuống từ điển dữ liệu khảo sát giả định (.xlsx) </a></p>
+<p><a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/surveys/population.xlsx" class="download-button"> Bấm để tài xuống dữ liệu khảo sát quần thể giả định (.xlsx) </a></p>
 </div>
 <div id="data_shiny" class="section level4 unnumbered">
 <h4>Shiny<a class="anchor" aria-label="anchor" href="#data_shiny"><i class="fas fa-link"></i></a>
 </h4>
 <p>Chương <a href="shiny-basics.html#shiny-basics">Dashboards với Shiny</a> trình diễn việc xây dựng một ứng dụng đơn giản để hiển thị dữ liệu bệnh sốt rét.</p>
 <p>Để tải xuống các tệp R dùng để tạo thành ứng dụng Shiny:</p>
-<p>Bạn có thể <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_app/app.R" class="download-button"> bấm vào đây để tải xuống tệp app.R trong đó chứa code của cả UI và Server của ứng dụng Shiny.</a></p>
-<p>Bạn có thể <a href="https://github.com/epirhandbook/Epi_R_handbook/blob/master/data/malaria_app/data/facility_count_data.rds" class="download-button"> bấm vào đây để tải tệp facility_count_data.rds<span></span></a> có chứa dữ liệu sốt rét cho ứng dụng Shiny. Lưu ý rằng bạn có thể cần phải lưu trữ nó trong thư mục “data” để các đường dẫn tệp here () hoạt động chính xác.</p>
-<p>Bạn có thể <a href="https://github.com/epirhandbook/Epi_R_handbook/blob/master/data/malaria_app/global.R" class="download-button"> bấm vào đây để tải tệp global.R<span></span></a> mà sẽ được chạy trước khi mở ứng dụng, như đã được giải thích trong chương.</p>
-<p>Bạn có thể <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/malaria_app/funcs/plot_epicurve.R" class="download-button"> bấm vào đây để tải tệp plot_epicurve.R<span></span></a> có nguồn từ tệp global.R. Lưu ý rằng bạn có thể cần phải lưu trữ nó trong thư mục “funcs” để các đường dẫn tệp here () hoạt động chính xác.</p>
+<p>Bạn có thể <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_app/app.R" class="download-button"> bấm vào đây để tải xuống tệp app.R trong đó chứa code của cả UI và Server của ứng dụng Shiny.</a></p>
+<p>Bạn có thể <a href="https://github.com/appliedepi/epirhandbook_eng/blob/master/data/malaria_app/data/facility_count_data.rds" class="download-button"> bấm vào đây để tải tệp facility_count_data.rds<span></span></a> có chứa dữ liệu sốt rét cho ứng dụng Shiny. Lưu ý rằng bạn có thể cần phải lưu trữ nó trong thư mục “data” để các đường dẫn tệp here () hoạt động chính xác.</p>
+<p>Bạn có thể <a href="https://github.com/appliedepi/epirhandbook_eng/blob/master/data/malaria_app/global.R" class="download-button"> bấm vào đây để tải tệp global.R<span></span></a> mà sẽ được chạy trước khi mở ứng dụng, như đã được giải thích trong chương.</p>
+<p>Bạn có thể <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_app/funcs/plot_epicurve.R" class="download-button"> bấm vào đây để tải tệp plot_epicurve.R<span></span></a> có nguồn từ tệp global.R. Lưu ý rằng bạn có thể cần phải lưu trữ nó trong thư mục “funcs” để các đường dẫn tệp here () hoạt động chính xác.</p>
 
 </div>
 </div>
@@ -386,7 +386,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-12.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-22.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

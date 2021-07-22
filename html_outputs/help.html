@@ -116,49 +116,45 @@
 <h1>
 <span class="header-section-number">48</span> Nhờ sự trợ giúp<a class="anchor" aria-label="anchor" href="#help"><i class="fas fa-link"></i></a>
 </h1>
-<p>This page covers how to get help by posting a Github issue or by posting a reproducible example (“reprex”) to an online forum.</p>
-<div id="github-issues" class="section level2" number="48.1">
+<p>Chương này hướng dẫn cách nhận trợ giúp bằng cách đăng vấn đề mà bạn gặp phải lên Github hoặc đưa ra một ví dụ giả lập (“reprex”) lên các diễn đàn trực tuyến.</p>
+<div id="đăng-vấn-đề-lên-github" class="section level2" number="48.1">
 <h2>
-<span class="header-section-number">48.1</span> Github issues<a class="anchor" aria-label="anchor" href="#github-issues"><i class="fas fa-link"></i></a>
+<span class="header-section-number">48.1</span> Đăng vấn đề lên Github<a class="anchor" aria-label="anchor" href="#%C4%91%C4%83ng-v%E1%BA%A5n-%C4%91%E1%BB%81-l%C3%AAn-github"><i class="fas fa-link"></i></a>
 </h2>
-<p>Many R packages and projects have their code hosted on the website Github.com. You can communicate directly with authors via this website by posting an “Issue”.</p>
-<p>Read more about how to store your work on Github in the page [Collaboration and Github].</p>
-<p>On Github, each project is contained within a <em>repository</em>. Each repository contains code, data, outputs, help documentation, etc. There is also a vehicle to communicate with the authors called “Issues”.</p>
-<p>See below the Github page for the <strong>incidence2</strong> package (used to make epidemic curves). You can see the “Issues” tab highlighted in yellow. You can see that there are 5 open issues.</p>
+<p>Nhiều packages và dự án trong R được lưu trữ mã code của chúng trên trang web Github.com. Bạn có thể trao đổi trực tiếp với các tác giả của các package hoặc dự án này bằng cách đăng một “Issue” qua trang web Github.com..</p>
+<p>Tìm hiểu thêm về cách lưu trữ các tệp của bạn trên Github trong chương <a href="collaboration.html#collaboration">Version control với Git và Github</a>.</p>
+<p>Trên Github, mỗi dự án được chứa trong một <em>kho lưu trữ</em>. Mỗi kho chứa code, dữ liệu, kết quả đầu ra, tài liệu trợ giúp, v.v. Ngoài ra còn có một cách để trao đổi với các tác giả được gọi là “Issues”.</p>
+<p>Xem các ảnh bên dưới về Github để hiểu thêm về package <strong>incidence2</strong> (được sử dụng để tạo đường cong dịch bệnh). Trong ảnh dưới, bạn có thể thấy mục “Issues” được tô màu vàng. Số 5 bên cạnh chữ “Issues” có nghĩa là có 5 vấn đề đang được mở.</p>
 <div class="inline-figure"><img src="images/errors_Github_issues.png" width="948"></div>
-<p>Once in the Issues tab, you can see the open issues. Review them to ensure your problem is not already being addressed. You can open a new issue by clicking the green button on the right. You will need a Github account to do this.</p>
+<p>Ấn vào mục Issues, bạn có thể thấy các vấn đề đang mở được hiện ra. Hãy xem lại chúng để đảm bảo những vấn đề này chưa được giải quyết. Bạn có thể mở một vấn đề mới bằng cách nhấp vào nút màu xanh lá cây “New issue” ở bên phải. Để thực hiện những thao tác này, bạn sẽ cần mở một tài khoản Github.</p>
 <div class="inline-figure"><img src="images/errors_Github_issues2.png" width="910"></div>
-<p>In your issue, follow the instructions below to provide a minimal, reproducible example. And please be courteous! Most people developing R packages and projects are doing so in their spare time (like this handbook!).</p>
-<p>To read more advanced materials about handling issues in your own Github repository, check out the Github <a href="https://guides.github.com/features/issues/">documentation on Issues</a>.</p>
+<p>Để đọc các tài liệu nâng cao hơn về cách xử lý các vấn đề trong kho lưu trữ Github của riêng bạn, hãy xem <a href="https://guides.github.com/features/issues/">Tài liệu về Issues</a> trong Github.</p>
 </div>
-<div id="reproducible-example" class="section level2" number="48.2">
+<div id="ví-dụ-giả-lập" class="section level2" number="48.2">
 <h2>
-<span class="header-section-number">48.2</span> Reproducible example<a class="anchor" aria-label="anchor" href="#reproducible-example"><i class="fas fa-link"></i></a>
+<span class="header-section-number">48.2</span> Ví dụ giả lập<a class="anchor" aria-label="anchor" href="#v%C3%AD-d%E1%BB%A5-gi%E1%BA%A3-l%E1%BA%ADp"><i class="fas fa-link"></i></a>
 </h2>
-<p>Providing a reproducible example (“reprex”) is key to getting help when posting in a forum or in a Github issue. People want to help you, but you have to give them an example that they can work with on their own computer. The example should:</p>
+<p>Cung cấp một ví dụ giả lập (“reprex”) là chìa khóa để nhận được giúp đỡ khi đăng bài thảo luận trên các diễn đàn hoặc trong vấn đề Github issue. Để người khác có thể giúp bạn, bạn phải cho họ một ví dụ cụ thể để họ có thể xử ý vấn dề của bạn trên máy tính của chính họ. Ví dụ của bạn cần phải:</p>
 <ul>
-<li>Demonstrate the problem you encountered<br>
-</li>
-<li>Be <em>minimal</em>, in that it includes only the data and code required to reproduce your problem<br>
-</li>
-<li>Be <em>reproducible</em>, such that all objects (e.g. data), package calls (e.g. <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> or <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code>) are included</li>
+<li>Trình bày sự cố bạn gặp phải</li>
+<li>Hãy nhớ <em>ngắn gọn nhất có thể</em>, bạn chi cân ghi dữ liệu và đoạn code cần thiết để giả lập lại sự cố của bạn</li>
+<li>Đủ thông tin để <em>giả lập</em> lại tình huống của bạn, ví dụ như các thông tin như các đối tượng (ví dụ: dữ liệu), tất cả package được gọi (ví dụ: <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> hoặc <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code>).</li>
 </ul>
-<p><em>Also, be sure you do not post any sensitive data with the reprex!</em> You can create example data frames, or use one of the data frames built into R (enter <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code> to open a list of these datasets).</p>
-<div id="the-reprex-package" class="section level3 unnumbered">
-<h3>The <strong>reprex</strong> package<a class="anchor" aria-label="anchor" href="#the-reprex-package"><i class="fas fa-link"></i></a>
+<p><em>Ngoài ra, hãy đảm bảo rằng bạn không đăng bất kỳ dữ liệu nhạy cảm nào với reprex!</em> Bạn có thể tạo các data frames mẫu hoặc sử dụng một trong các data frames có sẵn trong R (nhập <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code>để mở danh sách các tập dữ liệu này).</p>
+<div id="package-reprex" class="section level3 unnumbered">
+<h3>Package <strong>reprex</strong><a class="anchor" aria-label="anchor" href="#package-reprex"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>reprex</strong> package can assist you with making a reproducible example:</p>
+<p>Package <strong>reprex</strong> có thể hỗ trợ bạn tạo một ví dụ giả lập</p>
 <ol style="list-style-type: decimal">
-<li>
-<strong>reprex</strong> is installed with <strong>tidyverse</strong>, so load either package</li>
+<li>Package <strong>reprex</strong> được cài đặt với package <strong>tidyverse</strong>, vì vậy hãy gọi một trong hai package:</li>
 </ol>
-<div class="sourceCode" id="cb1966"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1969"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install/load tidyverse (which includes reprex)</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Begin an R script that creates your problem, step-by-step, starting from loading packages and data.</li>
+<li>Bắt đầu một đoạn R script tạo ra vấn đề của bạn, hãy làm từng từng bước một, bắt đầu từ việc tải các package và dữ liệu.</li>
 </ol>
-<div class="sourceCode" id="cb1967"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1970"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load packages</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span>
      <span class="va">tidyverse</span>,  <span class="co"># data mgmt and vizualization</span>
@@ -181,64 +177,59 @@
   <span class="fu">scale_x_date</span><span class="op">(</span>
     date_format <span class="op">=</span> <span class="st">"%d %m"</span>
   <span class="op">)</span></code></pre></div>
-<p><em>Copy</em> all the code to your clipboard, and run the following command:</p>
-<div class="sourceCode" id="cb1968"><pre class="downlit sourceCode r">
+<p><em>Sao chép</em> tất cả code vào bộ nhớ tạm của bạn và chạy lệnh sau:</p>
+<div class="sourceCode" id="cb1971"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reprex</span><span class="fu">::</span><span class="fu"><a href="https://reprex.tidyverse.org/reference/reprex.html">reprex</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>You will see an HTML output appear in the RStudio Viewer pane. It will contain all your code and any warnings, errors, or plot outputs. This output is also copied to your clipboard, so you can post it directly into a Github issue or a forum post.</p>
+<p>Bạn sẽ thấy một tệp HTML xuất hiện trong cửa sổ RStudio Viewer. Nó sẽ chứa tất cả code của bạn và bất kỳ cảnh báo, lỗi hoặc biểu đồ nào. Tệp này cũng được sao chép vào bộ nhớ tạm của bạn, vì vậy bạn có thể đăng trực tiếp nó lên một vấn đề trên Github hoặc một bài đăng trên diễn đàn.</p>
 <div class="inline-figure"><img src="images/errors_reprex_RStudio1.png" width="100%"></div>
 <ul>
-<li>If you set <code>session_info = TRUE</code> the output of <code><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">sessioninfo::session_info()</a></code> with your R and R package versions will be included<br>
+<li>Nếu bạn đặt <code>session_info = TRUE</code>, thì kết quả đầu ra của lệnh <code><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">sessioninfo::session_info()</a></code> sẽ được bao gồm với các phiên bản R và package R của bạn.</li>
+<li>Bạn có thể cung cấp một thư mục làm việc cho <code>wd =</code><br>
 </li>
-<li>You can provide a working directory to <code>wd =</code><br>
-</li>
-<li>You can read more about the arguments and possible variations at the <a href="">documentation</a> or by entering <code>?reprex</code>
+<li>Bạn có thể đọc thêm về các đối số và các biến số có thể có tại <a href="">Tài liệu này</a> hoặc bằng cách nhập <code>?reprex</code>
 </li>
 </ul>
-<p>In the example above, the <code>ggplot()</code> command did not run because the arguemnt <code>date_format =</code> is not correct - it should be <code>date_labels =</code>.</p>
+<p>Trong ví dụ trên, lệnh <code>ggplot()</code> không chạy vì đối số <code>date_format =</code> không đúng. Nó phải là <code>date_labels =</code>.</p>
 </div>
-<div id="minimal-data" class="section level3 unnumbered">
-<h3>Minimal data<a class="anchor" aria-label="anchor" href="#minimal-data"><i class="fas fa-link"></i></a>
+<div id="bộ-dữ-liệu-tối-giản" class="section level3 unnumbered">
+<h3>Bộ dữ liệu tối giản<a class="anchor" aria-label="anchor" href="#b%E1%BB%99-d%E1%BB%AF-li%E1%BB%87u-t%E1%BB%91i-gi%E1%BA%A3n"><i class="fas fa-link"></i></a>
 </h3>
-<p>The helpers need to be able to use your data - ideally they need to be able to create it <em>with code</em>.</p>
-<p>To create a minumal dataset, consider anonymising and using only a subset of the observations.</p>
-<p>UNDER CONSTRUCTION - you can also use the function <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to create minimal dataset.</p>
+<p>Những người giúp bạn cần sử dụng dữ liệu của bạn - lý tưởng nhất là họ có thể tạo ra nó <em>bằng code</em>.</p>
+<p>Để tạo một tập dữ liệu tối giản, hãy xem xét việc ẩn danh và chỉ sử dụng một tập con của các quan sát.</p>
+<p>ĐANG ĐƯỢC PHÁT TRIỂN - Bạn có thể sử dụng lệnh <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> để tạo một bộ dữ liệu tối giản.</p>
 </div>
 </div>
-<div id="posting-to-a-forum" class="section level2" number="48.3">
+<div id="đăng-lên-diễn-đàn" class="section level2" number="48.3">
 <h2>
-<span class="header-section-number">48.3</span> Posting to a forum<a class="anchor" aria-label="anchor" href="#posting-to-a-forum"><i class="fas fa-link"></i></a>
+<span class="header-section-number">48.3</span> Đăng lên diễn đàn<a class="anchor" aria-label="anchor" href="#%C4%91%C4%83ng-l%C3%AAn-di%E1%BB%85n-%C4%91%C3%A0n"><i class="fas fa-link"></i></a>
 </h2>
-<p>Read lots of forum posts. Get an understanding for which posts are well-written, and which ones are not.</p>
+<p>Bạn cần đọc nhiều bài viết trên diễn đàn. Hiểu được bài đăng nào được viết tốt và bài nào thì không.</p>
 <ol style="list-style-type: decimal">
-<li><p>First, decide whether to ask the question at all. Have you <em>thoroughly</em> reviewed the forum website, trying various search terms, to see if your question has already been asked?</p></li>
-<li><p>Give your question an informative title (not “Help! this isn’t working”).</p></li>
-<li><p>Write your question:</p></li>
+<li>Đầu tiên, bạn hãy quyết định xem có nên đặt câu hỏi hay không. Bạn đã <em>kỹ lưỡng</em> tìm kiếm câu trả lời trên các trang web diễn đàn, thử các cụm từ tìm kiếm khác nhau, để xem liệu câu hỏi của bạn đã được đặt ra chưa?</li>
+<li>Đặt cho câu hỏi của bạn với một tiêu đề thông tin đầy đủ (không phải “Trợ giúp! Điều này không hoạt động”).</li>
+<li>Viết câu hỏi của bạn:</li>
 </ol>
 <ul>
-<li>Introduce your situation and problem<br>
-</li>
-<li>Link to posts of similar issues and explain how they do not answer your question<br>
-</li>
-<li>Include any relevant information to help someone who does not know the context of your work<br>
-</li>
-<li>Give a minimal reproducible example with your R session information<br>
-</li>
-<li>Use proper spelling, grammar, punctuation, and break your question into paragraphs so that it is easier to read</li>
+<li>Giới thiệu hoàn cảnh và vấn đề của bạn</li>
+<li>Liên kết đến các bài đăng về các vấn đề tương tự và giải thích cách họ không trả lời câu hỏi của bạn</li>
+<li>Ghi bất kỳ thông tin liên quan nào để giúp những người không rõ bối cảnh công việc của bạn</li>
+<li>Đưa ra một ví dụ giả lập với thông tin tối thiểu về phiên làm việc R của bạn</li>
+<li>Sử dụng đúng chính tả, ngữ pháp, dấu câu và ngắt câu hỏi của bạn thành các đoạn văn để dễ đọc hơn</li>
 </ul>
 <ol start="4" style="list-style-type: decimal">
-<li><p>Monitor your question once posted to respond to any requests for clarification. Be courteous and gracious - often the people answering are volunteering their time to help you. If you have a follow-up question consider whether it should be a separate posted question.</p></li>
-<li><p>Mark the question as answered, <em>if</em> you get an answer that meets the <em>original</em> request. This helps others later quickly recognize the solution.</p></li>
+<li><p>Theo dõi câu hỏi của bạn sau khi được đăng để trả lời bất kỳ yêu cầu làm rõ nào. Lịch sự và nhã nhặn - thường những người trả lời đều tình nguyện dành thời gian của họ để giúp bạn. Nếu bạn có một câu hỏi tiếp theo, hãy cân nhắc xem nó có nên là một câu hỏi được đăng riêng hay không.</p></li>
+<li><p>Đánh dấu câu hỏi là đã trả lời, <em>nếu</em> bạn đã nhận được câu trả lời đáp ứng yêu cầu <em>ban đầu</em> của bạn. Điều này giúp những người truy cập sau nhanh chóng nhận ra giải pháp cho vấn đề tương tự với bạn.</p></li>
 </ol>
-<p>Read these posts about <a href="https://stackoverflow.com/help/how-to-ask">how to ask a good question</a> the <a href="https://stackoverflow.com/conduct">Stack overflow code of conduct</a>.</p>
+<p>Đọc những bài đăng này trong các tài liệu <a href="https://stackoverflow.com/help/how-to-ask">Cách đặt một câu hỏi tốt</a> và <a href="https://stackoverflow.com/conduct">Bộ quy tắc ứng xử</a>.</p>
 <!-- ======================================================= -->
 </div>
-<div id="resources-29" class="section level2" number="48.4">
+<div id="tài-liệu-tham-khảo" class="section level2" number="48.4">
 <h2>
-<span class="header-section-number">48.4</span> Resources<a class="anchor" aria-label="anchor" href="#resources-29"><i class="fas fa-link"></i></a>
+<span class="header-section-number">48.4</span> Tài liệu tham khảo<a class="anchor" aria-label="anchor" href="#t%C3%A0i-li%E1%BB%87u-tham-kh%E1%BA%A3o"><i class="fas fa-link"></i></a>
 </h2>
-<p>Tidyverse page on how to <a href="https://www.tidyverse.org/help/#:~:text=When%20you%20want%20to%20make,to%20load%20the%20reprex%20package.&amp;text=Enter%20reprex()%20in%20the,preview%20of%20your%20rendered%20reprex.">get help!</a></p>
-<p>Tips on <a href="https://xiangxing98.github.io/R_Learning/R_Reproducible.nb.html#producing-a-minimal-dataset">producing a minimal dataset</a></p>
-<p>Documentation for the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/dput">dput function</a></p>
+<p>Package Tidyverse về cách <a href="https://www.tidyverse.org/help/#:~:text=When%20you%20want%20to%20make,to%20load%20the%20reprex%20package.&amp;text=Enter%20reprex()%20in%20the,preview%20of%20your%20rendered%20reprex.">nhận trợ giúp!</a></p>
+<p>Lời khuyên về <a href="https://xiangxing98.github.io/R_Learning/R_Reproducible.nb.html#producing-a-minimal-dataset">tạo ra một tập dữ liệu tối thiểu</a></p>
+<p>Tài liệu về <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/dput">Hàm dput</a></p>
 
 </div>
 </div>
@@ -249,15 +240,15 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#help"><span class="header-section-number">48</span> Nhờ sự trợ giúp</a></li>
-<li><a class="nav-link" href="#github-issues"><span class="header-section-number">48.1</span> Github issues</a></li>
+<li><a class="nav-link" href="#%C4%91%C4%83ng-v%E1%BA%A5n-%C4%91%E1%BB%81-l%C3%AAn-github"><span class="header-section-number">48.1</span> Đăng vấn đề lên Github</a></li>
 <li>
-<a class="nav-link" href="#reproducible-example"><span class="header-section-number">48.2</span> Reproducible example</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#the-reprex-package">The reprex package</a></li>
-<li><a class="nav-link" href="#minimal-data">Minimal data</a></li>
+<a class="nav-link" href="#v%C3%AD-d%E1%BB%A5-gi%E1%BA%A3-l%E1%BA%ADp"><span class="header-section-number">48.2</span> Ví dụ giả lập</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#package-reprex">Package reprex</a></li>
+<li><a class="nav-link" href="#b%E1%BB%99-d%E1%BB%AF-li%E1%BB%87u-t%E1%BB%91i-gi%E1%BA%A3n">Bộ dữ liệu tối giản</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#posting-to-a-forum"><span class="header-section-number">48.3</span> Posting to a forum</a></li>
-<li><a class="nav-link" href="#resources-29"><span class="header-section-number">48.4</span> Resources</a></li>
+<li><a class="nav-link" href="#%C4%91%C4%83ng-l%C3%AAn-di%E1%BB%85n-%C4%91%C3%A0n"><span class="header-section-number">48.3</span> Đăng lên diễn đàn</a></li>
+<li><a class="nav-link" href="#t%C3%A0i-li%E1%BB%87u-tham-kh%E1%BA%A3o"><span class="header-section-number">48.4</span> Tài liệu tham khảo</a></li>
 </ul>
 
       <div class="book-extra">
@@ -274,7 +265,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-12.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-22.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

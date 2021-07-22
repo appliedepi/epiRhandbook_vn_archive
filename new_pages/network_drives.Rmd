@@ -5,23 +5,23 @@
 
 
 <!-- ======================================================= -->
-## Thông tin chung {  }
+## Tổng quan {  }
 
 Việc sử dụng R trên một ổ cứng mạng dùng chung tại “công ty” hoặc một nhóm có thể gây ra một số vấn đề phát sinh. Chương này sẽ giới thiệu các phương pháp tiếp cận, các lỗi phổ biến và các đề xuất về cách khắc phục sự cố từ những bài học kinh nghiệm của chúng tôi khi giải quyết các vấn đề này. Chúng bao gồm các mẹo cho các tình huống khó liên quan đến R Markdown. 
 
 
 **Sử dụng R trên ổ cứng mạng: Một số nguyên tắc chính**  
 
-1) Bạn phải có quyền truy cập quản trị cho máy tính của mình. Thiết lập RStudio đặc biệt để chạy với tư cách quản trị viên. 
+1) Bạn phải có quyền truy cập quản trị đối với máy tính của mình. Thiết lập RStudio đặc biệt để chạy với tư cách quản trị viên (run as administrator). 
 2) Hãy lưu các packages trong thư viện trên một ổ cứng vật lý (ví dụ: "C:"). Hạn chế tối đa Sử dụng package thư viện có đường dẫn bắt đầu bằng "\\\".  
-3) Package **rmarkdown** **không được** lưu trong thư viện package "\\\", vì khi đó nó không thể kết nối với TinyTex hoặc Pandoc. 
+3) Package **rmarkdown** **không được** nằm trong thư viện package "\\\", vì khi đó nó không thể kết nối với TinyTex hoặc Pandoc. 
 
 
 
 
 ## RStudio với tư cách quản trị viên  
 
-Bạn cần nhấp vào biểu tượng RStudio để mở RStudio, sau đó bấm chuột phải. Tùy thuộc vào máy của bạn, bạn có thể thấy tùy chọn "Chạy với tư cách Quản trị viên". Nếu không, bạn có thể thấy một tùy chọn để chọn Thuộc tính (sau đó sẽ xuất hiện một cửa sổ có tùy chọn "Tương thích" và bạn có thể chọn hộp kiểm "Chạy với tư cách Quản trị viên"). 
+Bạn cần nhấp vào biểu tượng RStudio để mở RStudio, sau đó bấm chuột phải. Tùy thuộc vào máy của bạn, bạn có thể thấy tùy chọn "Run as Administrator". Nếu không, bạn có thể thấy một tùy chọn để chọn Properties (sau đó sẽ xuất hiện một cửa sổ có tùy chọn "Compatibility" và bạn có thể chọn hộp kiểm "Run as Administrator"). 
 
 
 
@@ -50,14 +50,14 @@ myPaths <- c(myPaths[2], myPaths[1]) # switch them
 .libPaths(myPaths) # reassign them
 ```
 
-Nếu bạn gặp khó khăn với R Markdown kết nối với Pandoc, hãy bắt đầu với đoạn code mã này để tìm hiểu RStudio cho rằng cài đặt Pandoc của bạn ở đâu. 
+Nếu bạn gặp khó khăn với R Markdown kết nối với Pandoc, hãy bắt đầu với đoạn code mã này để tìm hiểu RStudio cài đặt Pandoc của bạn ở đâu. 
 
 ```{r, eval=F}
 # Find Pandoc
 Sys.getenv("RSTUDIO_PANDOC")  # Find where RStudio thinks your Pandoc installation is
 ```
 
-Nếu bạn muốn xem package đang tải từ thư viện nào, hãy thử đoạn code dưới đây: 
+Nếu bạn muốn xem package đang được tải từ thư viện ở đâu, hãy thử đoạn code dưới đây: 
 
 ```{r, eval=F}
 # Find a package
@@ -71,9 +71,9 @@ find.package("rmarkdown", lib.loc = NULL, quiet = FALSE, verbose = getOption("ve
 ## Khắc phục các lỗi thường gặp {  }
 
 
-**"Không phiên dịch được ...nội dung trong rmarkdown"**  
+**"Failed to compile…tex in rmarkdown"**  
 
-* Kiểm tra cài đặt TinyTex hoặc cài đặt TinyTex vào ổ  C:. Xem thêm chương [R cơ bản] để biết về cách cài đặt TinyTex 
+* Kiểm tra cài đặt TinyTex hoặc cài đặt TinyTex vào ổ C:. Xem thêm chương [R cơ bản] để biết về cách cài đặt TinyTex 
 
 ```{r, eval=F}
 # check/install tinytex, to C: location
@@ -82,16 +82,16 @@ tinytex:::is_tinytex() # should return TRUE (note three colons)
 ```
 
 
-**Không thể tải dữ liệu từ mạng internet**  
+**Internet routines cannot be loaded**  
 
-Ví dụ, `Lỗi trong công cụ::startDynamicHelp() : Không thể tải dữ liệu từ mạng internet`  
+Ví dụ, `Error in tools::startDynamicHelp() : internet routines cannot be loaded`  
 
-* Thử chọn phiên bản 32-bit từ RStudio qua Công cụ/Tùy chọn chung .  
-  * Chú ý: nếu phiên bản 32-bit không xuất hiện trong menu, hãy đảm bảo rằng bạn không sử dụng RStudio version 1.2.  
+* Thử chọn phiên bản 32-bit từ RStudio qua Tools/Global Options .  
+  * Chú ý: nếu phiên bản 32-bit không xuất hiện trong menu, hãy đảm bảo rằng bạn không sử dụng RStudio phiên bản 1.2.  
 * Ngoài ra, hãy thử gỡ cài đặt R và cài đặt lại với phiên bản bit khác (32 thay vì 64) 
 
 
-**thư viện trong ổ C không xuất hiện dưới dạng tùy chọn khi cố gắng cài đặt các backage theo cách thủ công**
+**C: library does not appear as an option when I try to install packages manually**
 
 * Chạy RStudio với tư cách quản trị viên, sau đó tùy chọn này sẽ xuất hiện.  
 * Để thiết lập R Studio luôn chạy với tư cách quản trị viên (thuận tiện khi sử dụng dự án R mà bạn không nhấp vào biểu tượng R Studio để mở) ... nhấp chuột phải vào biểu tượng R studio 
@@ -102,24 +102,24 @@ Hình ảnh bên dưới cho thấy cách bạn có thể chọn thủ công th�
 knitr::include_graphics(here::here("images", "network_install.png"))
 ```
 
-**Lỗi Pandoc 1**  
+**Pandoc 1 error**  
 
-Nếu bạn gặp phải "lỗi pandoc 1" khi knitting tập lệnh R Markdowns trên ổ đĩa mạng:
+Nếu bạn gặp phải "pandoc error 1" khi knitting tập lệnh R Markdowns trên ổ đĩa mạng:
 
-* Trong số nhiều vị trí thư viện đặt lưu trữ, hãy chọn vị trí các ổ cứng của máy được liệt kê đầu tiên (xem lại ở trên)
-* Cso thể làm được giải pháp trên khi knitting trên ổ đĩa cá nhân trong khi máy tính có kết nối internet
-* Xem thêm các kỹ thuật tại đây: https://ciser.cornell.edu/rmarkdown-knit-to-html-word-pdf/ 
+* Trong số nhiều vị trí thư viện đặt lưu trữ, hãy chọn một vị trí ổ cứng bắt đầu bằng một chữ cái (xem lại ở trên)
+* Giải pháp trên có thể thực hiện được khi knitting trên ổ đĩa cá nhân trong khi máy tính có kết nối internet
+* Xem thêm các mẹo khác tại đây: https://ciser.cornell.edu/rmarkdown-knit-to-html-word-pdf/ 
 
-**Lỗi Pandoc 83**  
+**Pandoc Error 83**  
 
-Lỗi sẽ có dạng như sau: `can't find file...rmarkdown...lua...`. Điều này có nghĩa là nó không thể tìm thấy tệp rmarkdown này. 
+Lỗi sẽ có dạng như sau: `can't find file...rmarkdown...lua...`. Điều này có nghĩa là nó không thể tìm thấy tệp này. 
 
 Xem thêm tại đây: https://stackoverflow.com/questions/58830927/rmarkdown-unable-to-locate-lua-filter-when-knitting-to-word  
 
 Các khả năng có thể xảy ra:
 
-1) Các package sử dụng trong file Rmarkdown chưa được cài đặt
-2) Không thể tìm thấy gói các package sử dụng trong file Rmarkdown
+1) Package Rmarkdown chưa được cài đặt
+2) Package Rmarkdown không thể tìm thấy
 3) Vấn đề về quyền quản trị. 
 
 Có thể R không thể tìm thấy các package sử dụng trong file **rmarkdown**, vì vậy hãy kiểm tra thư viện nào mà package trong **rmarkdown**  đang được lưu trữ (xem đoạn code để thực hiện thao tác này ở trên). Nếu package được cài đặt vào một thư viện không thể truy cập được (ví dụ: bắt đầu bằng "\\\") hãy xem xét việc di chuyển nó sang C: hoặc thư viện ổ cứng theo cách thủ công. Lưu ý rằng package **rmarkdown** phải có thể kết nối với cài đặt TinyTex, vì vậy không thể tồn tại trong thư viện trên ổ đĩa mạng. 
@@ -129,13 +129,13 @@ Có thể R không thể tìm thấy các package sử dụng trong file **rmark
 Vú dụ: `Error: pandoc document conversion failed with error 61`  hoặc `Could not fetch...`  
 
 * Thử chạy RStudio với tư cách quản trị viên (nhấp chuột phải vào biểu tượng, chọn chạy với tư cách quản trị viên, xem hướng dẫn ở trên)
-* Ngoài ra, hãy xem package cụ thể nào không thể truy cập được có thể được chuyển đến ổ C: hay không. 
+* Ngoài ra, hãy xem nếu có package cụ thể nào không thể truy cập được có thể được chuyển đến ổ C: library. 
 
 **Lỗi LaTex (xem bên dưới)**
 
 Một lỗi như:  `! Package pdftex.def Error: File 'cict_qm2_2020-06-29_files/figure-latex/unnamed-chunk-5-1.png' not found: using draft setting.` hoặc `Error: LaTeX failed to compile file_name.tex.`  
 
-* Xem thêm tại đây https://yihui.org/tinytex/r/#debugging for debugging tips.  
+* Xem thêm tại đây https://yihui.org/tinytex/r/#debugging để biết các mẹo debug.  
 * Xem thêm file_name.log để biết thêm chi tiết.
 
 
@@ -143,20 +143,20 @@ Một lỗi như:  `! Package pdftex.def Error: File 'cict_qm2_2020-06-29_files/
 
 Đây có thể là vấn đề về RAM (dung lượng). Hãy bắt đầu lại phiên làm việc R của bạn và thử lại. 
 
-**Lập bản đồ các ổ đĩa mạng**
+**Định vị các ổ đĩa mạng**
 
-Lập bản đồ ổ đĩa mạng có thể gặp một số rủi ro. Hãy tham khảo ý kiến với bộ phận CNTT của bạn trước khi làm!
+Định vị ổ đĩa mạng có thể gặp một số rủi ro. Hãy tham khảo ý kiến với bộ phận CNTT của bạn trước khi làm!
 
 Bạn có thể xem thêm các [thảo luận trên diễn đàn này ](https://stackoverflow.com/questions/48161177/r-markdown-openbinaryfile-does-not-exist-no-such-file-or-directory/55616529?noredirect=1#comment97966859_55616529): 
 
-Làm cách nào để mở một tệp "thông qua một ổ đĩa mạng được lập bản đồ"? 
+Làm cách nào để mở một tệp "thông qua một ổ đĩa mạng đã được đinh vị"? 
 
 * Trước tiên, bạn cần biết vị trí ổ mạng mà bạn đang cố gắng truy cập.
-* Tiếp theo, trong trình quản lý tệp của Windows, bạn sẽ cần phải nhấp chuột phải vào "Máy tính này" ở ngăn bên phải và chọn "Lập bản đồ ổ đĩa mạng".
-* Đi qua đoạn hội thoại để xác định vị trí mạng trước đó dưới dạng ổ đĩa có chữ cái.
-* Bây giờ bạn có hai cách để truy cập tệp bạn đang mở.  Hãy nhớ sử dụng đường dẫn của tệp trong các ổ cứng. 
+* Tiếp theo, trong trình quản lý tệp của Windows, bạn sẽ cần phải nhấp chuột phải vào "Máy tính này" ở ngăn bên phải và chọn "Map a network drive".
+* Đi qua hộp thoại để xác định vị trí mạng trước đó dưới dạng ổ đĩa có tên bắt đầu chữ cái.
+* Bây giờ bạn có hai cách để truy cập tệp bạn đang mở. Sử dụng đường dẫn ổ đĩa bắt đầu bằng ký tự có thể hoạt động. 
 
-**Lỗi trong cài đặt install.packages()**  
+**Lỗi khi cài đặt install.packages()**  
 
 Nếu bạn gặp lỗi bao gồm đề cập đến thư mục "khóa", ví dụ:  `Error in install.packages : ERROR: failed to lock directory...`
 
