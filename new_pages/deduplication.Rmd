@@ -1,24 +1,22 @@
-
-# Loại bỏ trùng lặp {#deduplication}  
+# Loại bỏ trùng lặp {#deduplication}
 
 ```{r, out.width=c("50%"), echo=F}
 knitr::include_graphics(here::here("images", "deduplication.png"))
 ```
 
-This page covers the following de-duplication techniques:  
+Chương này đề cập đến các kỹ thuật loại bỏ trùng lặp sau:
 
-1. Identifying and removing duplicate rows  
-2. "Slicing" rows to keep only certain rows (e.g. min or max) from each group of rows  
-3. "Rolling-up", or combining values from multiple rows into one row  
-
+1.  Xác định và loại bỏ các hàng trùng lặp\
+2.  "Cắt" một số hàng để chỉ giữ lại những hàng nhất định (ví dụ: tối thiểu hoặc tối đa) từ mỗi nhóm hàng\
+3.  "Cuộn-lên" hoặc kết hợp các giá trị từ nhiều hàng thành một hàng
 
 <!-- ======================================================= -->
-## Preparation { }
 
+## Chuẩn bị
 
-### Load packages {.unnumbered}
+### Tải package {.unnumbered}
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị những package cần tải cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các package đã cài đặt với `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
 
 ```{r}
 pacman::p_load(
@@ -27,13 +25,13 @@ pacman::p_load(
   stringr)      # for string searches, can be used in "rolling-up" values
 ```
 
-### Import data {.unnumbered}
+### Nhập dữ liệu {.unnumbered}
 
-For demonstration, we will use an example dataset that is created with the R code below.  
+Để minh họa, chúng tôi sẽ sử dụng một bộ dữ liệu mẫu được tạo bằng R code bên dưới.
 
-The data are records of COVID-19 phone encounters, including encounters with contacts and with cases. The columns include `recordID` (computer-generated), `personID`, `name`, `date` of encounter, `time` of encounter, the `purpose` of the encounter (either to interview as a case or as a contact), and `symptoms_ever` (whether the person in that encounter reported *ever* having symptoms).  
+Dữ liệu là các bản ghi về những cuộc gọi truy vết COVID-19, bao gồm những cuộc gọi truy vết với các liên hệ và với các trường hợp. Các cột bao gồm `recordID` (mã bản ghi) (do máy tính tạo), `personID` (mã người truy vết), `name` (tên), `date` (ngày) truy vết, `time` (thời gian) truy vết, `purpose` (mục đích) truy vết (để truy vết như một trường hợp hoặc như một liên hệ) và `symptoms_ever` (liệu người được truy vết đã *từng* được báo cáo có triệu chứng hay không).
 
-Here is the code to create the `obs` dataset:  
+Đây là code để tạo bộ dữ liệu `obs`:
 
 ```{r}
 obs <- data.frame(
@@ -54,44 +52,41 @@ obs <- data.frame(
   mutate(date = as.Date(date, format = "%d/%m/%Y"))
 ```
 
+#### Đây là data frame {#dedup_data .unnumbered}
 
-#### Here is the data frame {#dedup_data .unnumbered}  
-
-Use the filter boxes along the top to review the encounters for each person.  
+Sử dụng bộ lọc của các box ở trên cùng để xem lại các cuộc gọi truy vết theo từng người.
 
 ```{r message=FALSE, echo=F}
 DT::datatable(obs, rownames = FALSE, filter = "top", options = list(pageLength = nrow(obs), scrollX=T), class = 'white-space: nowrap' )
 ```
 
+Một số điều cần lưu ý khi bạn xem xét dữ liệu:
 
-A few things to note as you review the data:  
+-   Hai bản ghi đầu tiên hoàn toàn 100% là trùng lặp, bao gồm cả `recordID` (hẳn là một lỗi máy tính!)\
+-   Hai hàng thứ hai trùng lặp trong tất cả các cột *ngoại trừ `recordID`*\
+-   Một vài cá nhân có nhiều cuộc gọi truy vết, vào những ngày, giờ khác nhau, như những liên hệ và/hoặc như những trường hợp\
+-   Ở mỗi cuộc gọi truy vết, người được truy vết được hỏi đã **từng** mắc các triệu chứng chưa và một số thông tin này bị missing.
 
-* The first two records are 100% complete duplicates including duplicate `recordID` (must be a computer glitch!)  
-* The second two rows are duplicates, in all columns *except for `recordID`*  
-* Several people had multiple phone encounters, at various dates and times, and as contacts and/or cases  
-* At each encounter, the person was asked if they had **ever** had symptoms, and some of this information is missing.  
-
-
-And here is a quick summary of the people and the purposes of their encounters, using `tabyl()` from **janitor**:  
+Và đây là bản tóm tắt nhanh về những người truy vết và mục đích các cuộc gọi truy vết của họ, sử dụng `tabyl()` từ **janitor**:
 
 ```{r}
 obs %>% 
   tabyl(name, purpose)
 ```
-<!-- ======================================================= -->
-## Deduplication { }
-
-
-This section describes how to review and remove duplicate rows in a data frame. It also show how to handle duplicate elements in a vector.  
-
 
 <!-- ======================================================= -->
-### Examine duplicate rows {.unnumbered}  
 
+## Loại bỏ trùng lặp
 
-To quickly review rows that have duplicates, you can use `get_dupes()` from the **janitor** package. *By default*, all columns are considered when duplicates are evaluated - rows returned by the function are 100% duplicates considering the values in *all* columns.  
+Phần này mô tả cách xem xét và loại bỏ các hàng trùng lặp trong data frame. Đồng thời cũng chỉ ra cách xử lý các phần tử trùng lặp trong một vectơ.
 
-In the `obs` data frame, the first two rows are *100% duplicates* - they have the same value in every column (including the `recordID` column, which is *supposed* to be unique - it must be some computer glitch). The returned data frame automatically includes a new column `dupe_count` on the right side, showing the number of rows with that combination of duplicate values. 
+<!-- ======================================================= -->
+
+### Kiểm tra hàng trùng lặp {.unnumbered}
+
+Để nhanh chóng xem lại các hàng có trùng lặp, bạn có thể sử dụng `get_dupes()` từ package **janitor**. *Theo mặc định*, tất cả các cột được xem xét khi đánh giá trùng lặp - các hàng được hàm trả về là trùng lặp 100% nếu xét đến các giá trị trong *tất cả* các cột.
+
+Trong data frame `obs`, hai hàng đầu tiên *trùng lặp 100%* - chúng có cùng giá trị trong tất cả các cột (bao gồm cả cột `recordID`, vốn *được cho* là duy nhất - hẳn là một số trục trặc máy tính). Data frame được trả về tự động bao gồm một cột mới `dupe_count` ở phía bên phải, hiển thị số hàng có sự kết hợp của các giá trị trùng lặp đó.
 
 ```{r, eval=F}
 # 100% duplicates across all columns
@@ -105,9 +100,9 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = nrow(obs), scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data)  
+Xem [dữ liệu gốc](#dedup_data)
 
-However, if we choose to ignore `recordID`, the 3rd and 4th rows rows are also duplicates of each other. That is, they have the same values in all columns *except* for `recordID`. You can specify specific columns to be ignored in the function using a `-` minus symbol.  
+Tuy nhiên, nếu chúng ta chọn bỏ qua `recordID`, thì hàng thứ 3 và thứ 4 cũng là bản trùng lặp của nhau. Nghĩa là chúng có cùng giá trị trong tất cả các cột *ngoại trừ* `recordID`. Bạn có thể xác định các cột cụ thể bị bỏ qua trong hàm bằng ký hiệu `-` (dấu trừ).
 
 ```{r, eval=F}
 # Duplicates when column recordID is not considered
@@ -121,9 +116,9 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = nrow(obs), scrollX=T), class = 'white-space: nowrap' )
 ```
 
-You can also positively specify the columns to consider. Below, only rows that have the same values in the `name` and `purpose` columns are returned. Notice how "amrish" now has `dupe_count` equal to 3 to reflect his three "contact" encounters.  
+Bạn cũng có thể xác định rõ các cột cần xem xét. Dưới đây, chỉ các hàng có cùng giá trị trong cột `name` và `purpose` được trả về. Lưu ý rằng "amrish" hiện có `dupe_count` bằng 3 cho thấy ba cuộc gọi truy vết "liên hệ" của anh ta.
 
-*Scroll left for more rows**  
+*Cuộn sang trái để xem thêm hàng*
 
 ```{r, eval=F}
 # duplicates based on name and purpose columns ONLY
@@ -137,25 +132,19 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 7, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
-See `?get_dupes` for more details, or see this [online reference](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)  
-
-
-
-
-
+Xem `?get_dupes` để biết thêm chi tiết hoặc xem tài liệu [tham khảo trực tuyến](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes) này
 
 <!-- ======================================================= -->
-### Keep only unique rows  {.unnumbered}
 
+### Chỉ giữ lại các hàng duy nhất {.unnumbered}
 
-To keep only unique rows of a data frame, use `distinct()` from **dplyr** (as demonstrated in the [Cleaning data and core functions] page). Rows that are duplicates are removed such that only the first of such rows is kept. By default, "first" means the highest `rownumber` (order of rows top-to-bottom). Only unique rows remain.  
+Để chỉ giữ lại các hàng duy nhất của một data frame, hãy sử dụng `distinct()` từ **dplyr** (đã được giải thích trong chương [Làm sạch số liệu và các hàm quan trọng]). Các hàng trùng lặp sẽ bị loại bỏ sao cho chỉ giữ lại hàng đầu tiên trong số các hàng đó. Theo mặc định, hàng "đầu tiên" có nghĩa là hàng có `rownumber` cao nhất (thứ tự của các hàng từ trên-xuống-dưới). Chỉ còn lại các hàng duy nhất.
 
-In the example below, we run `distinct()` such that the column `recordID` is excluded from consideration - thus **two duplicate rows are removed**. The first row (for "adam") was 100% duplicated and has been removed. Also row 3 (for "amrish") was a duplicate in every column *except* `recordID` (which is not being considered) and so is also removed. The `obs` dataset n is now ` nrow(obs)-2`, not ` nrow(obs)` rows).  
+Trong ví dụ dưới đây, chúng tôi chạy lệnh `distinct()` sao cho cột `recordID` bị loại trừ khỏi việc xem xét - do đó **hai hàng trùng lặp sẽ bị loại bỏ**. Hàng đầu tiên (đối với "adam") bị trùng lặp 100% và đã bị loại bỏ. Bên cạnh đó, hàng 3 (cho "amrish") là một bản bị trùng lặp trong tất cả các cột *ngoại trừ* `recordID` (đang không được xét) và do đó cũng bị loại bỏ. Bộ dữ liệu `obs` bây giờ có dòng `nrow(obs)-2`, không phải `nrow(obs)`).
 
-*Scroll to the left to see the entire data frame*  
-
+*Cuộn sang trái để xem toàn bộ data frame*
 
 ```{r, eval=F}
 # added to a chain of pipes (e.g. data cleaning)
@@ -174,16 +163,15 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 6, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-<span style="color: orange;">**_CAUTION:_** If using `distinct()` on grouped data, the function will apply to each group.</span>
+[***CHÚ Ý:*** Nếu sử dụng `distinct()` trên nhóm dữ liệu, hàm sẽ áp dụng cho từng nhóm.]{style="color: orange;"}
 
+**Loại bỏ trùng lặp dựa trên cột cụ thể**
 
-**Deduplicate based on specific columns**  
+Bạn cũng có thể xác định các cột cơ sở để loại bỏ trùng lặp. Theo cách này, loại bỏ trùng lặp chỉ áp dụng cho các hàng trùng lặp trong các cột được chỉ định. Trừ khi bạn đặt `.keep_all = TRUE`, tất cả các cột không được đề cập sẽ bị loại bỏ.
 
-You can also specify columns to be the basis for de-duplication. In this way, the de-duplication only applies to rows that are duplicates within the specified columns. Unless you set `.keep_all = TRUE`, all columns not mentioned will be dropped.  
+Trong ví dụ dưới đây, loại bỏ trùng lặp chỉ áp dụng cho các hàng có giá trị giống nhau trong các cột `name` và `purpose`. Do đó, "brian" chỉ có 2 hàng thay vì 3 - cuộc gọi truy vết "liên hệ" *đầu tiên* và cuộc gọi truy vết "trường hợp" duy nhất của anh ta. Để điều chỉnh sao cho cuộc gọi truy vết *mới nhất* của brian đối với từng mục đích được lưu giữ, hãy xem mục Cắt theo nhóm.
 
-In the example below, the de-duplication only applies to rows that have identical values for `name` and `purpose` columns. Thus, "brian" has only 2 rows instead of 3 - his *first* "contact" encounter and his only "case" encounter. To adjust so that brian's *latest* encounter of each purpose is kept, see the tab on Slicing within groups.  
-
-*Scroll to the left to see the entire data frame*  
+*Cuộn sang trái để xem toàn bộ data frame*
 
 ```{r, eval=F}
 # added to a chain of pipes (e.g. data cleaning)
@@ -199,70 +187,65 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 6, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-### Deduplicate elements in a vector {.unnumbered}  
 
+### Loại bỏ phần tử trùng lặp trong một vectơ {.unnumbered}
 
-The function `duplicated()` from **base** R will evaluate a vector (column) and return a logical vector of the same length (TRUE/FALSE). The first time a value appears, it will return FALSE (not a duplicate), and subsequent times that value appears it will return TRUE. Note how `NA` is treated the same as any other value.    
+Hàm `duplicated()` từ **base** R sẽ đánh giá một vectơ (cột) và trả về một vectơ logic có cùng độ dài (TRUE/FALSE). Lần đầu tiên một giá trị xuất hiện, nó sẽ trả về giá trị FALSE (không phải là một bản trùng lặp) và những lần tiếp theo giá trị đó xuất hiện, nó sẽ trả về giá trị TRUE. Lưu ý giá trị `NA` được xử lý giống như bất kỳ giá trị nào khác.
 
 ```{r}
 x <- c(1, 1, 2, NA, NA, 4, 5, 4, 4, 1, 2)
 duplicated(x)
 ```
 
-To return only the duplicated elements, you can use brackets to subset the original vector: 
+Để chỉ trả về các phần tử bị trùng lặp, bạn có thể sử dụng dấu ngoặc để đặt vectơ gốc:
 
 ```{r}
 x[duplicated(x)]
 ```
 
-To return only the unique elements, use `unique()` from **base** R. To remove `NA`s from the output, nest `na.omit()` within `unique()`.  
+Để chỉ trả về các phần tử duy nhất, hãy sử dụng `unique()` từ **base** R. Để loại bỏ các `NA` khỏi kết quả đầu ra, hãy lồng `na.omit()` trong `unique()`.
 
 ```{r}
 unique(x)           # alternatively, use x[!duplicated(x)]
 unique(na.omit(x))  # remove NAs 
 ```
 
+<!-- ======================================================= -->
+
+### Sử dụng **base** R {.unnumbered}
+
+**Để trả về các hàng trùng lặp**
+
+Trong **base** R, bạn cũng có thể xem những hàng nào là trùng lặp 100% trong data frame `df` bằng lệnh `duplicated(df)` (trả về một vectơ logic của các hàng).
+
+Do đó, bạn cũng có thể sử dụng tập con cơ sở `[ ]` trên data frame để xem các hàng *trùng lặp* với `df[duplicated(df),]` (đừng quên dấu phẩy, điều đó có nghĩa là bạn muốn xem tất cả các cột!).
+
+**Để trả về các hàng duy nhất**
+
+Xem các ghi chú ở trên. Để xem các hàng *duy nhất*, bạn thêm dấu phủ định logic `!` ở trước hàm `duplicated()`:\
+`df[!duplicated(df),]`
+
+**Để trả về các hàng trùng lặp chỉ với một số cột nhất định**
+
+Đặt `df` nằm *trong dấu ngoặc đơn hàm* *`duplicated()`*, hàm này sẽ chỉ hoạt động trên một số cột nhất định của `df`.
+
+Để xác định các cột, hãy cung cấp số hoặc tên cột sau dấu phẩy (nhớ rằng đặt tất cả những thông tin này *trong* hàm `duplicated()`).
+
+Hãy chắc chắn đặt dấu phẩy `,` *bên ngoài* và sau hàm `duplicated()`!
+
+Ví dụ: Để chỉ đánh giá các cột từ 2 đến 5 cho các bản trùng lặp: `df[!duplicated(df[, 2:5]),]`\
+Để chỉ đánh giá các cột `name` và `purpose` cho các bản trùng lặp: `df[!duplicated(df[, c("name", "purpose)]),]`
 
 <!-- ======================================================= -->
-### Using **base** R {.unnumbered}
 
-**To return duplicate rows**  
+## Cắt dòng
 
-In **base** R, you can also see which rows are 100% duplicates in a data frame `df` with the command `duplicated(df)` (returns a logical vector of the rows).  
+Để "cắt" một data frame nhằm áp dụng bộ lọc trên các hàng theo số/vị trí hàng. Điều này trở nên đặc biệt hữu ích nếu bạn có nhiều hàng cho mỗi nhóm chức năng (ví dụ: mỗi "người") và bạn chỉ muốn giữ một hoặc một số hàng trong số đó.
 
-Thus, you can also use the base subset `[ ]` on the data frame to see the *duplicated* rows with `df[duplicated(df),]` (don't forget the comma, meaning that you want to see all columns!). 
-
-**To return unique rows**  
-
-See the notes above. To see the *unique* rows you add the logical negator `!` in front of the `duplicated()` function:  
-`df[!duplicated(df),]`  
-
-
-**To return rows that are duplicates of only certain columns**  
-
-Subset the `df` that is *within the `duplicated()` parentheses*, so this function will operate on only certain columns of the `df`.  
-
-To specify the columns, provide column numbers or names after a comma (remember, all this is *within* the `duplicated()` function).  
-
-Be sure to keep the comma `,` *outside* after the `duplicated()` function as well! 
-
-For example, to evaluate only columns 2 through 5 for duplicates:  `df[!duplicated(df[, 2:5]),]`  
-To evaluate only columns `name` and `purpose` for duplicates: `df[!duplicated(df[, c("name", "purpose)]),]`  
-
-
-
-
-
-<!-- ======================================================= -->
-## Slicing { }
-
-
-To "slice" a data frame to apply a filter on the rows by row number/position. This becomes particularly useful if you have multiple rows per functional group (e.g. per "person") and you only want to keep one or some of them. 
-
-The basic `slice()` function accepts numbers and returns rows in those positions. If the numbers provided are positive, only they are returned. If negative, those rows are *not* returned. Numbers must be either all positive or all negative.     
+Hàm `slice()` cơ bản chấp nhận các số và trả về các hàng ở những vị trí đó. Nếu các số được cung cấp là số dương, chỉ có chúng được trả về. Nếu là số âm, những hàng đó *không* được trả về. Tất cả các số đều phải là số dương hoặc đều là số âm.
 
 ```{r}
 obs %>% slice(4)  # return the 4th row
@@ -273,53 +256,46 @@ obs %>% slice(c(2,4))  # return rows 2 and 4
 #obs %>% slice(c(2:4))  # return rows 2 through 4
 ```
 
+Xem [dữ liệu gốc](#dedup_data).
 
-See the [original data](#dedup_data). 
+Có một số biến thể: Chúng phải được cung cấp với một cột và một số hàng để trả về (thành `n =`).
 
-There are several variations:  These should be provided with a column and a number of rows to return (to `n = `).  
-
-* `slice_min()` and `slice_max()`  keep only the row(s) with the minimium or maximum value(s) of the specified column. This also works to return the "min" and "max" of ordered factors.    
-* `slice_head()` and `slice_tail()` - keep only the *first* or *last* row(s).  
-* `slice_sample()`  - keep only a random sample of the rows.  
-
+-   `slice_min()` và `slice_max()` chỉ giữ (các) hàng có (các) giá trị nhỏ nhất hoặc lớn nhất của cột được chỉ định. Hàm này cũng hoạt động để trả về "tối thiểu" và "tối đa" của các yếu tố có thứ tự.\
+-   `slice_head()` và `slice_tail()` - chỉ giữ (các) hàng *đầu tiên* hoặc *cuối cùng*.\
+-   `slice_sample()` - chỉ giữ một mẫu ngẫu nhiên của các hàng.
 
 ```{r}
 obs %>% slice_max(encounter, n = 1)  # return rows with the largest encounter number
 ```
 
-Use arguments `n = ` or `prop = ` to specify the number or proportion of rows to keep. If not using the function in a pipe chain, provide the data argument first (e.g. `slice(data, n = 2)`). See `?slice` for more information. 
+Sử dụng đối số `n =` hoặc `prop =` để xác định số lượng hoặc tỷ lệ hàng cần giữ. Nếu không sử dụng hàm trong chuỗi pipe, trước tiên hãy cung cấp đối số dữ liệu (ví dụ: `slice(data, n = 2)`). Xem `?slice` để biết thêm thông tin.
 
-Other arguments:  
+Các đối số khác:
 
-`.order_by = ` used in `slice_min()` and `slice_max()` this is a column to order by before slicing.  
-`with_ties = ` TRUE by default, meaning ties are kept.  
-`.preserve = ` FALSE by default. If TRUE then the grouping structure is re-calculated after slicing.  
-`weight_by = ` Optional, numeric column to weight by (bigger number more likely to get sampled).  Also `replace = ` for whether sampling is done with/without replacement.  
+`.order_by =` được sử dụng trong `slice_min()` và `slice_max()`, đây là một cột nhằm sắp xếp thứ tự trước khi cắt.\
+`with_ties =` TRUE theo mặc định, nghĩa là các ràng buộc bị giữ lại.\
+`.preserve =` FALSE theo mặc định. Nếu TRUE thì cấu trúc nhóm được tính toán lại sau khi cắt.\
+`weight_by =` Tùy chọn, cột số theo trọng số (số lớn hơn có nhiều khả năng được lấy mẫu hơn). Đồng thời `replace =` cho việc lấy mẫu liệu có được thực hiện mà có/không có sự thay thế.
 
-<span style="color: darkgreen;">**_TIP:_** When using `slice_max()` and `slice_min()`, be sure to specify/write the `n = `  (e.g. `n = 2`, not just `2`). Otherwise you may get an error `Error: `...` is not empty.` </span>
+[***MẸO:*** Khi sử dụng `slice_max()` và `slice_min()`, hãy chắc chắn xác định/ghi `n =` (ví dụ: `n = 2`, không chỉ `2`). Nếu không, bạn có thể gặp lỗi `Error:`...`is not empty`.]{style="color: darkgreen;"}
 
-<span style="color: black;">**_NOTE:_** You may encounter the function [`top_n()`](https://dplyr.tidyverse.org/reference/top_n.html), which has been superseded by the `slice` functions.</span>
-
- 
-
+[***LƯU Ý:*** Bạn có thể gặp hàm [`top_n()`](https://dplyr.tidyverse.org/reference/top_n.html), hàm mà đã bị thay thế bởi các hàm `slice`.]{style="color: black;"}
 
 <!-- ======================================================= -->
-### Slice with groups  {.unnumbered}
 
-The `slice_*()` functions can be very useful if applied to a grouped data frame because the slice operation is performed on each group separately. Use the **function** `group_by()` in conjunction with `slice()` to group the data to take a slice from each group.  
+### Cắt theo nhóm {.unnumbered}
 
-This is helpful for de-duplication if you have multiple rows per person but only want to keep one of them. You first use `group_by()` with key columns that are the same per person, and then use a slice function on a column that will differ among the grouped rows.  
+Các hàm `slice_*()` có thể rất hữu ích nếu được áp dụng cho một data frame được nhóm lại vì thao tác cắt được thực hiện trên từng nhóm riêng biệt. Sử dụng **hàm** `group_by()` kết hợp với `slice()` nhằm nhóm dữ liệu để lấy một lát cắt từ mỗi nhóm.
 
-In the example below, to keep only the *latest* encounter *per person*, we group the rows by `name` and then use `slice_max()` with `n = 1` on the `date` column. Be aware! To apply a function like `slice_max()` on dates, the date column must be class Date.   
+Điều này rất hữu ích cho việc loại bỏ trùng lặp nếu bạn có nhiều hàng cho mỗi người nhưng chỉ muốn giữ một trong số chúng. Trước tiên, bạn sử dụng `group_by()` với các cột chính mà giống nhau cho mỗi người, sau đó sử dụng một hàm slice trên một cột, điều này sẽ khác nhau giữa các hàng được nhóm.
 
-By default, "ties" (e.g. same date in this scenario) are kept, and we would still get multiple rows for some people (e.g. adam). To avoid this we set `with_ties = FALSE`. We get back only one row per person.  
+Trong ví dụ dưới đây, để chỉ giữ lại cuộc gọi truy vết *mới nhất* *theo mỗi người*, chúng tôi nhóm các hàng theo cột `name` và sau đó sử dụng `slice_max()` với `n = 1` trên cột `date`. Hãy lưu ý! Để áp dụng một hàm như `slice_max()` vào dates (ngày tháng), cột ngày tháng phải thuộc nhóm Date.
 
-<span style="color: orange;">**_CAUTION:_** If using `arrange()`, specify `.by_group = TRUE` to have the data arranged within each group.</span>
+Theo mặc định, "các ràng buộc" (ví dụ: cùng ngày trong trường hợp này) được giữ lại và chúng tôi sẽ vẫn nhận được nhiều hàng cho một số người (ví dụ: adam). Để tránh tình huống này, chúng tôi đặt `with_ties = FALSE`. Chúng tôi sẽ chỉ nhận lại một hàng cho mỗi người.
 
-<span style="color: red;">**_DANGER:_** If `with_ties = FALSE`, the first row of a tie is kept. This may be deceptive. See how for Mariah, she has two encounters on her latest date (6 Jan) and the first (earliest) one was kept. Likely, we want to keep her later encounter on that day. See how to "break" these ties in the next example. </span>  
+[***CHÚ Ý:*** Nếu sử dụng `arrange()`, xác định `.by_group = TRUE` để sắp xếp dữ liệu trong mỗi nhóm.]{style="color: orange;"}
 
-
-
+[***THẬN TRỌNG:*** Nếu `with_ties = FALSE`, hàng đầu tiên có ràng buộc được giữ lại. Điều này có thể là sự nhầm lẫn. Hãy xem trường hợp của Mariah, cô ấy có hai cuộc gọi truy vết vào ngày gần nhất (ngày 06/01) và cuộc gọi truy vết đầu tiên (sớm nhất) được giữ lại. Rất có thể, chúng tôi muốn giữ lại cuộc gọi truy vết muộn hơn của cô ấy vào ngày đó. Xem cách "phá vỡ" những ràng buộc này trong ví dụ tiếp theo.]{style="color: red;"}
 
 ```{r, eval=F}
 obs %>% 
@@ -338,13 +314,12 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 8, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Above, for example we can see that only Amrish's row on 5 Jan was kept, and only Brian's row on 7 Jan was kept. See the [original data](#dedup_data).  
+Ví dụ ở trên, chúng ta có thể thấy rằng chỉ hàng của Amrish vào ngày 05/01 được giữ lại và chỉ hàng của Brian vào ngày 07/01 được giữ lại. Xem [dữ lịệu gốc](#dedup_data).
 
+**Phá vỡ "ràng buộc"**
 
-**Breaking "ties"**  
-
-Multiple slice statements can be run to "break ties". In this case, if a person has multiple encounters on their latest *date*, the encounter with the latest *time* is kept (`lubridate::hm()` is used to convert the character times to a sortable time class).  
-Note how now, the one row kept for "Mariah" on 6 Jan is encounter 3 from 08:32, not encounter 2 at 07:25.  
+Nhiều câu lệnh cắt (slice) có thể được chạy để "phá vỡ các ràng buộc". Trong trường hợp này, nếu một người có nhiều cuộc gọi truy vết vào *ngày* gần nhất, cuộc gọi truy vết với *thời gian* gần nhất sẽ được giữ lại (`lubridate::hm()` được sử dụng để chuyển đổi ký tự thời gian thành một lớp thời gian có thể sắp xếp).\
+Lưu ý rằng bây giờ, một hàng được giữ cho "Mariah" vào ngày 06/01 là cuộc gọi truy vết thứ 3 từ 08:32, không phải cuộc gọi truy vết thứ 2 lúc 07:25.
 
 ```{r, eval=F}
 # Example of multiple slice statements to "break ties"
@@ -372,21 +347,20 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 8, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-*In the example above, it would also have been possible to slice by `encounter` number, but we showed the slice on `date` and `time` for example purposes.*  
+*Trong ví dụ trên, cũng có thể cắt theo số lần `encounter`, nhưng chúng tôi đã hiển thị cách cắt theo `date` và `time` cho mục đích ví dụ.*
 
-<span style="color: darkgreen;">**_TIP:_** To use `slice_max()` or `slice_min()` on a "character" column, mutate it to an *ordered* factor class!</span>
+[***MẸO:*** Để sử dụng `slice_max()` hoặc `slice_min()` trên một cột "kí tự", hãy biến đối nó thành một lớp yếu tố *được sắp xếp theo thứ tự*!]{style="color: darkgreen;"}
 
-See the [original data](#dedup_data).  
-
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-### Keep all but mark them  {.unnumbered}
 
-If you want to keep all records but mark only some for analysis, consider a two-step approach utilizing a unique recordID/encounter number:  
+### Giữ lại tất cả nhưng đánh dấu các dòng {.unnumbered}
 
-1) Reduce/slice the orginal data frame to only the rows for analysis. Save/retain this reduced data frame.  
-2) In the original data frame, mark rows as appropriate with `case_when()`, based on whether their record unique identifier (recordID in this example) is present in the reduced data frame.  
+Nếu bạn muốn giữ lại tất cả các bản ghi nhưng chỉ đánh dấu một số để phân tích, hãy cân nhắc cách tiếp cận hai bước sử dụng một số recordID/encounter duy nhất:
 
+1)  Giảm/cắt data frame gốc thành chỉ bao gồm các hàng cho phân tích. Lưu/giữ lại data frame đã được thu gọn này.\
+2)  Trong data frame gốc, hãy đánh dấu các hàng là thích hợp với `case_when()`, dựa trên việc liệu mã định danh duy nhất của những bản ghi này (recordID trong ví dụ này) có trong data frame thu gọn hay không.
 
 ```{r}
 # 1. Define data frame of rows to keep for analysis
@@ -411,25 +385,25 @@ obs_marked <- obs %>%
 obs_marked
 ```
 
-
 ```{r, echo=F}
 DT::datatable(obs_marked, rownames = FALSE, options = list(pageLength = 8, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-### Calculate row completeness {.unnumbered} 
 
-Create a column that contains a metric for the row's completeness (non-missingness). This could be helpful when deciding which rows to prioritize over others when de-duplicating/slicing.  
+### Tính toán độ hoàn chỉnh của hàng {.unnumbered}
 
-In this example, "key" columns over which you want to measure completeness are saved in a vector of column names.  
+Tạo một cột chứa số liệu về độ hoàn chỉnh (không bị thiếu) của hàng. Điều này có thể hữu ích khi quyết định ưu tiên hàng nào hơn hàng nào khi loại bỏ trùng lặp/cắt.
 
-Then the new column `key_completeness` is created with `mutate()`. The new value in each row is defined as a calculated fraction: the number of non-missing values in that row among the key columns, divided by the number of key columns.  
+Trong ví dụ này, các cột "chính" mà bạn muốn đo lường mức độ hoàn chỉnh được lưu trong một vectơ tên cột.
 
-This involves the function `rowSums()` from **base** R. Also used is `.`, which within piping refers to the data frame at that point in the pipe (in this case, it is being subset with brackets `[]`).  
+Sau đó, cột mới `key_completeness` được tạo với `mutate()`. Giá trị mới của mỗi hàng được xác định dưới dạng phân số được tính toán bằng: số giá trị không bị thiếu trong hàng đó trong số các cột chính, chia cho số cột chính.
 
-*Scroll to the right to see more rows**  
+Điều này liên quan đến hàm `rowSums()` từ **base** R. Cũng được sử dụng là `.`, trong tham chiếu pipe đến data frame tại một điểm trong pipe (trong trường hợp này, nó đang là tập con với dấu ngoặc `[]`).
+
+*Cuộn sang phải để xem các hàng khác*
 
 ```{r, eval=F}
 # create a "key variable completeness" column
@@ -449,34 +423,28 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
-
-
-
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-## Roll-up values {#str_rollup}
 
+## Giá trị cuộn lên {#str_rollup}
 
-This section describes:  
+Phần này miêu tả:
 
-1) How to "roll-up" values from multiple rows into just one row, with some variations  
-2) Once you have "rolled-up" values, how to overwrite/prioritize the values in each cell  
+1)  Cách "cuộn" các giá trị từ nhiều hàng chỉ thành một hàng, với một số biến thể\
+2)  Khi bạn có các giá trị "đã được cuộn lên", cách để ghi đè/ưu tiên các giá trị trong mỗi ô
 
-This tab uses the example dataset from the Preparation tab.  
-
-
+Tab này sử dụng bộ dữ liệu mẫu từ tab Chuẩn bị.
 
 <!-- ======================================================= -->
-### Roll-up values into one row {.unnumbered}  
 
-The code example below uses `group_by()` and `summarise()` to group rows by person, and then paste together all unique values within the grouped rows. Thus, you get one summary row per person. A few notes:  
+### Cuộn các giá trị thành một hàng {.unnumbered}
 
-* A suffix is appended to all new columns ("_roll" in this example)  
-* If you want to show only unique values per cell, then wrap the `na.omit()` with `unique()`  
-* `na.omit()` removes `NA` values, but if this is not desired it can be removed `paste0(.x)`...  
+Code ví dụ bên dưới sử dụng `group_by()` và `summarise()` để nhóm các hàng theo từng người, rồi dán (paste) tất cả các giá trị duy nhất trong các hàng được nhóm lại với nhau. Do đó, bạn nhận được một hàng tóm tắt cho mỗi người. Một số lưu ý:
 
-
+-   Một hậu tố được thêm vào tất cả các cột mới ("\_roll" trong ví dụ này)\
+-   Nếu bạn chỉ muốn hiển thị các giá trị duy nhất trên mỗi ô, thì hãy đặt `na.omit()` trong `unique()`\
+-   `na.omit()` loại bỏ các giá trị `NA`, nhưng nếu đây là điều không mong muốn, nó có thể bị loại bỏ bởi `paste0(.x)`...
 
 ```{r, eval=F}
 # "Roll-up" values into one row per group (per "personID") 
@@ -494,7 +462,7 @@ cases_rolled <- obs %>%
            ~paste0(na.omit(.x), collapse = "; "))) # function is defined which combines non-NA values
 ```
 
-The result is one row per group (`ID`), with entries arranged by date and pasted together. *Scroll to the left to see more rows*    
+Kết quả là một hàng cho mỗi nhóm (`ID`), với các mục đã nhập được sắp xếp theo ngày và được dán cùng nhau. *Cuộn sang trái để xem các hàng khác*
 
 ```{r message=FALSE, echo=F}
 # "Roll-up" values into one row per group (per "personID") 
@@ -514,10 +482,9 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
-
-**This variation shows unique values only:**  
+**Biến thể này chỉ hiển thị các giá trị duy nhất:**
 
 ```{r}
 # Variation - show unique values only 
@@ -541,9 +508,8 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
-**This variation appends a suffix to each column.**  
-In this case "_roll" to signify that it has been rolled:  
+**Biến thể này thêm hậu tố vào mỗi cột.**\
+Trong trường hợp này, "\_roll" được dùng để biểu thị rằng nó đã được cuộn:
 
 ```{r, eval=F}
 # Variation - suffix added to column names 
@@ -567,12 +533,11 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
 <!-- ======================================================= -->
-### Overwrite values/hierarchy {.unnumbered} 
 
+### Ghi đè các giá trị/hệ thống phân cấp {.unnumbered}
 
-If you then want to evaluate all of the rolled values, and keep only a specific value (e.g. "best" or "maximum" value), you can use `mutate()` across the desired columns, to implement `case_when()`, which uses `str_detect()` from the **stringr** package to sequentially look for string patterns and overwrite the cell content.  
+Sau đó, nếu bạn muốn đánh giá tất cả các giá trị đã cuộn và chỉ giữ một giá trị cụ thể (ví dụ: giá trị "tốt nhất (best)" hoặc "tối đa (maximum)"), bạn có thể sử dụng `mutate()` trên các cột mong muốn, để triển khai `case_when()`, hàm sử dụng `str_detect()` từ package **stringr** để tìm kiếm tuần tự các mẫu chuỗi và ghi đè nội dung ô.
 
 ```{r}
 # CLEAN CASES
@@ -590,34 +555,29 @@ cases_clean <- cases_rolled %>%
       .keep = "unused")                                             # old columns removed, leaving only _mod columns
 ```
 
-
-Now you can see in the column `symptoms_ever` that if the person EVER said "Yes" to symptoms, then only "Yes" is displayed.  
+Bây giờ bạn có thể thấy trong cột `symptoms_ever` rằng nếu người đó TỪNG trả lời "Yes" với các triệu chứng, thì chỉ "Yes" được hiển thị.
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(cases_clean, rownames = FALSE, options = list(pageLength = 10, scrollX=T), class = 'white-space: nowrap')
 ```
 
+Xem [dữ liệu gốc](#dedup_data).
 
-See the [original data](#dedup_data).  
+## Loại bỏ trùng lặp theo xác suất
 
+Đôi khi, bạn có thể muốn xác định các bản trùng lặp "có khả năng xảy ra" dựa trên sự tương đồng (ví dụ: chuỗi "distance (khoảng cách)") trên một số cột như name (tên), age (tuổi), sex (giới tính), date of birth (ngày sinh), v.v. Bạn có thể áp dụng thuật toán so khớp theo xác suất để xác định các bản trùng lặp có khả năng xảy ra.
 
-## Probabilistic de-duplication  
-
-Sometimes, you may want to identify "likely" duplicates based on similarity (e.g. string "distance") across several columns such as name, age, sex, date of birth, etc. You can apply a probabilistic matching algorithm to identify likely duplicates.  
-
-See the page on [Joining data] for an explanation on this method. The section on Probabilistic Matching contains an example of applying these algorithms to compare a data frame to *itself*, thus performing probabilistic de-duplication.  
-
-
+Xem chương [Nối dữ liệu] để được giải thích về phương pháp này. Mục Đối sánh theo xác suất chứa một ví dụ về việc áp dụng các thuật toán này để so sánh một data frame với *chính nó*, do đó thực hiện loại bỏ trùng lặp theo xác suất.
 
 <!-- ======================================================= -->
-## Resources { }
 
-Much of the information in this page is adapted from these resources and vignettes online:  
+## Tài nguyên học liệu
+
+Phần lớn thông tin trong chương này được điều chỉnh từ các tài nguyên và vignette trực tuyến sau:
 
 [datanovia](https://www.datanovia.com/en/lessons/identify-and-remove-duplicate-data-in-r/)
 
-[dplyr tidyverse reference](https://dplyr.tidyverse.org/reference/slice.html)  
+[dplyr tidyverse reference](https://dplyr.tidyverse.org/reference/slice.html)
 
-[cran janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)  
-
+[cran janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
