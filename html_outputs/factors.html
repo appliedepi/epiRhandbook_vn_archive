@@ -122,12 +122,12 @@
 <p>Chương này giới thiệu cách sử dụng các hàm từ package <strong>forcats</strong> (tên viết tắt của “<strong>For</strong> <strong>categorical variables</strong>”) và một số hàm <strong>base</strong> R. Chúng tôi cũng đề cập đến việc sử dụng <strong>lubridate</strong> và <strong>aweek</strong> cho các trường hợp factor đặc biệt liên quan đến tuần dịch tễ học.</p>
 <p>Bạn có thể tìm thấy danh sách đầy đủ các hàm của package <strong>forcats</strong> trực tuyến tại đường <a href="https://forcats.tidyverse.org/reference/index.html">link này</a>. Sau đây, chúng tôi sẽ chỉ trình bày một số hàm phổ biến nhất.</p>
 <!-- ======================================================= -->
-<div id="chuẩn-bị" class="section level2" number="11.1">
+<div id="chuẩn-bị-1" class="section level2" number="11.1">
 <h2>
-<span class="header-section-number">11.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B"><i class="fas fa-link"></i></a>
+<span class="header-section-number">11.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-1"><i class="fas fa-link"></i></a>
 </h2>
-<div id="gọi-packages" class="section level3 unnumbered">
-<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages"><i class="fas fa-link"></i></a>
+<div id="gọi-packages-1" class="section level3 unnumbered">
+<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>Đoạn code dưới đây hiển thị cách gọi các package cần thiết cho việc phân tích. Trong sách này, chúng tôi nhấn mạnh đến việc sử dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> từ package <strong>pacman</strong>, giúp cài đặt package nếu nó chưa được cài <em>và</em> gọi nó ra cho phiên làm việc. Bạn cũng có thể gọi các package đã được cài đặt bằng hàm <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> từ <strong>base</strong> R. Xem chương <a href="basics.html#basics">R cơ bản</a> để biết thêm thông tin về các package trong R.</p>
 <div class="sourceCode" id="cb541"><pre class="downlit sourceCode r">
@@ -141,8 +141,8 @@
   <span class="va">tidyverse</span>      <span class="co"># data mgmt and viz</span>
   <span class="op">)</span></code></pre></div>
 </div>
-<div id="nhập-dữ-liệu-1" class="section level3 unnumbered">
-<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-1"><i class="fas fa-link"></i></a>
+<div id="nhập-dữ-liệu-2" class="section level3 unnumbered">
+<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-2"><i class="fas fa-link"></i></a>
 </h3>
 <p>Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Để tiện muốn theo dõi, <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">bấm để tải bộ dữ liệu linelist “đã được làm sạch”</a> (as .rds file). Nhập dữ liệu bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong> (hàm có thể áp dụng với nhiều loại dữ liệu như .xlsx, .rds, .csv - Xem chương <a href="importing.html#importing">Nhập xuất dữ liệu</a> để biết thêm chi tiết).</p>
 <div class="sourceCode" id="cb542"><pre class="downlit sourceCode r">
@@ -544,14 +544,13 @@ Vui lòng xem chương <a href="dates.html#dates">Làm việc với ngày tháng
 
 <span class="co"># Display levels</span>
 <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">epiweek_formatted</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "2014-W13" "2014-W14" "2014-W15" "2014-W16" "2014-W17" "2014-W18" "2014-W19"
-##  [8] "2014-W20" "2014-W21" "2014-W22" "2014-W23" "2014-W24" "2014-W25" "2014-W26"
-## [15] "2014-W27" "2014-W28" "2014-W29" "2014-W30" "2014-W31" "2014-W32" "2014-W33"
-## [22] "2014-W34" "2014-W35" "2014-W36" "2014-W37" "2014-W38" "2014-W39" "2014-W40"
-## [29] "2014-W41" "2014-W42" "2014-W43" "2014-W44" "2014-W45" "2014-W46" "2014-W47"
-## [36] "2014-W48" "2014-W49" "2014-W50" "2014-W51" "2015-W00" "2015-W01" "2015-W02"
-## [43] "2015-W03" "2015-W04" "2015-W05" "2015-W06" "2015-W07" "2015-W08" "2015-W09"
-## [50] "2015-W10" "2015-W11" "2015-W12" "2015-W13" "2015-W14" "2015-W15" "2015-W16"</code></pre>
+<pre><code>##  [1] "2014-W13" "2014-W14" "2014-W15" "2014-W16" "2014-W17" "2014-W18" "2014-W19" "2014-W20"
+##  [9] "2014-W21" "2014-W22" "2014-W23" "2014-W24" "2014-W25" "2014-W26" "2014-W27" "2014-W28"
+## [17] "2014-W29" "2014-W30" "2014-W31" "2014-W32" "2014-W33" "2014-W34" "2014-W35" "2014-W36"
+## [25] "2014-W37" "2014-W38" "2014-W39" "2014-W40" "2014-W41" "2014-W42" "2014-W43" "2014-W44"
+## [33] "2014-W45" "2014-W46" "2014-W47" "2014-W48" "2014-W49" "2014-W50" "2014-W51" "2015-W00"
+## [41] "2015-W01" "2015-W02" "2015-W03" "2015-W04" "2015-W05" "2015-W06" "2015-W07" "2015-W08"
+## [49] "2015-W09" "2015-W10" "2015-W11" "2015-W12" "2015-W13" "2015-W14" "2015-W15" "2015-W16"</code></pre>
 <p><span style="color: red;"><strong>Nguy hiểm:</strong> Nếu bạn đặt các tuần trước các năm (“Www-YYYY”) (“%W-%Y”), thứ tự các thứ bậc sẽ sắp xếp mặc định theo bảng chữ cái và điều này là không chính xác (ví dụ: 01-2015 sẽ là trước 35-2014). Bạn có thể cần phải điều chỉnh thứ tự theo cách thủ công, đây sẽ là một quá trình dài khó khăn .</span></p>
 <ol start="2" style="list-style-type: decimal">
 <li>
@@ -585,9 +584,9 @@ Vui lòng xem chương <a href="dates.html#dates">Làm việc với ngày tháng
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#factors"><span class="header-section-number">11</span> Factors</a></li>
 <li>
-<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B"><span class="header-section-number">11.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#g%E1%BB%8Di-packages">Gọi packages</a></li>
-<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-1">Nhập dữ liệu</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-1"><span class="header-section-number">11.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#g%E1%BB%8Di-packages-1">Gọi packages</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-2">Nhập dữ liệu</a></li>
 <li><a class="nav-link" href="#fct_newcat">Thêm biến danh mục mới</a></li>
 </ul>
 </li>
@@ -646,7 +645,7 @@ Vui lòng xem chương <a href="dates.html#dates">Làm việc với ngày tháng
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-22.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-31.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

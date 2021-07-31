@@ -8,15 +8,15 @@ Chương này đề cập đến các kỹ thuật loại bỏ trùng lặp sau:
 
 1.  Xác định và loại bỏ các hàng trùng lặp\
 2.  "Cắt" một số hàng để chỉ giữ lại những hàng nhất định (ví dụ: tối thiểu hoặc tối đa) từ mỗi nhóm hàng\
-3.  "Cuộn-lên" hoặc kết hợp các giá trị từ nhiều hàng thành một hàng
+3.  "Rolling-up" hoặc kết hợp các giá trị từ nhiều hàng thành một hàng
 
 <!-- ======================================================= -->
 
 ## Chuẩn bị
 
-### Tải package {.unnumbered}
+### Gọi package {.unnumbered}
 
-Đoạn code này hiển thị những package cần tải cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các package đã cài đặt với `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
+Đoạn code này hiển thị những package cần tải cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến hàm `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* gọi nó ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
 
 ```{r}
 pacman::p_load(
@@ -27,9 +27,9 @@ pacman::p_load(
 
 ### Nhập dữ liệu {.unnumbered}
 
-Để minh họa, chúng tôi sẽ sử dụng một bộ dữ liệu mẫu được tạo bằng R code bên dưới.
+Để minh họa, chúng tôi sẽ sử dụng một bộ dữ liệu mẫu được tạo bằng code R bên dưới.
 
-Dữ liệu là các bản ghi về những cuộc gọi truy vết COVID-19, bao gồm những cuộc gọi truy vết với các liên hệ và với các trường hợp. Các cột bao gồm `recordID` (mã bản ghi) (do máy tính tạo), `personID` (mã người truy vết), `name` (tên), `date` (ngày) truy vết, `time` (thời gian) truy vết, `purpose` (mục đích) truy vết (để truy vết như một trường hợp hoặc như một liên hệ) và `symptoms_ever` (liệu người được truy vết đã *từng* được báo cáo có triệu chứng hay không).
+Dữ liệu là các bản ghi về những cuộc gọi truy vết COVID-19, bao gồm những cuộc gọi truy vết với các liên hệ và với các trường hợp. Các cột bao gồm `recordID` (mã bản ghi) (do máy tính tạo), `personID` (mã người truy vết), `name` (tên), `date` (ngày) truy vết, `time` (thời gian) truy vết, `purpose` (mục đích) truy vết (phỏng vấn một trường hợp hoặc một liên hệ) và `symptoms_ever` (liệu người được truy vết đã *từng* được báo cáo có triệu chứng hay không).
 
 Đây là code để tạo bộ dữ liệu `obs`:
 
@@ -64,10 +64,10 @@ Một số điều cần lưu ý khi bạn xem xét dữ liệu:
 
 -   Hai bản ghi đầu tiên hoàn toàn 100% là trùng lặp, bao gồm cả `recordID` (hẳn là một lỗi máy tính!)\
 -   Hai hàng thứ hai trùng lặp trong tất cả các cột *ngoại trừ `recordID`*\
--   Một vài cá nhân có nhiều cuộc gọi truy vết, vào những ngày, giờ khác nhau, như những liên hệ và/hoặc như những trường hợp\
+-   Một vài cá nhân có nhiều cuộc gọi truy vết, vào những ngày, giờ khác nhau, được tính là những liên hệ và/hoặc những trường hợp\
 -   Ở mỗi cuộc gọi truy vết, người được truy vết được hỏi đã **từng** mắc các triệu chứng chưa và một số thông tin này bị missing.
 
-Và đây là bản tóm tắt nhanh về những người truy vết và mục đích các cuộc gọi truy vết của họ, sử dụng `tabyl()` từ **janitor**:
+Và đây là bản tóm tắt nhanh về những người truy vết và mục đích các cuộc gọi truy vết của họ, sử dụng hàm `tabyl()` từ **janitor**:
 
 ```{r}
 obs %>% 
@@ -140,9 +140,9 @@ Xem `?get_dupes` để biết thêm chi tiết hoặc xem tài liệu [tham kh�
 
 ### Chỉ giữ lại các hàng duy nhất {.unnumbered}
 
-Để chỉ giữ lại các hàng duy nhất của một data frame, hãy sử dụng `distinct()` từ **dplyr** (đã được giải thích trong chương [Làm sạch số liệu và các hàm quan trọng]). Các hàng trùng lặp sẽ bị loại bỏ sao cho chỉ giữ lại hàng đầu tiên trong số các hàng đó. Theo mặc định, hàng "đầu tiên" có nghĩa là hàng có `rownumber` cao nhất (thứ tự của các hàng từ trên-xuống-dưới). Chỉ còn lại các hàng duy nhất.
+Để chỉ giữ lại các hàng duy nhất của một data frame, hãy sử dụng `distinct()` từ **dplyr** (đã được giải thích trong chương [Làm sạch số liệu và các hàm quan trọng]). Các hàng trùng lặp sẽ bị loại bỏ sao cho chỉ giữ lại hàng đầu tiên trong số các hàng đó. Theo mặc định, hàng "đầu tiên" có nghĩa là hàng có `rownumber` cao nhất (thứ tự của các hàng từ trên-xuống-dưới). Chỉ các hàng duy nhất được giữ lại.
 
-Trong ví dụ dưới đây, chúng tôi chạy lệnh `distinct()` sao cho cột `recordID` bị loại trừ khỏi việc xem xét - do đó **hai hàng trùng lặp sẽ bị loại bỏ**. Hàng đầu tiên (đối với "adam") bị trùng lặp 100% và đã bị loại bỏ. Bên cạnh đó, hàng 3 (cho "amrish") là một bản bị trùng lặp trong tất cả các cột *ngoại trừ* `recordID` (đang không được xét) và do đó cũng bị loại bỏ. Bộ dữ liệu `obs` bây giờ có dòng `nrow(obs)-2`, không phải `nrow(obs)`).
+Trong ví dụ dưới đây, chúng tôi chạy lệnh `distinct()` sao cho cột `recordID` bị loại trừ khỏi việc xem xét - do đó **hai hàng trùng lặp sẽ bị loại bỏ**. Hàng đầu tiên (đối với "adam") bị trùng lặp 100% và đã bị loại bỏ. Bên cạnh đó, hàng 3 (cho "amrish") là một bản bị trùng lặp trong tất cả các cột *ngoại trừ* `recordID` (đang không được xét) và do đó cũng bị loại bỏ. Bộ dữ liệu `obs` bây giờ có số dòng là `nrow(obs)-2`, không phải là `nrow(obs)`).
 
 *Cuộn sang trái để xem toàn bộ data frame*
 
@@ -206,7 +206,7 @@ duplicated(x)
 x[duplicated(x)]
 ```
 
-Để chỉ trả về các phần tử duy nhất, hãy sử dụng `unique()` từ **base** R. Để loại bỏ các `NA` khỏi kết quả đầu ra, hãy lồng `na.omit()` trong `unique()`.
+Để chỉ trả về các phần tử duy nhất, hãy sử dụng hàm `unique()` từ **base** R. Để loại bỏ các `NA` khỏi kết quả đầu ra, hãy lồng `na.omit()` trong `unique()`.
 
 ```{r}
 unique(x)           # alternatively, use x[!duplicated(x)]
@@ -232,7 +232,7 @@ Xem các ghi chú ở trên. Để xem các hàng *duy nhất*, bạn thêm dấ
 
 Đặt `df` nằm *trong dấu ngoặc đơn hàm* *`duplicated()`*, hàm này sẽ chỉ hoạt động trên một số cột nhất định của `df`.
 
-Để xác định các cột, hãy cung cấp số hoặc tên cột sau dấu phẩy (nhớ rằng đặt tất cả những thông tin này *trong* hàm `duplicated()`).
+Để xác định các cột, hãy cung cấp số thứ tự hoặc tên cột sau dấu phẩy (nhớ rằng đặt tất cả những thông tin này *trong* hàm `duplicated()`).
 
 Hãy chắc chắn đặt dấu phẩy `,` *bên ngoài* và sau hàm `duplicated()`!
 
@@ -243,7 +243,7 @@ Ví dụ: Để chỉ đánh giá các cột từ 2 đến 5 cho các bản trù
 
 ## Cắt dòng
 
-Để "cắt" một data frame nhằm áp dụng bộ lọc trên các hàng theo số/vị trí hàng. Điều này trở nên đặc biệt hữu ích nếu bạn có nhiều hàng cho mỗi nhóm chức năng (ví dụ: mỗi "người") và bạn chỉ muốn giữ một hoặc một số hàng trong số đó.
+"Cắt" một data frame nhằm áp dụng bộ lọc trên các hàng theo số/vị trí hàng. Điều này trở nên đặc biệt hữu ích nếu bạn có nhiều hàng cho mỗi nhóm chức năng (ví dụ: mỗi "người") và bạn chỉ muốn giữ một hoặc một số hàng trong số đó.
 
 Hàm `slice()` cơ bản chấp nhận các số và trả về các hàng ở những vị trí đó. Nếu các số được cung cấp là số dương, chỉ có chúng được trả về. Nếu là số âm, những hàng đó *không* được trả về. Tất cả các số đều phải là số dương hoặc đều là số âm.
 
@@ -258,9 +258,9 @@ obs %>% slice(c(2,4))  # return rows 2 and 4
 
 Xem [dữ liệu gốc](#dedup_data).
 
-Có một số biến thể: Chúng phải được cung cấp với một cột và một số hàng để trả về (thành `n =`).
+Có một số biến thể: Chúng phải được cung cấp với một cột và một số hàng để trả về (tới `n =`).
 
--   `slice_min()` và `slice_max()` chỉ giữ (các) hàng có (các) giá trị nhỏ nhất hoặc lớn nhất của cột được chỉ định. Hàm này cũng hoạt động để trả về "tối thiểu" và "tối đa" của các yếu tố có thứ tự.\
+-   `slice_min()` và `slice_max()` chỉ giữ (các) hàng có (các) giá trị nhỏ nhất hoặc lớn nhất của cột được chỉ định. Hàm này cũng hoạt động để trả về "tối thiểu" và "tối đa" của các biến factor có thứ tự.\
 -   `slice_head()` và `slice_tail()` - chỉ giữ (các) hàng *đầu tiên* hoặc *cuối cùng*.\
 -   `slice_sample()` - chỉ giữ một mẫu ngẫu nhiên của các hàng.
 
@@ -272,12 +272,12 @@ Sử dụng đối số `n =` hoặc `prop =` để xác định số lượng h
 
 Các đối số khác:
 
-`.order_by =` được sử dụng trong `slice_min()` và `slice_max()`, đây là một cột nhằm sắp xếp thứ tự trước khi cắt.\
+`.order_by =` được sử dụng trong `slice_min()` và `slice_max()`, sắp xếp thứ tự theo một cột trước khi cắt.\
 `with_ties =` TRUE theo mặc định, nghĩa là các ràng buộc bị giữ lại.\
 `.preserve =` FALSE theo mặc định. Nếu TRUE thì cấu trúc nhóm được tính toán lại sau khi cắt.\
-`weight_by =` Tùy chọn, cột số theo trọng số (số lớn hơn có nhiều khả năng được lấy mẫu hơn). Đồng thời `replace =` cho việc lấy mẫu liệu có được thực hiện mà có/không có sự thay thế.
+`weight_by =` Tùy chọn, cột dữ liệu kiểu số được tính theo trọng số (số lớn hơn có nhiều khả năng được lấy mẫu hơn). Đồng thời `replace =` cho việc lấy mẫu liệu có được thực hiện mà có/không có sự thay thế.
 
-[***MẸO:*** Khi sử dụng `slice_max()` và `slice_min()`, hãy chắc chắn xác định/ghi `n =` (ví dụ: `n = 2`, không chỉ `2`). Nếu không, bạn có thể gặp lỗi `Error:`...`is not empty`.]{style="color: darkgreen;"}
+[***MẸO:*** Khi sử dụng `slice_max()` và `slice_min()`, hãy chắc chắn bạn cụ thể/ghi `n =` (ví dụ: `n = 2`, không chỉ `2`). Nếu không, bạn có thể gặp lỗi `Error:`...`is not empty`.]{style="color: darkgreen;"}
 
 [***LƯU Ý:*** Bạn có thể gặp hàm [`top_n()`](https://dplyr.tidyverse.org/reference/top_n.html), hàm mà đã bị thay thế bởi các hàm `slice`.]{style="color: black;"}
 
@@ -289,13 +289,13 @@ Các hàm `slice_*()` có thể rất hữu ích nếu được áp dụng cho m
 
 Điều này rất hữu ích cho việc loại bỏ trùng lặp nếu bạn có nhiều hàng cho mỗi người nhưng chỉ muốn giữ một trong số chúng. Trước tiên, bạn sử dụng `group_by()` với các cột chính mà giống nhau cho mỗi người, sau đó sử dụng một hàm slice trên một cột, điều này sẽ khác nhau giữa các hàng được nhóm.
 
-Trong ví dụ dưới đây, để chỉ giữ lại cuộc gọi truy vết *mới nhất* *theo mỗi người*, chúng tôi nhóm các hàng theo cột `name` và sau đó sử dụng `slice_max()` với `n = 1` trên cột `date`. Hãy lưu ý! Để áp dụng một hàm như `slice_max()` vào dates (ngày tháng), cột ngày tháng phải thuộc nhóm Date.
+Trong ví dụ dưới đây, để chỉ giữ lại cuộc gọi truy vết *mới nhất* *theo mỗi người*, chúng ta nhóm các hàng theo cột `name` và sau đó sử dụng `slice_max()` với `n = 1` trên cột `date`. Hãy lưu ý! Để áp dụng một hàm như `slice_max()` vào dates (ngày tháng), cột ngày tháng phải thuộc nhóm Date.
 
 Theo mặc định, "các ràng buộc" (ví dụ: cùng ngày trong trường hợp này) được giữ lại và chúng tôi sẽ vẫn nhận được nhiều hàng cho một số người (ví dụ: adam). Để tránh tình huống này, chúng tôi đặt `with_ties = FALSE`. Chúng tôi sẽ chỉ nhận lại một hàng cho mỗi người.
 
 [***CHÚ Ý:*** Nếu sử dụng `arrange()`, xác định `.by_group = TRUE` để sắp xếp dữ liệu trong mỗi nhóm.]{style="color: orange;"}
 
-[***THẬN TRỌNG:*** Nếu `with_ties = FALSE`, hàng đầu tiên có ràng buộc được giữ lại. Điều này có thể là sự nhầm lẫn. Hãy xem trường hợp của Mariah, cô ấy có hai cuộc gọi truy vết vào ngày gần nhất (ngày 06/01) và cuộc gọi truy vết đầu tiên (sớm nhất) được giữ lại. Rất có thể, chúng tôi muốn giữ lại cuộc gọi truy vết muộn hơn của cô ấy vào ngày đó. Xem cách "phá vỡ" những ràng buộc này trong ví dụ tiếp theo.]{style="color: red;"}
+[***THẬN TRỌNG:*** Nếu `with_ties = FALSE`, hàng đầu tiên có ràng buộc được giữ lại. Điều này có thể là sự nhầm lẫn. Hãy xem trường hợp của Mariah, cô ấy có hai cuộc gọi truy vết vào ngày gần nhất (ngày 06/01) và cuộc gọi truy vết đầu tiên (sớm nhất) được giữ lại. Rất có thể, chúng ta muốn giữ lại cuộc gọi truy vết muộn hơn của cô ấy vào ngày đó. Xem cách "phá vỡ" những ràng buộc này trong ví dụ tiếp theo.]{style="color: red;"}
 
 ```{r, eval=F}
 obs %>% 
@@ -399,9 +399,9 @@ Tạo một cột chứa số liệu về độ hoàn chỉnh (không bị thi�
 
 Trong ví dụ này, các cột "chính" mà bạn muốn đo lường mức độ hoàn chỉnh được lưu trong một vectơ tên cột.
 
-Sau đó, cột mới `key_completeness` được tạo với `mutate()`. Giá trị mới của mỗi hàng được xác định dưới dạng phân số được tính toán bằng: số giá trị không bị thiếu trong hàng đó trong số các cột chính, chia cho số cột chính.
+Sau đó, cột mới `key_completeness` được tạo bằng hàm `mutate()`. Giá trị mới của mỗi hàng được xác định dưới dạng phân số được tính toán bằng: số giá trị không bị thiếu trong hàng đó trong số các cột chính, chia cho số cột chính.
 
-Điều này liên quan đến hàm `rowSums()` từ **base** R. Cũng được sử dụng là `.`, trong tham chiếu pipe đến data frame tại một điểm trong pipe (trong trường hợp này, nó đang là tập con với dấu ngoặc `[]`).
+Điều này cần thêm hàm `rowSums()` từ **base** R. Data frame sử dụng được đại diện bởi dấu `.`, tức là tham chiếu đến data frame nguồn trong một chuỗi pipe (trong trường hợp này, nó sẽ được tách thành tập con với dấu ngoặc vuông `[]`).
 
 *Cuộn sang phải để xem các hàng khác*
 
@@ -427,18 +427,18 @@ Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
 
-## Giá trị cuộn lên {#str_rollup}
+## Gộp các giá trị {#str_rollup}
 
 Phần này miêu tả:
 
-1)  Cách "cuộn" các giá trị từ nhiều hàng chỉ thành một hàng, với một số biến thể\
-2)  Khi bạn có các giá trị "đã được cuộn lên", cách để ghi đè/ưu tiên các giá trị trong mỗi ô
+1)  Cách "gộp (roll-up)" các giá trị từ nhiều hàng chỉ thành một hàng, với một số biến thể\
+2)  Khi bạn có các giá trị "đã được gộp", cách để ghi đè/ưu tiên các giá trị trong mỗi ô
 
 Tab này sử dụng bộ dữ liệu mẫu từ tab Chuẩn bị.
 
 <!-- ======================================================= -->
 
-### Cuộn các giá trị thành một hàng {.unnumbered}
+### Gộp các giá trị thành một hàng {.unnumbered}
 
 Code ví dụ bên dưới sử dụng `group_by()` và `summarise()` để nhóm các hàng theo từng người, rồi dán (paste) tất cả các giá trị duy nhất trong các hàng được nhóm lại với nhau. Do đó, bạn nhận được một hàng tóm tắt cho mỗi người. Một số lưu ý:
 
@@ -509,7 +509,7 @@ obs %>%
 ```
 
 **Biến thể này thêm hậu tố vào mỗi cột.**\
-Trong trường hợp này, "\_roll" được dùng để biểu thị rằng nó đã được cuộn:
+Trong trường hợp này, "\_roll" được dùng để biểu thị rằng nó đã được gộp:
 
 ```{r, eval=F}
 # Variation - suffix added to column names 
@@ -537,7 +537,7 @@ obs %>%
 
 ### Ghi đè các giá trị/hệ thống phân cấp {.unnumbered}
 
-Sau đó, nếu bạn muốn đánh giá tất cả các giá trị đã cuộn và chỉ giữ một giá trị cụ thể (ví dụ: giá trị "tốt nhất (best)" hoặc "tối đa (maximum)"), bạn có thể sử dụng `mutate()` trên các cột mong muốn, để triển khai `case_when()`, hàm sử dụng `str_detect()` từ package **stringr** để tìm kiếm tuần tự các mẫu chuỗi và ghi đè nội dung ô.
+Sau đó, nếu bạn muốn đánh giá tất cả các giá trị đã gộp và chỉ giữ một giá trị cụ thể (ví dụ: giá trị "tốt nhất (best)" hoặc "tối đa (maximum)"), bạn có thể sử dụng hàm `mutate()` trên các cột mong muốn, để triển khai các điều kiện rẽ nhánh với `case_when()` và `str_detect()` từ package **stringr** để tìm kiếm tuần tự các mẫu chuỗi và ghi đè nội dung ô.
 
 ```{r}
 # CLEAN CASES

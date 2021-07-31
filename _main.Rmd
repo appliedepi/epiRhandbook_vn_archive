@@ -6077,23 +6077,23 @@ knitr::include_graphics(here::here("images", "Dates_500x500.png"))
 ```
 
 
-Working with dates in R requires more attention than working with other object classes. Below, we offer some tools and example to make this process less painful. Luckily, dates can be wrangled easily with practice, and with a set of helpful packages such as **lubridate**.  
+Làm việc với trường ngày trên R cần nhiều sự tỉ mỉ hơn là làm việc với các lớp đối tượng khác. Dưới đây, chúng tôi giới thiệu một số công cụ và ví dụ để các thao tác trở nên dễ dàng hơn. Thật may mắn, trường ngày có thể biến đổi một cách dễ dàng với một bộ packages như **lubridate**.  
 
-Upon import of raw data, R often interprets dates as character objects - this means they cannot be used for general date operations such as making time series and calculating time intervals. To make matters more difficult, there are many ways a date can be formatted and you must help R know which part of a date represents what (month, day, hour, etc.). 
+Khi nhập dữ liệu thô, R thường diễn giải trường ngày dưới dạng các ký tự - điều này có nghĩa là chúng không thể được sử dụng cho các thao tác chung như tạo chuỗi thời gian và tính toán khoảng thời gian. Để làm cho vấn đề trở nên khó hơn một chút, có nhiều cách để định dạng ngày và bạn cần thao tác để R nhận biết từng phần của biến ngày mô tả cái gì (tháng, ngày, giờ, v.v.). 
 
-Dates in R are their own class of object - the `Date` class. It should be noted that there is also a class that stores objects with date *and* time. Date time objects are formally referred to as `POSIXt`, `POSIXct`, and/or `POSIXlt` classes (the difference isn't important). These objects are informally referred to as *datetime* classes.
+Ngày trong R có kiểu đối tượng riêng - kiểu `Date`. Nên lưu ý rằng cũng có một kiểu khác lưu trữ đối tượng với định dạng ngày *và* giờ. Đối tượng ngày giờ được chính thức định dạng ở kiểu `POSIXt`, `POSIXct`, và/hoặc `POSIXlt` sự khác biệt không quá quan trọng). Các đối tượng này được định dạng một cách không chính thức là kiểu *datetime*.
 
-* It is important to make R recognize when a column contains dates.  
-* Dates are an object class and can be tricky to work with.  
-* Here we present several ways to convert date columns to Date class.  
+* Điều quan trọng là giúp R nhận ra khi một cột chứa thông tin ngày tháng.  
+* Ngày là một kiểu đối tượng và khó để có thể làm việc.  
+* Ở đây chúng tôi trình bày một số cách để chuyển đổi các cột ngày thành kiểu dữ liệu Ngày tiêu chuẩn.  
 
 
 <!-- ======================================================= -->
-## Preparation
+## Chuẩn bị
 
-### Load packages {.unnumbered}  
+### Gọi packages {.unnumbered}  
 
-This code chunk shows the loading of packages required for this page. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị tải các package cần thiết để sử dụng. Trong tài liệu này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, mà có thể cài đặt package nếu cần thiết *và* gọi package để sử dụng. Bạn cũng có thể gọi và cài đặt package với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.  
 
 ```{r dates_packages, warning=F, message=F}
 # Checks if package is installed, installs if necessary, and loads package for current session
@@ -6107,9 +6107,9 @@ pacman::p_load(
   rio)        # data import/export
 ```
 
-### Import data {.unnumbered}  
+### Nhập dữ liệu {.unnumbered}  
 
-We import the dataset of cases from a simulated Ebola epidemic. If you want to download the data to follow along step-by-step, see instruction in the [Download handbook and data] page. We assume the file is in the working directory so no sub-folders are specified in this file path.  
+Chúng ta sẽ nhập bộ dữ liệu với các ca bệnh từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn tải xuống dữ liệu để thực hành theo từng bước, hãy xem hướng dẫn ở chương [Tải sách và dữ liệu]. Chúng ta giả định rằng tệp dữ liệu đã nằm trong thư mục làm việc của bạn nên bạn không cần chỉ định thư mục con trong đường dẫn này.  
 
 ```{r,  echo=F}
 linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.rds"))
@@ -6124,9 +6124,9 @@ linelist <- import("linelist_cleaned.xlsx")
 
 
 <!-- ======================================================= -->
-## Current date  
+## Ngày hiện tại  
 
-You can get the current "system" date or system datetime of your computer by doing the following with **base** R.  
+Bạn có thể lấy ngày “hệ thống” hiện tại hoặc ngày giờ hệ thống của máy tính bằng cách thực hiện như sau với **base** R.  
 
 ```{r}
 # get the system date - this is a DATE class
@@ -6137,40 +6137,40 @@ Sys.time()
 ```
 
 
-With the **lubridate** package these can also be returned with `today()` and `now()`, respectively. `date()` returns the current date and time with weekday and month names.  
+Với package **lubridate**, chúng cũng có thể trả về giá trị tương ứng với hàm `today()` và `now()`. Hàm `date()` sẽ trả về giá trị ngày và giờ hiện tại với ngày trong tuần và tháng.  
   
   
 
 <!-- ======================================================= -->
-## Convert to Date  
+## Chuyển đổi sang Ngày  
 
-After importing a dataset into R, date column values may look like "1989/12/30", "05/06/2014", or "13 Jan 2020". In these cases, R is likely still treating these values as Character values. R must be *told* that these values are dates... and what the format of the date is (which part is Day, which is Month, which is Year, etc).  
+Sau khi nạp tập dữ liệu vào R, giá trị cột ngày có thể trông giống như “1989/12/30”, “05/06/2014” hoặc “13 Jan 2020”. Trong những trường hợp này, R có thể vẫn coi các giá trị trong cột có định dạng ký tự. R cần được *hướng dẫn* rằng các giá trị này là ngày… và định dạng của ngày là gì (phần nào là Ngày, phần nào là tháng, phần nào là Năm, v.v.).  
 
-Once told, R converts these values to class Date. In the background, R will store the dates as numbers (the number of days from its "origin" date 1 Jan 1970). You will not interface with the date number often, but this allows for R to treat dates as continuous variables and to allow special operations such as calculating the distance between dates.  
+Sau khi hướng dẫn, R chuyển đổi các giá trị này thành kiểu Ngày. Trong nền, R sẽ lưu trữ ngày tháng dưới dạng số (số ngày tính từ ngày "gốc" ngày 1 tháng 1 năm 1970). Bạn sẽ không phải làm việc với định dạng ngày-số thường xuyên, tuy nhiên điều này cho phép R coi ngày là các biến liên tục và cho phép các hoạt động đặc biệt như tính toán khoảng cách giữa các ngày.  
 
-By default, values of class Date in R are displayed as YYYY-MM-DD. Later in this section we will discuss how to change the display of date values.  
+Mặc định, các giá trị của phân lớp Ngày trong R được hiển thị là YYYY-MM-DD. Sau chương này chúng ta sẽ thảo luận về cách thay đổi cách hiển thị giá trị ngày tháng.  
 
-Below we present two approaches to converting a column from character values to class Date.  
+Dưới đây, chúng tôi trình bày hai cách để chuyển đổi một cột từ dạng ký tự sang kiểu Ngày tiêu chuẩn.  
 
 
-<span style="color: darkgreen;">**_TIP:_** You can check the current class of a column with **base** R function `class()`, like `class(linelist$date_onset)`.</span>  
+<span style="color: darkgreen;">**_MẸO:_** Bạn có thể kiểm tra kiểu ngày hiện tại của cột bằng hàm `class()` trong **base** R, ví dụ như `class(linelist$date_onset)`.</span>  
 
   
 
 ### **base** R {.unnumbered}  
 
-`as.Date()` is the standard, **base** R function to convert an object or column to class Date (note capitalization of "D").  
+`as.Date()` là hàm chuẩn của **base** R để chuyển đổi một đối tượng hoặc cột thành kiểu Ngày (lưu ý viết hoa chữ "D").  
 
-Use of `as.Date()` requires that:  
+Sử dụng hàm `as.Date()` yêu cầu:  
 
-* You *specify the **existing** format of the raw character date* or the origin date if supplying dates as numbers (see section on Excel dates)  
-* If used on a character column, all date values must have the same exact format (if this is not the case, try `guess_dates()` from the **linelist** package)  
+* Bạn *làm rõ định dạng **hiện tại** của ngày ở dạng văn bản gốc* hoặc ngày gốc nếu biến ngày được cung cấp dưới dạng số (xem mục ngày tháng trong Excel)  
+* Nếu hàm được áp dụng trên cột dạng văn bản, tất cả các giá trị ngày phải có cùng một định dạng chính xác (nếu không như vậy, hãy thử hàm `guess_dates()` từ package **linelist**)  
 
-**First**, check the class of your column with `class()` from **base** R. If you are unsure or confused about the class of your data (e.g. you see "POSIXct", etc.) it can be easiest to first convert the column to class Character with `as.character()`, and then convert it to class Date.  
+**Trước tiên**, hãy kiểm tra kiểu của cột với hàm `class()` trong **base** R. Nếu bạn không chắc chắn hoặc phân vân về kiểu dữ liệu của cột (vd: bạn thấy "POSIXct", v.v.) dễ dàng nhất là chuyển đổi cột thành kiểu văn bản với hàm `as.character()`, và sau đó chuyển đổi nó thành kiểu Ngày.  
 
-**Second**, within the `as.Date()` function, use the `format =` argument to tell R the *current* format of the character date components - which characters refer to the month, the day, and the year, and how they are separated. If your values are already in one of R's standard date formats ("YYYY-MM-DD" or "YYYY/MM/DD") the `format =` argument is not necessary.  
+**Thứ hai**, trong hàm `as.Date()`, sử dụng đối số `format =` để cho R biết định dạng *hiện tại* của các cấu phần trong biến ngày - những ký tự nào đề cập đến tháng, ngày và năm và cách chúng được phân tách. ếu các giá trị của bạn đã ở một trong các định dạng ngày chuẩn của R ("YYYY-MM-DD" hoặc "YYYY/MM/DD") thì đối số `format =` là không cần thiết.  
 
-To `format = `, provide a character string (in quotes) that represents the *current* date format using the special "strptime" abbreviations below. For example, if your character dates are currently in the format "DD/MM/YYYY", like "24/04/1968", then you would use `format = "%d/%m/%Y"` to convert the values into dates. **Putting the format in quotation marks is necessary. And don't forget any slashes or dashes!**  
+Để `format = `, hãy cung cấp một chuỗi ký tự (trong dấu ngoặc kép) đại diện cho định dạng ngày *hiện tại* bằng cách sử dụng các chữ viết tắt đặc biệt "strptime" dưới đây. Ví dụ: nếu ngày ký tự của bạn hiện ở định dạng “DD / MM / YYYY”, như “24/04/1968”, bạn hãy sử dụng đối số `format = "%d/%m/%Y"` để chuyển đổi các giá trị này. **Đặt định dạng trong dấu ngoặc kép là cần thiết. Và đừng quên bất kỳ dấu gạch chéo hoặc dấu gạch ngang nào!**  
 
 ```{r eval=F}
 # Convert to class date
@@ -6178,40 +6178,40 @@ linelist <- linelist %>%
   mutate(date_onset = as.Date(date_of_onset, format = "%d/%m/%Y"))
 ```
 
-Most of the strptime abbreviations are listed below. You can see the complete list by running `?strptime`.  
+Hầu hết các từ viết tắt của “strptime” được liệt kê dưới đây. Bạn có thể xem danh sách đầy đủ bằng cách chạy lệnh `?strptime`.  
 
-%d = Day number of month (5, 17, 28, etc.)  
-%j = Day number of the year (Julian day 001-366)  
-%a = Abbreviated weekday (Mon, Tue, Wed, etc.)  
-%A = Full weekday (Monday, Tuesday, etc.)
-%w = Weekday number (0-6, Sunday is 0)  
-%u = Weekday number (1-7, Monday is 1)  
-%W = Week number (00-53, Monday is week start)  
-%U = Week number (01-53, Sunday is week start)  
-%m = Month number (e.g. 01, 02, 03, 04)  
-%b = Abbreviated month (Jan, Feb, etc.)  
-%B = Full month (January, February, etc.)  
-%y = 2-digit year  (e.g. 89)  
-%Y = 4-digit year  (e.g. 1989)  
-%h = hours (24-hr clock)  
-%m = minutes  
-%s = seconds
+%d = Thứ tự ngày trong tháng (5, 17, 28, v.v.)  
+%j = Thứ tự ngày trong năm (theo lịch Julian, ngày từ 001-366)  
+%a = Ngày trong tuần viết tắt (Mon, Tue, Wed, v.v.)  
+%A = Ngày trong tuần viết đầy đủ (Monday, Tuesday, v.v.)
+%w = Thứ tự ngày trong tuần (0-6, Chủ Nhật là 0)  
+%u = Thứ tự ngày trong tuần (1-7, Thứ hai là 1)  
+%W = Thứ tự của tuần trong năm (00-53, Thứ Hai là đầu tuần)  
+%U = Thứ tự của tuần trong năm (01-53, Chủ Nhật là ngày bắt đầu tuần)  
+%m = Thứ tự của tháng trong năm (vd: 01, 02, 03, 04)  
+%b = Tháng viết tắt (Jan, Feb, v.v.)  
+%B = Tháng viết đầy đủ (January, February, v.v.)  
+%y = năm 2 chữ số  (vd: 89)  
+%Y = năm 4 chữ số  (vd: 1989)  
+%h = giờ (đồng hồ 24h)  
+%m = phút  
+%s = giây
 %z = offset from GMT  
-%Z = Time zone (character)  
+%Z = Múi giờ (dạng ký tự)  
 
-<span style="color: darkgreen;">**_TIP:_** The `format =` argument of `as.Date()` is *not* telling R the format you want the dates to be, but rather how to identify the date parts as they are *before* you run the command.</span>  
+<span style="color: darkgreen;">**_MẸO:_** Đối số `format =` của hàm `as.Date()` sẽ *không* cho R biết định dạng ngày theo cách bạn muốn, nhưng hơn hết nó giúp xác định thành phần ngày trong cột *trước khi* bạn chạy dòng lệnh.</span>  
 
-<span style="color: darkgreen;">**_TIP:_** Be sure that in the `format =` argument you use the *date-part separator* (e.g. /, -, or space) that is present in your dates.</span>  
+<span style="color: darkgreen;">**_MẸO:_** Hãy chắc chắn rằng đối số `format =` bạn có sử dụng *các ký tự ngăn cách ngày thág* (vd: /, -, hoặc khoảng trắng) trong cột ngày hiện tại của bạn.</span>  
 
-Once the values are in class Date, R will by default display them in the standard format, which is YYYY-MM-DD.
+Khi các giá trị nằm trong phân lớp Ngày tiêu chuẩn, R sẽ mặc định hiển thị chúng ở định dạng chuẩn, đó là YYYY-MM-DD.
 
 
 
 ### **lubridate** {.unnumbered}  
 
-Converting character objects to dates can be made easier by using the **lubridate** package. This is a **tidyverse** package designed to make working with dates and times more simple and consistent than in **base** R. For these reasons, **lubridate** is often considered the gold-standard package for dates and time, and is recommended whenever working with them.
+Việc chuyển đổi các đối tượng dạng tự thành Ngày tháng có thể được thực hiện dễ dàng hơn bằng cách sử dụng package **lubridate**. Đây là một package thuộc hệ sinh thái **tidyverse** được thiết kế để giúp làm việc với ngày và giờ đơn giản và nhất quán hơn so với **base** R. Vì những lý do này, package **lubridate** thường được coi là package tiêu chuẩn vàng cho ngày và giờ và được khuyến khích sử dụng bất cứ khi nào làm việc với chúng.
 
-The **lubridate** package provides several different helper functions designed to convert character objects to dates in an intuitive, and more lenient way than specifying the format in `as.Date()`. These functions are specific to the rough date format, but allow for a variety of separators, and synonyms for dates (e.g. 01 vs Jan vs January) - they are named after abbreviations of date formats. 
+Package **lubridate** cung cấp một số hàm trợ giúp khác nhau được thiết kế để chuyển đổi ác đối tượng dạng ký tự thành ngày tháng một cách trực quan và dễ dàng hơn là định dạng bằng hàm `as.Date()`. Các hàm này dành riêng cho định dạng ngày tháng, nhưng cho phép nhiều kiểu dấu phân tách và từ đồng nghĩa của ngày tháng (vd: 01 so với Jan so với January) - chúng được đặt tên theo chữ viết tắt của các định dạng ngày. 
 
 
 ```{r, }
@@ -6219,7 +6219,7 @@ The **lubridate** package provides several different helper functions designed t
 pacman::p_load(lubridate)
 ```
 
-The `ymd()` function flexibly converts date values supplied as **year, then month, then day**.  
+Hàm `ymd()` có thể chuyển đổi linh hoạt các giá trị ngày được cung cấp dưới dạng **năm, sau đó là tháng, và ngày**.  
 
 ```{r}
 # read date in year-month-day format
@@ -6227,7 +6227,7 @@ ymd("2020-10-11")
 ymd("20201011")
 ```
 
-The `mdy()` function flexibly converts date values supplied as **month, then day, then year**.  
+Hàm `mdy()` có thể chuyển đổi linh hoạt các giá trị ngày được cung cấp dưới dạng **tháng, ngày, và năm**.  
 
 ```{r}
 # read date in month-day-year format
@@ -6235,7 +6235,7 @@ mdy("10/11/2020")
 mdy("Oct 11 20")
 ```
 
-The `dmy()` function flexibly converts date values supplied as **day, then month, then year**.  
+Hàm `dmy()` có thể chuyển đổi linh hoạt các giá trị ngày được cung cấp dưới dạng **ngày, tháng, và năm**.  
 
 ```{r}
 # read date in day-month-year format
@@ -6249,14 +6249,14 @@ dmy("11 October 2020")
 <!-- linelist_cleaned$date_of_onset <- as.Date(as.character(linelist_cleaned$date_of_onset), format = "%d/%m/%Y") -->
 <!-- ``` -->
 
-If using piping, the conversion of a character column to dates with **lubridate** might look like this:  
+Nếu sử dụng piping, việc chuyển đổi cột dạng ký tự thành ngày tháng với **lubridate** có thể trông như thế này:  
 
 ```{r, eval=F}
 linelist <- linelist %>%
   mutate(date_onset = lubridate::dmy(date_onset))
 ```
 
-Once complete, you can run `class()` to verify the class of the column  
+Sau khi hoàn tất, bạn có thể chạy hàm `class()` để xác minh lại kiểu dữ liệu của cột  
 
 ```{r, eval=F}
 # Check the class of the column
@@ -6264,11 +6264,11 @@ class(linelist$date_onset)
 ```
 
 
-Once the values are in class Date, R will by default display them in the standard format, which is YYYY-MM-DD.  
+Khi các giá trị nằm trong phân lớp Ngày tiêu chuẩn, R sẽ mặc định hiển thị chúng ở định dạng chuẩn, đó là YYYY-MM-DD.  
 
-Note that the above functions work best with 4-digit years. 2-digit years can produce unexpected results, as lubridate attempts to guess the century.  
+Lưu ý rằng các hàm trên sử dụng tốt nhất với thông tin về năm có 4 chữ số. Thông tin về năm có 2 chữ số có thể tạo ra các kết quả không mong muốn, bởi vì lubridate sẽ cố gắng đoán và lấy thông tin về thế kỷ.  
 
-To convert a 2-digit year into a 4-digit year (all in the same century) you can convert to class character and then combine the existing digits with a pre-fix using `str_glue()` from the **stringr** package (see [Characters and strings]). Then convert to date.  
+Để chuyển đổi thông tin về năm 2 chữ số thành 4 chữ số (tất cả trong cùng một thế kỷ), bạn có thể chuyển thành dạng ký tự và sau đó kết hợp các chữ số hiện có với một tiền tố sử dụng hàm `str_glue()` từ package **stringr** (xem chương [Ký tự và chuỗi]). Sau đó chuyển đổi sang dạng ngày.  
 
 ```{r}
 two_digit_years <- c("15", "15", "16", "17")
@@ -6277,9 +6277,9 @@ str_glue("20{two_digit_years}")
 
 
 
-### Combine columns {.unnumbered}  
+### Kết hợp các cột {.unnumbered}  
 
-You can use the **lubridate** functions `make_date()` and `make_datetime()` to combine multiple numeric columns into one date column. For example if you have numeric columns `onset_day`, `onset_month`, and `onset_year` in the data frame `linelist`:  
+Bạn có thể sử dụng các hàm `make_date()` và `make_datetime()` trong package **lubridate** để kết hợp nhiều cột dạng số thành một cột ngày. Ví dụ: nếu bạn có các cột kiểu số như `onset_day`, `onset_month`, và `onset_year` trong data frame `linelist`:  
 
 ```{r, eval=F}
 linelist <- linelist %>% 
@@ -6290,17 +6290,17 @@ linelist <- linelist %>%
 
 
 <!-- ======================================================= -->
-## Excel dates
+## Ngày tháng trong Excel
 
-In the background, most software store dates as numbers. R stores dates from an origin of 1st January, 1970. Thus, if you run `as.numeric(as.Date("1970-01-01))` you will get `0`. 
+Về cơ bản, hầu hết phần mềm lưu trữ thông tin ngày tháng dưới dạng số. R lưu trữ ngày bắt đầu từ ngày 1 tháng 1 năm 1970. Do đó, nếu bạn chạy hàm `as.numeric(as.Date("1970-01-01))`, bạn sẽ nhận được kết quả là `0`. 
 
-Microsoft Excel stores dates with an origin of either December 30, 1899 (Windows) or January 1, 1904 (Mac), depending on your operating system. See this [Microsoft guidance](https://docs.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system) for more information.  
+Microsoft Excel ưu trữ ngày tháng có nguồn gốc là ngày 30 tháng 12 năm 1899 (hệ điều hành Windows) hoặc ngày 1 tháng 1 năm 1904 (hệ điều hành Mac), tùy thuộc vào hệ điều hành của bạn. Xem [hướng dẫn của Microsoft](https://docs.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system) để biết thêm thông tin.  
 
-Excel dates often import into R as these numeric values instead of as characters. If the dataset you imported from Excel shows dates as numbers or characters like "41369"... use `as.Date()` (or **lubridate**'s `as_date()` function) to convert, but **instead of supplying a "format" as above, supply the Excel origin date** to the argument `origin = `.  
+Ngày trong Excel thường nạp vào R dưới dạng các giá trị số thay vì dưới dạng ký tự. Nếu tập dữ liệu bạn đã nhập từ Excel hiển thị ngày tháng dưới dạng số hoặc ký tự như “41369”… hãy sử dụng hàm `as.Date()` (hoặc hàm `as_date()` của **lubridate**) để chuyển đổi, nhưng **thay vì cung cấp một "định dạng" như trên, hãy cung cấp ngày gốc trên Excel** tới đối số `origin = `.  
 
-This will not work if the Excel date is stored in R as a character type, so be sure to ensure the number is class Numeric!
+Điều này sẽ không hoạt động nếu ngày Excel được lưu trữ trong R dưới dạng một kiểu ký tự, vì vậy hãy đảm bảo rằng các số được lữu trữ ở kiểu Số!
 
-<span style="color: black;">**_NOTE:_** You should provide the origin date in R's default date format ("YYYY-MM-DD").</span>
+<span style="color: black;">**_LƯU Ý:_** Bạn nên cung cấp định dạng ngày ở định dạng mặc định của R ("YYYY-MM-DD").</span>
 
 ```{r, eval = FALSE}
 # An example of providing the Excel 'origin date' when converting Excel number dates
@@ -6312,11 +6312,11 @@ data_cleaned <- data %>%
 
 
 <!-- ======================================================= -->
-## Messy dates  
+## Ngày lộn xộn  
 
-The function `guess_dates()` from the **linelist** package attempts to read a "messy" date column containing dates in many different formats and convert the dates to a standard format. You can [read more online about `guess_dates()`](https://www.repidemicsconsortium.org/linelist/reference/guess_dates.html). If `guess_dates()` is not yet available on CRAN for R 4.0.2, try install via `pacman::p_load_gh("reconhub/linelist")`.
+Hàm `guess_dates()` từ package **linelist** cố gắng nhận diện một cột ngày tháng "lộn xộn" chứa ngày tháng ở nhiều định dạng khác nhau và chuyển đổi ngày tháng sang định dạng chuẩn. Bạn có thể [đọc thêm tài liệu trực tuyến về `guess_dates()`](https://www.repidemicsconsortium.org/linelist/reference/guess_dates.html). Nếu hàm `guess_dates()` chưa có trên CRAN của R phiên bản 4.0.2, hãy thử cài đặt theo cách sau `pacman::p_load_gh("reconhub/linelist")`.
 
-For example `guess_dates` would see a vector of the following character dates "03 Jan 2018", "07/03/1982", and "08/20/85" and convert them to class Date as: `2018-01-03`, `1982-03-07`, and `1985-08-20`.  
+Ví dụ: hàm `guess_dates` sẽ nhận diện một vectơ gồm các ngày chứa ký tự như sau "03 Jan 2018", "07/03/1982", và "08/20/85" và chuyển đổi chúng thành định dạng Ngày tiêu chuẩn như: `2018-01-03`, `1982-03-07`, và `1985-08-20`.  
 
 ```{r, }
 linelist::guess_dates(c("03 Jan 2018",
@@ -6324,11 +6324,11 @@ linelist::guess_dates(c("03 Jan 2018",
                         "08/20/85"))
 ```
 
-Some optional arguments for `guess_dates()` that you might include are:  
+Một số tùy chọn đối số cho hàm `guess_dates()` mà bạn có thể đưa vào là:  
 
-* `error_tolerance` - The proportion of entries which cannot be identified as dates to be tolerated (defaults to 0.1 or 10%)
-* `last_date` - the last valid date (defaults to current date)  
-* `first_date` - the first valid date. Defaults to fifty years before the last_date.
+* `error_tolerance` - Tỷ lệ thông tin nhập không thể được xác định là ngày được chấp nhận (mặc định là 0,1 hoặc 10%)
+* `last_date` - ngày hợp lệ cuối cùng (mặc định là ngày hiện tại)  
+* `first_date` - ngày hợp lệ đầu tiên. Giá trị mặc định là năm mươi năm trước last_date.
 
 
 ```{r eval = FALSE}
@@ -6346,47 +6346,47 @@ linelist <- linelist %>%                 # the dataset is called linelist
 
 
 <!-- ======================================================= -->
-## Working with date-time class  
+## Làm việc với kiểu dữ liệu ngày-giờ  
 
-As previously mentioned, R also supports a `datetime` class - a column that contains date **and** time information. As with the `Date` class, these often need to be converted from `character` objects to `datetime` objects. 
+Như đã đề cập ở trước, R cũng hỗ trợ kiểu dữ liệu `datetime` - là một cột chứa thông tin ngày **và** giờ. Bởi vì với kiểu dữ liệu `Date`, chúng cần được chuyển đổi từ các đối tượng kiểu `character` thành kiểu `datetime`. 
 
-### Convert dates with times {.unnumbered}  
+### Chuyển đổi ngày giờ {.unnumbered}  
 
-A standard `datetime` object is formatted with the date first, which is followed by a time component - for example  _01 Jan 2020, 16:30_. As with dates, there are many ways this can be formatted, and there are numerous levels of precision (hours, minutes, seconds) that can be supplied.  
+Một đối tượng `datetime` is formatted with the date first, được định dạng phần ngày trước, sau đó là phần thời gian - ví dụ:  _01 Jan 2020, 16:30_. Cũng như ngày, có nhiều cách có thể được định dạng và có nhiều cấp độ chính xác (giờ, phút, giây) có thể sử dụng.  
 
-Luckily, **lubridate** helper functions also exist to help convert these strings to `datetime` objects. These functions are extensions of the date helper functions, with `_h` (only hours supplied), `_hm` (hours and minutes supplied), or `_hms` (hours, minutes, and seconds supplied) appended to the end (e.g. `dmy_hms()`). These can be used as shown:
+Thật may mắn, các hàm hỗ trợ trong **lubridate** cũng tồn tại để giúp chuyển đổi thông tin dạng chuỗi này thành các đối tượng dạng `datetime`. Các hàm này là phần mở rộng của các hàm ngày, với hàm `_h` (chỉ cung cấp giờ), hàm `_hm` (cung cấp giờ và phút), hoặc hàm `_hms` (cung cấp giờ, phút và giây) được thêm vào cuối cùng (vd: `dmy_hms()`). Chúng có thể được sử dụng như sau:
 
-Convert datetime with only hours to datetime object  
+Chuyển đổi datetime chỉ có giờ thành đối tượng datetime 
 
 ```{r}
 ymd_h("2020-01-01 16hrs")
 ymd_h("2020-01-01 4PM")
 ```
 
-Convert datetime with hours and minutes to datetime object  
+Chuyển đổi datetime với giờ và phút thành đối tượng datetime  
 
 ```{r}
 dmy_hm("01 January 2020 16:20")
 ```
 
-Convert datetime with hours, minutes, and seconds to datetime object  
+Chuyển đổi datetime với giờ, phút và giây sang đối tượng datetime  
 
 ```{r}
 mdy_hms("01 January 2020, 16:20:40")
 ```
 
-You can supply time zone but it is ignored. See section later in this page on time zones.  
+Bạn có thể cung cấp múi giờ nhưng nó bị bỏ qua. Xem các phần sau trong chương này về múi giờ.  
 
 ```{r}
 mdy_hms("01 January 2020, 16:20:40 PST")
 
 ```
 
-When working with a data frame, time and date columns can be combined to create a datetime column using `str_glue()` from **stringr** package and an appropriate **lubridate** function. See the page on [Characters and strings] for details on **stringr**.  
+Khi làm việc với một data frame, các cột ngày và giờ có thể được kết hợp để tạo cột ngày-giờ bằng cách sử dụng hàm `str_glue()` từ package **stringr**  và các hàm của package **lubridate**. Xem chương [Ký tự và chuỗi] để biết thêm chi tiết về **stringr**.  
 
-In this example, the `linelist` data frame has a column in format "hours:minutes". To convert this to a datetime we follow a few steps:  
+Trong ví dụ này, bộ dữ liệu `linelist` có một cột ở định dạng “giờ:phút”. Để chuyển đổi thành ngày giờ, chúng tôi làm theo một số bước:  
 
-1) Create a "clean" time of admission column with missing values filled-in with the column median. We do this because **lubridate** won't operate on missing values. Combine it with the column `date_hospitalisation`, and then use the function `ymd_hm()` to convert.  
+1) Tạo một cột thời gian nhập viện "sạch" với các giá trị bị thiếu được điền bằng trung vị cột. Chúng ta làm điều này bởi vì **lubridate** sẽ không hoạt động trên các giá trị missing. Kết hợp nó với cột `date_hospitalisation`, sau đó sử dụng hàm `ymd_hm()` để chuyển đổi.  
 
 ```{r, eval = FALSE}
 # packages
@@ -6412,9 +6412,9 @@ linelist <- linelist %>%
 
 ```
 
-### Convert times alone {.unnumbered}  
+### Chỉ chuyển đổi thời gian {.unnumbered}  
 
-If your data contain only a character time (hours and minutes), you can convert and manipulate them as times using `strptime()` from **base** R. For example, to get the difference between two of these times:  
+Nếu dữ liệu của bạn chỉ chứa thời gian dạng ký tự (giờ và phút), bạn có thể chuyển đổi và thao tác chúng bằng cách sử dụng hàm `strptime()` từ **base** R. Ví dụ: để phân biệt sự khác biệt giữa hai loại thời gian này:  
 
 ```{r}
 # raw character times
@@ -6430,16 +6430,16 @@ as.numeric(time2_clean - time1_clean)   # difference in hours
 
 ```
 
-Note however that without a date value provided, it assumes the date is today. To combine a string date and a string time together see how to use **stringr** in the section just above. Read more about `strptime()` [here](https://rdrr.io/r/base/strptime.html).  
+Tuy nhiên, lưu ý rằng nếu không có giá trị ngày được cung cấp, phần mềm sẽ giả định là ngày hôm nay. Để kết hợp chuỗi ngày và giờ với nhau, hãy thử cách sử dụng **stringr** đã được nói ở phần bên trên. Đọc thêm về `strptime()` [tại đây](https://rdrr.io/r/base/strptime.html).  
 
-To convert single-digit numbers to double-digits (e.g. to "pad" hours or minutes with leading zeros to achieve 2 digits), see this ["Pad length" section of the Characters and strings page](#str_pad).  
+Để chuyển đổi các số có một chữ số thành hai chữ số (ví dụ: để “độn thêm” giờ hoặc phút với các số 0 ở đầu để đạt được 2 chữ số), hãy xem phần ["Độ dài chuỗi ký tự" trong chương Ký tự và chuỗi](#str_pad).  
 
 
-### Extract time {.unnumbered}  
+### Thời gian chính xác {.unnumbered}  
 
-You can extract elements of a time with `hour()`, `minute()`, or `second()` from **lubridate**.  
+Bạn có thể trích xuất các phần tử của thời gian với các hàm `hour()`, `minute()`, hoặc `second()` từ **lubridate**.  
 
-Here is an example of extracting the hour, and then classifing by part of the day. We begin with the column `time_admission`, which is class Character in format "HH:MM". First, the `strptime()` is used as described above to convert the characters to datetime class. Then, the hour is extracted with `hour()`, returning a number from 0-24. Finally, a column `time_period` is created using logic with `case_when()` to classify rows into Morning/Afternoon/Evening/Night based on their hour of admission.  
+Đây là một ví dụ về trích xuất giờ và sau đó phân loại theo từng phần trong ngày. Chúng ta bắt đầu với cột `time_admission`, có kiểu ký tự ở định dạng "HH:MM". Đầu tiên, hàm `strptime()` được sử dụng như mô tả ở trên để chuyển đổi các ký tự thành kiểu ngày giờ. Sau đó, giờ được trích xuất với hàm `hour()`, trả về một số từ 0-24. Cuối cùng, cột `time_period` được tạo bằng cách sử dụng logic với hàm `case_when()` để phân loại các dòng thành các buổi Sáng / Chiều / Tối / Đêm dựa trên giờ được nhập liệu.  
 
 ```{r}
 linelist <- linelist %>%
@@ -6451,23 +6451,23 @@ linelist <- linelist %>%
     hour_admit >=21 | hour_admit <= 6 ~ "Night"))
 ```
 
-To learn more about `case_when()` see the page on [Cleaning data and core functions].  
+Để tìm hiểu thêm về hàm `case_when()`, hãy xem chương [Làm sạch số liệu và các hàm quan trọng].  
 
 <!-- ======================================================= -->
-## Working with dates   
+## Làm việc với ngày   
 
-`lubridate` can also be used for a variety of other functions, such as **extracting aspects of a date/datetime**, **performing date arithmetic**, or **calculating date intervals**
+`lubridate` cũng có thể được sử dụng cho nhiều chức năng khác, chẳng hạn như **trích xuất các phần tử của ngày/ngày-giờ**, **tính toán ngày dạng số học**, hoặc **tính toán khoảng cách giữa ngày với ngày**
 
-Here we define a date to use for the examples:  
+Ở đây chúng tôi tạo ra một ngày mẫu để sử dụng cho các ví dụ:  
 
 ```{r, }
 # create object of class Date
 example_date <- ymd("2020-03-01")
 ```
 
-### Extract date components {.unnumbered}  
+### Trích xuất các cấu phần của ngày {.unnumbered}  
 
-You can extract common aspects such as month, day, weekday:  
+Bạn có thể trích xuất các cấu phần phổ biến như tháng, ngày, ngày trong tuần:  
 
 ```{r}
 month(example_date)  # month number
@@ -6475,7 +6475,7 @@ day(example_date)    # day (number) of the month
 wday(example_date)   # day number of the week (1-7)
 ```
 
-You can also extract time components from a `datetime` object or column. This can be useful if you want to view the distribution of admission times.  
+Bạn cũng có thể trích xuất các cấu phần thời gian từ một đối tượng hoặc cột có kiểu `datetime`. Điều này có thể hữu ích nếu bạn muốn xem phân phối của thời gian nhập viện.  
 
 ```{r, eval=F}
 example_datetime <- ymd_hm("2020-03-01 14:45")
@@ -6485,14 +6485,14 @@ minute(example_datetime)   # extract minute
 second(example_datetime)   # extract second
 ```
 
-There are several options to retrieve weeks. See the section on Epidemiological weeks below.  
+Có một số tùy chọn để trích xuất tuần. Xem thêm ở mục tuần Dịch tễ học bên dưới.  
 
-Note that if you are seeking to *display* a date a certain way (e.g. "Jan 2020" or "Thursday 20 March" or "Week 20, 1977") you can do this more flexibly as described in the section on Date display.  
+Lưu ý rằng nếu bạn đang tìm cách *hiển thị* ngày theo một cách nhất định (ví dụ: "Jan 2020" hoặc "Thursday 20 March" hoặc "Week 20, 1977"), bạn có thể thực hiện điều này linh hoạt hơn như được mô tả trong mục Hiển thị ngày.  
 
 
-### Date math {.unnumbered}  
+### Tính toán ngày {.unnumbered}  
 
-You can add certain numbers of days or weeks using their respective function from **lubridate**.  
+Bạn có thể thêm số ngày hoặc tuần nhất định bằng cách sử dụng các hàm tương ứng từ package **lubridate**.  
 
 ```{r}
 # add 3 days to this date
@@ -6502,15 +6502,15 @@ example_date + days(3)
 example_date + weeks(7) - days(2)
 ```
 
-### Date intervals {.unnumbered}  
+### Khoảng ngày {.unnumbered}  
 
-The difference between dates can be calculated by:  
+Sự khác biệt giữa các ngày có thể được tính bằng:  
 
-1. Ensure both dates are of class date  
-2. Use subtraction to return the "difftime" difference between the two dates  
-3. If necessary, convert the result to numeric class to perform subsequent mathematical calculations  
+1. Đảm bảo cả hai trường ngày đều thuộc phân lớp ngày tiêu chuẩn  
+2. Sử dụng phép trừ để trả về khoảng chênh lệch "difftime" giữa hai ngày  
+3. Nếu cần thiết, hãy chuyển đổi kết quả thành phân lớp dạng số để thực hiện các phép tính toán học tiếp theos  
 
-Below the interval between two dates is calculated and displayed. You can find intervals by using the subtraction "minus" symbol on values that are class Date. Note, however that the class of the returned value is "difftime" as displayed below, and must be converted to numeric. 
+Dưới đây là khoảng thời gian giữa hai ngày được tính toán và hiển thị. Bạn có thể tìm các khoảng thời gian bằng cách sử dụng ký hiệu trừ "minus" trên các giá trị dạng Ngày tiêu chuẩn. Tuy nhiên, lưu ý rằng phân lớp của giá trị trả về là “difftime” như được hiển thị bên dưới và phải được chuyển đổi thành dạng số. 
 
 ```{r}
 # find the interval between this date and Feb 20 2020 
@@ -6519,9 +6519,9 @@ output    # print
 class(output)
 ```
 
-To do subsequent operations on a "difftime", convert it to numeric with `as.numeric()`. 
+Để thực hiện các thao tác tiếp theo trên “difftime”, hãy chuyển nó thành dạng số với hàm `as.numeric()`. 
 
-This can all be brought together to work with data - for example:
+Tất cả điều này có thể được kết hợp với nhau để xử lý dữ liệu - ví dụ:
 
 ```{r, eval = F}
 pacman::p_load(lubridate, tidyverse)   # load packages
@@ -6541,7 +6541,7 @@ linelist <- linelist %>%
 
 
 
-In a data frame context, if either of the above dates is missing, the operation will fail for that row. This will result in an `NA` instead of a numeric value. When using this column for calculations, be sure to set the `na.rm = ` argument to `TRUE`. For example:
+Trong bối cảnh của bộ dữ liệu, nếu thiếu một trong hai giá trị ngày ở trên, thì thao tác này sẽ không thực hiện thành công. Điều này sẽ tạo ra một kết quả là `NA` thay vì là một giá trị số. Khi sử dụng các cột này để tính toán, hãy chắc chắn rằng bạn thiết lập đối số `na.rm = ` là `TRUE`. Ví dụ:
 
 ```{r, eval = FALSE}
 # calculate the median number of days to hospitalisation for all cases where data are available
@@ -6550,36 +6550,36 @@ median(linelist_delay$days_onset_to_hosp, na.rm = T)
 
 
 <!-- ======================================================= -->
-## Date display  
+## Hiển thị ngày  
 
-Once dates are the correct class, you often want them to display differently, for example to display as "Monday 05 January" instead of "2018-01-05". You may also want to adjust the display in order to then group rows by the date elements displayed - for example to group by month-year.  
+Một khi ngày tháng đã được định dạng đúng kiểu, bạn thường muốn chúng hiển thị theo nhiều cách khác nhau, ví dụ: hiển thị là "Monday 05 January" thay vì "2018-01-05". Bạn cũng có thể muốn điều chỉnh hiển thị để nhóm các dòng theo các yếu tố ngày - ví dụ: nhóm theo tháng-năm.  
 
 ### `format()` {.unnumbered}  
 
-Adjust date display with the **base** R function `format()`. This function accepts a character string (in quotes) specifying the *desired* output format in the "%" strptime abbreviations (the same syntax as used in `as.Date()`). Below are most of the common abbreviations.  
+Điều chỉnh hiển thị ngày với hàm `format()` từ **base**. Hàm này chấp nhận một chuỗi ký tự (trong dấu ngoặc kép) xác định rõ định dạng đầu ra *mong muốn* in the "%" bằng chữ viết tắt “%” strptime (cú pháp tương tự như được sử dụng trong hàm `as.Date()`). Dưới đây là các từ viết tắt phổ biến.  
 
-Note: using `format()` will convert the values to class Character, so this is generally used towards the end of an analysis or for display purposes only! You can see the complete list by running `?strptime`.  
+Lưu ý: việc sử dụng hàm `format()` sẽ chuyển đổi các giá trị thành kiểu ký tự, vì vậy điều này thường được sử dụng ở cuối phân tích hoặc chỉ cho mục đích hiển thị! Bạn có thể xem danh sách đầy đủ bằng cách chạy lệnh `?strptime`.  
 
-%d = Day number of month (5, 17, 28, etc.)  
-%j = Day number of the year (Julian day 001-366)  
-%a = Abbreviated weekday (Mon, Tue, Wed, etc.)  
-%A = Full weekday (Monday, Tuesday, etc.)  
-%w = Weekday number (0-6, Sunday is 0)  
-%u = Weekday number (1-7, Monday is 1)  
-%W = Week number (00-53, Monday is week start)  
-%U = Week number (01-53, Sunday is week start)  
-%m = Month number (e.g. 01, 02, 03, 04)  
-%b = Abbreviated month (Jan, Feb, etc.)  
-%B = Full month (January, February, etc.)  
-%y = 2-digit year  (e.g. 89)  
-%Y = 4-digit year  (e.g. 1989)  
-%h = hours (24-hr clock)  
-%m = minutes  
-%s = seconds  
+%d = Thứ tự ngày trong tháng (5, 17, 28, v.v.)  
+%j = Thứ tự ngày trong năm (theo lịch Julian, ngày từ 001-366)  
+%a = Ngày trong tuần viết tắt (Mon, Tue, Wed, v.v.)  
+%A = Ngày trong tuần viết đầy đủ (Monday, Tuesday, v.v.)
+%w = Thứ tự ngày trong tuần (0-6, Chủ Nhật là 0)  
+%u = Thứ tự ngày trong tuần (1-7, Thứ hai là 1)  
+%W = Thứ tự của tuần trong năm (00-53, Thứ Hai là đầu tuần)  
+%U = Thứ tự của tuần trong năm (01-53, Chủ Nhật là ngày bắt đầu tuần)  
+%m = Thứ tự của tháng trong năm (vd: 01, 02, 03, 04)  
+%b = Tháng viết tắt (Jan, Feb, v.v.)  
+%B = Tháng viết đầy đủ (January, February, v.v.)  
+%y = năm 2 chữ số  (vd: 89)  
+%Y = năm 4 chữ số  (vd: 1989)  
+%h = giờ (đồng hồ 24h)  
+%m = phút  
+%s = giây
 %z = offset from GMT  
-%Z = Time zone (character)
+%Z = Múi giờ (dạng ký tự)
 
-An example of formatting today's date:  
+Ví dụ về định dạng ngày hôm nay:  
 
 ```{r}
 # today's date, with formatting
@@ -6595,14 +6595,14 @@ str_glue("{format(Sys.Date(), format = '%A, %B %d %Y, %z  %Z, ')}{format(Sys.tim
 format(Sys.Date(), "%Y Week %W")
 ```
 
-Note that if using `str_glue()`, be aware of that within the expected double quotes " you should only use single quotes (as above).  
+Lưu ý rằng nếu sử dụng hàm `str_glue()`, hãy lưu ý rằng các nội dung lẽ ra nên để trong dấu ngoặc kép thì bạn chỉ nên sử dụng dấu ngoặc đơn (như trên).  
 
 
-### Month-Year {.unnumbered}  
+### Tháng-Năm {.unnumbered}  
 
-To convert a Date column to Month-year format, we suggest you use the function `as.yearmon()` from the **zoo** package. This converts the date to class "yearmon" and retains the proper ordering. In contrast, using `format(column, "%Y %B")` will convert to class Character and will order the values alphabetically (incorrectly). 
+Để chuyển đổi cột Ngày sang định dạng Tháng-năm, chúng tôi khuyên bạn nên sử dụng hàm `as.yearmon()` từ package **zoo**. Nó giúp Điều này chuyển đổi từ định dạng ngày thành định dạng “yearmon” và giữ lại thứ tự thích hợp. Ngược lại, sử dụng hàm `format(column, "%Y %B")` sẽ chuyển đổi giá trị thành kiểu Ký tự và sẽ sắp xếp các giá trị theo thứ tự bảng chữ cái (không chính xác). 
 
-Below, a new column `yearmonth` is created from the column `date_onset`, using the `as.yearmon()` function. The default (correct) ordering of the resulting values are shown in the table.  
+Dưới đây, một cột `yearmonth` mới được tạo ra từ cột `date_onset`, sử dụng hàm `as.yearmon()`. Thứ tự mặc định (đúng) của các giá trị kết quả được hiển thị trong bảng.  
 
 ```{r}
 # create new column 
@@ -6613,7 +6613,7 @@ test_zoo <- linelist %>%
 table(test_zoo$yearmon)
 ```
 
-In contrast, you can see how only using `format()` does achieve the desired display format, but not the correct ordering.  
+Ngược lại, bạn có thể thấy sử dụng hàm `format()` chỉ có thể giúp đạt được định dạng hiển thị mong muốn, nhưng sẽ không có thứ tự chính xác.  
 
 ```{r}
 # create new column
@@ -6624,33 +6624,33 @@ test_format <- linelist %>%
 table(test_format$yearmon)
 ```
 
-Note: if you are working within a `ggplot()` and want to adjust how dates are *displayed* only, it may be sufficient to provide a strptime format to the `date_labels = ` argument in `scale_x_date()` - you can use `"%b %Y"` or `"%Y %b"`. See the [ggplot tips] page.  
+Lưu ý: nếu bạn đang làm việc với hàm `ggplot()` và chỉ muốn điều chỉnh chỉ *hiển thị* ngày, bạn chỉ cần cung cấp định dạng strptime là đủ tới đối số `date_labels = ` của hàm `scale_x_date()` - bạn có thể sử dụng `"%b %Y"` hoặc `"%Y %b"`. Xem thêm chương [Các tips với ggplot].  
 
 
-**zoo** also offers the function `as.yearqtr()`, and you can use `scale_x_yearmon()` when using `ggplot()`.  
+Package **zoo** cũng cung cấp hàm `as.yearqtr()`, và bạn có thể sử dụng hàm `scale_x_yearmon()` khi sử dụng hàm `ggplot()`.  
 
 
 
 <!-- ======================================================= -->
-## Epidemiological weeks {#dates_epi_wks}
+## Tuần dịch tễ học {#dates_epi_wks}
 
 ### **lubridate** {.unnumbered}  
 
-See the page on [Grouping data] for more extensive examples of grouping data by date. Below we briefly describe grouping data by weeks.  
+Xem chương [Nhóm dữ liệu] để biết thêm các ví dụ mở rộng về nhóm dữ liệu theo ngày. Dưới đây chúng tôi mô tả ngắn gọn cách nhóm dữ liệu theo tuần.  
 
-We generally recommend using the `floor_date()` function from **lubridate**, with the argument `unit = "week"`. This rounds the date down to the "start" of the week, as defined by the argument `week_start = `. The default week start is 1 (for Mondays) but you can specify any day of the week as the start (e.g. 7 for Sundays). `floor_date()` is versitile and can be used to round down to other time units by setting `unit = ` to "second", "minute", "hour", "day", "month", or "year".  
+Thông thường, chúng tôi khuyên bạn nên sử dụng hàm `floor_date()` từ package **lubridate**, với đối số `unit = "week"`. Điều này làm tròn ngày cần xử lý thành ngày "bắt đầu" của tuần, như được xác định bởi đối số `week_start = `. Ngày bắt đầu của tuần mặc định là 1 (đối với Thứ Hai) nhưng bạn có thể chỉ định bất kỳ ngày nào trong tuần làm ngày bắt đầu (ví dụ: 7 đối với Chủ Nhật). Hàm `floor_date()` rất linh hoạt và có thể sử dụng để làm tròn xuống các đơn vị thời gian khác bằng cách thiết lập đối số `unit = ` bằng “giây”, “phút”, “giờ”, “ngày”, “tháng”, hoặc “năm”.  
 
-The returned value is the start date of the week, in Date class. Date class is useful when plotting the data, as it will be easily recognized and ordered correctly by `ggplot()`.
+Giá trị trả về là ngày bắt đầu trong tuần, với kiểu dữ liệu Ngày. Kiểu dữ liệu này rất hữu ích khi vẽ biểu đồ, vì nó sẽ dễ dàng sử dụng và sắp xếp chính xác trong hàm `ggplot()`.
 
-If you are only interested in adjusting dates to *display* by week in a plot, see the section in this page on Date display. For example when plotting an epicurve you can format the date display by providing the desired strptime "%" nomenclature. For example, use "%Y-%W" or "%Y-%U" to return the year and week number (given Monday or Sunday week start, respectively).  
+Nếu bạn chỉ quan tâm đến việc điều chỉnh ngày để *hiển thị* theo tuần trong biểu đồ, hãy xem mục Hiển thị ngày trong chương này. Ví dụ: khi vẽ đồ thị một đường cong dịch tễ, bạn có thể định dạng hiển thị ngày bằng cách sử dụng cú pháp strptime "%". Ví dụ, sử dụng "%Y-%W" hoặc "%Y-%U" để trả về giá trị năm và số tuần (tương ứng với bắt đầu tuần vào ngày thứ Hai hoặc Chủ nhật).  
 
-### Weekly counts {.unnumbered}  
+### Đếm theo tuần {.unnumbered}  
 
-See the page on [Grouping data] for a thorough explanation of grouping data with `count()`, `group_by()`, and `summarise()`. A brief example is below.  
+Xem chương [Nhóm dữ liệu] để được giải thích kỹ hơn về cách nhóm dữ liệu với hàm `count()`, `group_by()`, và `summarise()`. Dưới đây là một ví dụ ngắn gọn.  
 
-1) Create a new 'week' column with `mutate()`, using `floor_date()` with `unit = "week"`  
-2) Get counts of rows (cases) per week with `count()`; filter out any cases with missing date  
-3) Finish with `complete()` from **tidyr** to ensure that *all* weeks appear in the data - even those with no rows/cases. By default the count values for any "new" rows are NA, but you can make them 0 with the `fill = ` argument, which expects a named list (below, `n` is the name of the counts column).  
+1) Tạo cột ‘tuần’ mới với hàm `mutate()`, sử dụng hàm `floor_date()` với đối số `unit = "week"`  
+2) Đếm số lượng dòng (quan sát) mỗi tuần với hàm `count()`; lọc ra bất kỳ trường hợp nào bị thiếu ngày  
+3) Kết thúc với hàm `complete()` từ package **tidyr** để đảm bảo rằng *tất cả* các tuần đều xuất hiện trong dữ liệu - ngay cả những tuần không có dòng/ quan sát nào. Theo mặc định, giá trị đếm cho bất kỳ hàng "mới" nào sẽ là NA, nhưng bạn có thể đặt chúng bằng 0 với đối số `fill = `, mà điều này kỳ vọng cho một danh sách tên (bên dưới, `n` là tên của cột đếm).  
 
 ```{r}
 # Make aggregated dataset of weekly case counts
@@ -6668,32 +6668,32 @@ weekly_counts <- linelist %>%
     fill = list(n = 0))             # fill-in NAs in the n counts column with 0
 ```
 
-Here are the first rows of the resulting data frame:  
+Đây là các hàng đầu tiên của kết quả bộ dữ liệu:  
 
 ```{r message=FALSE, echo=F}
 DT::datatable(head(weekly_counts, 20), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
 
-### Epiweek alternatives {.unnumbered}  
+### Các thay thế cho tuần dịch tễ học {.unnumbered}  
 
-Note that **lubridate** also has functions `week()`, `epiweek()`, and `isoweek()`, each of which has slightly different start dates and other nuances. Generally speaking though, `floor_date()` should be all that you need. Read the details for these functions by entering `?week` into the console or reading the documentation [here](https://www.rdocumentation.org/packages/lubridate/versions/1.7.4/topics/week). 
-
-
-You might consider using the package **aweek** to set epidemiological weeks. You can read more about it [on the RECON website](https://www.repidemicsconsortium.org/aweek/). It has the functions `date2week()` and `week2date()` in which you can set the week start day with `week_start = "Monday"`. This package is easiest if you want "week"-style outputs (e.g. "2020-W12"). Another advantage of **aweek** is that when `date2week()` is applied to a date column, the returned column (week format) is automatically of class Factor and includes levels for all weeks in the time span (this avoids the extra step of `complete()` described above). However, **aweek** does not have the functionality to round dates to other time units such as months, years, etc.  
+Lưu ý là package **lubridate** cũng có các hàm `week()`, `epiweek()`, và `isoweek()`, mỗi hàm có ngày bắt đầu khác nhau một chút và các sắc thái khác nhau. Mặc dù nói chung, hàm `floor_date()` là tất cả những gì bạn cần. Đọc thêm về các hàm này bằng cách gõ `?week` ở cửa sổ console hoặc đọc tài liệu [tại đây](https://www.rdocumentation.org/packages/lubridate/versions/1.7.4/topics/week). 
 
 
-Another alternative for time series which also works well to show a a "week" format ("2020 W12") is `yearweek()` from the package **tsibble**, as demonstrated in the page on [Time series and outbreak detection].  
+Bạn có thể cân nhắc sử dụng package **aweek** để thiết lập tuần dịch tễ học. Bạn có thể đọc thêm về nó [ở trang web của RECON](https://www.repidemicsconsortium.org/aweek/). Nó có các hàm `date2week()` và `week2date()` trong đó bạn có thể đặt ngày bắt đầu tuần với `week_start = "Monday"`. Package này là dễ sử dụng nhất nếu bạn muốn hiển thị "tuần" theo kiểu đầu ra (vd: "2020-W12"). Một ưu điểm khác của **aweek** là khi áp dụng hàm `date2week()` cho cột ngày, cột trả về (định dạng tuần) sẽ tự động thuộc kiểu Factor và bao gồm các cấp độ cho tất cả các tuần trong khoảng thời gian (điều này tránh thêm bước `complete()` được mô tả ở trên). Tuy nhiên, **aweek** không có chức năng làm tròn ngày thành các đơn vị thời gian khác như tháng, năm, v.v.  
+
+
+Một giải pháp thay thế khác cho chuỗi thời gian cũng hoạt động tốt để hiển thị định dạng “tuần” ("2020 W12") là hàm `yearweek()` từ package **tsibble**, như được minh họa trong chương [Chuỗi thời gian và phát hiện ổ dịch].  
 
 
 <!-- ======================================================= -->
-## Converting dates/time zones
+## Chuyển đổi múi ngày giờ
 
-When data is present in different time time zones, it can often be important to standardise this data in a unified time zone. This can present a further challenge, as the time zone component of data must be coded manually in most cases.
+Khi dữ liệu hiển thị ở các múi giờ khác nhau, điều quan trọng là phải chuẩn hóa dữ liệu này thành một múi giờ thống nhất. Điều này có thể gây ra một thách thức lớn hơn nữa, vì thành phần múi giờ của dữ liệu phải được mã hóa theo cách thủ công trong hầu hết các trường hợp.
 
-In R, each *datetime* object has a timezone component. By default, all datetime objects will carry the local time zone for the computer being used - this is generally specific to a *location* rather than a named timezone, as time zones will often change in locations due to daylight savings time. It is not possible to accurately compensate for time zones without a time component of a date, as the event a date column represents cannot be attributed to a specific time, and therefore time shifts measured in hours cannot be reasonably accounted for.
+Trong R, mỗi đối tượng *datetime* có một cấu phần múi giờ. Mặc định, tất cả các đối tượng datetime sẽ mang múi giờ địa phương của máy tính đang sử dụng - điều này thường đặc trưng cho một *"*vị trí* chứ không phải tự đặt tên cho múi giờ đó, vì múi giờ thường sẽ thay đổi ở các vị trí phụ thuộc vào thời gian chiếu sáng. Không thể bù trừ chính xác cho các múi giờ mà không có cấu phần thời gian trong biến ngày, vì mốc trong cột ngày đại diện không thể được quy cho một thời gian cụ thể và do đó không thể tính toán hợp lý sự chuyển đổi thời gian bằng giờ
 
-To deal with time zones, there are a number of helper functions in lubridate that can be used to change the time zone of a datetime object from the local time zone to a different time zone. Time zones are set by attributing a valid tz database time zone to the datetime object. A list of these can be found here - if the location you are using data from is not on this list, nearby large cities in the time zone are available and serve the same purpose. 
+Để xử lý múi giờ, có một số hàm trợ giúp trong lubridate có thể được sử dụng để thay đổi múi giờ của đối tượng datetime từ múi giờ địa phương sang các múi giờ khác. Múi giờ được đặt bằng cách gán múi giờ cơ sở dữ liệu tz hợp lệ cho đối tượng datetime. Bạn có thể tìm thấy danh sách những thứ này tại đây - nếu vị trí bạn đang sử dụng dữ liệu không có trong danh sách này, các múi giờ của thành phố lớn lân cận có thể được sử dụng thay thế. 
 
 https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
@@ -6717,16 +6717,16 @@ time_london_real - time_london_local
 
 ```
 
-This may seem largely abstract, and is often not needed if the user isn't working across time zones.  
+Điều này có vẻ trừu tượng và thường không cần thiết nếu người dùng không làm việc trên các múi giờ.  
 
 
 
 
 
 <!-- ======================================================= -->
-## Lagging and leading calculations  
+## Phép toán về khoảng thời gian  
 
-`lead()` and `lag()` are functions from the **dplyr** package which help find previous (lagged) or subsequent (leading) values in a vector - typically a numeric or date vector. This is useful when doing calculations of change/difference between time units.  
+`lead()` và `lag()` là các hàm thuộc package **dplyr** giúp tìm các giá trị trước đó (lagged) hoặc tiếp theo (leading) trong một vectơ - thường là vectơ số hoặc ngày. Điều này rất hữu ích khi thực hiện các phép tính về sự thay đổi / chênh lệch giữa các đơn vị thời gian.  
 
 
 ```{r, echo=F}
@@ -6739,19 +6739,19 @@ counts <- import(here("data", "example", "district_weekly_count_data.xlsx")) %>%
   complete(week_start = seq.Date(min(week_start), max(week_start), by = "week"), fill = list(cases_wk = 0))
 ```
 
-Let's say you want to calculate the difference in cases between a current week and the previous one. The data are initially provided in weekly counts as shown below.  
+Giả sử bạn muốn tính toán sự khác biệt trong trường hợp giữa tuần hiện tại và tuần trước đó. Dữ liệu ban đầu được cung cấp theo số lượng hàng tuần như dưới đây.  
 
 ```{r message=FALSE, echo=F}
 DT::datatable(counts, rownames = FALSE,  options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-**When using `lag()` or `lead()` the order of rows in the dataframe is very important! - pay attention to whether your dates/numbers are ascending or descending**  
+**Khi sử dụng hàm `lag()` hoặc `lead()`, thứ tự của các dòng trong khung dữ liệu là rất quan trọng! - chú ý xem ngày/số của bạn tăng dần hay giảm dần**  
 
-First, create a new column containing the value of the previous (lagged) week.  
+Đầu tiên, tạo một cột mới chứa giá trị của tuần trước đó (lagged).  
 
-* Control the number of units back/forward with `n = ` (must be a non-negative integer)  
-* Use `default = ` to define the value placed in non-existing rows (e.g. the first row for which there is no lagged value). By default this is `NA`.  
-* Use `order_by = TRUE` if your the rows are not ordered by your reference column  
+* Kiểm soát số lượng đơn vị trước/sau với `n = ` (phải là số nguyên không âm)  
+* Sử dụng `default = ` để xác định giá trị được đặt trong các dòng không tồn tại (vd: hàng đầu tiên không có giá trị lagged). Mặc định, nó là `NA`.  
+* Sử dụng `order_by = TRUE` nếu các dòng không được sắp xếp theo cột tham chiếu  
 
 
 ```{r}
@@ -6763,7 +6763,7 @@ counts <- counts %>%
 DT::datatable(counts, rownames = FALSE,  options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Next, create a new column which is the difference between the two cases columns:  
+Tiếp theo, tạo một cột mới khác biệt với hai cột đang tham chiếu:  
 
 ```{r}
 counts <- counts %>% 
@@ -6776,11 +6776,11 @@ DT::datatable(counts, rownames = FALSE,  options = list(pageLength = 5, scrollX=
 ```
 
 
-You can read more about `lead()` and `lag()` in the documentation [here](https://dplyr.tidyverse.org/reference/lead-lag.html) or by entering `?lag` in your console.  
+Bạn có thể đọc thêm về hàm `lead()` và `lag()` trong tài liệu [này](https://dplyr.tidyverse.org/reference/lead-lag.html) hoặc gõ `?lag` vào cửa sổ console.  
 
 
 <!-- ======================================================= -->
-## Resources  
+## Nguồn  
 
 **lubridate** [tidyverse page](https://lubridate.tidyverse.org/)  
 **lubridate** RStudio [cheatsheet](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf)  
@@ -10622,27 +10622,25 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/joining_matching.Rmd-->
 
-
-# Loại bỏ trùng lặp {#deduplication}  
+# Loại bỏ trùng lặp {#deduplication}
 
 ```{r, out.width=c("50%"), echo=F}
 knitr::include_graphics(here::here("images", "deduplication.png"))
 ```
 
-This page covers the following de-duplication techniques:  
+Chương này đề cập đến các kỹ thuật loại bỏ trùng lặp sau:
 
-1. Identifying and removing duplicate rows  
-2. "Slicing" rows to keep only certain rows (e.g. min or max) from each group of rows  
-3. "Rolling-up", or combining values from multiple rows into one row  
-
+1.  Xác định và loại bỏ các hàng trùng lặp\
+2.  "Cắt" một số hàng để chỉ giữ lại những hàng nhất định (ví dụ: tối thiểu hoặc tối đa) từ mỗi nhóm hàng\
+3.  "Rolling-up" hoặc kết hợp các giá trị từ nhiều hàng thành một hàng
 
 <!-- ======================================================= -->
-## Preparation { }
 
+## Chuẩn bị
 
-### Load packages {.unnumbered}
+### Gọi package {.unnumbered}
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị những package cần tải cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến hàm `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* gọi nó ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
 
 ```{r}
 pacman::p_load(
@@ -10651,13 +10649,13 @@ pacman::p_load(
   stringr)      # for string searches, can be used in "rolling-up" values
 ```
 
-### Import data {.unnumbered}
+### Nhập dữ liệu {.unnumbered}
 
-For demonstration, we will use an example dataset that is created with the R code below.  
+Để minh họa, chúng tôi sẽ sử dụng một bộ dữ liệu mẫu được tạo bằng code R bên dưới.
 
-The data are records of COVID-19 phone encounters, including encounters with contacts and with cases. The columns include `recordID` (computer-generated), `personID`, `name`, `date` of encounter, `time` of encounter, the `purpose` of the encounter (either to interview as a case or as a contact), and `symptoms_ever` (whether the person in that encounter reported *ever* having symptoms).  
+Dữ liệu là các bản ghi về những cuộc gọi truy vết COVID-19, bao gồm những cuộc gọi truy vết với các liên hệ và với các trường hợp. Các cột bao gồm `recordID` (mã bản ghi) (do máy tính tạo), `personID` (mã người truy vết), `name` (tên), `date` (ngày) truy vết, `time` (thời gian) truy vết, `purpose` (mục đích) truy vết (phỏng vấn một trường hợp hoặc một liên hệ) và `symptoms_ever` (liệu người được truy vết đã *từng* được báo cáo có triệu chứng hay không).
 
-Here is the code to create the `obs` dataset:  
+Đây là code để tạo bộ dữ liệu `obs`:
 
 ```{r}
 obs <- data.frame(
@@ -10678,44 +10676,41 @@ obs <- data.frame(
   mutate(date = as.Date(date, format = "%d/%m/%Y"))
 ```
 
+#### Đây là data frame {#dedup_data .unnumbered}
 
-#### Here is the data frame {#dedup_data .unnumbered}  
-
-Use the filter boxes along the top to review the encounters for each person.  
+Sử dụng bộ lọc của các box ở trên cùng để xem lại các cuộc gọi truy vết theo từng người.
 
 ```{r message=FALSE, echo=F}
 DT::datatable(obs, rownames = FALSE, filter = "top", options = list(pageLength = nrow(obs), scrollX=T), class = 'white-space: nowrap' )
 ```
 
+Một số điều cần lưu ý khi bạn xem xét dữ liệu:
 
-A few things to note as you review the data:  
+-   Hai bản ghi đầu tiên hoàn toàn 100% là trùng lặp, bao gồm cả `recordID` (hẳn là một lỗi máy tính!)\
+-   Hai hàng thứ hai trùng lặp trong tất cả các cột *ngoại trừ `recordID`*\
+-   Một vài cá nhân có nhiều cuộc gọi truy vết, vào những ngày, giờ khác nhau, được tính là những liên hệ và/hoặc những trường hợp\
+-   Ở mỗi cuộc gọi truy vết, người được truy vết được hỏi đã **từng** mắc các triệu chứng chưa và một số thông tin này bị missing.
 
-* The first two records are 100% complete duplicates including duplicate `recordID` (must be a computer glitch!)  
-* The second two rows are duplicates, in all columns *except for `recordID`*  
-* Several people had multiple phone encounters, at various dates and times, and as contacts and/or cases  
-* At each encounter, the person was asked if they had **ever** had symptoms, and some of this information is missing.  
-
-
-And here is a quick summary of the people and the purposes of their encounters, using `tabyl()` from **janitor**:  
+Và đây là bản tóm tắt nhanh về những người truy vết và mục đích các cuộc gọi truy vết của họ, sử dụng hàm `tabyl()` từ **janitor**:
 
 ```{r}
 obs %>% 
   tabyl(name, purpose)
 ```
-<!-- ======================================================= -->
-## Deduplication { }
-
-
-This section describes how to review and remove duplicate rows in a data frame. It also show how to handle duplicate elements in a vector.  
-
 
 <!-- ======================================================= -->
-### Examine duplicate rows {.unnumbered}  
 
+## Loại bỏ trùng lặp
 
-To quickly review rows that have duplicates, you can use `get_dupes()` from the **janitor** package. *By default*, all columns are considered when duplicates are evaluated - rows returned by the function are 100% duplicates considering the values in *all* columns.  
+Phần này mô tả cách xem xét và loại bỏ các hàng trùng lặp trong data frame. Đồng thời cũng chỉ ra cách xử lý các phần tử trùng lặp trong một vectơ.
 
-In the `obs` data frame, the first two rows are *100% duplicates* - they have the same value in every column (including the `recordID` column, which is *supposed* to be unique - it must be some computer glitch). The returned data frame automatically includes a new column `dupe_count` on the right side, showing the number of rows with that combination of duplicate values. 
+<!-- ======================================================= -->
+
+### Kiểm tra hàng trùng lặp {.unnumbered}
+
+Để nhanh chóng xem lại các hàng có trùng lặp, bạn có thể sử dụng `get_dupes()` từ package **janitor**. *Theo mặc định*, tất cả các cột được xem xét khi đánh giá trùng lặp - các hàng được hàm trả về là trùng lặp 100% nếu xét đến các giá trị trong *tất cả* các cột.
+
+Trong data frame `obs`, hai hàng đầu tiên *trùng lặp 100%* - chúng có cùng giá trị trong tất cả các cột (bao gồm cả cột `recordID`, vốn *được cho* là duy nhất - hẳn là một số trục trặc máy tính). Data frame được trả về tự động bao gồm một cột mới `dupe_count` ở phía bên phải, hiển thị số hàng có sự kết hợp của các giá trị trùng lặp đó.
 
 ```{r, eval=F}
 # 100% duplicates across all columns
@@ -10729,9 +10724,9 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = nrow(obs), scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data)  
+Xem [dữ liệu gốc](#dedup_data)
 
-However, if we choose to ignore `recordID`, the 3rd and 4th rows rows are also duplicates of each other. That is, they have the same values in all columns *except* for `recordID`. You can specify specific columns to be ignored in the function using a `-` minus symbol.  
+Tuy nhiên, nếu chúng ta chọn bỏ qua `recordID`, thì hàng thứ 3 và thứ 4 cũng là bản trùng lặp của nhau. Nghĩa là chúng có cùng giá trị trong tất cả các cột *ngoại trừ* `recordID`. Bạn có thể xác định các cột cụ thể bị bỏ qua trong hàm bằng ký hiệu `-` (dấu trừ).
 
 ```{r, eval=F}
 # Duplicates when column recordID is not considered
@@ -10745,9 +10740,9 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = nrow(obs), scrollX=T), class = 'white-space: nowrap' )
 ```
 
-You can also positively specify the columns to consider. Below, only rows that have the same values in the `name` and `purpose` columns are returned. Notice how "amrish" now has `dupe_count` equal to 3 to reflect his three "contact" encounters.  
+Bạn cũng có thể xác định rõ các cột cần xem xét. Dưới đây, chỉ các hàng có cùng giá trị trong cột `name` và `purpose` được trả về. Lưu ý rằng "amrish" hiện có `dupe_count` bằng 3 cho thấy ba cuộc gọi truy vết "liên hệ" của anh ta.
 
-*Scroll left for more rows**  
+*Cuộn sang trái để xem thêm hàng*
 
 ```{r, eval=F}
 # duplicates based on name and purpose columns ONLY
@@ -10761,25 +10756,19 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 7, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
-See `?get_dupes` for more details, or see this [online reference](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)  
-
-
-
-
-
+Xem `?get_dupes` để biết thêm chi tiết hoặc xem tài liệu [tham khảo trực tuyến](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes) này
 
 <!-- ======================================================= -->
-### Keep only unique rows  {.unnumbered}
 
+### Chỉ giữ lại các hàng duy nhất {.unnumbered}
 
-To keep only unique rows of a data frame, use `distinct()` from **dplyr** (as demonstrated in the [Cleaning data and core functions] page). Rows that are duplicates are removed such that only the first of such rows is kept. By default, "first" means the highest `rownumber` (order of rows top-to-bottom). Only unique rows remain.  
+Để chỉ giữ lại các hàng duy nhất của một data frame, hãy sử dụng `distinct()` từ **dplyr** (đã được giải thích trong chương [Làm sạch số liệu và các hàm quan trọng]). Các hàng trùng lặp sẽ bị loại bỏ sao cho chỉ giữ lại hàng đầu tiên trong số các hàng đó. Theo mặc định, hàng "đầu tiên" có nghĩa là hàng có `rownumber` cao nhất (thứ tự của các hàng từ trên-xuống-dưới). Chỉ các hàng duy nhất được giữ lại.
 
-In the example below, we run `distinct()` such that the column `recordID` is excluded from consideration - thus **two duplicate rows are removed**. The first row (for "adam") was 100% duplicated and has been removed. Also row 3 (for "amrish") was a duplicate in every column *except* `recordID` (which is not being considered) and so is also removed. The `obs` dataset n is now ` nrow(obs)-2`, not ` nrow(obs)` rows).  
+Trong ví dụ dưới đây, chúng tôi chạy lệnh `distinct()` sao cho cột `recordID` bị loại trừ khỏi việc xem xét - do đó **hai hàng trùng lặp sẽ bị loại bỏ**. Hàng đầu tiên (đối với "adam") bị trùng lặp 100% và đã bị loại bỏ. Bên cạnh đó, hàng 3 (cho "amrish") là một bản bị trùng lặp trong tất cả các cột *ngoại trừ* `recordID` (đang không được xét) và do đó cũng bị loại bỏ. Bộ dữ liệu `obs` bây giờ có số dòng là `nrow(obs)-2`, không phải là `nrow(obs)`).
 
-*Scroll to the left to see the entire data frame*  
-
+*Cuộn sang trái để xem toàn bộ data frame*
 
 ```{r, eval=F}
 # added to a chain of pipes (e.g. data cleaning)
@@ -10798,16 +10787,15 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 6, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-<span style="color: orange;">**_CAUTION:_** If using `distinct()` on grouped data, the function will apply to each group.</span>
+[***CHÚ Ý:*** Nếu sử dụng `distinct()` trên nhóm dữ liệu, hàm sẽ áp dụng cho từng nhóm.]{style="color: orange;"}
 
+**Loại bỏ trùng lặp dựa trên cột cụ thể**
 
-**Deduplicate based on specific columns**  
+Bạn cũng có thể xác định các cột cơ sở để loại bỏ trùng lặp. Theo cách này, loại bỏ trùng lặp chỉ áp dụng cho các hàng trùng lặp trong các cột được chỉ định. Trừ khi bạn đặt `.keep_all = TRUE`, tất cả các cột không được đề cập sẽ bị loại bỏ.
 
-You can also specify columns to be the basis for de-duplication. In this way, the de-duplication only applies to rows that are duplicates within the specified columns. Unless you set `.keep_all = TRUE`, all columns not mentioned will be dropped.  
+Trong ví dụ dưới đây, loại bỏ trùng lặp chỉ áp dụng cho các hàng có giá trị giống nhau trong các cột `name` và `purpose`. Do đó, "brian" chỉ có 2 hàng thay vì 3 - cuộc gọi truy vết "liên hệ" *đầu tiên* và cuộc gọi truy vết "trường hợp" duy nhất của anh ta. Để điều chỉnh sao cho cuộc gọi truy vết *mới nhất* của brian đối với từng mục đích được lưu giữ, hãy xem mục Cắt theo nhóm.
 
-In the example below, the de-duplication only applies to rows that have identical values for `name` and `purpose` columns. Thus, "brian" has only 2 rows instead of 3 - his *first* "contact" encounter and his only "case" encounter. To adjust so that brian's *latest* encounter of each purpose is kept, see the tab on Slicing within groups.  
-
-*Scroll to the left to see the entire data frame*  
+*Cuộn sang trái để xem toàn bộ data frame*
 
 ```{r, eval=F}
 # added to a chain of pipes (e.g. data cleaning)
@@ -10823,70 +10811,65 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 6, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-### Deduplicate elements in a vector {.unnumbered}  
 
+### Loại bỏ phần tử trùng lặp trong một vectơ {.unnumbered}
 
-The function `duplicated()` from **base** R will evaluate a vector (column) and return a logical vector of the same length (TRUE/FALSE). The first time a value appears, it will return FALSE (not a duplicate), and subsequent times that value appears it will return TRUE. Note how `NA` is treated the same as any other value.    
+Hàm `duplicated()` từ **base** R sẽ đánh giá một vectơ (cột) và trả về một vectơ logic có cùng độ dài (TRUE/FALSE). Lần đầu tiên một giá trị xuất hiện, nó sẽ trả về giá trị FALSE (không phải là một bản trùng lặp) và những lần tiếp theo giá trị đó xuất hiện, nó sẽ trả về giá trị TRUE. Lưu ý giá trị `NA` được xử lý giống như bất kỳ giá trị nào khác.
 
 ```{r}
 x <- c(1, 1, 2, NA, NA, 4, 5, 4, 4, 1, 2)
 duplicated(x)
 ```
 
-To return only the duplicated elements, you can use brackets to subset the original vector: 
+Để chỉ trả về các phần tử bị trùng lặp, bạn có thể sử dụng dấu ngoặc để đặt vectơ gốc:
 
 ```{r}
 x[duplicated(x)]
 ```
 
-To return only the unique elements, use `unique()` from **base** R. To remove `NA`s from the output, nest `na.omit()` within `unique()`.  
+Để chỉ trả về các phần tử duy nhất, hãy sử dụng hàm `unique()` từ **base** R. Để loại bỏ các `NA` khỏi kết quả đầu ra, hãy lồng `na.omit()` trong `unique()`.
 
 ```{r}
 unique(x)           # alternatively, use x[!duplicated(x)]
 unique(na.omit(x))  # remove NAs 
 ```
 
+<!-- ======================================================= -->
+
+### Sử dụng **base** R {.unnumbered}
+
+**Để trả về các hàng trùng lặp**
+
+Trong **base** R, bạn cũng có thể xem những hàng nào là trùng lặp 100% trong data frame `df` bằng lệnh `duplicated(df)` (trả về một vectơ logic của các hàng).
+
+Do đó, bạn cũng có thể sử dụng tập con cơ sở `[ ]` trên data frame để xem các hàng *trùng lặp* với `df[duplicated(df),]` (đừng quên dấu phẩy, điều đó có nghĩa là bạn muốn xem tất cả các cột!).
+
+**Để trả về các hàng duy nhất**
+
+Xem các ghi chú ở trên. Để xem các hàng *duy nhất*, bạn thêm dấu phủ định logic `!` ở trước hàm `duplicated()`:\
+`df[!duplicated(df),]`
+
+**Để trả về các hàng trùng lặp chỉ với một số cột nhất định**
+
+Đặt `df` nằm *trong dấu ngoặc đơn hàm* *`duplicated()`*, hàm này sẽ chỉ hoạt động trên một số cột nhất định của `df`.
+
+Để xác định các cột, hãy cung cấp số thứ tự hoặc tên cột sau dấu phẩy (nhớ rằng đặt tất cả những thông tin này *trong* hàm `duplicated()`).
+
+Hãy chắc chắn đặt dấu phẩy `,` *bên ngoài* và sau hàm `duplicated()`!
+
+Ví dụ: Để chỉ đánh giá các cột từ 2 đến 5 cho các bản trùng lặp: `df[!duplicated(df[, 2:5]),]`\
+Để chỉ đánh giá các cột `name` và `purpose` cho các bản trùng lặp: `df[!duplicated(df[, c("name", "purpose)]),]`
 
 <!-- ======================================================= -->
-### Using **base** R {.unnumbered}
 
-**To return duplicate rows**  
+## Cắt dòng
 
-In **base** R, you can also see which rows are 100% duplicates in a data frame `df` with the command `duplicated(df)` (returns a logical vector of the rows).  
+"Cắt" một data frame nhằm áp dụng bộ lọc trên các hàng theo số/vị trí hàng. Điều này trở nên đặc biệt hữu ích nếu bạn có nhiều hàng cho mỗi nhóm chức năng (ví dụ: mỗi "người") và bạn chỉ muốn giữ một hoặc một số hàng trong số đó.
 
-Thus, you can also use the base subset `[ ]` on the data frame to see the *duplicated* rows with `df[duplicated(df),]` (don't forget the comma, meaning that you want to see all columns!). 
-
-**To return unique rows**  
-
-See the notes above. To see the *unique* rows you add the logical negator `!` in front of the `duplicated()` function:  
-`df[!duplicated(df),]`  
-
-
-**To return rows that are duplicates of only certain columns**  
-
-Subset the `df` that is *within the `duplicated()` parentheses*, so this function will operate on only certain columns of the `df`.  
-
-To specify the columns, provide column numbers or names after a comma (remember, all this is *within* the `duplicated()` function).  
-
-Be sure to keep the comma `,` *outside* after the `duplicated()` function as well! 
-
-For example, to evaluate only columns 2 through 5 for duplicates:  `df[!duplicated(df[, 2:5]),]`  
-To evaluate only columns `name` and `purpose` for duplicates: `df[!duplicated(df[, c("name", "purpose)]),]`  
-
-
-
-
-
-<!-- ======================================================= -->
-## Slicing { }
-
-
-To "slice" a data frame to apply a filter on the rows by row number/position. This becomes particularly useful if you have multiple rows per functional group (e.g. per "person") and you only want to keep one or some of them. 
-
-The basic `slice()` function accepts numbers and returns rows in those positions. If the numbers provided are positive, only they are returned. If negative, those rows are *not* returned. Numbers must be either all positive or all negative.     
+Hàm `slice()` cơ bản chấp nhận các số và trả về các hàng ở những vị trí đó. Nếu các số được cung cấp là số dương, chỉ có chúng được trả về. Nếu là số âm, những hàng đó *không* được trả về. Tất cả các số đều phải là số dương hoặc đều là số âm.
 
 ```{r}
 obs %>% slice(4)  # return the 4th row
@@ -10897,53 +10880,46 @@ obs %>% slice(c(2,4))  # return rows 2 and 4
 #obs %>% slice(c(2:4))  # return rows 2 through 4
 ```
 
+Xem [dữ liệu gốc](#dedup_data).
 
-See the [original data](#dedup_data). 
+Có một số biến thể: Chúng phải được cung cấp với một cột và một số hàng để trả về (tới `n =`).
 
-There are several variations:  These should be provided with a column and a number of rows to return (to `n = `).  
-
-* `slice_min()` and `slice_max()`  keep only the row(s) with the minimium or maximum value(s) of the specified column. This also works to return the "min" and "max" of ordered factors.    
-* `slice_head()` and `slice_tail()` - keep only the *first* or *last* row(s).  
-* `slice_sample()`  - keep only a random sample of the rows.  
-
+-   `slice_min()` và `slice_max()` chỉ giữ (các) hàng có (các) giá trị nhỏ nhất hoặc lớn nhất của cột được chỉ định. Hàm này cũng hoạt động để trả về "tối thiểu" và "tối đa" của các biến factor có thứ tự.\
+-   `slice_head()` và `slice_tail()` - chỉ giữ (các) hàng *đầu tiên* hoặc *cuối cùng*.\
+-   `slice_sample()` - chỉ giữ một mẫu ngẫu nhiên của các hàng.
 
 ```{r}
 obs %>% slice_max(encounter, n = 1)  # return rows with the largest encounter number
 ```
 
-Use arguments `n = ` or `prop = ` to specify the number or proportion of rows to keep. If not using the function in a pipe chain, provide the data argument first (e.g. `slice(data, n = 2)`). See `?slice` for more information. 
+Sử dụng đối số `n =` hoặc `prop =` để xác định số lượng hoặc tỷ lệ hàng cần giữ. Nếu không sử dụng hàm trong chuỗi pipe, trước tiên hãy cung cấp đối số dữ liệu (ví dụ: `slice(data, n = 2)`). Xem `?slice` để biết thêm thông tin.
 
-Other arguments:  
+Các đối số khác:
 
-`.order_by = ` used in `slice_min()` and `slice_max()` this is a column to order by before slicing.  
-`with_ties = ` TRUE by default, meaning ties are kept.  
-`.preserve = ` FALSE by default. If TRUE then the grouping structure is re-calculated after slicing.  
-`weight_by = ` Optional, numeric column to weight by (bigger number more likely to get sampled).  Also `replace = ` for whether sampling is done with/without replacement.  
+`.order_by =` được sử dụng trong `slice_min()` và `slice_max()`, sắp xếp thứ tự theo một cột trước khi cắt.\
+`with_ties =` TRUE theo mặc định, nghĩa là các ràng buộc bị giữ lại.\
+`.preserve =` FALSE theo mặc định. Nếu TRUE thì cấu trúc nhóm được tính toán lại sau khi cắt.\
+`weight_by =` Tùy chọn, cột dữ liệu kiểu số được tính theo trọng số (số lớn hơn có nhiều khả năng được lấy mẫu hơn). Đồng thời `replace =` cho việc lấy mẫu liệu có được thực hiện mà có/không có sự thay thế.
 
-<span style="color: darkgreen;">**_TIP:_** When using `slice_max()` and `slice_min()`, be sure to specify/write the `n = `  (e.g. `n = 2`, not just `2`). Otherwise you may get an error `Error: `...` is not empty.` </span>
+[***MẸO:*** Khi sử dụng `slice_max()` và `slice_min()`, hãy chắc chắn bạn cụ thể/ghi `n =` (ví dụ: `n = 2`, không chỉ `2`). Nếu không, bạn có thể gặp lỗi `Error:`...`is not empty`.]{style="color: darkgreen;"}
 
-<span style="color: black;">**_NOTE:_** You may encounter the function [`top_n()`](https://dplyr.tidyverse.org/reference/top_n.html), which has been superseded by the `slice` functions.</span>
-
- 
-
+[***LƯU Ý:*** Bạn có thể gặp hàm [`top_n()`](https://dplyr.tidyverse.org/reference/top_n.html), hàm mà đã bị thay thế bởi các hàm `slice`.]{style="color: black;"}
 
 <!-- ======================================================= -->
-### Slice with groups  {.unnumbered}
 
-The `slice_*()` functions can be very useful if applied to a grouped data frame because the slice operation is performed on each group separately. Use the **function** `group_by()` in conjunction with `slice()` to group the data to take a slice from each group.  
+### Cắt theo nhóm {.unnumbered}
 
-This is helpful for de-duplication if you have multiple rows per person but only want to keep one of them. You first use `group_by()` with key columns that are the same per person, and then use a slice function on a column that will differ among the grouped rows.  
+Các hàm `slice_*()` có thể rất hữu ích nếu được áp dụng cho một data frame được nhóm lại vì thao tác cắt được thực hiện trên từng nhóm riêng biệt. Sử dụng **hàm** `group_by()` kết hợp với `slice()` nhằm nhóm dữ liệu để lấy một lát cắt từ mỗi nhóm.
 
-In the example below, to keep only the *latest* encounter *per person*, we group the rows by `name` and then use `slice_max()` with `n = 1` on the `date` column. Be aware! To apply a function like `slice_max()` on dates, the date column must be class Date.   
+Điều này rất hữu ích cho việc loại bỏ trùng lặp nếu bạn có nhiều hàng cho mỗi người nhưng chỉ muốn giữ một trong số chúng. Trước tiên, bạn sử dụng `group_by()` với các cột chính mà giống nhau cho mỗi người, sau đó sử dụng một hàm slice trên một cột, điều này sẽ khác nhau giữa các hàng được nhóm.
 
-By default, "ties" (e.g. same date in this scenario) are kept, and we would still get multiple rows for some people (e.g. adam). To avoid this we set `with_ties = FALSE`. We get back only one row per person.  
+Trong ví dụ dưới đây, để chỉ giữ lại cuộc gọi truy vết *mới nhất* *theo mỗi người*, chúng ta nhóm các hàng theo cột `name` và sau đó sử dụng `slice_max()` với `n = 1` trên cột `date`. Hãy lưu ý! Để áp dụng một hàm như `slice_max()` vào dates (ngày tháng), cột ngày tháng phải thuộc nhóm Date.
 
-<span style="color: orange;">**_CAUTION:_** If using `arrange()`, specify `.by_group = TRUE` to have the data arranged within each group.</span>
+Theo mặc định, "các ràng buộc" (ví dụ: cùng ngày trong trường hợp này) được giữ lại và chúng tôi sẽ vẫn nhận được nhiều hàng cho một số người (ví dụ: adam). Để tránh tình huống này, chúng tôi đặt `with_ties = FALSE`. Chúng tôi sẽ chỉ nhận lại một hàng cho mỗi người.
 
-<span style="color: red;">**_DANGER:_** If `with_ties = FALSE`, the first row of a tie is kept. This may be deceptive. See how for Mariah, she has two encounters on her latest date (6 Jan) and the first (earliest) one was kept. Likely, we want to keep her later encounter on that day. See how to "break" these ties in the next example. </span>  
+[***CHÚ Ý:*** Nếu sử dụng `arrange()`, xác định `.by_group = TRUE` để sắp xếp dữ liệu trong mỗi nhóm.]{style="color: orange;"}
 
-
-
+[***THẬN TRỌNG:*** Nếu `with_ties = FALSE`, hàng đầu tiên có ràng buộc được giữ lại. Điều này có thể là sự nhầm lẫn. Hãy xem trường hợp của Mariah, cô ấy có hai cuộc gọi truy vết vào ngày gần nhất (ngày 06/01) và cuộc gọi truy vết đầu tiên (sớm nhất) được giữ lại. Rất có thể, chúng ta muốn giữ lại cuộc gọi truy vết muộn hơn của cô ấy vào ngày đó. Xem cách "phá vỡ" những ràng buộc này trong ví dụ tiếp theo.]{style="color: red;"}
 
 ```{r, eval=F}
 obs %>% 
@@ -10962,13 +10938,12 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 8, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Above, for example we can see that only Amrish's row on 5 Jan was kept, and only Brian's row on 7 Jan was kept. See the [original data](#dedup_data).  
+Ví dụ ở trên, chúng ta có thể thấy rằng chỉ hàng của Amrish vào ngày 05/01 được giữ lại và chỉ hàng của Brian vào ngày 07/01 được giữ lại. Xem [dữ lịệu gốc](#dedup_data).
 
+**Phá vỡ "ràng buộc"**
 
-**Breaking "ties"**  
-
-Multiple slice statements can be run to "break ties". In this case, if a person has multiple encounters on their latest *date*, the encounter with the latest *time* is kept (`lubridate::hm()` is used to convert the character times to a sortable time class).  
-Note how now, the one row kept for "Mariah" on 6 Jan is encounter 3 from 08:32, not encounter 2 at 07:25.  
+Nhiều câu lệnh cắt (slice) có thể được chạy để "phá vỡ các ràng buộc". Trong trường hợp này, nếu một người có nhiều cuộc gọi truy vết vào *ngày* gần nhất, cuộc gọi truy vết với *thời gian* gần nhất sẽ được giữ lại (`lubridate::hm()` được sử dụng để chuyển đổi ký tự thời gian thành một lớp thời gian có thể sắp xếp).\
+Lưu ý rằng bây giờ, một hàng được giữ cho "Mariah" vào ngày 06/01 là cuộc gọi truy vết thứ 3 từ 08:32, không phải cuộc gọi truy vết thứ 2 lúc 07:25.
 
 ```{r, eval=F}
 # Example of multiple slice statements to "break ties"
@@ -10996,21 +10971,20 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 8, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-*In the example above, it would also have been possible to slice by `encounter` number, but we showed the slice on `date` and `time` for example purposes.*  
+*Trong ví dụ trên, cũng có thể cắt theo số lần `encounter`, nhưng chúng tôi đã hiển thị cách cắt theo `date` và `time` cho mục đích ví dụ.*
 
-<span style="color: darkgreen;">**_TIP:_** To use `slice_max()` or `slice_min()` on a "character" column, mutate it to an *ordered* factor class!</span>
+[***MẸO:*** Để sử dụng `slice_max()` hoặc `slice_min()` trên một cột "kí tự", hãy biến đối nó thành một lớp yếu tố *được sắp xếp theo thứ tự*!]{style="color: darkgreen;"}
 
-See the [original data](#dedup_data).  
-
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-### Keep all but mark them  {.unnumbered}
 
-If you want to keep all records but mark only some for analysis, consider a two-step approach utilizing a unique recordID/encounter number:  
+### Giữ lại tất cả nhưng đánh dấu các dòng {.unnumbered}
 
-1) Reduce/slice the orginal data frame to only the rows for analysis. Save/retain this reduced data frame.  
-2) In the original data frame, mark rows as appropriate with `case_when()`, based on whether their record unique identifier (recordID in this example) is present in the reduced data frame.  
+Nếu bạn muốn giữ lại tất cả các bản ghi nhưng chỉ đánh dấu một số để phân tích, hãy cân nhắc cách tiếp cận hai bước sử dụng một số recordID/encounter duy nhất:
 
+1)  Giảm/cắt data frame gốc thành chỉ bao gồm các hàng cho phân tích. Lưu/giữ lại data frame đã được thu gọn này.\
+2)  Trong data frame gốc, hãy đánh dấu các hàng là thích hợp với `case_when()`, dựa trên việc liệu mã định danh duy nhất của những bản ghi này (recordID trong ví dụ này) có trong data frame thu gọn hay không.
 
 ```{r}
 # 1. Define data frame of rows to keep for analysis
@@ -11035,25 +11009,25 @@ obs_marked <- obs %>%
 obs_marked
 ```
 
-
 ```{r, echo=F}
 DT::datatable(obs_marked, rownames = FALSE, options = list(pageLength = 8, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-### Calculate row completeness {.unnumbered} 
 
-Create a column that contains a metric for the row's completeness (non-missingness). This could be helpful when deciding which rows to prioritize over others when de-duplicating/slicing.  
+### Tính toán độ hoàn chỉnh của hàng {.unnumbered}
 
-In this example, "key" columns over which you want to measure completeness are saved in a vector of column names.  
+Tạo một cột chứa số liệu về độ hoàn chỉnh (không bị thiếu) của hàng. Điều này có thể hữu ích khi quyết định ưu tiên hàng nào hơn hàng nào khi loại bỏ trùng lặp/cắt.
 
-Then the new column `key_completeness` is created with `mutate()`. The new value in each row is defined as a calculated fraction: the number of non-missing values in that row among the key columns, divided by the number of key columns.  
+Trong ví dụ này, các cột "chính" mà bạn muốn đo lường mức độ hoàn chỉnh được lưu trong một vectơ tên cột.
 
-This involves the function `rowSums()` from **base** R. Also used is `.`, which within piping refers to the data frame at that point in the pipe (in this case, it is being subset with brackets `[]`).  
+Sau đó, cột mới `key_completeness` được tạo bằng hàm `mutate()`. Giá trị mới của mỗi hàng được xác định dưới dạng phân số được tính toán bằng: số giá trị không bị thiếu trong hàng đó trong số các cột chính, chia cho số cột chính.
 
-*Scroll to the right to see more rows**  
+Điều này cần thêm hàm `rowSums()` từ **base** R. Data frame sử dụng được đại diện bởi dấu `.`, tức là tham chiếu đến data frame nguồn trong một chuỗi pipe (trong trường hợp này, nó sẽ được tách thành tập con với dấu ngoặc vuông `[]`).
+
+*Cuộn sang phải để xem các hàng khác*
 
 ```{r, eval=F}
 # create a "key variable completeness" column
@@ -11073,34 +11047,28 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-See the [original data](#dedup_data).  
-
-
-
+Xem [dữ liệu gốc](#dedup_data).
 
 <!-- ======================================================= -->
-## Roll-up values {#str_rollup}
 
+## Gộp các giá trị {#str_rollup}
 
-This section describes:  
+Phần này miêu tả:
 
-1) How to "roll-up" values from multiple rows into just one row, with some variations  
-2) Once you have "rolled-up" values, how to overwrite/prioritize the values in each cell  
+1)  Cách "gộp (roll-up)" các giá trị từ nhiều hàng chỉ thành một hàng, với một số biến thể\
+2)  Khi bạn có các giá trị "đã được gộp", cách để ghi đè/ưu tiên các giá trị trong mỗi ô
 
-This tab uses the example dataset from the Preparation tab.  
-
-
+Tab này sử dụng bộ dữ liệu mẫu từ tab Chuẩn bị.
 
 <!-- ======================================================= -->
-### Roll-up values into one row {.unnumbered}  
 
-The code example below uses `group_by()` and `summarise()` to group rows by person, and then paste together all unique values within the grouped rows. Thus, you get one summary row per person. A few notes:  
+### Gộp các giá trị thành một hàng {.unnumbered}
 
-* A suffix is appended to all new columns ("_roll" in this example)  
-* If you want to show only unique values per cell, then wrap the `na.omit()` with `unique()`  
-* `na.omit()` removes `NA` values, but if this is not desired it can be removed `paste0(.x)`...  
+Code ví dụ bên dưới sử dụng `group_by()` và `summarise()` để nhóm các hàng theo từng người, rồi dán (paste) tất cả các giá trị duy nhất trong các hàng được nhóm lại với nhau. Do đó, bạn nhận được một hàng tóm tắt cho mỗi người. Một số lưu ý:
 
-
+-   Một hậu tố được thêm vào tất cả các cột mới ("\_roll" trong ví dụ này)\
+-   Nếu bạn chỉ muốn hiển thị các giá trị duy nhất trên mỗi ô, thì hãy đặt `na.omit()` trong `unique()`\
+-   `na.omit()` loại bỏ các giá trị `NA`, nhưng nếu đây là điều không mong muốn, nó có thể bị loại bỏ bởi `paste0(.x)`...
 
 ```{r, eval=F}
 # "Roll-up" values into one row per group (per "personID") 
@@ -11118,7 +11086,7 @@ cases_rolled <- obs %>%
            ~paste0(na.omit(.x), collapse = "; "))) # function is defined which combines non-NA values
 ```
 
-The result is one row per group (`ID`), with entries arranged by date and pasted together. *Scroll to the left to see more rows*    
+Kết quả là một hàng cho mỗi nhóm (`ID`), với các mục đã nhập được sắp xếp theo ngày và được dán cùng nhau. *Cuộn sang trái để xem các hàng khác*
 
 ```{r message=FALSE, echo=F}
 # "Roll-up" values into one row per group (per "personID") 
@@ -11138,10 +11106,9 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
 ```
 
-See the [original data](#dedup_data).  
+Xem [dữ liệu gốc](#dedup_data).
 
-
-**This variation shows unique values only:**  
+**Biến thể này chỉ hiển thị các giá trị duy nhất:**
 
 ```{r}
 # Variation - show unique values only 
@@ -11165,9 +11132,8 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
-**This variation appends a suffix to each column.**  
-In this case "_roll" to signify that it has been rolled:  
+**Biến thể này thêm hậu tố vào mỗi cột.**\
+Trong trường hợp này, "\_roll" được dùng để biểu thị rằng nó đã được gộp:
 
 ```{r, eval=F}
 # Variation - suffix added to column names 
@@ -11191,12 +11157,11 @@ obs %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
 <!-- ======================================================= -->
-### Overwrite values/hierarchy {.unnumbered} 
 
+### Ghi đè các giá trị/hệ thống phân cấp {.unnumbered}
 
-If you then want to evaluate all of the rolled values, and keep only a specific value (e.g. "best" or "maximum" value), you can use `mutate()` across the desired columns, to implement `case_when()`, which uses `str_detect()` from the **stringr** package to sequentially look for string patterns and overwrite the cell content.  
+Sau đó, nếu bạn muốn đánh giá tất cả các giá trị đã gộp và chỉ giữ một giá trị cụ thể (ví dụ: giá trị "tốt nhất (best)" hoặc "tối đa (maximum)"), bạn có thể sử dụng hàm `mutate()` trên các cột mong muốn, để triển khai các điều kiện rẽ nhánh với `case_when()` và `str_detect()` từ package **stringr** để tìm kiếm tuần tự các mẫu chuỗi và ghi đè nội dung ô.
 
 ```{r}
 # CLEAN CASES
@@ -11214,37 +11179,32 @@ cases_clean <- cases_rolled %>%
       .keep = "unused")                                             # old columns removed, leaving only _mod columns
 ```
 
-
-Now you can see in the column `symptoms_ever` that if the person EVER said "Yes" to symptoms, then only "Yes" is displayed.  
+Bây giờ bạn có thể thấy trong cột `symptoms_ever` rằng nếu người đó TỪNG trả lời "Yes" với các triệu chứng, thì chỉ "Yes" được hiển thị.
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(cases_clean, rownames = FALSE, options = list(pageLength = 10, scrollX=T), class = 'white-space: nowrap')
 ```
 
+Xem [dữ liệu gốc](#dedup_data).
 
-See the [original data](#dedup_data).  
+## Loại bỏ trùng lặp theo xác suất
 
+Đôi khi, bạn có thể muốn xác định các bản trùng lặp "có khả năng xảy ra" dựa trên sự tương đồng (ví dụ: chuỗi "distance (khoảng cách)") trên một số cột như name (tên), age (tuổi), sex (giới tính), date of birth (ngày sinh), v.v. Bạn có thể áp dụng thuật toán so khớp theo xác suất để xác định các bản trùng lặp có khả năng xảy ra.
 
-## Probabilistic de-duplication  
-
-Sometimes, you may want to identify "likely" duplicates based on similarity (e.g. string "distance") across several columns such as name, age, sex, date of birth, etc. You can apply a probabilistic matching algorithm to identify likely duplicates.  
-
-See the page on [Joining data] for an explanation on this method. The section on Probabilistic Matching contains an example of applying these algorithms to compare a data frame to *itself*, thus performing probabilistic de-duplication.  
-
-
+Xem chương [Nối dữ liệu] để được giải thích về phương pháp này. Mục Đối sánh theo xác suất chứa một ví dụ về việc áp dụng các thuật toán này để so sánh một data frame với *chính nó*, do đó thực hiện loại bỏ trùng lặp theo xác suất.
 
 <!-- ======================================================= -->
-## Resources { }
 
-Much of the information in this page is adapted from these resources and vignettes online:  
+## Tài nguyên học liệu
+
+Phần lớn thông tin trong chương này được điều chỉnh từ các tài nguyên và vignette trực tuyến sau:
 
 [datanovia](https://www.datanovia.com/en/lessons/identify-and-remove-duplicate-data-in-r/)
 
-[dplyr tidyverse reference](https://dplyr.tidyverse.org/reference/slice.html)  
+[dplyr tidyverse reference](https://dplyr.tidyverse.org/reference/slice.html)
 
-[cran janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)  
-
+[cran janitor vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes)
 ```{r include=FALSE, cache=FALSE}
 
 # clear workspace
@@ -28682,11 +28642,10 @@ options(scipen=1, digits=7)
 # Biểu đồ nhiệt {#heatmaps}  
 
 
-Heat plots, also known as "heat maps" or "heat tiles", can be useful visualizations when trying to display 3 variables (x-axis, y-axis, and fill). Below we demonstrate two examples:  
+Biểu đồ nhiệt, còn được gọi là "bản đồ nhiệt" hoặc "bảng nhiệt", là những hình ảnh trực quan hữu ích khi cố gắng hiển thị 3 biến (trục x, trục y và màu sắc). Dưới đây chúng tôi minh họa hai ví dụ:
 
-* A visual matrix of transmission events by age ("who infected whom")  
-* Tracking reporting metrics across many facilities/jurisdictions over time  
-
+* Ma trận trực quan về các sự kiện lây truyền theo độ tuổi ("ai lây nhiễm cho ai")
+* Theo dõi các chỉ số báo cáo trên nhiều cơ sở/khu vực theo thời gian 
 
 ```{r, out.width = c('50%', '50%'), fig.show='hold', warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "transmission_matrix.png"))
@@ -28700,11 +28659,11 @@ knitr::include_graphics(here::here("images", "heat_tile.png"))
 
 
 <!-- ======================================================= -->
-## Preparation { }
+## Chuẩn bị { }
 
-### Load packages {.unnumbered}  
+### Gọi packages {.unnumbered}  
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code dưới đây hiển thị cách gọi các packages cần thiết cho việc phân tích dữ liệu. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt packages nếu cần *và* gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các packages trong R. 
 
 ```{r}
 pacman::p_load(
@@ -28714,27 +28673,26 @@ pacman::p_load(
   )
 ```
 
-**Datasets**  
+**Bộ dữ liệu**  
 
-This page utilizes the case linelist of a simulated outbreak for the transmission matrix section, and a separate dataset of daily malaria case counts by facility for the metrics tracking section. They are loaded and cleaned in their individual sections.  
-
-
+Chương này sẽ sử dụng bộ dữ liệu linelist-một vụ dịch mô phỏng trong mục ma trận lây truyền và bộ dữ liệu về số trường hợp sốt rét được ghi nhận hàng ngày theo cơ sở trong phần theo dõi các chỉ số báo cáo. Các bộ dữ liệu sẽ được gọi và làm sạch trong khi trình bày. 
 
 
 
 
 
-## Transmission matrix  
 
-Heat tiles can be useful to visualize matrices. One example is to display "who-infected-whom" in an outbreak. This assumes that you have information on transmission events.  
+## Ma trận lây truyền 
 
-Note that the [Contact tracing] page contains another example of making a heat tile contact matrix, using a different (perhaps more simple) dataset where the ages of cases and their sources are neatly aligned in the same row of the data frame. This same data is used to make a *density* map in the [ggplot tips] page. This example below begins from a case linelist and so involves considerable data manipulation prior to achieving a plotable data frame. So there are many scenarios to chose from...  
+Bảng nhiệt có thể hữu ích để trực quan hóa ma trận. Một ví dụ là hiển thị "ai đã lây nhiễm cho ai" trong một vụ dịch. Giả sử rằng bạn có đầy đủ thông tin về các sự kiện lây truyền. 
 
-
-We begin from the case linelist of a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import your data with the `import()` function from the **rio** package (it accepts many file types like .xlsx, .rds, .csv - see the [Import and export] page for details).  
+Lưu ý rằng chương [Truy vết tiếp xúc] có một ví dụ khác về tạo ma trận tiếp xúc thành bảng nhiệt, sử dụng một dataset khác (có lẽ đơn giản hơn) trong đó tuổi của các trường hợp và nguồn lây của chúng được căn chỉnh gọn gàng trên cùng một hàng của data frame. Dataset này cũng được sử dụng để tạo bản đồ *mật độ* trong chương [Các tips với ggplot]. Ví dụ dưới đây bắt đầu từ một danh sách các trường hợp và yêu cầu nhiều thao tác biến đổi dữ liệu trước khi thành một data frame sẵn sàng để vẽ biểu đồ. Vì vậy, có rất nhiều kịch bản để bạn lựa chọn...
 
 
-The first 50 rows of the linelist are shown below for demonstration:  
+Chúng tôi bắt đầu từ danh sách trường hợp của một vụ dịch Ebola mô phỏng. Nếu bạn muốn theo dõi, hãy <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải bộ dữ liệu linelist "đã làm sạch"</a> (as .rds file). Nhập dữ liệu của bạn bằng hàm `import()` từ package **rio**  (hàm này chấp nhận nhiều loại tệp như .xlsx, .rds, .csv - Xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết). 
+
+
+Danh sách dưới đây bao gồm 50 hàng đầu tiên của linelist: 
 
 
 ```{r, echo=F}
@@ -28747,10 +28705,10 @@ linelist <- import("linelist_cleaned.rds")
 ```
 
 
-In this linelist:  
+Trong bộ dữ liệu linelist này:  
 
-* There is one row per case, as identified by `case_id`  
-* There is a later column `infector` that contains the `case_id` of the *infector*, who is also a case in the linelist  
+* Mỗi trường hợp được thể hiện trên một hàng, được định danh bằng `case_id`  
+* Kéo sang phải bạn sẽ thấy cột `infector` có chứa `case_id` của *nguồn lây*, mỗi nguồn lây cũng là một trường hợp trong linelist
 
 
 ```{r message=FALSE, echo=F}
@@ -28760,16 +28718,15 @@ DT::datatable(head(linelist, 50), rownames = FALSE, options = list(pageLength = 
 
 
 
-### Data preparation {.unnumbered}  
+### Chuẩn bị dữ liệu {.unnumbered}  
 
-**Objective**: We need to achieve a "long"-style data frame that contains one row per possible age-to-age transmission route, with a numeric column containing that row's proportion of all observed transmission events in the linelist.  
+**Mục tiêu**: Chúng ta cần tạo một data frame dạng "dọc", tức là mỗi đường lây truyền theo lứa tuổi có thể có nằm trên một hàng, với một cột số chứa tỷ lệ của hàng đó đối với tất cả các sự kiện lây nhiễm được quan sát trong linelist. 
 
-This will take several data manuipulation steps to achieve:  
+Để đạt được mục tiêu này, một số bước biến đổi dữ liệu cần được thực hiện:  
 
+#### Tạo data frame các trường hợp {.unnumbered} 
 
-#### Make cases data frame {.unnumbered} 
-
-To begin, we create a data frame of the cases, their ages, and their infectors - we call the data frame `case_ages`. The first 50 rows are displayed below.  
+Để bắt đầu, chúng ta tạo một data frame về các trường hợp, bao gồm độ tuổi và nguồn lây nhiễm của chúng - chúng ta đặt tên data frame này là `case_ages`. 50 hàng đầu tiên của bộ dữ liệu dữ liệu được hiển thị bên dưới.   
 
 ```{r}
 case_ages <- linelist %>% 
@@ -28782,10 +28739,9 @@ case_ages <- linelist %>%
 DT::datatable(head(case_ages, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-#### Make infectors data frame {.unnumbered}  
+#### Tạo data frame nguồn lây nhiễm {.unnumbered}  
 
-Next, we create a data frame of the infectors - at the moment it consists of a single column. These are the infector IDs from the linelist. Not every case has a known infector, so we remove missing values. The first 50 rows are displayed below.  
-
+Tiếp theo, chúng ta tạo một data frame các nguồn lây nhiễm - tại thời điểm này, nó chỉ gồm một cột duy nhất. Đây là các ID của các nguồn lâu nhiễm trong bộ dữ liệu linelist. Không phải mọi trường hợp đều xác định được nguồn lây, vì vậy chúng ta cần loại bỏ các giá trị missing. 50 hàng đầu tiên được hiển thị bên dưới. 
 
 ```{r}
 infectors <- linelist %>% 
@@ -28798,9 +28754,10 @@ infectors <- linelist %>%
 DT::datatable(head(infectors, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Next, we use joins to procure the ages of the infectors. This is not simple, because in the `linelist`, the infector's ages are not listed as such. We achieve this result by joining the case `linelist` to the infectors. We begin with the infectors, and `left_join()` (add) the case `linelist` such that the `infector` id column left-side "baseline" data frame joins to the `case_id` column in the right-side `linelist` data frame.  
 
-Thus, the data from the infector's case record in the linelist (including age) is added to the infector row. The 50 first rows are displayed below.  
+Tiếp theo, chúng ta sử dụng hàm join để thu thập tuổi của những nguồn lây nhiễm. Điều này không đơn giản, vì trong `linelist`, tuổi của người lây nhiễm không được liệt kê như vậy. Chúng ta sẽ đạt được kết quả này bằng cách nối dữ liệu các trường hợp trong `linelist` với dữ liệu những người lây nhiễm. Chúng ta bắt đầu với bộ dữ liệu infectors, sau đó dùng hàm `left_join()` thêm các trường hợp trong `linelist` sao cho cột id của các trường hợp lây nhiễm trong bộ dữ liệu `infector` nối với cột `case_id` trong bộ dữ liệu `linelist`. 
+
+Do đó, dữ liệu từ bản ghi trường hợp của người lây nhiễm trong linelist (bao gồm cả tuổi) được thêm vào hàng của người lây nhiễm. 50 hàng đầu tiên được hiển thị bên dưới. 
 
 ```{r}
 infector_ages <- infectors %>%             # begin with infectors
@@ -28816,7 +28773,7 @@ infector_ages <- infectors %>%             # begin with infectors
 DT::datatable(head(infector_ages, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Then, we combine the cases and their ages with the infectors and their ages. Each of these data frame has the column `infector`, so it is used for the join. The first rows are displayed below:    
+Sau đó, chúng ta kết hợp các trường hợp và tuổi của chúng với những người lây nhiễm và tuổi của những người này lại. Mỗi data frame đều có chung cột `infector`, vì vậy nó được sử dụng cho phép nối. Các hàng đầu tiên được hiển thị bên dưới: 
 
 ```{r}
 ages_complete <- case_ages %>%  
@@ -28832,7 +28789,7 @@ ages_complete <- case_ages %>%
 DT::datatable(head(ages_complete, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Below, a simple cross-tabulation of counts between the case and infector age groups. Labels added for clarity.  
+Dưới đây là bảng chéo đơn giản về số lượng các trường hợp và người lây nhiễm theo nhóm tuổi. Nhãn được thêm vào để phân biệt. 
 
 ```{r}
 table(cases = ages_complete$case_age_cat,
@@ -28840,7 +28797,7 @@ table(cases = ages_complete$case_age_cat,
 ```
 
 
-We can convert this table to a data frame with `data.frame()` from **base** R, which also automatically converts it to "long" format, which is desired for the `ggplot()`. The first rows are shown below.  
+Chúng ta có thể chuyển đổi bảng này thành data frame với hàm `data.frame()` từ **base** R, hàm sẽ tự động chuyển đổi dữ liệu sang dạng "dọc" để có thể áp dụng trong hàm `ggplot()`. Các hàng đầu tiên được hiển thị bên dưới. 
 
 ```{r}
 long_counts <- data.frame(table(
@@ -28854,7 +28811,7 @@ DT::datatable(head(long_counts, 50), rownames = FALSE, options = list(pageLength
 ```
 
 
-Now we do the same, but apply `prop.table()` from **base** R to the table so instead of counts we get proportions of the total. The first 50 rows are shown below.    
+Bây giờ chúng ta làm tương tự, nhưng áp dụng hàm `prop.table()` từ **base** R vào bảng để thay vì nhận số lượng, chúng ta nhận được tỷ lệ của tất cả các biến. 50 hàng đầu tiên được hiển thị bên dưới. 
 
 ```{r}
 long_prop <- data.frame(prop.table(table(
@@ -28870,15 +28827,15 @@ DT::datatable(head(long_prop, 50), rownames = FALSE, options = list(pageLength =
 
 
 
-### Create heat plot {.unnumbered}  
+### Tạo biểu đồ nhiệt {.unnumbered}  
 
-Now finally we can create the heat plot with **ggplot2** package, using the `geom_tile()` function. See the [ggplot tips] page to learn more extensively about color/fill scales, especially the `scale_fill_gradient()` function.  
+Cuối cùng, chúng ta có thể vẽ biểu đồ nhiệt với hàm `geom_tile()` trong package **ggplot2**. Xem chương [Các tips với ggplot] để tìm hiểu sâu hơn về thang màu/tô màu cho biểu đồ, đặc biệt là hàm `scale_fill_gradient()`. 
 
-* In the aesthetics `aes()` of `geom_tile()` set the x and y as the case age and infector age  
-* Also in `aes()` set the argument `fill = ` to the `Freq` column - this is the value that will be converted to a tile color  
-* Set a scale color with `scale_fill_gradient()` - you can specify the high/low colors  
-  * Note that `scale_color_gradient()` is different! In this case you want the fill  
-* Because the color is made via "fill", you can use the `fill = ` argument in `labs()` to change the legend title  
+* Bên trong hàm `aes()` của hàm `geom_tile()`, thiết lập trục x và y tương ứng với tuổi của các trường hợp và tuổi của người lây nhiễm  
+* Ngoài ra trong hàm `aes()`, hãy đặt đối số `fill = ` tới cột tần suất `Freq` -  đây là giá trị sẽ được chuyển đổi thành màu gạch
+* Đặt màu thang đo với `scale_fill_gradient()` -  bạn có thể chỉ định màu cao/thấp  
+  * Lưu ý rằng `scale_color_gradient()` là một cái khác! Trong trường hợp này, bạn sẽ sử dụng fill
+* Bởi vì màu được tạo thông qua "fill", bạn có thể sử dụng đối số  `fill = ` đối số trong hàm `labs()` để thay đổi tiêu đề chú giải 
 
 ```{r}
 ggplot(data = long_prop)+       # use long data, with proportions as Freq
@@ -28903,15 +28860,14 @@ ggplot(data = long_prop)+       # use long data, with proportions as Freq
 
 
 <!-- ======================================================= -->
-## Reporting metrics over time { }
+## Các chỉ số báo cáo theo thời gian { }
 
-Often in public health, one objective is to assess trends over time for many entities (facilities, jurisdictions, etc.). One way to visualize such trends over time is a heat plot where the x-axis is time and on the y-axis are the many entities.  
+Thông thường, trong lĩnh vực y tế công cộng, một mục tiêu là đánh giá xu hướng theo thời gian của nhiều thực thể (cơ sở, khu vực pháp lý, v.v.). Một cách để hình dung các xu hướng như vậy theo thời gian là biểu đồ nhiệt trong đó trục x là thời gian và trên trục y là các thực thể. 
 
 
+### Chuẩn bị dữ liệu {.unnumbered}
 
-### Data preparation {.unnumbered}
-
-We begin by importing a dataset of daily malaria reports from many facilities. The reports contain a date, province, district, and malaria counts. See the page on [Download handbook and data] for information on how to download these data. Below are the first 30 rows:  
+Chúng ta bắt đầu bằng cách nhập bộ dữ liệu báo cáo về bệnh sốt rét hàng ngày từ nhiều cơ sở. Các báo cáo chứa dữu liệu về ngày, tỉnh, huyện và số trường hợp sốt rét. Xem chương [Tải sách và dữ liệu] để biết thông tin về cách tải xuống các dữ liệu này. Dưới đây là 30 hàng đầu tiên: 
 
 ```{r, echo=F}
 facility_count_data <- rio::import(here::here("data", "malaria_facility_count_data.rds")) %>% 
@@ -28928,26 +28884,26 @@ DT::datatable(head(facility_count_data,30), rownames = FALSE, options = list(pag
 ```
 
 
-#### Aggregate and summarize {.unnumbered}
+#### Tổng hợp và tóm tắt {.unnumbered}
 
-**The objective in this example** is to transform the daily facility *total* malaria case counts (seen in previous tab) into *weekly* summary statistics of facility reporting performance - in this case *the proportion of days per week that the facility reported any data*. For this example we will show data only for **Spring District**.  
+**Mục tiêu của ví dụ này** là chuyển đổi *tổng số* số ca bệnh sốt rét hàng ngày tại các cơ sở (xem trong tab trước) thành số liệu thống kê tóm tắt *hàng tuần* về hiệu suất báo cáo của cơ sở - trong trường hợp này là *tỷ lệ số ngày mỗi tuần mà cơ sở báo cáo bất kỳ dữ liệu nào*. Đối với ví dụ này, chúng ta sẽ chỉ hiển thị dữ liệu cho **Spring District**. 
 
-To achieve this we will do the following data management steps:  
+Để đạt được điều này, chúng ta sẽ thực hiện các bước quản lý dữ liệu sau:
 
-1) Filter the data as appropriate (by place, date)  
-2) Create a week column using `floor_date()` from package **lubridate**  
-    + This function returns the start-date of a given date's week, using a specified start date of each week (e.g. "Mondays")  
-3) The data are grouped by columns "location" and "week" to create analysis units of "facility-week"  
-4) The function `summarise()` creates new columns to reflecting summary statistics per facility-week group:  
-    + Number of days per week (7 - a static value)  
-    + Number of reports received from the facility-week (could be more than 7!)  
-    + Sum of malaria cases reported by the facility-week (just for interest)  
-    + Number of *unique* days in the facility-week for which there is data reported  
-    + **Percent of the 7 days per facility-week for which data was reported**  
-5) The data frame is joined with `right_join()` to a comprehensive list of all possible facility-week combinations, to make the dataset complete. The matrix of all possible combinations is created by applying `expand()` to those two columns of the data frame as it is at that moment in the pipe chain (represented by `.`). Because a `right_join()` is used, all rows in the `expand()` data frame are kept, and added to `agg_weeks` if necessary. These new rows appear with `NA` (missing) summarized values.  
+1) Lọc dữ liệu phù hợp (theo địa điểm, ngày tháng)   
+2) Tạo cột tuần bằng cách sử dụng hàm `floor_date()` trong package **lubridate**  
+    + Hàm này trả về ngày bắt đầu trong tuần của một ngày cụ thể, sử dụng ngày bắt đầu được chỉ định của mỗi tuần (ví dụ: "Thứ Hai") 
+3) Dữ liệu được nhóm theo cột "location" và "week" để tạo ra các đơn vị phân tích "facility-week"  
+4) Hàm `summarise()` tạo các cột mới để trình bày thống kê tóm tắt cho từng nhóm cơ sở theo tuần (facility-week):  
+    + Số ngày mỗi tuần (7 - một giá trị không đổi)  
+    + Số lượng báo cáo nhận được từ cơ sở-tuần (có thể nhiều hơn 7!)  
+    + Tổng số ca sốt rét do cơ sở báo cáo trong tuần (chỉ dành cho ai quan tâm)   
+    + Số ngày *duy nhất* trong mỗi cơ sở-tuần có dữ liệu được báo cáo  
+    + **Phần trăm trong số 7 ngày mỗi cơ sở-tuần mà dữ liệu được báo cáo**  
+5) Data frame được kết hợp bằng hàm `right_join()` thành một danh sách hoàn chỉnh về tất cả các kết hợp cơ sở-tuần có thể có, để làm cho tập dữ liệu hoàn thiện. Ma trận của tất cả các kết hợp có thể có được tạo bằng cách áp dụng hàm `expand()` cho hai cột đó của data frame giống như tại thời điểm đó trong chuỗi pipe (được biểu thị bằng `.`). Vì sử dụng hàm `right_join()`, nên tất cả các hàng trong data frame `expand()` mở rộng được giữ lại và được thêm vào `agg_weeks` nếu cần. Các hàng mới này xuất hiện với các giá trị tóm tắt `NA` (missing). 
 
 
-Below we demonstrate step-by-step:  
+Dưới đây là từng bước thực hiện: 
 
 ```{r, message=FALSE, warning=FALSE}
 # Create weekly summary dataset
@@ -28959,9 +28915,9 @@ agg_weeks <- facility_count_data %>%
     data_date < as.Date("2020-08-01")) 
 ```
 
-Now the dataset has ` nrow(agg_weeks)` rows, when it previously had ` nrow(facility_count_data)`.  
-
-Next we create a `week` column reflecting the start date of the week for each record. This is achieved with the **lubridate** package and the function `floor_date()`, which is set to "week" and for the weeks to begin on Mondays (day 1 of the week - Sundays would be 7). The top rows are shown below.  
+Bây giờ tập dữ liệu có số lượng hàng tính theo agg_week ` nrow(agg_weeks)`, trong khi trước được tính theo facility_count_data ` nrow(facility_count_data)`.  
+ 
+Tiếp theo, chúng ta tạo cột `tuần` để phản ánh ngày bắt đầu trong tuần cho mỗi bản ghi. Thực hiện điều này với hàm `floor_date ()` trong package **lubridate**, giúp thiết lập theo "tuần" và các tuần sẽ bắt đầu vào Thứ Hai (ngày 1 trong tuần - Chủ Nhật sẽ là 7). Các hàng đầu tiên được hiển thị như bên dưới. 
 
 ```{r}
 agg_weeks <- agg_weeks %>% 
@@ -28973,15 +28929,15 @@ agg_weeks <- agg_weeks %>%
       week_start = 1))                                # weeks to start on Mondays 
 ```
 
-The new week column can be seen on the far right of the data frame  
+Cột tuần mới này có thể được nhìn thấy ở ngoài cùng bên phải của data frame được tạo ra: 
 
 ```{r, echo=F}
 DT::datatable(head(agg_weeks,30), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
 ```
 
-Now we group the data into facility-weeks and summarise them to produce statistics per facility-week. See the page on [Descriptive tables] for tips. The grouping itself doesn't change the data frame, but it impacts how the subsequent summary statistics are calculated.  
+Bây giờ chúng ta nhóm dữ liệu thành các cơ sở-tuần và tóm tắt chúng để tạo ra số liệu thống kê cho mỗi cơ sở-tuần. Xem thêm chương [Bảng mô tả] để biết các mẹo. Bản thân việc nhóm sẽ không làm thay đổi data frame, nhưng nó ảnh hưởng đến cách các thống kê tóm tắt tiếp theo được tính toán. 
 
-The top rows are shown below. Note how the columns have completely changed to reflect the desired summary statistics. Each row reflects one facility-week. 
+Các hàng đầu tiên được hiển thị bên dưới. Lưu ý cách các cột đã thay đổi hoàn toàn để phản ánh thống kê tóm tắt mong muốn. Mỗi hàng phản ánh một cơ sở-tuần. 
 
 ```{r, warning=F, message=F}
 agg_weeks <- agg_weeks %>%   
@@ -29002,9 +28958,9 @@ agg_weeks <- agg_weeks %>%
 DT::datatable(head(agg_weeks,30), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
 ```
 
-Finally, we run the command below to ensure that ALL possible facility-weeks are present in the data, even if they were missing before.  
+Cuối cùng, chúng ta chạy lệnh bên dưới để đảm bảo rằng TẤT CẢ các cơ sở-tuần có thể có trong dữ liệu, ngay cả khi chúng bị missing trước đó. 
 
-We are using a `right_join()` on itself (the dataset is represented by ".") but having been expanded to include all possible combinations of the columns `week` and `location_name`. See documentation on the `expand()` function in the page on [Pivoting]. Before running this code the dataset contains ` nrow(agg_weeks)` rows.   
+Chúng ta đang sử dụng hàm `right_join()` trên chính nó (tập dữ liệu được thể hiện bởi dấu ".") nhưng đã được mở rộng để bao gồm tất cả các kết hợp có thể có của các cột `week` và `location_name`. Xem tài liệu về hàm `expand()` trong chương [Xoay trục dữ liệu]. Trước khi chạy đoạn code này, tập dữ liệu cần chứa `nrow(agg_weeks)` hàng. 
 
 ```{r, message=F, warning=F}
 # Create data frame of every possible facility-week
@@ -29015,13 +28971,13 @@ expanded_weeks <- agg_weeks %>%
   mutate(week = as.Date(week))               # re-convert week to class Date so the subsequent right_join works
 ```
 
-Here is `expanded_weeks`:  
+Đây là `expanded_weeks`:  
 
 ```{r, echo=F}
 DT::datatable(expanded_weeks, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
 ```
 
-Before running this code, `agg_weeks` contains ` nrow(agg_weeks)` rows.   
+TRước khi chạy dòng lệnh này, `agg_weeks` bao gồm `nrow(agg_weeks)` hàng.    
 
 ```{r}
 # Use a right-join with the expanded facility-week list to fill-in the missing gaps in the data
@@ -29030,29 +28986,29 @@ agg_weeks <- agg_weeks %>%
   mutate(p_days_reported = replace_na(p_days_reported, 0))  # convert missing values to 0                           
 ```
 
-After running this code, `agg_weeks` contains ` nrow(agg_weeks)` rows.   
+Sau khi chạy dòng lệnh này, `agg_weeks` vẫn bao gồm ` nrow(agg_weeks)` hàng.    
 
 
 <!-- ======================================================= -->
-### Create heat plot {.unnumbered}
+### Tạo biểu đồ nhiệt {.unnumbered}
 
 
-The `ggplot()` is made using `geom_tile()` from the **ggplot2** package:  
+Hàm `ggplot()` được thực hiện bằng cách sử dụng hàm `geom_tile()` từ package **ggplot2**:  
 
-* Weeks on the x-axis is transformed to dates, allowing use of `scale_x_date()`  
-* `location_name` on the y-axis will show all facility names  
-* The `fill` is `p_days_reported`, the performance for that facility-week (numeric)  
-* `scale_fill_gradient()` is used on the numeric fill, specifying colors for high, low, and `NA`  
-* `scale_x_date()` is used on the x-axis specifying labels every 2 weeks and their format  
-* Display themes and labels can be adjusted as necessary
+* Các tuần trên trục x được chuyển đổi thành ngày tháng, cho phép sử dụng `scale_x_date()`  
+* `location_name` trên trục y sẽ hiển thị tất cả các tên cơ sở 
+* `fill` được gán cho `p_days_reported`, hiệu suất cho cơ sở-tuần đó (dạng số) 
+* `scale_fill_gradient()` được sử dụng để tô màu cho biến dạng số, cụ thể màu sắc gồm cao, thấp và `NA`  
+* `scale_x_date()` được sử dụng trên trục x, chỉ định các nhãn 2 tuần một lần và định dạng của chúng   
+* Các chủ đề và nhãn hiển thị có thể được điều chỉnh khi cần thiết 
 
 
 
 
 <!-- ======================================================= -->
-### Basic {.unnumbered}  
+### Cơ bản {.unnumbered}  
 
-A basic heat plot is produced below, using the default colors, scales, etc. As explained above, within the `aes()` for `geom_tile()` you must provide an x-axis column, y-axis column, **and** a column for the the `fill = `. The fill is the numeric value that presents as tile color.  
+Biểu đồ nhiệt cơ bản sẽ được tạo như bên dưới, sử dụng màu, thang đo, v.v mặc định. Như đã giải thích ở trên, trong `aes()` của hàm `geom_tile()`, bạn phải cung cấp cột trục x, cột trục y, **và** một cột cho `fill = `. Phần tô là giá trị số thể hiện dưới dạng màu ô. 
 
 ```{r}
 ggplot(data = agg_weeks)+
@@ -29062,9 +29018,9 @@ ggplot(data = agg_weeks)+
         fill = p_days_reported))
 ```
 
-### Cleaned plot {.unnumbered}
+### Làm sạch biểu đồ nhiệt {.unnumbered}
 
-We can make this plot look better by adding additional **ggplot2** functions, as shown below. See the page on [ggplot tips] for details.  
+Chúng ta có thể làm cho biểu đồ này trông đẹp hơn bằng cách thêm các hàm **ggplot2** bổ sung, như được hiển thị bên dưới. Xem thêm chương [Các tips với ggplot] để biết thêm chi tiết.  
 
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = agg_weeks)+ 
@@ -29119,13 +29075,13 @@ ggplot(data = agg_weeks)+
 
 
 <!-- ======================================================= -->
-### Ordered y-axis {.unnumbered}  
+### Sắp xếp thứ tự trục y {.unnumbered}  
+ 
+Hiện tại, các cơ sở được sắp xếp theo thứ tự "theo bảng chữ cái" từ dưới lên trên. Nếu bạn muốn điều chỉnh thứ tự các cơ sở trục y, hãy chuyển đổi chúng thành factor thứ bậc và cung cấp thứ tự. Xem thêm chương [Factors] để biết các mẹo để thực hiện điều này. 
 
-Currently, the facilities are ordered "alpha-numerically" from the bottom to the top. If you want to adjust the order the y-axis facilities, convert them to class factor and provide the order. See the page on [Factors] for tips.  
+Vì có rất nhiều cơ sở và chúng ta không muốn viết hết chúng ra, chúng ta sẽ thử một cách tiếp cận khác - sắp xếp thứ tự các cơ sở trong data frame và sử dụng cột tên kết quả làm thứ tự của factor. Bên dưới, cột `location_name` được chuyển đổi thành một factor và thứ tự của các cấp của nó được đặt dựa trên tổng số ngày báo cáo do cơ sở nộp trong toàn bộ khoảng thời gian. 
 
-Since there are many facilities and we don't want to write them all out, we will try another approach - ordering the facilities in a data frame and using the resulting column of names as the factor level order. Below, the column `location_name` is converted to a factor, and the order of its levels is set based on the total number of reporting days filed by the facility across the whole time-span.  
-
-To do this, we create a data frame which represents the total number of reports per facility, arranged in ascending order. We can use this vector to order the factor levels in the plot.   
+Để làm điều này, chúng ta tạo một data frame đại diện cho tổng số báo cáo cho mỗi cơ sở, được sắp xếp theo thứ tự tăng dần. Chúng ta có thể sử dụng vectơ này để sắp xếp các mức thứ tự trong biểu đồ.   
 
 ```{r}
 facility_order <- agg_weeks %>% 
@@ -29134,7 +29090,7 @@ facility_order <- agg_weeks %>%
   arrange(tot_reports) # ascending order
 ```
 
-See the data frame below:  
+Xem data frame bên dưới:   
 
 ```{r, echo=F}
 DT::datatable(facility_order, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
@@ -29142,8 +29098,7 @@ DT::datatable(facility_order, rownames = FALSE, options = list(pageLength = 5, s
 
 
 
-
-Now use a column from the above data frame (`facility_order$location_name`) to be the order of the factor levels of `location_name` in the data frame `agg_weeks`:  
+Bây giờ, hãy sử dụng một cột từ data frame bên trên (`facility_order$location_name`) để trở thành thứ bậc factors của biến `location_name` trong data frame `agg_weeks`: 
 
 ```{r, warning=F, message=F}
 # load package 
@@ -29156,7 +29111,7 @@ agg_weeks <- agg_weeks %>%
     )
 ```
 
-And now the data are re-plotted, with location_name being an ordered factor:  
+Và bây giờ dữ liệu được vẽ lại, với `location_name` trở thành một factor có thứ tự: 
 
 ```{r, message=FALSE, warning=FALSE}
 ggplot(data = agg_weeks)+ 
@@ -29211,12 +29166,12 @@ ggplot(data = agg_weeks)+
 
 
 <!-- ======================================================= -->
-### Display values {.unnumbered}  
+### Biểu diễn các giá trị {.unnumbered}  
 
 
-You can add a `geom_text()` layer on top of the tiles, to display the actual numbers of each tile. Be aware this may not look pretty if you have many small tiles!  
-
-The following code has been added: `geom_text(aes(label = p_days_reported))`. This adds text onto every tile. The text displayed is the value assigned to the argument `label = `, which in this case has been set to the same numeric column `p_days_reported` that is also used to create the color gradient.  
+Bạn có thể thêm lớp văn bản `geom_text()` lên phía trên các ô, để hiển thị số lượng thực của mỗi ô. Hãy lưu ý rằng điều này có thể trông không đẹp nếu bạn có nhiều ô nhỏ! 
+ 
+Đoạn code sau đã được thêm vào: `geom_text(aes(label = p_days_reported))`. Điều này giúp thêm văn bản vào từng ô. Văn bản được hiển thị là giá trị được gán cho đối số `label = `, trong trường hợp này đã được đặt thành cùng một cột số `p_days_reported` cũng được sử dụng để tạo gradient màu.  
 
 
 
@@ -29281,7 +29236,7 @@ ggplot(data = agg_weeks)+
 
 
 <!-- ======================================================= -->
-## Resources { }
+## Nguồn { }
 
 [scale_fill_gradient()](https://ggplot2.tidyverse.org/reference/scale_gradient.html)  
 
@@ -36150,14 +36105,14 @@ options(scipen=1, digits=7)
 
 # Tương tác với thư mục làm việc {#directories}  
 
-In this page we cover common scenarios where you create, interact with, save, and import with directories (folders).  
+Trong chương này, chúng tôi sẽ bao gồm các tình huống phổ biến, nơi chúng ta sẽ tạo, tương tác, lưu và nhập với thư mục.  
 
 
-## Preparation  
+## Chuẩn bị  
 
 ### **fs** package {.unnumbered}  
 
-The **fs** package is a **tidyverse** package that facilitate directory interactions, improving on some of the **base** R functions. In the sections below we will often use functions from **fs**.  
+Package **fs** thuộc hệ sinh thái **tidyverse** giúp thuận tiện cho việc tương tác với thư mục, cải thiện một số hàm trong **base** R. Trong các phần bên dưới, chúng ta sẽ dùng các hàm từ **fs**.  
 
 ```{r}
 pacman::p_load(
@@ -36168,11 +36123,11 @@ pacman::p_load(
 ```
 
 
-### Print directory as a dendrogram tree {.unnumbered}  
+### In thư mục dưới dạng cây biểu đồ dendrogram {.unnumbered}  
 
-Use the function `dir_tree()` from **fs**.  
+Sử dụng hàm `dir_tree()` từ package **fs**.  
 
-Provide the folder filepath to `path = ` and decide whether you want to show only one level (`recurse = FALSE`) or all files in all sub-levels (`recurse = TRUE`). Below we use `here()` as shorthand for the R project and specify its sub-folder "data", which contains all the data used for this R handbook. We set it to display all files within "data" and its sub-folders (e.g. "cache", "epidemic models", "population", "shp", and "weather").  
+Cung cấp đường dẫn thư mục cho đối số `path = ` và quyết định xem có hay không chúng ta muốn hiển thị chỉ ở một cấp độ (`recurse = FALSE`) hay tất cả các tập tin trong tất cả các thư mục con (`recurse = TRUE`). Bên dưới chúng ta sử dụng hàm `here()` để hiển thị kết quả dưới dạng viết tốc ký trong dự án R và cụ thể thư mục con "data" của nó, mà chứa tất các số liệu được sử dụng cho cuốn sổ tay này. Chúng ta thiết lập nó để hiện thị tất cả các tệp bên trong thư mục "data" và các thư mục con của nó (vd: "cache", "epidemic models", "population", "shp", và "weather").  
 
 
 ```{r}
@@ -36180,40 +36135,40 @@ fs::dir_tree(path = here("data"), recurse = TRUE)
 ```
 
 
-## List files in a directory  
+## Liệt kê các tập tin trong một thư mục 
 
-To list just the file names in a directory you can use `dir()` from **base** R. For example, this command lists the file names of the files in the "population" subfolder of the "data" folder in an R project. The relative filepath is provided using `here()` (which you can read about more in the [Import and export] page).  
+Để chỉ liệt kê các tên tập tin trong một thư mục, chúng ta có thể sử dụng hàm `dir()` từ **base** Ví dụ, lệnh này liệt kê tên các tập tin của các tập tin trong thư mục con có tên "population" trong thư mục "data" của một dự án R. Đường dẫn tập tin tương đối được cung cấp bằng cách sử dụng hàm `here()` (đọc thêm trong chương [Nhập xuất dữ liệu]).  
 
 ```{r}
 # file names
 dir(here("data", "gis", "population"))
 ```
 
-To list the full file paths of the directory's files, you can use you can use `dir_ls()` from **fs**. A **base** R alternative is `list.files()`.  
+Để liệt kê đường dẫn đầy đủ của các tập tin trong thư mục, chúng ta có thể sử dụng hàm `dir_ls()` từ package **fs**. Một cách khác là dùng hàm `list.files()` trong **base** R.  
 
 ```{r}
 # file paths
 dir_ls(here("data", "gis", "population"))
 ```
 
-To get all the metadata information about each file in a directory, (e.g. path, modification date, etc.) you can use `dir_info()` from **fs**.  
+Để lấy tất cả thông tin chi tiết của mỗi tập tin trong một thư mục (ví dụ: đường dẫn, ngày sửa đổi, .v.v.), chúng ta có thể sử dụng hàm `dir_info()` của package **fs**.  
 
-This can be particularly useful if you want to extract the last modification time of the file, for example if you want to import the most recent version of a file. For an example of this, see the [Import and export] page.     
+Điều này có thể đặc biệt hữu ích nếu chúng ta muốn trích xuất thời gian sửa đổi sau cùng của tập tin, ví dụ như nếu chúng ta muốn nhập phiên bản mới nhất của tập tin. Ví dụ cho việc này, xem trong chương [Nhập xuất dữ liệu].     
 
 ```{r, eval=F}
 # file info
 dir_info(here("data", "gis", "population"))
 ```
 
-Here is the data frame returned. Scroll to the right to see all the columns.  
+Sau đây là data frame được trả về. Cuộn qua phải để xem tất cả các cột.  
 
 ```{r, echo=F}
 DT::datatable(dir_info(here("data", "gis", "population")), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-## File information  
+## Thông tin tệp  
 
-To extract metadata information about a specific file, you can use `file_info()` from **fs** (or `file.info()` from **base** R).  
+Để trích xuất thông tin chi tiết của một tập tin cụ thể, chúng ta có thể sử dụng hàme `file_info()` từ package **fs** (hoặc `file.info()` từ **base** R).  
 
 ```{r, eval=F}
 file_info(here("data", "case_linelists", "linelist_cleaned.rds"))
@@ -36223,7 +36178,7 @@ file_info(here("data", "case_linelists", "linelist_cleaned.rds"))
 DT::datatable(file_info(here("data", "case_linelists", "linelist_cleaned.rds")), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Here we use the `$` to index the result and return only the `modification_time` value.  
+Ở đây, chúng ta sử dụng ký hiệu `$` để chỉ rõ kết quả và xuất chỉ mỗi giá trị về thời gian sửa đổi `modification_time`.  
 
 ```{r}
 file_info(here("data", "case_linelists", "linelist_cleaned.rds"))$modification_time
@@ -36232,106 +36187,106 @@ file_info(here("data", "case_linelists", "linelist_cleaned.rds"))$modification_t
 
 
 
-## Check if exists  
+## Kiểm tra sự tồn tại  
 
-### R objects {.unnumbered}  
+### Đối tượng R {.unnumbered}  
 
-You can use `exists()` from **base** R to check whether an R object exists *within* R (supply the object name in quotes).  
+Bạn có thể sử dụng hàm `exists()` trong **base** R để kiểm tra xem một đối tượng R có tồn tại *bên trong* môi trường R hay không (cung cấp tên đối tượng trong dấu ngoặc kép).  
 
 ```{r}
 exists("linelist")
 ```
 
-Note that some **base** R packages use generic object names like "data" behind the scenes, that will appear as TRUE unless `inherit = FALSE` is specified. This is one reason to not name your dataset "data".  
+Lưu ý rằng một số gói lệnh trong **base** R sử dụng các tên chung làm tên cho các đối tượng như “data” trong môi trường R, mà kết quả kiểm tra sẽ là TRUE trừ khi chúng ta chỉ rõ `inherit = FALSE`. Đây là một lý do để không đặt tên cho bộ số liệu của chúng ta là “data”.  
 
 ```{r}
 exists("data")
 exists("data", inherit = FALSE)
 ```
 
-If you are writing a function, you should use `missing()` from **base** R to check if an argument is present or not, instead of `exists()`.  
+Nếu bạn đang viết một hàm, bạn nên sử dụng hàm `missing()` từ **base** R để kiểm tra xem có một đối số hiện diện hay không, thay vì dùng hàm `exists()`.  
 
 
 
-### Directories {.unnumbered}  
+### Thư mục {.unnumbered}  
 
-To check whether a directory exists, provide the file path (and file name) to `is_dir()` from **fs**. Scroll to the right to see that `TRUE` is printed.    
+Để kiểm tra xem một thư mục có tồn tại không, cung cấp đường dẫn tập tin (và tên tập tin) đến hàm `is_dir()` của package **fs**. Cuộn qua bên phải để thấy thông báo `TRUE` được in ra.    
 
 ```{r}
 is_dir(here("data"))
 ```
 
-An alternative is `file.exists()` from **base** R.  
+Một cách làm khác là dùng hàm `file.exists()` từ **base** R.  
 
 
-### Files {.unnumbered}  
+### Tệp {.unnumbered}  
 
-To check if a specific file exists, use `is_file()` from **fs**. Scroll to the right to see that `TRUE` is printed.  
+Để kiểm tra xem một tập tin cụ thể có tồn tại hay không, sử dụng hàm `is_file()` của package **fs**. Cuộn qua bên phải để thấy thông báo `TRUE` được in ra.  
 
 ```{r}
 is_file(here("data", "case_linelists", "linelist_cleaned.rds"))
 ```
 
-A **base** R alternative is `file.exists()`.  
+Một cách làm khác là dùng hàm `file.exists()` từ **base** R.  
 
 
 
-## Create  
+## Tạo mới  
 
-### Directories {.unnumbered}  
+### Thư mục {.unnumbered}  
 
-To create a new directory (folder) you can use `dir_create()` from **fs**. If the directory already exists, it will not be overwritten and no error will be returned. 
+Để tạo một thư mục mới, bạn có thể sử dụng hàm `dir_create()` từ package **fs**. Nếu thư mục đã tồn tại, thư mục này sẽ không bị ghi đè và không bị trả lại lỗi. 
 
 ```{r, eval=F}
 dir_create(here("data", "test"))
 ```
 
-An alternative is `dir.create()` from **base** R, which will show an error if the directory already exists. In contrast, `dir_create()` in this scenario will be silent.  
+Một cách làm khác là dùng hàm `dir.create()` từ **base** R, mà sẽ hiển thị lỗi nếu thư mục đó đã tồn tại. Ngược lại, `dir_create()` sẽ không thông báo gì.  
 
-### Files {.unnumbered}  
+### Tệp {.unnumbered}  
 
-You can create an (empty) file with `file_create()` from **fs**. If the file already exists, it will not be over-written or changed.  
+Chúng ta có thể tạo một tâp tin (rỗng) bằng hàm  `file_create()` từ package **fs**. Nếu tập tin này đã tồn tại, nó sẽ không bị ghi đè hoặc thay đổi.  
 
 ```{r, eval=F}
 file_create(here("data", "test.rds"))
 ```
 
-A **base** R alternative is `file.create()`. But if the file already exists, this option will truncate it. If you use `file_create()` the file will be left unchanged.  
+Một cách làm khác là dùng hàm `file.create()` từ **base** R. Nhưng nếu tập tin này đã tồn tại, tùy chọn này sẽ cắt xén tập tin đó. Nếu dùng hàm `file_create()` tập tin này sẽ được giữ nguyên.  
 
 
-### Create if does not exists {.unnumbered}  
+### Tạo nếu không tồn tại {.unnumbered}  
 
-UNDER CONSTRUCTION  
-
-
-## Delete
-
-### R objects {.unnumbered}  
-
-Use `rm()` from **base** R to remove an R object.  
-
-### Directories {.unnumbered}  
-
-Use `dir_delete()` from **fs**. 
+ĐANG XÂY DỰNG  
 
 
-### Files {.unnumbered}  
+## Xóa
 
-You can delete files with `file_delete()` from **fs**.  
+### Đối tượng R {.unnumbered}  
+
+Dùng hàm `rm()` từ **base** R để loại bỏ một đối tượng R.  
+
+### Thư mục {.unnumbered}  
+
+Dùng hàm `dir_delete()` từ package **fs**. 
+
+
+### Tệp {.unnumbered}  
+
+Chúng ta có thể xóa các tệp bằng hàm `file_delete()` từ package **fs**.  
 
 
 
-## Running other files  
+## Chạy các tệp khác  
 
 ### `source()` {.unnumbered}  
 
-To run one R script from another R script, you can use the `source()` command (from **base** R).
+Để chạy một R script từ một R script khác, bạn có thể sử dụng hàm `source()` (trong **base** R).
 
 ```{r, eval=F}
 source(here("scripts", "cleaning_scripts", "clean_testing_data.R"))
 ```
 
-This is equivalent to viewing the above R script and clicking the "Source" button in the upper-right of the script. This will execute the script but will do it silently (no output to the R console) unless specifically intended. See the page on [Interactive console] for examples of using `source()` to interact with a user via the R console in question-and-answer mode.  
+ở phía trên bên phải của tập lệnh. Điều này sẽ thực hiện tập lệnh này nhưng sẽ thực hiện một cách âm thầm (không có kết quả đầu ra trong bảng điều khiển R) trừ khi có chủ ý cụ thể. Xem các ví dụ ở chương [Bảng điều khiển tương tác] về cách sử dụng `source()` để tương tác với người dùng qua bảng điều khiên R ở chế độ hỏi và trả lời.  
 
 ```{r, fig.align = "center", out.height = '300%', echo=F}
 knitr::include_graphics(here::here("images", "source_button.png"))
@@ -36340,15 +36295,15 @@ knitr::include_graphics(here::here("images", "source_button.png"))
 
 ### `render()` {.unnumbered}  
 
-`render()` is a variation on `source()` most often used for R markdown scripts. You provide the `input = ` which is the R markdown file, and also the `output_format = ` (typically either "html_document", "pdf_document", "word_document", "") 
+Hàm `render()` là một biến thể của hàm `source()` mà thường được sử dụng nhất cho các tập lệnh của R markdown. Chúng ta cung cấp `input = ` tập tin R markdown, và cũng vậy  `output_format = ` (thường là “html_document”, “pdf_document”, “word_document”, "") 
 
-See the page on [Reports with R Markdown] for more details. Also see the documentation for `render()` [here](https://rmarkdown.rstudio.com/docs/reference/render.html) or by entering `?render`.  
+Xem chương [Báo cáo với R Markdown] để biết thêm chi tiết. Ngoài ra, bạn có thể xem thêm tài liệu về `render()` [tại đây](https://rmarkdown.rstudio.com/docs/reference/render.html) hoặc bằng cách gõ `?render`.  
 
 
 
-### Run files in a directory {.unnumbered}
+### Chạy các tệp trong một thư mục {.unnumbered}
 
-You can create a *for loop* and use it to `source()` every file in a directory, as identified with `dir()`. 
+Bạn có thể tạo một *vòng lặp for* và sử dụng nó để `source()` từng tệp trong một thư mục, đã được nhận dạng bởi hàm `dir()`. 
 
 ```{r, eval=F}
 for(script in dir(here("scripts"), pattern = ".R$")) {   # for each script name in the R Project's "scripts" folder (with .R extension)
@@ -36356,7 +36311,7 @@ for(script in dir(here("scripts"), pattern = ".R$")) {   # for each script name 
 }
 ```
 
-If you only want to run certain scripts, you can identify them by name like this:  
+Nếu chúng ta chỉ muốn thực hiện một vài scripts, chúng ta có thể xác định chúng bằng tên như sau:  
 
 ```{r, eval=F}
 
@@ -36374,27 +36329,27 @@ for(script in scripts_to_run) {
 
 
 
-Here is a [comparison](https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html) of the **fs** and **base** R functions.  
+Đây là một [so sánh](https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html) giữa các hàm của **fs** và **base** R.  
 
-### Import files in a directory  {.unnumbered}
+### Nhập tệp vào một thư mục  {.unnumbered}
 
-See the page on [Import and export] for importing and exporting individual files.  
+Xem chương [Nhập xuất dữ liệu] để nhập và xuất các tập tin riêng lẻ.  
 
-Also see the [Import and export] page for methods to automatically import the most recent file, based on a date in the file name *or* by looking at the file meta-data.  
+Ngoài ra cũng xem thêm chương [Nhập xuất dữ liệu] để biết các phương pháp nhập một cách tự động các tập tin gần đây nhất dựa trên ngày trong tên tập tin *hoặc* bằng cách xem các thông tin chi tiết của tập tin.  
 
-See the page on [Iteration, loops, and lists] for an example with the package **purrr** demonstrating:  
+Xem một ví dụ trong chương [Lặp, vòng lặp và danh sách] để thấy rõ cách sử dụng package **purrr**:  
 
-* Splitting a data frame and saving it out as multiple CSV files  
-* Splitting a data frame and saving each part as a separate sheet within one Excel workbook  
-* Importing multiple CSV files and combining them into one dataframe  
-* Importing an Excel workbook with multiple sheets and combining them into one dataframe  
+* Để tách một data frame và lưu nó ra dưới dạng nhiều tập tin  
+* Tách một data frame và lưu từng phần vào một trang tính riêng biệt trong một tập tin Excel  
+* Nhập nhiều tập tin CSV và kết hợp chúng thành một dataframe  
+* Nhập một tập tin Excel có nhiều trang tính riêng biệt và kết hợp chúng thành một dataframe  
 
 
 
 
 ## **base** R  
 
-See below the functions `list.files()` and `dir()`, which perform the same operation of listing files within a specified directory. You can specify `ignore.case =` or a specific pattern to look for. 
+Xem bên dưới các hàm `list.files()` và `dir()`, thực hiện cùng một thao tác liệt kê các tập tin trong một thư mục cụ thể. Chúng ta có thể cụ thể cho đối số `ignore.case =` hoặc cụ thể một pattern để tìm kiếm. 
 
 ```{r, eval=F}
 list.files(path = here("data"))
@@ -36406,11 +36361,11 @@ list.files(path = here("data"), pattern = "evd", ignore.case = TRUE)
 
 ```
 
-If a file is currently "open", it will display in your folder with a tilde in front, like "~$hospital_linelists.xlsx".  
+Nếu một tập tin hiện tại đang “mở”, nó sẽ hiện thị trong thư mục với dấu ngã phía trước, chẳng hạn như "~$hospital_linelists.xlsx".  
 
 
 <!-- ======================================================= -->
-## Resources {  }
+## Nguồn {  }
 
 https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html
 
