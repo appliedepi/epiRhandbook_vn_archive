@@ -572,7 +572,7 @@ age_by_wt
 
 Hãy để ý chúng ta đã sử dụng hàm `str_glue()` từ package **stringr** để tạo một code R động bên trong văn bản khi gán giá trị cho caption. Caption sẽ hiển thị "Dữ liệu kể từ: " phản ánh ngày nhập viện gần nhất trong bộ dữ liệu linelist. Đọc thêm ở chương [Ký tự và chuỗi].
 
-Một chú ý khi bạn muốn thêm tiêu đề cho *chú giải*: Đó là không có đối số "legend title", vì bạn có thể có nhiều thang đo trong chú giải của mình. Bên trong lệnh `labs()`, bạn có thể viết đối số cho yếu tố thẩm mỹ được sử dụng để tạo chú giải, và cung cấp tiêu đề cho nó theo cách này. Trong ví dụ bên trên, chúng ta đã gán `color = age` để tạo chú giải. Do đó, chúng ta cũng cung cấp đối số `color =` ttrong hàm `labs()` và gán tiêu đề chú giải mong muốn ("Age" với chữ A được viết hoa). Nếu bạn tạo chú thích bằng đối số `aes(fill = COLUMN)`, thì trong lệnh `labs()` bạn nên viết `fill =` để điều chỉnh tiêu đề cho chú thích. Xem thêm mục cân chỉnh màu sắc trong chương [Các tips với ggplot] để biết thêm chi tiết về cách chỉnh sửa chú giải và cách tiếp cận thay thế bằng cách sử dụng các hàm `scales_()`.
+Một chú ý khi bạn muốn thêm tiêu đề cho *chú giải*: Đó là không có đối số "legend title", vì bạn có thể có nhiều thang đo trong chú giải của mình. Bên trong lệnh `labs()`, bạn có thể viết đối số cho yếu tố thẩm mỹ được sử dụng để tạo chú giải, và cung cấp tiêu đề cho nó theo cách này. Trong ví dụ bên trên, chúng ta đã gán `color = age` để tạo chú giải. Do đó, chúng ta cũng cung cấp đối số `color =` ttrong hàm `labs()` và gán tiêu đề chú giải mong muốn ("Age" với chữ A được viết hoa). Nếu bạn tạo chú thích bằng đối số `aes(fill = COLUMN)`, thì trong lệnh `labs()` bạn nên viết `fill =` để điều chỉnh tiêu đề cho chú thích. Xem thêm mục thang đo màu sắc trong chương [Các tips với ggplot] để biết thêm chi tiết về cách chỉnh sửa chú giải và cách tiếp cận thay thế bằng cách sử dụng các hàm `scales_()`.
 
 ## Chủ đề {#ggplot_basics_themes}
 
@@ -693,7 +693,7 @@ Tài liệu hướng dẫn của **tidyverse** phần [tùy chỉnh chủ đề]
 
 ## Màu sắc
 
-Xem mục [cân chỉnh màu sắc trong chương Các tips với ggplot](#ggplot_tips_colors).
+Xem mục [thang đo cho màu sắc trong chương Các tips với ggplot](#ggplot_tips_colors).
 
 ## Piping tới **ggplot2**
 
