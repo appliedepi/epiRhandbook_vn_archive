@@ -7,6 +7,7 @@ knitr::include_graphics(here::here("images", "Dates_500x500.png"))
 ```
 
 
+
 Làm việc với trường ngày trên R cần nhiều sự tỉ mỉ hơn là làm việc với các lớp đối tượng khác. Dưới đây, chúng tôi giới thiệu một số công cụ và ví dụ để các thao tác trở nên dễ dàng hơn. Thật may mắn, trường ngày có thể biến đổi một cách dễ dàng với một bộ packages như **lubridate**.  
 
 Khi nhập dữ liệu thô, R thường diễn giải trường ngày dưới dạng các ký tự - điều này có nghĩa là chúng không thể được sử dụng cho các thao tác chung như tạo chuỗi thời gian và tính toán khoảng thời gian. Để làm cho vấn đề trở nên khó hơn một chút, có nhiều cách để định dạng ngày và bạn cần thao tác để R nhận biết từng phần của biến ngày mô tả cái gì (tháng, ngày, giờ, v.v.). 

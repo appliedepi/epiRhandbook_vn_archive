@@ -1,88 +1,106 @@
 # Làm sạch số liệu và các hàm quan trọng {#cleaning}
 
-
 ```{r, out.height = "10%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "cleaning.png"))
 ```
 
+Chương này trình bày các bước phổ biến được sử dụng trong quá trình "làm sạch" bộ dữ liệu và cũng giải thích việc sử dụng các hàm quản lý dữ liệu thiết yếu trong R.
 
-This page demonstrates common steps used in the process of "cleaning" a dataset, and also explains the use of many essential R data management functions.  
+Để giải thích rõ hơn quá trình làm sạch dữ liệu, chương này bắt đầu từ cách nạp bộ dữ liệu thô dạng danh sách và tiến hành từng bước trong quá trình làm sạch. Trong code R, sự biểu thị dưới dạng một chuỗi "pipe", tham chiếu đến toán tử "pipe" `%>%` để chuyển tiếp từ thao tác này sang thao tác tiếp theo trong cùng một bộ dữ liệu.
 
-To demonstrate data cleaning, this page begins by importing a raw case linelist dataset, and proceeds step-by-step through the cleaning process. In the R code, this manifests as a "pipe" chain, which references the "pipe" operator ` %>%` that passes a dataset from one operation to the next.  
+### Các hàm quan trọng {.unnumbered}
 
+Cuốn sách này nhấn mạnh việc sử dụng các hàm từ và hệ sinh thái của package [**tidyverse**](https://www.tidyverse.org/). Các hàm thiết yếu trong R trình bày trong chương này được liệt kê dưới đây.
 
-### Core functions {.unnumbered}  
+Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà cung cấp các hàm dạng "verb" để giải quyết các thách thức trong thao tác xử lý dữ liệu (tham chiếu đến một bộ dữ liệu "data frame-[plier](https://www.thefreedictionary.com/plier#:~:text=also%20ply%C2%B7er%20(pl%C4%AB%E2%80%B2,holding%2C%20bending%2C%20or%20cutting.)%22). **dplyr** là một phần trong hệ sinh thái của package **tidyverse** (mà bao gồm các package khác như **ggplot2**, **tidyr**, **stringr**, **tibble**, **purrr**, **magrittr**, và **forcats**).
 
-This handbook emphasizes use of the functions from the [**tidyverse**](https://www.tidyverse.org/) family of R packages. The essential R functions demonstrated in this page are listed below.  
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| Hàm                                                 | Chức năng                                                  | Package                  |
++=====================================================+============================================================+==========================+
+| `%>%`                                               | "pipe" (chuyển tiếp) dữ liệu từ một hàm sang hàm tiếp theo | **magrittr**             |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `mutate()`                                          | tạo, chuyển dạng, và định dạng lại cột                     | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `select()`                                          | giữ lại, xóa, chọn, hoặc đổi tên cột                       | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `rename()`                                          | đổi tên cột                                                | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `clean_names()`                                     | chuẩn hóa cú pháp tên cột                                  | **janitor**              |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `as.character()`, `as.numeric()`, `as.Date()`, etc. | chuyển đổi định dạng cột                                   | **base** R               |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `across()`                                          | chuyển dạng đồng thời nhiều cột                            | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| **tidyselect** hàm logic để chọn cột                | **tidyselect**                                             |                          |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `filter()`                                          | giữ lại các dòng theo điều kiện                            | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `distinct()`                                        | lọc trùng quan sát                                         | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `rowwise()`                                         | xử lý theo/trong mỗi dòng                                  | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `add_row()`                                         | thêm dòng thủ công                                         | **tibble**               |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `arrange()`                                         | săp xếp dòng                                               | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `recode()`                                          | Cấu trúc lại giá trị trong cột                             | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `case_when()`                                       | Cấu trúc lại giá trị trong cột kèm điều kiện               | **dplyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `replace_na()`, `na_if()`, `coalesce()`             | các hàm đặc biệt để cấu trúc lại                           | **tidyr**                |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `age_categories()` and `cut()`                      | tạo biến định tính từ biến định lượng                      | **epikit** và R **base** |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `clean_variable_spelling()`                         | tái cấu trúc/làm sạch giá trị sử dụng từ điển dữ liệu      | **linelist**             |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
+| `which()`                                           | áp dụng các điều kiện logic; trả về các chỉ số             | R **base**               |
++-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 
-Many of these functions belong to the [**dplyr**](https://dplyr.tidyverse.org/) R package, which provides "verb" functions to solve data manipulation challenges (the name is a reference to a "data frame-[plier](https://www.thefreedictionary.com/plier#:~:text=also%20ply%C2%B7er%20(pl%C4%AB%E2%80%B2,holding%2C%20bending%2C%20or%20cutting.)"). **dplyr** is part of the **tidyverse** family of R packages (which also includes **ggplot2**, **tidyr**, **stringr**, **tibble**, **purrr**, **magrittr**, and **forcats** among others).  
+Nếu bạn muốn xem các hàm này so sánh với các câu lệnh trong Stata hoặc SAS, hãy xem chương [Transition to R].
 
+Bạn có thể gặp một khung quản lý dữ liệu thay thế từ package **data.table** trong R với các toán tử như `:=` và thường xuyên sử dụng dấu ngoặc `[ ]`. Cách tiếp cận và cú pháp này được giải thích ngắn gọn trong chương [Data Table].
 
-Function       | Utility                               | Package
----------------|---------------------------------------|------------------------------
-` %>% `|"pipe" (pass) data from one function to the next|**magrittr** 
-`mutate()`|create, transform, and re-define columns|**dplyr**  
-`select()`|keep, remove, select, or re-name columns|**dplyr**
-`rename()`|rename columns|**dplyr** 
-`clean_names()`|standardize the syntax of column names|**janitor**
-`as.character()`, `as.numeric()`, `as.Date()`, etc.|convert the class of a column|**base** R
-`across()`|transform multiple columns at one time|**dplyr** 
-**tidyselect** functions|use logic to select columns|**tidyselect**   
-`filter()`|keep certain rows|**dplyr** 
-`distinct()`|de-duplicate rows|**dplyr** 
-`rowwise()`|operations by/within each row|**dplyr**  
-`add_row()`|add rows manually|**tibble** 
-`arrange()`|sort rows|**dplyr**
-`recode()`|re-code values in a column|**dplyr** 
-`case_when()`|re-code values in a column using more complex logical criteria|**dplyr** 
-`replace_na()`, `na_if()`, `coalesce()`|special functions for re-coding|**tidyr**  
-`age_categories()` and `cut()`|create categorical groups from a numeric column|**epikit** and **base** R
-`clean_variable_spelling()`|re-code/clean values using a data dictionary|**linelist**
-`which()`|apply logical criteria; return indices|**base** R
+### Thuật ngữ {.unnumbered}
 
-If you want to see how these functions compare to Stata or SAS commands, see the page on [Transition to R].  
+Trong cuốn sách này, chúng tôi quy ước chung "cột" và "hàng" thay cho "biến" và "quan sát". Như đã giải thích trong phần dẫn trên ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu dịch tễ-thống kê đều có cấu trúc gồm các hàng, cột và giá trị.
 
-You may encounter an alternative data management framework from the **data.table** R package with operators like `:=` and frequent use of brackets `[ ]`. This approach and syntax is briefly explained in the [Data Table] page.  
+*Variables (biến)* chứa các giá trị đo lường cùng một thuộc tính cơ bản (như nhóm tuổi, kết quả hoặc ngày bắt đầu). *Observations (quan sát)* chứa tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: một người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó xác định một cách hữu hình hơn.
 
-### Nomenclature {.unnumbered}  
+Trong bộ dữ liệu "tidy", mỗi cột là một biến, mỗi hàng là một quan sát và mỗi ô là một giá trị duy nhất. Tuy nhiên, một số bộ dữ liệu bạn gặp phải sẽ không giống với mô tả này - bộ dữ liệu định dạng "wide" có thể có một biến số được chia thành nhiều cột (xem ví dụ trong chương [Pivoting data]). Tương tự như vậy, các quan sát có thể được chia thành nhiều hàng.
 
-In this handbook, we generally reference "columns" and "rows" instead of "variables" and "observations". As explained in this primer on ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), most epidemiological statistical datasets consist structurally of rows, columns, and values.  
-
-*Variables* contain the values that measure the same underlying attribute (like age group, outcome, or date of onset). *Observations* contain all values measured on the same unit (e.g. a person, site, or lab sample). So these aspects can be more difficult to tangibly define.  
-
-In "tidy" datasets, each column is a variable, each row is an observation, and each cell is a single value. However some datasets you encounter will not fit this mold - a "wide" format dataset may have a variable split across several columns (see an example in the [Pivoting data] page). Likewise, observations could be split across several rows.  
-
-Most of this handbook is about managing and transforming data, so referring to the concrete data structures of rows and columns is more relevant than the more abstract observations and variables. Exceptions occur primarily in pages on data analysis, where you will see more references to variables and observations.  
-
-
-
-<!-- ======================================================= -->
-<!-- ======================================================= -->
-<!-- ======================================================= -->
-## Cleaning pipeline
-
-**This page proceeds through typical cleaning steps, adding them sequentially to a cleaning pipe chain.**
-
-In epidemiological analysis and data processing, cleaning steps are often performed sequentially, linked together. In R, this often manifests as a cleaning "pipeline", where *the raw dataset is passed or "piped" from one cleaning step to another*.  
-
-Such chains utilize **dplyr** "verb" functions and the **magrittr** pipe operator `%>%`. This pipe begins with the "raw" data ("linelist_raw.xlsx") and ends with a "clean" R data frame (`linelist`) that can be used, saved, exported, etc.  
-
-In a cleaning pipeline the order of the steps is important. Cleaning steps might include:  
-
-* Importing of data  
-* Column names cleaned or changed  
-* De-duplication  
-* Column creation and transformation (e.g. re-coding or standardising values)  
-* Rows filtered or added  
-
-
+Hầu hết cuốn sách này là về quản lý và chuyển đổi dữ liệu, do đó, việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ thích hợp hơn là các quan sát và biến một cách trừu tượng. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, nơi bạn sẽ thấy nhiều tham chiếu hơn đến các biến và quan sát.
 
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-<!-- ======================================================= -->
-## Load packages  
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+<!-- ======================================================= -->
+
+<!-- ======================================================= -->
+
+## Làm sạch pipeline
+
+**Chương này tiến hành các bước làm sạch điển hình, thêm chúng tuần tự vào một pipeline sạch.**
+
+Trong phân tích dịch tễ học và xử lý dữ liệu, các bước làm sạch thường được thực hiện tuần tự, liên kết với nhau. Trong R, điều này thường biểu thị như một "pipeline" làm sạch, trong đó *bộ dữ liệu thô được chuyển tiếp hoặc "dẫn" từ bước làm sạch này sang bước làm sạch khác*.
+
+Các chuỗi như vậy sử dụng các hàm dạng "verb" trong package **dplyr** và toán tử pipe `%>%` trong package **magrittr**. Pipe bắt đầu từ dữ liệu "thô" ("linelist_raw.xlsx") và kết thúc bằng bộ dữ liệu "sạch" trên R (`linelist`) có thể được sử dụng, lưu, xuất, v.v.
+
+Trong quy trình làm sạch dữ liệu, thứ tự của các bước là quan trọng. Các bước làm sạch có thể bao gồm:
+
+-   Nạp dữ liệu
+-   Làm sạch hoặc đổi tên cột
+-   Lọc trùng
+-   Tạo và chuyển đổi cột (ví dụ: mã hóa lại hoặc chuẩn hóa các giá trị)
+-   Lọc hoặc thêm hàng
+
+<!-- ======================================================= -->
+
+<!-- ======================================================= -->
+
+<!-- ======================================================= -->
+
+## Gọi package
+
+Đoạn code chunk này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load ()` from package **pacman**, cài đặt package nếu cần *và* gọi package để sử dụng. Bạn cũng có thể tải các package đã cài đặt với hàm `library()` sẵn có trong R **base**. Xem chương [R basics] để biết thêm thông tin về các package trong R.
 
 ```{r, message = F}
 pacman::p_load(
@@ -95,23 +113,24 @@ pacman::p_load(
 )
 ```
 
-
-
+<!-- ======================================================= -->
 
 <!-- ======================================================= -->
+
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-## Import data  
 
-### Import {.unnumbered}  
+## Nạp dữ liệu
 
-Here we import the "raw" case linelist Excel file using the `import()` function from the package **rio**. The **rio** package flexibly handles many types of files (e.g. .xlsx, .csv, .tsv, .rds. See the page on [Import and export] for more information and tips on unusual situations (e.g. skipping rows, setting missing values, importing Google sheets, etc).  
+### Nạp {.unnumbered}
 
-If you want to follow along, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>click to download the "raw" linelist</a> (as .xlsx file).  
+Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import ()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
 
-If your dataset is large and takes a long time to import, it can be useful to have the import command be separate from the pipe chain and the "raw" saved as a distinct file. This also allows easy comparison between the original and cleaned versions.  
 
-Below we import the raw Excel file and save it as the data frame `linelist_raw`. We assume the file is located in your working directory or R project root, and so no sub-folders are specified in the file path.  
+Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống file linelist "thô"</a> (với file dạng .xlsx).
+
+Nếu bộ dữ liệu của bạn quá lớn và mất nhiều thời gian để nạp, rất hữu ích khi đặt lệnh nạp dữ liệu và đồng thời tách dữ liệu riêng biệt với chuỗi pipe và dữ liệu "thô" sẽ được lưu thành một file riêng biệt. Điều này cũng cho phép dễ dàng so sánh giữa phiên bản gốc và phiên bản đã làm sạch.
+
+Dưới đây, chúng tôi nạp file Excel thô và lưu nó dưới dạng bộ dữ liệu `linelist_raw`. Chúng tôi giả định rằng file này nằm trong thư mục làm việc của bạn hoặc thư mục gốc của R project và vì vậy không có thư mục con nào được chỉ định trong đường dẫn file.
 
 ```{r, echo=F, message=F}
 # HIDDEN FROM READER
@@ -123,16 +142,16 @@ linelist_raw <- rio::import(here::here("data", "case_linelists", "linelist_raw.x
 linelist_raw <- import("linelist_raw.xlsx")
 ```
 
-You can view the first 50 rows of the the data frame below. Note: the **base** R function `head(n)` allow you to view just the first `n` rows in the R console.  
+Bạn có thể xem 50 hàng đầu tiên của bộ dữ liệu bên dưới. Lưu ý: hàm R **base** `head(n)` cho phép bạn chỉ xem các hàng `n` đầu tiên trong bảng điều khiển R.
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist_raw,50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
-### Review {.unnumbered}  
 
-You can use the function `skim()` from the package **skimr** to get an overview of the entire dataframe (see page on [Descriptive tables] for more info). Columns are summarised by class/type such as character, numeric. Note: "POSIXct" is a type of raw date class (see [Working with dates].  
+### Đánh giá {.unnumbered}
 
+Bạn có thể sử dụng hàm `skim()` từ package **skimr** để có góc nhìn tổng quan về toàn bộ bộ dữ liệu (xem chương [Descriptive tables] để biết thêm thông tin). Các cột được tóm tắt theo phân lớp/định dạng như ký tự và số. Lưu ý: "POSIXct" là một loại phân lớp ngày thô (xem chương [Working with dates].
 
 ```{r, eval=F}
 skimr::skim(linelist_raw)
@@ -142,60 +161,57 @@ skimr::skim(linelist_raw)
 skimr::skim_without_charts(linelist_raw)
 ```
 
-
-
-
- 
-
-
-
-
+<!-- ======================================================= -->
 
 <!-- ======================================================= -->
+
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-## Column names {} 
 
-In R, column *names* are the "header" or "top" value of a column. They are used to refer to columns in the code, and serve as a default label in figures.  
+## Tên cột
 
-Other statistical software such as SAS and STATA use *"labels"* that co-exist as longer printed versions of the shorter column names. While R does offer the possibility of adding column labels to the data, this is not emphasized in most practice. To make column names "printer-friendly" for figures, one typically adjusts their display within the plotting commands that create the outputs (e.g. axis or legend titles of a plot, or column headers in a printed table - see the [scales section of the ggplot tips page](#ggplot_tips_scales) and [Tables for presentation] pages). If you want to assign column labels in the data, read more online [here](https://cran.r-project.org/web/packages/expss/vignettes/labels-support.html) and [here](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html).  
+Trong R, *tên* cột là giá trị dạng "tiêu đề" hoặc "trên cùng" của một cột. Chúng được sử dụng để tham chiếu đến các cột trong đoạn code và đóng vai trò như một nhãn mặc định trong các bảng biểu.
 
-As R column names are used very often, so they must have "clean" syntax. We suggest the following:  
+Phần mềm thống kê khác như SAS và STATA sử dụng *"nhãn"* cùng hiển thị dưới dạng dài hơn so với tên cột. Mặc dù R cung cấp tính năng thêm nhãn của cột vào dữ liệu, nhưng điều này hầu hết không được nhấn mạnh trong thực tế. Để đặt tên cột "dễ nhìn" cho các bảng biểu, người ta thường điều chỉnh hiển thị của chúng trong các lệnh vẽ biểu đồ để tạo ra kết quả (ví dụ: tiêu đề trục hoặc chú giải của một biểu đồ hoặc tiêu đề cột trong bảng - xem chương [scales section of the ggplot tips page](#%20ggplot_tips_scales) và các chương [Tables for presentation]). Nếu bạn muốn gán nhãn cột trong dữ liệu, hãy đọc thêm online [tại đây](https://cran.r-project.org/web/packages/expss/vignettes/labels-support.html) và [tại đây](https%20:%20//cran.r-project.org/web/packages/labelt/vignettes/intro_labelling.html).
 
-* Short names
-* No spaces (replace with underscores _ ) 
-* No unusual characters (&, #, <, >, ...)  
-* Similar style nomenclature (e.g. all date columns named like **date_**onset, **date_**report, **date_**death...)  
+Vì tên cột trong R được sử dụng rất thường xuyên, vì vậy chúng phải có cú pháp "sạch". Chúng tôi đề xuất những tiêu chí sau:
 
-The columns names of `linelist_raw` are printed below using `names()` from **base** R. We can see that initially:  
+-   Tên ngắn
+-   Không có khoảng trắng (thay thế bằng dấu gạch dưới\_)
+-   Không có ký tự lạ (&, \#, \<, \>, ...)
+-   Thống nhất cách định danh (e.g. toàn bộ tên cột ngày như **date\_**onset, **date\_**report, **date\_**death...)
 
-* Some names contain spaces (e.g. `infection date`)  
-* Different naming patterns are used for dates (`date onset` vs. `infection date`)  
-* There must have been a *merged header* across the two last columns in the .xlsx. We know this because the name of two merged columns ("merged_header") was assigned by R to the first column, and the second column was assigned a placeholder  name "...28" (as it was then empty and is the 28th column).  
+The columns names of `linelist_raw` are printed below using `names()` from **base** R. We can see that initially:\
+Tên các cột trong `linelist_raw` được biểu thị bên dưới bằng cách sử dụng hàm `names ()` từ **base** R. Ban đầu chúng ta có thể thấy rằng:
+
+-   Một số tên có thể chứa khoảng trắng (e.g. `infection date`)
+-   Một số mẫu tên khác nhau được sử dụng cho biến ngày (`date onset` vs. `infection date`)
+-   Phải có một *tiêu đề được hợp nhất* ở hai cột cuối cùng trong file .xlsx. Chúng tôi biết điều này vì tên của hai cột được hợp nhất ("merge_header") được R gán cho cột đầu tiên và cột thứ hai được gán tên giữ chỗ "... 28" (vì lúc đó nó trống và là cột thứ 28).
 
 ```{r}
 names(linelist_raw)
 ```
 
-<span style="color: black;">**_NOTE:_** To reference a column name that includes spaces, surround the name with back-ticks, for example: linelist$`` ` '\x60infection date\x60'` ``. note that on your keyboard, the back-tick (`) is different from the single quotation mark (').</span>
+[***NOTE:*** To reference a column name that includes spaces, surround the name with back-ticks, for example: linelist\$`` ` '\x60infection date\x60'` ``. note that on your keyboard, the back-tick (\`) is different from the single quotation mark (').]{style="color: black;"}
 
-
-### Labels {.unnumbered}  
+### Nhãn {.unnumbered}
 
 Some other statistical software such as SAS have variable *labels*
 
+Một số phần mềm thống kê khác như SAS có *nhãn biến*
 
-### Automatic cleaning {.unnumbered}  
+### Làm sạch tự động {.unnumbered}
 
-The function `clean_names()` from the package **janitor** standardizes column names and makes them unique by doing the following:  
+The function `clean_names()` from the package **janitor** standardizes column names and makes them unique by doing the following:
 
-* Converts all names to consist of only underscores, numbers, and letters  
-* Accented characters are transliterated to ASCII (e.g. german o with umlaut becomes "o", spanish "enye" becomes "n")  
-* Capitalization preference for the new column names can be specified using the `case = ` argument ("snake" is default, alternatives include "sentence", "title", "small_camel"...)  
-* You can specify specific name replacements by providing a vector to the `replace = ` argument (e.g. `replace = c(onset = "date_of_onset")`)  
-* Here is an online [vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#cleaning)  
+Hàm `clean_names()` từ package **janitor** chuẩn hóa tên cột và biến chúng thành duy nhất bằng cách thực hiện như sau:
 
-Below, the cleaning pipeline begins by using `clean_names()` on the raw linelist.  
+-   Chuyển đổi tất cả các tên cột thành chỉ bao gồm dấu gạch dưới, số và chữ cái
+-   Các ký tự có dấu được chuyển ngữ sang dạng ASCII (ví dụ: o tiếng Đức với âm sắc trở thành "o", "enye" tiếng Tây Ban Nha trở thành "n")
+-   Tùy chọn viết hoa cho tên cột mới có thể được chỉ định bằng cách sử dụng argument `case =` ("snake" là mặc định, các lựa chọn thay thế bao gồm "sentence", "title", "small_camel"...)
+-   Bạn có thể chỉ định các tên thay thế cụ thể bằng cách cung cấp một vectơ cho argument `replace =` (ví dụ: `replace = c(onset = "date_of_onset")`)
+-   Đây là một bộ dữ liệu [vignette](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#cleaning) trực tuyến
+
+Dưới đây, quy trình làm sạch bắt đầu bằng cách sử dụng hàm `clean_names()` trên từng dòng dữ liệu ban đầu.
 
 ```{r clean_names}
 # pipe the raw dataset through the function clean_names(), assign result as "linelist"  
@@ -206,14 +222,13 @@ linelist <- linelist_raw %>%
 names(linelist)
 ```
 
-<span style="color: black;">**_NOTE:_** The last column name "...28" was changed to "x28".</span>
+[***GHI CHÚ***: Tên cột cuối cùng "... 28" đã được đổi thành "x28".]{style="color: black;"}
 
+### Làm sạch tên cột thủ công {.unnumbered}
 
-### Manual name cleaning {.unnumbered}  
+Việc đặt tên lại các cột theo cách thủ công thường là cần thiết, ngay cả sau bước chuẩn hóa ở trên. Dưới đây, việc đổi tên được thực hiện bằng cách sử dụng hàm `rename()` từ package **dplyr**, như một phần của quy trình. `rename()` sử dụng kiểu `NEW = OLD` - tên cột mới được đặt trước tên cột cũ.
 
-Re-naming columns manually is often necessary, even after the standardization step above. Below, re-naming is performed using the `rename()` function from the **dplyr** package, as part of a pipe chain. `rename()` uses the style `NEW = OLD` - the new column name is given before the old column name.  
-
-Below, a re-naming command is added to the cleaning pipeline. Spaces have been added strategically to align code for easier reading.  
+Dưới đây, một lệnh đổi tên được thêm vào quy trình làm sạch. Các khoảng trắng đã được thêm vào một cách chọn lọc để căn chỉnh code dễ đọc hơn.
 
 ```{r}
 # CLEANING 'PIPE' CHAIN (starts with raw data and pipes it through cleaning steps)
@@ -230,28 +245,24 @@ linelist <- linelist_raw %>%
            date_outcome         = date_of_outcome)
 ```
 
-
-Now you can see that the columns names have been changed:  
+Bây giờ bạn có thể thấy rằng tên các cột đã được thay đổi:
 
 ```{r message=FALSE, echo=F}
 names(linelist)
 ```
 
+#### Thay đối tên cột theo vị trí {.unnumbered}
 
-#### Rename by column position {.unnumbered} 
-
-You can also rename by column position, instead of column name, for example:  
+Bạn cũng có thể đổi tên theo vị trí cột, thay vì tên cột, ví dụ:
 
 ```{r, eval=F}
 rename(newNameForFirstColumn  = 1,
        newNameForSecondColumn = 2)
 ```
 
+#### Đổi tên bằng hàm `select()` và `summarise()` {.unnumbered}
 
-
-#### Rename via `select()` and `summarise()` {.unnumbered}  
-
-As a shortcut, you can also rename columns within the **dplyr** `select()` and `summarise()` functions. `select()` is used to keep only certain columns (and is covered later in this page). `summarise()` is covered in the [Grouping data] and [Descriptive tables] pages. These functions also uses the format `new_name = old_name`. Here is an example:  
+Như một mẹo, bạn cũng có thể đổi tên các cột bằng hàm `select()` và `summarise()` trong package **dplyr.** `select()` được sử dụng để chỉ giữ một số cột nhất định (và được đề cập sau trong chương này). `summarise()` được đề cập trong các chương [Grouping data] và [Descriptive tables]. Các hàm này cũng sử dụng định dạng `new_name = old_name`. Đây là một ví dụ:
 
 ```{r, eval=F}
 linelist_raw %>% 
@@ -260,66 +271,59 @@ linelist_raw %>%
          date_hospitalisation = `hosp date`)
 ```
 
+### Các thách thức khác {.unnumbered}
 
+#### Cột trống tên trên file Excel {.unnumbered}
 
+R không thể nhận diện các cột trong bộ dữ liệu mà không có tên cột (tiêu đề). Vì vậy, nếu bạn nạp một bộ dữ liệu Excel có dữ liệu nhưng không có tiêu đề cột, R sẽ điền vào các tiêu đề đó mặc định như "... 1" hoặc "... 2". Phần số đại diện cho số cột (ví dụ: nếu cột thứ 4 trong bộ dữ liệu không có tiêu đề, thì R sẽ mặc định đặt tên là "... 4").
 
+Bạn có thể làm sạch các tên cột này theo cách thủ công bằng cách tham chiếu số vị trí của chúng (xem ví dụ ở trên) hoặc tên được chỉ định của chúng (`linelist_raw$...1`).
 
-### Other challenges {.unnumbered}  
+#### Hợp nhất tên cột và ô Excel {.unnumbered}
 
+Hợp nhất các ô trong file Excel là một sự cố thường xảy ra khi nhận dữ liệu. Như đã giải thích trong chương [Transition to R], các ô được hợp nhất có thể dễ nhìn cho con người đọc dữ liệu, nhưng không phải là "cấu trúc dữ liệu cơ bản" và gây ra nhiều vấn đề cho máy khi nhận diện dữ liệu. R không thể chứa các ô đã hợp nhất.
 
-#### Empty Excel column names {.unnumbered} 
+Nhắc nhở người nhập liệu rằng **dữ liệu có thể đọc được của con người không giống với dữ liệu mà máy có thể đọc được**. Cố gắng đào tạo người dùng về các nguyên tắc về [**tidy data**](https://r4ds.had.co.nz/tidy-data.html). Nếu có thể, hãy cố gắng thay đổi quy trình để dữ liệu có định dạng gọn gàng hơn mà không hợp nhất các ô.
 
-R cannot have dataset columns that do not have column names (headers). So, if you import an Excel dataset with data but no column headers, R will fill-in the headers with names like "...1" or "...2". The number represents the column number (e.g. if the 4th column in the dataset has no header, then R will name it "...4").  
+-   Mỗi biến là một cột riêng biệt
+-   Mỗi quan sát là một dòng riêng biệt
+-   Mỗi giá trị là một ô riêng biệt
 
-You can clean these names manually by referencing their position number (see example above), or their assigned name (`linelist_raw$...1`).  
+Khi sử dụng hàm `import()` của package **rio**, giá trị trong một ô đã hợp nhất sẽ được gán cho ô đầu tiên và các ô tiếp theo sẽ trống.
 
-
-
-#### Merged Excel column names and cells {.unnumbered}  
-
-Merged cells in an Excel file are a common occurrence when receiving data. As explained in [Transition to R], merged cells can be nice for human reading of data, but are not "tidy data" and cause many problems for machine reading of data. R cannot accommodate merged cells.  
-
-Remind people doing data entry that **human-readable data is not the same as machine-readable data**. Strive to train users about the principles of [**tidy data**](https://r4ds.had.co.nz/tidy-data.html). If at all possible, try to change procedures so that data arrive in a tidy format without merged cells.  
-
-* Each variable must have its own column.  
-* Each observation must have its own row.  
-* Each value must have its own cell.  
-
-When using **rio**'s `import()` function, the value in a merged cell will be assigned to the first cell and subsequent cells will be empty.  
-
-One solution to deal with merged cells is to import the data with the function `readWorkbook()` from the package **openxlsx**. Set the argument `fillMergedCells = TRUE`. This gives the value in a merged cell to all cells within the merge range.
+Một giải pháp để xử lý các ô đã hợp nhất là nạp dữ liệu bằng hàm `readWorkbook()` từ package **openxlsx**. Thiết lập mệnh đề `fillMergedCells = TRUE`. Điều này cho phép giá trị trong ô hợp nhất được tham chiếu cho tất cả các ô nằm trong phạm vi hợp nhất.
 
 ```{r, eval=F}
 linelist_raw <- openxlsx::readWorkbook("linelist_raw.xlsx", fillMergedCells = TRUE)
 ```
 
-<span style="color: red;">**_DANGER:_** If column names are merged with `readWorkbook()`, you will end up with duplicate column names, which you will need to fix manually - R does not work well with duplicate column names! You can re-name them by referencing their position (e.g. column 5), as explained in the section on manual column name cleaning.</span>
-
-
-
-
-
+[***NGUY HIỂM***: Nếu các tên cột được hợp nhất với `readWorkbook()`, có thể sẽ trả về tên cột trùng lặp, mà bạn sẽ cần phải sửa thủ công - R không làm việc được với các tên cột trùng lặp! Bạn có thể đặt lại tên cho chúng bằng cách tham chiếu vị trí của chúng (ví dụ: cột 5), như được giải thích trong chương làm sạch tên cột thủ công.]{style="color: red;"}
 
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-<!-- ======================================================= -->
-## Select or re-order columns {} 
 
-Use `select()` from **dplyr** to select the columns you want to retain, and to specify their order in the data frame. 
+<!-- ======================================================= -->
 
-<span style="color: orange;">**_CAUTION:_** In the examples below, the `linelist` data frame is modified with `select()` and displayed, but not saved. This is for demonstration purposes. The modified column names are printed by piping the data frame to `names()`.</span>
+<!-- ======================================================= -->
+
+## Chọn hoặc đổi vị trí cột
+
+Sử dụng hàm `select()` từ package **dplyr** để chọn các cột bạn muốn giữ lại và sắp xếp lại thứ tự của chúng trong bộ dữ liệu.
+
+[***LƯU Ý***`: Trong các ví dụ dưới đây, bộ dữ liệu linelist` `được điều chỉnh với hàm select() và biểu thị, nhưng không lưu. Phục vụ mục đích mô tả. Tên cột đã sửa đổi được biểu thị bằng cách chuyển tiếp bộ dữ liệu tới hàm names()`.]{style="color: orange;"}
 
 **Here are ALL the column names in the linelist at this point in the cleaning pipe chain:**
+
+**Dưới đây là TẤT CẢ các tên cột trong bộ dữ liệu linelist tại thời điểm làm sạch**:
 
 ```{r}
 names(linelist)
 ```
 
-### Keep columns {.unnumbered}  
+### Giữ cột {.unnumbered}
 
-**Select only the columns you want to remain**  
+**Giữ lại những cột mong muốn**
 
-Put their names in the `select()` command, with no quotation marks. They will appear in the data frame in the order you provide. Note that if you include a column that does not exist, R will return an error (see use of `any_of()` below if you want no error in this situation).  
+Viết tên cột cần giữ trong hàm `select()`, không có dấu ngoặc kép. Kết quả trả về sẽ xuất hiện trong bộ dữ liệu theo thứ tự mà bạn cung cấp. Lưu ý rằng nếu bạn chỉ định một cột không tồn tại, R sẽ báo lỗi (xem cách sử dụng hàm `any_of()` bên dưới nếu bạn không muốn gặp lỗi trong trường hợp này).
 
 ```{r}
 # linelist dataset is piped through select() command, and names() prints just the column names
@@ -328,14 +332,11 @@ linelist %>%
   names()  # display the column names
 ```
 
+### Hàm trợ giúp "tidyselect" {#clean_tidyselect .unnumbered}
 
+Các hàm trợ giúp này được xây dựng để giúp bạn dễ dàng chỉ định các cột cần giữ, loại bỏ hoặc chuyển đổi. Chúng trong package **tidyselect**, nằm trong hệ sinh thái **tidyverse** và làm cơ sở cho cách chọn cột trong các hàm **dplyr**.
 
-
-### "tidyselect" helper functions {#clean_tidyselect .unnumbered}  
-
-These helper functions exist to make it easy to specify columns to keep, discard, or transform. They are from the package **tidyselect**, which is included in **tidyverse** and underlies how columns are selected in **dplyr** functions.  
-
-For example, if you want to re-order the columns, `everything()` is a useful function to signify "all other columns not yet mentioned". The command below moves columns `date_onset` and `date_hospitalisation` to the beginning (left) of the dataset, but keeps all the other columns afterward. Note that `everything()` is written with empty parentheses:  
+Ví dụ: nếu bạn muốn sắp xếp lại các cột, hàm `everything()` là một hàm hữu ích để biểu thị "tất cả các cột khác chưa được đề cập". Lệnh dưới đây di chuyển các cột `date_onset` và `date_hospitalisation` lên hàng đầu (bên trái) của bộ dữ liệu, nhưng vẫn giữ tất cả các cột khác sau đó. Lưu ý rằng hàm `everything()` được viết bằng dấu ngoặc đơn trống:
 
 ```{r}
 # move date_onset and date_hospitalisation to beginning
@@ -344,27 +345,39 @@ linelist %>%
   names()
 ```
 
-Here are other "tidyselect" helper functions that also work *within* **dplyr** functions like `select()`, `across()`, and `summarise()`:  
+Dưới đây là các hàm trợ giúp "tidyselect" khác cũng hoạt động *trong* các hàm **dplyr** như `select()`, `across()`, và `summarise()`:
 
-* `everything()`  - all other columns not mentioned  
-* `last_col()`    - the last column  
-* `where()`       - applies a function to all columns and selects those which are TRUE  
-* `contains()`    - columns containing a character string  
-  * example: `select(contains("time"))`  
-* `starts_with()` - matches to a specified prefix  
-  * example: `select(starts_with("date_"))`  
-* `ends_with()`   - matches to a specified suffix  
-  * example: `select(ends_with("_post"))`  
-* `matches()`     - to apply a regular expression (regex)  
-  * example: `select(matches("[pt]al"))`  
-* `num_range()`   - a numerical range like x01, x02, x03  
-* `any_of()`      - matches IF column exists but returns no error if it is not found  
-  * example: `select(any_of(date_onset, date_death, cardiac_arrest))`  
+-   `everything()` - tất cả các cột khác chưa được đề cập
 
-In addition, use normal operators such as `c()` to list several columns, `:` for consecutive columns, `!` for opposite, `&` for AND, and `|` for OR.  
+-   `last_col()` - cột cuối cùng
 
+-   `where()` - áp dụng một hàm cho tất cả các cột và chọn những cột trả về giá trị TRUE
 
-Use `where()` to specify logical criteria for columns. If providing a function inside `where()`, do not include the function's empty parentheses. The command below selects columns that are class Numeric.
+-   `contains()` - cột chứa giá trị chuỗi ký tự
+
+    -   Ví dụ: `select(contains("time"))`
+
+-   `starts_with()` - khớp với các tiền tố được chỉ định
+
+    -   Ví dụ: `select(starts_with("date_"))`
+
+-   `ends_with()` - khớp với các hậu tố được chỉ định
+
+    -   Ví dụ: `select(ends_with("_post"))`
+
+-   `matches()` - để áp dụng một mệnh đề chính quy (regex)
+
+    -   Ví dụ: `select(matches("[pt]al"))`
+
+-   `num_range()` - một khoảng số học như x01, x02, x03
+
+-   `any_of()` - khớp NẾU cột tồn tại nhưng không báo lỗi nếu không tìm thấy
+
+    -   Ví dụ: `select(any_of(date_onset, date_death, cardiac_arrest))`
+
+Ngoài ra, sử dụng các toán tử bình thường như `c()` để liệt kê một số cột, `:` cho các cột liên tiếp, `!` cho đối lập, `&` cho VÀ, và `|` cho HOẶC.
+
+Sử dụng `where()` để chỉ định tiêu chí logic cho các cột. Nếu đưa một hàm vào trong `where()`, không đưa các dấu ngoặc đơn trống của hàm đó. Câu lệnh bên dưới chọn các cột là phân lớp Số.
 
 ```{r}
 # select columns that are class Numeric
@@ -373,7 +386,7 @@ linelist %>%
   names()
 ```
 
-Use `contains()` to select only columns in which the column name contains a specified character string. `ends_with()` and `starts_with()` provide more nuance.  
+Sử dụng `contains()` để chọn các cột trong đó tên cột chứa một chuỗi ký tự được chỉ định. `ends_with()` và `starts_with()` cung cấp nhiều sắc thái để lựa chọn khác nhau.
 
 ```{r}
 # select columns containing certain characters
@@ -382,7 +395,7 @@ linelist %>%
   names()
 ```
 
-The function `matches()` works similarly to `contains()` but can be provided a regular expression (see page on [Characters and strings]), such as multiple strings separated by OR bars within the parentheses:  
+Hàm `matches()` hoạt động tương tự như hàm `contains()` nhưng có thể được cung cấp một biểu thức chính quy (xem chương [Characters and strings]), chẳng hạn như nhiều chuỗi được phân tách bằng toán tự OR trong dấu ngoặc đơn:
 
 ```{r}
 # searched for multiple character matches
@@ -391,9 +404,9 @@ linelist %>%
   names()
 ```
 
-<span style="color: orange;">**_CAUTION:_** If a column name that you specifically provide does not exist in the data, it can return an error and stop your code. Consider using `any_of()` to cite columns that may or may not exist, especially useful in negative (remove) selections.</span>
+[***LƯU Ý***: Nếu tên cột mà bạn đưa ra không tồn tại trong dữ liệu, máy có thể báo lỗi và dừng code của bạn. Cân nhắc sử dụng `any_of()` để trích dẫn các cột có thể hoặc không thể tồn tại, đặc biệt hữu ích trong các lựa chọn loại trừ (loại bỏ).]{style="color: orange;"}
 
-Only one of these columns exists, but no error is produced and the code continues without stopping your cleaning chain.  
+Chỉ có một trong các cột này được giữ lại, nhưng không có lỗi được báo và code sẽ tiếp tục các bước trong quy trình làm sạch.
 
 ```{r}
 linelist %>% 
@@ -401,11 +414,9 @@ linelist %>%
   names()
 ```
 
+### Xóa cột {.unnumbered}
 
-
-### Remove columns {.unnumbered} 
-
-**Indicate which columns to remove** by placing a minus symbol "-" in front of the column name (e.g. `select(-outcome)`), or a vector of column names (as below). All other columns will be retained. 
+**Chỉ ra cột nào cần loại bỏ** bằng cách đặt biểu tượng dấu trừ "-" ở phía trước tên cột (ví dụ chọn `select(-outcome)`) hoặc một vectơ tên cột (như bên dưới). Tất cả các cột khác sẽ được giữ nguyên.
 
 ```{r}
 linelist %>% 
@@ -413,17 +424,15 @@ linelist %>%
   names()
 ```
 
-You can also remove a column using **base** R syntax, by defining it as `NULL`. For example:  
+Bạn cũng có thể xóa một cột bằng cú pháp trong **base** R, bằng cách xác định nó dưới dạng `NULL`. Ví dụ:
 
 ```{r, eval=F}
 linelist$date_onset <- NULL   # deletes column with base R syntax 
 ```
 
+### Độc lập {.unnumbered}
 
-
-### Standalone {.unnumbered}
-
-`select()` can also be used as an independent command (not in a pipe chain). In this case, the first argument is the original dataframe to be operated upon.  
+`select()` cũng có thể được sử dụng như một lệnh độc lập (không bắt buộc trong chuỗi các bước làm sạch). Trong trường hợp này, argument đầu tiên trong bộ dữ liệu gốc sẽ được tham chiếu.
 
 ```{r}
 # Create a new linelist with id and age-related columns
@@ -433,11 +442,9 @@ linelist_age <- select(linelist, case_id, contains("age"))
 names(linelist_age)
 ```
 
+#### Thêm vào quy trình làm sạch {.unnumbered}
 
-
-#### Add to the pipe chain {.unnumbered}  
-
-In the `linelist_raw`, there are a few columns we do not need: `row_num`, `merged_header`, and `x28`. We remove them with a `select()` command in the cleaning pipe chain:  
+Trong bộ dữ liệu `linelist_raw`, có một vài cột chúng ta không cần: `row_num`, `merged_header`, và `x28`. Chúng tôi xóa chúng bằng lệnh `select()` trong các bước làm sạch:
 
 ```{r}
 # CLEANING 'PIPE' CHAIN (starts with raw data and pipes it through cleaning steps)
@@ -463,33 +470,32 @@ linelist <- linelist_raw %>%
     select(-c(row_num, merged_header, x28))
 ```
 
-
-
+<!-- ======================================================= -->
 
 <!-- ======================================================= -->
+
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-## Deduplication
 
+## Lọc trùng-lặp
 
-See the handbook page on [De-duplication] for extensive options on how to de-duplicate data. Only a very simple row de-duplication example is presented here.  
+Xem chương [De-duplication] để biết các tùy chọn mở rộng về cách lọc trùng-lặp dữ liệu. Chỉ một ví dụ lọc trùng hàng rất đơn giản được trình bày ở đây.
 
-The package **dplyr** offers the `distinct()` function. This function examines every row and reduce the data frame to only the unique rows. That is, it removes rows that are 100% duplicates.  
+Package **dplyr** cung cấp hàm `distinct()`. Hàm này kiểm tra mọi hàng và rút gọn bộ dữ liệu cho chỉ còn các hàng là duy nhất. Nghĩa là, nó loại bỏ 100% các hàng trùng-lặp.
 
-When evaluating duplicate rows, it takes into account a range of columns - by default it considers all columns. As shown in the de-duplication page, you can adjust this column range so that the uniqueness of rows is only evaluated in regards to certain columns.  
+Khi đánh giá các hàng trùng-lặp, nó sẽ thực hiện trên các cột được chỉ định - mặc định, nó xem xét tất cả các cột. Như trình bày trong chương lọc trùng-lặp, bạn có thể điều chỉnh phạm vi cột này để tính duy nhất của các hàng sẽ chỉ được đánh giá trong phạm vi một số cột nhất định.
 
-In this simple example, we just add the empty command `distinct()` to the pipe chain. This ensures there are no rows that are 100% duplicates of other rows (evaluated across all columns).  
+Trong ví dụ đơn giản này, chúng ta chỉ cần thêm câu lệnh trống `distinct()` vào chuỗi các bước làm sạch. Điều này đảm bảo không có hàng nào là bản sao 100% của các hàng khác (được đánh giá trên tất cả các cột).
 
-We begin with ` nrow(linelist)` rows in `linelist`. 
+Chúng tôi bắt đầu với các hàng `nrow(linelist)` trong `linelist`.
 
 ```{r}
 linelist <- linelist %>% 
   distinct()
 ```
 
-After de-duplication there are ` nrow(linelist)` rows. Any removed rows would have been 100% duplicates of other rows.  
+Sau khi lọc trùng-lặp, có hàng `nrow(linelist)`. Bất kỳ hàng nào bị xóa cũng sẽ là 100% bản sao của các hàng khác.
 
-Below, the `distinct()` command is added to the cleaning pipe chain:
+Dưới đây, lệnh `distinct()` được thêm vào quy trình làm sạch:
 
 ```{r}
 # CLEANING 'PIPE' CHAIN (starts with raw data and pipes it through cleaning steps)
@@ -518,40 +524,37 @@ linelist <- linelist_raw %>%
     distinct()
 ```
 
-
-
-
+<!-- ======================================================= -->
 
 <!-- ======================================================= -->
+
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-## Column creation and transformation { }
 
+## Tạo và biến đổi cột
 
-**We recommend using the dplyr function `mutate()` to add a new column, or to modify an existing one.**  
+**Chúng tôi khuyến khích sử dụng hàm `mutate()` trong package dplyr để thêm một cột mới hoặc để sửa đổi một cột sẵn có.**
 
-Below is an example of creating a new column with `mutate()`. The syntax is: `mutate(new_column_name = value or transformation)`  
+Dưới đây là một ví dụ về tạo cột mới với hàm `mutate()`. Cú pháp là: `mutate(new_column_name = value or transformation)`
 
-In Stata, this is similar to the command `generate`, but R's `mutate()` can also be used to modify an existing column.  
+Trong Stata, điều này tương tự như lệnh `generate`, nhưng hàm `mutate()` trong R cũng có thể được sử dụng để điều chỉnh cột sẵn có.
 
+### Tạo cột mới {.unnumbered}
 
-### New columns {.unnumbered}
-
-The most basic `mutate()` command to create a new column might look like this. It creates a new column `new_col` where the value in every row is 10.  
+Tính năng cơ bản nhất của hàm `mutate()` là để tạo một cột mới, có thể thấy trong ví dụ dưới đây. Nó tạo một cột mới `new_col` trong đó giá trị trong mỗi hàng đều là 10.
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   mutate(new_col = 10)
 ```
 
-You can also reference values in other columns, to perform calculations. Below, a new column `bmi` is created to hold the Body Mass Index (BMI) for each case - as calculated using the formula BMI = kg/m^2, using column `ht_cm` and column `wt_kg`.  
+Bạn cũng có thể tham chiếu các giá trị trong các cột khác, để thực hiện phép tính toán. Dưới đây, cột mới `bmi` được tạo để tính chỉ số khối cơ thể (BMI) cho mỗi trường hợp - như được tính bằng công thức BMI = kg/m\^2, sử dụng cột `ht_cm` và cột `wt_kg`.
 
 ```{r}
 linelist <- linelist %>% 
   mutate(bmi = wt_kg / (ht_cm/100)^2)
 ```
 
-If creating multiple new columns, separate each with a comma and new line. Below are examples of new columns, including ones that consist of values from other columns combined using `str_glue()` from the **stringr** package (see page on [Characters and strings].  
+Nếu tạo nhiều cột mới, hãy tách riêng từng cột bằng dấu phẩy và dòng mới. Dưới đây là các ví dụ về tạo các cột mới, bao gồm các cột mà chứa các giá trị từ các cột khác kết hợp bằng hàm `str_glue()` từ package **stringr** (xem chương [Characters and strings].
 
 ```{r}
 new_col_demo <- linelist %>%                       
@@ -564,17 +567,14 @@ new_col_demo <- linelist %>%
   select(case_id, hospital, date_hospitalisation, contains("new"))        # show only new columns, for demonstration purposes
 ```
 
-
-Review the new columns. For demonstration purposes, only the new columns and the columns used to create them are shown:  
-
+Đánh giá các cột mới. Đối với mục tiêu minh họa, chỉ các cột mới và các cột được sử dụng để tạo tạo cột mới được hiển thị:
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(new_col_demo,50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-<span style="color: darkgreen;">**_TIP:_** A variation on `mutate()` is the function `transmute()`. This function adds a new column just like `mutate()`, but also drops/removes all other columns that you do not mention within its parentheses.</span>
-
+[***MẸO***: Một biến thể của hàm `mutate()` là hàm `transmute()`. Hàm này thêm một cột mới giống như `mutate()`, nhưng cũng bỏ/xóa tất cả các cột khác mà bạn không đề cập trong dấu ngoặc đơn của hàm.]{style="color: darkgreen;"}
 
 ```{r, eval=F}
 # HIDDEN FROM READER
@@ -583,46 +583,40 @@ DT::datatable(head(new_col_demo,50), rownames = FALSE, options = list(pageLength
 #   select(-contains("new_var"))
 ```
 
+### Chuyển đổi phân lớp của cột {.unnumbered}
 
+Các cột chứa giá trị là ngày tháng, số hoặc giá trị logic (TRUE/FALSE) sẽ chỉ hoạt động như mong đợi nếu chúng được phân loại chính xác. Có sự khác biệt giữa "2" của phân lớp ký tự và 2 của phân lớp số!
 
-### Convert column class {.unnumbered}
-  
-Columns containing values that are dates, numbers, or logical values (TRUE/FALSE) will only behave as expected if they are correctly classified. There is a difference between "2" of class character and 2 of class numeric!  
+Có nhiều cách để chọn phân lớp cho cột trong các lệnh nạp, nhưng thường phức tạp. Xem chương [R Basics] về các lớp đối tượng để tìm hiểu thêm về cách chuyển đổi phân lớp đối tượng và cột.
 
-There are ways to set column class during the import commands, but this is often cumbersome. See the [R Basics] section on object classes to learn more about converting the class of objects and columns.  
+Đầu tiên, hãy kiểm tra các cột quan trọng để xem chúng đã đúng định dạng chính xác chưa. Chúng tôi cũng đã thấy điều này ngay từ khi chúng tôi chạy lệnh `skim()`.
 
-First, let's run some checks on important columns to see if they are the correct class. We also saw this in the beginning when we ran `skim()`.  
-
-Currently, the class of the `age` column is character. To perform quantitative analyses, we need these numbers to be recognized as numeric! 
+Hiện tại, phân lớp của cột `age` là dạng ký tự. Để thực hiện các phân tích định lượng, chúng ta cần những giá trị số này được nhận biết là dạng số!
 
 ```{r}
 class(linelist$age)
 ```
 
-The class of the `date_onset` column is also character! To perform analyses, these dates must be recognized as dates! 
- 
+Phân lớp của cột `date_onset` cũng là ký tự! Để thực hiện phân tích, những cột ngày này phải được nhận biết là dạng ngày tháng!
+
 ```{r}
 class(linelist$date_onset)
 ```
 
-
-To resolve this, use the ability of `mutate()` to re-define a column with a transformation. We define the column as itself, but converted to a different class. Here is a basic example, converting or ensuring that the column `age` is class Numeric:  
+Để giải quyết vấn đề này, hãy sử dụng hàm `mutate()` để định dạng và chuyển đổi lại một cột. Chúng tôi giữ nguyên cột đó và định dạng lại sang một phân lớp khác. Đây là một ví dụ cơ bản, chuyển đổi hoặc đảm bảo rằng cột `age` là phân lớp dạng số:
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   mutate(age = as.numeric(age))
 ```
 
-In a similar way, you can use `as.character()` and `as.logical()`. To convert to class Factor, you can use `factor()` from **base** R or `as_factor()` from **forcats**. Read more about this in the [Factors] page.  
+Theo cách tương tự, bạn có thể sử dụng hàm `as.character()` và hàm `as.logical()`. Để chuyển đổi sang phân lớp định tính, bạn có thể sử dụng hàm `factor()` từ **base** R hoặc hàm `as_factor()` từ package **forcats**. Đọc thêm ở chương [Factors].
 
-You must be careful when converting to class Date. Several methods are explained on the page [Working with dates]. Typically, the raw date values must all be in the same format for conversion to work correctly (e.g "MM/DD/YYYY", or "DD MM YYYY"). After converting to class Date, check your data to confirm that each value was converted correctly.  
+Bạn phải cẩn thận khi chuyển đổi sang phân lớp Ngày. Một số phương pháp được giải thích rõ hơn ở chương [Working with dates]. Thông thường, tất cả các giá trị ngày ban đầu phải ở cùng một định dạng cần chuyển đổi để có thể sử dụng (ví dụ: "MM/DD/YYYY" hoặc "DD MM YYYY"). Sau khi chuyển đổi thành thành phân lớp Ngày, hãy kiểm tra dữ liệu của bạn để xác nhận rằng mỗi giá trị đã được chuyển đổi chính xác.
 
+### Nhóm dữ liệu {.unnumbered}
 
-
-
-### Grouped data {.unnumbered}  
-
-If your data frame is already *grouped* (see page on [Grouping data]), `mutate()` may behave differently than if the data frame is not grouped. Any summarizing functions, like `mean()`, `median()`, `max()`, etc. will calculate by group, not by all the rows.     
+Nếu bộ dữ liệu của bạn đã được *nhóm* (xem chương [Grouping data]), hàm `mutate()` có thể hoạt động khác so với nếu bộ dữ liệu không được nhóm. Bất kỳ hàm tổng hợp nào, như `mean()`, `median()`, `max()`, v.v. sẽ tính theo nhóm, không phải theo tất cả các hàng.
 
 ```{r, eval=F}
 # age normalized to mean of ALL rows
@@ -635,31 +629,30 @@ linelist %>%
   mutate(age_norm = age / mean(age, na.rm=T))
 ```
 
-Read more about using `mutate ()` on grouped dataframes in this [tidyverse mutate documentation](https://dplyr.tidyverse.org/reference/mutate.html).  
+Đọc thêm về cách sử dụng hàm `mutate()` trên các bộ dữ liệu được nhóm ở [tài liệu về mutate trong package tidyverse](https://dplyr.tidyverse.org/reference/mutate.html).
 
+### Chuyển đổi nhiều cột {#clean_across .unnumbered}
 
+Thông thường, để viết mã ngắn gọn, bạn muốn áp dụng cùng một biến đổi cho nhiều cột cùng một lúc. Một cách chuyển đổi có thể được áp dụng cho nhiều cột cùng một lúc bằng cách sử dụng hàm `across()` từ package **dplyr** (cũng trong package **tidyverse**). Hàm `across()` có thể được sử dụng với bất kỳ hàm nào trong packe **dplyr**, nhưng thường được sử dụng với hàm `select()`, `mutate()`, `filter()`, hoặc `summarise()`. Xem cách sử dụng hàm `summarise()` trong chương [Descriptive tables].
 
-### Transform multiple columns {#clean_across .unnumbered}
+Chỉ định các cột bằng argument `.cols =` và các hàm để sử dụng bằng `.fns =`. Bất kỳ argument bổ sung nào để cung cấp cho hàm `.fns` đều có thể được bao gồm sau dấu phẩy, vẫn nằm trong hàm `across()`.
 
+#### Lựa chọn cột với hàm `across()` {.unnumbered}
 
-Often to write concise code you want to apply the same transformation to multiple columns at once. A transformation can be applied to multiple columns at once using the `across()` function from the package **dplyr** (also contained within **tidyverse** package). `across()` can be used with any **dplyr** function, but is commonly used within `select()`, `mutate()`, `filter()`, or `summarise()`. See how it is applied to `summarise()` in the page on [Descriptive tables].  
+Chỉ định các cột bằng argument `.cols =`. Bạn có thể đặt tên riêng cho chúng hoặc sử dụng tính năng trợ giúp "tidyselect". Chỉ định hàm bằng `.fns =`. Lưu ý rằng cách sử dụng hàm được trình bày bên dưới, hàm được viết mà *không có* dấu ngoặc đơn ().
 
-Specify the columns to the argument `.cols = ` and the function(s) to apply to `.fns = `. Any additional arguments to provide to the `.fns` function can be included after a comma, still within `across()`.   
-
-#### `across()` column selection {.unnumbered}  
-
-Specify the columns to the argument `.cols = `. You can name them individually, or use "tidyselect" helper functions. Specify the function to `.fns = `. Note that using the function mode demonstrated below, the function is written *without* its parentheses ( ).  
-
-Here the transformation `as.character()` is applied to specific columns named within `across()`. 
+Ở đây, phép biến đổi `as.character()` được áp dụng cho tên cột cụ thể trong hàm `across()`.
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   mutate(across(.cols = c(temp, ht_cm, wt_kg), .fns = as.character))
 ```
 
-The "tidyselect" helper functions are available to assist you in specifying columns. They are detailed above in the section on Selecting and re-ordering columns, and they include: `everything()`, `last_col()`, `where()`, `starts_with()`, `ends_with()`, `contains()`, `matches()`, `num_range()` and `any_of()`.  
+The "tidyselect" helper functions are available to assist you in specifying columns. They are detailed above in the section on Selecting and re-ordering columns, and they include: `everything()`, `last_col()`, `where()`, `starts_with()`, `ends_with()`, `contains()`, `matches()`, `num_range()` and `any_of()`.
 
-Here is an example of how one would change **all columns** to character class:  
+Các tính năng trợ giúp "tidyselect" có sẵn để hỗ trợ bạn trong việc chỉ định các cột. Chúng được trình bày chi tiết ở trên trong chương Chọn và sắp xếp thứ tự cột, bao gồm: `everything()`, `last_col()`, `where()`, `starts_with()`, `ends_with()`, `contains()`, `matches()`, `num_range()` và `any_of()`.
+
+Đây là một ví dụ về cách thay đổi tất cả các cột thành phân lớp dạng ký tự:
 
 ```{r, eval=F}
 #to change all columns to character class
@@ -667,7 +660,7 @@ linelist <- linelist %>%
   mutate(across(.cols = everything(), .fns = as.character))
 ```
 
-Convert to character all columns where the name contains the string "date" (note the placement of commas and parentheses):  
+Chuyển đổi tất cả các cột thành dạng ký tự có tên chứa chuỗi ký tự "date" (lưu ý vị trí của dấu phẩy và dấu ngoặc đơn):
 
 ```{r, eval=F}
 #to change all columns to character class
@@ -675,36 +668,37 @@ linelist <- linelist %>%
   mutate(across(.cols = contains("date"), .fns = as.character))
 ```
 
-Below, an example of mutating the columns that are currently class POSIXct (a raw datetime class that shows timestamps) - in other words, where the function `is.POSIXct()` evaluates to `TRUE`. Then we want to apply the function `as.Date()` to these columns to convert them to a normal class Date.  
+Below, an example of mutating the columns that are currently class POSIXct (a raw datetime class that shows timestamps) - in other words, where the function `is.POSIXct()` evaluates to `TRUE`. Then we want to apply the function `as.Date()` to these columns to convert them to a normal class Date.
+
+Dưới đây, một ví dụ về việc thay đổi các cột hiện là phân lớp POSIXct (một phân lớp datetime thô hiển thị timestamps) - nói cách khác, hàm `is.POSIXct()` đánh giá là `TRUE`. Sau đó, chúng tôi muốn áp dụng hàm `as.Date()` cho các cột này để chuyển đổi chúng thành phân lớp Ngày thông thường.
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   mutate(across(.cols = where(is.POSIXct), .fns = as.Date))
 ```
 
-* Note that within `across()` we also use the function `where()` as `is.POSIXct` is evaluating to either TRUE or FALSE.  
-* Note that `is.POSIXct()` is from the package **lubridate**. Other similar "is" functions like `is.character()`, `is.numeric()`, and `is.logical()` are from **base R**  
+-   Lưu ý rằng trong hàm `across()`, chúng tôi cũng sử dụng hàm `where()` như `is.POSIXct` được đánh giá là TRUE hoặc FALSE.\
+-   Lưu ý rằng hàm `is.POSIXct()` là từ package **lubridate**. Các hàm "is" tương tự khác như `is.character()`, `is.numeric()`, và `is.logical()` từ **base R**
 
-#### `across()` functions {.unnumbered}
+#### Hàm `across()` {.unnumbered}
 
-You can read the documentation with `?across` for details on how to provide functions to `across()`. A few summary points: there are several ways to specify the function(s) to perform on a column and you can even define your own functions:  
+Bạn có thể đọc tài liệu với hàm `?across` để biết chi tiết về cách sử dụng hàm `across()`. Một vài điểm tóm tắt: có một số cách để chỉ định (các) hàm để thực hiện trên một cột và bạn thậm chí có thể tự chỉ định các chức năng:
 
-* You can provide the function name alone (e.g. `mean` or `as.character`)  
-* You can provide the function in **purrr**-style (e.g. `~ mean(.x, na.rm = TRUE)`) (see [this page][Iteration, loops, and lists])  
-* You can specify multiple functions by providing a list (e.g. `list(mean = mean, n_miss = ~ sum(is.na(.x))`).  
-  * If you provide multiple functions, multiple transformed columns will be returned per input column, with unique names in the format `col_fn`. You can adjust how the new columns are named with the `.names =` argument using **glue** syntax (see page on [Characters and strings]) where `{.col}` and `{.fn}` are shorthand for the input column and function.  
-  
-  
-Here are a few online resources on using `across()`: [creator Hadley Wickham's thoughts/rationale](https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/)
+-   Bạn có thể chỉ cung cấp tên hàm (ví dụ: `mean` hoặc `as.character`)\
 
+-   Bạn có thể cung cấp hàm theo kiểu **purrr** (ví dụ: `~ mean(.x, na.rm = TRUE)`) (xem chương [Iteration, loops, and lists])\
 
+-   Bạn có thể chỉ định nhiều hàm bằng cách cung cấp danh sách (ví dụ: `list(mean = mean, n_miss = ~ sum(is.na(.x))`).
 
+    -   Nếu bạn cung cấp nhiều hàm, nhiều cột được chuyển đổi sẽ được trả về trên mỗi cột ban đầu, với các tên duy nhất theo định dạng `col_fn`. Bạn có thể điều chỉnh cách đặt tên các cột mới với argument `.names =` bằng cách sử dụng cú pháp **glue** (xem chương [Characters and strings]) trong đó `{.col}` và `{.fn}` được viết tắt cho cột và hàm đầu vào.
 
-### `coalesce()` {.unnumbered}  
+Dưới đây là một số tài nguyên trực tuyến về cách sử dụng hàm `across()`: [creator Hadley Wickham's thoughts/rationale](https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/)
 
-This **dplyr** function finds the first non-missing value at each position. It "fills-in" missing values with the first available value in an order you specify.
+### Hàm `coalesce()` {.unnumbered}
 
-Here is an example *outside the context of a data frame*: Let us say you have two vectors, one containing the patient's village of detection and another containing the patient's village of residence. You can use coalesce to pick the first non-missing value for each index:  
+Hàm **dplyr** tìm giá trị không bị thiếu đầu tiên tại mỗi vị trí. Nó "điền vào" các giá trị còn thiếu với giá trị có sẵn đầu tiên theo thứ tự bạn chỉ định.
+
+Đây là một ví dụ *ngoài phạm vi của bộ dữ liệu*: Giả sử bạn có hai vectơ, một vectơ chứa làng của bệnh nhân được phát hiện và một vectơ chứa làng của bệnh nhân cư trú . Bạn có thể sử dụng hàm `coalesce()` để chọn giá trị không bị thiếu đầu tiên cho mỗi biến số:
 
 ```{r}
 village_detection <- c("a", "b", NA,  NA)
@@ -714,29 +708,29 @@ village <- coalesce(village_detection, village_residence)
 village    # print
 ```
 
-This works the same if you provide data frame columns: for each row, the function will assign the new column value with the first non-missing value in the columns you provided (in order provided).
+Điều này hoạt động tương tự nếu bạn cung cấp các cột trong bộ dữ liệu: đối với mỗi hàng, hàm sẽ gán giá trị cột mới với giá trị không bị thiếu đầu tiên trong các cột bạn đã cung cấp (theo thứ tự được cung cấp).
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   mutate(village = coalesce(village_detection, village_residence))
 ```
 
-This is an example of a "row-wise" operation. For more complicated row-wise calculations, see the section below on Row-wise calculations.  
+This is an example of a "row-wise" operation. For more complicated row-wise calculations, see the section below on Row-wise calculations.
 
+Đây là một ví dụ về thao tác "theo hàng (row-wise)". Để biết các phép tính theo hàng phức tạp hơn, hãy xem chương bên dưới về Tính toán theo hàng.
 
+### Toán lũy tích {.unnumbered}
 
-### Cumulative math {.unnumbered}
+Nếu bạn muốn một cột phản ánh tổng tích lũy/trung bình/tối thiểu/tối đa, v.v. như được đánh giá xuống các hàng của bộ dữ liệu cho đến thời điểm đó, hãy sử dụng các hàm sau:
 
-If you want a column to reflect the cumulative sum/mean/min/max etc as assessed down the rows of a dataframe to that point, use the following functions:  
-
-`cumsum()` returns the cumulative sum, as shown below:  
+`cumsum()` trả về tổng lũy tích, như được hiển thị bên dưới:
 
 ```{r}
 sum(c(2,4,15,10))     # returns only one number
 cumsum(c(2,4,15,10))  # returns the cumulative sum at each step
 ```
 
-This can be used in a dataframe when making a new column. For example, to calculate the cumulative number of cases per day in an outbreak, consider code like this:  
+Điều này có thể được sử dụng trong bộ dữ liệu khi tạo một cột mới. Ví dụ: để tính toán số ca lũy tích mỗi ngày trong một đợt bùng dịch, hãy xem xét đoạn code như sau:
 
 ```{r, warning=F, message=F}
 cumulative_case_counts <- linelist %>%  # begin with case linelist
@@ -744,35 +738,28 @@ cumulative_case_counts <- linelist %>%  # begin with case linelist
   mutate(cumulative_cases = cumsum(n))  # new column, of the cumulative sum at each row
 ```
 
-Below are the first 10 rows:  
+Dưới đây là 10 hàng đầu tiên:
 
 ```{r}
 head(cumulative_case_counts, 10)
 ```
 
-See the page on [Epidemic curves] for how to plot cumulative incidence with the epicurve.  
+Xem chương [Epidemic curves] để biết cách lập biểu đồ tỷ lệ lũy tích với epicurve.
 
-See also:  
-`cumsum()`, `cummean()`, `cummin()`, `cummax()`, `cumany()`, `cumall()`  
+Xem thêm:\
+`cumsum()`, `cummean()`, `cummin()`, `cummax()`, `cumany()`, `cumall()`
 
+### Sử dụng **base** R {.unnumbered}
 
-
-
-
-### Using **base** R {.unnumbered}  
-
-To define a new column (or re-define a column) using **base** R, write the name of data frame, connected with `$`, to the *new* column (or the column to be modified). Use the assignment operator `<-` to define the new value(s). Remember that when using **base** R you must specify the data frame name before the column name every time (e.g. `dataframe$column`). Here is an example of creating the `bmi` column using **base** R:  
+Để định dạng một cột mới (hoặc định dạng lại một cột) bằng cách sử dụng **base** R, hãy viết tên của bộ dữ liệu, được liên kết với `$`, vào cột *mới* (hoặc cột được sửa đổi). Sử dụng toán tử gán `<-` để xác định (các) giá trị mới. Hãy nhớ rằng khi sử dụng **base** R, bạn phải chỉ định tên bộ dữ liệu trước tên cột (ví dụ: `dataframe$column`). Đây là một ví dụ về cách tạo cột `bmi` bằng cách sử dụng **base** R:
 
 ```{r, eval=F}
 linelist$bmi = linelist$wt_kg / (linelist$ht_cm / 100) ^ 2)
 ```
 
+### Thêm vào chuỗi xử lý {.unnumbered}
 
-
-
-### Add to pipe chain {.unnumbered}  
-
-**Below, a new column is added to the pipe chain and some classes are converted.**  
+**Dưới đây, một cột mới được thêm vào chuỗi các bước xử lý và một số phân lớp được chuyển đổi.**
 
 ```{r }
 # CLEANING 'PIPE' CHAIN (starts with raw data and pipes it through cleaning steps)
@@ -808,26 +795,20 @@ linelist <- linelist_raw %>%
            age        = as.numeric(age)) 
 ```
 
+## Mã hóa lại giá trị
 
+Dưới đây là một số tình huống mà bạn cần mã hóa lại (thay đổi) các giá trị:
 
+-   để chỉnh sửa một giá trị cụ thể (ví dụ: một ngày có năm hoặc định dạng không chính xác)
+-   để hợp nhất các giá trị không được đánh vần giống nhau
+-   để tạo một cột chứa giá trị phân loại mới
+-   để tạo một cột chứa danh mục số mới (ví dụ: danh mục độ tuổi)
 
+### Giá trị cụ thể {.unnumbered}
 
-## Re-code values
+Để thay đổi các giá trị theo cách thủ công, bạn có thể sử dụng hàm `recode()` trong hàm `mutate()`.
 
-Here are a few scenarios where you need to re-code (change) values:  
-
-* to edit one specific value (e.g. one date with an incorrect year or format)  
-* to reconcile values not spelled the same
-* to create a new column of categorical values  
-* to create a new column of numeric categories (e.g. age categories)  
-
-
-
-### Specific values {.unnumbered}  
-
-To change values manually you can use the `recode()` function within the `mutate()` function. 
-
-Imagine there is a nonsensical date in the data (e.g. "2014-14-15"): you could fix the date manually in the raw source data, or, you could write the change into the cleaning pipeline via `mutate()` and `recode()`. The latter is more transparent and reproducible to anyone else seeking to understand or repeat your analysis.  
+Hãy tưởng tượng có một ngày không bình thường trong dữ liệu (ví dụ: "2014-14-15"): bạn có thể sửa ngày theo cách thủ công trong dữ liệu nguồn thô hoặc, bạn có thể ghi thay đổi trong chuỗi các bước làm sạch thông qua `mutate()` và `recode()`. Phần sau đó sẽ rõ ràng hơn và có thể dựng lại cho bất kỳ ai khác muốn hiểu hoặc lặp lại phân tích của bạn.
 
 ```{r, eval=F}
 # fix incorrect values                   # old value       # new value
@@ -835,17 +816,17 @@ linelist <- linelist %>%
   mutate(date_onset = recode(date_onset, "2014-14-15" = "2014-04-15"))
 ```
 
-The `mutate()` line above can be read as: "mutate the column `date_onset` to equal the column `date_onset` re-coded so that OLD VALUE is changed to NEW VALUE". Note that this pattern (OLD = NEW) for `recode()` is the opposite of most R patterns (new = old). The R development community is working on revising this.  
+Dòng `mutate()` ở trên có thể được đọc là: "biến đổi cột `date_onset` để bằng với cột `date_onset` được mã hóa lại để GIÁ TRỊ CŨ được đổi thành GIÁ TRỊ MỚI". Lưu ý rằng pattern này (CŨ = MỚI) của hàm `recode()` ngược lại với hầu hết các pattern trong R (mới = cũ). Cộng đồng phát triển R đang làm việc để sửa đổi điều này.
 
-**Here is another example re-coding multiple values within one column.** 
+**Đây là một ví dụ khác về việc mã hóa lại nhiều giá trị trong một cột.**
 
-In `linelist` the values in the column "hospital" must be cleaned. There are several different spellings and many missing values.
+Trong bộ dữ liệu `linelist` , các giá trị trong cột "hospital" phải được làm sạch. Có một số cách viết khác nhau và nhiều giá trị bị thiếu.
 
 ```{r}
 table(linelist$hospital, useNA = "always")  # print table of all unique values, including missing  
 ```
 
-The `recode()` command below re-defines the column "hospital" as the current column "hospital", but with the specified recode changes. Don't forget commas after each!  
+Lệnh `recode()` bên dưới định dạng lại cột "hospital" là cột hiện tại "hospital", nhưng với các thay đổi mã hóa được chỉ định. Đừng quên dấu phẩy sau mỗi chỉ định!
 
 ```{r}
 linelist <- linelist %>% 
@@ -861,39 +842,32 @@ linelist <- linelist %>%
                       ))
 ```
 
-
-Now we see the spellings in the `hospital` column have been corrected and consolidated:  
+Bây giờ chúng ta thấy các cách viết trong cột `hospital` đã được sửa chữa và hợp nhất:
 
 ```{r}
 table(linelist$hospital, useNA = "always")
 ```
 
-<span style="color: darkgreen;">**_TIP:_** The number of spaces before and after an equals sign does not matter. Make your code easier to read by aligning the = for all or most rows. Also, consider adding a hashed comment row to clarify for future readers which side is OLD and which side is NEW. </span>  
+[***MẸO***: Số lượng khoảng trắng trước và sau dấu bằng không quan trọng. Làm cho mã của bạn dễ đọc hơn bằng cách căn chỉnh dấu = cho tất cả hoặc hầu hết các hàng. Ngoài ra, hãy cân nhắc thêm hàng bình luận để làm rõ cho người đọc bên nào CŨ và bên nào MỚI.]{style="color: darkgreen;"}
 
-<span style="color: darkgreen;">**_TIP:_** Sometimes a *blank* character value exists in a dataset (not recognized as R's value for missing - `NA`). You can reference this value with two quotation marks with no space inbetween ("").</span>  
+[***MẸO***: Đôi khi tồn tại một giá trị ký tự *trống* trong bộ dữ liệu (không được nhận dạng là giá trị của R vì bị thiếu - `NA`). Bạn có thể tham chiếu giá trị này bằng hai dấu ngoặc kép không có khoảng trắng ở giữa ("").]{style="color: darkgreen;"}
 
+### Theo logic {.unnumbered}
 
+Dưới đây, chúng tôi trình bày cách mã hóa lại các giá trị trong một cột bằng cách sử dụng logic và điều kiện:
 
+-   Sử dụng hàm `replace()`, `ifelse()` và `if_else()` cho logic đơn giản
+-   Sử dụng hàm `case_when()` cho logic phức tạp
 
-### By logic {.unnumbered}
+### Logic đơn giản {.unnumbered}
 
-Below we demonstrate how to re-code values in a column using logic and conditions:  
+#### `replace()` {.unnumbered}
 
-* Using `replace()`, `ifelse()` and `if_else()` for simple logic
-* Using `case_when()` for more complex logic  
+Để viết lại mã với các tiêu chí logic đơn giản, bạn có thể sử dụng `replace()` trong `mutate()`. `replace()` là một hàm từ **base** R. Sử dụng một điều kiện logic để chỉ định các hàng cần thay đổi. Cú pháp chung là:
 
+`mutate(col_to_change = replace(col_to_change, criteria for rows, new value))`.
 
-
-### Simple logic {.unnumbered}  
-
-
-#### `replace()` {.unnumbered}  
-
-To re-code with simple logical criteria, you can use `replace()` within `mutate()`. `replace()` is a function from **base** R. Use a logic condition to specify the rows to change . The general syntax is:  
-
-`mutate(col_to_change = replace(col_to_change, criteria for rows, new value))`.  
-
-One common situation to use `replace()` is **changing just one value in one row, using an unique row identifier**. Below, the gender is changed to "Female" in the row where the column `case_id` is "2195".  
+Một tình huống phổ biến để sử dụng `replace()` để chỉ **thay đổi một giá trị trong một hàng, bằng cách sử dụng định danh hàng duy nhất**. Dưới đây, giới tính được thay đổi thành "Female" trong hàng có cột `case_id` là "2195".
 
 ```{r, eval=F}
 # Example: change gender of one specific observation to "Female" 
@@ -901,28 +875,25 @@ linelist <- linelist %>%
   mutate(gender = replace(gender, case_id == "2195", "Female"))
 ```
 
-The equivalent command using **base** R syntax and indexing brackets `[ ]` is below. It reads as "Change the value of the dataframe `linelist`'s column `gender` (for the rows where `linelist`'s column `case_id` has the value  '2195') to 'Female' ".   
+Lệnh tương tự sử dụng cú pháp trong **base** R và dấu ngoặc vuông [] ở bên dưới. Nó có nội dung là "Thay đổi giá trị của cột `gender` trong bộ dữ liệu `linelist` (đối với các hàng mà cột `case_id` của `linelist` có giá trị '2195') thành 'Female' ".
 
 ```{r, eval=F}
 linelist$gender[linelist$case_id == "2195"] <- "Female"
 ```
 
+#### `ifelse()` và `if_else()` {.unnumbered}
 
+Một cách khác áp dụng cho logic đơn giản là hàm `ifelse()` và hàm tương tự là `if_else()`. Tuy nhiên, trong hầu hết các trường hợp để mã hóa lại rõ ràng hơn là sử dụng hàm `case_when()` (chi tiết bên dưới). Câu lệnh "if else" này là các phiên bản đơn giản hóa của câu lệnh lập trình `if` và `else`. Cú pháp chung là:\
+`ifelse(condition, value to return if condition evaluates to TRUE, value to return if condition evaluates to FALSE)`
 
-
-#### `ifelse()` and `if_else()` {.unnumbered}  
-
-Another tool for simple logic is `ifelse()` and its partner `if_else()`. However, in most cases for re-coding it is more clear to use `case_when()` (detailed below). These "if else" commands are simplified versions of an `if` and `else` programming statement. The general syntax is:  
-`ifelse(condition, value to return if condition evaluates to TRUE, value to return if condition evaluates to FALSE)` 
-
-Below, the column `source_known` is defined. Its value in a given row is set to "known" if the row's value in column `source` is *not* missing. If the value in `source` *is* missing, then the value in `source_known` is set to "unknown".  
+Dưới đây, cột `source_known` được chỉ định. Giá trị của nó trong một hàng được đặt thành "known" nếu giá trị của hàng trong cột `source` không bị thiếu. Nếu thiếu giá trị trong cột `source`, thì giá trị trong `source_known` được đặt thành "unknown".
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   mutate(source_known = ifelse(!is.na(source), "known", "unknown"))
 ```
 
-`if_else()` is a special version from **dplyr** that handles dates. Note that if the 'true' value is a date, the 'false' value must also qualify a date, hence using the special value `NA_real_` instead of just `NA`.
+`if_else()` là một phiên bản đặc biệt từ package **dplyr** để xử lý ngày tháng. Lưu ý rằng nếu giá trị 'true' là một ngày thì giá trị 'false' cũng phải đủ điều kiện là một ngày, do đó sử dụng giá trị đặc biệt `NA_real_` thay vì chỉ `NA`.
 
 ```{r, eval=F}
 # Create a date of death column, which is NA if patient has not died.
@@ -930,25 +901,21 @@ linelist <- linelist %>%
   mutate(date_death = if_else(outcome == "Death", date_outcome, NA_real_))
 ```
 
-**Avoid stringing together many ifelse commands... use `case_when()` instead!** `case_when()` is much easier to read and you'll make fewer errors.  
+**Tránh lồng ghép nhiều lệnh ifelse với nhau... thay vào đó hãy sử dụng `case_when()`!** `case_when()` dễ đọc hơn và bạn sẽ mắc ít lỗi hơn.
 
 ```{r, fig.align = "center", out.width = "100%", echo=F}
 knitr::include_graphics(here::here("images", "ifelse bad.png"))
 ```
 
-Outside of the context of a data frame, if you want to have an object used in your code switch its value, consider using `switch()` from **base** R.  
+Ngoài phạm vi của bộ dữ liệu, nếu bạn muốn một đối tượng được sử dụng trong code của mình chuyển đổi giá trị của nó, hãy xem xét sử dụng hàm `switch()` từ **base** R.
 
+### Logic phức tạp {#clean_case_when .unnumbered}
 
+Sử dụng `case_when()` của package **dplyr** nếu bạn đang mã hóa lại thành nhiều nhóm mới hoặc nếu bạn cần sử dụng các câu lệnh logic phức tạp để mã hóa lại các giá trị. Hàm này đánh giá mọi hàng trong bộ dữ liệu, đánh giá xem các hàng có đáp ứng các tiêu chí đã chỉ định hay không và chỉ định giá trị mới chính xác.
 
+Câu lệnh `case_when()` bao gồm hai cấu phần là Right-Hand Side (RHS) và Left-Hand Side (LHS) được phân tách bằng "dấu ngã" `~`. Các tiêu chí logic nằm ở phía bên trái và các giá trị hoàn toàn nằm ở phía bên phải của mỗi câu lệnh. Các câu lệnh được phân tách bằng dấu phẩy.
 
-### Complex logic {#clean_case_when .unnumbered}  
-
-Use **dplyr**'s `case_when()` if you are re-coding into many new groups, or if you need to use complex logic statements to re-code values. This function evaluates every row in the data frame, assess whether the rows meets specified criteria, and assigns the correct new value.  
-
-`case_when()` commands consist of statements that have a Right-Hand Side (RHS) and a Left-Hand Side (LHS) separated by a "tilde" `~`. The logic criteria are in the left side and the pursuant values are in the right side of each statement. Statements are separated by commas.  
-
-For example, here we utilize the columns `age` and `age_unit` to create a column `age_years`:  
-
+Ví dụ: chúng tôi sử dụng cột `age` và `age_unit` để tạo cột `age_years`:
 
 ```{r}
 linelist <- linelist %>% 
@@ -959,59 +926,52 @@ linelist <- linelist %>%
             TRUE                 ~ NA_real_)) # any other circumstance, assign missing
 ```
 
+Khi mỗi hàng trong dữ liệu được đánh giá, các tiêu chí được áp dụng/đánh giá theo thứ tự đã viết trong `case_when()` - từ trên xuống dưới. Nếu tiêu chí hàng đầu đánh giá là `TRUE` cho một hàng nhất định, giá trị RHS sẽ được chỉ định và các tiêu chí còn lại thậm chí không được kiểm tra cho hàng đó. Vì vậy, tốt nhất là bạn nên viết các tiêu chí cụ thể nhất trước và cuối cùng là tiêu chí chung chung.
 
-As each row in the data is evaluated, the criteria are applied/evaluated in the order the `case_when()` statements are written - from top-to-bottom. If the top criteria evaluates to `TRUE` for a given row, the RHS value is assigned, and the remaining criteria are not even tested for that row. Thus, it is best to write the most specific criteria first, and the most general last.  
+Dọc theo những dòng đó, trong dòng lệnh cuối cùng của bạn, hãy đặt `TRUE` ở phía bên trái, sẽ ghi lại bất kỳ hàng nào không đáp ứng bất kỳ tiêu chí nào trước đó. Phía bên phải của câu lệnh này có thể được gán một giá trị như "kiểm tra tôi!" hoặc thiếu giá trị.
 
-Along those lines, in your final statement, place `TRUE` on the left-side, which will capture any row that did not meet any of the previous criteria. The right-side of this statement could be assigned a value like "check me!" or missing.  
+[***LƯU Ý***: Các giá trị ở phía bên phải đều phải cùng một phần lớp - số, ký tự, ngày tháng, lôgic, v.v. Để gán giá trị thiếu (NA), bạn có thể cần sử dụng các biến thể đặc biệt của `NA` như `NA_character_`, `NA_real_` (cho số hoặc POSIX) và `as.Date(NA)`. Đọc thêm trong chương [Working with dates].]{style="color: red;"}
 
+### Giá trị thiếu {.unnumbered}
 
-<span style="color: red;">**_DANGER:_** **Vvalues on the right-side must all be the same class** - either numeric, character, date, logical, etc. To assign missing (`NA`), you may need to use special variations of `NA` such as `NA_character_`, `NA_real_` (for numeric or POSIX), and `as.Date(NA)`. Read more in [Working with dates].</span>  
+Dưới đây là các chức năng đặc biệt để xử lý các giá trị bị thiếu trong khi làm sạch dữ liệu.
 
+Xem chương về [Missing data] để biết thêm các mẹo chi tiết về xác định và xử lý các giá trị bị thiếu. Ví dụ, hàm `is.na()` kiểm tra một cách logic sự thiếu giá trị.
 
+**`replace_na()`**
 
-
-### Missing values {.unnumbered} 
-
-Below are special functions for handling missing values in the context of data cleaning.  
-
-See the page on [Missing data] for more detailed tips on identifying and handling missing values. For example, the `is.na()` function which logically tests for missingness.  
-
-
-**`replace_na()`**  
-
-To change missing values (`NA`) to a specific value, such as "Missing", use the **dplyr** function `replace_na()` within `mutate()`. Note that this is used in the same manner as `recode` above - the name of the variable must be repeated within `replace_na()`.  
+Để thay đổi các giá trị bị thiếu (`NA`) thành một giá trị cụ thể, chẳng hạn như "Missing", hãy sử dụng hàm `replace_na()` trong hàm `mutate()` trong package **dplyr**. Lưu ý rằng điều này được sử dụng theo cách tương tự như `recode` ở trên - tên của biến phải được lặp lại trong `replace_na()`.
 
 ```{r}
 linelist <- linelist %>% 
   mutate(hospital = replace_na(hospital, "Missing"))
 ```
 
+**fct_explicit_na()**
 
-**fct_explicit_na()**  
+Đây là một chức năng từ package **forcats**. Package **forcats** xử lý các cột dạng phân loại. Phân loại là cách của R để xử lý các giá trị có thứ tự như `c("First", "Second", "Third")` hoặc để thiết lập thứ tự cho các giá trị (ví dụ: bệnh viện) xuất hiện trong bảng và biểu đồ. Xem chương [Factors].
 
-This is a function from the **forcats** package. The **forcats** package handles columns of class Factor. Factors are R's way to handle *ordered* values such as `c("First", "Second", "Third")` or to set the order that values (e.g. hospitals) appear in tables and plots. See the page on [Factors].  
+Nếu dữ liệu của bạn là biến dạng phân loại và bạn cố gắng chuyển giá trị `NA` thành "Missing" bằng cách sử dụng `replace_na()`, bạn sẽ gặp lỗi này: `invalid factor level, NA generated`. Bạn đã cố gắng thêm "Missing" làm giá trị, trong khi nó có thể không được xác định là một lớp trong biến phân loại, và câu lệnh bị từ chối.
 
-If your data are class Factor and you try to convert `NA` to "Missing" by using `replace_na()`, you will get this error: `invalid factor level, NA generated`. You have tried to add "Missing" as a value, when it was not defined as a possible level of the factor, and it was rejected.  
-
-The easiest way to solve this is to use the **forcats** function `fct_explicit_na()` which converts a column to class factor, and converts `NA` values to the character "(Missing)".  
+Cách dễ nhất để giải quyết vấn đề này là sử dụng hàm **forcats** `fct_explicit_na()` để chuyển đổi một cột thành phân lớp dạng phân loại và chuyển đổi các giá trị `NA` thành ký tự "(Missing)".
 
 ```{r, eval=F}
 linelist %>% 
   mutate(hospital = fct_explicit_na(hospital))
 ```
 
-A slower alternative would be to add the factor level using `fct_expand()` and then convert the missing values.  
+Một giải pháp thay thế chậm hơn sẽ là thêm lớp phân loại bằng cách sử dụng hàm `fct_expand()` và sau đó chuyển đổi các giá trị bị thiếu.
 
-**`na_if()`**  
+**`na_if()`**
 
-To convert a *specific value to* `NA`, use **dplyr**'s `na_if()`. The command below performs the opposite operation of `replace_na()`. In the example below, any values of "Missing" in the column `hospital` are converted to `NA`.  
+Để chuyển đổi một *giá trị cụ thể* thành `NA`, hãy sử dụng `na_if()` trong package **dplyr**. Lệnh dưới đây thực hiện thao tác ngược lại với `replace_na()`. Trong ví dụ bên dưới, bất kỳ giá trị nào bị "Missing" trong `hospital` cột đều được chuyển đổi thành `NA`.
 
 ```{r}
 linelist <- linelist %>% 
   mutate(hospital = na_if(hospital, "Missing"))
 ```
 
-Note: `na_if()` **cannot be used for logic criteria** (e.g. "all values > 99") - use `replace()` or `case_when()` for this:  
+Lưu ý: `na_if()` **không thể sử dụng cho tiêu chí logic** (ví dụ: "all values \> 99") - hãy sử dụng `replace()` or `case_when()` cho điều này:
 
 ```{r, eval=F}
 # Convert temperatures above 40 to NA 
@@ -1023,26 +983,23 @@ linelist <- linelist %>%
   mutate(date_onset = replace(date_onset, date_onset > as.Date("2000-01-01"), NA))
 ```
 
+### Từ điển làm sạch {.unnumbered}
 
+Sử dụng package **linelist** trong R và hàm `clean_variable_spelling()` để làm sạch bộ dữ liệu bằng *từ điển làm sạch*. **linelist** là một package được phát triển bởi [RECON](https://github.com/reconhub/linelist) - R Epidemics Consortium.
 
+1)  Tạo từ điển làm sạch với 3 cột:
 
-### Cleaning dictionary {.unnumbered}
+    -   Cột "từ" (giá trị không chính xác)\
+    -   Cột "tới" (giá trị chính xác)\
+    -   Một cột chỉ định cột cho các thay đổi sẽ được áp dụng (hoặc ".global" để áp dụng cho tất cả các cột)
 
-Use the R package **linelist** and it's function `clean_variable_spelling()` to clean a data frame with a *cleaning dictionary*. **linelist** is a package developed by [RECON](https://github.com/reconhub/linelist) - the R Epidemics Consortium.  
-
-1) Create a cleaning dictionary with 3 columns:  
-    * A "from" column (the incorrect value)  
-    * A "to" column (the correct value)  
-    * A column specifying the column for the changes to be applied (or ".global" to apply to all columns)  
-
-Note: .global dictionary entries will be overridden by column-specific dictionary entries.  
+Lưu ý: các mục từ điển .global sẽ bị ghi đè bởi các mục từ điển theo cột cụ thể.
 
 ```{r, fig.align = "center", out.width = "100%", echo=F}
 knitr::include_graphics(here::here("images", "cleaning_dict.png"))
 ```
 
-
-2) Import the dictionary file into R. This example can be downloaded via instructions on the [Download handbook and data] page.  
+2)  Nạp tệp từ điển vào R. Ví dụ này có thể được tải xuống theo hướng dẫn trong chương [Download handbook and data].
 
 ```{r, echo=F}
 cleaning_dict <- rio::import(here("data", "case_linelists", "cleaning_dict.csv"))
@@ -1052,7 +1009,7 @@ cleaning_dict <- rio::import(here("data", "case_linelists", "cleaning_dict.csv")
 cleaning_dict <- import("cleaning_dict.csv")
 ```
 
-3) Pass the raw linelist to `clean_variable_spelling()`, specifying to `wordlists = ` the cleaning dictionary data frame. The `spelling_vars = ` argument can be used to specify which column in the dictionary refers to the columns (3rd by default), or can be set to `NULL` to have the dictionary apply to all character and factor columns. Note this function can take a long time to run.  
+3)  Chuyển bộ dữ liệu linelist ban đầu đến hàm `clean_variable_spelling()`, xác định `wordlists =` bộ dữ liệu từ điển làm sạch. Argument `spelling_vars =` có thể được sử dụng để chỉ định cột nào trong từ điển tham chiếu đến các cột khác (cột thứ 3 theo mặc định) hoặc có thể được đặt thành `NULL` để từ điển áp dụng cho tất cả các cột dạng ký tự và phân loại. Lưu ý rằng chức năng này có thể mất nhiều thời gian để chạy.
 
 ```{r}
 linelist <- linelist %>% 
@@ -1062,23 +1019,18 @@ linelist <- linelist %>%
   )
 ```
 
-Now scroll to the right to see how values have changed - particularly `gender` (lowercase to uppercase), and all the symptoms columns have been transformed from yes/no to 1/0.  
+Bây giờ, hãy cuộn sang bên phải để xem các giá trị đã thay đổi như thế nào - đặc biệt là `gender` (chữ thường thành chữ hoa) và tất cả các cột triệu chứng đã được chuyển từ có/không thành 1/0.
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist,50), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
+Lưu ý rằng tên cột của bạn trong từ điển làm sạch phải tương ứng với tên *tại thời điểm* này trong tệp lệnh làm sạch của bạn. Xem [online reference for the linelist package](https://www.repidemicsconsortium.org/linelist/reference/clean_data.html) để biết thêm chi tiết.
 
-Note that your column names in the cleaning dictionary must correspond to the names *at this point* in your cleaning script. See this [online reference for the linelist package](https://www.repidemicsconsortium.org/linelist/reference/clean_data.html) for more details.
+#### Thêm vào chuỗi làm sạch {.unnumbered}
 
-
-
-
-
-#### Add to pipe chain {.unnumbered}  
-
-**Below, some new columns and column transformations are added to the pipe chain.**  
+**Bên dưới, một số cột và biến đổi cột mới được thêm vào chuỗi các bước làm sạch.**
 
 ```{r}
 # CLEANING 'PIPE' CHAIN (starts with raw data and pipes it through cleaning steps)
@@ -1139,35 +1091,31 @@ linelist <- linelist_raw %>%
           TRUE ~ NA_real_))
 ```
 
-
-
-
-
+<!-- ======================================================= -->
 
 <!-- ======================================================= -->
+
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-## Numeric categories {#num_cats}
 
+## Biến danh mục số {#num_cats}
 
-Here we describe some special approaches for creating categories from numerical columns. Common examples include age categories, groups of lab values, etc. Here we will discuss:  
+Ở đây chúng tôi mô tả một số cách tiếp cận đặc biệt để tạo cột dạng danh mục từ các cột dạng số. Các ví dụ phổ biến bao gồm danh mục độ tuổi, nhóm giá trị trong phòng thí nghiệm, v.v. Ở đây chúng ta sẽ thảo luận:
 
-* `age_categories()`, from the **epikit** package  
-* `cut()`, from **base** R  
-* `case_when()`  
-* quantile breaks with `quantile()` and `ntile()` 
+-   `age_categories()`, từ package **epikit**\
+-   `cut()`, từ **base** R\
+-   `case_when()`\
+-   Chia khoảng phân vị với `quantile()` and `ntile()`
 
+### Đánh giá phân phối {.unnumbered}
 
-### Review distribution {.unnumbered}
-
-For this example we will create an `age_cat` column using the `age_years` column.  
+Trong ví dụ này, chúng tôi sẽ tạo một cột `age_cat` bằng cách sử dụng cột `age_years`.
 
 ```{r}
 #check the class of the linelist variable age
 class(linelist$age_years)
 ```
 
-First, examine the distribution of your data, to make appropriate cut-points. See the page on [ggplot basics].  
+Trước tiên, hãy kiểm tra việc phân phối dữ liệu của bạn để đưa ra các điểm cắt thích hợp. Xem chương [ggplot basics].
 
 ```{r, out.height='50%'}
 # examine the distribution
@@ -1178,20 +1126,20 @@ hist(linelist$age_years)
 summary(linelist$age_years, na.rm=T)
 ```
 
-<span style="color: orange;">**_CAUTION:_** Sometimes, numeric variables will import as class "character". This occurs if there are non-numeric characters in some of the values, for example an entry of "2 months" for age, or (depending on your R locale settings) if a comma is used in the decimals place (e.g. "4,5" to mean four and one half years)..</span>
-
+[***CHÚ Ý***: Đôi khi, các biến số sẽ nhập dưới dạng phân lớp "ký tự". Điều này xảy ra nếu có các ký tự không phải số trong một số giá trị, ví dụ: có bản ghi nhập "2 tháng" cho biến tuổi hoặc (tùy thuộc vào cài đặt ngôn ngữ R của bạn) nếu dấu phẩy được sử dụng cho số thập phân (ví dụ: "4,5 "nghĩa là bốn rưỡi).]{style="color: orange;"}
 
 <!-- ======================================================= -->
+
 ### `age_categories()` {.unnumbered}
 
-With the **epikit** package, you can use the `age_categories()` function to easily categorize and label numeric columns (note: this function can be applied to non-age numeric variables too). As a bonum, the output column is automatically an ordered factor.  
+Với package **epikit**, bạn có thể sử dụng hàm `age_categories()` để dễ dàng phân loại và gắn nhãn các cột dạng số (lưu ý: hàm này cũng có thể được áp dụng cho các biến ngoài biến tuổi). Như một "bonum", cột trả về tự động là một cột dạng danh mục có thứ tự.
 
-Here are the required inputs:  
+Dưới đây là các yêu cầu ban đầu:
 
-* A numeric vector (column)  
-* The `breakers = ` argument - provide a numeric vector of break points for the new groups  
+-   Một vectơ số (cột)\
+-   Argument `breakers =` - cung cấp một vectơ số của các điểm cắt cho các phân nhóm mới.
 
-First, the simplest example:  
+Đầu tiên, ví dụ đơn giản nhất:
 
 ```{r}
 # Simple example
@@ -1209,8 +1157,8 @@ linelist <- linelist %>%
 table(linelist$age_cat, useNA = "always")
 ```
 
-The break values you specify are by default the lower bounds - that is, they are included in the "higher" group / the groups are "open" on the lower/left side. As shown below, you can add 1 to each break value to achieve groups that are open at the top/right.
- 
+Các giá trị cắt bạn chỉ định mặc định là các giới hạn thấp hơn - nghĩa là chúng được đưa vào nhóm "cao hơn"/các nhóm "mở" ở phía dưới/bên trái. Như trình bày dưới đây, bạn có thể thêm 1 vào mỗi giá trị cắt để đạt được các nhóm mà được "mở" ở trên cùng/bên phải.
+
 ```{r}
 # Include upper ends for the same categories
 ############################################
@@ -1224,10 +1172,9 @@ linelist <- linelist %>%
 table(linelist$age_cat, useNA = "always")
 ```
 
+Bạn có thể điều chỉnh cách hiển thị nhãn bằng `separator =`. Giá trị mặc định là "-"
 
-You can adjust how the labels are displayed with `separator = `. The default is "-"  
-
-You can adjust how the top numbers are handled, with the `ceiling = ` arguemnt. To set an upper cut-off set `ceiling = TRUE`. In this use, the highest break value provided is a "ceiling" and a category "XX+" is not created. Any values above highest break value (or to `upper = `, if defined) are categorized as `NA`. Below is an example with `ceiling = TRUE`, so that there is no category of XX+ and values above 70 (the highest break value) are assigned as NA.  
+Bạn có thể điều chỉnh cách xử lý các số ở hàng đầu, với arguemnt `ceiling =`. Để thiết lập mức giới hạn trên với `ceiling = TRUE`. Trong cách sử dụng này, giá trị cắt cao nhất được cung cấp là "ceiling" và danh mục "XX+" không được tạo. Bất kỳ giá trị nào trên giá trị cắt cao nhất (hoặc `upper =`, nếu được xác định) đều được phân loại là `NA`. Dưới đây là một ví dụ với `ceiling = TRUE`, do đó không có danh mục nào là XX + và các giá trị trên 70 (giá trị cắt cao nhất) được chỉ định là NA.
 
 ```{r}
 # With ceiling set to TRUE
@@ -1243,11 +1190,11 @@ linelist <- linelist %>%
 table(linelist$age_cat, useNA = "always")
 ```
 
-Alternatively, instead of `breakers = `, you can provide all of `lower = `, `upper = `, and `by = `:  
+Ngoài ra, thay vì `breakers =`, bạn có thể sử dụng hàm `lower =`, `upper =`, và `by =`:
 
-* `lower = ` The lowest number you want considered - default is 0  
-* `upper = ` The highest number you want considered  
-* `by = `    The number of years between groups  
+-   `lower =` Mức giới hạn thấp nhất bạn muốn xem xét - mặc định là 0\
+-   `upper =` Mức giới hạn cao nhất bạn muốn xem xét\
+-   `by =` Khoảng cách "năm" giữa các nhóm
 
 ```{r}
 linelist <- linelist %>% 
@@ -1262,29 +1209,28 @@ linelist <- linelist %>%
 table(linelist$age_cat, useNA = "always")
 ```
 
-
-See the function's Help page for more details (enter `?age_categories` in the R console). 
-
+Xem chương Tính năng trợ giúp để biết thêm chi tiết (nhập `?age_categories` trong bảng điều khiển R).
 
 <!-- ======================================================= -->
+
 ### `cut()` {.unnumbered}
 
-`cut()` is a **base** R alternative to `age_categories()`, but I think you will see why `age_categories()` was developed to simplify this process. Some notable differences from `age_categories()` are:  
+`cut()` là một hàm trong thay trong **base R** cho hàm `age_categories()`, nhưng tôi nghĩ bạn sẽ thấy lý do tại sao `age_categories()` được phát triển để đơn giản hóa quá trình này. Một số khác biệt đáng chú ý từ `age_categories()` là:
 
-* You do not need to install/load another package  
-* You can specify whether groups are open/closed on the right/left  
-* You must provide accurate labels yourself  
-* If you want 0 included in the lowest group you must specify this  
+-   Bạn không cần cài đặt/gọi package khác\
+-   Bạn có thể chỉ định xem các nhóm đang mở/đóng ở bên phải/bên trái\
+-   Bạn cần phải cung cấp nhãn chính xác\
+-   Nếu bạn muốn 0 được thêm vào trong nhóm thấp nhất, bạn cần phải chỉ định điều này
 
-The basic syntax within `cut()` is to first provide the numeric column to be cut (`age_years`), and then the *breaks* argument, which is a numeric vector `c()` of break points. Using `cut()`, the resulting column is an ordered factor.  
+Cú pháp cơ bản trong `cut()` trước tiên là cung cấp cột số cần xử lý (`age_years`), sau đó là argument *cắt*, là một vectơ số `c()` bao gồm các điểm cắt. Sử dụng `cut()`, kết quả trả về là cột phân loại theo thứ tự.
 
-By default, the categorization occurs so that the right/upper side is "open" and inclusive (and the left/lower side is "closed" or exclusive). This is the opposite behavior from the `age_categories()` function. The default labels use the notation "(A, B]", which means A is not included but B is. **Reverse this behavior by providing the `right = TRUE` argument**.   
+Mặc định, việc phân loại xảy ra sao cho phía bên phải/phía trên là "mở" và bao gồm (và phía bên trái/phía dưới là "đóng" hoặc riêng biệt). Đây là hành động ngược lại với hàm `age_categories()`. Các nhãn mặc định sử dụng ký hiệu "(A,B]", có nghĩa là A không được bao gồm nhưng B thì có. **Đảo ngược hành động này bằng cách cung cấp** **argument `right = TRUE`**.
 
-Thus, by default, "0" values are excluded from the lowest group, and categorized as `NA`! "0" values could be infants coded as age 0 so be careful! To change this, add the argument `include.lowest = TRUE` so that any "0" values will be included in the lowest group. The automatically-generated label for the lowest category will then be "[A],B]". Note that if you include the `include.lowest = TRUE` argument **and** `right = TRUE`, the extreme inclusion will now apply to the *highest* break point value and category, not the lowest.  
+Do đó, theo mặc định, các giá trị "0" bị loại trừ khỏi nhóm thấp nhất và được phân loại là `NA`! Giá trị "0" có thể là trẻ sơ sinh được mã hóa là 0 tuổi, vì vậy hãy thật thận trọng! Để thay đổi điều này, hãy thêm argument `include.lowest = TRUE` để mọi giá trị "0" sẽ được đưa vào nhóm thấp nhất. Nhãn được tạo tự động cho danh mục thấp nhất sau đó sẽ là "[A],B]". Lưu ý rằng nếu bạn thêm `include.lowest = TRUE` **và** `right = TRUE`, hành động này bây giờ sẽ áp dụng cho điểm cắt giá trị *cao nhất* và phân loại, không phải điểm thấp nhất.
 
-You can provide a vector of customized labels using the `labels = ` argument. As these are manually written, be very careful to ensure they are accurate! Check your work using cross-tabulation, as described below. 
+Bạn có thể cung cấp một vectơ nhãn tùy chỉnh bằng cách sử dụng argument `labels =`. Vì chúng được viết theo cách thủ công, hãy rất cẩn thận để đảm bảo chúng chính xác! Kiểm tra cách sử dụng của bạn bằng cách lập bảng chéo, như được mô tả bên dưới.
 
-An example of `cut()` applied to `age_years` to make the new variable `age_cat` is below:  
+Dưới đây là một ví dụ về `cut()` được áp dụng cho `age_years` để tạo biến `age_cat` mới:
 
 ```{r}
 # Create new variable, by cutting the numeric age variable
@@ -1302,8 +1248,7 @@ linelist <- linelist %>%
 table(linelist$age_cat, useNA = "always")
 ```
 
-
-**Check your work!!!** Verify that each age value was assigned to the correct category by cross-tabulating the numeric and category columns. Examine assignment of boundary values (e.g. 15, if neighboring categories are 10-15 and 16-20).  
+**Kiểm tra đoạn code của bạn!!!** Xác minh rằng mỗi giá trị độ tuổi đã được chỉ định đúng danh mục bằng cách lập bảng chéo giữa các cột số và danh mục. Kiểm tra việc gán các giá trị ranh giới (ví dụ: 15, nếu các danh mục lân cận là 10-15 và 16-20).
 
 ```{r}
 # Cross tabulation of the numeric and category columns. 
@@ -1312,13 +1257,9 @@ table("Numeric Values" = linelist$age_years,   # names specified in table for cl
       useNA = "always")                        # don't forget to examine NA values
 ```
 
+**Gán nhãn giá trị `NA`**
 
-
-
-
-**Re-labeling `NA` values**
-
-You may want to assign `NA` values a label such as "Missing". Because the new column is class Factor (restricted values), you cannot simply mutate it with `replace_na()`, as this value will be rejected. Instead, use `fct_explicit_na()` from **forcats** as explained in the [Factors] page.   
+Bạn có thể muốn gán nhãn cho các giá trị `NA` chẳng hạn như "Missing". Bởi vì cột mới là phân lớp phân loại (giá trị bị hạn chế), bạn không thể chỉ đơn giản thay đổi nó bằng `replace_na()`, vì giá trị này sẽ không được chấp nhận. Thay vào đó, hãy sử dụng `fct_explicit_na()` từ **forcats** như được giải thích trong chương [Factors].
 
 ```{r}
 linelist <- linelist %>% 
@@ -1341,9 +1282,9 @@ linelist <- linelist %>%
 table(linelist$age_cat, useNA = "always")
 ```
 
-**Quickly make breaks and labels**  
+**Tạo nhanh điểm cắt và dán nhãn**
 
-For a fast way to make breaks and label vectors, use something like below. See the [R basics] page for references on `seq()` and `rep()`.  
+Để có một cách nhanh chóng để tạo điểm cắt và gắn nhãn vectơ, hãy thực hành như bên dưới. Xem chương [R basics] về hàm `seq()` và `rep()`.
 
 ```{r, eval=F}
 # Make break points from 0 to 90 by 5
@@ -1358,22 +1299,18 @@ age_labels
 length(age_seq) == length(age_labels)
 ```
 
+Đọc thêm về hàm `cut()` trong chươngTrợ giúp bằng cách nhập `?cut` trong bảng điều khiển R.
 
-Read more about `cut()` in its Help page by entering `?cut` in the R console.  
+### Chia khoảng phân vị {.unnumbered}
 
+Theo cách hiểu thông thường, "phân vị" hoặc "phần trăm" thường đề cập đến một giá trị ngưỡng dưới mà tỷ lệ giá trị giảm xuống. Ví dụ: phần trăm độ tuổi thứ 95 trong `linelist` sẽ là độ tuổi dưới 95% độ tuổi.
 
+Tuy nhiên, trong cách nói thông thường, "tứ phân vị" và "thập phân" cũng có thể đề cập đến *phân nhóm dữ liệu* được chia đều thành 4 hoặc 10 nhóm (lưu ý sẽ có nhiều điểm cắt hơn phân nhóm).
 
+Để nhận biết điểm cắt của khoảng phân vị, bạn có thể sử dụng `quantile()` từ package **stats** từ **base** R. Bạn cung cấp một vectơ số (ví dụ: một cột trong bộ dữ liệu) và vectơ các giá trị xác suất số từ 0 đến 1. Các điểm cắt được trả về dưới dạng một vectơ số. Đọc thêm chi tiết các phương pháp thống kê bằng cách nhập `?quantile`.
 
-### Quantile breaks {.unnumbered}  
-
-In common understanding, "quantiles" or "percentiles" typically refer to a value below which a proportion of values fall. For example, the 95th percentile of ages in `linelist` would be the age below which 95% of the age fall.  
-
-However in common speech, "quartiles" and "deciles" can also refer to the *groups of data* as equally divided into 4, or 10 groups (note there will be one more break point than group).    
-
-To get quantile break points, you can use `quantile()` from the **stats** package from **base** R. You provide a numeric vector (e.g. a column in a dataset) and vector of numeric probability values ranging from 0 to 1.0. The break points are returned as a numeric vector. Explore the details of the statistical methodologies by entering `?quantile`.  
-
-* If your input numeric vector has any missing values it is best to set `na.rm = TRUE`  
-* Set `names = FALSE` to get an un-named numeric vector  
+-   Nếu vectơ số đầu vào của bạn có bất kỳ giá trị nào bị thiếu, tốt nhất nên thiết lập `na.rm = TRUE`\
+-   Thiết lập`names = FALSE` để lấy một vectơ số chưa được đặt tên
 
 ```{r}
 quantile(linelist$age_years,               # specify numeric vector to work on
@@ -1381,7 +1318,7 @@ quantile(linelist$age_years,               # specify numeric vector to work on
   na.rm = TRUE)                            # ignore missing values 
 ```
 
-You can use the results of `quantile()` as break points in `age_categories()` or `cut()`. Below we create a new column `deciles` using `cut()` where the breaks are defined using `quantiles()` on `age_years`. Below, we display the results using `tabyl()` from **janitor** so you can see the percentages (see the [Descriptive tables] page). Note how they are not exactly 10% in each group.  
+Bạn có thể sử dụng kết quả của `quantile()` làm điểm cắt trong `age_categories()` hoặc `cut()`. Dưới đây, chúng tôi tạo một cột `deciles` mới bằng cách sử dụng `cut()` trong đó các dấu ngắt được xác định bằng cách sử dụng `quantiles()` trên `age_years`. Dưới đây, chúng tôi hiển thị kết quả bằng `tabyl()` từ **janitor** để bạn có thể xem tỷ lệ phần trăm (xem chương [Descriptive tables]). Lưu ý rằng chúng không chính xác là 10% trong mỗi nhóm.
 
 ```{r}
 linelist %>%                                # begin with linelist
@@ -1394,9 +1331,9 @@ linelist %>%                                # begin with linelist
   janitor::tabyl(deciles)                   # pipe to table to display
 ```
 
-### Evenly-sized groups {.unnumbered}  
+### Nhóm có khoảng đều {.unnumbered}
 
-Another tool to make numeric groups is the the **dplyr** function `ntile()`, which attempts to break your data into n *evenly-sized groups* - *but be aware that unlike with `quantile()` the same value could appear in more than one group.* Provide the numeric vector and then the number of groups. The values in the new column created is just group "numbers" (e.g. 1 to 10), not the range of values themselves as when using `cut()`.  
+Một công cụ khác để tạo nhóm số là hàm `ntile()` trong package **dplyr**, cố gắng chia dữ liệu của bạn thành n *nhóm có khoảng cách đều - nhưng lưu ý rằng không giống như với `quantile()`, cùng một giá trị có thể xuất hiện trong nhiều nhóm*. Cung cấp vectơ số và sau đó là số lượng nhóm. Các giá trị trong cột mới được tạo chỉ là nhóm "số" (ví dụ: 1 đến 10), không phải phạm vi giá trị như khi sử dụng `cut()`.
 
 ```{r}
 # make groups with ntile()
@@ -1419,18 +1356,17 @@ ntile_ranges <- ntile_data %>%
 left_join(ntile_table, ntile_ranges, by = "even_groups")
 ```
 
-
 <!-- ======================================================= -->
-### `case_when()` { .unnumbered}
 
-It is possible to use the **dplyr** function `case_when()` to create categories from a numeric column, but it is easier to use `age_categories()` from **epikit** or `cut()` because these will create an ordered factor automatically. 
+### `case_when()` {.unnumbered}
 
-If using `case_when()`, please review the proper use as described earlier in the Re-code values section of this page. Also be aware that all right-hand side values must be of the same class. Thus, if you want `NA` on the right-side you should either write "Missing" or use the special `NA` value `NA_character_`.  
+Có thể sử dụng hàm **dplyr** `case_when()` để tạo danh mục từ cột số, nhưng dễ dàng sử dụng hơn so với `age_categories()` từ **epikit** hoặc `cut()` vì chúng sẽ tự động tạo ra một biến danh mục có thứ tự.
 
+Nếu sử dụng `case_when()`, vui lòng xem lại cách sử dụng thích hợp như đã mô tả trước đó trong chương Mã hóa lại giá trị. Cũng lưu ý rằng tất cả các giá trị bên tay phải phải thuộc cùng một phân lớp. Do đó, nếu bạn muốn giá trị `NA` ở phía bên phải, bạn nên viết "Missing" hoặc sử dụng giá trị `NA` đặc biệt là `NA_character_`.
 
-### Add to pipe chain {.unnumbered}  
+### Thêm vào chuỗi làm sạch {.unnumbered}
 
-Below, code to create two categorical age columns is added to the cleaning pipe chain:  
+Dưới đây, code để tạo hai cột phân loại tuổi được thêm vào chuỗi các bước làm sạch:
 
 ```{r}
 # CLEANING 'PIPE' CHAIN (starts with raw data and pipes it through cleaning steps)
@@ -1497,19 +1433,13 @@ linelist <- linelist_raw %>%
           age_cat5 = epikit::age_categories(age_years, breakers = seq(0, 85, 5)))
 ```
 
-
-
-
-
-
-
-
 <!-- ======================================================= -->
-## Add rows  
 
-### One-by-one {.unnumbered}  
+## Thêm hàng
 
-Adding rows one-by-one manually is tedious but can be done with `add_row()` from **dplyr**. Remember that each column must contain values of only one class (either character, numeric, logical, etc.). So adding a row requires nuance to maintain this. 
+### Thêm từng hàng một {.unnumbered}
+
+Việc thêm từng hàng một theo cách thủ công là rất đơn điệu nhưng có thể được thực hiện với hàm `add_row()` từ package **dplyr**. Hãy nhớ rằng mỗi cột chỉ được chứa các giá trị của một phân lớp (ký tự, số, lôgic, v.v.). Vì vậy, thêm một hàng yêu cầu chú trọng đến sắc thái để duy trì điều này.
 
 ```{r, eval=F}
 linelist <- linelist %>% 
@@ -1520,74 +1450,65 @@ linelist <- linelist %>%
           .before = 2)
 ```
 
-Use `.before` and `.after.` to specify the placement of the row you want to add. `.before = 3` will put the new row before the current 3rd row. The default behavior is to add the row to the end. Columns not specified will be left empty (`NA`).  
+Sử dụng `.before` và `.after.` để chỉ định vị trí của hàng bạn muốn thêm. `.before = 3` sẽ cho phép hàng mới trước hàng thứ 3 hiện tại. Hành động mặc định là thêm hàng vào cuối. Các cột không được chỉ định sẽ được để trống (`NA`).
 
-The new *row number* may look strange ("...23") but the row numbers in the pre-existing rows *have* changed. So if using the command twice, examine/test the insertion carefully.
+*Số hàng* mới có thể trông lạ ("... 23") nhưng số hàng trong các hàng tồn tại trước đó *đã* thay đổi. Vì vậy, nếu sử dụng lệnh hai lần, hãy kiểm tra/thử việc chèn một cách cẩn thận.
 
-If a class you provide is off you will see an error like this:  
+Nếu một phân lớp bạn cung cấp không hoạt động, bạn sẽ thấy báo lỗi như sau:
 
-```
-Error: Can't combine ..1$infection date <date> and ..2$infection date <character>.
-```
+    Error: Can't combine ..1$infection date <date> and ..2$infection date <character>.
 
-(when inserting a row with a date value, remember to wrap the date in the function `as.Date()` like `as.Date("2020-10-10")`).
+(khi chèn một hàng có giá trị ngày tháng, hãy nhớ đặt thông tin `as.Date()` ví dụ như `as.Date("2020-10-10")`).
 
+### Ràng buộc hàng {.unnumbered}
 
-### Bind rows {.unnumbered}  
-
-To combine datasets together by binding the rows of one dataframe to the bottom of another data frame, you can use `bind_rows()` from **dplyr**. This is explained in more detail in the page [Joining data].  
-
-
-
+Để kết hợp các bộ dữ liệu với nhau bằng cách liên kết các hàng của một bộ dữ liệu với cuối bộ dữ liệu khác, bạn có thể sử dụng `bind_rows()` từ **dplyr**. Điều này được giải thích chi tiết hơn trong chương [Joining data].
 
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-<!-- ======================================================= -->
-## Filter rows {  }
-
-
-A typical cleaning step after you have cleaned the columns and re-coded values is to *filter* the data frame for specific rows using the **dplyr** verb `filter()`.  
-
-Within `filter()`, specify the logic that must be `TRUE` for a row in the dataset to be kept. Below we show how to filter rows based on simple and complex logical conditions.  
-
-
 
 <!-- ======================================================= -->
-### Simple filter {.unnumbered} 
 
-This simple example re-defines the dataframe `linelist` as itself, having filtered the rows to meet a logical condition. **Only the rows where the logical statement within the parentheses evaluates to `TRUE` are kept.**  
+<!-- ======================================================= -->
 
-In this example, the logical statement is `gender == "f"`, which is asking whether the value in the column `gender` is equal to "f" (case sensitive).   
+## Lọc hàng
 
-Before the filter is applied, the number of rows in `linelist` is ` nrow(linelist)`.
+Bước làm sạch điển hình sau khi bạn đã làm sạch các cột và các giá trị được mã hóa lại đó là *lọc* bộ dữ liệu cho các hàng cụ thể bằng cách sử dụng hàm `filter()` trong package **dplyr**.
+
+Trong hàm `filter()`, chỉ định logic phải là giá trị `TRUE` cho một hàng trong bộ dữ liệu được giữ. Dưới đây chúng tôi trình bày cách lọc hàng dựa trên điều kiện logic đơn giản và phức tạp.
+
+<!-- ======================================================= -->
+
+### Lọc đơn giản {.unnumbered}
+
+Ví dụ đơn giản này xác định lại bộ dữ liệu `linelist`, đã lọc các hàng để đáp ứng điều kiện logic. **Chỉ những hàng mà câu lệnh logic trong dấu ngoặc đơn đánh giá là `TRUE` mới được giữ lại**.
+
+Trong ví dụ này, câu lệnh lôgic là `gender == "f"`, được hỏi liệu giá trị trong cột `gender` có bằng "f" (phân biệt chữ hoa chữ thường) hay không.
+
+Trước khi bộ lọc được áp dụng, số hàng trong `linelist` là `nrow(linelist)`.
 
 ```{r, eval=F}
 linelist <- linelist %>% 
   filter(gender == "f")   # keep only rows where gender is equal to "f"
 ```
 
-After the filter is applied, the number of rows in `linelist` is ` linelist %>% filter(gender == "f") %>% nrow()`.
+Sau khi bộ lọc được áp dụng, số hàng trong `linelist` là `linelist %>% filter(gender == "f") %>% nrow()`.
 
+### Lọc bỏ các giá trị bị thiếu {.unnumbered}
 
-### Filter out missing values {.unnumbered}  
-
-It is fairly common to want to filter out rows that have missing values. Resist the urge to write `filter(!is.na(column) & !is.na(column))` and instead use the **tidyr** function that is custom-built for this purpose: `drop_na()`. If run with empty parentheses, it removes rows with *any* missing values. Alternatively, you can provide names of specific columns to be evaluated for missingness, or use the "tidyselect" helper functions described [above](#clean_tidyselect).  
+Khá phổ biến là muốn lọc bỏ các hàng có giá trị bị thiếu. Hãy bỏ qua cách lọc cổ điển `filter(!is.na(column) & !is.na(column))` và thay vào đó, hãy sử dụng trong package **tidyr** được xây dựng để tùy chỉnh cho mục đích này: `drop_na()`. Nếu chạy với dấu ngoặc trống, nó sẽ loại bỏ các hàng có bất kỳ giá trị nào bị thiếu. Ngoài ra, bạn có thể cung cấp tên của các cột cụ thể sẽ được đánh giá về độ thiếu hoặc sử dụng các chức năng trợ giúp "tidyselect" được mô tả [ở trên](#clean_tidyselect).
 
 ```{r, eval=F}
 linelist %>% 
   drop_na(case_id, age_years)  # drop rows with missing values for case_id or age_years
 ```
 
-See the page on [Missing data] for many techniques to analyse and manage missingness in your data. 
+Xem chương về [Missing data] để biết nhiều kỹ thuật phân tích và quản lý dữ liệu bị thiếu.
 
+### Lọc bằng số thứ của hàng {.unnumbered}
 
+Trong bộ dữ liệu hoặc tibble, mỗi hàng thường sẽ có một "số hàng" (khi được nhìn thấy trong R Viewer) xuất hiện ở bên trái của cột đầu tiên. Bản thân nó không phải là một cột trong dữ liệu, nhưng nó có thể được sử dụng trong câu lệnh `filter()`.
 
-
-### Filter by row number {.unnumbered}  
-
-In a data frame or tibble, each row will usually have a "row number" that (when seen in R Viewer) appears to the left of the first column. It is not itself a true column in the data, but it can be used in a `filter()` statement.  
-
-To filter based on "row number", you can use the **dplyr** function `row_number()` with open parentheses as part of a logical filtering statement. Often you will use the `%in%` operator and a range of numbers as part of that logical statement, as shown below. To see the *first* N rows, you can also use the special **dplyr** function `head()`.   
+Để lọc dựa trên "số hàng", bạn có thể sử dụng hàm **dplyr** `row_number()` với "dấu ngoặc đơn mở" như một phần của câu lệnh lọc logic. Thường thì bạn sẽ sử dụng toán tử `%in%` và một dãy số như một phần của câu lệnh logic đó, như được trình bày bên dưới. Để xem N hàng *đầu tiên*, bạn cũng có thể sử dụng hàm đặc biệt `head()` trong package **dplyr**.
 
 ```{r, eval=F}
 # View first 100 rows
@@ -1600,39 +1521,35 @@ linelist %>% filter(row_number() == 5)
 linelist %>% filter(row_number() %in% 2:20) %>% select(date_onset, outcome, age)
 ```
 
-You can also convert the row numbers to a true column by piping your data frame to the **tibble** function `rownames_to_column()` (do not put anything in the parentheses).  
-
+Bạn cũng có thể chuyển đổi số thứ tự hàng thành cột bằng cách sử dụng hàm **tibble** `rownames_to_column()` (không viết bất kỳ ký tự nào trong dấu ngoặc đơn).
 
 <!-- ======================================================= -->
-### Complex filter {.unnumbered} 
 
-More complex logical statements can be constructed using parentheses `( )`, OR `|`, negate `!`, `%in%`, and AND `&` operators. An example is below:  
+### Lọc phức tạp {.unnumbered}
 
+Các câu lệnh logic phức tạp hơn có thể được xây dựng bằng cách sử dụng các toán tử ngoặc đơn `( )`, HOẶC `|`, PHỦ ĐỊNH `!`, `%in%`, và VÀ `&`. Dưới đây là một ví dụ:
 
-Note: You can use the `!` operator in front of a logical criteria to negate it. For example, `!is.na(column)` evaluates to true if the column value is *not* missing. Likewise `!column %in% c("a", "b", "c")` evaluates to true if the column value is *not* in the vector.  
+Lưu ý: Bạn có thể sử dụng `!` trước một mệnh đề logic để phủ định nó. Ví dụ, `!is.na(column)` trả về giá trị TRUE nếu cột đó không bị thiếu giá trị. Tương tự như vậy `!column %in% c("a", "b", "c")` trả về kết quả là TRUE nếu giá trị cột *không* có trong vectơ.
 
+#### Kiểm tra dữ liệu {.unnumbered}
 
-#### Examine the data  {.unnumbered}  
-
-Below is a simple one-line command to create a histogram of onset dates. See that a second smaller outbreak from 2012-2013 is also included in this raw dataset. **For our analyses, we want to remove entries from this earlier outbreak.**  
+Dưới đây là một dòng lệnh đơn giản để tạo biểu đồ các ngày bắt đầu. Thấy rằng một đợt bùng phát nhỏ thứ hai từ năm 2012-2013 cũng được bao gồm trong tập bộ liệu thô này. **Trong các phân tích của chúng tôi, chúng tôi muốn xóa các bản ghi từ đợt bùng phát sớm hơn.**
 
 ```{r, out.width = "50%"}
 hist(linelist$date_onset, breaks = 50)
 ```
 
+#### Cách lọc và xử lý các giá trị số và ngày bị thiếu {.unnumbered}
 
-#### How filters handle missing numeric and date values {.unnumbered}  
+Chúng ta có thể chỉ lọc theo `date_onset` đến những hàng sau tháng 6 năm 2013 không? **Lưu ý! Việc áp dụng code `filter(date_onset > as.Date("2013-06-01")))` sẽ xóa bất kỳ hàng nào trong đợt dịch sau đó có ngày bắt đầu bị thiếu!**
 
-Can we just filter by `date_onset` to rows after June 2013? **Caution! Applying the code `filter(date_onset > as.Date("2013-06-01")))` would remove any rows in the later epidemic with a missing date of onset!**  
+[***NGUY HIỂM***: Việc lọc với điều kiện lớn hơn (\>) hoặc nhỏ hơn (\<) một ngày hoặc số có thể loại bỏ bất kỳ hàng nào có giá trị bị thiếu (`NA`)! Điều này là do `NA` được coi là giá trị lớn hoặc nhỏ vô hạn.]{style="color: red;"}
 
-<span style="color: red;">**_DANGER:_** Filtering to greater than (>) or less than (<) a date or number can remove any rows with missing values (`NA`)! This is because `NA` is treated as infinitely large and small.</span>
+*(Xem chương [Working with dates] để biết thêm thông tin về cách xử lý với ngày tháng và package **lubridate**)*
 
-*(See the page on [Working with dates] for more information on working with dates and the package **lubridate**)*
+#### Thiết kế bộ lọc {.unnumbered}
 
-#### Design the filter {.unnumbered}  
-
-Examine a cross-tabulation to make sure we exclude only the correct rows:  
-
+Kiểm tra một bảng chéo để đảm bảo rằng chúng tôi chỉ loại bỏ các hàng cần loại bỏ:
 
 ```{r}
 table(Hospital  = linelist$hospital,                     # hospital name
@@ -1640,19 +1557,20 @@ table(Hospital  = linelist$hospital,                     # hospital name
       useNA     = "always")                              # show missing values
 ```
 
-What other criteria can we filter on to remove the first outbreak (in 2012 & 2013) from the dataset? We see that:  
+Chúng tôi có thể lọc theo tiêu chí nào khác để loại bỏ đợt bùng phát đầu tiên (trong năm 2012 & 2013) khỏi bộ dữ liệu? Chúng ta thấy rằng:
 
-* The first epidemic  in 2012 & 2013 occurred at Hospital A, Hospital B, and that there were also 10 cases at Port Hospital.  
-* Hospitals A & B did *not* have cases in the second epidemic, but Port Hospital did.  
+-   Vụ dịch đầu tiên năm 2012 & 2013 xảy ra tại Bệnh viện A, Bệnh viện B, tại Bệnh viện Hàng Hải cũng có 10 trường hợp mắc.\
+-   Bệnh viện A & B *không* có ca bệnh nào trong đợt dịch thứ hai, nhưng Bệnh viện Hàng Hải thì có.
 
-We want to exclude:  
+Chúng tôi muốn loại bỏ:
 
-* The ` nrow(linelist %>% filter(hospital %in% c("Hospital A", "Hospital B") | date_onset < as.Date("2013-06-01")))` rows with onset in 2012 and 2013 at either hospital A, B, or Port:  
-  * Exclude ` nrow(linelist %>% filter(date_onset < as.Date("2013-06-01")))` rows with onset in 2012 and 2013
-  * Exclude ` nrow(linelist %>% filter(hospital %in% c('Hospital A', 'Hospital B') & is.na(date_onset)))` rows from Hospitals A & B with missing onset dates  
-  * Do **not** exclude ` nrow(linelist %>% filter(!hospital %in% c('Hospital A', 'Hospital B') & is.na(date_onset)))` other rows with missing onset dates.  
+-   Các dòng `nrow(linelist %>% filter(hospital %in% c("Hospital A", "Hospital B") | date_onset < as.Date("2013-06-01")))` bắt đầu vào năm 2012 và 2013 tại bệnh viện A, B hoặc Hàng Hải:
 
-We start with a linelist of ` `nrow(linelist)`. Here is our filter statement:  
+    -   Loại trừ các hàng `nrow(linelist %>% filter(date_onset < as.Date("2013-06-01")))` bắt đầu vào năm 2012 và 2013
+    -   Loại trừ các hàng `nrow(linelist %>% filter(hospital %in% c('Hospital A', 'Hospital B') & is.na(date_onset)))` từ bệnh viện A và B với các giá trị ngày bị thiếu\
+    -   Không loại bỏ các dòng khác `nrow(linelist %>% filter(!hospital %in% c('Hospital A', 'Hospital B') & is.na(date_onset)))` bị thiếu ngày bắt đầu.
+
+Chúng ta bắt đầu với `linelist` bằng câu lệnh `nrnow(linelist)`. Đây là toàn bộ câu lệnh:
 
 ```{r}
 linelist <- linelist %>% 
@@ -1662,25 +1580,21 @@ linelist <- linelist %>%
 nrow(linelist)
 ```
 
-When we re-make the cross-tabulation, we see that Hospitals A & B are removed completely, and the 10 Port Hospital cases from 2012 & 2013 are removed, and all other values are the same - just as we wanted.  
- 
+Khi chúng tôi kiểm tra chéo, chúng tôi thấy rằng Bệnh viện A & B bị loại bỏ hoàn toàn, và 10 trường hợp của Bệnh viện Hàng Hải từ năm 2012 & 2013 bị loại bỏ và tất cả các giá trị khác đều tương tự - đúng như chúng tôi muốn.
+
 ```{r}
 table(Hospital  = linelist$hospital,                     # hospital name
       YearOnset = lubridate::year(linelist$date_onset),  # year of date_onset
       useNA     = "always")                              # show missing values
 ```
 
-Multiple statements can be included within one filter command (separated by commas), or you can always pipe to a separate filter() command for clarity.  
+Nhiều câu lệnh có thể được bao hàm trong một lệnh lọc (được phân tách bằng dấu phẩy) hoặc bạn luôn có thể viết chúng riêng biệt và nối tiếp nhau trong chuỗi các bước làm sạch để rõ ràng hơn.
 
+*Ghi chú: một số độc giả có thể nhận thấy rằng sẽ dễ dàng hơn nếu chỉ lọc theo `date_hospitalisation` vì nó hoàn chỉnh 100% mà không có giá trị nào bị thiếu. Đây là sự thật. Nhưng `date_onset` được sử dụng cho mục đích thể hiện sự phức tạp của việc lọc.*
 
-*Note: some readers may notice that it would be easier to just filter by `date_hospitalisation` because it is 100% complete with no missing values. This is true. But `date_onset` is used for purposes of demonstrating a complex filter.* 
+### Độc lập {.unnumbered}
 
-
-
-
-### Standalone {.unnumbered}  
-
-Filtering can also be done as a stand-alone command (not part of a pipe chain). Like other **dplyr** verbs, in this case the first argument must be the dataset itself.  
+Việc lọc cũng có thể được thực hiện như một lệnh độc lập (không phải là một phần của chuỗi các bước làm sạch). Giống như các hàm **dplyr** khác, trong trường hợp này, argument đầu tiên phải chính là bộ dữ liệu.
 
 ```{r, eval=F}
 # dataframe <- filter(dataframe, condition(s) for rows to keep)
@@ -1688,7 +1602,7 @@ Filtering can also be done as a stand-alone command (not part of a pipe chain). 
 linelist <- filter(linelist, !is.na(case_id))
 ```
 
-You can also use **base** R to subset using square brackets which reflect the [rows, columns] that you want to retain.  
+Bạn cũng có thể sử dụng **base** R để chia nhỏ dữ liệu bằng cách sử dụng dấu ngoặc vuông phản ánh [hàng, cột] mà bạn muốn giữ lại.
 
 ```{r, eval=F}
 # dataframe <- dataframe[row conditions, column conditions] (blank means keep all)
@@ -1696,26 +1610,21 @@ You can also use **base** R to subset using square brackets which reflect the [r
 linelist <- linelist[!is.na(case_id), ]
 ```
 
+### Xem nhanh các bản ghi {.unnumbered}
 
+Thường thì bạn muốn xem nhanh một vài bản ghi, chỉ cho một vài cột. Hàm `View()` trong **base** R sẽ hiển thị một khung dữ liệu để xem trong RStudio.
 
-
-
-### Quickly review records {.unnumbered} 
-
-Often you want to quickly review a few records, for only a few columns. The **base** R function `View()` will print a data frame for viewing in your RStudio. 
-
-View the linelist in RStudio:  
+Xem `linelist` trong RStudio:
 
 ```{r, eval=F}
 View(linelist)
 ```
 
-Here are two examples of viewing specific cells (specific rows, and specific columns):  
+Dưới đây là hai ví dụ về việc xem các ô cụ thể (hàng cụ thể và cột cụ thể):
 
+**Với hàm `filter()` và `select()` trong dplyr:**
 
-**With dplyr functions `filter()` and `select()`:**  
-
-Within `View()`, pipe the dataset to `filter()` to keep certain rows, and then to `select()` to keep certain columns. For example, to review onset and hospitalization dates of 3 specific cases:   
+Với hàm `View()`, chuyển tiếp bộ dữ liệu đến hàm `filter()` để giữ các hàng nhất định và sau đó `select()` để giữ các cột nhất định. Ví dụ, để xem xét ngày khởi phát và nhập viện của 3 trường hợp cụ thể:
 
 ```{r, eval=F}
 View(linelist %>%
@@ -1723,19 +1632,13 @@ View(linelist %>%
        select(date_onset, date_hospitalisation))
 ```
 
-
-You can achieve the same with **base** R syntax, using brackets `[ ]` to subset you want to see. 
+Bạn có thể đạt được điều tương tự với cú pháp trong **base** R, sử dụng dấu ngoặc `[ ]` cho tập hợp con bạn muốn xem.
 
 ```{r, eval=F}
 View(linelist[linelist$case_id %in% c("11f8ea", "76b97a", "47a5f5"), c("date_onset", "date_hospitalisation")])
 ```
 
-
-
-
-
-#### Add to pipe chain {.unnumbered}  
-
+#### Thêm vào chuỗi làm sạch {.unnumbered}
 
 ```{r}
 # CLEANING 'PIPE' CHAIN (starts with raw data and pipes it through cleaning steps)
@@ -1809,19 +1712,16 @@ linelist <- linelist_raw %>%
           date_onset > as.Date("2013-06-01") | (is.na(date_onset) & !hospital %in% c("Hospital A", "Hospital B")))
 ```
 
-
-
-
-
-
+<!-- ======================================================= -->
 
 <!-- ======================================================= -->
-<!-- ======================================================= -->
-<!-- ======================================================= -->
-## Row-wise calculations  
 
-If you want to perform a calculation within a row, you can use `rowwise()` from **dplyr**. See this online vignette on [row-wise calculations](https://cran.r-project.org/web/packages/dplyr/vignettes/rowwise.html).  
-For example, this code applies `rowwise()` and then creates a new column that sums the number of the specified symptom columns that have value "yes", for each row in the linelist. The columns are specified within `sum()` by name within a vector `c()`. `rowwise()` is essentially a special kind of `group_by()`, so it is best to use `ungroup()` when you are done (page on [Grouping data]).  
+<!-- ======================================================= -->
+
+## Tính toán theo hàng
+
+Nếu bạn muốn thực hiện một phép tính trong một hàng, bạn có thể sử dụng hàm `rowwise()` từ **dplyr**. Xem chi tiết tại [row-wise calculations](https://cran.r-project.org/web/packages/dplyr/vignettes/rowwise.html).\
+Ví dụ: code này sử dụng hàm `rowwise()` và sau đó tạo một cột mới mà tổng số cột triệu chứng được chứa giá trị "có", cho mỗi hàng trong `linelist`. Các cột được chỉ định trong `sum()` theo tên trong vectơ `c()`. `rowwise()` về cơ bản là một loại `group_by()` đặc biệt, vì vậy tốt nhất bạn nên sử dụng `ungroup()` khi bạn hoàn tất (trong chương [Grouping data]).
 
 ```{r,}
 linelist %>%
@@ -1831,14 +1731,13 @@ linelist %>%
   select(fever, chills, cough, aches, vomit, num_symptoms) # for display
 ```
 
-  
-As you specify the column to evaluate, you may want to use the  "tidyselect" helper functions described in the `select()` section of this page. You just have to make one adjustment (because you are not using them within a **dplyr** function like `select()` or `summarise()`).  
+Khi bạn chỉ định cột để đánh giá, bạn có thể muốn sử dụng các tính năng trợ giúp "tidyselect" được mô tả trong chương `select()`. Bạn chỉ cần thực hiện duy nhất một lần (vì bạn không sử dụng chúng trong một hàm **dplyr** như `select()` or `summarise()`).
 
-Put the column-specification criteria within the **dplyr** function `c_across()`. This is because `c_across` ([documentation](https://dplyr.tidyverse.org/reference/c_across.html)) is designed to work with `rowwise()` specifically. For example, the following code:  
+Đặt tiêu chí đặc tả cột trong hàm **dplyr** `c_across()`. Điều này là do `c_across` ([documentation](https://dplyr.tidyverse.org/reference/c_across.html)) được thiết kế để hoạt động cụ thể với hàm `rowwise()`. Ví dụ, như đoạn code sau:
 
-* Applies `rowwise()` so the following operation (`sum()`) is applied within each row (not summing entire columns)  
-* Creates new column `num_NA_dates`, defined for each row as the number of columns (with name containing "date") for which `is.na()` evaluated to TRUE (they are missing data).  
-* `ungroup()` to remove the effects of `rowwise()` for subsequent steps  
+-   Áp dụng `rowwise()` nên bước tiếp theo (`sum()`) được áp dụng trong mỗi hàng (không tính tổng toàn bộ các cột)\
+-   Tạo cột mới `num_NA_dates`, được xác định cho mỗi hàng là số cột (có tên chứa "ngày tháng") mà `is.na()` trả về giá trị TRUE (nghĩa là chúng bị thiếu dữ liệu)\
+-   `ungroup()` để loại bỏ ảnh hưởng của `rowwise()` cho các bước tiếp theo
 
 ```{r,}
 linelist %>%
@@ -1848,7 +1747,7 @@ linelist %>%
   select(num_NA_dates, contains("date")) # for display
 ```
 
-You could also provide other functions, such as `max()` to get the latest or most recent date for each row:  
+Bạn cũng có thể cung cấp các hàm khác, chẳng hạn như `max()` để lấy ngày mới nhất hoặc gần đây nhất cho mỗi hàng:
 
 ```{r}
 linelist %>%
@@ -1858,24 +1757,22 @@ linelist %>%
   select(latest_date, contains("date"))  # for display
 ```
 
+## Sắp xếp
 
-## Arrange and sort  
+Sử dụng hàm **dplyr** `arrange()` để sắp xếp hoặc sắp xếp thứ tự các hàng theo giá trị cột.
 
-Use the **dplyr** function `arrange()` to sort or order the rows by column values.  
+Đơn giản hãy liệt kê các cột theo thứ tự mà chúng cần được sắp xếp. Thêm `.by_group = TRUE` nếu bạn muốn việc sắp xếp xảy ra trước tiên theo bất kỳ *hành động nhóm dữ liệu* nào được áp dụng trong dữ liệu (xem chương [Grouping data]).
 
-Simple list the columns in the order they should be sorted on. Specify `.by_group = TRUE` if you want the sorting to to first occur by any *groupings* applied to the data (see page on [Grouping data]).  
+Mặc định, cột sẽ được sắp xếp theo thứ tự "tăng dần" (áp dụng cho cột số và cả cột ký tự). Bạn có thể sắp xếp một biến theo thứ tự "giảm dần" bằng cách đặt tên biến trong hàm `desc()`.
 
-By default, column will be sorted in "ascending" order (which applies to numeric and also to character columns). You can sort a variable in "descending" order by wrapping it with `desc()`.  
+Việc sắp xếp dữ liệu với `arrange()` đặc biệt hữu ích khi tạo [Tables for presentation], sử dụng `slice()` để lấy các hàng "trên cùng" trên mỗi nhóm hoặc thiết lập thứ tự danh mục theo thứ tự xuất hiện.
 
-Sorting data with `arrange()` is particularly useful when making [Tables for presentation], using `slice()` to take the "top" rows per group, or setting factor level order by order of appearance.  
-
-For example, to sort the our linelist rows by `hospital`, then by `date_onset` in descending order, we would use:  
+Ví dụ: để sắp xếp các hàng trong `linelist` theo `hospital`, sau đó theo `date_onset` thứ tự giảm dần, chúng tôi sẽ thực hiện như sau:
 
 ```{r, eval=F}
 linelist %>% 
    arrange(hospital, desc(date_onset))
 ```
-
 
 ```{r, echo=F}
 # HIDDEN
@@ -1894,8 +1791,6 @@ linelist <- linelist %>%
 #min(linelist$date_hospitalisation, na.rm=T)
 #min(linelist$date_outcome, na.rm=T)
 ```
-
-
 
 ```{r echo=F}
 # REARRANGE COLUMNS FOR EXPORT
