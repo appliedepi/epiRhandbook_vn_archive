@@ -117,9 +117,9 @@
 <span class="header-section-number">45</span> Tương tác với thư mục làm việc<a class="anchor" aria-label="anchor" href="#directories"><i class="fas fa-link"></i></a>
 </h1>
 <p>Trong chương này, chúng tôi sẽ bao gồm các tình huống phổ biến, nơi chúng ta sẽ tạo, tương tác, lưu và nhập với thư mục.</p>
-<div id="chuẩn-bị-17" class="section level2" number="45.1">
+<div id="chuẩn-bị-21" class="section level2" number="45.1">
 <h2>
-<span class="header-section-number">45.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-17"><i class="fas fa-link"></i></a>
+<span class="header-section-number">45.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-21"><i class="fas fa-link"></i></a>
 </h2>
 <div id="fs-package" class="section level3 unnumbered">
 <h3>
@@ -275,8 +275,7 @@
 <div class="sourceCode" id="cb1926"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># file names</span>
 <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"gis"</span>, <span class="st">"population"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "sle_admpop_adm3_2020.csv"                       
-## [2] "sle_population_statistics_sierraleone_2020.xlsx"</code></pre>
+<pre><code>## [1] "sle_admpop_adm3_2020.csv"                        "sle_population_statistics_sierraleone_2020.xlsx"</code></pre>
 <p>Để liệt kê đường dẫn đầy đủ của các tập tin trong thư mục, chúng ta có thể sử dụng hàm <code>dir_ls()</code> từ package <strong>fs</strong>. Một cách khác là dùng hàm <code><a href="https://rdrr.io/r/base/list.files.html">list.files()</a></code> trong <strong>base</strong> R.</p>
 <div class="sourceCode" id="cb1928"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># file paths</span>
@@ -289,8 +288,8 @@
 <code class="sourceCode R"><span class="co"># file info</span>
 <span class="fu">dir_info</span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"gis"</span>, <span class="st">"population"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Sau đây là data frame được trả về. Cuộn qua phải để xem tất cả các cột.</p>
-<div id="htmlwidget-da3d999b13344e735e2e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-da3d999b13344e735e2e">{"x":{"filter":"none","data":[["D:/Book Writing/4. EpiR Book/epiRhandbook_vn/data/gis/population/sle_admpop_adm3_2020.csv","D:/Book Writing/4. EpiR Book/epiRhandbook_vn/data/gis/population/sle_population_statistics_sierraleone_2020.xlsx"],["file","file"],[26939,57850],[33206,33206],["2021-06-04T21:52:41Z","2021-06-04T21:52:41Z"],[null,null],[null,null],[1821780192,1821780192],[1,1],[0,0],[1.97032483700279e+15,1.97032483700279e+15],[4096,4096],[56,120],[0,0],[0,0],["2021-07-31T06:53:01Z","2021-06-25T11:56:03Z"],["2021-06-04T21:52:41Z","2021-06-04T21:52:41Z"],["2021-06-04T21:52:41Z","2021-06-04T21:52:41Z"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>path<\/th>\n      <th>type<\/th>\n      <th>size<\/th>\n      <th>permissions<\/th>\n      <th>modification_time<\/th>\n      <th>user<\/th>\n      <th>group<\/th>\n      <th>device_id<\/th>\n      <th>hard_links<\/th>\n      <th>special_device_id<\/th>\n      <th>inode<\/th>\n      <th>block_size<\/th>\n      <th>blocks<\/th>\n      <th>flags<\/th>\n      <th>generation<\/th>\n      <th>access_time<\/th>\n      <th>change_time<\/th>\n      <th>birth_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3,7,8,9,10,11,12,13,14]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ad1e0cc9d612559df0e9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad1e0cc9d612559df0e9">{"x":{"filter":"none","data":[["D:/Book Writing/4. EpiR Book/epiRhandbook_vn/data/gis/population/sle_admpop_adm3_2020.csv","D:/Book Writing/4. EpiR Book/epiRhandbook_vn/data/gis/population/sle_population_statistics_sierraleone_2020.xlsx"],["file","file"],[26939,57850],[33206,33206],["2021-06-04T21:52:41Z","2021-06-04T21:52:41Z"],[null,null],[null,null],[1821780192,1821780192],[1,1],[0,0],[1.97032483700279e+15,1.97032483700279e+15],[4096,4096],[56,120],[0,0],[0,0],["2021-08-04T18:57:58Z","2021-06-25T11:56:03Z"],["2021-06-04T21:52:41Z","2021-06-04T21:52:41Z"],["2021-06-04T21:52:41Z","2021-06-04T21:52:41Z"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>path<\/th>\n      <th>type<\/th>\n      <th>size<\/th>\n      <th>permissions<\/th>\n      <th>modification_time<\/th>\n      <th>user<\/th>\n      <th>group<\/th>\n      <th>device_id<\/th>\n      <th>hard_links<\/th>\n      <th>special_device_id<\/th>\n      <th>inode<\/th>\n      <th>block_size<\/th>\n      <th>blocks<\/th>\n      <th>flags<\/th>\n      <th>generation<\/th>\n      <th>access_time<\/th>\n      <th>change_time<\/th>\n      <th>birth_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3,7,8,9,10,11,12,13,14]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="thông-tin-tệp" class="section level2" number="45.3">
 <h2>
@@ -299,11 +298,11 @@
 <p>Để trích xuất thông tin chi tiết của một tập tin cụ thể, chúng ta có thể sử dụng hàme <code>file_info()</code> từ package <strong>fs</strong> (hoặc <code><a href="https://rdrr.io/r/base/file.info.html">file.info()</a></code> từ <strong>base</strong> R).</p>
 <div class="sourceCode" id="cb1931"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">file_info</span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"case_linelists"</span>, <span class="st">"linelist_cleaned.rds"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-96ca1eacbd12cbaf884f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-96ca1eacbd12cbaf884f">{"x":{"filter":"none","data":[["D:/Book Writing/4. EpiR Book/epiRhandbook_vn/data/case_linelists/linelist_cleaned.rds"],["file"],[290215],[33206],["2021-07-31T06:46:05Z"],[null],[null],[1821780192],[1],[0],[1.97032483700275e+15],[4096],[568],[0],[0],["2021-07-31T06:57:29Z"],["2021-07-31T06:46:05Z"],["2021-06-04T21:52:41Z"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>path<\/th>\n      <th>type<\/th>\n      <th>size<\/th>\n      <th>permissions<\/th>\n      <th>modification_time<\/th>\n      <th>user<\/th>\n      <th>group<\/th>\n      <th>device_id<\/th>\n      <th>hard_links<\/th>\n      <th>special_device_id<\/th>\n      <th>inode<\/th>\n      <th>block_size<\/th>\n      <th>blocks<\/th>\n      <th>flags<\/th>\n      <th>generation<\/th>\n      <th>access_time<\/th>\n      <th>change_time<\/th>\n      <th>birth_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3,7,8,9,10,11,12,13,14]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Ở đây, chúng ta sử dụng ký hiệu <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> để chỉ rõ kết quả và xuất chỉ mỗi giá trị về thời gian sửa đổi <code>modification_time</code>.</p>
+<div id="htmlwidget-2e6aa6c3d6a73dc7de59" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2e6aa6c3d6a73dc7de59">{"x":{"filter":"none","data":[["D:/Book Writing/4. EpiR Book/epiRhandbook_vn/data/case_linelists/linelist_cleaned.rds"],["file"],[290215],[33206],["2021-08-04T18:32:25Z"],[null],[null],[1821780192],[1],[0],[1.97032483700275e+15],[4096],[568],[0],[0],["2021-08-04T19:11:46Z"],["2021-08-04T18:32:25Z"],["2021-06-04T21:52:41Z"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>path<\/th>\n      <th>type<\/th>\n      <th>size<\/th>\n      <th>permissions<\/th>\n      <th>modification_time<\/th>\n      <th>user<\/th>\n      <th>group<\/th>\n      <th>device_id<\/th>\n      <th>hard_links<\/th>\n      <th>special_device_id<\/th>\n      <th>inode<\/th>\n      <th>block_size<\/th>\n      <th>blocks<\/th>\n      <th>flags<\/th>\n      <th>generation<\/th>\n      <th>access_time<\/th>\n      <th>change_time<\/th>\n      <th>birth_time<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3,7,8,9,10,11,12,13,14]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Ở đây, chúng ta sử dụng ký hiệu <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> để chỉ rõ kết quả và xuất chỉ mỗi giá trị về thời gian sửa đổi <code>modification_time</code>.</p>
 <div class="sourceCode" id="cb1932"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">file_info</span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"case_linelists"</span>, <span class="st">"linelist_cleaned.rds"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">modification_time</span></code></pre></div>
-<pre><code>## [1] "2021-07-31 08:46:05 CEST"</code></pre>
+<pre><code>## [1] "2021-08-04 20:32:25 CEST"</code></pre>
 </div>
 <div id="kiểm-tra-sự-tồn-tại" class="section level2" number="45.4">
 <h2>
@@ -466,9 +465,9 @@
 <p>Nếu một tập tin hiện tại đang “mở”, nó sẽ hiện thị trong thư mục với dấu ngã phía trước, chẳng hạn như “~$hospital_linelists.xlsx”.</p>
 <!-- ======================================================= -->
 </div>
-<div id="nguồn-10" class="section level2" number="45.9">
+<div id="nguồn-11" class="section level2" number="45.9">
 <h2>
-<span class="header-section-number">45.9</span> Nguồn<a class="anchor" aria-label="anchor" href="#ngu%E1%BB%93n-10"><i class="fas fa-link"></i></a>
+<span class="header-section-number">45.9</span> Nguồn<a class="anchor" aria-label="anchor" href="#ngu%E1%BB%93n-11"><i class="fas fa-link"></i></a>
 </h2>
 <p><a href="https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html" class="uri">https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html</a></p>
 
@@ -482,7 +481,7 @@
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#directories"><span class="header-section-number">45</span> Tương tác với thư mục làm việc</a></li>
 <li>
-<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-17"><span class="header-section-number">45.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-21"><span class="header-section-number">45.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#fs-package">fs package</a></li>
 <li><a class="nav-link" href="#in-th%C6%B0-m%E1%BB%A5c-d%C6%B0%E1%BB%9Bi-d%E1%BA%A1ng-c%C3%A2y-bi%E1%BB%83u-%C4%91%E1%BB%93-dendrogram">In thư mục dưới dạng cây biểu đồ dendrogram</a></li>
 </ul>
@@ -519,7 +518,7 @@
 </ul>
 </li>
 <li><a class="nav-link" href="#base-r-3"><span class="header-section-number">45.8</span> base R</a></li>
-<li><a class="nav-link" href="#ngu%E1%BB%93n-10"><span class="header-section-number">45.9</span> Nguồn</a></li>
+<li><a class="nav-link" href="#ngu%E1%BB%93n-11"><span class="header-section-number">45.9</span> Nguồn</a></li>
 </ul>
 
       <div class="book-extra">
@@ -536,7 +535,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-31.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-08-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

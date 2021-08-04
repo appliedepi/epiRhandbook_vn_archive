@@ -568,7 +568,7 @@ Xem [dữ liệu gốc](#dedup_data).
 
 Đôi khi, bạn có thể muốn xác định các bản trùng lặp "có khả năng xảy ra" dựa trên sự tương đồng (ví dụ: chuỗi "distance (khoảng cách)") trên một số cột như name (tên), age (tuổi), sex (giới tính), date of birth (ngày sinh), v.v. Bạn có thể áp dụng thuật toán so khớp theo xác suất để xác định các bản trùng lặp có khả năng xảy ra.
 
-Xem chương [Nối dữ liệu] để được giải thích về phương pháp này. Mục Đối sánh theo xác suất chứa một ví dụ về việc áp dụng các thuật toán này để so sánh một data frame với *chính nó*, do đó thực hiện loại bỏ trùng lặp theo xác suất.
+Xem chương [Nối dữ liệu] để được giải thích về phương pháp này. Mục So sánh theo xác suất chứa một ví dụ về việc áp dụng các thuật toán này để so sánh một data frame với *chính nó*, do đó thực hiện loại bỏ trùng lặp theo xác suất.
 
 <!-- ======================================================= -->
 

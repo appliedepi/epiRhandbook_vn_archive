@@ -132,9 +132,9 @@
 </li>
 <li>Dùng <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> từ <strong>base</strong> R nếu bạn không có khả năng truy cập vào các package trên</li>
 </ul>
-<!-- ======================================================= --><div id="chuẩn-bị-4" class="section level2" number="17.1">
+<!-- ======================================================= --><div id="chuẩn-bị-5" class="section level2" number="17.1">
 <h2>
-<span class="header-section-number">17.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">17.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-5"><i class="fas fa-link"></i></a>
 </h2>
 <div id="gọi-packages-2" class="section level3 unnumbered">
 <h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-2"><i class="fas fa-link"></i></a>
@@ -153,16 +153,16 @@
   <span class="va">flextable</span>     <span class="co"># converting tables to pretty images</span>
   <span class="op">)</span></code></pre></div>
 </div>
-<div id="nhập-dữ-liệu-4" class="section level3 unnumbered">
-<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-4"><i class="fas fa-link"></i></a>
+<div id="nhập-dữ-liệu-5" class="section level3 unnumbered">
+<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-5"><i class="fas fa-link"></i></a>
 </h3>
 <p>Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn theo dõi, <a href="https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">bấm để tải xuống dữ liệu linelist “đã làm sạch”</a> (as .rds file). Nhập dữ liệu của bạn bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong> (chấp nhận nhiều loại tệp như .xlsx, .rds, .csv - xem thêm chi tiết tại chương <a href="importing.html#importing">Nhập xuất dữ liệu</a>).</p>
 <div class="sourceCode" id="cb822"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the linelist</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
 <p>50 hàng đầu tiên của linelist được hiển thị như dưới đây.</p>
-<div id="htmlwidget-44bec15d349aa9e0ff1d" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-44bec15d349aa9e0ff1d">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<div id="htmlwidget-7c333760ae0b323a4920" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7c333760ae0b323a4920">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
 <div id="duyệt-dữ-liệu" class="section level2" number="17.2">
@@ -1417,78 +1417,78 @@ days_onset_hosp
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html">flextable</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>    <span class="co"># convert to pretty image</span>
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/autofit.html">autofit</a></span><span class="op">(</span><span class="op">)</span>          <span class="co"># format to one line per row </span></code></pre></div>
 <div class="tabwid">
-<style>.cl-461e5f64{border-collapse:collapse;}.cl-46127294{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-46127295{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-46127296{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46127297{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46127298{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46127299{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4612729a{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4612729b{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4612729c{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4612729d{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4612729e{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4614d4b2{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4614d4b3{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4614d4b4{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-461e5f64">
+<style>.cl-4073561a{border-collapse:collapse;}.cl-403e4cd6{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-403fab6c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-40404748{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-40404749{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4040474a{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4040474b{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4040474c{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4040474d{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4040474e{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4040474f{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-40404750{width:122pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-40404751{width:75pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-40404752{width:69pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-40406e30{width:81pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-4073561a">
 <thead><tr style="overflow-wrap:break-word;">
-<td class="cl-4612729e"><p class="cl-46127295"><span class="cl-46127294">Age Category/Gender</span></p></td>
-<td class="cl-4614d4b2"><p class="cl-46127295"><span class="cl-46127294">f</span></p></td>
-<td class="cl-4614d4b2"><p class="cl-46127295"><span class="cl-46127294">m</span></p></td>
-<td class="cl-4614d4b3"><p class="cl-46127295"><span class="cl-46127294">NA_</span></p></td>
-<td class="cl-4614d4b4"><p class="cl-46127295"><span class="cl-46127294">Total</span></p></td>
+<td class="cl-40404750"><p class="cl-403fab6c"><span class="cl-403e4cd6">Age Category/Gender</span></p></td>
+<td class="cl-40404751"><p class="cl-403fab6c"><span class="cl-403e4cd6">f</span></p></td>
+<td class="cl-40404751"><p class="cl-403fab6c"><span class="cl-403e4cd6">m</span></p></td>
+<td class="cl-40404752"><p class="cl-403fab6c"><span class="cl-403e4cd6">NA_</span></p></td>
+<td class="cl-40406e30"><p class="cl-403fab6c"><span class="cl-403e4cd6">Total</span></p></td>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">0-4</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">640 (22.8%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">416 (14.8%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294">39 (14.0%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294">1095 (18.6%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">0-4</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">640 (22.8%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">416 (14.8%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6">39 (14.0%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6">1095 (18.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">5-9</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">641 (22.8%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">412 (14.7%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294">42 (15.1%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294">1095 (18.6%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">5-9</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">641 (22.8%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">412 (14.7%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6">42 (15.1%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6">1095 (18.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">10-14</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">518 (18.5%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">383 (13.7%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294">40 (14.4%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294"> 941 (16.0%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">10-14</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">518 (18.5%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">383 (13.7%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6">40 (14.4%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6"> 941 (16.0%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">15-19</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">359 (12.8%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">364 (13.0%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294">20  (7.2%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294"> 743 (12.6%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">15-19</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">359 (12.8%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">364 (13.0%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6">20  (7.2%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6"> 743 (12.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">20-29</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">468 (16.7%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">575 (20.5%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294">30 (10.8%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294">1073 (18.2%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">20-29</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">468 (16.7%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">575 (20.5%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6">30 (10.8%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6">1073 (18.2%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">30-49</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">179  (6.4%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">557 (19.9%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294">18  (6.5%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294"> 754 (12.8%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">30-49</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">179  (6.4%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">557 (19.9%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6">18  (6.5%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6"> 754 (12.8%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">50-69</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">  2  (0.1%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294"> 91  (3.2%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294"> 2  (0.7%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294">  95  (1.6%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">50-69</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">  2  (0.1%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6"> 91  (3.2%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6"> 2  (0.7%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6">  95  (1.6%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-46127298"><p class="cl-46127295"><span class="cl-46127294">70+</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">  0  (0.0%)</span></p></td>
-<td class="cl-46127299"><p class="cl-46127295"><span class="cl-46127294">  5  (0.2%)</span></p></td>
-<td class="cl-46127297"><p class="cl-46127295"><span class="cl-46127294"> 1  (0.4%)</span></p></td>
-<td class="cl-46127296"><p class="cl-46127295"><span class="cl-46127294">   6  (0.1%)</span></p></td>
+<td class="cl-4040474a"><p class="cl-403fab6c"><span class="cl-403e4cd6">70+</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">  0  (0.0%)</span></p></td>
+<td class="cl-4040474b"><p class="cl-403fab6c"><span class="cl-403e4cd6">  5  (0.2%)</span></p></td>
+<td class="cl-40404749"><p class="cl-403fab6c"><span class="cl-403e4cd6"> 1  (0.4%)</span></p></td>
+<td class="cl-40404748"><p class="cl-403fab6c"><span class="cl-403e4cd6">   6  (0.1%)</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4612729d"><p class="cl-46127295"><span class="cl-46127294"></span></p></td>
-<td class="cl-4612729b"><p class="cl-46127295"><span class="cl-46127294">  0  (0.0%)</span></p></td>
-<td class="cl-4612729b"><p class="cl-46127295"><span class="cl-46127294">  0  (0.0%)</span></p></td>
-<td class="cl-4612729c"><p class="cl-46127295"><span class="cl-46127294">86 (30.9%)</span></p></td>
-<td class="cl-4612729a"><p class="cl-46127295"><span class="cl-46127294">  86  (1.5%)</span></p></td>
+<td class="cl-4040474f"><p class="cl-403fab6c"><span class="cl-403e4cd6"></span></p></td>
+<td class="cl-4040474d"><p class="cl-403fab6c"><span class="cl-403e4cd6">  0  (0.0%)</span></p></td>
+<td class="cl-4040474d"><p class="cl-403fab6c"><span class="cl-403e4cd6">  0  (0.0%)</span></p></td>
+<td class="cl-4040474e"><p class="cl-403fab6c"><span class="cl-403e4cd6">86 (30.9%)</span></p></td>
+<td class="cl-4040474c"><p class="cl-403fab6c"><span class="cl-403e4cd6">  86  (1.5%)</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -1684,8 +1684,8 @@ days_onset_hosp
   <span class="fu">group_by</span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>                         <span class="co"># group by outcome </span>
   <span class="fu">count</span><span class="op">(</span><span class="va">age_cat</span><span class="op">)</span> <span class="op">%&gt;%</span>                            <span class="co"># group and count by age_cat, and then remove age_cat grouping</span>
   <span class="fu">mutate</span><span class="op">(</span>percent <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/label_percent.html">percent</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># calculate percent - note the denominator is by outcome group</span></code></pre></div>
-<div id="htmlwidget-9db947a78a73ff08e056" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9db947a78a73ff08e056">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c7854a9ed7d27598a25e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c7854a9ed7d27598a25e">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="vẽ-biểu-đồ" class="section level3 unnumbered">
 <h3>Vẽ biểu đồ<a class="anchor" aria-label="anchor" href="#v%E1%BA%BD-bi%E1%BB%83u-%C4%91%E1%BB%93"><i class="fas fa-link"></i></a>
@@ -2001,12 +2001,11 @@ days_onset_hosp
     .fns <span class="op">=</span> <span class="va">mean</span>,
     na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 12
-##   outcome generation   age age_years   lon   lat wt_kg ht_cm ct_blood  temp   bmi
-##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 Death         16.7  15.9      15.9 -13.2  8.47  52.6  125.     21.3  38.6  45.6
-## 2 Recover       16.4  16.2      16.1 -13.2  8.47  52.5  125.     21.1  38.6  47.7
-## 3 &lt;NA&gt;          16.5  16.3      16.2 -13.2  8.47  53.0  125.     21.2  38.6  48.3
-## # ... with 1 more variable: days_onset_hosp &lt;dbl&gt;</code></pre>
+##   outcome generation   age age_years   lon   lat wt_kg ht_cm ct_blood  temp   bmi days_onset_hosp
+##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Death         16.7  15.9      15.9 -13.2  8.47  52.6  125.     21.3  38.6  45.6            1.84
+## 2 Recover       16.4  16.2      16.1 -13.2  8.47  52.5  125.     21.1  38.6  47.7            2.34
+## 3 &lt;NA&gt;          16.5  16.3      16.2 -13.2  8.47  53.0  125.     21.2  38.6  48.3            2.07</code></pre>
 </div>
 <div id="tbls_pivot_wider" class="section level3 unnumbered">
 <h3>Xoay trục ngang (Pivot wider)<a class="anchor" aria-label="anchor" href="#tbls_pivot_wider"><i class="fas fa-link"></i></a>
@@ -2018,8 +2017,8 @@ days_onset_hosp
   <span class="fu">group_by</span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">%&gt;%</span>                         <span class="co"># group by outcome </span>
   <span class="fu">count</span><span class="op">(</span><span class="va">age_cat</span><span class="op">)</span> <span class="op">%&gt;%</span>                            <span class="co"># group and count by age_cat, and then remove age_cat grouping</span>
   <span class="fu">mutate</span><span class="op">(</span>percent <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/label_percent.html">percent</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># calculate percent - note the denominator is by outcome group</span></code></pre></div>
-<div id="htmlwidget-d21f64f3aaca5313e81a" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d21f64f3aaca5313e81a">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Để xoay trục ngang, chúng ta tạo các cột mới từ các <em>giá trị</em> trong cột hiện có <code>age_cat</code> (bằng cách đặt <code>names_from = age_cat</code>). Chúng ta cũng chỉ định rằng các giá trị bảng mới sẽ đến từ cột hiện có <code>n</code>, với <code>values_from = n</code>. Các cột không được đề cập trong lệnh pivoting (<code>outcome</code>) sẽ không thay đổi ở phía ngoài cùng bên trái.</p>
+<div id="htmlwidget-a467fedb82d83a82987d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a467fedb82d83a82987d">{"x":{"filter":"none","data":[["Death","Death","Death","Death","Death","Death","Death","Death","Death","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover","Recover",null,null,null,null,null,null,null,null],["0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69","70+",null,"0-4","5-9","10-14","15-19","20-29","30-49","50-69",null],[471,476,438,323,477,329,33,3,32,364,391,303,251,367,238,38,3,28,260,228,200,169,229,187,24,26],["18.242%","18.435%","16.964%","12.510%","18.474%","12.742%","1.278%","0.116%","1.239%","18.36%","19.72%","15.28%","12.66%","18.51%","12.00%","1.92%","0.15%","1.41%","19.652%","17.234%","15.117%","12.774%","17.309%","14.135%","1.814%","1.965%"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>outcome<\/th>\n      <th>age_cat<\/th>\n      <th>n<\/th>\n      <th>percent<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Để xoay trục ngang, chúng ta tạo các cột mới từ các <em>giá trị</em> trong cột hiện có <code>age_cat</code> (bằng cách đặt <code>names_from = age_cat</code>). Chúng ta cũng chỉ định rằng các giá trị bảng mới sẽ đến từ cột hiện có <code>n</code>, với <code>values_from = n</code>. Các cột không được đề cập trong lệnh pivoting (<code>outcome</code>) sẽ không thay đổi ở phía ngoài cùng bên trái.</p>
 <div class="sourceCode" id="cb889"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">age_by_outcome</span> <span class="op">%&gt;%</span> 
   <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">percent</span><span class="op">)</span> <span class="op">%&gt;%</span>   <span class="co"># keep only counts for simplicity</span>
@@ -2109,8 +2108,8 @@ days_onset_hosp
 <code class="sourceCode R"><span class="va">table_long</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">by_hospital</span>, <span class="va">totals</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>hospital <span class="op">=</span> <span class="fu">replace_na</span><span class="op">(</span><span class="va">hospital</span>, <span class="st">"Total"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Đây là bảng mới với các hàng “Tổng” ở các hàng dưới cùng của bảng.</p>
-<div id="htmlwidget-853de0c7b2d5fcc4673e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-853de0c7b2d5fcc4673e">{"x":{"filter":"none","data":[["Central Hospital","Central Hospital","Military Hospital","Military Hospital","Other","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Total","Total"],["Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover"],[193,165,399,309,395,290,785,579,199,126,1971,1469],[22,22,21,22,22,21,22,21,22,22,22,22]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>hospital<\/th>\n      <th>outcome<\/th>\n      <th>N<\/th>\n      <th>ct_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bảng này đang có định dạng “dài”, có thể là những gì bạn muốn. <em>Tuy nhiên</em>, bạn có thể <em>xoay</em> bảng này <em>rộng hơn</em> theo chiều ngang để dễ đọc. Xem thêm ở phần Xoay trục ngang (Pivot wider) bên trên, và chương <a href="pivoting.html#pivoting">Xoay trục dữ liệu</a>. Bạn cũng có thêm nhiều cột nữa, và sắp xếp chúng một cách đẹp mắt. Phần code được trình bày bên dưới.</p>
+<div id="htmlwidget-5654c6d637e5eaf02c7b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5654c6d637e5eaf02c7b">{"x":{"filter":"none","data":[["Central Hospital","Central Hospital","Military Hospital","Military Hospital","Other","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Total","Total"],["Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover","Death","Recover"],[193,165,399,309,395,290,785,579,199,126,1971,1469],[22,22,21,22,22,21,22,21,22,22,22,22]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>hospital<\/th>\n      <th>outcome<\/th>\n      <th>N<\/th>\n      <th>ct_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":12,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,12,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bảng này đang có định dạng “dài”, có thể là những gì bạn muốn. <em>Tuy nhiên</em>, bạn có thể <em>xoay</em> bảng này <em>rộng hơn</em> theo chiều ngang để dễ đọc. Xem thêm ở phần Xoay trục ngang (Pivot wider) bên trên, và chương <a href="pivoting.html#pivoting">Xoay trục dữ liệu</a>. Bạn cũng có thêm nhiều cột nữa, và sắp xếp chúng một cách đẹp mắt. Phần code được trình bày bên dưới.</p>
 <div class="sourceCode" id="cb898"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">table_long</span> <span class="op">%&gt;%</span> 
   
@@ -2131,104 +2130,104 @@ days_onset_hosp
   <span class="fu">arrange</span><span class="op">(</span><span class="va">N_Known</span><span class="op">)</span>                                  <span class="co"># Arrange rows from lowest to highest (Total row at bottom)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 8
 ## # Groups:   hospital [6]
-##   hospital      N_Known N_Recover Pct_Recover ct_value_Recover N_Death Pct_Death ct_value_Death
-##   &lt;chr&gt;           &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;   &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;
-## 1 St. Mark's M~     325       126 38.8%                     22     199 61.2%                 22
-## 2 Central Hosp~     358       165 46.1%                     22     193 53.9%                 22
-## 3 Other             685       290 42.3%                     21     395 57.7%                 22
-## 4 Military Hos~     708       309 43.6%                     22     399 56.4%                 21
-## 5 Port Hospital    1364       579 42.4%                     21     785 57.6%                 22
-## 6 Total            3440      1469 42.7%                     22    1971 57.3%                 22</code></pre>
+##   hospital                             N_Known N_Recover Pct_Recover ct_value_Recover N_Death Pct_Death ct_value_Death
+##   &lt;chr&gt;                                  &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;   &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;
+## 1 St. Mark's Maternity Hospital (SMMH)     325       126 38.8%                     22     199 61.2%                 22
+## 2 Central Hospital                         358       165 46.1%                     22     193 53.9%                 22
+## 3 Other                                    685       290 42.3%                     21     395 57.7%                 22
+## 4 Military Hospital                        708       309 43.6%                     22     399 56.4%                 21
+## 5 Port Hospital                           1364       579 42.4%                     21     785 57.6%                 22
+## 6 Total                                   3440      1469 42.7%                     22    1971 57.3%                 22</code></pre>
 <p>Tiếp đó bạn có thể in bảng kết quả dưới dạng một bức ảnh đẹp - sau đây là output được in bằng <strong>flextable</strong>. Bạn có thể đọc chuyên sâu hơn về ví dụ này và cách tạo được bảng “đẹp” tương tự thế này trong chương <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a>.</p>
 <div class="tabwid">
-<style>.cl-48703788{border-collapse:collapse;}.cl-480c0b64{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-480c0b65{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-480c0b66{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-480c0b67{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-480c0b68{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480c0b69{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480c0b6a{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480c0b6b{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480c0b6c{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480c0b6d{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480c0b6e{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d78{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d79{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d7a{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d7b{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d7c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d7d{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d7e{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d7f{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d80{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d81{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-480e6d82{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4810d0d6{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4810d0d7{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-48703788">
+<style>.cl-470e917e{border-collapse:collapse;}.cl-46eb4322{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-46eb4323{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-46eb6a14{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-46eb6a15{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-46ecc8be{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8bf{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c0{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c1{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c2{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c3{width:108pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c4{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c5{width:54pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c6{width:194pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c7{width:72pt;background-clip: padding-box;background-color:rgba(242, 242, 242, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecc8c8{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefba{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefbb{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefbc{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefbd{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefbe{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefbf{width:194pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefc0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefc1{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46ecefc2{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-470e917e">
 <thead>
 <tr style="overflow-wrap:break-word;">
-<td rowspan="2" class="cl-480e6d7f"><p class="cl-480c0b66"><span class="cl-480c0b64">Hospital</span></p></td>
-<td rowspan="2" class="cl-480e6d7d"><p class="cl-480c0b67"><span class="cl-480c0b64">Total cases with known outcome</span></p></td>
-<td colspan="3" class="cl-480e6d7c"><p class="cl-480c0b67"><span class="cl-480c0b64">Recovered</span></p></td>
-<td colspan="3" class="cl-480e6d7c"><p class="cl-480c0b67"><span class="cl-480c0b64">Died</span></p></td>
+<td rowspan="2" class="cl-46ecefbd"><p class="cl-46eb6a14"><span class="cl-46eb4322">Hospital</span></p></td>
+<td rowspan="2" class="cl-46ecefbb"><p class="cl-46eb6a15"><span class="cl-46eb4322">Total cases with known outcome</span></p></td>
+<td colspan="3" class="cl-46ecefba"><p class="cl-46eb6a15"><span class="cl-46eb4322">Recovered</span></p></td>
+<td colspan="3" class="cl-46ecefba"><p class="cl-46eb6a15"><span class="cl-46eb4322">Died</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480e6d82"><p class="cl-480c0b67"><span class="cl-480c0b65">Total</span></p></td>
-<td class="cl-4810d0d6"><p class="cl-480c0b67"><span class="cl-480c0b65">% of cases</span></p></td>
-<td class="cl-480e6d80"><p class="cl-480c0b67"><span class="cl-480c0b65">Median CT values</span></p></td>
-<td class="cl-480e6d82"><p class="cl-480c0b67"><span class="cl-480c0b65">Total</span></p></td>
-<td class="cl-4810d0d6"><p class="cl-480c0b67"><span class="cl-480c0b65">% of cases</span></p></td>
-<td class="cl-4810d0d6"><p class="cl-480c0b67"><span class="cl-480c0b65">Median CT values</span></p></td>
+<td class="cl-46ecefc0"><p class="cl-46eb6a15"><span class="cl-46eb4323">Total</span></p></td>
+<td class="cl-46ecefc1"><p class="cl-46eb6a15"><span class="cl-46eb4323">% of cases</span></p></td>
+<td class="cl-46ecefbe"><p class="cl-46eb6a15"><span class="cl-46eb4323">Median CT values</span></p></td>
+<td class="cl-46ecefc0"><p class="cl-46eb6a15"><span class="cl-46eb4323">Total</span></p></td>
+<td class="cl-46ecefc1"><p class="cl-46eb6a15"><span class="cl-46eb4323">% of cases</span></p></td>
+<td class="cl-46ecefc1"><p class="cl-46eb6a15"><span class="cl-46eb4323">Median CT values</span></p></td>
 </tr>
 </thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480c0b69"><p class="cl-480c0b66"><span class="cl-480c0b65">St. Mark's Maternity Hospital (SMMH)</span></p></td>
-<td class="cl-480c0b6a"><p class="cl-480c0b67"><span class="cl-480c0b65">325</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">126</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">38.8%</span></p></td>
-<td class="cl-480c0b6b"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">199</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">61.2%</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
+<td class="cl-46ecc8bf"><p class="cl-46eb6a14"><span class="cl-46eb4323">St. Mark's Maternity Hospital (SMMH)</span></p></td>
+<td class="cl-46ecc8c0"><p class="cl-46eb6a15"><span class="cl-46eb4323">325</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">126</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">38.8%</span></p></td>
+<td class="cl-46ecc8c1"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">199</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">61.2%</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480c0b69"><p class="cl-480c0b66"><span class="cl-480c0b65">Central Hospital</span></p></td>
-<td class="cl-480c0b6a"><p class="cl-480c0b67"><span class="cl-480c0b65">358</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">165</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">46.1%</span></p></td>
-<td class="cl-480c0b6b"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">193</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">53.9%</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
+<td class="cl-46ecc8bf"><p class="cl-46eb6a14"><span class="cl-46eb4323">Central Hospital</span></p></td>
+<td class="cl-46ecc8c0"><p class="cl-46eb6a15"><span class="cl-46eb4323">358</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">165</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">46.1%</span></p></td>
+<td class="cl-46ecc8c1"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">193</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">53.9%</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480c0b69"><p class="cl-480c0b66"><span class="cl-480c0b65">Other</span></p></td>
-<td class="cl-480c0b6a"><p class="cl-480c0b67"><span class="cl-480c0b65">685</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">290</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">42.3%</span></p></td>
-<td class="cl-480c0b6b"><p class="cl-480c0b67"><span class="cl-480c0b65">21</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">395</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">57.7%</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
+<td class="cl-46ecc8bf"><p class="cl-46eb6a14"><span class="cl-46eb4323">Other</span></p></td>
+<td class="cl-46ecc8c0"><p class="cl-46eb6a15"><span class="cl-46eb4323">685</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">290</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">42.3%</span></p></td>
+<td class="cl-46ecc8c1"><p class="cl-46eb6a15"><span class="cl-46eb4323">21</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">395</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">57.7%</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480c0b69"><p class="cl-480c0b66"><span class="cl-480c0b65">Military Hospital</span></p></td>
-<td class="cl-480c0b6a"><p class="cl-480c0b67"><span class="cl-480c0b65">708</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">309</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">43.6%</span></p></td>
-<td class="cl-480c0b6b"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">399</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">56.4%</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">21</span></p></td>
+<td class="cl-46ecc8bf"><p class="cl-46eb6a14"><span class="cl-46eb4323">Military Hospital</span></p></td>
+<td class="cl-46ecc8c0"><p class="cl-46eb6a15"><span class="cl-46eb4323">708</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">309</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">43.6%</span></p></td>
+<td class="cl-46ecc8c1"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">399</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">56.4%</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">21</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480c0b69"><p class="cl-480c0b66"><span class="cl-480c0b65">Missing</span></p></td>
-<td class="cl-480c0b6a"><p class="cl-480c0b67"><span class="cl-480c0b65">1,125</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">514</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">45.7%</span></p></td>
-<td class="cl-480c0b6b"><p class="cl-480c0b67"><span class="cl-480c0b65">21</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b65">611</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">54.3%</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b65">21</span></p></td>
+<td class="cl-46ecc8bf"><p class="cl-46eb6a14"><span class="cl-46eb4323">Missing</span></p></td>
+<td class="cl-46ecc8c0"><p class="cl-46eb6a15"><span class="cl-46eb4323">1,125</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">514</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">45.7%</span></p></td>
+<td class="cl-46ecc8c1"><p class="cl-46eb6a15"><span class="cl-46eb4323">21</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4323">611</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">54.3%</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4323">21</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480c0b69"><p class="cl-480c0b66"><span class="cl-480c0b64">Port Hospital</span></p></td>
-<td class="cl-480c0b6a"><p class="cl-480c0b67"><span class="cl-480c0b64">1,364</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b64">579</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b64">42.4%</span></p></td>
-<td class="cl-480c0b6b"><p class="cl-480c0b67"><span class="cl-480c0b64">21</span></p></td>
-<td class="cl-480c0b6c"><p class="cl-480c0b67"><span class="cl-480c0b64">785</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b64">57.6%</span></p></td>
-<td class="cl-480c0b68"><p class="cl-480c0b67"><span class="cl-480c0b64">22</span></p></td>
+<td class="cl-46ecc8bf"><p class="cl-46eb6a14"><span class="cl-46eb4322">Port Hospital</span></p></td>
+<td class="cl-46ecc8c0"><p class="cl-46eb6a15"><span class="cl-46eb4322">1,364</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4322">579</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4322">42.4%</span></p></td>
+<td class="cl-46ecc8c1"><p class="cl-46eb6a15"><span class="cl-46eb4322">21</span></p></td>
+<td class="cl-46ecc8c2"><p class="cl-46eb6a15"><span class="cl-46eb4322">785</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4322">57.6%</span></p></td>
+<td class="cl-46ecc8be"><p class="cl-46eb6a15"><span class="cl-46eb4322">22</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-480e6d79"><p class="cl-480c0b66"><span class="cl-480c0b65">Total</span></p></td>
-<td class="cl-480c0b6d"><p class="cl-480c0b67"><span class="cl-480c0b65">3,440</span></p></td>
-<td class="cl-480e6d78"><p class="cl-480c0b67"><span class="cl-480c0b65">1,469</span></p></td>
-<td class="cl-480c0b6e"><p class="cl-480c0b67"><span class="cl-480c0b65">42.7%</span></p></td>
-<td class="cl-480e6d7a"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
-<td class="cl-480e6d78"><p class="cl-480c0b67"><span class="cl-480c0b65">1,971</span></p></td>
-<td class="cl-480c0b6e"><p class="cl-480c0b67"><span class="cl-480c0b65">57.3%</span></p></td>
-<td class="cl-480c0b6e"><p class="cl-480c0b67"><span class="cl-480c0b65">22</span></p></td>
+<td class="cl-46ecc8c6"><p class="cl-46eb6a14"><span class="cl-46eb4323">Total</span></p></td>
+<td class="cl-46ecc8c3"><p class="cl-46eb6a15"><span class="cl-46eb4323">3,440</span></p></td>
+<td class="cl-46ecc8c5"><p class="cl-46eb6a15"><span class="cl-46eb4323">1,469</span></p></td>
+<td class="cl-46ecc8c4"><p class="cl-46eb6a15"><span class="cl-46eb4323">42.7%</span></p></td>
+<td class="cl-46ecc8c7"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
+<td class="cl-46ecc8c5"><p class="cl-46eb6a15"><span class="cl-46eb4323">1,971</span></p></td>
+<td class="cl-46ecc8c4"><p class="cl-46eb6a15"><span class="cl-46eb4323">57.3%</span></p></td>
+<td class="cl-46ecc8c4"><p class="cl-46eb6a15"><span class="cl-46eb4323">22</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -2255,7 +2254,7 @@ days_onset_hosp
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tztwhmmwej .gt_table {
+#aicglctiic .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2280,7 +2279,7 @@ days_onset_hosp
   border-left-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_heading {
+#aicglctiic .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2292,7 +2291,7 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_title {
+#aicglctiic .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2302,7 +2301,7 @@ days_onset_hosp
   border-bottom-width: 0;
 }
 
-#tztwhmmwej .gt_subtitle {
+#aicglctiic .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2312,13 +2311,13 @@ days_onset_hosp
   border-top-width: 0;
 }
 
-#tztwhmmwej .gt_bottom_border {
+#aicglctiic .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_col_headings {
+#aicglctiic .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2333,7 +2332,7 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_col_heading {
+#aicglctiic .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2353,7 +2352,7 @@ days_onset_hosp
   overflow-x: hidden;
 }
 
-#tztwhmmwej .gt_column_spanner_outer {
+#aicglctiic .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2365,15 +2364,15 @@ days_onset_hosp
   padding-right: 4px;
 }
 
-#tztwhmmwej .gt_column_spanner_outer:first-child {
+#aicglctiic .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tztwhmmwej .gt_column_spanner_outer:last-child {
+#aicglctiic .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tztwhmmwej .gt_column_spanner {
+#aicglctiic .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2385,7 +2384,7 @@ days_onset_hosp
   width: 100%;
 }
 
-#tztwhmmwej .gt_group_heading {
+#aicglctiic .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2407,7 +2406,7 @@ days_onset_hosp
   vertical-align: middle;
 }
 
-#tztwhmmwej .gt_empty_group_heading {
+#aicglctiic .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2422,15 +2421,15 @@ days_onset_hosp
   vertical-align: middle;
 }
 
-#tztwhmmwej .gt_from_md > :first-child {
+#aicglctiic .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tztwhmmwej .gt_from_md > :last-child {
+#aicglctiic .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tztwhmmwej .gt_row {
+#aicglctiic .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2449,7 +2448,7 @@ days_onset_hosp
   overflow-x: hidden;
 }
 
-#tztwhmmwej .gt_stub {
+#aicglctiic .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2461,7 +2460,7 @@ days_onset_hosp
   padding-left: 12px;
 }
 
-#tztwhmmwej .gt_summary_row {
+#aicglctiic .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2471,7 +2470,7 @@ days_onset_hosp
   padding-right: 5px;
 }
 
-#tztwhmmwej .gt_first_summary_row {
+#aicglctiic .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2481,7 +2480,7 @@ days_onset_hosp
   border-top-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_grand_summary_row {
+#aicglctiic .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2491,7 +2490,7 @@ days_onset_hosp
   padding-right: 5px;
 }
 
-#tztwhmmwej .gt_first_grand_summary_row {
+#aicglctiic .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2501,11 +2500,11 @@ days_onset_hosp
   border-top-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_striped {
+#aicglctiic .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tztwhmmwej .gt_table_body {
+#aicglctiic .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2514,7 +2513,7 @@ days_onset_hosp
   border-bottom-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_footnotes {
+#aicglctiic .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2528,13 +2527,13 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_footnote {
+#aicglctiic .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#tztwhmmwej .gt_sourcenotes {
+#aicglctiic .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2548,46 +2547,46 @@ days_onset_hosp
   border-right-color: #D3D3D3;
 }
 
-#tztwhmmwej .gt_sourcenote {
+#aicglctiic .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#tztwhmmwej .gt_left {
+#aicglctiic .gt_left {
   text-align: left;
 }
 
-#tztwhmmwej .gt_center {
+#aicglctiic .gt_center {
   text-align: center;
 }
 
-#tztwhmmwej .gt_right {
+#aicglctiic .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tztwhmmwej .gt_font_normal {
+#aicglctiic .gt_font_normal {
   font-weight: normal;
 }
 
-#tztwhmmwej .gt_font_bold {
+#aicglctiic .gt_font_bold {
   font-weight: bold;
 }
 
-#tztwhmmwej .gt_font_italic {
+#aicglctiic .gt_font_italic {
   font-style: italic;
 }
 
-#tztwhmmwej .gt_super {
+#aicglctiic .gt_super {
   font-size: 65%;
 }
 
-#tztwhmmwej .gt_footnote_marks {
+#aicglctiic .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="tztwhmmwej" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="aicglctiic" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -2715,7 +2714,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#heovijpgwq .gt_table {
+#mviopotfxs .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2740,7 +2739,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-left-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_heading {
+#mviopotfxs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2752,7 +2751,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_title {
+#mviopotfxs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2762,7 +2761,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-width: 0;
 }
 
-#heovijpgwq .gt_subtitle {
+#mviopotfxs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2772,13 +2771,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-width: 0;
 }
 
-#heovijpgwq .gt_bottom_border {
+#mviopotfxs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_col_headings {
+#mviopotfxs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2793,7 +2792,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_col_heading {
+#mviopotfxs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2813,7 +2812,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#heovijpgwq .gt_column_spanner_outer {
+#mviopotfxs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2825,15 +2824,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 4px;
 }
 
-#heovijpgwq .gt_column_spanner_outer:first-child {
+#mviopotfxs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#heovijpgwq .gt_column_spanner_outer:last-child {
+#mviopotfxs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#heovijpgwq .gt_column_spanner {
+#mviopotfxs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2845,7 +2844,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   width: 100%;
 }
 
-#heovijpgwq .gt_group_heading {
+#mviopotfxs .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2867,7 +2866,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#heovijpgwq .gt_empty_group_heading {
+#mviopotfxs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2882,15 +2881,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#heovijpgwq .gt_from_md > :first-child {
+#mviopotfxs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#heovijpgwq .gt_from_md > :last-child {
+#mviopotfxs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#heovijpgwq .gt_row {
+#mviopotfxs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2909,7 +2908,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#heovijpgwq .gt_stub {
+#mviopotfxs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2921,7 +2920,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-left: 12px;
 }
 
-#heovijpgwq .gt_summary_row {
+#mviopotfxs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2931,7 +2930,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#heovijpgwq .gt_first_summary_row {
+#mviopotfxs .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2941,7 +2940,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_grand_summary_row {
+#mviopotfxs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2951,7 +2950,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#heovijpgwq .gt_first_grand_summary_row {
+#mviopotfxs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2961,11 +2960,11 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_striped {
+#mviopotfxs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#heovijpgwq .gt_table_body {
+#mviopotfxs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2974,7 +2973,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_footnotes {
+#mviopotfxs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2988,13 +2987,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_footnote {
+#mviopotfxs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#heovijpgwq .gt_sourcenotes {
+#mviopotfxs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3008,46 +3007,46 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#heovijpgwq .gt_sourcenote {
+#mviopotfxs .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#heovijpgwq .gt_left {
+#mviopotfxs .gt_left {
   text-align: left;
 }
 
-#heovijpgwq .gt_center {
+#mviopotfxs .gt_center {
   text-align: center;
 }
 
-#heovijpgwq .gt_right {
+#mviopotfxs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#heovijpgwq .gt_font_normal {
+#mviopotfxs .gt_font_normal {
   font-weight: normal;
 }
 
-#heovijpgwq .gt_font_bold {
+#mviopotfxs .gt_font_bold {
   font-weight: bold;
 }
 
-#heovijpgwq .gt_font_italic {
+#mviopotfxs .gt_font_italic {
   font-style: italic;
 }
 
-#heovijpgwq .gt_super {
+#mviopotfxs .gt_super {
   font-size: 65%;
 }
 
-#heovijpgwq .gt_footnote_marks {
+#mviopotfxs .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="heovijpgwq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="mviopotfxs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3085,7 +3084,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#iapacikict .gt_table {
+#mzmyosjvnp .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3110,7 +3109,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-left-color: #D3D3D3;
 }
 
-#iapacikict .gt_heading {
+#mzmyosjvnp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3122,7 +3121,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#iapacikict .gt_title {
+#mzmyosjvnp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3132,7 +3131,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-width: 0;
 }
 
-#iapacikict .gt_subtitle {
+#mzmyosjvnp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3142,13 +3141,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-width: 0;
 }
 
-#iapacikict .gt_bottom_border {
+#mzmyosjvnp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iapacikict .gt_col_headings {
+#mzmyosjvnp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3163,7 +3162,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#iapacikict .gt_col_heading {
+#mzmyosjvnp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3183,7 +3182,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#iapacikict .gt_column_spanner_outer {
+#mzmyosjvnp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3195,15 +3194,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 4px;
 }
 
-#iapacikict .gt_column_spanner_outer:first-child {
+#mzmyosjvnp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iapacikict .gt_column_spanner_outer:last-child {
+#mzmyosjvnp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iapacikict .gt_column_spanner {
+#mzmyosjvnp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3215,7 +3214,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   width: 100%;
 }
 
-#iapacikict .gt_group_heading {
+#mzmyosjvnp .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3237,7 +3236,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#iapacikict .gt_empty_group_heading {
+#mzmyosjvnp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3252,15 +3251,15 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   vertical-align: middle;
 }
 
-#iapacikict .gt_from_md > :first-child {
+#mzmyosjvnp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iapacikict .gt_from_md > :last-child {
+#mzmyosjvnp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iapacikict .gt_row {
+#mzmyosjvnp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3279,7 +3278,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   overflow-x: hidden;
 }
 
-#iapacikict .gt_stub {
+#mzmyosjvnp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3291,7 +3290,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-left: 12px;
 }
 
-#iapacikict .gt_summary_row {
+#mzmyosjvnp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3301,7 +3300,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#iapacikict .gt_first_summary_row {
+#mzmyosjvnp .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3311,7 +3310,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#iapacikict .gt_grand_summary_row {
+#mzmyosjvnp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3321,7 +3320,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   padding-right: 5px;
 }
 
-#iapacikict .gt_first_grand_summary_row {
+#mzmyosjvnp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3331,11 +3330,11 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-top-color: #D3D3D3;
 }
 
-#iapacikict .gt_striped {
+#mzmyosjvnp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iapacikict .gt_table_body {
+#mzmyosjvnp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3344,7 +3343,7 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-bottom-color: #D3D3D3;
 }
 
-#iapacikict .gt_footnotes {
+#mzmyosjvnp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3358,13 +3357,13 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#iapacikict .gt_footnote {
+#mzmyosjvnp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#iapacikict .gt_sourcenotes {
+#mzmyosjvnp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3378,46 +3377,46 @@ Sử dụng phương trình để chỉ định thống kê nào sẽ được h
   border-right-color: #D3D3D3;
 }
 
-#iapacikict .gt_sourcenote {
+#mzmyosjvnp .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#iapacikict .gt_left {
+#mzmyosjvnp .gt_left {
   text-align: left;
 }
 
-#iapacikict .gt_center {
+#mzmyosjvnp .gt_center {
   text-align: center;
 }
 
-#iapacikict .gt_right {
+#mzmyosjvnp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iapacikict .gt_font_normal {
+#mzmyosjvnp .gt_font_normal {
   font-weight: normal;
 }
 
-#iapacikict .gt_font_bold {
+#mzmyosjvnp .gt_font_bold {
   font-weight: bold;
 }
 
-#iapacikict .gt_font_italic {
+#mzmyosjvnp .gt_font_italic {
   font-style: italic;
 }
 
-#iapacikict .gt_super {
+#mzmyosjvnp .gt_super {
   font-size: 65%;
 }
 
-#iapacikict .gt_footnote_marks {
+#mzmyosjvnp .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="iapacikict" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="mzmyosjvnp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3484,7 +3483,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#obmmwrlkgs .gt_table {
+#pjgtvpxxzj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3509,7 +3508,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-left-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_heading {
+#pjgtvpxxzj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3521,7 +3520,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_title {
+#pjgtvpxxzj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3531,7 +3530,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-width: 0;
 }
 
-#obmmwrlkgs .gt_subtitle {
+#pjgtvpxxzj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3541,13 +3540,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-width: 0;
 }
 
-#obmmwrlkgs .gt_bottom_border {
+#pjgtvpxxzj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_col_headings {
+#pjgtvpxxzj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3562,7 +3561,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_col_heading {
+#pjgtvpxxzj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3582,7 +3581,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#obmmwrlkgs .gt_column_spanner_outer {
+#pjgtvpxxzj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3594,15 +3593,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 4px;
 }
 
-#obmmwrlkgs .gt_column_spanner_outer:first-child {
+#pjgtvpxxzj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#obmmwrlkgs .gt_column_spanner_outer:last-child {
+#pjgtvpxxzj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#obmmwrlkgs .gt_column_spanner {
+#pjgtvpxxzj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3614,7 +3613,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   width: 100%;
 }
 
-#obmmwrlkgs .gt_group_heading {
+#pjgtvpxxzj .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3636,7 +3635,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#obmmwrlkgs .gt_empty_group_heading {
+#pjgtvpxxzj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3651,15 +3650,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#obmmwrlkgs .gt_from_md > :first-child {
+#pjgtvpxxzj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#obmmwrlkgs .gt_from_md > :last-child {
+#pjgtvpxxzj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#obmmwrlkgs .gt_row {
+#pjgtvpxxzj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3678,7 +3677,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#obmmwrlkgs .gt_stub {
+#pjgtvpxxzj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3690,7 +3689,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-left: 12px;
 }
 
-#obmmwrlkgs .gt_summary_row {
+#pjgtvpxxzj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3700,7 +3699,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#obmmwrlkgs .gt_first_summary_row {
+#pjgtvpxxzj .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3710,7 +3709,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_grand_summary_row {
+#pjgtvpxxzj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3720,7 +3719,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#obmmwrlkgs .gt_first_grand_summary_row {
+#pjgtvpxxzj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3730,11 +3729,11 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_striped {
+#pjgtvpxxzj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#obmmwrlkgs .gt_table_body {
+#pjgtvpxxzj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3743,7 +3742,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_footnotes {
+#pjgtvpxxzj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3757,13 +3756,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_footnote {
+#pjgtvpxxzj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#obmmwrlkgs .gt_sourcenotes {
+#pjgtvpxxzj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3777,46 +3776,46 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#obmmwrlkgs .gt_sourcenote {
+#pjgtvpxxzj .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#obmmwrlkgs .gt_left {
+#pjgtvpxxzj .gt_left {
   text-align: left;
 }
 
-#obmmwrlkgs .gt_center {
+#pjgtvpxxzj .gt_center {
   text-align: center;
 }
 
-#obmmwrlkgs .gt_right {
+#pjgtvpxxzj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#obmmwrlkgs .gt_font_normal {
+#pjgtvpxxzj .gt_font_normal {
   font-weight: normal;
 }
 
-#obmmwrlkgs .gt_font_bold {
+#pjgtvpxxzj .gt_font_bold {
   font-weight: bold;
 }
 
-#obmmwrlkgs .gt_font_italic {
+#pjgtvpxxzj .gt_font_italic {
   font-style: italic;
 }
 
-#obmmwrlkgs .gt_super {
+#pjgtvpxxzj .gt_super {
   font-size: 65%;
 }
 
-#obmmwrlkgs .gt_footnote_marks {
+#pjgtvpxxzj .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="obmmwrlkgs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="pjgtvpxxzj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
@@ -3953,7 +3952,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#iugxozotpx .gt_table {
+#fzulnmgssu .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3978,7 +3977,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-left-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_heading {
+#fzulnmgssu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3990,7 +3989,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_title {
+#fzulnmgssu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4000,7 +3999,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-width: 0;
 }
 
-#iugxozotpx .gt_subtitle {
+#fzulnmgssu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4010,13 +4009,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-width: 0;
 }
 
-#iugxozotpx .gt_bottom_border {
+#fzulnmgssu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_col_headings {
+#fzulnmgssu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4031,7 +4030,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_col_heading {
+#fzulnmgssu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4051,7 +4050,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#iugxozotpx .gt_column_spanner_outer {
+#fzulnmgssu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4063,15 +4062,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 4px;
 }
 
-#iugxozotpx .gt_column_spanner_outer:first-child {
+#fzulnmgssu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iugxozotpx .gt_column_spanner_outer:last-child {
+#fzulnmgssu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iugxozotpx .gt_column_spanner {
+#fzulnmgssu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4083,7 +4082,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   width: 100%;
 }
 
-#iugxozotpx .gt_group_heading {
+#fzulnmgssu .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4105,7 +4104,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#iugxozotpx .gt_empty_group_heading {
+#fzulnmgssu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4120,15 +4119,15 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   vertical-align: middle;
 }
 
-#iugxozotpx .gt_from_md > :first-child {
+#fzulnmgssu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iugxozotpx .gt_from_md > :last-child {
+#fzulnmgssu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iugxozotpx .gt_row {
+#fzulnmgssu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4147,7 +4146,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   overflow-x: hidden;
 }
 
-#iugxozotpx .gt_stub {
+#fzulnmgssu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4159,7 +4158,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-left: 12px;
 }
 
-#iugxozotpx .gt_summary_row {
+#fzulnmgssu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4169,7 +4168,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#iugxozotpx .gt_first_summary_row {
+#fzulnmgssu .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4179,7 +4178,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_grand_summary_row {
+#fzulnmgssu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4189,7 +4188,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   padding-right: 5px;
 }
 
-#iugxozotpx .gt_first_grand_summary_row {
+#fzulnmgssu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4199,11 +4198,11 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-top-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_striped {
+#fzulnmgssu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iugxozotpx .gt_table_body {
+#fzulnmgssu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4212,7 +4211,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-bottom-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_footnotes {
+#fzulnmgssu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4226,13 +4225,13 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_footnote {
+#fzulnmgssu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#iugxozotpx .gt_sourcenotes {
+#fzulnmgssu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4246,46 +4245,46 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   border-right-color: #D3D3D3;
 }
 
-#iugxozotpx .gt_sourcenote {
+#fzulnmgssu .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#iugxozotpx .gt_left {
+#fzulnmgssu .gt_left {
   text-align: left;
 }
 
-#iugxozotpx .gt_center {
+#fzulnmgssu .gt_center {
   text-align: center;
 }
 
-#iugxozotpx .gt_right {
+#fzulnmgssu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iugxozotpx .gt_font_normal {
+#fzulnmgssu .gt_font_normal {
   font-weight: normal;
 }
 
-#iugxozotpx .gt_font_bold {
+#fzulnmgssu .gt_font_bold {
   font-weight: bold;
 }
 
-#iugxozotpx .gt_font_italic {
+#fzulnmgssu .gt_font_italic {
   font-style: italic;
 }
 
-#iugxozotpx .gt_super {
+#fzulnmgssu .gt_super {
   font-size: 65%;
 }
 
-#iugxozotpx .gt_footnote_marks {
+#fzulnmgssu .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="iugxozotpx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="fzulnmgssu" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 5,888</strong></th>
@@ -4423,85 +4422,85 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
   <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"Age Category"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html">flextable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="tabwid">
-<style>.cl-4c4dde78{border-collapse:collapse;}.cl-4c41f374{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c41f375{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-4c41f376{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-4c41f377{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c41f378{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c41f379{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c41f37a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c41f37b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c41f37c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-4c4dde78">
+<style>.cl-509e8398{border-collapse:collapse;}.cl-5083f1b8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-508418aa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-508418ab{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-5084b472{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5084b473{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5084b474{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5084b475{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5084b476{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5084b477{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table class="cl-509e8398">
 <thead><tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f37c"><p class="cl-4c41f375"><span class="cl-4c41f374">Age Category</span></p></td>
-<td class="cl-4c41f37b"><p class="cl-4c41f376"><span class="cl-4c41f374">Death</span></p></td>
-<td class="cl-4c41f37b"><p class="cl-4c41f376"><span class="cl-4c41f374">Recover</span></p></td>
-<td class="cl-4c41f37b"><p class="cl-4c41f376"><span class="cl-4c41f374">(Missing)</span></p></td>
-<td class="cl-4c41f37b"><p class="cl-4c41f376"><span class="cl-4c41f374">Sum</span></p></td>
+<td class="cl-5084b477"><p class="cl-508418aa"><span class="cl-5083f1b8">Age Category</span></p></td>
+<td class="cl-5084b476"><p class="cl-508418ab"><span class="cl-5083f1b8">Death</span></p></td>
+<td class="cl-5084b476"><p class="cl-508418ab"><span class="cl-5083f1b8">Recover</span></p></td>
+<td class="cl-5084b476"><p class="cl-508418ab"><span class="cl-5083f1b8">(Missing)</span></p></td>
+<td class="cl-5084b476"><p class="cl-508418ab"><span class="cl-5083f1b8">Sum</span></p></td>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">0-4</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">471</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">364</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">260</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">1,095</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">0-4</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">471</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">364</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">260</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">1,095</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">5-9</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">476</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">391</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">228</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">1,095</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">5-9</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">476</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">391</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">228</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">1,095</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">10-14</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">438</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">303</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">200</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">941</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">10-14</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">438</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">303</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">200</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">941</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">15-19</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">323</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">251</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">169</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">743</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">15-19</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">323</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">251</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">169</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">743</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">20-29</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">477</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">367</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">229</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">1,073</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">20-29</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">477</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">367</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">229</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">1,073</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">30-49</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">329</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">238</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">187</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">754</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">30-49</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">329</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">238</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">187</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">754</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">50-69</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">33</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">38</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">24</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">95</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">50-69</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">33</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">38</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">24</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">95</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">70+</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">3</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">3</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">0</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">6</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">70+</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">3</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">3</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">0</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">6</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f377"><p class="cl-4c41f375"><span class="cl-4c41f374">(Missing)</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">32</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">28</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">26</span></p></td>
-<td class="cl-4c41f378"><p class="cl-4c41f376"><span class="cl-4c41f374">86</span></p></td>
+<td class="cl-5084b472"><p class="cl-508418aa"><span class="cl-5083f1b8">(Missing)</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">32</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">28</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">26</span></p></td>
+<td class="cl-5084b473"><p class="cl-508418ab"><span class="cl-5083f1b8">86</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-4c41f37a"><p class="cl-4c41f375"><span class="cl-4c41f374">Sum</span></p></td>
-<td class="cl-4c41f379"><p class="cl-4c41f376"><span class="cl-4c41f374">2,582</span></p></td>
-<td class="cl-4c41f379"><p class="cl-4c41f376"><span class="cl-4c41f374">1,983</span></p></td>
-<td class="cl-4c41f379"><p class="cl-4c41f376"><span class="cl-4c41f374">1,323</span></p></td>
-<td class="cl-4c41f379"><p class="cl-4c41f376"><span class="cl-4c41f374">5,888</span></p></td>
+<td class="cl-5084b475"><p class="cl-508418aa"><span class="cl-5083f1b8">Sum</span></p></td>
+<td class="cl-5084b474"><p class="cl-508418ab"><span class="cl-5083f1b8">2,582</span></p></td>
+<td class="cl-5084b474"><p class="cl-508418ab"><span class="cl-5083f1b8">1,983</span></p></td>
+<td class="cl-5084b474"><p class="cl-508418ab"><span class="cl-5083f1b8">1,323</span></p></td>
+<td class="cl-5084b474"><p class="cl-508418ab"><span class="cl-5083f1b8">5,888</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -4527,9 +4526,9 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#tables-descriptive"><span class="header-section-number">17</span> Bảng mô tả</a></li>
 <li>
-<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-4"><span class="header-section-number">17.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-5"><span class="header-section-number">17.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#g%E1%BB%8Di-packages-2">Gọi packages</a></li>
-<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-4">Nhập dữ liệu</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-5">Nhập dữ liệu</a></li>
 </ul>
 </li>
 <li>
@@ -4596,7 +4595,7 @@ Sử dụng để điều chỉnh số lượng cấp độ của thống kê đ
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-31.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-08-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
