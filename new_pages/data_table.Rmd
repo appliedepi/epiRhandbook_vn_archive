@@ -1,34 +1,32 @@
+# Data Table {#data-table}
 
-# Data Table {#data-table}  
-     
-The handbook focusses on the **dplyr** “verb” functions and the **magrittr** pipe operator `%>%` as a method to clean and group data, but the **data.table** package offers an alternative method that you may encounter in your R career.  
-
-
+Cuốn sổ tay này tập trung vào các hàm của **dplyr** và toán tử pipe của **magrittr** `%>%` như một phương pháp để làm sạch và nhóm dữ liệu, tuy nhiên package **data.table** cũng cung cấp một giải pháp thay thế mà bạn có thể sử dụng trong quá trình làm việc với R của mình.
 
 <!-- ======================================================= -->
-## Intro to data tables {  }
 
-A data table is a 2-dimensional data structure like a data frame that allows complex grouping operations to be performed. The data.table syntax is structured so that operations can be performed on rows, columns and groups. 
+## Giới thiệu về data table
 
-The structure is **DT[i, j, by]**, separated by 3 parts; the **i, j** and **by** arguments. The **i** argument allows for subsetting of required rows, the **j** argument allows you to operate on columns and the **by** argument allows you operate on columns by groups.
-  
-This page will address the following topics:  
+Một data table là một cấu trúc dữ liệu 2-chiều giống như một data frame mà cho phép thực hiện các thao tác phân nhóm phức tạp. Cú pháp data.table được cấu trúc để có thể thực hiện các thao tác trên hàng, cột và nhóm.
 
-* Importing data and use of `fread()` and `fwrite()`
-* Selecting and filtering rows using the **i** argument
-* Using helper functions `%like%`, `%chin%`, `%between%` 
-* Selecting and computing on columns using the **j** argument
-* Computing by groups using the **by** argument
-* Adding and updating data to data tables using `:=`
+Cấu trúc là **DT[i, j, by]**, được chia thành 3 phần; đối số **i, j** và **by**. Đối số **i** cho phép tạo tập con trên các hàng được yêu cầu, đối số **j** cho phép bạn vận hành trên cột và đối số **by** cho phép bạn vận hành theo nhóm.
+
+Chương này sẽ giải quyết các chủ đề sau:
+
+-   Nhập dữ liệu và sử dụng `fread()` và `fwrite()`
+-   Chọn và lọc các hàng bằng cách sử dụng đối số **i**
+-   Sử dụng các hàm trợ giúp `%like%`, `%chin%`, `%between%`
+-   Chọn và tính toán trên các cột bằng cách sử dụng đối số **j**
+-   Tính toán theo nhóm bằng cách sử dụng đối số **by**
+-   Thêm và cập nhật dữ liệu vào data table bằng cách sử dụng `:=`
 
 <!-- ======================================================= -->
-## Load packages and import data { }
 
-### Load packages {.unnumbered}  
+## Gọi package và nhập dữ liệu
 
-Using the `p_load()` function from **pacman**, we load (and install if necessary) packages required for this analysis.
-     
-     
+### Gọi package {.unnumbered}
+
+Sử dụng hàm `p_load()` từ **pacman**, chúng ta sẽ gọi (và cài đặt nếu cần) các package cần thiết cho phân tích này.
+
 ```{r}
 pacman::p_load(
   rio,        # to import data
@@ -38,40 +36,37 @@ pacman::p_load(
   ) 
 ```
 
+### Nhập dữ liệu {.unnumbered}
 
-### Import data {.unnumbered}
+Chương này sẽ khám phá một số hàm cốt lõi của **data.table** thông qua bộ số liệu linelist đã được nhắc đền nhiều lần trong sổ tay này.
 
-This page will explore some of the core functions of **data.table** using the case linelist referenced throughout the handbook.
-
-We import the dataset of cases from a simulated Ebola epidemic. If you want to download the data to follow step-by-step, see instructions in the [Download book and data] page. The dataset is imported using the `import()` function from the **rio** package. See the page on [Import and export] for various ways to import data. From here we use `data.table()` to convert the data frame to a data table.
+Chúng ta nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn tải dữ liệu để làm theo từng bước, hãy xem hướng dẫn trong chương [Tải sách và dữ liệu]. Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương về [Nhập xuất dữ liệu] để biết các cách nhập dữ liệu khác nhau. Từ đây chúng tôi sử dụng `data.table()` để chuyển data frame thành data table.
 
 ```{r}
 linelist <- rio::import(here("data", "linelist_cleaned.xlsx")) %>% data.table()
 ```
 
-The `fread()` function is used to directly import regular delimited files, such as .csv files, directly to a data table format. This function, and its counterpart, `fwrite()`, used for writing data.tables as regular delimited files are very fast and computationally efficient options for large databases.
+Hàm `fread()` được sử dụng để nhập trực tiếp các delimited files phổ biến, chẳng hạn như tệp .csv, trực tiếp sang định dạng data table. Hàm này và đối tác của nó, `fwrite()`, được sử dụng để ghi data.table dưới dạng các delimited files phổ biến, là các tùy chọn rất nhanh và hiệu quả về mặt tính toán đối với cơ sở dữ liệu lớn.
 
-
-The first 20 rows of `linelist`:  
+20 hàng đầu tiên của `linelist`:
 
 ```{r message=FALSE, echo=F, eval=FALSE}
 DT::datatable(head(linelist,20), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Base R commands such as `dim()` that are used for data frames can also be used for data tables
+Các lệnh base R như `dim()` được sử dụng cho data frame cũng có thể được sử dụng cho data table
 
 ```{r}
 dim(linelist) #gives the number of rows and columns in the data table
 ```
 
-
 <!-- ======================================================= -->
-## The i argument: selecting and filtering rows{ }
-     
-Recalling the **DT[i, j, by]** structure, we can filter rows using either row numbers or logical expressions. The i argument is first; therefore, the syntax **DT[i]** or **DT[i,]** can be used. 
 
-The first example retrieves the first 5 rows of the data table, the second example subsets cases are 18 years or over, and the third example subsets cases 18 years old or over but not diagnosed at the Central Hospital:
+## Đối số i: chọn và lọc hàng
 
+Nhắc lại cấu trúc **DT[i, j, by]**, chúng ta có thể lọc các hàng bằng cách sử dụng số hàng hoặc biểu thức logic. Đối số i là đối số đầu tiên; do đó, cú pháp **DT[i]** hoặc **DT[i,]** có thể được sử dụng.
+
+Ví dụ đầu là việc truy xuất 5 hàng đầu tiên của data table, ví dụ thứ hai là tập hợp các trường hợp từ 18 tuổi trở lên và ví dụ thứ ba là tập hợp các trường hợp từ 18 tuổi trở lên nhưng không được chẩn đoán tại Bệnh viện Trung tâm (Central Hospital):
 
 ```{r, eval=F}
 linelist[1:5] #returns the 1st to 5th row
@@ -80,22 +75,18 @@ linelist[age >= 18 & hospital != "Central Hospital"] #subsets cases equal to or 
 
 ```
 
-Using .N in the i argument represents the total number of rows in the data table. This can be used to subset on the row numbers: 
+Sử dụng .N trong đối số i đại diện cho tổng số hàng trong data table. Điều này có thể được sử dụng để subset dữ liệu dựa trên số thứ tự hàng:
 
 ```{r, eval=F}
 linelist[.N] #returns the last row
 linelist[15:.N] #returns the 15th to the last row
 ```
 
+### Sử dụng hàm trợ giúp để lọc {.unnumbered}
 
-### Using helper functions for filtering {.unnumbered}  
+Data table sử dụng các hàm trợ giúp để việc subset các hàng trở nên dễ dàng. Hàm `%like%` được sử dụng để khớp với một pattern trong cột, `%chin%` được sử dụng để khớp với một ký tự cụ thể và hàm trợ giúp `%between%` được sử dụng để khớp các cột theo số thứ tự trong một phạm vi xác định trước.
 
-Data table uses helper functions that make subsetting rows easy. The `%like%` function is used to match a pattern in a column, `%chin%` is used to match a specific character, and the `%between%` helper function is used to match numeric columns within a prespecified range.
-
-In the following examples we:
-*  filter rows where the hospital variable contains “Hospital”
-*  filter rows where the outcome is “Recover” or “Death”
-*  filter rows in the age range 40-60
+Trong các ví dụ dưới đây, chúng ta: \* lọc các hàng mà biến hospital có chứa "Hospital" \* lọc các hàng có kết quả là "Recover" hoặc "Death" \* lọc các hàng trong độ tuổi 40-60
 
 ```{r, eval=F}
 linelist[hospital %like% "Hospital"] #filter rows where the hospital variable contains “Hospital”
@@ -106,15 +97,13 @@ linelist[age %between% c(40, 60)] #filter rows in the age range 40-60
 
 ```
 
-## The j argument: selecting and computing on columns{ }
+## Đối số j: chọn và tính toán trên cột
 
-Using the **DT[i, j, by]** structure, we can select columns using numbers or names. The **j** argument is second; therefore, the syntax **DT[, j]** is used. To facilitate computations on the **j** argument, the column is wrapped using either `list()` or `.()`. 
+Sử dụng cấu trúc **DT[i, j, by]**, chúng ta có thể chọn cột bằng cách sử dụng số hoặc tên. Đối số **j** là đối số thứ hai; do đó, cú pháp **DT[, j]** được sử dụng. Để tạo điều kiện tính toán trên đối số **j**, cột được bao quanh bằng cách sử dụng `list()` hoặc `.()`.
 
+### Chọn cột {.unnumbered}
 
-### Selecting columns {.unnumbered} 
-
-The first example retrieves the first, third and fifth columns of the data table, the second example selects all columns except the height, weight and gender columns. The third example uses the `.()` wrap to select the **case_id** and **outcome** columns.
-
+Ví dụ đầu tiên lấy các cột thứ nhất, thứ ba và thứ năm của data table, ví dụ thứ hai chọn tất cả các cột ngoại trừ các cột height, weight và gender. Ví dụ thứ ba sử dụng `.()` phía trước để chọn cột **case_id** và **outcome**.
 
 ```{r, eval=F}
 linelist[ , c(1,3,5)]
@@ -123,14 +112,11 @@ linelist[ , list(case_id, outcome)] #linelist[ , .(case_id, outcome)] works just
 
 ```
 
-### Computing on columns {.unnumbered} 
+### Tính toán trên cột {.unnumbered}
 
-By combining the **i** and **j** arguments it is possible to filter rows and compute on the columns. Using **.N** in the **j** argument also represents the total number of rows in the data table and can be useful to return the number of rows after row filtering.
+Bằng cách kết hợp các đối số **i** và **j**, có thể lọc các hàng và tính toán trên các cột. Sử dụng **.N** trong đối số **j** cũng thể hiện cho tổng số hàng trong data table và có thể hữu ích để trả về số hàng sau khi lọc.
 
-In the following examples we:
-* Count the number of cases that stayed over 7 days in hospital
-* Calculate the mean age of the cases that died at the military hospital
-* Calculate the standard deviation, median, mean age of the cases that recovered at the central hospital
+Trong các ví dụ dưới đây, chúng tôi: \* Đếm số trường hợp nằm viện trên 7 ngày \* Tính tuổi trung bình của các trường hợp tử vong tại military hospital  \* Tính toán độ lệch chuẩn, trung vị, tuổi trung bình của các trường hợp đã khỏi bệnh tại Central Hospital
 
 ```{r}
 linelist[days_onset_hosp > 7 , .N]
@@ -142,19 +128,16 @@ linelist[hospital == "Central Hospital" & outcome == "Recover",
 
 ```
 
-Remember using the .() wrap in the j argument facilitates computation, returns a data table and allows for column naming.
+Hãy nhớ rằng việc sử dụng .() bao quanh đối số j sẽ tạo điều kiện thuận lợi cho việc tính toán, trả về data table và cho phép đặt tên cột.
 
-## The by argument: computing by groups{ }
+## Đối số by: tính toán theo nhóm
 
-The **by** argument is the third argument in the **DT[i, j, by]** structure. The **by** argument accepts both a character vector and the `list()` or `.()` syntax. Using the `.()` syntax in the **by** argument allows column renaming on the fly.
+Đối số **by** là đối số thứ ba trong cấu trúc **DT[i, j, by]**. Đối số **by** chấp nhận cả vectơ ký tự và cú pháp `list()` hoặc `.()`. Sử dụng cú pháp `.()` trong đối số **by** cho phép đổi tên cột một cách nhanh chóng.
 
-In the following examples we:	
-* group the number of cases by hospital
-* in cases 18 years old or over, calculate the mean height and weight of cases according to gender and whether they recovered or died
-* in admissions that lasted over 7 days, count the number of cases according to the month they were admitted and the hospital they were admitted to
+Trong các ví dụ dưới đây, chúng ta:\
+\* nhóm số trường hợp theo bệnh viện \* trường hợp từ 18 tuổi trở lên, tính chiều cao và cân nặng trung bình theo giới tính và theo tình trạng hồi phục hay tử vong \* trong những lần nhập viện kéo dài trên 7 ngày, đếm số trường hợp theo tháng họ nhập viện và theo bệnh viện họ nằm
 
-
-````{r}
+```{r}
 linelist[, .N, .(hospital)] #the number of cases by hospital
 linelist[age > 18, .(mean_wt = mean(wt_kg, na.rm = T),
                              mean_ht = mean(ht_cm, na.rm = T)), .(gender, outcome)] #NAs represent the categories where the data is missing
@@ -162,43 +145,43 @@ linelist[days_onset_hosp > 7, .N, .(month = month(date_hospitalisation), hospita
 
 ```
 
-Data.table also allows the chaining expressions as follows:
+Data.table cũng cho phép các biểu thức chuỗi như sau:
 
-````{r}
+```{r}
 
 linelist[, .N, .(hospital)][order(-N)][1:3] #1st selects all cases by hospital, 2nd orders the cases in descending order, 3rd subsets the 3 hospitals with the largest caseload
 
 
 ```
 
-In these examples we are following the assumption that a row in the data table is equal to a new case, and so we can use the **.N** to represent the number of rows in the data table. Another useful function to represent the number of unique cases is `uniqueN()`, which returns the number of unique values in a given input. This is illustrated here:
+Trong các ví dụ này, chúng ta đang tuân theo giả định rằng một hàng trong data table tương đương với một trường hợp mới, vì vậy chúng ta có thể sử dụng **.N** để thể hiện số hàng trong data table. Một hàm hữu ích khác thể hiện số lượng các trường hợp duy nhất là `uniqueN()`, hàm này trả về số lượng các giá trị duy nhất trong một đầu vào nhất định.
 
-````{r}
+```{r}
 
 linelist[, .(uniqueN(gender))] #remember .() in the j argument returns a data table
 
 ```
 
-The answer is 3, as the unique values in the gender column are m, f and N/A. Compare with the base R function `unique()`, which returns all the unique values in a given input:
+Đáp án là 3, vì các giá trị duy nhất trong cột gender là m, f và N/A. So sánh với hàm base R là `unique()`, trả về tất cả các giá trị duy nhất trong một đầu vào nhất định:
 
-````{r}
+```{r}
 
 linelist[, .(unique(gender))]
 ```
 
-To find the number of unique cases in a given month we would write the following:
+Để tìm số trường hợp duy nhất trong một tháng (month) nhất định, chúng tôi sẽ viết như sau:
 
-````{r}
+```{r}
 
 linelist[, .(uniqueN(case_id)), .(month = month(date_hospitalisation))]
 
 ```
 
-## Adding and updating to data tables { }
+## Thêm và cập nhật dữ liệu vào data table
 
-The `:=` operator is used to add or update data in a data table. Adding columns to your data table can be done in the following ways:
+Toán tử `:=` được sử dụng để thêm hoặc cập nhật dữ liệu trong data table. Việc thêm cột vào data table của bạn có thể được thực hiện theo những cách dưới đây:
 
-````{r}
+```{r}
 
 linelist[, adult := age >= 18] #adds one column
 linelist[, c("child", "wt_lbs") := .(age < 18, wt_kg*2.204)] #to add multiple columns requires c("") and list() or .() syntax
@@ -208,22 +191,10 @@ linelist[, adult := NULL] #deletes the column
 
 ```
 
+Các tổ hợp phức tạp hơn nằm ngoài phạm vi của chương giới thiệu này, nhưng ý tưởng của chương này là cung cấp một giải pháp thay thế phổ biến và khả thi cho **dplyr** để phân nhóm và làm sạch dữ liệu. Package **data.table** là một package tốt giúp code gọn gàng và dễ đọc.
 
-Further complex aggregations are beyond the scope of this introductory chapter, but the idea is to provide a popular and viable alternative to **dplyr** for grouping and cleaning data. The **data.table** package is a great package that allows for neat and readable code.
+## Tài nguyên học liệu
 
+Để có thêm thông tin, dưới đây là một số tài nguyên hữu ích: \* <https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html> \* <https://github.com/Rdatatable/data.table> \* <https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf> \* <https://www.machinelearningplus.com/data-manipulation/datatable-in-r-complete-guide/> \* <https://www.datacamp.com/community/tutorials/data-table-r-tutorial>
 
-## Resources {  }
-
-Here are some useful resources for more information:
-* https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html
-* https://github.com/Rdatatable/data.table
-* https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf
-* https://www.machinelearningplus.com/data-manipulation/datatable-in-r-complete-guide/
-* https://www.datacamp.com/community/tutorials/data-table-r-tutorial
-
-You can perform any summary function on grouped data; see the Cheat Sheet here for more info:
-https://s3.amazonaws.com/assets.datacamp.com/blog_assets/datatable_Cheat_Sheet_R.pdf
-
-
-
-
+Bạn có thể thực hiện bất kỳ chức năng tóm tắt nào trên dữ liệu được nhóm; xem Cheat Sheet tại đây để có thêm thông tin: [https://s3.amazonaws.com/assets.datacamp.com/blog_assets/datatable_Cheat_Shgiteet_R.pdf](https://s3.amazonaws.com/assets.datacamp.com/blog_assets/datatable_Cheat_Sheet_R.pdf){.uri}

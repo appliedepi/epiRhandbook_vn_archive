@@ -116,159 +116,159 @@
 <h1>
 <span class="header-section-number">41</span> Tổ chức báo cáo định kỳ<a class="anchor" aria-label="anchor" href="#reportfactory"><i class="fas fa-link"></i></a>
 </h1>
-<p>This page covers the <strong>reportfactory</strong> package, which is an <em>accompaniment to using R Markdown for reports</em>.</p>
-<p>In scenarios where you run reports routinely (daily, weekly, etc.), it eases the compilation of multiple R Markdown files and the organization of their outputs. In essence, it provides a “factory” from which you can run the R Markdown reports, get automatically date- and time-stamped folders for the outputs, and have “light” version control.</p>
-<p><strong>reportfactory</strong> is one of the packages developed by RECON (R Epidemics Consortium). Here is their <a href="https://www.repidemicsconsortium.org/">website</a> and <a href="https://github.com/reconverse">Github</a>.</p>
-<div id="preparation-31" class="section level2" number="41.1">
+<p>Chương này bao gồm <strong>reportfactory</strong> package, là một <em>package hỗ trợ việc báo cáo sử dụng R Markdown</em>.</p>
+<p>Trong các tình huống mà bạn chạy báo cáo thường xuyên (hàng ngày, hàng tuần, v.v.), nó giúp giảm bớt việc soạn nhiều tệp R Markdown và tổ chức các kết quả đầu ra của chúng. Về bản chất, nó cung cấp một “nhà máy” mà từ đó bạn có thể chạy các báo cáo R Markdown, nhận các thư mục được đánh dấu ngày tháng và thời gian tự động cho kết quả đầu ra và có quyền kiểm soát phiên bản “nhẹ”.</p>
+<p><strong>reportfactory</strong> là một trong những packages được phát triển bởi RECON (R Epidemics Consortium). Đây là <a href="https://www.repidemicsconsortium.org/">website</a> và <a href="https://github.com/reconverse">Github</a> của họ.</p>
+<div id="chuẩn-bị-15" class="section level2" number="41.1">
 <h2>
-<span class="header-section-number">41.1</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-31"><i class="fas fa-link"></i></a>
+<span class="header-section-number">41.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-15"><i class="fas fa-link"></i></a>
 </h2>
-<div id="load-packages-28" class="section level3 unnumbered">
-<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-28"><i class="fas fa-link"></i></a>
+<div id="tải-packages" class="section level3 unnumbered">
+<h3>Tải packages<a class="anchor" aria-label="anchor" href="#t%E1%BA%A3i-packages"><i class="fas fa-link"></i></a>
 </h3>
-<p>From within RStudio, install the latest version of the <strong>reportfactory</strong> package from Github.</p>
-<p>You can do this via the <strong>pacman</strong> package with <code><a href="https://rdrr.io/pkg/pacman/man/p_load_current_gh.html">p_load_current_gh()</a></code> which will force intall of the latest version from Github. Provide the character string “reconverse/reportfactory”, which specifies the Github organization (reconverse) and repository (reportfactory). You can also use <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github()</a></code> from the <strong>remotes</strong> package, as an alternative.</p>
-<div class="sourceCode" id="cb1823"><pre class="downlit sourceCode r">
+<p>Từ trong RStudio, hãy cài đặt phiên bản mới nhất của <strong>reportfactory</strong> package từ Github.</p>
+<p>Bạn có thể thực hiện việc này thông qua <strong>pacman</strong> package với <code><a href="https://rdrr.io/pkg/pacman/man/p_load_current_gh.html">p_load_current_gh()</a></code>, lệnh này sẽ buộc nhập phiên bản mới nhất từ Github. Cung cấp chuỗi ký tự “reconverse/reportfactory”, trong đó chỉ định tổ chức Github (reconverse) và kho lưu trữ (reportfactory). Bạn cũng có thể sử dụng <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github()</a></code> từ <strong>remotes</strong> package để thay thế.</p>
+<div class="sourceCode" id="cb1824"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install and load the latest version of the package from Github</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load_current_gh.html">p_load_current_gh</a></span><span class="op">(</span><span class="st">"reconverse/reportfactory"</span><span class="op">)</span>
 <span class="co">#remotes::install_github("reconverse/reportfactory") # alternative</span></code></pre></div>
 </div>
 </div>
-<div id="new-factory" class="section level2" number="41.2">
+<div id="nhà-máy-mới" class="section level2" number="41.2">
 <h2>
-<span class="header-section-number">41.2</span> New factory<a class="anchor" aria-label="anchor" href="#new-factory"><i class="fas fa-link"></i></a>
+<span class="header-section-number">41.2</span> Nhà máy mới<a class="anchor" aria-label="anchor" href="#nh%C3%A0-m%C3%A1y-m%E1%BB%9Bi"><i class="fas fa-link"></i></a>
 </h2>
-<p>To create a new factory, run the function <code>new_factory()</code>. This will create a new self-contained R project folder. By default:</p>
+<p>Để tạo một nhà máy mới, chạy hàm <code>new_factory()</code>. Thao tác này sẽ tạo một thư mục dự án R độc lập mới. Mặc định là:</p>
 <ul>
-<li>The factory will be added to your working directory</li>
-<li>The name of the factory R project will be called “new_factory.Rproj”<br>
+<li>Nhà máy sẽ được thêm vào thư mục làm việc của bạn<br>
 </li>
-<li>Your RStudio session will “move in” to this R project</li>
+<li>Tên của nhà máy dự án R sẽ được gọi là “new_factory.Rproj”<br>
+</li>
+<li>Phiên RStudio của bạn sẽ “chuyển sang” dự án R này</li>
 </ul>
-<div class="sourceCode" id="cb1824"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1825"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This will create the factory in the working directory</span>
 <span class="fu">new_factory</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Looking inside the factory, you can see that sub-folders and some files were created automatically.</p>
+<p>Nhìn vào bên trong nhà máy, bạn có thể thấy rằng các thư mục con và một số tệp đã được tạo tự động.</p>
 <div class="inline-figure"><img src="images/factory_new2.png" width="424"></div>
 <ul>
-<li>The <em>report_sources</em> folder will hold your R Markdown scripts, which generate your reports<br>
+<li>Thư mục <em>report_sources</em> sẽ chứa các scripts R Markdown của bạn, các scripts này sẽ tạo ra các báo cáo của bạn<br>
 </li>
-<li>The <em>outputs</em> folder will hold the report outputs (e.g. HTML, Word, PDF, etc.)<br>
+<li>Thư mục <em>outputs</em> sẽ chứa các kết quả đầu ra của báo cáo (ví dụ: HTML, Word, PDF, v.v.)<br>
 </li>
-<li>The <em>scripts</em> folder can be used to store other R scripts (e.g. that are sourced by your Rmd scripts)<br>
+<li>Thư mục <em>scripts</em> có thể được sử dụng để lưu trữ các scripts R khác (ví dụ: được lấy từ các scripts Rmd của bạn)<br>
 </li>
-<li>The <em>data</em> folder can be used to hold your data (“raw” and “clean” subfolders are included)<br>
+<li>Thư mục <em>data</em> có thể được sử dụng để chứa dữ liệu của bạn (bao gồm các thư mục con “thô” và “sạch”)<br>
 </li>
-<li>A <em>.here</em> file, so you can use the <strong>here</strong> package to call files in sub-folders by their relation to this root folder (see [R projects] page for details)<br>
+<li>Tệp <em>.here</em>, vì vậy bạn có thể sử dụng <strong>here</strong> package để gọi các tệp trong thư mục con theo mối quan hệ của chúng với thư mục gốc này (xem chương [R projects] để biết thêm chi tiết)</li>
+<li>Tệp <em>gitignore</em> được tạo trong trường hợp bạn liên kết dự án R này với kho lưu trữ Github (xem [Version control and collaboration with Github])<br>
 </li>
-<li>A <em>gitignore</em> file was created in case you link this R project to a Github repository (see [Version control and collaboration with Github])<br>
-</li>
-<li>An empty README file, for if you use a Github repository</li>
+<li>Tệp README trống, nếu bạn sử dụng kho lưu trữ Github</li>
 </ul>
-<p><span style="color: orange;"><strong><em>CAUTION:</em></strong> depending on your computer’s setting, files such as “.here” may exist but be invisible.</span></p>
-<p>Of the default settings, below are several that you might want to adjust within the <code>new_factory()</code> command:</p>
+<p><span style="color: orange;"><strong><em>THẬN TRỌNG:</em></strong> tùy thuộc vào cài đặt máy tính của bạn, các tệp như “.here” có thể tồn tại nhưng ẩn.</span></p>
+<p>Trong số các cài đặt mặc định, dưới đây là một số cài đặt mà bạn có thể điều chỉnh trong lệnh <code>new_factory()</code>:</p>
 <ul>
 <li>
-<code>factory =</code> - Provide a name for the factory folder (default is “new_factory”)<br>
+<code>factory =</code> - Đặt tên cho thư mục gốc (mặc định là “new_factory”)<br>
 </li>
 <li>
-<code>path =</code> - Designate a file path for the new factory (default is the working directory)<br>
+<code>path =</code> - Chỉ định đường dẫn tệp cho nhà máy mới (mặc định là thư mục làm việc)<br>
 </li>
 <li>
-<code>report_sources =</code> Provide an alternate name for the subfolder which holds the R Markdown scripts (default is “report_sources”)<br>
+<code>report_sources =</code> Đặt tên thay thế cho thư mục con chứa các R Markdown scripts (mặc định là “report_sources”)<br>
 </li>
 <li>
-<code>outputs =</code> Provide an alternate name for the folder which holds the report outputs (default is “outputs”)</li>
+<code>outputs =</code> Đặt tên thay thế cho thư mục chứa kết quả đầu ra báo cáo (mặc định là “outputs”)</li>
 </ul>
-<p>See <code>?new_factory</code> for a complete list of the arguments.</p>
-<p>When you create the new factory, your R session is transferred to the new R project, so you should again load the <strong>reportfactory</strong> package.</p>
-<div class="sourceCode" id="cb1825"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">reportfactory</span><span class="op">)</span></code></pre></div>
-<p>Now you can run a the <code>factory_overview()</code> command to see the internal structure (all folders and files) in the factory.</p>
+<p>Xem <code>?new_factory</code> để biết danh sách đầy đủ các đối số.</p>
+<p>Khi bạn tạo nhà máy mới, phiên R của bạn được chuyển sang dự án R mới, vì vậy bạn nên tải lại package <strong>reportfactory</strong>.</p>
 <div class="sourceCode" id="cb1826"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">reportfactory</span><span class="op">)</span></code></pre></div>
+<p>Bây giờ bạn có thể chạy lệnh <code>factory_overview()</code> để xem cấu trúc bên trong (tất cả các thư mục và tệp) trong nhà máy.</p>
+<div class="sourceCode" id="cb1827"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">factory_overview</span><span class="op">(</span><span class="op">)</span>            <span class="co"># print overview of the factory to console</span></code></pre></div>
-<p>The following “tree” of the factory’s folders and files is printed to the R console. Note that in the “data” folder there are sub-folders for “raw” and “clean” data, and example CSV data. There is also “example_report.Rmd” in the “report_sources” folder.</p>
+<p>“Cây” các thư mục và tệp của nhà sản xuất được in ra R console. Lưu ý rằng trong thư mục “data” có các thư mục con cho dữ liệu “raw” (thô) và “clean” (sạch) cũng như dữ liệu CSV mẫu. Ngoài ra còn có “example_report.Rmd” trong thư mục “report_sources”.</p>
 <div class="inline-figure"><img src="images/factory_overview.png" width="202"></div>
 </div>
-<div id="create-a-report" class="section level2" number="41.3">
+<div id="tạo-báo-cáo" class="section level2" number="41.3">
 <h2>
-<span class="header-section-number">41.3</span> Create a report<a class="anchor" aria-label="anchor" href="#create-a-report"><i class="fas fa-link"></i></a>
+<span class="header-section-number">41.3</span> Tạo báo cáo<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1o-b%C3%A1o-c%C3%A1o"><i class="fas fa-link"></i></a>
 </h2>
-<p>From within the factory R project, create a R Markdown report just as you would normally, and save it into the “report_sources” folder. See the [R Markdown][Reports with R Markdown] page for instructions. For purposes of example, we have added the following to the factory:</p>
+<p>Từ bên trong dự án R của nhà máy, hãy tạo báo cáo R Markdown giống như bạn thường làm và lưu nó vào thư mục “report_sources”. Xem chương [R Markdown][Reports with R Markdown] để biết hướng dẫn. Để ví dụ, chúng tôi đã thêm những thứ sau vào nhà máy:</p>
 <ul>
-<li>A new R markdown script entitled “daily_sitrep.Rmd”, saved within the “report_sources” folder<br>
+<li>R markdown script mới có tên “daily_sitrep.Rmd”, được lưu trong thư mục “report_sources”<br>
 </li>
-<li>Data for the report (“linelist_cleaned.rds”), saved to the “clean” sub-folder within the “data” folder</li>
+<li>Dữ liệu cho báo cáo (“linelist_cleaned.rds”), được lưu vào thư mục con “clean” trong thư mục “data”</li>
 </ul>
-<p>We can see using <code>factory_overview()</code> our R Markdown in the “report_sources” folder and the data file in the “clean” data folder (highlighted):</p>
+<p>Chúng ta có thể thấy bằng cách sử dụng <code>factory_overview()</code> R Markdown trong thư mục “report_sources” và tệp dữ liệu trong thư mục dữ liệu “clean” (được đánh dấu):</p>
 <div class="inline-figure"><img src="images/factory_overview2.png" width="149"></div>
-<p>Below is a screenshot of the beginning of the R Markdown “daily_sitrep.Rmd”. You can see that the output format is set to be HTML, via the YAML header <code>output: html_document</code>.</p>
+<p>Dưới đây là ảnh chụp phần đầu của R Markdown “daily_sitrep.Rmd”. Bạn có thể thấy rằng định dạng đầu ra được đặt là HTML, thông qua tiêu đề YAML <code>output: html_document</code>.</p>
 <div class="inline-figure"><img src="images/factory_new_rmd.png" width="420"></div>
-<p>In this simple script, there are commands to:</p>
+<p>Trong script đơn giản này, có các lệnh để:</p>
 <ul>
-<li>Load necessary packages<br>
+<li>Tải các packages cần thiết<br>
 </li>
-<li>Import the linelist data using a filepath from the <strong>here</strong> package (read more in the page on [Import and export])</li>
+<li>Nhập dữ liệu danh sách dòng bằng đường dẫn tệp từ package <strong>here</strong> (đọc thêm trong chương [Import and export])</li>
 </ul>
-<div class="sourceCode" id="cb1827"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1828"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"clean"</span>, <span class="st">"linelist_cleaned.rds"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <ul>
-<li>Print a summary table of cases, and export it with <code><a href="https://docs.ropensci.org/plotly/reference/export.html">export()</a></code> as a .csv file<br>
+<li>In bảng tóm tắt các trường hợp và xuất nó với <code><a href="https://docs.ropensci.org/plotly/reference/export.html">export()</a></code> dưới dạng tệp .csv<br>
 </li>
-<li>Print an epicurve, and export it with <code>ggsave()</code> as a .png file</li>
+<li>In một đường cong dịch tễ và xuất nó bằng <code>ggsave ()</code> dưới dạng tệp .png</li>
 </ul>
-<p>You can review just the list of R Markdown reports in the “report_sources” folder with this command:</p>
-<div class="sourceCode" id="cb1828"><pre class="downlit sourceCode r">
+<p>Bạn chỉ có thể xem lại danh sách các báo cáo R Markdown trong thư mục “report_sources” bằng lệnh này:</p>
+<div class="sourceCode" id="cb1829"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">list_reports</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="compile" class="section level2" number="41.4">
+<div id="biên-soạn" class="section level2" number="41.4">
 <h2>
-<span class="header-section-number">41.4</span> Compile<a class="anchor" aria-label="anchor" href="#compile"><i class="fas fa-link"></i></a>
+<span class="header-section-number">41.4</span> Biên soạn<a class="anchor" aria-label="anchor" href="#bi%C3%AAn-so%E1%BA%A1n"><i class="fas fa-link"></i></a>
 </h2>
-<p>In a report factory, to “compile” a R Markdown report means that the .Rmd script will be run and the output will be produced (as specified in the script YAML e.g. as HTML, Word, PDF, etc).</p>
-<p><em>The factory will automatically create a date- and time-stamped folder for the outputs in the “outputs” folder.</em></p>
-<p>The report itself and any exported files produced by the script (e.g. csv, png, xlsx) will be saved into this folder. In addition, the Rmd script itself will be saved in this folder, so you have a record of that version of the script.</p>
-<p>This contrasts with the normal behavior of a “knitted” R Markdown, which saves outputs to the location of the Rmd script. This default behavior can result in crowded, messy folders. The factory aims to improve organization when one needs to run reports frequently.</p>
-<div id="compile-by-name" class="section level3 unnumbered">
-<h3>Compile by name<a class="anchor" aria-label="anchor" href="#compile-by-name"><i class="fas fa-link"></i></a>
+<p>Trong nhà máy báo cáo, để “biên soạn” báo cáo R Markdown có nghĩa là .Rmd script sẽ được chạy và đầu ra sẽ được tạo (như được chỉ định trong script YAML, ví dụ như HTML, Word, PDF, v.v.).</p>
+<p><em>Nhà máy sẽ tự động tạo một thư mục được đánh dấu ngày tháng và thời gian cho các kết quả đầu ra trong thư mục “outputs”.</em></p>
+<p>Bản thân báo cáo và mọi tệp đã xuất do script tạo ra (ví dụ: csv, png, xlsx) sẽ được lưu vào thư mục này. Ngoài ra, bản thân script Rmd sẽ được lưu trong thư mục này, vì vậy bạn có bản ghi của phiên bản script đó.</p>
+<p>Điều này trái ngược với hoạt động bình thường của R Markdown “knitted” (kết hợp), lưu kết quả đầu ra vào vị trí của script Rmd. Hành vi mặc định này có thể dẫn đến các thư mục đông đúc, lộn xộn. Nhà máy nhằm mục đích cải thiện tổ chức khi một người cần chạy báo cáo thường xuyên.</p>
+<div id="biên-soạn-theo-tên" class="section level3 unnumbered">
+<h3>Biên soạn theo tên<a class="anchor" aria-label="anchor" href="#bi%C3%AAn-so%E1%BA%A1n-theo-t%C3%AAn"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can compile a specific report by running <code>compile_reports()</code> and providing the Rmd script name (without .Rmd extension) to <code>reports =</code>. For simplicity, you can skip the <code>reports =</code> and just write the R Markdown name in quotes, as below.</p>
+<p>Bạn có thể biên dịch một báo cáo cụ thể bằng cách chạy <code>compile_reports()</code> và đặt tên Rmd script (không có phần mở rộng .Rmd) cho <code>reports =</code>. Để đơn giản hơn, bạn có thể bỏ qua <code>reports =</code> và chỉ cần viết tên R Markdown trong dấu ngoặc kép, như bên dưới.</p>
 <div class="inline-figure"><img src="images/factory_compile1.png" width="271"></div>
-<p>This command would compile only the “daily_sitrep.Rmd” report, saving the HTML report, and the .csv table and .png epicurve exports into a date- and time-stamped sub-folder specific to the report, within the “outputs” folder.</p>
-<p>Note that if you choose to provide the .Rmd extension, you must correctly type the extension as it is saved in the file name (.rmd vs. .Rmd).</p>
-<p>Also note that when you compile, you may see several files temporarily appear in the “report_sources” folder - but they will soon disappear as they are transferred to the correct “outputs” folder.</p>
+<p>Lệnh này sẽ chỉ biên dịch báo cáo “daily_sitrep.Rmd”, lưu báo cáo HTML, xuất bảng .csv và đường cong dịch bệnh .png vào một thư mục con được đóng dấu ngày và giờ cụ thể cho báo cáo, trong thư mục “outputs” .</p>
+<p>Lưu ý rằng nếu bạn chọn cung cấp phần mở rộng .Rmd, bạn phải nhập chính xác phần mở rộng vì nó được lưu trong tên tệp (.rmd so với .Rmd).</p>
+<p>Cũng lưu ý rằng khi biên soạn, bạn có thể thấy một số tệp tạm thời xuất hiện trong thư mục “report_sources” - nhưng chúng sẽ sớm biến mất khi chúng được chuyển đến đúng thư mục “output”.</p>
 </div>
-<div id="compile-by-number" class="section level3 unnumbered">
-<h3>Compile by number<a class="anchor" aria-label="anchor" href="#compile-by-number"><i class="fas fa-link"></i></a>
+<div id="biên-soạn-theo-số" class="section level3 unnumbered">
+<h3>Biên soạn theo số<a class="anchor" aria-label="anchor" href="#bi%C3%AAn-so%E1%BA%A1n-theo-s%E1%BB%91"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can also specify the Rmd script to compile by providing a number or vector of numbers to <code>reports =</code>. The numbers must align with the order the reports appear when you run <code>list_reports()</code>.</p>
-<div class="sourceCode" id="cb1829"><pre class="downlit sourceCode r">
+<p>Bạn cũng có thể chỉ định Rmd script để biên dịch bằng cách cung cấp một số hoặc vectơ số cho <code>reports =</code>. Các con số phải phù hợp với thứ tự các báo cáo xuất hiện khi bạn chạy <code>list_reports()</code>.</p>
+<div class="sourceCode" id="cb1830"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Compile the second and fourth Rmds in the "report_sources" folder</span>
 <span class="fu">compile_reports</span><span class="op">(</span>reports <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="compile-all" class="section level3 unnumbered">
-<h3>Compile all<a class="anchor" aria-label="anchor" href="#compile-all"><i class="fas fa-link"></i></a>
+<div id="biên-soạn-tất-cả" class="section level3 unnumbered">
+<h3>Biên soạn tất cả<a class="anchor" aria-label="anchor" href="#bi%C3%AAn-so%E1%BA%A1n-t%E1%BA%A5t-c%E1%BA%A3"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can compile <em>all</em> the R Markdown reports in the “report_sources” folder by setting the <code>reports =</code> argument to TRUE.</p>
+<p>Bạn có thể biên soạn <em>tất cả</em> báo cáo R Markdown trong thư mục “report_sources” bằng cách đặt đối số <code>report =</code> thành TRUE.</p>
 <div class="inline-figure"><img src="images/factory_compile_all.png" width="268"></div>
 </div>
-<div id="compile-from-sub-folder" class="section level3 unnumbered">
-<h3>Compile from sub-folder<a class="anchor" aria-label="anchor" href="#compile-from-sub-folder"><i class="fas fa-link"></i></a>
+<div id="biên-soạn-từ-thư-mục-con" class="section level3 unnumbered">
+<h3>Biên soạn từ thư mục con<a class="anchor" aria-label="anchor" href="#bi%C3%AAn-so%E1%BA%A1n-t%E1%BB%AB-th%C6%B0-m%E1%BB%A5c-con"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can add sub-folders to the “report_sources” folder. To run an R Markdown report from a subfolder, simply provide the name of the folder to <code>subfolder =</code>. Below is an example of code to compile a Rmd report that lives in a sub_folder of “report_sources”.</p>
-<div class="sourceCode" id="cb1830"><pre class="downlit sourceCode r">
+<p>Bạn có thể thêm các thư mục con vào thư mục “report_sources”. Để chạy báo cáo R Markdown từ một thư mục con, chỉ cần cung cấp tên của thư mục cho <code>subfolder =</code>. Dưới đây là ví dụ về code để biên soạn báo cáo Rmd nằm trong thư mục con của “report_sources”.</p>
+<div class="sourceCode" id="cb1831"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">compile_reports</span><span class="op">(</span>
      reports <span class="op">=</span> <span class="st">"summary_for_partners.Rmd"</span>,
      subfolder <span class="op">=</span> <span class="st">"for_partners"</span><span class="op">)</span></code></pre></div>
-<p>You can compile all Rmd reports within a subfolder by providing the subfolder name to <code>reports =</code>, with a slash on the end, as below.</p>
-<div class="sourceCode" id="cb1831"><pre class="downlit sourceCode r">
+<p>Bạn có thể biên soạn tất cả các báo cáo Rmd trong một thư mục con bằng cách cung cấp tên thư mục con cho <code>reports =</code>, với một dấu gạch chéo ở cuối, như bên dưới.</p>
+<div class="sourceCode" id="cb1832"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">compile_reports</span><span class="op">(</span>reports <span class="op">=</span> <span class="st">"for_partners/"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="parameterization" class="section level3 unnumbered">
-<h3>Parameterization<a class="anchor" aria-label="anchor" href="#parameterization"><i class="fas fa-link"></i></a>
+<div id="tham-số-hóa" class="section level3 unnumbered">
+<h3>Tham số hóa<a class="anchor" aria-label="anchor" href="#tham-s%E1%BB%91-h%C3%B3a"><i class="fas fa-link"></i></a>
 </h3>
-<p>As noted in the page on [Reports with R Markdown], you can run reports with specified parameters. You can pass these parameters as a list to <code>compile_reports()</code> via the <code>params =</code> argument. For example, in this fictional report there are three parameters provided to the R Markdown reports.</p>
-<div class="sourceCode" id="cb1832"><pre class="downlit sourceCode r">
+<p>Như đã lưu ý trong chương về [Reports with R Markdown], bạn có thể chạy báo cáo với các thông số được chỉ định. Bạn có thể chuyển các tham số này dưới dạng danh sách tới <code>compile_reports ()</code> thông qua đối số <code>params =</code>. Ví dụ, trong báo cáo hư cấu này, có ba tham số được cung cấp cho báo cáo R Markdown.</p>
+<div class="sourceCode" id="cb1833"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">compile_reports</span><span class="op">(</span>
   reports <span class="op">=</span> <span class="st">"daily_sitrep.Rmd"</span>,
   params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>most_recent_data <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -277,76 +277,74 @@
   subfolder <span class="op">=</span> <span class="st">"regional"</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="using-a-run-file" class="section level3 unnumbered">
-<h3>Using a “run-file”<a class="anchor" aria-label="anchor" href="#using-a-run-file"><i class="fas fa-link"></i></a>
+<div id="dùng-run-file" class="section level3 unnumbered">
+<h3>Dùng “run-file”<a class="anchor" aria-label="anchor" href="#d%C3%B9ng-run-file"><i class="fas fa-link"></i></a>
 </h3>
-<p>If you have multiple reports to run, consider creating a R script that contains all the <code>compile_reports()</code> commands. A user can simply run all the commands in this R script and all the reports will compile. You can save this “run-file” to the “scripts” folder.</p>
+<p>Nếu bạn có nhiều báo cáo cần chạy, hãy cân nhắc tạo R script chứa tất cả các lệnh <code>compile_reports()</code>. Người dùng có thể chỉ cần chạy tất cả các lệnh trong R script này và tất cả các báo cáo sẽ được biên soạn. Bạn có thể lưu “run-file” này vào thư mục “scripts”.</p>
 </div>
 </div>
-<div id="outputs-1" class="section level2" number="41.5">
+<div id="kết-quả-đầu-ra" class="section level2" number="41.5">
 <h2>
-<span class="header-section-number">41.5</span> Outputs<a class="anchor" aria-label="anchor" href="#outputs-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">41.5</span> Kết quả đầu ra<a class="anchor" aria-label="anchor" href="#k%E1%BA%BFt-qu%E1%BA%A3-%C4%91%E1%BA%A7u-ra"><i class="fas fa-link"></i></a>
 </h2>
-<p>After we have compiled the reports a few times, the “outputs” folder might look like this (highlights added for clarity):</p>
+<p>Sau khi chúng ta đã biên soạn các báo cáo một vài lần, thư mục “outputs” có thể trông giống như sau (các điểm nổi bật được thêm vào để rõ ràng):</p>
 <div class="inline-figure"><img src="images/factory_overview_all.png" width="350"></div>
 <ul>
-<li>Within “outputs”, sub-folders have been created for each Rmd report<br>
+<li>Trong “outputs”, các thư mục con đã được tạo cho mỗi báo cáo Rmd<br>
 </li>
-<li>Within those, further sub-folders have been created for each unique compiling
+<li>Trong đó, các thư mục con khác đã được tạo cho mỗi lần biên soạn duy nhất
 <ul>
-<li>These are date- and time-stamped (“2021-04-23_T11-07-36” means 23rd April 2021 at 11:07:36)<br>
-</li>
-<li>You can edit the date/time-stamp format. See <code>?compile_reports</code>
+<li>Đây là những ngày tháng và thời gian được đóng dấu (“2021-04-23_T11-07-36” có nghĩa là ngày 23 tháng 4 năm 2021 lúc 11:07:36)</li>
+<li>Bạn có thể chỉnh sửa định dạng dấu ngày/giờ. Xem <code>?compile_reports</code><br>
 </li>
 </ul>
 </li>
-<li>Within each date/time compiled folder, the report output is stored (e.g. HTML, PDF, Word) along with the Rmd script (version control!) and any other exported files (e.g. table.csv, epidemic_curve.png)</li>
+<li>Trong mỗi thư mục ngày/giờ được biên soạn, kết quả báo cáo được lưu trữ (ví dụ: HTML, PDF, Word) cùng với tập lệnh Rmd (kiểm soát phiên bản!) Và bất kỳ tệp nào được xuất khác (ví dụ: table.csv, translate_curve.png)</li>
 </ul>
-<p>Here is a view inside one of the date/time-stamped folders, for the “daily_sitrep” report. The file path is highlighted in yellow for emphasis.</p>
+<p>Đây là chế độ xem bên trong một trong các thư mục được đánh dấu ngày/giờ cho báo cáo “daily_sitrep”. Đường dẫn tệp được đánh dấu bằng màu vàng để nhấn mạnh.</p>
 <div class="inline-figure"><img src="images/factory_compile_folder.png" width="435"></div>
-<p>Finally, below is a screenshot of the HTML report output.</p>
+<p>Cuối cùng, bên dưới là ảnh chụp màn hình của kết quả báo cáo HTML.</p>
 <div class="inline-figure"><img src="images/factory_html.png" width="452"></div>
-<p>You can use <code>list_outputs()</code> to review a list of the outputs.</p>
+<p>Bạn có thể sử dụng <code>list_outputs()</code> để xem lại danh sách các kết quả đầu ra.</p>
 </div>
-<div id="miscellaneous-1" class="section level2" number="41.6">
+<div id="mục-khác" class="section level2" number="41.6">
 <h2>
-<span class="header-section-number">41.6</span> Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">41.6</span> Mục khác<a class="anchor" aria-label="anchor" href="#m%E1%BB%A5c-kh%C3%A1c"><i class="fas fa-link"></i></a>
 </h2>
 <div id="knit" class="section level3 unnumbered">
 <h3>Knit<a class="anchor" aria-label="anchor" href="#knit"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can still “knit” one of your R Markdown reports by pressing the “Knit” button, if you want. If you do this, as by default, the outputs will appear in the folder where the Rmd is saved - the “report_sources” folder. In prior versions of <strong>reportfactory</strong>, having any non-Rmd files in “report_sources” would prevent compiling, but this is no longer the case. You can run <code>compile_reports()</code> and no error will occur.</p>
+<p>Bạn vẫn có thể “knit” một trong các báo cáo R Markdown của mình bằng cách nhấn nút “Knit” nếu muốn. Nếu bạn làm điều này, theo mặc định, kết quả đầu ra sẽ xuất hiện trong thư mục lưu Rmd - thư mục “report_sources”. Trong các phiên bản trước của <strong>reportfactory</strong>, việc có bất kỳ tệp nào không phải Rmd trong “report_sources” sẽ ngăn việc biên dịch, nhưng trường hợp này không còn nữa. Bạn có thể chạy <code>compile_reports()</code> và không có lỗi nào xảy ra.</p>
 </div>
-<div id="scripts-2" class="section level3 unnumbered">
-<h3>Scripts<a class="anchor" aria-label="anchor" href="#scripts-2"><i class="fas fa-link"></i></a>
+<div id="scripts-1" class="section level3 unnumbered">
+<h3>Scripts<a class="anchor" aria-label="anchor" href="#scripts-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>We encourage you to utilize the “scripts” folder to store “runfiles” or .R scripts that are sourced by your .Rmd scripts. See the page on [R Markdown][Reports with R Markdown] for tips on how to structure your code across several files.</p>
+<p>Chúng tôi khuyến khích bạn sử dụng thư mục “scripts” để lưu trữ “runfiles” hoặc các .R scripts được lấy từ các .R scripts của bạn. Xem trang trên [R Markdown][Reports with R Markdown] để biết các mẹo về cách cấu trúc code của bạn trên một số tệp.</p>
 </div>
-<div id="extras" class="section level3 unnumbered">
-<h3>Extras<a class="anchor" aria-label="anchor" href="#extras"><i class="fas fa-link"></i></a>
+<div id="thêm" class="section level3 unnumbered">
+<h3>Thêm<a class="anchor" aria-label="anchor" href="#th%C3%AAm"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
-<li><p>With <strong>reportfactory</strong>, you can use the function <code>list_deps()</code> to list all packages required across all the reports in the entire factory.</p></li>
+<li><p>Với <strong>reportfactory</strong>, bạn có thể sử dụng hàm <code>list_deps()</code> để liệt kê tất cả các packages được yêu cầu trên tất cả các báo cáo trong toàn bộ nhà máy.</p></li>
 <li>
-<p>There is an accompanying package in development called <strong>rfextras</strong> that offers more helper functions to assist you in building reports, such as:</p>
+<p>Có một package đi kèm trong quá trình phát triển được gọi là <strong>rfextras</strong> cung cấp nhiều chức năng trợ giúp hơn để hỗ trợ bạn trong việc xây dựng báo cáo, chẳng hạn như:</p>
 <ul>
 <li>
-<code>load_scripts()</code> - sources/loads all .R scripts in a given folder (the “scripts” folder by default)<br>
-</li>
+<code>load_scripts()</code> - dẫn nguồn/tải tất cả các .R scripts trong một thư mục nhất định (thư mục “scripts” theo mặc định)</li>
 <li>
-<code>find_latest()</code> - finds the latest version of a file (e.g. the latest dataset)</li>
+<code>find_latest()</code> - tìm phiên bản mới nhất của tệp (ví dụ: tập dữ liệu mới nhất)</li>
 </ul>
 </li>
 </ul>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="resources-31" class="section level2" number="41.7">
+<div id="tài-nguyên-1" class="section level2" number="41.7">
 <h2>
-<span class="header-section-number">41.7</span> Resources<a class="anchor" aria-label="anchor" href="#resources-31"><i class="fas fa-link"></i></a>
+<span class="header-section-number">41.7</span> Tài nguyên<a class="anchor" aria-label="anchor" href="#t%C3%A0i-nguy%C3%AAn-1"><i class="fas fa-link"></i></a>
 </h2>
-<p>See the <strong>reportfactory</strong> package’s <a href="https://github.com/reconverse/reportfactory">Github page</a></p>
-<p>See the <strong>rfextras</strong> package’s <a href="https://github.com/reconhub/rfextras">Github page</a></p>
+<p>Xem <a href="https://github.com/reconverse/reportfactory">Github page</a> của <strong>reportfactory</strong> package</p>
+<p>Xem <a href="https://github.com/reconhub/rfextras">Github page</a> của <strong>rfextras</strong> package</p>
 
 </div>
 </div>
@@ -358,29 +356,29 @@
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#reportfactory"><span class="header-section-number">41</span> Tổ chức báo cáo định kỳ</a></li>
 <li>
-<a class="nav-link" href="#preparation-31"><span class="header-section-number">41.1</span> Preparation</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#load-packages-28">Load packages</a></li></ul>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-15"><span class="header-section-number">41.1</span> Chuẩn bị</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#t%E1%BA%A3i-packages">Tải packages</a></li></ul>
 </li>
-<li><a class="nav-link" href="#new-factory"><span class="header-section-number">41.2</span> New factory</a></li>
-<li><a class="nav-link" href="#create-a-report"><span class="header-section-number">41.3</span> Create a report</a></li>
+<li><a class="nav-link" href="#nh%C3%A0-m%C3%A1y-m%E1%BB%9Bi"><span class="header-section-number">41.2</span> Nhà máy mới</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A1o-b%C3%A1o-c%C3%A1o"><span class="header-section-number">41.3</span> Tạo báo cáo</a></li>
 <li>
-<a class="nav-link" href="#compile"><span class="header-section-number">41.4</span> Compile</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#compile-by-name">Compile by name</a></li>
-<li><a class="nav-link" href="#compile-by-number">Compile by number</a></li>
-<li><a class="nav-link" href="#compile-all">Compile all</a></li>
-<li><a class="nav-link" href="#compile-from-sub-folder">Compile from sub-folder</a></li>
-<li><a class="nav-link" href="#parameterization">Parameterization</a></li>
-<li><a class="nav-link" href="#using-a-run-file">Using a “run-file”</a></li>
+<a class="nav-link" href="#bi%C3%AAn-so%E1%BA%A1n"><span class="header-section-number">41.4</span> Biên soạn</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#bi%C3%AAn-so%E1%BA%A1n-theo-t%C3%AAn">Biên soạn theo tên</a></li>
+<li><a class="nav-link" href="#bi%C3%AAn-so%E1%BA%A1n-theo-s%E1%BB%91">Biên soạn theo số</a></li>
+<li><a class="nav-link" href="#bi%C3%AAn-so%E1%BA%A1n-t%E1%BA%A5t-c%E1%BA%A3">Biên soạn tất cả</a></li>
+<li><a class="nav-link" href="#bi%C3%AAn-so%E1%BA%A1n-t%E1%BB%AB-th%C6%B0-m%E1%BB%A5c-con">Biên soạn từ thư mục con</a></li>
+<li><a class="nav-link" href="#tham-s%E1%BB%91-h%C3%B3a">Tham số hóa</a></li>
+<li><a class="nav-link" href="#d%C3%B9ng-run-file">Dùng “run-file”</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#outputs-1"><span class="header-section-number">41.5</span> Outputs</a></li>
+<li><a class="nav-link" href="#k%E1%BA%BFt-qu%E1%BA%A3-%C4%91%E1%BA%A7u-ra"><span class="header-section-number">41.5</span> Kết quả đầu ra</a></li>
 <li>
-<a class="nav-link" href="#miscellaneous-1"><span class="header-section-number">41.6</span> Miscellaneous</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#m%E1%BB%A5c-kh%C3%A1c"><span class="header-section-number">41.6</span> Mục khác</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#knit">Knit</a></li>
-<li><a class="nav-link" href="#scripts-2">Scripts</a></li>
-<li><a class="nav-link" href="#extras">Extras</a></li>
+<li><a class="nav-link" href="#scripts-1">Scripts</a></li>
+<li><a class="nav-link" href="#th%C3%AAm">Thêm</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#resources-31"><span class="header-section-number">41.7</span> Resources</a></li>
+<li><a class="nav-link" href="#t%C3%A0i-nguy%C3%AAn-1"><span class="header-section-number">41.7</span> Tài nguyên</a></li>
 </ul>
 
       <div class="book-extra">
@@ -397,7 +395,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-22.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-07-31.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

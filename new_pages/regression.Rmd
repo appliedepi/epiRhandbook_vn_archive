@@ -38,7 +38,7 @@ pacman::p_load(
 
 ### Nhập số liệu {.unnumbered}
 
-Chúng tôi nhập bộ số liệu của các ca bệnh được mô phỏng từ một vụ dịch Ebola. Để tiện làm theo, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải số liệu linelist "đã được làm sạch"</a> (dưới dạng tệp .rds ). Nhập số liệu này bằng hàm `import()` trong package **rio** (nó chấp nhận nhiều loại tập tin như .xlsx, .rds, .csv -- xem chi tiết trong chương [Nhập xuất dữ liệu]).
+Chúng tôi nhập bộ số liệu của các ca bệnh được mô phỏng từ một vụ dịch Ebola. Để tiện làm theo, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải số liệu linelist "đã được làm sạch"</a> (dưới dạng tệp .rds ). Nhập số liệu này bằng hàm `import()` trong package **rio** (nó chấp nhận nhiều loại tập tin như .xlsx, .rds, .csv -- xem chi tiết trong chương [Nhập xuất dữ liệu]).
 
 ```{r, echo=F}
 # import the linelist into R

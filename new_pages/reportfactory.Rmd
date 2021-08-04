@@ -1,20 +1,20 @@
 
 # Tổ chức báo cáo định kỳ {#reportfactory}  
 
-This page covers the **reportfactory** package, which is an *accompaniment to using R Markdown for reports*. 
+Chương này bao gồm **reportfactory** package, là một *package hỗ trợ việc báo cáo sử dụng R Markdown*.  
 
-In scenarios where you run reports routinely (daily, weekly, etc.), it eases the compilation of multiple R Markdown files and the organization of their outputs. In essence, it provides a "factory" from which you can run the R Markdown reports, get automatically date- and time-stamped folders for the outputs, and have "light" version control.  
+Trong các tình huống mà bạn chạy báo cáo thường xuyên (hàng ngày, hàng tuần, v.v.), nó giúp giảm bớt việc soạn nhiều tệp R Markdown và tổ chức các kết quả đầu ra của chúng. Về bản chất, nó cung cấp một "nhà máy" mà từ đó bạn có thể chạy các báo cáo R Markdown, nhận các thư mục được đánh dấu ngày tháng và thời gian tự động cho kết quả đầu ra và có quyền kiểm soát phiên bản "nhẹ".  
 
-**reportfactory** is one of the packages developed by RECON (R Epidemics Consortium). Here is their [website](https://www.repidemicsconsortium.org/) and [Github](https://github.com/reconverse).  
+**reportfactory** là một trong những packages được phát triển bởi RECON (R Epidemics Consortium). Đây là [website](https://www.repidemicsconsortium.org/) và [Github](https://github.com/reconverse) của họ.  
 
 
-## Preparation
+## Chuẩn bị
 
-### Load packages {.unnumbered}  
+### Tải packages {.unnumbered}  
 
-From within RStudio, install the latest version of the **reportfactory** package from Github.  
+Từ trong RStudio, hãy cài đặt phiên bản mới nhất của **reportfactory** package từ Github.  
 
-You can do this via the **pacman** package with `p_load_current_gh()` which will force intall of the latest version from Github. Provide the character string "reconverse/reportfactory", which specifies the Github organization (reconverse) and repository (reportfactory). You can also use `install_github()` from the **remotes** package, as an alternative.
+Bạn có thể thực hiện việc này thông qua **pacman** package với `p_load_current_gh()`, lệnh này sẽ buộc nhập phiên bản mới nhất từ Github. Cung cấp chuỗi ký tự "reconverse/reportfactory", trong đó chỉ định tổ chức Github (reconverse) và kho lưu trữ (reportfactory). Bạn cũng có thể sử dụng `install_github()` từ **remotes** package để thay thế.  
 
 ```{r, eval=FALSE}
 # Install and load the latest version of the package from Github
@@ -23,99 +23,98 @@ pacman::p_load_current_gh("reconverse/reportfactory")
 ```
 
 
-## New factory  
+## Nhà máy mới  
 
-To create a new factory, run the function `new_factory()`. This will create a new self-contained R project folder. By default:  
+Để tạo một nhà máy mới, chạy hàm `new_factory()`. Thao tác này sẽ tạo một thư mục dự án R độc lập mới. Mặc định là:  
 
-* The factory will be added to your working directory
-* The name of the factory R project will be called "new_factory.Rproj"  
-* Your RStudio session will "move in" to this R project  
+* Nhà máy sẽ được thêm vào thư mục làm việc của bạn  
+* Tên của nhà máy dự án R sẽ được gọi là "new_factory.Rproj"  
+* Phiên RStudio của bạn sẽ "chuyển sang" dự án R này  
 
 ```{r, eval=F}
 # This will create the factory in the working directory
 new_factory()
 ```
 
-Looking inside the factory, you can see that sub-folders and some files were created automatically.  
+Nhìn vào bên trong nhà máy, bạn có thể thấy rằng các thư mục con và một số tệp đã được tạo tự động.  
 
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_new2.png"))
 ```
 
-* The *report_sources* folder will hold your R Markdown scripts, which generate your reports  
-* The *outputs* folder will hold the report outputs (e.g. HTML, Word, PDF, etc.)  
-* The *scripts* folder can be used to store other R scripts (e.g. that are sourced by your Rmd scripts)  
-* The *data* folder can be used to hold your data ("raw" and "clean" subfolders are included)  
-* A *.here* file, so you can use the **here** package to call files in sub-folders by their relation to this root folder (see [R projects] page for details)  
-* A *gitignore* file was created in case you link this R project to a Github repository (see [Version control and collaboration with Github])  
-* An empty README file, for if you use a Github repository  
+* Thư mục *report_sources* sẽ chứa các scripts R Markdown của bạn, các scripts này sẽ tạo ra các báo cáo của bạn  
+* Thư mục *outputs* sẽ chứa các kết quả đầu ra của báo cáo (ví dụ: HTML, Word, PDF, v.v.)  
+* Thư mục *scripts* có thể được sử dụng để lưu trữ các scripts R khác (ví dụ: được lấy từ các scripts Rmd của bạn)  
+* Thư mục *data* có thể được sử dụng để chứa dữ liệu của bạn (bao gồm các thư mục con "thô" và "sạch")  
+* Tệp *.here*, vì vậy bạn có thể sử dụng **here** package để gọi các tệp trong thư mục con theo mối quan hệ của chúng với thư mục gốc này (xem chương [R projects] để biết thêm chi tiết)
+* Tệp *gitignore* được tạo trong trường hợp bạn liên kết dự án R này với kho lưu trữ Github (xem [Version control and collaboration with Github])  
+* Tệp README trống, nếu bạn sử dụng kho lưu trữ Github  
 
 
-<span style="color: orange;">**_CAUTION:_** depending on your computer's setting, files such as ".here" may exist but be invisible.</span>  
+<span style="color: orange;">**_THẬN TRỌNG:_** tùy thuộc vào cài đặt máy tính của bạn, các tệp như ".here" có thể tồn tại nhưng ẩn.</span>  
 
-Of the default settings, below are several that you might want to adjust within the `new_factory()` command:  
+Trong số các cài đặt mặc định, dưới đây là một số cài đặt mà bạn có thể điều chỉnh trong lệnh `new_factory()`:  
 
-* `factory = ` - Provide a name for the factory folder (default is "new_factory")  
-* `path = ` - Designate a file path for the new factory (default is the working directory)  
-* `report_sources = ` Provide an alternate name for the subfolder which holds the R Markdown scripts (default is "report_sources")  
-* `outputs = ` Provide an alternate name for the folder which holds the report outputs (default is "outputs")  
+* `factory = ` - Đặt tên cho thư mục gốc (mặc định là "new_factory")  
+* `path = ` - Chỉ định đường dẫn tệp cho nhà máy mới (mặc định là thư mục làm việc)  
+* `report_sources = ` Đặt tên thay thế cho thư mục con chứa các R Markdown scripts (mặc định là "report_sources")  
+* `outputs = ` Đặt tên thay thế cho thư mục chứa kết quả đầu ra báo cáo (mặc định là "outputs")  
 
-See `?new_factory` for a complete list of the arguments.  
+Xem `?new_factory` để biết danh sách đầy đủ các đối số.   
 
 
-When you create the new factory, your R session is transferred to the new R project, so you should again load the **reportfactory** package.  
+Khi bạn tạo nhà máy mới, phiên R của bạn được chuyển sang dự án R mới, vì vậy bạn nên tải lại package **reportfactory**.
 
 ```{r, eval=FALSE}
 pacman::p_load(reportfactory)
 ```
 
-Now you can run a the `factory_overview()` command to see the internal structure (all folders and files) in the factory.  
+Bây giờ bạn có thể chạy lệnh `factory_overview()` để xem cấu trúc bên trong (tất cả các thư mục và tệp) trong nhà máy.  
 
 ```{r, eval=F}
 factory_overview()            # print overview of the factory to console
 ```
 
-The following "tree" of the factory's folders and files is printed to the R console. Note that in the "data" folder there are sub-folders for "raw" and "clean" data, and example CSV data. There is also "example_report.Rmd" in the "report_sources" folder.    
+"Cây" các thư mục và tệp của nhà sản xuất được in ra R console. Lưu ý rằng trong thư mục "data" có các thư mục con cho dữ liệu "raw" (thô) và "clean" (sạch) cũng như dữ liệu CSV mẫu. Ngoài ra còn có "example_report.Rmd" trong thư mục "report_sources".    
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_overview.png"))
 ```
 
 
-## Create a report  
+## Tạo báo cáo  
 
-From within the factory R project, create a R Markdown report just as you would normally, and save it into the "report_sources" folder. See the [R Markdown][Reports with R Markdown] page for instructions. For purposes of example, we have added the following to the factory:  
+Từ bên trong dự án R của nhà máy, hãy tạo báo cáo R Markdown giống như bạn thường làm và lưu nó vào thư mục "report_sources". Xem chương [R Markdown][Reports with R Markdown] để biết hướng dẫn. Để ví dụ, chúng tôi đã thêm những thứ sau vào nhà máy:  
 
-* A new R markdown script entitled "daily_sitrep.Rmd", saved within the "report_sources" folder  
-* Data for the report ("linelist_cleaned.rds"), saved to the "clean" sub-folder within the "data" folder  
+* R markdown script mới có tên "daily_sitrep.Rmd", được lưu trong thư mục "report_sources"  
+* Dữ liệu cho báo cáo ("linelist_cleaned.rds"), được lưu vào thư mục con "clean" trong thư mục "data"   
 
-We can see using `factory_overview()` our R Markdown in the "report_sources" folder and the data file in the "clean" data folder (highlighted):
+Chúng ta có thể thấy bằng cách sử dụng `factory_overview()` R Markdown trong thư mục "report_sources" và tệp dữ liệu trong thư mục dữ liệu "clean" (được đánh dấu):  
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_overview2.png"))
 ```
 
-Below is a screenshot of the beginning of the R Markdown "daily_sitrep.Rmd". You can see that the output format is set to be HTML, via the YAML header `output: html_document`. 
+Dưới đây là ảnh chụp phần đầu của R Markdown "daily_sitrep.Rmd". Bạn có thể thấy rằng định dạng đầu ra được đặt là HTML, thông qua tiêu đề YAML `output: html_document`.  
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_new_rmd.png"))
 ```
 
-In this simple script, there are commands to:  
+Trong script đơn giản này, có các lệnh để:  
 
-* Load necessary packages  
-* Import the linelist data using a filepath from the **here** package (read more in the page on [Import and export])  
+* Tải các packages cần thiết  
+* Nhập dữ liệu danh sách dòng bằng đường dẫn tệp từ package **here** (đọc thêm trong chương [Import and export])  
 
 ```{r, eval=F}
 linelist <- import(here("data", "clean", "linelist_cleaned.rds"))
 ```
 
-* Print a summary table of cases, and export it with `export()` as a .csv file  
-* Print an epicurve, and export it with `ggsave()` as a .png file  
+* In bảng tóm tắt các trường hợp và xuất nó với `export()` dưới dạng tệp .csv  
+* In một đường cong dịch tễ và xuất nó bằng `ggsave ()` dưới dạng tệp .png  
 
-
-You can review just the list of R Markdown reports in the "report_sources" folder with this command:  
+Bạn chỉ có thể xem lại danh sách các báo cáo R Markdown trong thư mục "report_sources" bằng lệnh này:  
 
 ```{r, eval=F}
 list_reports()
@@ -123,34 +122,34 @@ list_reports()
 
 
 
-## Compile  
+## Biên soạn
 
-In a report factory, to "compile" a R Markdown report means that the .Rmd script will be run and the output will be produced (as specified in the script YAML e.g. as HTML, Word, PDF, etc).  
+Trong nhà máy báo cáo, để "biên soạn" báo cáo R Markdown có nghĩa là .Rmd script sẽ được chạy và đầu ra sẽ được tạo (như được chỉ định trong script YAML, ví dụ như HTML, Word, PDF, v.v.).  
 
-*The factory will automatically create a date- and time-stamped folder for the outputs in the "outputs" folder.*  
+*Nhà máy sẽ tự động tạo một thư mục được đánh dấu ngày tháng và thời gian cho các kết quả đầu ra trong thư mục "outputs".*  
 
-The report itself and any exported files produced by the script (e.g. csv, png, xlsx) will be saved into this folder. In addition, the Rmd script itself will be saved in this folder, so you have a record of that version of the script.  
+Bản thân báo cáo và mọi tệp đã xuất do script tạo ra (ví dụ: csv, png, xlsx) sẽ được lưu vào thư mục này. Ngoài ra, bản thân script Rmd sẽ được lưu trong thư mục này, vì vậy bạn có bản ghi của phiên bản script đó.
 
-This contrasts with the normal behavior of a "knitted" R Markdown, which saves outputs to the location of the Rmd script. This default behavior can result in crowded, messy folders. The factory aims to improve organization when one needs to run reports frequently.  
+Điều này trái ngược với hoạt động bình thường của R Markdown "knitted" (kết hợp), lưu kết quả đầu ra vào vị trí của script Rmd. Hành vi mặc định này có thể dẫn đến các thư mục đông đúc, lộn xộn. Nhà máy nhằm mục đích cải thiện tổ chức khi một người cần chạy báo cáo thường xuyên.  
 
-### Compile by name {.unnumbered}  
+### Biên soạn theo tên {.unnumbered}  
 
-You can compile a specific report by running `compile_reports()` and providing the Rmd script name (without .Rmd extension) to `reports = `. For simplicity, you can skip the `reports = ` and just write the R Markdown name in quotes, as below.  
+Bạn có thể biên dịch một báo cáo cụ thể bằng cách chạy `compile_reports()` và đặt tên Rmd script (không có phần mở rộng .Rmd) cho `reports = `. Để đơn giản hơn, bạn có thể bỏ qua `reports = ` và chỉ cần viết tên R Markdown trong dấu ngoặc kép, như bên dưới.  
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_compile1.png"))
 ```
 
 
-This command would compile only the "daily_sitrep.Rmd" report, saving the HTML report, and the .csv table and .png epicurve exports into a date- and time-stamped sub-folder specific to the report, within the "outputs" folder.  
+Lệnh này sẽ chỉ biên dịch báo cáo "daily_sitrep.Rmd", lưu báo cáo HTML, xuất bảng .csv và đường cong dịch bệnh .png vào một thư mục con được đóng dấu ngày và giờ cụ thể cho báo cáo, trong thư mục "outputs" .  
 
-Note that if you choose to provide the .Rmd extension, you must correctly type the extension as it is saved in the file name (.rmd vs. .Rmd).  
+Lưu ý rằng nếu bạn chọn cung cấp phần mở rộng .Rmd, bạn phải nhập chính xác phần mở rộng vì nó được lưu trong tên tệp (.rmd so với .Rmd).  
 
-Also note that when you compile, you may see several files temporarily appear in the "report_sources" folder - but they will soon disappear as they are transferred to the correct "outputs" folder. 
+Cũng lưu ý rằng khi biên soạn, bạn có thể thấy một số tệp tạm thời xuất hiện trong thư mục "report_sources" - nhưng chúng sẽ sớm biến mất khi chúng được chuyển đến đúng thư mục "output".  
 
-### Compile by number {.unnumbered}
+### Biên soạn theo số {.unnumbered}
 
-You can also specify the Rmd script to compile by providing a number or vector of numbers to `reports = `. The numbers must align with the order the reports appear when you run `list_reports()`.  
+Bạn cũng có thể chỉ định Rmd script để biên dịch bằng cách cung cấp một số hoặc vectơ số cho `reports = `. Các con số phải phù hợp với thứ tự các báo cáo xuất hiện khi bạn chạy `list_reports()`.  
 
 ```{r, eval=F}
 # Compile the second and fourth Rmds in the "report_sources" folder
@@ -159,18 +158,18 @@ compile_reports(reports = c(2, 4))
 
 
 
-### Compile all {.unnumbered}
+### Biên soạn tất cả {.unnumbered}
 
-You can compile *all* the R Markdown reports in the "report_sources" folder by setting the `reports = ` argument to TRUE.  
+Bạn có thể biên soạn *tất cả* báo cáo R Markdown trong thư mục "report_sources" bằng cách đặt đối số `report =` thành TRUE.
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_compile_all.png"))
 ```
 
 
-### Compile from sub-folder {.unnumbered}  
+### Biên soạn từ thư mục con {.unnumbered}  
 
-You can add sub-folders to the "report_sources" folder. To run an R Markdown report from a subfolder, simply provide the name of the folder to `subfolder = `. Below is an example of code to compile a Rmd report that lives in a sub_folder of "report_sources".  
+Bạn có thể thêm các thư mục con vào thư mục "report_sources". Để chạy báo cáo R Markdown từ một thư mục con, chỉ cần cung cấp tên của thư mục cho `subfolder =`. Dưới đây là ví dụ về code để biên soạn báo cáo Rmd nằm trong thư mục con của "report_sources".  
 
 ```{r, eval=F}
 compile_reports(
@@ -178,16 +177,16 @@ compile_reports(
      subfolder = "for_partners")
 ```
 
-You can compile all Rmd reports within a subfolder by providing the subfolder name to `reports = `, with a slash on the end, as below.  
+Bạn có thể biên soạn tất cả các báo cáo Rmd trong một thư mục con bằng cách cung cấp tên thư mục con cho `reports = `, với một dấu gạch chéo ở cuối, như bên dưới.  
 
 ```{r, eval=F}
 compile_reports(reports = "for_partners/")
 ```
 
 
-### Parameterization {.unnumbered}
+### Tham số hóa {.unnumbered}
 
-As noted in the page on [Reports with R Markdown], you can run reports with specified parameters. You can pass these parameters as a list to `compile_reports()` via the `params = ` argument. For example, in this fictional report there are three parameters provided to the R Markdown reports.  
+Như đã lưu ý trong chương về [Reports with R Markdown], bạn có thể chạy báo cáo với các thông số được chỉ định. Bạn có thể chuyển các tham số này dưới dạng danh sách tới `compile_reports ()` thông qua đối số `params =`. Ví dụ, trong báo cáo hư cấu này, có ba tham số được cung cấp cho báo cáo R Markdown.  
 
 ```{r, eval=F}
 compile_reports(
@@ -200,15 +199,14 @@ compile_reports(
 ```
 
 
-### Using a "run-file" {.unnumbered}  
+### Dùng "run-file" {.unnumbered}  
 
-If you have multiple reports to run, consider creating a R script that contains all the `compile_reports()` commands. A user can simply run all the commands in this R script and all the reports will compile. You can save this "run-file" to the "scripts" folder.  
+Nếu bạn có nhiều báo cáo cần chạy, hãy cân nhắc tạo R script chứa tất cả các lệnh `compile_reports()`. Người dùng có thể chỉ cần chạy tất cả các lệnh trong R script này và tất cả các báo cáo sẽ được biên soạn. Bạn có thể lưu "run-file" này vào thư mục "scripts".  
 
 
+## Kết quả đầu ra 
 
-## Outputs  
-
-After we have compiled the reports a few times, the "outputs" folder might look like this (highlights added for clarity):  
+Sau khi chúng ta đã biên soạn các báo cáo một vài lần, thư mục "outputs" có thể trông giống như sau (các điểm nổi bật được thêm vào để rõ ràng):  
 
 
 ```{r, warning=F, message=F, echo=F}
@@ -216,57 +214,57 @@ knitr::include_graphics(here::here("images", "factory_overview_all.png"))
 ```
 
 
-* Within "outputs", sub-folders have been created for each Rmd report  
-* Within those, further sub-folders have been created for each unique compiling  
-  * These are date- and time-stamped ("2021-04-23_T11-07-36" means 23rd April 2021 at 11:07:36)  
-  * You can edit the date/time-stamp format. See `?compile_reports`
-* Within each date/time compiled folder, the report output is stored (e.g. HTML, PDF, Word) along with the Rmd script (version control!) and any other exported files (e.g. table.csv, epidemic_curve.png)  
+* Trong "outputs", các thư mục con đã được tạo cho mỗi báo cáo Rmd  
+* Trong đó, các thư mục con khác đã được tạo cho mỗi lần biên soạn duy nhất  
+  * Đây là những ngày tháng và thời gian được đóng dấu ("2021-04-23_T11-07-36" có nghĩa là ngày 23 tháng 4 năm 2021 lúc 11:07:36)
+  * Bạn có thể chỉnh sửa định dạng dấu ngày/giờ. Xem `?compile_reports`  
+* Trong mỗi thư mục ngày/giờ được biên soạn, kết quả báo cáo được lưu trữ (ví dụ: HTML, PDF, Word) cùng với tập lệnh Rmd (kiểm soát phiên bản!) Và bất kỳ tệp nào được xuất khác (ví dụ: table.csv, translate_curve.png)
 
-Here is a view inside one of the date/time-stamped folders, for the "daily_sitrep" report. The file path is highlighted in yellow for emphasis.  
+Đây là chế độ xem bên trong một trong các thư mục được đánh dấu ngày/giờ cho báo cáo "daily_sitrep". Đường dẫn tệp được đánh dấu bằng màu vàng để nhấn mạnh.  
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_compile_folder.png"))
 ```
 
 
-Finally, below is a screenshot of the HTML report output.  
+Cuối cùng, bên dưới là ảnh chụp màn hình của kết quả báo cáo HTML.  
 
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "factory_html.png"))
 ```
 
-You can use `list_outputs()` to review a list of the outputs.  
+Bạn có thể sử dụng `list_outputs()` để xem lại danh sách các kết quả đầu ra.  
 
 
 
 
-## Miscellaneous  
+## Mục khác  
 
 ### Knit {.unnumbered} 
 
-You can still "knit" one of your R Markdown reports by pressing the "Knit" button, if you want. If you do this, as by default, the outputs will appear in the folder where the Rmd is saved - the "report_sources" folder. In prior versions of **reportfactory**, having any non-Rmd files in "report_sources" would prevent compiling, but this is no longer the case. You can run `compile_reports()` and no error will occur.  
+Bạn vẫn có thể "knit" một trong các báo cáo R Markdown của mình bằng cách nhấn nút "Knit" nếu muốn. Nếu bạn làm điều này, theo mặc định, kết quả đầu ra sẽ xuất hiện trong thư mục lưu Rmd - thư mục "report_sources". Trong các phiên bản trước của **reportfactory**, việc có bất kỳ tệp nào không phải Rmd trong "report_sources" sẽ ngăn việc biên dịch, nhưng trường hợp này không còn nữa. Bạn có thể chạy `compile_reports()` và không có lỗi nào xảy ra.
 
 ### Scripts {.unnumbered}  
 
-We encourage you to utilize the "scripts" folder to store "runfiles" or .R scripts that are sourced by your .Rmd scripts. See the page on [R Markdown][Reports with R Markdown] for tips on how to structure your code across several files.  
+Chúng tôi khuyến khích bạn sử dụng thư mục "scripts" để lưu trữ "runfiles" hoặc các .R scripts được lấy từ các .R scripts của bạn. Xem trang trên [R Markdown][Reports with R Markdown] để biết các mẹo về cách cấu trúc code của bạn trên một số tệp.  
 
 
-### Extras {.unnumbered} 
+### Thêm {.unnumbered} 
 
-* With **reportfactory**, you can use the function `list_deps()` to list all packages required across all the reports in the entire factory.  
+* Với **reportfactory**, bạn có thể sử dụng hàm `list_deps()` để liệt kê tất cả các packages được yêu cầu trên tất cả các báo cáo trong toàn bộ nhà máy.  
 
-* There is an accompanying package in development called **rfextras** that offers more helper functions to assist you in building reports, such as:  
-  * `load_scripts()` - sources/loads all .R scripts in a given folder (the "scripts" folder by default)  
-  * `find_latest()` - finds the latest version of a file (e.g. the latest dataset)
+* Có một package đi kèm trong quá trình phát triển được gọi là **rfextras** cung cấp nhiều chức năng trợ giúp hơn để hỗ trợ bạn trong việc xây dựng báo cáo, chẳng hạn như:  
+  * `load_scripts()` - dẫn nguồn/tải tất cả các .R scripts trong một thư mục nhất định (thư mục "scripts" theo mặc định)
+  * `find_latest()` - tìm phiên bản mới nhất của tệp (ví dụ: tập dữ liệu mới nhất)  
 
 
 
 
 <!-- ======================================================= -->
-## Resources {  }
+## Tài nguyên {  }
 
-See the **reportfactory** package's [Github page](https://github.com/reconverse/reportfactory)
+Xem [Github page](https://github.com/reconverse/reportfactory) của **reportfactory** package  
 
-See the **rfextras** package's [Github page](https://github.com/reconhub/rfextras)  
+Xem [Github page](https://github.com/reconhub/rfextras) của **rfextras** package  
 

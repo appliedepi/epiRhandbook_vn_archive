@@ -125,7 +125,8 @@ pacman::p_load(
 
 Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import ()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
 
-Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống file linelist "thô"</a> (với file dạng .xlsx).
+
+Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống file linelist "thô"</a> (với file dạng .xlsx).
 
 Nếu bộ dữ liệu của bạn quá lớn và mất nhiều thời gian để nạp, rất hữu ích khi đặt lệnh nạp dữ liệu và đồng thời tách dữ liệu riêng biệt với chuỗi pipe và dữ liệu "thô" sẽ được lưu thành một file riêng biệt. Điều này cũng cho phép dễ dàng so sánh giữa phiên bản gốc và phiên bản đã làm sạch.
 
