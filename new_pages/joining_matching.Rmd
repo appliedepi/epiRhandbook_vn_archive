@@ -6,23 +6,23 @@ knitr::include_graphics(here::here("images", "left-join.gif"))
 
 *Ở trên: một ví dụ động về phép nối bên trái ([nguồn ảnh](https://github.com/gadenbuie/tidyexplain/tree/master/images))*
 
-Chương này mô tả các cách "nối (join)", "đối sánh (match)", "liên kết (link), "ràng buộc (bind)" và kết hợp các data frame.
+Chương này mô tả các cách "nối (join)", "khớp (match)", "liên kết (link), "gắn (bind)" và các cách khác để kết hợp các data frame.
 
 Việc phân tích hay quy trình làm việc dịch tễ học của bạn liên quan đến nhiều nguồn dữ liệu và sự liên kết của nhiều bộ dữ liệu với nhau là phổ biến. Có thể bạn cần kết nối dữ liệu phòng thí nghiệm với kết quả lâm sàng của bệnh nhân, hoặc dữ liệu di động của Google với các xu hướng bệnh truyền nhiễm hay thậm chí là bộ dữ liệu ở một giai đoạn phân tích với phiên bản đã biến đổi của chính nó.
 
-Trong chương này chúng tôi trình bày code nhằm:
+Trong chương này chúng ta trình bày code nhằm:
 
 -   Hướng dẫn *nối* hai data frame sao cho các hàng khớp với nhau dựa trên các giá trị chung trong cột định danh\
--   Nối hai data frame dựa trên sự phù hợp (có khả năng) *theo* *xác suất* giữa các giá trị\
--   Mở rộng một data frame bằng cách *liên kết* hoặc ("nối") trực tiếp các hàng hoặc cột từ một data frame khác
+-   Nối hai data frame dựa trên sự phù hợp (có khả năng) *theo xác suất* giữa các giá trị\
+-   Mở rộng một data frame bằng cách *gắn* hoặc ("thêm vào") trực tiếp các hàng hoặc cột từ một data frame khác
 
 <!-- ======================================================= -->
 
 ## Chuẩn bị
 
-### Tải package {.unnumbered}
+### Gọi package {.unnumbered}
 
-Đoạn code này hiển thị những package cần tải cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các package đã cài đặt với `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
+Đoạn code này hiển thị những package cần gọi cho các phân tích. Trong sổ tay này, chúng ta nhấn mạnh đến hàm `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* gọi nó ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
 
 ```{r}
 pacman::p_load(
@@ -36,7 +36,7 @@ pacman::p_load(
 
 ### Nhập dữ liệu {.unnumbered}
 
-Để bắt đầu, chúng tôi nhập các trường hợp trong linelist đã được làm sạch từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn theo dõi, [bấm để tải xuống linelist "đã được làm sạch"](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds) (tệp .rds). Nhập dữ liệu với hàm `import()` từ package **rio** (hàm này xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
+Để bắt đầu, chúng ta nhập các trường hợp trong linelist đã được làm sạch từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn theo dõi, [bấm để tải xuống linelist "đã được làm sạch"](https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds) (tệp .rds). Nhập dữ liệu với hàm `import()` từ package **rio** (hàm này xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -48,7 +48,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-50 hàng đầu tiên của linelist được hiển thị dưới đây. The first 50 rows of the linelist are displayed below.
+50 hàng đầu tiên của linelist được hiển thị dưới đây.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
@@ -59,16 +59,16 @@ DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list
 
 ### Bộ dữ liệu mẫu {.unnumbered}
 
-Trong phần nối dữ liệu dưới đây, chúng tôi sẽ sử dụng các bộ dữ liệu sau:
+Trong phần nối dữ liệu dưới đây, chúng ta sẽ sử dụng các bộ dữ liệu sau:
 
-1)  Một phiên bản "thu nhỏ" của `linelist` trường hợp, chỉ chứa các cột `case_id`, `date_onset`, `hospital` và chỉ 10 hàng đầu tiên\
-2)  Một data frame riêng biệt mà có tên `hosp_info`, chứa thêm thông tin chi tiết của từng bệnh viện
+1)  Một phiên bản "thu nhỏ" của bộ dữ liệu `linelist`, chỉ chứa các cột `case_id`, `date_onset`, `hospital` và chỉ 10 hàng đầu tiên\
+2)  Một data frame riêng biệt có tên `hosp_info`, chứa thêm thông tin chi tiết của từng bệnh viện
 
-Trong phần đối sánh theo xác suất, chúng ta sẽ sử dụng hai bộ dữ liệu nhỏ khác nhau. Code để tạo các bộ dữ liệu này được đưa ra trong phần đối sánh đó.
+Trong phần ghép theo xác suất, chúng ta sẽ sử dụng hai bộ dữ liệu nhỏ khác nhau. Code để tạo các bộ dữ liệu này được đưa ra trong phần đó.
 
-#### Linelist trường hợp "thu nhỏ" {#joins_llmini .unnumbered}
+#### Dữ liệu linelist "thu nhỏ" {#joins_llmini .unnumbered}
 
-Dưới đây là linelist trường hợp thu nhỏ, linelist mà chỉ chứa 10 hàng và chỉ chứa các cột `case_id`, `date_onset` và `hospital`.
+Dưới đây là bộ dữ liệu linelist thu nhỏ, bao gồm 10 hàng và chỉ chứa các cột `case_id`, `date_onset` và `hospital`.
 
 ```{r}
 linelist_mini <- linelist %>%                 # start with original linelist
@@ -102,13 +102,13 @@ DT::datatable(hosp_info, rownames = FALSE, options = list(pageLength = nrow(hosp
 
 <!-- ======================================================= -->
 
-### Làm sạch-trước {.unnumbered}
+### Làm sạch trước {.unnumbered}
 
-Các phương pháp nối truyền thống (không theo xác suất) phân biệt chữ hoa, chữ thường và yêu cầu khớp các ký tự chính xác giữa các giá trị trong hai data frame. Để trình bày một số bước làm sạch mà bạn có thể cần làm trước khi bắt đầu nối, chúng tôi sẽ làm sạch và căn chỉnh bộ dữ liệu `linelist_mini` và `hosp_info` ngay bây giờ.
+Các phương pháp nối truyền thống (không theo xác suất) phân biệt chữ hoa, chữ thường và yêu cầu khớp các ký tự chính xác giữa các giá trị trong hai data frame. Để minh họa một số bước làm sạch mà bạn có thể cần làm trước khi bắt đầu nối, chúng ta sẽ làm sạch và căn chỉnh bộ dữ liệu `linelist_mini` và `hosp_info` ngay bây giờ.
 
 **Xác định điểm khác biệt**
 
-Chúng tôi cần các giá trị của cột `hosp_name` trong data frame `hosp_info` để khớp với các giá trị của cột `hospital` trong data frame `linelist_mini`.
+Chúng ta cần các giá trị của cột `hosp_name` trong data frame `hosp_info` để khớp với các giá trị của cột `hospital` trong data frame `linelist_mini`.
 
 Dưới đây là các giá trị trong data frame `linelist_mini`, được in bằng hàm `unique()`trong **base** R:
 
@@ -126,9 +126,9 @@ Bạn có thể thấy rằng mặc dù một số bệnh viện tồn tại tro
 
 **Căn chỉnh giá trị**
 
-Chúng tôi bắt đầu bằng cách làm sạch các giá trị trong data frame `hosp_info`. Như đã được giải thích trong chương [Làm sạch số liệu và các hàm quan trọng], chúng ta có thể code lại các giá trị với tiêu chí logic bằng cách sử dụng hàm `case_when()` của **dplyr**. Đối với bốn bệnh viện tồn tại trong cả hai data frame, chúng tôi thay đổi các giá trị để phù hợp với các giá trị trong `linelist_mini`. Các bệnh viện khác chúng tôi để nguyên giá trị (`TRUE ~ hosp_name`).
+Chúng ta bắt đầu bằng cách làm sạch các giá trị trong data frame `hosp_info`. Như đã được giải thích trong chương [Làm sạch số liệu và các hàm quan trọng], chúng ta có thể code lại các giá trị với tiêu chí logic bằng cách sử dụng hàm `case_when()` của **dplyr**. Đối với bốn bệnh viện tồn tại trong cả hai data frame, chúng ta thay đổi các giá trị để phù hợp với các giá trị trong `linelist_mini`. Các bệnh viện khác chúng ta để nguyên giá trị (`TRUE ~ hosp_name`).
 
-[***CHÚ Ý:*** Thông thường khi làm sạch, người ta nên tạo một cột mới (ví dụ: `hosp_name_clean`), nhưng để dễ dàng giải thích, chúng tôi để hiển thị cột cũ đã được sửa đổi]{style="color: orange;"}
+[***CẨN TRỌNG:*** Thông thường khi làm sạch, chúng ta nên tạo một cột mới (ví dụ: `hosp_name_clean`), nhưng để dễ dàng giải thích, chúng ta hiển thị các thay đổi trên cột cũ]{style="color: orange;"}
 
 ```{r}
 hosp_info <- hosp_info %>% 
@@ -144,13 +144,13 @@ hosp_info <- hosp_info %>%
     )
 ```
 
-Tên bệnh viện xuất hiện trong cả hai data frame đều được căn chỉnh. Có hai bệnh viện trong `hosp_info` không có trong `linelist_mini` - chúng tôi sẽ giải quyết những trường hợp này sau, trong phần nối dữ liệu.
+Tên bệnh viện xuất hiện trong cả hai data frame đều được căn chỉnh. Có hai bệnh viện trong dữ liệu `hosp_info` không có trong `linelist_mini` - chúng ta sẽ giải quyết những trường hợp này sau, trong phần nối dữ liệu.
 
 ```{r}
 unique(hosp_info$hosp_name)
 ```
 
-Trước một phép nối, việc chuyển đổi một cột thành tất cả chữ thường hoặc tất cả chữ hoa thường dễ dàng nhất. Nếu bạn cần chuyển đổi tất cả các giá trị trong một cột thành CHỮ HOA hoặc chữ thường, hãy sử dụng `mutate()` và đặt cột bên trong một trong những hàm từ **stringr**, đã được trình bày trong chương [Ký tự và chuỗi].
+Trước một phép nối, việc chuyển đổi một cột thành tất cả chữ thường hoặc tất cả chữ hoa thường dễ dàng nhất. Nếu bạn cần chuyển đổi tất cả các giá trị trong một cột thành CHỮ HOA hoặc chữ thường, hãy sử dụng `mutate()` và đặt cột bên trong một trong những hàm từ package **stringr**, như ã được trình bày trong chương [Ký tự và chuỗi].
 
 `str_to_upper()`\
 `str_to_upper()`\
@@ -160,15 +160,15 @@ Trước một phép nối, việc chuyển đổi một cột thành tất cả
 
 ## **Nối bằng dplyr**
 
-Package **dplyr** cung cấp một số hàm nối khác nhau. **dplyr** nằm trong package **tidyverse**. Các hàm nối này được mô tả ở bên dưới, trong các trường hợp sử dụng đơn giản.
+Package **dplyr** cung cấp một số hàm nối khác nhau. **dplyr** là một package thuộc hệ sinh thái **tidyverse**. Các hàm nối này được mô tả ở bên dưới, trong các trường hợp sử dụng đơn giản.
 
-Rất cảm ơn [https://github.com/gadenbuie](https://github.com/gadenbuie/tidyexplain/tree/master/images) vì những gif bổ ích!
+Rất cảm ơn [https://github.com/gadenbuie](https://github.com/gadenbuie/tidyexplain/tree/master/images) vì những tấm ảnh động bổ ích!
 
 <!-- ======================================================= -->
 
 ### Cú pháp chung {.unnumbered}
 
-Các lệnh nối có thể được chạy dưới dạng các lệnh độc lập để nối hai data frame thành một đối tượng mới, hoặc chúng có thể được sử dụng trong một chuỗi pipe (`%>%`) để hợp nhất một data frame vào một data frame khác khi nó đang được làm sạch hoặc chỉnh sửa theo hướng khác.
+Các lệnh nối có thể được chạy dưới dạng các lệnh độc lập để nối hai data frame thành một đối tượng mới, hoặc chúng có thể được sử dụng trong một chuỗi pipe (`%>%`) để hợp nhất một data frame vào một data frame khác khi nó đang được làm sạch hoặc chỉnh sửa.
 
 Trong ví dụ dưới đây, hàm `left_join()` được sử dụng như một lệnh độc lập để tạo một data frame `joined_data` mới. Các dữ liệu đầu vào là data frame 1 và 2 (`df1` và `df2`). Data frame đầu tiên được liệt kê là data frame cơ sở và data frame thứ hai được liệt kê là data frame sẽ nối *với* data frame thứ nhất.
 
@@ -186,16 +186,16 @@ Nếu các cột `by` trong cả hai data frame có cùng tên, bạn chỉ cầ
 joined_data <- left_join(df1, df2, by = "ID")
 ```
 
-Nếu bạn đang nối các data frame dựa trên các giá trị chung của nhiều trường, hãy liệt kê các trường này trong vectơ `c()`. Ví dụ này nối các hàng nếu các giá trị trong ba cột trong mỗi bộ dữ liệu căn chỉnh chính xác.
+Nếu bạn đang nối các data frame dựa trên các giá trị chung của nhiều trường, hãy liệt kê các trường này trong vectơ `c()`. Ví dụ dưới đây nối các hàng nếu các giá trị trong ba cột trong mỗi bộ dữ liệu căn chỉnh chính xác.
 
 ```{r, eval=F}
 # join based on same first name, last name, and age
 joined_data <- left_join(df1, df2, by = c("name" = "firstname", "surname" = "lastname", "Age" = "age"))
 ```
 
-Các lệnh nối cũng có thể được chạy trong một chuỗi pipe. Điều này sẽ sửa đổi data frame trở thành pipe hóa.
+Các lệnh nối cũng có thể được chạy trong một chuỗi pipe. Điều này sẽ thực hiện sửa đổi data frame trong chuỗi pipe.
 
-Trong ví dụ dưới đây, `df1` được đưa qua các pipe, `df2` được nối vào đó và vì thế `df` được chỉnh sửa và xác định lại.
+Trong ví dụ dưới đây, `df1` được đưa qua các pipe, `df2` được nối vào đó và vì thế `df1` được chỉnh sửa và xác định lại.
 
 ```{r eval=F}
 df1 <- df1 %>%
@@ -203,7 +203,7 @@ df1 <- df1 %>%
   left_join(df2, by = c("ID" = "identifier"))    # join df2 to df1
 ```
 
-[***CHÚ Ý:*** Nối là những trường hợp cụ thể! Do đó, rất hữu ích khi chuyển đổi tất cả các giá trị thành chữ thường hoặc chữ hoa trước khi nối. Xem chương về ký tự/chuỗi.]{style="color: orange;"}
+[***CẨN TRỌNG:*** Nối dựa trên những trường hợp cụ thể! Do đó, rất hữu ích khi chuyển đổi tất cả các giá trị thành chữ thường hoặc chữ hoa trước khi nối. Xem thêm chương về ký tự/chuỗi.]{style="color: orange;"}
 
 <!-- ======================================================= -->
 
@@ -211,7 +211,7 @@ df1 <- df1 %>%
 
 **Nối trái hoặc phải thường được sử dụng để thêm thông tin vào data frame** - thông tin mới chỉ được thêm vào các hàng đã tồn tại trong data frame cơ sở. Đây là những phép nối phổ biến trong hoạt động dịch tễ học vì chúng được sử dụng để thêm thông tin từ một bộ dữ liệu vào một bộ dữ liệu khác.
 
-Khi sử dụng các phép nối này, thứ tự bằng văn bản của các data frame trong lệnh rất quan trọng\*.
+Khi sử dụng các phép nối này, thứ tự viết của các data frame trong lệnh rất quan trọng\*.
 
 -   Trong *phép nối trái*, data frame *đầu tiên* được viết là data frame cơ sở\
 -   Trong *phép nối phải*, data frame *thứ hai* được viết là data frame cơ sở
@@ -222,7 +222,7 @@ Khi sử dụng các phép nối này, thứ tự bằng văn bản của các d
 -   Nếu có nhiều hàng cơ sở khớp với một hàng trong data frame thứ cấp (nhiều-khớp-một), thông tin phụ sẽ được thêm vào *mỗi hàng cơ sở được khớp*.\
 -   Nếu một hàng cơ sở khớp với nhiều hàng trong data frame thứ cấp (một-khớp-nhiều), tất cả các kết hợp sẽ được đưa ra, nghĩa là *các hàng mới* *có thể được thêm vào data frame trả về của bạn!*
 
-Các ví dụ động về phép nối trái và phải ([nguồn ảnh](https://github.com/gadenbuie/tidyexplain/tree/master/images))
+Sau đây là các ví dụ động về phép nối trái và phải ([nguồn ảnh](https://github.com/gadenbuie/tidyexplain/tree/master/images))
 
 ```{r out.width = c('50%'), fig.show='hold', echo=F}
 knitr::include_graphics(here::here("images", "left-join.gif"))
@@ -231,7 +231,7 @@ knitr::include_graphics(here::here("images", "right-join.gif"))
 
 **Ví dụ**
 
-Dưới đây là kết quả đầu ra của `left_join()` trong `hosp_info` (data frame thứ cấp, [xem tại đây](#joins_hosp_info)) *vào* `linelist_mini` (data frame cơ sở, [xem tại đây](#joins_llmini)). `linelist_mini` gốc có hàng `nrow(linelist_mini)`. `linelist_mini` đã chỉnh sửa được hiển thị. Lưu ý những điều dưới đây:
+Dưới đây là kết quả đầu ra của phép nối trái `left_join()` của bộ dữ liệu `hosp_info` (data frame thứ cấp, [xem tại đây](#joins_hosp_info)) *vào* `linelist_mini` (data frame cơ sở, [xem tại đây](#joins_llmini)). `linelist_mini` gốc có `nrow(linelist_mini)` hàng. `linelist_mini` đã chỉnh sửa được hiển thị. Lưu ý những điều dưới đây:
 
 -   Hai cột mới `catchment_pop` và `level` đã được thêm vào bên trái của `linelist_mini`\
 -   Tất cả các hàng gốc của data frame cơ sở `linelist_mini` đều được giữ lại\
@@ -255,7 +255,7 @@ linelist_mini %>%
 
 Để trả lời câu hỏi trên, hãy tự hỏi "data frame nào nên giữ lại tất cả các hàng của nó?" - hãy sử dụng cái này làm data frame cơ sở. *Phép nối trái* giữ tất cả các hàng trong data frame đầu tiên được viết trong lệnh, trong khi *phép nối phải* giữ tất cả các hàng trong data frame thứ hai.
 
-Hai lệnh bên dưới đạt cùng một kết quả đầu ra - 10 hàng `hosp_info` được nối *thành* một đường cơ sở `linelist_mini`, tuy nhiên chúng sử dụng các phép nối khác nhau. Kết quả là thứ tự cột sẽ khác nhau dựa trên việc `hosp_info` đến từ bên phải (trong phép nối bên trái) hay đến từ bên trái (trong phép nối bên phải). Thứ tự của các hàng cũng có thể thay đổi tương ứng. Nhưng cả hai hệ quả này đều có thể được giải quyết bằng cách sử dụng `select()` để sắp xếp lại các cột hoặc `arrange()` để sắp xếp các hàng.
+Hai lệnh bên dưới đạt cùng một kết quả đầu ra - 10 hàng `hosp_info` được nối *vào* bộ dữ liệu cơ sở `linelist_mini`, tuy nhiên chúng sử dụng các phép nối khác nhau. Kết quả là thứ tự cột sẽ khác nhau dựa trên việc `hosp_info` đến từ bên phải (trong phép nối bên trái) hay đến từ bên trái (trong phép nối bên phải). Thứ tự của các hàng cũng có thể thay đổi tương ứng. Nhưng cả hai hệ quả này đều có thể được giải quyết bằng cách sử dụng `select()` để sắp xếp lại các cột hoặc `arrange()` để sắp xếp các hàng.
 
 ```{r, eval=F}
 # The two commands below achieve the same data, but with differently ordered rows and columns
@@ -285,7 +285,7 @@ Ngoài ra, hãy xem xét liệu trường hợp-đang sử dụng của bạn c�
 
 **Nối hoàn toàn là phép nối *bao hàm* nhất trong tất cả các phép nối** - nó trả về tất cả các hàng từ cả hai data frame.
 
-Nếu có bất kỳ hàng nào chỉ hiện diện duy nhất trong một hàng (khi không tìm thấy hàng nào phù hợp), data frame sẽ bao gồm các hàng đó và trở nên dài hơn. Các giá trị missing `NA` được sử dụng để điền-vào bất kỳ khoảng trống nào đã tạo. Khi bạn nối, hãy kiểm tra số cột và số hàng cẩn thận để khắc phục lỗi về phân biệt chữ hoa với chữ thường và đảm bảo các kết quả khớp ký tự chính xác.
+Nếu có bất kỳ hàng nào chỉ hiện diện duy nhất trong một data frame (khi không tìm thấy hàng nào phù hợp), data frame sẽ bao gồm các hàng đó và trở nên dài hơn. Các giá trị missing `NA` được sử dụng để điền-vào bất kỳ khoảng trống nào đã tạo. Khi bạn nối, hãy kiểm tra số cột và số hàng cẩn thận để khắc phục lỗi về phân biệt chữ hoa với chữ thường và đảm bảo các kết quả khớp ký tự chính xác.
 
 Data frame "cơ sở" là data frame được viết đầu tiên trong lệnh. Việc điều chỉnh data frame này sẽ không ảnh hưởng đến những bản ghi nào được trả về bởi phép nối, nhưng nó có thể ảnh hưởng đến thứ tự cột kết quả, thứ tự hàng và cột định danh nào được giữ lại.
 
@@ -297,7 +297,7 @@ Ví dụ động về một phép nối hoàn toàn ([nguồn ảnh](https://git
 
 **Ví dụ**
 
-Dưới đây kết quả đầu ra việc nối `full_join()` của `hosp_info` (ban đầu là `nrow(hosp_info)`, [xem tại đây](#joins_hosp_info)) *vào* `linelist_mini` (ban đầu là `nrow(linelist_mini)`, [xem tại đây](#joins_llmini)). Lưu ý những điều dưới đây:
+Dưới đây kết quả đầu ra của phép nối hoàn toàn `full_join()` của `hosp_info` (ban đầu là `nrow(hosp_info)`, [xem tại đây](#joins_hosp_info)) *vào* `linelist_mini` (ban đầu là `nrow(linelist_mini)`, [xem tại đây](#joins_llmini)). Lưu ý những điều dưới đây:
 
 -   Tất cả các hàng cơ sở đều được giữ nguyên (`linelist_mini`)\
 -   Các hàng trong data frame thứ cấp không khớp với data frame cơ sở được giữ lại ("ignace" và "sisters"), với các giá trị trong các cột cơ sở tương ứng `case_id` và `onset` điền-vào các giá trị missing\
@@ -371,13 +371,13 @@ hosp_info %>%
 
 <!-- ======================================================= -->
 
-### Nối anti (Anti join) {.unnumbered}
+### Anti join {.unnumbered}
 
-**Nối anti là một "phép nối chọn lọc" khác trả về các hàng trong data frame cơ sở *không* khớp với data frame thứ cấp.**
+**Anti join là một "phép nối chọn lọc" khác trả về các hàng trong data frame cơ sở *không* khớp với data frame thứ cấp.**
 
 Đọc thêm về những phép nối "chọn lọc" này [tại đây](https://towardsdatascience.com/level-up-with-semi-joins-in-r-a068426096e0).
 
-Các tình huống phổ biến cho một phép nối-anti bao gồm xác định các bản ghi không tồn tại trong một data frame khác, khắc phục lỗi chính tả trong một phép nối (xem xét các bản ghi *đáng lẽ sẽ* khớp) và kiểm tra các bản ghi đã bị loại trừ sau một phép nối khác.
+Các tình huống phổ biến của anti join bao gồm xác định các bản ghi không tồn tại trong một data frame khác, khắc phục lỗi chính tả trong một phép nối (xem xét các bản ghi *đáng lẽ sẽ* khớp) và kiểm tra các bản ghi đã bị loại trừ sau một phép nối khác.
 
 **Như với `right_join()` và `left_join()`, quan trọng là data frame *cơ sở* (được liệt kê đầu tiên)**. Các hàng được trả về chỉ từ data frame cơ sở. Lưu ý trong ảnh động bên dưới, hàng trong data frame thứ cấp (hàng 4 màu tím) không được trả về mặc dù nó không khớp với hàng cơ sở.
 
@@ -385,11 +385,11 @@ Các tình huống phổ biến cho một phép nối-anti bao gồm xác địn
 knitr::include_graphics(here::here("images", "anti-join.gif"))
 ```
 
-Ví dụ động về phép nối anti ([nguồn ảnh](https://github.com/gadenbuie/tidyexplain/tree/master/images))
+Ví dụ động về anti join ([nguồn ảnh](https://github.com/gadenbuie/tidyexplain/tree/master/images))
 
 #### Ví dụ `anti_join()` đơn giản {.unnumbered}
 
-Một ví dụ đơn giản, hãy tìm bệnh viện trong `hosp_info` mà không tồn tại trong `linelist_mini`. Chúng tôi liệt kê `hosp_info` trước, như một data frame cơ sở. Các bệnh viện không có trong `linelist_mini` sẽ được trả về.
+Một ví dụ đơn giản, hãy tìm bệnh viện trong `hosp_info` mà không tồn tại trong `linelist_mini`. chúng ta liệt kê `hosp_info` trước, như một data frame cơ sở. Các bệnh viện không có trong `linelist_mini` sẽ được trả về.
 
 ```{r, eval=F}
 hosp_info %>% 
@@ -404,7 +404,7 @@ hosp_info %>%
 
 #### Ví dụ `anti_join()` phức tạp {.unnumbered}
 
-Một ví dụ khác, giả sử chúng tôi đã chạy một `inner_join()` giữa `linelist_mini` và `hosp_info`. Lệnh này chỉ trả về một tập con các bản ghi của `linelist_mini` gốc, vì một số bản ghi không có trong `hosp_info`.
+Một ví dụ khác, giả sử chúng ta đã chạy một `inner_join()` giữa `linelist_mini` và `hosp_info`. Lệnh này chỉ trả về một tập con các bản ghi của `linelist_mini` gốc, vì một số bản ghi không có trong `hosp_info`.
 
 ```{r, eval=F}
 linelist_mini %>% 
@@ -417,7 +417,7 @@ linelist_mini %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 8))
 ```
 
-Để xem lại các bản ghi `linelist_mini` đã bị loại trừ trong phép nối bên trong, chúng tôi có thể chạy một phép nối-anti với cùng thiết lập (`linelist_mini` là data frame cơ sở).
+Để xem lại các bản ghi `linelist_mini` đã bị loại trừ trong phép nối bên trong, chúng ta có thể chạy một phép nối anti-join với cùng thiết lập (`linelist_mini` là data frame cơ sở).
 
 ```{r, eval = F}
 linelist_mini %>% 
@@ -430,7 +430,7 @@ linelist_mini %>%
   DT::datatable(rownames = FALSE, options = list(pageLength = 8))
 ```
 
-Để xem các bản ghi `hosp_info` đã bị loại trừ trong phép nối bên trong, chúng tôi cũng có thể chạy một phép nối-anti với `hosp_info` là data frame cơ sở.
+Để xem các bản ghi `hosp_info` đã bị loại trừ trong phép nối bên trong, chúng ta cũng có thể chạy một phép nối anti-join với `hosp_info` là data frame cơ sở.
 
 <!-- ======================================================= -->
 
@@ -438,7 +438,7 @@ linelist_mini %>%
 
 Nếu bạn không có thông tin định danh duy nhất chung trên các bộ dữ liệu để nối, hãy xem xét sử dụng thuật toán khớp theo xác suất. Phương pháp này sẽ tìm thấy các bản ghi khớp với nhau dựa trên sự tương đồng (ví dụ: khoảng cách chuỗi Jaro-Winkler hoặc khoảng cách số). Dưới đây là một ví dụ đơn giản sử dụng package **fastLink**.
 
-**Tải package**
+**Gọi package**
 
 ```{r}
 pacman::p_load(
@@ -447,7 +447,7 @@ pacman::p_load(
   )
 ```
 
-Dưới đây là hai bộ dữ liệu mẫu nhỏ mà chúng tôi sẽ sử dụng để giải thích phương pháp khớp theo xác suất (`cases` và `test_results`):
+Dưới đây là hai bộ dữ liệu mẫu nhỏ mà chúng ta sẽ sử dụng để giải thích phương pháp khớp theo xác suất (`cases` và `test_results`):
 
 Đây là code được sử dụng để tạo bộ dữ liệu:
 
@@ -494,7 +494,7 @@ results <- tribble(
 DT::datatable(cases, rownames = FALSE, options = list(pageLength = nrow(cases), scrollX=T), class = 'white-space: nowrap')
 ```
 
-**Bộ dữ liệu `test_results`** có 14 bản ghi và chứa cột `result`, cột mà chúng tôi muốn thêm vào các bản ghi trong `cases` dựa trên các bản ghi khớp theo xác xuất.
+**Bộ dữ liệu `test_results`** có 14 bản ghi và chứa cột `result`, cột mà chúng ta muốn thêm vào các bản ghi trong `cases` dựa trên các bản ghi khớp theo xác xuất.
 
 ```{r message=FALSE, echo=F}
 # display the hospital data as a table
@@ -530,7 +530,7 @@ fl_output <- fastLink::fastLink(
 
 **Xem lại các kết quả khớp**
 
-Chúng tôi đã định nghĩa đối tượng được trả về từ `fastLink()` là `fl_output`. Nó thuộc nhóm `list`, và nó thực sự chứa một số data frame bên trong nó, mô tả chi tiết kết quả của việc so khớp. Một trong những data frame này là `matches`, chứa các kết quả khớp có nhiều khả năng nhất giữa `cases` và `results`. Bạn có thể truy cập data frame "khớp" này với `fl_output$matches`. Dưới đây, nó được lưu dưới dạng `my_matches` để tiện cho việc truy cập sau này.
+chúng ta đã định nghĩa đối tượng được trả về từ `fastLink()` là `fl_output`. Nó thuộc nhóm `list`, và nó thực sự chứa một số data frame bên trong nó, mô tả chi tiết kết quả của việc so khớp. Một trong những data frame này là `matches`, chứa các kết quả khớp có nhiều khả năng nhất giữa `cases` và `results`. Bạn có thể truy cập data frame "khớp" này với `fl_output$matches`. Dưới đây, nó được lưu dưới dạng `my_matches` để tiện cho việc truy cập sau này.
 
 Khi `my_matches` được in, bạn sẽ thấy hai vectơ cột: các cặp số/chỉ số hàng (còn được gọi là "tên hàng (rownames)") trong `cases` ("inds.a") và trong `results` ("inds.b") đại diện cho các kết quả khớp phù hợp nhất. Nếu số hàng từ data frame bị thiếu, có nghĩa là không tìm thấy kết quả khớp nào trong data frame khác ở ngưỡng đối sánh đã chỉ định.
 
@@ -633,7 +633,7 @@ results_not_matched <- results[!rownames(results) %in% my_matches$inds.b,]  # Ro
 
 Khớp theo xác suất cũng có thể được sử dụng để loại bỏ trùng lặp trong một bộ dữ liệu. Xem chương về Loại bỏ trùng lặp để biết các phương pháp loại bỏ trùng lặp khác.
 
-Ở đây chúng tôi đã bắt đầu với bộ dữ liệu `cases`, nhưng bây giờ đang được gọi là `cases_dup`, vì nó có 2 hàng bổ sung mà có thể là bản trùng lặp của các hàng trước đó: Xem "Tony" với "Anthony", và "Marialisa Rodrigues" với "Maria Rodriguez".
+Ở đây chúng ta đã bắt đầu với bộ dữ liệu `cases`, nhưng bây giờ đang được gọi là `cases_dup`, vì nó có 2 hàng bổ sung mà có thể là bản trùng lặp của các hàng trước đó: Xem "Tony" với "Anthony", và "Marialisa Rodrigues" với "Maria Rodriguez".
 
 ```{r, echo=F}
 ## Add duplicates
@@ -660,7 +660,7 @@ cases_dup <- tribble(
 DT::datatable(cases_dup, rownames = FALSE, options = list(pageLength = nrow(cases_dup)))
 ```
 
-Chạy `fastLink()` giống nhu trước, nhưng so sánh data frame `cases_dup` với chính nó. Khai hai data frames được cung cấp giống hệt nhau, hàm sẽ giả định rằng bạn muốn loại bỏ trùng lặp. Lưu ý rằng chúng tôi không chỉ định `stringdist.match =` hoặc `numeric.match =` như chúng tôi đã làm trước đây.
+Chạy `fastLink()` giống nhu trước, nhưng so sánh data frame `cases_dup` với chính nó. Khai hai data frames được cung cấp giống hệt nhau, hàm sẽ giả định rằng bạn muốn loại bỏ trùng lặp. Lưu ý rằng chúng ta không chỉ định `stringdist.match =` hoặc `numeric.match =` như chúng ta đã làm trước đây.
 
 ```{r, message = F, warning = F}
 ## Run fastLink on the same dataset
@@ -702,21 +702,21 @@ cases_dedupe %>%
 cases_dedupe[cases_dedupe$dedupe.ids == 2,]   
 ```
 
-## Ràng buộc và căn chỉnh
+## Gắn vào và căn chỉnh
 
-Một phương pháp khác để kết hợp hai data frame là "ràng buộc" chúng với nhau. Bạn cũng có thể coi đây là hàng hoặc cột được "nối vào" hoặc "thêm".
+Một phương pháp khác để kết hợp hai data frame là "ràng buộc" chúng với nhau. Bạn cũng có thể coi đây là hàng hoặc cột được "gắn vào" hoặc "thêm".
 
-Phần này cũng sẽ thảo luận về cách "căn chỉnh" thứ tự các hàng của một data frame với thứ tự các hàng trong data frame khác. Chủ đề này được thảo luận dưới đây trong phần về Ràng buộc cột.
+Phần này cũng sẽ thảo luận về cách "căn chỉnh" thứ tự các hàng của một data frame với thứ tự các hàng trong data frame khác. Chủ đề này được thảo luận dưới đây trong phần về Gắn các cột.
 
-### Ràng buộc các hàng {.unnumbered}
+### Gắn các hàng {.unnumbered}
 
-Để liên kết các hàng của một data frame này với phần cuối của một data frame khác, hãy sử dụng `bind_rows()` từ **dplyr**. Nó rất bao hàm, vì vậy bất kỳ cột nào có trong một trong hai data frame sẽ được đưa vào kết quả đầu ra. Một số lưu ý:
+Để gắn các hàng của một data frame này với phần cuối của một data frame khác, hãy sử dụng `bind_rows()` từ **dplyr**. Hàm này có tính dung nạp, vì vậy bất kỳ cột nào có trong một trong hai data frame sẽ được đưa vào kết quả đầu ra. Một số lưu ý:
 
 -   Không giống như `row.bind()` của phiên bản **base** R, `bind_rows()` của **dplyr** không yêu cầu thứ tự của các cột phải giống nhau trong cả hai data frame. Miễn là các tên cột được viết giống nhau, nó sẽ căn chỉnh chúng một cách chính xác. \
 -   Bạn có thể tùy chọn xác định đối số `.id =`. Cung cấp một tên cột ký tự. Điều này sẽ tạo ra một cột mới dùng để xác định mỗi hàng ban đầu đến từ data frame nào.\
 -   Bạn có thể sử dụng`bind_rows()` trên một `list` các data frame có cấu trúc tương tự để kết hợp chúng thành một. Xem ví dụ trong chương [Lặp, vòng lặp và danh sách] về việc nhập nhiều linelist với **purrr**.
 
-Một ví dụ phổ biến về ràng buộc hàng là liên kết một hàng "tổng (total)" vào một bảng mô tả được tạo bằng hàm `summarise()` của **dplyr**. Dưới đây, chúng tôi tạo một bảng đếm số trường hợp và giá trị CT trung bình theo bệnh viện với một hàng tổng.
+Một ví dụ phổ biến về row binding là gắn một hàng "tổng (total)" vào một bảng mô tả được tạo bằng hàm `summarise()` của **dplyr**. Dưới đây, chúng ta tạo một bảng đếm số trường hợp và giá trị CT trung bình theo bệnh viện với một hàng tổng.
 
 Hàm `summarise()` được sử dụng trên dữ liệu đã nhóm theo bệnh viện để trả về một data frame tóm tắt theo bệnh viện. Nhưng hàm `summarise()` không tự động tạo ra hàng "tổng", vì vậy chúng ta tạo ra nó bằng cách tổng hợp *lại* dữ liệu, nhưng với dữ liệu không bị nhóm theo bệnh viện. Điều này tạo ra một data frame thứ hai chỉ gồm một hàng. Sau đó, chúng ta có thể liên kết các data frame này với nhau để có được bảng cuối cùng.
 
@@ -755,7 +755,7 @@ Và dưới đây là data frame `totals`. Lưu ý cách mà chỉ tạo ra hai 
 DT::datatable(totals, rownames = FALSE, options = list(pageLength = nrow(10)))
 ```
 
-Bây giờ chúng ta có thể ràng buộc các hàng với nhau bằng `bind_rows()`.
+Bây giờ chúng ta có thể gắn các hàng với nhau bằng `bind_rows()`.
 
 ```{r}
 # Bind data frames together
@@ -768,13 +768,13 @@ Bây giờ chúng ta có thể xem kết quả. Xem cách mà trong hàng cuối
 DT::datatable(combined, rownames = FALSE, options = list(pageLength = nrow(10)))
 ```
 
-### Ràng buộc các cột {.unnumbered}
+### Gắn các cột {.unnumbered}
 
 Có một hàm **dplyr** tuơng tự là `bind_cols()`, hàm mà bạn có thể sử dụng để kết hợp hai data frame theo chiều ngang. Lưu ý rằng các hàng được khớp với nhau theo *vị trí* (khác với *phép nối* ở trên) - ví dụ: hàng thứ 12 trong mỗi data frame sẽ được căn chỉnh.
 
-Ví dụ, chúng tôi liên kết một số bảng tóm tắt với nhau. Để làm điều này, chúng tôi cũng trình bày cách sắp xếp lại thứ tự của các hàng trong một data frame để khớp với thứ tự hàng trong một data frame khác, với `match()`.
+Ví dụ, chúng ta liên kết một số bảng tóm tắt với nhau. Để làm điều này, chúng ta cũng trình bày cách sắp xếp lại thứ tự của các hàng trong một data frame để khớp với thứ tự hàng trong một data frame khác, với `match()`.
 
-Ở đây chúng tôi định nghĩa `case_info` là một data frame tóm tắt về các trường hợp trong linelist theo bệnh viện, với số trường hợp và số ca tử vong.
+Ở đây chúng ta định nghĩa `case_info` là một data frame tóm tắt về các trường hợp trong linelist theo bệnh viện, với số trường hợp và số ca tử vong.
 
 ```{r}
 # Case information
@@ -808,7 +808,7 @@ Lưu ý rằng các bệnh viện đều như nhau, nhưng theo thứ tự khác
 
 #### Sử dụng `match()` để sắp xếp thứ tự {.unnumbered}
 
-Do thứ tự hàng khác nhau, một lệnh `bind_cols()` đơn giản sẽ dẫn đến khớp sai dữ liệu. Để khắc phục điều này, chúng ta có thể sử dụng `match()` từ **base** R để căn chỉnh các hàng của data frame theo thứ tự giống với thứ tự trong data frame khác. Chúng tôi giả định đối với phương pháp này rằng không có giá trị trùng lặp nào trong cả hai data frame.
+Do thứ tự hàng khác nhau, một lệnh `bind_cols()` đơn giản sẽ dẫn đến khớp sai dữ liệu. Để khắc phục điều này, chúng ta có thể sử dụng hàm `match()` trong **base** R để căn chỉnh các hàng của data frame theo thứ tự giống với thứ tự trong data frame khác. Chúng ta giả định đối với phương pháp này rằng không có giá trị trùng lặp nào trong cả hai data frame.
 
 Khi chúng ta sử dụng `match()`, với cú pháp là `match(TARGET ORDER VECTOR, DATA FRAME COLUMN TO CHANGE)`, trong đó đối số đầu tiên là thứ tự mong muốn (hoặc là một vectơ độc lập, hoặc trong trường hợp này là một cột trong data frame), và đối số thứ hai là cột data frame trong data frame mà sẽ được sắp xếp lại. Kết quả đầu ra của `match()` sẽ là một vectơ số đại diện cho thứ tự vị trí chính xác. Bạn có thể đọc thêm với `?match`.
 
@@ -826,7 +826,7 @@ contact_fu_aligned <- contact_fu[match(case_info$hospital, contact_fu$hospital),
 DT::datatable(contact_fu_aligned, rownames = FALSE, options = list(pageLength = nrow(10)))
 ```
 
-Bây giờ chúng ta có thể ràng buộc các cột data frame với nhau, với thứ tự hàng chính xác. Lưu ý rằng một số cột bị trùng lặp và sẽ yêu cầu làm sạch bằng `rename()`. Đọc thêm về `bind_rows()` [tại đây](https://dplyr.tidyverse.org/reference/bind.html).
+Bây giờ chúng ta có thể gắn các cột data frame với nhau, với thứ tự hàng chính xác. Lưu ý rằng một số cột bị trùng lặp và sẽ yêu cầu làm sạch bằng `rename()`. Đọc thêm về `bind_rows()` [tại đây](https://dplyr.tidyverse.org/reference/bind.html).
 
 ```{r}
 bind_cols(case_info, contact_fu)

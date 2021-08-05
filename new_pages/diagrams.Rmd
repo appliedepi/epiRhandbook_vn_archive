@@ -11,7 +11,7 @@ knitr::include_graphics(here::here("images", "sankey_diagram.png"))
 
 Chương này này bao gồm hướng dẫn sử dụng code để vẽ: 
 
-* Biểu đồ flow bằng **DiagrammeR** và ngôn ngữ DOT  
+* Biểu đồ flow diagram bằng **DiagrammeR** và ngôn ngữ DOT  
 * Biểu đồ Alluvial/Sankey  
 * Chuỗi sự kiện theo thời gian 
 
@@ -22,9 +22,9 @@ Chương này này bao gồm hướng dẫn sử dụng code để vẽ:
 <!-- ======================================================= -->
 ## Chuẩn bị { }
 
-### Tải packages {.unnumbered}  
+### Gọi packages {.unnumbered}  
 
-Đoạn code dưới đây hiển thị cách tải các packages cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt gói nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các packages đã cài đặt với hàm `library()` từ **base** R. Xem chương [R Cơ bản] để biết thêm thông tin về các package R. 
+Đoạn code dưới đây hiển thị cách gọi các packages cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt gói nếu cần *và* gọi nó ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` từ **base** R. Xem chương [R Cơ bản] để biết thêm thông tin về các package R. 
 
 ```{r}
 pacman::p_load(
@@ -35,7 +35,7 @@ pacman::p_load(
 
 ### Nhập dữ liệu {.unnumbered}  
 
-Hầu hết nội dung trong chương này không yêu cầu tập dữ liệu. Tuy nhiên, trong phần sơ đồ Sankey, chúng ta sẽ sử dụng danh sách trường hợp từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn theo dõi phần này, hãy <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>ấn để tải danh sách trường hợp "đã làm sạch" ở đây</a> (as .rds file). Nhập dữ liệu bằng hàm `import ()` từ package **rio** (có thể xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem chương [Nhập xuất dữ liệu] để biết chi tiết). 
+Hầu hết nội dung trong chương này không yêu cầu bộ dữ liệu. Tuy nhiên, trong phần sơ đồ Sankey, chúng ta sẽ sử dụng bộ dữ liệu linelist từ một vụ dịch Ebola mô phỏng. Để tiện theo dõi, hãy <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải bộ dữ liệu linelist "đã làm sạch" ở đây</a> (as .rds file). Nhập dữ liệu bằng hàm `import ()` từ package **rio** (có thể xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem chương [Nhập xuất dữ liệu] để biết chi tiết). 
 
 ```{r, echo=F}
 # import the linelist into R
@@ -47,7 +47,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-50 hàng đầu tiên của danh sách hàng được hiển thị bên dưới:
+50 hàng đầu tiên của linelist được hiển thị bên dưới:
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
@@ -59,16 +59,16 @@ DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list
 <!-- ======================================================= -->
 ## Sơ đồ flow { }
 
-Người ta có thể sử dụng package R **DiagrammeR** để vẽ biểu đồ/sơ đồ flow. Chúng có thể là sơ đồ tĩnh hoặc có thể điều chỉnh để thay đổi theo những thay đổi trong tập dữ liệu. 
+Chúng ta có thể sử dụng package R **DiagrammeR** để vẽ biểu đồ/sơ đồ flow. Chúng có thể là sơ đồ tĩnh hoặc có động dựa thay đổi theo những thay đổi trong tập dữ liệu. 
 
 **Công cụ**  
 
-Hàm `grViz()` được sử dụng để tạo sơ đồ "Graphviz". Hàm này chấp nhận *đầu vào chứa chuỗi ký tự chứa các hướng dẫn* để tạo sơ đồ. Trong chuỗi đó, các hướng dẫn được viết bằng một ngôn ngữ khác, được gọi là ngôn ngữ [DOT](https://graphviz.org/doc/info/lang.html) - khá dễ dàng để học những điều cơ bản tại trang này. 
+Hàm `grViz()` được sử dụng để tạo sơ đồ "Graphviz". Hàm này chấp nhận một *chuỗi ký tự đầu vào chứa các hướng dẫn* để tạo sơ đồ. Trong chuỗi đó, các hướng dẫn được viết bằng một ngôn ngữ khác, được gọi là ngôn ngữ [DOT](https://graphviz.org/doc/info/lang.html) - khá dễ dàng để học những điều cơ bản. 
 
 **Cấu trúc cơ bản**  
 
 1) Mở hướng dẫn `grViz("`  
-2) Chỉ định hướng và tên của biểu đồ, đồng thời mở ngoặc, e.g. `digraph my_flow_chart {`
+2) Chỉ định hướng và tên của biểu đồ, đồng thời mở ngoặc, vd: `digraph my_flow_chart {`
 3) Câu lệnh biểu đồ (bố cục, hướng sắp xếp các biến số)  
 4) Câu lệnh nút (tạo nút) 
 5) Câu lệnh Edges (cung cấp liên kết giữa các nút)  
@@ -78,7 +78,7 @@ Hàm `grViz()` được sử dụng để tạo sơ đồ "Graphviz". Hàm này 
 
 Dưới đây là hai ví dụ đơn giản  
 
-Một ví dụ rất nhỏ:   
+Một ví dụ rất đơn giản:   
 
 ```{r out.width='50%'}
 # A minimal plot
@@ -94,7 +94,7 @@ a -> b -> c
 }")
 ```
 
-Một ví dụ áp dụng trong bối cảnh sức khỏe cộng đồng: 
+Một ví dụ khác áp dụng trong y tế công cộng: 
 
 ```{r out.width='50%'}
 grViz("                           # All instructions are within a large character string
@@ -129,7 +129,7 @@ digraph surveillance_diagram {    # 'digraph' means 'directional graph', then th
 
 **Cú pháp cơ bản**  
 
-Tên nút hoặc câu lệnh biên, có thể được phân tách bằng dấu cách, dấu chấm phẩy hoặc dòng mới. 
+Tên nút hoặc biểu thức cạnh, có thể được phân tách bằng dấu cách, dấu chấm phẩy hoặc dòng mới. 
 
 **Điều hướng**  
 
@@ -137,11 +137,11 @@ Một biểu đồ có thể được định hướng lại để di chuyển t
 
 **Tên nút**  
 
-Tên nút có thể là các từ đơn, như trong ví dụ đơn giản ở trên. Để sử dụng tên nhiều từ hoặc các ký tự đặc biệt (ví dụ: dấu ngoặc đơn, dấu gạch ngang), hãy đặt tên nút trong dấu ngoặc đơn (' '). Có thể dễ dàng hơn để có một tên nút ngắn và gán một *nhãn*, như được hiển thị bên dưới trong dấu ngoặc vuông [ ]. Nếu bạn muốn có một dòng mới trong tên của nút, bạn phải thực hiện điều đó thông qua một nhãn - sử dụng `\n` trong nhãn nút trong dấu ngoặc kép, như được hiển thị bên dưới. 
+Tên nút có thể là các từ đơn, như trong ví dụ đơn giản ở trên. Để sử dụng tên nhiều từ hoặc các ký tự đặc biệt (ví dụ: dấu ngoặc đơn, dấu gạch ngang), hãy đặt tên nút trong dấu ngoặc đơn (' '). Có thể dễ dàng hơn để có một tên nút ngắn và gán một *nhãn*, như được hiển thị bên dưới trong dấu ngoặc vuông [ ]. Nếu bạn muốn có một dòng mới trong tên của nút, bạn phải thực hiện điều đó thông qua một nhãn - sử dụng `\n` trong nhãn của nút trong bên dấu ngoặc kép, như được trình bày bên dưới. 
 
 **Nhóm phụ**  
 
-Trong các câu lệnh biên, nhóm phụ có thể được tạo ở hai bên của cạnh bằng dấu ngoặc nhọn ({ }). Sau đó, cạnh áp dụng cho tất cả các nút trong dấu ngoặc - nó là cách viết tắt. 
+Trong các biểu thức cạnh, nhóm phụ có thể được tạo ở hai bên của cạnh bằng dấu ngoặc nhọn ({ }). Sau đó, cạnh áp dụng cho tất cả các nút trong dấu ngoặc - nó là cách viết tắt. 
 
 **Bố cục**  
 
@@ -156,7 +156,7 @@ Trong các câu lệnh biên, nhóm phụ có thể được tạo ở hai bên 
 * `label` (ký tự, trong dấu ngoặc kép nếu nhiều từ)  
 * `fillcolor` (nhiều màu)  
 * `width of shape borderfontcolor`  
-* `alpha` (minh bạch 0-1)  
+* `alpha` (độ trong suốt 0-1)  
 * `shape` (hình elip, hình bầu dục, kim cương, trứng, bản rõ, điểm, hình vuông, hình tam giác)  
 * `style`  
 * `sides`  
@@ -165,7 +165,7 @@ Trong các câu lệnh biên, nhóm phụ có thể được tạo ở hai bên 
 * `height`  
 * `width`  
 * `distortion`  
-* `penwidth` (chiều rộng của đường viền)  
+* `penwidth` (độ dày của đường viền)  
 * `x` (dịch chuyển trái/phải)  
 * `y` (dịch chuyển lên/xuống )  
 * `fontname`  
@@ -187,15 +187,15 @@ Trong các câu lệnh biên, nhóm phụ có thể được tạo ở hai bên 
 * `fontname`  
 * `fontsize`  
 * `fontcolor`  
-* `penwidth` (chiều rộng của mũi tên)  
+* `penwidth` (độ dày của mũi tên)  
 * `minlen` (chiều dài tối thiểu)
 
-**Tên màu**: giá trị thập lục phân hoặc tên màu 'X11', xem [tại đây để biết thông tin chi tiết về X11](http://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html) 
+**Tên màu**: mã màu theo bảng mã hex hoặc tên màu 'X11', xem [tại đây để biết thông tin chi tiết về X11](http://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html) 
 
 
 ### Ví dụ phức tạp  {.unnumbered}
 
-Ví dụ dưới đây mở rộng trên sơ đồ giám sát, thêm các tên nút phức tạp, các cạnh được nhóm lại, hình thành màu sắc và kiểu dáng 
+Ví dụ dưới đây mở rộng trên một sơ đồ giám sát, thêm các tên nút phức tạp, các cạnh được nhóm lại, màu sắc và style 
 
 
 ```
@@ -281,9 +281,9 @@ digraph surveillance_diagram {    # 'digraph' means 'directional graph', then th
 ")
 ```
 
-**Sub-graph clusters**  
+**Các cụm biểu đồ phụ**  
 
-Để nhóm các nút thành các cụm có khung, hãy đặt chúng trong cùng một đồ thị con được đặt tên (`subgraph name {}`). Để xác định từng đồ thị con trong một khung giới hạn, hãy bắt đầu tên của đồ thị con bằng "cụm", như được hiển thị với 4 khung bên dưới. 
+Để nhóm các nút thành các cụm có khung, hãy đặt chúng trong cùng một đồ thị con được đặt tên (`subgraph name {}`). Để xác định từng đồ thị con trong một khung giới hạn, hãy bắt đầu tên của đồ thị con bằng "cluster", như được trình bày ở 4 khung bên dưới. 
 
 ```
 DiagrammeR::grViz("             # All instructions are within a large character string
@@ -450,16 +450,16 @@ results [label= 'Results']
 Cách xử lý và lưu kết quả đầu ra
 
 * Kết quả đầu ra sẽ xuất hiện trong cửa sổ RStudio's Viewer, theo mặc định ở phía dưới bên phải cùng với các mục Files, Plots, Packages, và Help.
-* Để xuất, bạn có thể "Lưu dưới dạng hình ảnh" hoặc "Sao chép vào khay nhớ tạm" từ Viewer. Hình ảnh sẽ điều chỉnh theo kích thước được chỉ định. 
+* Để xuất, bạn có thể chọn "Save as image" để lưu dưới dạng ảnh hoặc "Copy to clipboard" để sao chép vào bộ nhớ tạm từ Viewer. Hình ảnh sẽ điều chỉnh theo kích thước được chỉ định. 
 
 
 
 
-### Các số liệu được tham số hóa {.unnumbered} 
+### Đồ thị được tham số hóa {.unnumbered} 
 
 Mục này được trích dẫn từ nguồn sau: https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/  
 
-"Các số liệu được tham số hóa: Lợi ích tuyệt vời của việc thiết kế các số liệu trong R là chúng tôi có thể kết nối các số liệu trực tiếp với phân tích của mình bằng cách đọc các giá trị R trực tiếp vào lưu đồ của chúng tôi. Ví dụ: giả sử bạn đã tạo một quy trình lọc để loại bỏ các giá trị sau mỗi giai đoạn của một quy trình, bạn có thể có một hình hiển thị số lượng giá trị còn lại trong tập dữ liệu sau mỗi giai đoạn trong quy trình của bạn. Để làm điều này, chúng tôi và bạn có thể sử dụng ký hiệu @@X ngay trong hình, sau đó tham khảo biểu tượng này ở phần chân trang của biểu đồ bằng cách sử dụng [X]:, trong đó X là chỉ số số duy nhất. " 
+"Các biểu đồ được tham số hóa: Lợi ích tuyệt vời của việc thiết kế các đồ thị trong R là chúng ta có thể kết nối các đồ thị trực tiếp với phân tích của mình bằng cách đọc các giá trị R trực tiếp vào flowchart của chúng ta. Ví dụ: giả sử bạn đã tạo một quy trình lọc để loại bỏ các giá trị sau mỗi giai đoạn của một quy trình, bạn có thể có một đồ thị hiển thị số lượng giá trị còn lại trong tập dữ liệu sau mỗi giai đoạn trong quy trình của bạn. Để làm điều này, chúng ta có thể sử dụng ký hiệu @@X trực tiếp trong đồ thị, sau đó tham chiếu tới footer của biểu đồ bằng cách sử dụng [X]:, trong đó X là chỉ số số duy nhất. " 
 
 Chúng tôi khuyến khích bạn xem lại hướng dẫn này nếu tham số hóa là điều bạn quan tâm. 
 
@@ -511,11 +511,11 @@ Chúng tôi khuyến khích bạn xem lại hướng dẫn này nếu tham số 
 <!-- ======================================================= -->
 ## Sơ đồ Alluvial/Sankey { }
 
-### Tải packages {.unnumbered}  
+### Gọi packages {.unnumbered}  
 
-Đoạn code dưới đây hiển thị cách tải các packages cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt gói nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các packages đã cài đặt với hàm `library()` từ **base** R. Xem chương [R Cơ bản] để biết thêm thông tin về các package R. 
+Đoạn code dưới đây hiển thị cách gọi các packages cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt gói nếu cần *và* gọi nó ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` từ **base** R. Xem chương [R Cơ bản] để biết thêm thông tin về các package R. 
 
-Chúng ta tải package **networkD3** để vẽ sơ đồ và package **tidyverse** cho các bước chuẩn bị dữ liệu. 
+Chúng ta gọi package **networkD3** để vẽ sơ đồ và package **tidyverse** cho các bước chuẩn bị dữ liệu. 
 
 ```{r}
 pacman::p_load(
@@ -525,9 +525,9 @@ pacman::p_load(
 
 ### Vẽ đồ thị từ một tập dữ liệu {.unnumbered} 
 
-Vẽ những mối liên quan trong một tập dữ liệu. Dưới đây, chúng tôi chứng minh việc sử dụng package này trong một danh sách trường hợp `linelist`. Hãy đọc thêm [hướng dẫn trực tuyến sau.](https://www.r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html).
+Vẽ những mối liên quan trong một tập dữ liệu. Dưới đây, chúng tôi minh họa việc sử dụng package này với bộ số liệu `linelist`. Hãy đọc thêm [hướng dẫn trực tuyến sau.](https://www.r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html).
 
-Chúng ta sẽ bắt đầu bằng cách lấy số lượng trường hợp cho từng loại tuổi riêng biệt và bệnh viện. Chúng ta cũng xóa các giá trị thiếu danh mục độ tuổi để làm sạch. Chúng ta cũng gắn nhãn lại các cột `hospital` và cột `age_cat` như là cột `source` và cột `target` tương ứng. Đây sẽ là hai mặt của sơ đồ Alluvial. 
+Chúng ta sẽ bắt đầu bằng cách lấy số lượng các trường hợp theo sự kết hợp của nhóm tuổi và bệnh viện. Chúng ta cũng xóa các giá trị thiếu nhóm tuổi để làm sạch. Chúng ta cũng gắn lại nhãn các cột `hospital` và cột `age_cat` tương ứng là `source` và `target`. Đây sẽ là hai mặt của sơ đồ Alluvial. 
 
 ```{r}
 # counts by hospital and age category
@@ -546,7 +546,7 @@ DT::datatable(links, rownames = FALSE, options = list(pageLength = 5, scrollX=T)
 ```
 
 
-Bây giờ chúng ta tạo một data frame cho tất cả các nút của sơ đồ, dưới cột `name`. Điều này bao gồm tất cả các giá trị cho cột `hospital` và cột `age_cat`. Lưu ý rằng chúng ta cần đảm bảo tất cả chúng đều là nhóm Ký tự trước khi kết hợp chúng và điều chỉnh cột ID thành dạng số thay vì dạng nhãn:  
+Bây giờ chúng ta tạo một data frame cho tất cả các nút của sơ đồ, dưới cột `name`. Điều này bao gồm tất cả các giá trị cho cột `hospital` và cột `age_cat`. Lưu ý rằng chúng ta cần đảm bảo tất cả chúng đều có kiểu Ký tự trước khi kết hợp chúng và điều chỉnh cột ID thành dạng số thay vì dạng nhãn:  
 
 ```{r}
 # The unique node names
@@ -558,14 +558,14 @@ nodes <- data.frame(
 nodes  # print
 ```
 
-Chúng ta tiếp tục chỉnh sửa data frame `links`, mà chúng ta đã tạo ở trên với hàm `count()`. Chúng ta thêm hai cột dạng số là cột `IDsource` và `IDtarget` sẽ thực sự phản ánh/tạo liên kết giữa các nút. Các cột này sẽ giữ số hiệu (vị trí) của nút nguồn và nút đích. Số 1 sẽ bị trừ để các số vị trí này bắt đầu bằng 0 (không phải 1).  
+Chúng ta tiếp tục chỉnh sửa data frame có tên `links` mà chúng ta đã tạo ở trên với hàm `count()`. Chúng ta thêm hai cột dạng số là cột `IDsource` và `IDtarget` để thực sự phản ánh/tạo liên kết giữa các nút. Các cột này sẽ giữ số thứ tự hàng (vị trí) của nút nguồn và nút đích. Số 1 sẽ bị trừ để các số vị trí này bắt đầu bằng 0 (không phải 1).  
 ```{r}
 # match to numbers, not names
 links$IDsource <- match(links$source, nodes$name)-1 
 links$IDtarget <- match(links$target, nodes$name)-1
 ```
 
-Tập dữ liệu liên kết bây giờ trông như sau: 
+Tập dữ liệu link bây giờ trông như sau: 
 
 ```{r message=FALSE, echo=F}
 DT::datatable(links, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
@@ -593,7 +593,7 @@ p
 ```
 
 
-Đây là một ví dụ trong đó Kết quả của bệnh nhân cũng được bao gồm. Lưu ý trong bước chuẩn bị dữ liệu, chúng ta phải tính toán số lượng các trường hợp giữa tuổi và bệnh viện, và phân biệt biệt giữa bệnh viện và kết quả - sau đó liên kết tất cả các số lượng này với nhau bằng  hàm `bind_rows()`. 
+Đây là một ví dụ trong đó Kết quả của bệnh nhân cũng được bao gồm. Lưu ý trong bước chuẩn bị dữ liệu, chúng ta phải tính toán số lượng các trường hợp giữa tuổi và bệnh viện, và phân biệt biệt giữa bệnh viện và outcome - sau đó liên kết tất cả các số lượng này với nhau bằng hàm `bind_rows()`. 
 
 ```{r}
 # counts by hospital and age category
@@ -650,7 +650,7 @@ https://www.displayr.com/sankey-diagrams-r/
 
 Để tạo dòng thời gian hiển thị các sự kiện cụ thể, bạn có thể sử dụng package `vistime`. 
 
-Xem thêm tài liệu sau [vignette](https://cran.r-project.org/web/packages/vistime/vignettes/vistime-vignette.html#ex.-2-project-planning)
+Xem thêm [vignette](https://cran.r-project.org/web/packages/vistime/vignettes/vistime-vignette.html#ex.-2-project-planning) này
 
 ```{r}
 # load package
@@ -680,7 +680,7 @@ data <- read.csv(text="event, group, start, end, color
 ")
 ```
 
-Đây là tập dữ liệu sự kiện mà chúng ta sẽ bắt đầu sử dụng: 
+Đây là tập dữ liệu mà chúng ta sẽ bắt đầu sử dụng: 
 
 ```{r message=FALSE, echo=F}
 DT::datatable(data, rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap')
@@ -735,12 +735,12 @@ Ngoài ra, có các package như  **ggdag** và **daggity**
 
 
 <!-- ======================================================= -->
-## Tài liệu tham khảo { }
+## Tài nguyên học liệu { }
 
 
 Phần lớn nội dung ở trên liên quan đến ngôn ngữ DOT được tham khảo từ hướng dẫn [này](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/)  
 
-Một tài liệu khác chuyên sâu hơn tại đây [Tài liẹu về DiagammeR](http://rich-iannone.github.io/DiagrammeR/)
+Một tài liệu khác chuyên sâu hơn tại đây [Tài liệu về DiagammeR](http://rich-iannone.github.io/DiagrammeR/)
 
 Xem thêm về [Sơ đồ Sankey tại đây](https://www.displayr.com/sankey-diagrams-r/)  
 

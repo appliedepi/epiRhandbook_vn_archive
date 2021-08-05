@@ -16,18 +16,18 @@ knitr::include_graphics(here::here("images", "pivoting", "Pivoting_500x500.png")
 
 Khi quản lý dữ liệu, *xoay trục* có thể được hiểu là đề cập đến một trong hai quy trình:
 
-1.  Tạo *bảng dữ liệu tổng hợp*, là bảng thống kê tóm tắt dữ liệu từ một bảng dữ liệu lớn hơn.\
+1.  Tạo *bảng dữ liệu tổng hợp (pivot tables)*, là bảng thống kê tóm tắt dữ liệu từ một bảng dữ liệu lớn hơn.\
 2.  Chuyển đổi một bảng từ định dạng **dọc** sang định dạng **ngang** hoặc ngược lại.
 
-**Trong chương này, chúng ta sẽ tập trung vào định nghĩa sau**. Định nghĩa trước đây là một bước quan trọng trong phân tích dữ liệu và được đề cập ở những chương khác như trong chương Grouping data] và [Descriptive tables].
+**Trong chương này, chúng ta sẽ tập trung vào định nghĩa thứ hai**. Định nghĩa thứ nhất là một bước quan trọng trong phân tích dữ liệu và được đề cập ở những chương khác như trong chương [Nhóm dữ liệu] và [Bảng mô tả].
 
-Chương này thảo luận về các định dạng của dữ liệu. Sẽ rất hữu ích khi biết ý tưởng về "dữ liệu sạch", trong đó mỗi biến có cột riêng, mỗi quan sát có hàng riêng và mỗi giá trị có ô riêng. Bạn có thể tìm thêm thông tin về chủ đề này [at this online chapter in R for Data Science](https://r4ds.had.co.nz/tidy-data.html).
+Chương này thảo luận về các định dạng của dữ liệu. Sẽ rất hữu ích khi biết ý tưởng về "dữ liệu gọn gàng", trong đó mỗi biến có cột riêng, mỗi quan sát có hàng riêng và mỗi giá trị có ô riêng. Bạn có thể tìm thêm thông tin về chủ đề này [tại sách trực tuyến R for Data Science](https://r4ds.had.co.nz/tidy-data.html).
 
 ## Chuẩn bị
 
 ### Gọi package {.unnumbered}
 
-Đoạn code chunk này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng ta nhấn mạnh đến hàm `p_load()` từ **pacman**, cài đặt package nếu cần và gọi để sử dụng. Bạn cũng có thể tải các package đã cài đặt với `library()` từ **base** R. Xem chương [R basics] để biết thêm thông tin về các package trong R.
+Đoạn code chunk này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng ta nhấn mạnh đến hàm `p_load()` từ **pacman**, cài đặt package nếu cần và gọi ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r}
 pacman::p_load(
@@ -36,11 +36,11 @@ pacman::p_load(
   tidyverse)    # data management + ggplot2 graphics
 ```
 
-### Nạp dữ liệu {.unnumbered}
+### Nhập dữ liệu {.unnumbered}
 
-### Bộ dữ liệu về sốt rét {.unnumbered}
+### Dữ liệu số trường hợp sốt rét {.unnumbered}
 
-Trong chương này, chúng ta sẽ sử dụng một bộ dữ liệu giả định về các trường hợp ghi nhận sốt rét hàng ngày, theo cơ sở y tế và nhóm tuổi. Nếu bạn muốn cùng thực hành, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_facility_count_data.rds' class='download-button'>bấm vào đây để tải tệp tin (.rds file)<span></a>. Nạp dữ liệu bằng hàm `import()` từ package **rio** (xử lý nhiều loại tệp tin như .xlsx; .csv; .rds - xem chương [Import and export] để biết thêm chi tiết).
+Trong chương này, chúng ta sẽ sử dụng một bộ dữ liệu giả định về các trường hợp ghi nhận sốt rét hàng ngày, theo cơ sở y tế và nhóm tuổi. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_facility_count_data.rds' class='download-button'>bấm vào đây để tải tệp tin (.rds file)<span></a>. Nhập dữ liệu bằng hàm `import()` từ package **rio** (xử lý nhiều loại tệp tin như .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 count_data <- rio::import(here::here("data", "malaria_facility_count_data.rds")) %>% 
@@ -59,9 +59,9 @@ Dưới đây là 50 hàng đầu tiên được hiển thị.
 DT::datatable(head(count_data, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-### Bộ dữ liệu `linelist` {.unnumbered}
+### Bộ dữ liệu các trường hợp `linelist` {.unnumbered}
 
-Trong phần cuối của chương này, chúng ta cũng sẽ sử dụng tập dữ liệu mô phỏng về các trường hợp từ một vụ dịch Ebola. Nếu bạn muốn cùng thực hành, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm vào đây để tải bộ dữ liệu `linelist` "đã làm sạch"</a> (.rds file). Nạp dữ liệu bằng hàm `import()` từ package **rio** (package này chấp nhận nhiều loại tệp tin dạng .xlsx; .csv; .rds - xem chương [Import and export] để biết thêm chi tiết).
+Trong phần cuối của chương này, chúng ta cũng sẽ sử dụng tập dữ liệu mô phỏng về các trường hợp từ một vụ dịch Ebola. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm vào đây để tải bộ dữ liệu `linelist` "đã làm sạch"</a> (.rds file). Nạp dữ liệu bằng hàm `import()` từ package **rio** (package này chấp nhận nhiều loại tệp tin dạng .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -85,36 +85,36 @@ knitr::include_graphics(here::here("images", "pivoting", "pivot_longer_new.png")
 
 ### Định dạng "ngang" {.unnumbered}
 
-Dữ liệu thường được nạp và lưu trữ ở định dạng "ngang" - nơi các đặc điểm hoặc phản hồi của chủ thể được lưu trữ trong một hàng duy nhất. Mặc dù điều này có thể hữu ích cho việc hiển thị, tuy nhiên chưa phải là lý tưởng cho một số phân tích.
+Dữ liệu thường được nhập và lưu trữ ở định dạng "ngang" - nghĩa là các đặc điểm hoặc phản hồi của chủ thể được lưu trữ trong một hàng duy nhất. Mặc dù điều này có thể hữu ích cho việc hiển thị, tuy nhiên chưa phải là lý tưởng cho một số phân tích.
 
-Chúng ta hãy lấy bộ dữ liệu `count_data` đã nhắc đến trong phần Chuẩn bị ở trên để làm ví dụ. Bạn có thể thấy rằng mỗi hàng đại diện cho một "cơ sở y tế-ngày". Số lượng trường hợp thực tế (cột ngoài cùng bên phải) được lưu trữ ở định dạng "ngang", nghĩa là thông tin cho mọi nhóm tuổi trong một cơ sở y tế-ngày nhất định được lưu trữ trong một hàng.
+Chúng ta hãy lấy bộ dữ liệu `count_data` đã nhắc đến trong phần Chuẩn bị ở trên để làm ví dụ. Bạn có thể thấy rằng mỗi hàng đại diện cho một "cơ sở y tế-ngày (facility-day)". Số lượng trường hợp thực tế (các cột ngoài cùng bên phải) được lưu trữ ở định dạng "ngang", nghĩa là thông tin cho mọi nhóm tuổi trong một cơ sở y tế-ngày nhất định được lưu trữ trong một hàng.
 
 ```{r, echo=F}
 DT::datatable(count_data, rownames = FALSE, options = list(pageLength = 5, scrollX=T) )
 ```
 
-Mỗi quan sát trong bộ dữ liệu này đề cập đến số lượng ca sốt rét tại một trong 65 cơ sở y tế vào một ngày cụ thể, trong khoảng từ `count_data$data_date %>% min()` đến `count_data$data_date %>% max()`. Các cơ sở này nằm ở một `Province` (phía Bắc) và bốn `District`s (Spring, Bolo, Dingo và Barnard). Bộ dữ liệu cung cấp số lượng tổng thể của các ca bệnh sốt rét, cũng như số lượng cụ thể theo độ tuổi ở mỗi nhóm trong ba nhóm tuổi - \<4 tuổi, 5-14 tuổi và từ 15 tuổi trở lên.
+Mỗi quan sát trong bộ dữ liệu này đề cập đến số lượng ca sốt rét tại một trong 65 cơ sở y tế vào một ngày cụ thể, trong khoảng từ `count_data$data_date %>% min()` đến `count_data$data_date %>% max()`. Các cơ sở này nằm ở một tỉnh `Province` (North) và bốn quận `District` (Spring, Bolo, Dingo và Barnard). Bộ dữ liệu cung cấp số lượng tổng thể của các ca bệnh sốt rét, cũng như số lượng cụ thể theo độ tuổi ở mỗi nhóm trong ba nhóm tuổi - \<4 tuổi, 5-14 tuổi và từ 15 tuổi trở lên.
 
-Dữ liệu "ngang" không tuân theo tiêu chuẩn "dữ liệu sạch", bởi vì tiêu đề cột không thực sự đại diện cho "biến" - chúng đại diện cho các *giá trị* của biến giả định là "nhóm tuổi" .
+Dữ liệu "ngang" như vậy không tuân theo tiêu chuẩn "dữ liệu gọn gàng", bởi vì tiêu đề cột không thực sự đại diện cho "biến" - chúng đại diện cho các *giá trị* của biến giả định là "nhóm tuổi" .
 
-Định dạng kiểu này có thể hữu ích để trình bày thông tin trong bảng hoặc để nhập dữ liệu (ví dụ: trong Excel) từ các biểu mẫu báo cáo ca bệnh (CRFs). Tuy nhiên, trong quá trình phân tích, những dữ liệu này thường phải được chuyển đổi sang định dạng "dọc" để phù hợp hơn với các tiêu chuẩn về "dữ liệu sạch". Package vẽ biểu đồ **ggplot2** trong R nói riêng hoạt động tốt nhất khi dữ liệu ở định dạng "dọc".
+Định dạng kiểu này có thể hữu ích để trình bày thông tin trong bảng hoặc để nhập dữ liệu (ví dụ: trong Excel) từ các biểu mẫu báo cáo ca bệnh (CRFs). Tuy nhiên, trong quá trình phân tích, những dữ liệu này thường phải được chuyển đổi sang định dạng "dọc" để phù hợp hơn với các tiêu chuẩn về "dữ liệu gọn gàng". Package vẽ biểu đồ **ggplot2** trong R nói riêng hoạt động tốt nhất khi dữ liệu ở định dạng "dọc".
 
-Hình dung *tổng số lượng* ca sốt rét theo thời gian không gây khó khăn gì với dữ liệu ở định dạng hiện tại:
+Trực quan hóa *tổng số lượng* ca sốt rét theo thời gian không gây khó khăn gì với dữ liệu ở định dạng hiện tại:
 
 ```{r, warning=F, message=F}
 ggplot(count_data) +
   geom_col(aes(x = data_date, y = malaria_tot), width = 1)
 ```
 
-Tuy nhiên, điều gì sẽ xảy ra nếu chúng ta muốn hiển thị các cấu phần tương đối của từng nhóm tuổi vào tổng số này? Trong trường hợp này, chúng ta cần đảm bảo rằng biến quan tâm (nhóm tuổi), xuất hiện trong bộ dữ liệu trong một cột duy nhất có thể được chuyển tiếp tới argument `aes()` "mapping aesthetics" trong `{ggplot2}`.
+Tuy nhiên, điều gì sẽ xảy ra nếu chúng ta muốn hiển thị các đóng góp một cách tương đối của từng nhóm tuổi vào tổng số này? Trong trường hợp này, chúng ta cần đảm bảo rằng biến quan tâm (nhóm tuổi), xuất hiện trong bộ dữ liệu trong một cột duy nhất có thể được chuyển tiếp tới đối số `aes()` "mapping aesthetics" trong `{ggplot2}`.
 
 <!-- ======================================================= -->
 
 ### `pivot_longer()` {.unnumbered}
 
-Hàm **tidyr** `pivot_longer()` giúp biến đổi dữ liệu thành định dạng "dọc". **tidyr** là một package con trong hệ sinh thái **tidyverse** của R.
+Hàm `pivot_longer()` trong **tidyr** giúp biến đổi dữ liệu thành định dạng "dọc". **tidyr** là một package con trong hệ sinh thái **tidyverse** của R.
 
-Hàm này chấp nhận sử dụng nhiều cột cùng biến đổi (`cols =`). Do đó, nó chỉ có thể hoạt động trên một phần của bộ dữ liệu. Điều này rất hữu ích cho bộ dữ liệu về sốt rét, vì chúng ta chỉ muốn xoay trục các cột số ca bệnh.
+Hàm này chấp nhận sử dụng nhiều cột cùng thực hiện biến đổi (cụ thể với `cols =`). Do đó, nó chỉ có thể hoạt động trên một phần của bộ dữ liệu. Điều này rất hữu ích cho bộ dữ liệu về sốt rét, vì chúng ta chỉ muốn xoay trục các cột số ca bệnh.
 
 Trong quá trình này, kết quả trả về hai cột "mới" - một cột có các danh mục (tên cột cũ) và một cột chứa các giá trị tương ứng (ví dụ: số lượng ca bệnh). Bạn có thể chấp nhận tên mặc định của cột mới hoặc có thể tùy chỉnh bằng `names_to =` và `values_to =`, tương ứng.
 
@@ -122,7 +122,7 @@ Hãy cùng xem hàm `pivot_longer()` hoạt động như thế nào ...
 
 ### Xoay trục tiêu chuẩn {.unnumbered}
 
-Chúng ta muốn sử dụng hàm `pivot_longer()` trong package **tidyr** để chuyển đổi dữ liệu từ "ngang" sang định dạng "dọc". Cụ thể, để chuyển đổi bốn cột số có dữ liệu về số lượng ca sốt rét thành hai cột mới: một cột chứa *nhóm tuổi* và một cột chứa các *giá trị* tương ứng.
+Chúng ta muốn sử dụng hàm `pivot_longer()` trong package **tidyr** để chuyển đổi dữ liệu từ "ngang" sang định dạng "dọc". Cụ thể, để chuyển đổi bốn cột dạng số có dữ liệu về số lượng ca sốt rét thành hai cột mới: một cột chứa *nhóm tuổi* và một cột chứa các *giá trị* tương ứng.
 
 ```{r, eval=F}
 df_long <- count_data %>% 
@@ -133,11 +133,11 @@ df_long <- count_data %>%
 df_long
 ```
 
-Lưu ý rằng bộ dữ liệu mới được tạo (`df_long`) có nhiều hàng hơn (12.152 so với 3.038); bộ dữ liệu đã trở nên "*nhiều hàng hơn*". Trên thực tế, bộ dữ liệu dài chính xác gấp bốn lần, bởi vì mỗi hàng trong tập dữ liệu ban đầu hiện đại diện cho bốn hàng trong `df_long`, một hàng cho mỗi quan sát số lượng ca sốt rét (\<4 tuổi, 5-14 tuổi, 15+ tuổi và tổng số).
+Lưu ý rằng bộ dữ liệu mới được tạo (`df_long`) có nhiều hàng hơn (12.152 so với 3.038); bộ dữ liệu đã trở nên "*dài hơn*". Trên thực tế, bộ dữ liệu đã dài hơn gấp bốn lần, bởi vì mỗi hàng trong tập dữ liệu ban đầu hiện đại diện cho bốn hàng trong `df_long`, một hàng cho mỗi quan sát số lượng ca sốt rét (\<4 tuổi, 5-14 tuổi, 15+ tuổi và tổng số).
 
 Ngoài việc dài hơn, bộ dữ liệu mới có ít cột hơn (8 so với 10), vì dữ liệu trước đây được lưu trữ trong bốn cột (những cột bắt đầu bằng tiền tố `malaria_`), hiện được lưu trữ chỉ trong hai cột.
 
-Vì tên của bốn cột này đều bắt đầu bằng tiền tố `malaria_`, chúng ta có thể sử dụng hàm "tidyselect" `starts_with()` để đạt được kết quả tương tự (xem chương [Cleaning data and core functions] để biết thêm về các tính năng trợ giúp này).
+Vì tên của bốn cột này đều bắt đầu bằng tiền tố `malaria_`, chúng ta có thể sử dụng hàm "tidyselect" `starts_with()` để đạt được kết quả tương tự (xem chương [Làm sạch số liệu và các hàm quan trọng] để biết thêm về các hàm trợ giúp này).
 
 ```{r}
 # provide column with a tidyselect helper function
@@ -167,7 +167,7 @@ count_data %>%
   )
 ```
 
-Hai cột mới này được đặt tên mặc định là `name` và `value`, nhưng chúng ta có thể ghi đè các giá trị mặc định này để cung cấp tên cột có ý nghĩa hơn, có thể giúp ghi nhớ dễ dàng đặc điểm các giá trị được lưu trữ bên trong, bằng cách sử dụng các argument `names_to` và `values_to`. Hãy đặt tên là `age_group` và `counts`:
+Hai cột mới này được đặt tên mặc định là `name` và `value`, nhưng chúng ta có thể ghi đè các giá trị mặc định này để cung cấp tên cột có ý nghĩa hơn, có thể giúp ghi nhớ dễ dàng đặc điểm các giá trị được lưu trữ bên trong, bằng cách sử dụng các đối số `names_to` và `values_to`. Hãy sử dụng tên `age_group` và `counts`:
 
 ```{r}
 df_long <- 
@@ -181,7 +181,7 @@ df_long <-
 df_long
 ```
 
-Bây giờ chúng ta có thể chuyển tiếp bộ dữ liệu mới này tới `{ggplot2}`, và ánh xạ cột mới `count` với trục y và cột mới `age_group` với argument `fill =` (màu bên trong cột). Điều này sẽ hiển thị số lượng ca bệnh sốt rét trong một biểu đồ chồng, theo nhóm tuổi:
+Bây giờ chúng ta có thể chuyển tiếp bộ dữ liệu mới này tới `{ggplot2}`, và định vị cột mới `count` với trục y và cột mới `age_group` tới độ số `fill =` (màu bên trong cột). Việc này giúp hiển thị số lượng ca bệnh sốt rét trong một biểu đồ cột chồng, theo nhóm tuổi:
 
 ```{r, warning=F, message=F}
 ggplot(data = df_long) +
@@ -195,7 +195,7 @@ Kiểm tra biểu đồ mới này và so sánh với biểu đồ chúng ta đ�
 
 Chúng ta đã gặp phải một vấn đề phổ biến khi tổng hợp dữ liệu giám sát - chúng ta cũng đã gộp tổng số từ cột `malaria_tot`, vì vậy độ lớn của mỗi thanh trong biểu đồ cao gấp đôi so với bình thường.
 
-Chúng ta có thể xử lý vấn đề này theo một số cách. Chúng ta chỉ có thể lọc bỏ tổng số này ra khỏi bộ dữ liệu trước khi code trong `ggplot()`:
+Chúng ta có thể xử lý vấn đề này theo một số cách. Chúng ta có thể đơn giản lọc bỏ tổng số này ra khỏi bộ dữ liệu trước khi chuyển tới `ggplot()`:
 
 ```{r, warning=F, message=F}
 df_long %>% 
@@ -207,7 +207,7 @@ df_long %>%
   )
 ```
 
-Ngoài ra, chúng ta có thể đã loại bỏ biến này khi chúng ta chạy lệnh `pivot_longer()`, bằng cách đó có thể giữ biến đó trong bộ dữ liệu như một biến riêng biệt. Xem cách mà giá trị của biến này "mở rộng" để lấp đầy các hàng mới.
+Ngoài ra, chúng ta có thể đã loại bỏ biến này khi chúng ta chạy lệnh `pivot_longer()`, bằng cách đó có thể giữ biến đó trong bộ dữ liệu như một biến riêng biệt. Hãy cem cách mà giá trị của biến này "mở rộng" để lấp đầy các hàng mới.
 
 ```{r, warning=F, message=F}
 count_data %>% 
@@ -218,13 +218,13 @@ count_data %>%
   )
 ```
 
-### Xoay trục dữ liệu nhiều phân lớp {.unnumbered}
+### Xoay trục dữ liệu trên nhiều định dạng cột {.unnumbered}
 
-Ví dụ trên hoạt động ổn trong các trường hợp mà tất cả các cột bạn muốn "xoay trục" đều thuộc cùng một phân lớp, định dạng (ký tự, số, lôgic, ...).
+Ví dụ trên hoạt động ổn trong các trường hợp mà tất cả các cột bạn muốn "xoay trục dọc" đều thuộc cùng một phân lớp, định dạng (ký tự, số, lôgic, ...).
 
-Tuy nhiên, sẽ có nhiều trường hợp, với tư cách là một nhà dịch tễ học thực địa, bạn sẽ làm việc với dữ liệu được chuẩn bị bởi những người không phải là chuyên gia và tuân theo logic không chuẩn của riêng họ - như Hadley Wickham đã lưu ý (tham khảo Tolstoy) trong [bài báo](https://vita.had.co.nz/papers/tidy-data.pdf) về nguyên tắc của **dữ liệu sạch**: "Một cách tương tự, các bộ dữ liệu sạch đều giống nhau nhưng mọi bộ dữ liệu lộn xộn đều lộn xộn theo cách riêng của nó."
+Tuy nhiên, sẽ có nhiều trường hợp, với tư cách là một nhà dịch tễ học thực địa, bạn sẽ làm việc với dữ liệu được chuẩn bị bởi những người không phải là chuyên gia và tuân theo những logic không chuẩn của riêng họ - như Hadley Wickham đã lưu ý (trích dẫn từ Tolstoy) trong [bài báo](https://vita.had.co.nz/papers/tidy-data.pdf) của ông ấy về nguyên tắc của **dữ liệu gọn gàng**: "Các bộ dữ liệu sạch đều giống nhau nhưng mọi bộ dữ liệu lộn xộn đều lộn xộn theo cách riêng của nó."
 
-Một vấn đề đặc biệt phổ biến mà bạn sẽ gặp phải là nhu cầu xoay trục các cột chứa các phân lớp dữ liệu khác nhau. Việc xoay trục này sẽ dẫn đến việc lưu trữ các kiểu định dạng dữ liệu khác nhau này trong cùng một cột duy nhất, đây không phải là một kịch bản tốt. Có nhiều cách tiếp cận khác nhau mà người ta có thể thực hiện để loại bỏ sự hỗn độn này, nhưng có một bước quan trọng bạn có thể thực hiện bằng cách sử dụng hàm `pivot_longer()` để tránh tạo ra tình huống như vậy.
+Một vấn đề đặc biệt phổ biến mà bạn sẽ gặp phải là nhu cầu xoay trục các cột chứa các phân lớp dữ liệu khác nhau. Việc xoay trục này sẽ dẫn đến việc lưu trữ các kiểu định dạng dữ liệu khác nhau này trong cùng một cột duy nhất, và đây không phải là một kịch bản tốt. Có nhiều cách tiếp cận khác nhau mà người ta có thể thực hiện để loại bỏ sự hỗn độn này, nhưng có một bước quan trọng bạn có thể thực hiện bằng cách sử dụng hàm `pivot_longer()` để tránh tạo ra tình huống như vậy.
 
 Hãy thực hiện một tình huống trong đó có một loạt các quan sát ở các sự kiện thời gian khác nhau cho từng danh mục trong số ba danh mục A, B và C. Ví dụ về các danh mục đó có thể là từng cá nhân (ví dụ: các mối liên hệ của một trường hợp Ebola được theo dõi mỗi ngày trong 21 ngày) hoặc các trạm y tế thôn bản vùng sâu, vùng xa được theo dõi mỗi năm một lần để đảm bảo chúng vẫn được duy trì hoạt động. Hãy sử dụng ví dụ theo dõi mối liên hệ. Hãy tưởng tượng rằng dữ liệu sẽ được lưu trữ như sau:
 
@@ -257,16 +257,16 @@ df %>%
 
 ```
 
-Ở trên, trục xoay của chúng ta đã hợp nhất giá trị *ngày* và giá trị *ký tự* trong cùng một cột giá trị duy nhất. R sẽ hoạt động bằng cách chuyển toàn bộ cột thành định dạng tự lớp, và các định dạng liên quan đến giá trị ngày sẽ không còn.
+Ở trên, trục xoay của chúng ta đã hợp nhất giá trị *ngày* và giá trị *ký tự* trong cùng một cột giá trị duy nhất. R sẽ hoạt động bằng cách chuyển toàn bộ cột thành định dạng ký tự, và các định dạng liên quan đến giá trị ngày sẽ không còn.
 
 Để ngăn chặn tình trạng này, chúng ta có thể tận dụng cấu trúc cú pháp của các tên cột ban đầu. Có một cấu trúc đặt tên phổ biến, với số quan sát, dấu gạch dưới và sau đó là "trạng thái" hoặc "ngày-tháng". Chúng ta có thể tận dụng cú pháp này để giữ lại hai kiểu dữ liệu này trong các cột riêng biệt sau khi xoay trục.
 
 Chúng ta thực hiện như sau:
 
--   Cung cấp một vectơ dạng ký tự cho argument `names_to =`, với mục thứ hai là (`".value"`). Thuật ngữ đặc biệt này chỉ ra rằng các cột được xoay trục sẽ được phân chia dựa trên ký tự trong tên của chúng ...\
--   Bạn cũng cần cung cấp ký tự "phân tách" cho argument `names_sep =`. Trong trường hợp này, đó là dấu gạch dưới "\_".
+-   Cung cấp một vectơ dạng ký tự cho đối số `names_to =`, với mục thứ hai là (`".value"`). Thuật ngữ đặc biệt này chỉ ra rằng các cột được xoay trục sẽ được phân chia dựa trên ký tự trong tên của chúng ...\
+-   Bạn cũng cần cung cấp ký tự "phân tách" cho đối số `names_sep =`. Trong trường hợp này, đó là dấu gạch dưới "\_".
 
-Do đó, việc đặt tên và tách cột mới dựa trên dấu gạch dưới trong các tên biến hiện có.
+Do đó, việc đặt tên và tách cột mới được dựa trên dấu gạch dưới trong các tên biến hiện có.
 
 ```{r}
 
@@ -284,7 +284,7 @@ df_long
 
 **Hoàn thiện:**
 
-Lưu ý rằng cột `date` hiện đang ở phân lớp *ký tự* - chúng ta có thể dễ dàng chuyển đổi cột này thành phân lớp ngày thích hợp bằng cách sử dụng hàm `mutate()` và `as_date()` được mô tả trong chương [Làm việc với ngày tháng].
+Lưu ý rằng cột `date` hiện đang ở dạng *ký tự* - chúng ta có thể dễ dàng chuyển đổi cột này thành dạng ngày thích hợp bằng cách sử dụng hàm `mutate()` và `as_date()` được mô tả trong chương [Làm việc với ngày tháng].
 
 Chúng ta cũng có thể muốn chuyển đổi cột `observation` sang định dạng `numeric` bằng cách bỏ tiền tố "obs" và chuyển đổi thành số. Chúng ta có thể thực hiện với hàm `str_remove_all()` từ package **stringr** (xem chương [Ký tự và chuỗi]).
 
@@ -328,11 +328,11 @@ knitr::include_graphics(here::here("images", "pivoting", "pivot_wider_new.png"))
 
 Trong một số trường hợp, chúng ta có thể muốn chuyển đổi bộ dữ liệu sang định dạng ngang. Đối với điều này, chúng ta có thể sử dụng hàm `pivot_wider()`.
 
-Tình huống phổ biến là khi chúng ta muốn chuyển đổi kết quả phân tích thành một định dạng dễ hiểu hơn cho người đọc (chẳng hạn như [Bảng trình bày]). Thông thường, điều này liên quan đến việc chuyển đổi một bộ dữ liệu trong đó thông tin chủ thể được trải rộng trên nhiều hàng được thống nhất một định dạng mà thông tin được lưu trữ trong một hàng duy nhất.
+Tình huống phổ biến là khi chúng ta muốn chuyển đổi kết quả phân tích thành một định dạng dễ hiểu hơn cho người đọc (chẳng hạn như trong chương [Trình bày bảng]). Thông thường, điều này bao gồm việc chuyển đổi một bộ dữ liệu trong đó thông tin chủ thể được trải rộng trên nhiều hàng, sau đó được thống nhất thành một định dạng mà thông tin được lưu trữ trên một hàng duy nhất.
 
 ### Dữ liệu {.unnumbered}
 
-Trong chương này, chúng ta sẽ sử dụng bộ dữ liệu ca bệnh `linelist` (xem chương [Chuẩn bị](#pivot_prep)), chỉ định một hàng cho mỗi trường hợp.
+Trong chương này, chúng ta sẽ sử dụng bộ dữ liệu ca bệnh `linelist` (xem mục [Chuẩn bị](#pivot_prep)), với mỗi trường hợp nằm trên một hàng.
 
 Dưới đây là 50 hàng đầu tiên:
 
@@ -362,7 +362,7 @@ ggplot(df_wide) +
 
 Do đó, chúng ta có thể sử dụng hàm `pivot_wider()` để chuyển đổi dữ liệu sang định dạng tốt hơn để đưa vào các bảng trong báo cáo.
 
-Argument `names_from` chỉ định cột mà *từ đó* tạo ra *tên* cột mới, trong khi argument `values_from` chỉ định cột mà *từ đó* nhận các *giá trị* để điền. Argument `id_cols =` là tùy chọn, nhưng nó có thể được chứa một vectơ tên các cột không xoay trục và do đó sẽ xác định từng hàng.
+Đối số `names_from` chỉ định cột mà *từ đó* tạo ra *tên* cột mới, trong khi đối số `values_from` chỉ định cột mà *từ đó* nhận các *giá trị* để điền. Đối số `id_cols =` là tùy chọn, nhưng nó có thể được chứa một vectơ tên các cột không xoay trục và do đó sẽ xác định từng hàng.
 
 ```{r}
 table_wide <- 
@@ -376,7 +376,7 @@ table_wide <-
 table_wide
 ```
 
-Bảng này thân thiện với người đọc hơn nhiều và có thể thêm vào báo cáo của chúng ta. Bạn có thể chuyển đổi thành một bảng tuyệt vời với một số package bao gồm **flextable** và **knitr**. Quá trình này được trình bày chi tiết trong chương [Bảng trình bày].
+Bảng này thân thiện với người đọc hơn nhiều và có thể thêm vào báo cáo của chúng ta. Bạn có thể chuyển đổi thành một bảng tuyệt vời với một số package bao gồm **flextable** và **knitr**. Quá trình này được trình bày chi tiết trong chương [Trình bày bảng].
 
 ```{r}
 table_wide %>% 
@@ -428,7 +428,7 @@ df2 <-
 df2
 ```
 
-Khi chúng tôi thực hiện lệnh `bind_rows()` để nối hai bộ dữ liệu với nhau, biến `Year` được điền `NA` cho những hàng không có thông tin trước đó (ví dụ là bộ dữ liệu đầu tiên):
+Khi chúng ta thực hiện lệnh `bind_rows()` để nối hai bộ dữ liệu với nhau, biến `Year` được điền `NA` cho những hàng không có thông tin trước đó (ví dụ là bộ dữ liệu đầu tiên):
 
 ```{r}
 df_combined <- 
@@ -490,7 +490,7 @@ df_combined %>%
   kableExtra::column_spec(column = 5, bold = TRUE) 
 ```
 
-N.B. Trong trường hợp này, chúng ta cần chỉ định chỉ bao gồm ba biến `Facility`, `Year`, và `Cases` vì biến bổ sung `Measurement` sẽ khiến khó khăn hơn khi tạo bảng:
+Chú ý: Trong trường hợp này, chúng ta cần chỉ định chỉ bao gồm ba biến `Facility`, `Year`, và `Cases` vì biến bổ sung `Measurement` sẽ khiến khó khăn hơn khi tạo bảng:
 
 ```{r}
 df_combined %>% 
@@ -503,4 +503,4 @@ df_combined %>%
 
 ## Tài liệu tham khảo
 
-Đây là [hướng dẫn](https://datacarpentry.org/r-socialsci/03-dplyr-tidyr/index.html) tham khảo
+Đây là một [hướng dẫn](https://datacarpentry.org/r-socialsci/03-dplyr-tidyr/index.html) bổ ích
