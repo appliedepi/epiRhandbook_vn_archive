@@ -1,21 +1,18 @@
-
 # Truy vết tiếp xúc {#contact-tracing}
 
+Chương này trình bày phân tích mô tả về dữ liệu truy vết tiếp xúc, bổ sung một số cân nhắc chính và cách tiếp cận duy nhất đối với những loại dữ liệu này.
 
-This page demonstrates descriptive analysis of contact tracing data, addessing some key considerations and approaches unique to these kinds of data.  
+Chương này đề cập nhiều đến quản lý dữ liệu R cốt lõi và năng lực trực quan hóa mà đã được đề cập đến trong các chương khác (ví dụ: làm sạch dữ liệu, xoay trục dữ liệu, data table, phân tích chuỗi thời gian), nhưng chúng tôi sẽ nêu bật các ví dụ cụ thể về truy vết tiếp xúc, năng lực hữu ích cho việc đưa ra quyết định hành động. Ví dụ, điều này bao gồm trực quan hóa dữ liệu truy vết tiếp xúc theo thời gian hoặc trên các khu vực địa lý, hay tạo bảng Chỉ Số Đánh Giá Hiệu Quả Công Việc (Key Performance Indicator - KPI) rõ ràng hỗ trợ cho người giám sát truy vết tiếp xúc.
 
-This page references many of the core R data management and visualisation competencies covered in other pages (e.g. data cleaning, pivoting, tables, time-series analyses), but we will highlight examples specific to contact tracing that have been useful for operational decision making. For example, this includes visualizing contact tracing follow-up data over time or across geographic areas, or producing clean Key Performance Indicator (KPI) tables for contact tracing supervisors.
+Với mục đích diễn giải, chúng tôi sẽ sử dụng dữ liệu truy vết tiếp xúc mẫu từ nền tảng [Go.Data](https://www.who.int/tools/godata). Các nguyên tắc được đề cập ở đây sẽ áp dụng cho cả dữ liệu truy vết tiếp xúc từ những nền tảng khác - bạn có thể chỉ cần trải qua các bước xử lý trước dữ liệu khác nhau tùy thuộc vào cấu trúc dữ liệu của bạn.
 
-For demonstration purposes we will use sample contact tracing data from the [Go.Data](https://www.who.int/tools/godata) platform. The principles covered here will apply for contact tracing data from other platforms - you may just need to undergo different data pre-processing steps depending on the structure of your data.  
+Bạn có thể đọc thêm về dự án Go.Data trên [Trang tài liệu Github (Github Documentation site)](https://worldhealthorganization.github.io/godata/) và [Cộng đồng luyện tập (Community of Practice)](https://community-godata.who.int/).
 
-You can read more about the Go.Data project on the [Github Documentation site](https://worldhealthorganization.github.io/godata/) or [Community of Practice](https://community-godata.who.int/). 
+## Chuẩn bị
 
-## Preparation
+### Gọi package {.unnumbered}
 
-
-### Load packages {.unnumbered}  
-
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị những package cần tải cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các package đã cài đặt với `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
 
 ```{r, message = F}
 pacman::p_load(
@@ -32,42 +29,31 @@ pacman::p_load(
 )
 ```
 
+### Nhập dữ liệu {.unnumbered}
 
-### Import data {.unnumbered}
+Chúng tôi sẽ nhập bộ dữ liệu mẫu về những người tiếp xúc và thông tin "theo dõi" của họ. Những dữ liệu này đã được truy xuất và không được lồng ghép với Go.Data API, đồng thời được lưu trữ dưới dạng tệp ".rds".
 
-We will import sample datasets of contacts, and of their "follow-up". These data have been retrieved and un-nested from the Go.Data API and stored as ".rds" files.  
+Bạn có thể tải xuống tất cả dữ liệu mẫu cho sổ tay này từ chương [Tải sách và dữ liệu].
 
-You can download all the example data for this handbook from the [Download handbook and data] page. 
+Nếu bạn muốn tải xuống dữ liệu truy vết tiếp xúc mẫu cụ thể cho chương này, hãy sử dụng ba liên kết tải xuống dưới đây:
 
-If you want to download the example contact tracing data specific to this page, use the three download links below:  
+[Bấm để tải xuống dữ liệu điều tra ca mắc (file .rds)](https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/cases_clean.rds?raw=true'%20class='download-button)
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/cases_clean.rds?raw=true' class='download-button'>
-	Click to download
-	<span>the case investigation data (.rds file)</span>
-</a>
+[Bấm để tải xuống dữ liệu đăng ký tiếp xúc (file .rds)](https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/contacts_clean.rds?raw=true'%20class='download-button)
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/contacts_clean.rds?raw=true' class='download-button'>
-	Click to download
-	<span>the contact registration data (.rds file)</span>
-</a>
+[Bấm để tải xuống dữ liệu theo dõi tiếp xúc (file .rds)](https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/followups_clean.rds?raw=true'%20class='download-button)
 
-<a href='https://github.com/WorldHealthOrganization/godata/blob/master/analytics/r-reporting/data/followups_clean.rds?raw=true' class='download-button'>
-	Click to download
-	<span>the contact follow-up data (.rds file)</span>
-</a>
+```{r out.width = "100%", fig.align = "center", echo=F}
+knitr::include_graphics(here::here("images", "godata_api_github.png"))
+```
 
-<!-- ```{r out.width = "100%", fig.align = "center", echo=F} -->
-<!-- knitr::include_graphics(here::here("images", "godata_api_github.png")) -->
-<!-- ``` -->
+Dữ liệu ở dạng gốc trong các tệp có thể được tải xuống, dữ liệu dùng để đối chiếu với dữ liệu gốc được cung cấp bởi Go.Data API (tìm hiểu thêm về [APIs ở đây](#import_api)). Đối với mục đích ví dụ ở đây, chúng tôi sẽ làm sạch dữ liệu để giúp bạn đọc chương này dễ dàng hơn. Nếu bạn đang sử dụng một phiên bản Go.Data, bạn có thể xem hướng dẫn đầy đủ về cách truy xuất dữ liệu của mình [tại đây](https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting).
 
+Dưới đây, các bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương về [Nhập xuất dữ liệu] để biết những cách nhập dữ liệu khác nhau. Chúng tôi sử dụng `here()` để xác định đường dẫn tệp - bạn nên cung cấp đường dẫn tệp cụ thể cho máy tính của mình. Sau đó, chúng tôi sử dụng `select()` để chỉ chọn một số cột nhất định của dữ liệu, nhằm đơn giản hóa cho mục đích diễn giải.
 
-In their original form in the downloadable files, the data reflect data as provided by the Go.Data API (learn about [APIs here](#import_api)). For example purposes here, we will clean the data to make it easier to read on this page. If you are using a Go.Data instance, you can view complete instructions on how to retrieve your data [here](https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting).  
+#### Dữ liệu ca mắc {.unnumbered}
 
-Below, the datasets are imported using the `import()` function from the **rio** package. See the page on [Import and export] for various ways to import data. We use `here()` to specify the file path - you should provide the file path specific to your computer. We then use `select()` to select only certain columns of the data, to simplify for purposes of demonstration.  
-
-#### Case data {.unnumbered}  
-
-These data are a table of the cases, and information about them.  
+Những dữ liệu này là một bảng các ca mắc và thông tin về họ.
 
 ```{r}
 cases <- import(here("data", "godata", "cases_clean.rds")) %>% 
@@ -75,20 +61,19 @@ cases <- import(here("data", "godata", "cases_clean.rds")) %>%
          occupation, classification, was_contact, hospitalization_typeid)
 ```
 
-Here are the ` nrow(cases)` cases:  
+Dưới đây là các trường hợp `nrow(cases)`:
 
 ```{r, message=FALSE, echo=F}
 DT::datatable(cases, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-#### Contacts data {.unnumbered}  
+#### Dữ liệu người tiếp xúc {.unnumbered}
 
-These data are a table of all the contacts and information about them. Again, provide your own file path. After importing we perform a few preliminary data cleaning steps including:  
+Những dữ liệu này là một bảng gồm tất cả những người tiếp xúc và thông tin về họ. Một lần nữa, cung cấp đường dẫn tệp của riêng bạn. Sau khi nhập, chúng tôi thực hiện một số bước làm sạch dữ liệu sơ bộ bao gồm:
 
-* Set age_class as a factor and reverse the level order so that younger ages are first  
-* Select only certain column, while re-naming a one of them  
-* Artificially assign rows with missing admin level 2 to "Djembe", to improve clarity of some example visualisations  
-
+-   Thiết lập age_class như một hệ số (factor) và đảo ngược thứ tự hàng sao cho những người trẻ hơn nằm ở trên đầu\
+-   Chỉ chọn một số cột nhất định, trong khi đặt tên lại cho một trong số chúng\
+-   Giả sử các hàng được chỉ định có cấp quản trị viên là 2 bị missing cho "Djembe", để cải thiện độ rõ ràng của một số hình ảnh trực quan mẫu
 
 ```{r}
 contacts <- import(here("data", "godata", "contacts_clean.rds")) %>% 
@@ -100,17 +85,17 @@ contacts <- import(here("data", "godata", "contacts_clean.rds")) %>%
   mutate(admin_2_name = replace_na(admin_2_name, "Djembe"))
 ```
 
-Here are the ` nrow(contacts)` rows of the `contacts` dataset:  
+Đây là các hàng `nrow(contacts)` của bộ dữ liệu `contacts`:
 
 ```{r, message=FALSE, echo=F}
 DT::datatable(contacts, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-#### Follow-up data {.unnumbered}  
+#### Dữ liệu theo dõi {.unnumbered}
 
-These data are records of the "follow-up" interactions with the contacts. Each contact is supposed to have an encounter each day for 14 days after their exposure.  
+Những dữ liệu này là bản ghi của các tương tác được "theo dõi" với những người tiếp xúc. Mỗi người tiếp xúc được cho là có một cuộc gặp gỡ mỗi ngày với ca mắc trong vòng 14 ngày sau khi phơi nhiễm.
 
-We import and perform a few cleaning steps. We select certain columns, and also convert a character column to all lowercase values.  
+Chúng tôi nhập dữ liệu và thực hiện một số bước làm sạch. Chúng tôi chọn một số cột nhất định và cũng chuyển đổi trong một cột ký tự tất cả các giá trị thành chữ thường.
 
 ```{r}
 followups <- rio::import(here::here("data", "godata", "followups_clean.rds")) %>% 
@@ -119,15 +104,15 @@ followups <- rio::import(here::here("data", "godata", "followups_clean.rds")) %>
   mutate(followup_status = str_to_lower(followup_status))
 ```
 
-Here are the first 50 rows of the ` nrow(followups)`-row `followups` dataset (each row is a follow-up interaction, with outcome status in the `followup_status` column):  
+Đây là 50 hàng đầu tiên của `nrow(followups)` - hàng của bộ dữ liệu `followups` (mỗi hàng là một người tiếp xúc tiếp theo, với trạng thái kết quả trong cột `followup_status`):
 
 ```{r, message=FALSE, echo=F}
 DT::datatable(head(followups, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-#### Relationships data {.unnumbered}  
+#### Dữ liệu mối quan hệ {.unnumbered}
 
-Here we import data showing the relationship between cases and contacts. We select certain column to show.  
+Ở đây chúng tôi nhập dữ liệu cho thấy mối quan hệ giữa các ca mắc và người tiếp xúc. Chúng tôi chọn cột nhất định để hiển thị.
 
 ```{r}
 relationships <- rio::import(here::here("data", "godata", "relationships_clean.rds")) %>% 
@@ -136,32 +121,23 @@ relationships <- rio::import(here::here("data", "godata", "relationships_clean.r
          target_age, exposure_type)
 ```
 
-Below are the first 50 rows of the `relationships` dataset, which records all relationships between cases and contacts.  
+Dưới đây là 50 hàng đầu tiên của bộ dữ liệu `relationships`, bộ dữ liệu này ghi lại tất cả mối quan hệ giữa các ca mắc và những người tiếp xúc.
 
 ```{r, message=FALSE, echo=F}
 DT::datatable(head(relationships, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
+## Phân tích mô tả
 
+Bạn có thể sử dụng các kỹ thuật được đề cập đến trong những chương khác của sổ tay này để tiến hành các phân tích mô tả về những ca mắc, người tiếp xúc và mối quan hệ của họ. Dưới đây là một số ví dụ.
 
+### Nhân khẩu học {.unnumbered}
 
+Như được trình bày trong chương [Tháp dân số và thang đo Likert], bạn có thể trực quan hóa phân bố theo độ tuổi và giới tính (ở đây chúng tôi sử dụng package **apyramid**).
 
+#### Tuổi và Giới tính của người tiếp xúc {.unnumbered}
 
-
-
-## Descriptive analyses  
-
-You can use the techniques covered in other pages of this handbook to conduct descriptive analyses of your cases, contacts, and their relationships. Below are some examples.  
-
-
-### Demographics {.unnumbered}  
-
-As demonstrated in the page covering [Demographic pyramids][Demographic pyramids and Likert-scales], you can visualise the age and gender distribution (here we use the **apyramid** package).  
-
-
-#### Age and Gender of contacts {.unnumbered}  
-
-The pyramid below compares the age distribution of contacts, by gender. Note that contacts missing age are included in their own bar at the top. You can change this default behavior, but then consider listing the number missing in a caption.  
+Kim tự tháp dưới đây so sánh sự phân bố theo độ tuổi của những người tiếp xúc, theo giới tính. Lưu ý rằng những người tiếp xúc bị missing tuổi được đưa vào thanh riêng của họ ở trên cùng. Bạn có thể thay đổi hành động mặc định này, nhưng sau đó hãy xem xét liệt kê số bị missing trong chú thích.
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(
@@ -174,8 +150,7 @@ apyramid::age_pyramid(
   theme_minimal()                                    # simple background
 ```
 
-
-With the Go.Data data structure, the `relationships` dataset contains the ages of both cases and contacts, so you could use that dataset and create an age pyramid showing the differences between these two groups of people. The `relationships` data frame will be mutated to transform the numberic age columns into categories (see the [Cleaning data and core functions] page). We also pivot the dataframe longer to facilitate easy plotting with **ggplot2** (see [Pivoting data]).  
+Với cấu trúc dữ liệu Go.Data, bộ dữ liệu `relationships` bao gồm độ tuổi của cả các ca mắc và những người tiếp xúc, vì vậy bạn có thể sử dụng bộ dữ liệu đó và tạo tháp tuổi cho thấy sự khác biệt giữa hai nhóm người này. Data frame `relationships` sẽ được biến đổi để chuyển các cột tuổi theo số thành các nhóm định danh (xem chương [Làm sạch số liệu và các hàm quan trọng] page). Chúng tôi cũng xoay trục dataframe sang định dạng dọc nhằm vẽ biểu đồ dễ dàng hơn với **ggplot2** (xem chương [Xoay trục dữ liệu]).
 
 ```{r}
 relation_age <- relationships %>% 
@@ -190,8 +165,7 @@ relation_age <- relationships %>%
 relation_age
 ```
 
-
-Now we can plot this transformed dataset with `age_pyramid()` as before, but replacing `gender` with `category` (contact, or case).  
+Bây giờ chúng ta có thể vẽ biểu đồ bộ dữ liệu đã chuyển đổi này với `age_pyramid()` như trước đây, nhưng thay thế `gender` với `category` (người tiếp xúc, hoặc ca mắc).
 
 ```{r, warning=F, message=F}
 apyramid::age_pyramid(
@@ -207,7 +181,7 @@ apyramid::age_pyramid(
   theme_minimal()                                              # simple background
 ```
 
-We can also view other characteristics such as occupational breakdown (e.g. in form of a pie chart).
+Chúng ta cũng có thể xem xét các đặc điểm khác như cơ cấu nghề nghiệp (ví dụ: ở dạng biểu đồ tròn).
 
 ```{r, warning=F, message=F}
 # Clean dataset and get counts by occupation
@@ -229,16 +203,15 @@ ggplot(data = occ_plot_data, mapping = aes(x = "", y = n, fill = occupation))+
         axis.text = element_blank())
 ```
 
+### Số người tiếp xúc trên mỗi ca mắc {.unnumbered}
 
-### Contacts per case {.unnumbered}  
+Số người tiếp xúc trên mỗi ca mắc có thể là một thước đo quan trọng để đánh giá chất lượng của việc điều tra số người tiếp xúc và mức độ tuân thủ của người dân với việc ứng phó sức khỏe cộng đồng.
 
-The number of contacts per case can be an important metric to assess quality of contact enumeration and the compliance of the population toward public health response. 
+Tùy thuộc vào cấu trúc dữ liệu của bạn, điều này có thể được đánh giá thông qua bộ dữ liệu chứa thông tin tất cả các ca mắc và những người tiếp xúc. Trong bộ dữ liệu Go.Data, liên kết giữa các ca mắc ("nguồn") và những người tiếp xúc ("mục tiêu") được lưu trữ trong bộ dữ liệu `relationships`.
 
-Depending on your data structure, this can be assessed with a dataset that contains all cases and contacts. In the Go.Data datasets, the links between cases ("sources") and contacts ("targets") is stored in the `relationships` dataset.  
+Trong bộ dữ liệu này, mỗi hàng là một người tiếp xúc và trong đó có liệt kê ca mắc nguồn. Không có người tiếp xúc nào có mối quan hệ với nhiều ca mắc, nhưng nếu điều này tồn tại, bạn có thể cần tính toán những người đó trước khi vẽ biểu đồ (và khám phá chúng nữa!).
 
-In this dataset, each row is a contact, and the source case is listed in the row. There are no contacts who have relationships with multiple cases, but if this exists you may need to account for those before plotting (and explore them too!).  
-
-We begin by counting the number of rows (contacts) per source case. This is saved as a data frame.  
+Chúng tôi bắt đầu bằng cách đếm số hàng (người tiếp xúc) trên mỗi ca mắc nguồn. Kết quả này được lưu dưới dạng một data frame.
 
 ```{r}
 contacts_per_case <- relationships %>% 
@@ -247,7 +220,7 @@ contacts_per_case <- relationships %>%
 contacts_per_case
 ```
 
-We use `geom_histogram()` to plot these data as a histogram.  
+Chúng tôi sử dụng `geom_histogram()` để vẽ các dữ liệu này dưới dạng biểu đồ tần suất.
 
 ```{r, warning=F, message=F}
 ggplot(data = contacts_per_case)+        # begin with count data frame created above
@@ -263,31 +236,24 @@ ggplot(data = contacts_per_case)+        # begin with count data frame created a
 
 ```
 
+## Theo dõi người tiếp xúc
 
+Dữ liệu truy vết tiếp xúc thường chứa dữ liệu "theo dõi", dữ liệu này ghi lại kết quả kiểm tra triệu chứng hàng ngày của những người trong diện cách ly. Phân tích dữ liệu này có thể xác định chiến lược ứng phó, xác định những người tiếp xúc có nguy cơ mất theo dõi hoặc có nguy cơ phát triển bệnh.
 
-## Contact Follow Up  
+### Làm sạch dữ liệu {.unnumbered}
 
+Những dữ liệu này có thể tồn tại ở nhiều định dạng khác nhau. Chúng có thể tồn tại dưới dạng trang tính Excel định dạng "ngang" với một hàng cho mỗi người tiếp xúc và một cột cho mỗi "ngày" theo dõi. Xem chương [Xoay trục dữ liệu] để hiểu về mô tả dữ liệu "dọc" và "ngang", và cả cách xoay trục dữ liệu sang định dạng ngang hoặc dọc.
 
-Contact tracing data often contain "follow-up" data, which record outcomes of daily symptom checks of persons in quarantine. Analysis of this data can inform response strategy, identify contacts at-risk of loss-to-follow-up or at-risk of developing disease.  
-
-
-
-
-### Data cleaning {.unnumbered}  
-
-These data can exist in a variety of formats. They may exist as a "wide" format Excel sheet with one row per contact, and one column per follow-up "day". See [Pivoting data] for descriptions of "long" and "wide" data and how to pivot data wider or longer.  
-
-In our Go.Data example, these data are stored in the `followups` data frame, which is in a "long" format  with one row per follow-up interaction. The first 50 rows look like this:   
+Trong ví dụ Go.Data của chúng tôi, những dữ liệu này được lưu trữ trong data frame `followups`, data frame này có định dạng "dọc" với một hàng cho mỗi tương tác theo dõi. 50 hàng đầu tiên nhìn như sau:
 
 ```{r, message=FALSE, echo=FALSE}
 # display the first 50 rows of contact linelist data as a table
 DT::datatable(head(followups, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
+[***CHÚ Ý:*** Cẩn thận với các bản trùng lặp khi xử lý dữ liệu theo dõi; vì có thể có một vài lần theo dõi sai sót trong cùng một ngày cho một người tiếp xúc nhất định. Nó dường như trông có vẻ là một lỗi nhưng lại phản ánh thực tế - ví dụ: người theo dõi trường hợp tiếp xúc có thể gửi biểu mẫu theo dõi từ sớm trong ngày dù họ chưa liên hệ được với người tiếp xúc và gửi biểu mẫu thứ hai khi họ đã liên hệ được sau đó. Việc này sẽ phụ thuộc vào quy trình thực hiện hoạt động đối với cách bạn muốn xử lý các bản trùng lặp - chỉ cần đảm bảo ghi lại cách tiếp cận của bạn một cách rõ ràng.]{style="color: orange;"}
 
-<span style="color: orange;">**_CAUTION:_** Beware of duplicates when dealing with followup data; as there could be several erroneous followups on the same day for a given contact. Perhaps it seems to be an error but reflects reality - e.g. a contact tracer could submit a follow-up form early in the day when they could not reach the contact, and submit a second form when they were later reached. It will depend on the operational context for how you want to handle duplicates - just make sure to document your approach clearly. </span>
-
-Let's *see* how many instances of "duplicate" rows we have:  
+Hãy *xem* chúng ta có bao nhiêu trường hợp hàng "trùng lặp":
 
 ```{r}
 followups %>% 
@@ -295,7 +261,7 @@ followups %>%
   filter(n > 1)                             # view records where count is more than 1  
 ```
 
-In our example data, the only records that this applies to are ones missing an ID! We can remove those. But, for purposes of demonstration we will go show the steps for de-duplication so there is only one follow-up encoutner per person per day. See the page on [De-duplication] for more detail. We will assume that the most recent encounter record is the correct one. We also take the opportunity to clean the `followup_number` column (the "day" of follow-up which should range 1 - 14).  
+Trong dữ liệu ví dụ của chúng tôi, các bản ghi duy nhất áp dụng điều này là những bản ghi missing ID! Chúng tôi có thể loại bỏ chúng. Tuy nhiên, với mục đích diễn giải, chúng tôi sẽ trình bày các bước nhằm loại bỏ trùng lặp để mỗi người tiếp xúc chỉ có một lần theo dõi truy vết mỗi ngày. Xem chương [Loại bỏ trùng lặp] để biết thêm chi tiết. Chúng tôi sẽ giả định rằng bản ghi cuộc gọi truy vết mới nhất là bản ghi chính xác. Chúng tôi cũng tận dụng cơ hội để làm sạch cột `followup_number` ("ngày" theo dõi sẽ nằm trong khoảng 1 - 14).
 
 ```{r, warning=F, message=F}
 followups_clean <- followups %>%
@@ -311,21 +277,20 @@ followups_clean <- followups %>%
   drop_na(contact_id)                               # remove rows with missing contact_id
 ```
 
-For each follow-up encounter, we have a follow-up status (such as whether the encounter occurred and if so, did the contact have symptoms or not). To see all the values we can run a quick `tabyl()` (from **janitor**) or `table()` (from **base** R) (see [Descriptive tables]) by `followup_status` to see the frequency of each of the outcomes.  
+Đối với mỗi cuộc gọi truy vết tiếp theo, chúng tôi có một trạng thái theo dõi (chẳng hạn như cuộc gọi truy vết có xảy ra hay không và nếu có, người tiếp xúc có triệu chứng hay không). Để xem tất cả các giá trị, chúng ta có thể chạy nhanh lệnh `tabyl()` (từ **janitor**) hoặc `table()` (từ **base** R) (xem chương [Bảng mô tả]) bằng `followup_status` để xem tần suất của từng kết quả.
 
-In this dataset, "seen_not_ok" means "seen with symptoms", and "seen_ok" means "seen without symptoms".  
+Trong bộ dữ liệu này, "seen_not_ok" có nghĩa là "được thấy không có triệu chứng" và "seen_ok" có nghĩa là "được thấy có triệu chứng".
 
 ```{r}
 followups_clean %>% 
   tabyl(followup_status)
 ```
 
+### Vẽ biểu đồ theo thời gian {.unnumbered}
 
-### Plot over time {.unnumbered}  
+Vì dữ liệu ngày là liên tục, chúng tôi sẽ sử dụng biểu đồ tần suất để vẽ chúng với `date_of_followup` được gán cho trục x. Chúng tôi có thể vẽ được biểu đồ tần suất "xếp chồng" bằng cách chỉ định đối số `fill =` trong `aes()`, đối số mà chúng tôi gán cho cột `followup_status`. Do đó, bạn có thể thiết lập chú thích bằng cách sử dụng đối số `fill =` của `labs()`.
 
-As the dates data are continuous, we will use a histogram to plot them with `date_of_followup` assigned to the x-axis. We can achieve a "stacked" histogram by specifying a `fill = ` argument within `aes()`, which we assign to the column `followup_status`. Consequently, you can set the legend title using the `fill = ` argument of `labs()`.  
-
-We can see that the contacts were identified in waves (presumably corresponding with epidemic waves of cases), and that follow-up completion did not seemingly improve over the course of the epidemic.  
+Chúng ta có thể thấy rằng những người tiếp xúc được xác định theo từng đợt (có lẽ là tương ứng với các đợt dịch) và việc hoàn thành theo dõi dường như không cải thiện trong suốt đợt dịch.
 
 ```{r, warning=F, message=F}
 ggplot(data = followups_clean)+
@@ -341,15 +306,13 @@ ggplot(data = followups_clean)+
   
 ```
 
+[***CHÚ Ý:*** Nếu bạn đang chuẩn bị nhiều biểu đồ (ví dụ: cho nhiều thành phần pháp lý), bạn sẽ muốn các chú thích xuất hiện giống hệt nhau ngay cả với các mức độ hoàn thiện dữ liệu hoặc thành phần dữ liệu khác nhau. Có thể có những biểu đồ mà không phải tất cả các trạng thái theo dõi đều có trong dữ liệu, nhưng bạn vẫn muốn các danh mục đó xuất hiện trong chú thích. Trong ggplots (như trên), bạn có thể chỉ định đối số `drop = FALSE` của `scale_fill_discrete()`. Trong bảng, hãy sử dụng `tabyl()` để hiển thị số lượng cho tất cả các cấp nhân tố hoặc nếu sử dụng `count()` từ **dplyr**, hãy thêm đối số `.drop = FALSE` để bao gồm số lượng của tất cả các cấp nhân tố.]{style="color: orange;"}
 
-<span style="color: orange;">**_CAUTION:_** If you are preparing many plots (e.g. for multiple jurisdictions) you will want the legends to appear identically even with varying levels of data completion or data composition. There may be plots for which not all follow-up statuses are present in the data, but you still want those categories to appear the legends. In ggplots (like above), you can specify the `drop = FALSE` argument of the `scale_fill_discrete()`. In tables, use `tabyl()` which shows counts for all factor levels, or if using `count()` from **dplyr** add the argument `.drop = FALSE` to include counts for all factor levels.</span>  
+### Theo dõi cá nhân hàng ngày {.unnumbered}
 
+Nếu sự bùng phát dịch của bạn đủ nhỏ, bạn có thể muốn xem xét từng người tiếp xúc và xem trạng thái của họ trong suốt quá trình theo dõi. May mắn rằng, bộ dữ liệu `followups` này đã chứa sẵn một cột với "số" ngày theo dõi (1-14). Nếu cột này không tồn tại trong dữ liệu của bạn, bạn có thể tạo ra nó bằng cách tính toán sự khác biệt giữa ngày truy vết và ngày dự định bắt đầu theo dõi người tiếp xúc.
 
-### Daily individual tracking  {.unnumbered}  
-
-If your outbreak is small enough, you may want to look at each contact individually and see their status over the course of their follow-up. Fortunately, this `followups` dataset already contains a column with the day "number" of follow-up (1-14). If this does not exist in your data, you could create it by calculating the difference between the encounter date and the date follow-up was intended to begin for the contact.  
-
-A convenient visualisation mechanism (if the number of cases is not too large) can be a heat plot, made with `geom_tile()`. See more details in the [heat plot] page.  
+Một cơ chế trực quan hóa thuận tiện (nếu số lượng ca mắc không quá lớn) có thể là một biểu đồ nhiệt, được tạo bằng `geom_tile()`. Xem thêm chi tiết trong chương [biểu đồ nhiệt].
 
 ```{r, warning=F, message=F}
 ggplot(data = followups_clean)+
@@ -360,10 +323,9 @@ ggplot(data = followups_clean)+
   scale_x_continuous(breaks = seq(from = 1, to = 14, by = 1))
 ```
 
+### Phân tích theo nhóm {.unnumbered}
 
-### Analyse by group {.unnumbered}  
-
-Perhaps these follow-up data are being viewed on a daily or weekly basis for operational decision-making. You may want more meaningful disaggregations by geographic area or by contact-tracing team. We can do this by adjusting the columns provided to `group_by()`.  
+Có lẽ những dữ liệu theo dõi này đang được kiểm tra hàng ngày hoặc hàng tuần để đưa ra quyết định hành động. Bạn có thể muốn những phân tách có ý nghĩa hơn theo khu vực địa lý hoặc theo nhóm truy vết tiếp xúc. Chúng ta có thể làm điều này bằng cách điều chỉnh các cột được cung cấp cho `group_by()`.
 
 ```{r, warning=F, message=F}
 
@@ -396,35 +358,34 @@ plot_by_region <- followups_clean %>%                                        # b
 plot_by_region
 ```
 
-<!-- If this was disaggregated by contact tracer, perhaps we would want to add a threshold line to display total # contacts that normally one person or area/team can handle, and how the current workload compares. We just do this by using `geom_hline()` function. -->
+<!-- Nếu điều này được phân tách bằng người truy vết tiếp xúc, có lẽ chúng tôi muốn thêm một đường ngưỡng để hiển thị tổng # những người tiếp xúc mà thông thường một người hoặc một khu vực/nhóm có thể xử lý và cách mà khối lượng công việc hiện tại được so sánh. Chúng tôi chỉ làm điều này bằng cách sử dụng hàm `geom_hline()`. -->
 
 <!-- ```{r, warning=F, message=F} -->
 
 <!-- plot_by_region +  -->
+
 <!--      geom_hline(aes(yintercept=25), color="#C70039", linetype = "dashed") # fictitious threshold at 25 contacts -->
 
 <!-- ``` -->
 
+## Bảng KPI
 
+Có một số Chỉ Số Đánh Giá Hiệu Quả Công Việc (KPI) khác nhau có thể được tính toán và theo dõi ở các mức độ phân tách khác nhau và trong những khoảng thời gian khác nhau để theo dõi hiệu suất thực hiện truy vết tiếp xúc. Khi bạn đã tính toán xong và có định dạng bảng cơ bản; khá dễ dàng để hoán đổi các KPI khác nhau.
 
-## KPI Tables  
+Có nhiều nguồn KPI truy vết tiếp xúc, chẳng hạn như nguồn này từ [ResolveToSaveLives.org](https://contacttracingplaybook.resolvetosavelives.org/checklists/metrics). Phần lớn công việc sẽ là xem xét cấu trúc dữ liệu và suy nghĩ của bạn thông qua tất cả các tiêu chí bao gồm/loại trừ. Chúng tôi đưa ra một vài ví dụ dưới đây; sử dụng cấu trúc siêu dữ liệu Go.Data:
 
-There are a number of different Key Performance Indicators (KPIs) that can be calculated and tracked at varying levels of disaggregations and across different time periods to monitor contact tracing performance. Once you have the calculations down and the basic table format; it is fairly easy to swap in and out different KPIs. 
+| Danh mục                                             | Chỉ số                                                                                                         | Tử số Go.Data                                                                                                                       | Mẫu số Go.Data   |
+|------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|------------------|
+| Chỉ Số Quy Trình - Tốc Độ Truy Vết Tiếp Xúc          | \% các trường hợp được phỏng vấn và cách ly trong vòng 24 giờ kể từ khi báo cáo ca mắc                         | ĐẾM `case_id` MÀ (`date_of_reporting` - `date_of_data_entry`) \< 1 ngày VÀ (`isolation_startdate` - `date_of_data_entry`) \< 1 ngày | ĐẾM `case_id`    |
+| Chỉ Số Quy Trình - Tốc Độ Truy Vết Tiếp Xúc          | \% những người tiếp xúc được thông báo và cách ly trong vòng 24 giờ kể từ khi được tìm thấy                    | ĐẾM `contact_id` MÀ `followup_status` == "SEEN_NOT_OK" HOẶC "SEEN_OK" VÀ `date_of_followup` - `date_of_reporting` \< 1 ngày         | ĐẾM `contact_id` |
+| Chỉ Số Quy Trình - Tính Hoàn chỉnh của Việc Kiểm Tra | \% các ca mắc có triệu chứng mới được kiểm tra và phỏng vấn trong vòng 3 ngày kể từ khi bắt đầu có triệu chứng | ĐẾM `case_id` MÀ (`date_of_reporting` - `date_of_onset`) \< =3 ngày                                                                 | ĐẾM `case_id`    |
+| Chỉ Số Kết quả - Tổng Kết                            | \% các ca mắc mới trong danh sách liên hệ hiện có                                                              | ĐẾM `case_id` MÀ `was_contact` == "TRUE"                                                                                            | ĐẾM `case_id`    |
 
-There are numerous sources of contact tracing KPIs, such as this one from [ResolveToSaveLives.org](https://contacttracingplaybook.resolvetosavelives.org/checklists/metrics). The majority of the work will be walking through your data structure and thinking through all of the inclusion/exclusion criteria. We show a few examples below; using Go.Data metadata structure:
+Dưới đây, chúng tôi sẽ giới thiệu một bài tập mẫu về cách tạo bảng đẹp mắt để hiển thị thông tin theo dõi người tiếp xúc trên các khu vực quản trị. Cuối cùng, chúng tôi sẽ tạo bảng phù hợp để trình bày với package **formattable** (nhưng bạn có thể sử dụng các package khác như **flextable** - xem chương [Trình bày bảng]).
 
-Category          | Indicator                | Go.Data Numerator         | Go.Data Denominator
-------------------|--------------------------|---------------------------|--------------------
-Process Indicator - Speed of Contact Tracing|% cases interviewed and isolated within 24h of case report |COUNT OF `case_id` WHERE (`date_of_reporting` - `date_of_data_entry`) < 1 day AND (`isolation_startdate` - `date_of_data_entry`) < 1 day|COUNT OF  `case_id`
-Process Indicator - Speed of Contact Tracing|% contacts notified and quarantined within 24h of elicitation|COUNT OF `contact_id` WHERE `followup_status` == "SEEN_NOT_OK" OR "SEEN_OK" AND `date_of_followup` -  `date_of_reporting` < 1 day|COUNT OF `contact_id`
-Process Indicator - Completeness of Testing|% new symptomatic cases tested and interviewed within 3 days of onset of symptoms|COUNT OF `case_id` WHERE (`date_of_reporting` - `date_of_onset`) < =3 days|COUNT OF  `case_id`
-Outcome Indicator - Overall|% new cases among existing contact list|COUNT OF `case_id` WHERE `was_contact` == "TRUE"|COUNT OF  `case_id`
+Cách bạn tạo một bảng như thế nào sẽ phụ thuộc vào cấu trúc của dữ liệu truy vết tiếp xúc của bạn. Sử dụng chương [Bảng mô tả] để tìm hiểu cách tóm tắt dữ liệu bằng các hàm **dplyr**.
 
-Below we will walk through a sample exercise of creating a nice table visual to show contact follow-up across admin areas. At the end, we will make it fit for presentation with the **formattable** package (but you could use other packages like **flextable** - see [Tables for presentation]).  
-
-How you create a table like this will depend on the structure of your contact tracing data. Use the [Descriptive tables] page to learn how to summarise data using **dplyr** functions. 
-
-We will create a table that will be dynamic and change as the data change. To make the results interesting, we will set a `report_date` to allow us to simulate running the table on a certain day (we pick 10th June 2020). The data are filtered to that date.  
+Chúng tôi sẽ tạo một bảng động và thay đổi khi dữ liệu thay đổi. Để làm cho kết quả thú vị, chúng tôi sẽ thiết lập `report_date` nhằm cho phép chúng tôi mô phỏng việc chạy bảng vào một ngày nhất định (chúng tôi chọn ngày 10 tháng 6 năm 2020). Dữ liệu được lọc cho ngày đó.
 
 ```{r, warning=F, message=F}
 # Set "Report date" to simulate running the report with data "as of" this date
@@ -435,19 +396,19 @@ table_data <- followups_clean %>%
   filter(date_of_followup <= report_date)
 ```
 
+Bây giờ, dựa trên cấu trúc dữ liệu của chúng tôi, chúng tôi sẽ làm như sau:
 
-Now, based on our data structure, we will do the following:  
+1)  Bắt đầu với dữ liệu `followups` và tóm tắt nó để chứa cho mỗi liên hệ duy nhất:
 
-1) Begin with the `followups` data and summarise it to contain, for each unique contact:  
-  * The date of latest record (no matter the status of the encounter)  
-  * The date of latest encounter where the contact was "seen"  
-  * The encounter status at that final "seen" encounter (e.g. with symptoms, without symptoms)  
-2) Join these data to the contacts data, which contains other information such as the overall contact status, date of last exposure to a case, etc. Also we will calculate metrics of interest for each contact such as days since last exposure  
-3) We group the enhanced contact data by geographic region (`admin_2_name`) and calculate summary statistics per region  
-4) Finally, we format the table nicely for presentation  
+-   Ngày của bản ghi gần nhất (bất kể tình trạng của truy vết)\
+-   Ngày truy vết gần nhất mà người tiếp xúc được "seen"\
+-   Trạng thái truy vết ở lần truy vết "seen" cuối cùng (ví dụ: có triệu chứng, không có triệu chứng)\
 
+2)  Nối dữ liệu này với dữ liệu người tiếp xúc, dữ liệu mà chứa các thông tin khác như trạng thái tổng thể của người tiếp xúc, ngày tiếp xúc cuối với một ca mắc, v.v. Ngoài ra, chúng tôi sẽ tính toán các số liệu được quan tâm cho mỗi người tiếp xúc, chẳng hạn như số ngày kể từ lần phơi nhiễm cuối\
+3)  Chúng tôi nhóm dữ liệu người tiếp xúc nâng cao theo vùng địa lý (`admin_2_name`) và tính toán tóm tắt thống kê cho mỗi khu vực\
+4)  Cuối cùng, chúng tôi định dạng bảng thích hợp để trình bày
 
-First we summarise the follow-up data to get the information of interest:  
+Đầu tiên, chúng tôi tóm tắt dữ liệu theo dõi để có được thông tin quan tâm:
 
 ```{r, warning=F, message=F}
 followup_info <- table_data %>% 
@@ -459,14 +420,13 @@ followup_info <- table_data %>%
   ungroup()
 ```
 
-Here is how these data look:  
+Đây là cách những dữ liệu này được nhìn thấy:
 
 ```{r, echo=F}
 DT::datatable(followup_info, rownames = FALSE, options = list(pageLength = 12, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
-Now we will add this information to the `contacts` dataset, and calculate some additional columns.  
+Bây giờ chúng tôi sẽ thêm thông tin này vào bộ dữ liệu `contacts` và tính toán một số cột bổ sung.
 
 ```{r}
 contacts_info <- followup_info %>% 
@@ -478,14 +438,13 @@ contacts_info <- followup_info %>%
     )
 ```
 
-Here is how these data look. Note `contacts` column to the right, and new calculated column at the far right.  
+Đây là cách những dữ liệu này được nhìn thấy. Lưu ý cột `contacts` nằm ở bên phải và cột mới được tính toán nằm ở ngoài cùng bên phải.
 
 ```{r, echo=F}
 DT::datatable(contacts_info, rownames = FALSE, options = list(pageLength = 12, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
-Next we summarise the contacts data by region, to achieve a concise data frame of summary statistic columns.    
+Tiếp theo, chúng tôi tổng hợp dữ liệu người tiếp xúc theo khu vực, để có một data frame ngắn gọn của các cột thống kê đã tóm tắt.
 
 ```{r}
 contacts_table <- contacts_info %>% 
@@ -510,13 +469,11 @@ contacts_table <- contacts_info %>%
 
 ```
 
-
 ```{r, echo=F}
 DT::datatable(contacts_table, rownames = FALSE, options = list(pageLength = 12, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-And now we apply styling from the **formattable** and **knitr** packages, including a footnote that shows the "as of" date.  
-
+Và bây giờ chúng tôi áp dụng kiểu bảng từ các package **formattable** và **knitr**, bao gồm một chú thích cuối trang hiển thị "kể từ" ngày.
 
 ```{r}
 contacts_table %>%
@@ -540,19 +497,18 @@ contacts_table %>%
 
 ```
 
+## Ma trận lây truyền
 
-## Transmission Matrices  
+Như đã thảo luận trong chương [Biểu đồ nhiệt], bạn có thể tạo ma trận "ai đã lây nhiễm cho ai" bằng cách sử dụng `geom_tile()`.
 
-As discussed in the [Heat plots] page, you can create a matrix of "who infected whom" using `geom_tile()`.
-
-When new contacts are created, Go.Data stores this relationship information in the `relationships` API endpoint; and we can see the first 50 rows of this dataset below. This means that we can create a heat plot with relatively few steps given each contact is already joined to it's source case.
+Khi những ca tiếp xúc mới được tạo, Go.Data lưu trữ thông tin về mối quan hệ này tại điểm cuối API `relationships`; chúng ta có thể thấy 50 hàng đầu tiên của bộ dữ liệu này bên dưới. Điều này có nghĩa là chúng ta có thể tạo một biểu đồ nhiệt với vài bước tương đối với mỗi tiếp điểm được nối với ca mắc nguồn của nó.
 
 ```{r, warning=F, message=F, echo=F}
 # display the first 50 rows of relationships data as a table
 DT::datatable(head(relationships, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-As done above for the age pyramid comparing cases and contacts, we can select the few variables we need and create columns with categorical age groupings for both sources (cases) and targets (contacts).
+Như đã thực hiện ở trên đối với tháp tuổi so sánh các ca mắc và những người tiếp xúc, chúng ta có thể chọn một vài biến số chúng ta cần và tạo các cột nhóm tuổi được phân loại cho cả dữ liệu nguồn (ca mắc) và mục tiêu (người tiếp xúc).
 
 ```{r}
 heatmap_ages <- relationships %>% 
@@ -562,7 +518,7 @@ heatmap_ages <- relationships %>%
     target_age_class = epikit::age_categories(target_age, breakers = seq(0, 80, 5))) 
 ```
 
-As described previously, we create cross-tabulation; 
+Như đã mô tả trước đây, chúng tôi tạo bảng chéo;
 
 ```{r, warning=F, message=FALSE}
 
@@ -573,7 +529,7 @@ cross_tab <- table(
 cross_tab
 ```
 
-convert into long format with proportions;
+chuyển đổi thành định dạng dọc với những tỷ lệ;
 
 ```{r, warning=FALSE, message=FALSE}
 
@@ -581,8 +537,7 @@ long_prop <- data.frame(prop.table(cross_tab))
 
 ```
 
-and create a heat-map for age.
-
+và tạo biểu đồ nhiệt cho độ tuổi.
 
 ```{r, warning=F, message=F}
 
@@ -606,11 +561,10 @@ ggplot(data = long_prop)+       # use long data, with proportions as Freq
 
 ```
 
+## Tài nguyên học liệu
 
-## Resources  
+<https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting>
 
-https://github.com/WorldHealthOrganization/godata/tree/master/analytics/r-reporting
+<https://worldhealthorganization.github.io/godata/>
 
-https://worldhealthorganization.github.io/godata/
-
-https://community-godata.who.int/
+<https://community-godata.who.int/>
