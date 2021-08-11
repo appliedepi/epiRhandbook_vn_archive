@@ -124,9 +124,9 @@ Hầu hết các từ viết tắt của “strptime” được liệt kê dư�
 %B = Tháng viết đầy đủ (January, February, v.v.)  
 %y = năm 2 chữ số  (vd: 89)  
 %Y = năm 4 chữ số  (vd: 1989)  
-%h = giờ (đồng hồ 24h)  
-%m = phút  
-%s = giây
+%H = giờ (đồng hồ 24h)  
+%M = phút  
+%S = giây
 %z = offset from GMT  
 %Z = Múi giờ (dạng ký tự)  
 
@@ -504,9 +504,9 @@ Lưu ý: việc sử dụng hàm `format()` sẽ chuyển đổi các giá trị
 %B = Tháng viết đầy đủ (January, February, v.v.)  
 %y = năm 2 chữ số  (vd: 89)  
 %Y = năm 4 chữ số  (vd: 1989)  
-%h = giờ (đồng hồ 24h)  
-%m = phút  
-%s = giây
+%H = giờ (đồng hồ 24h)  
+%M = phút  
+%S = giây
 %z = offset from GMT  
 %Z = Múi giờ (dạng ký tự)
 
