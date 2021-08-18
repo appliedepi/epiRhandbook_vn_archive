@@ -1,512 +1,490 @@
 # Version control với Git và Github {#collaboration}
 
-This chapter presents an overview of using Git to collaborate with others.
-More extensive tutorials can be
-found at the bottom in the Resources section.
+Chương này trình bày tổng quan về việc sử dụng Git để làm việc nhóm với những người khác.
+Bạn có thể tìm các hướng dẫn nâng cao hơn ở dưới cùng trong mục Tài liệu tham khảo. 
 
-## What is Git?
+## Git là gì?
 
-Git is a **version control** software that allows tracking changes in a
-folder. It can be used like the "track change" option in Word, LibreOffice or
-Google docs, but for all types of files. It is one of the most powerful
-and most used options for version control.
+Git là một phần mềm **kiểm soát phiên bản** cho phép theo dõi các thay đổi trong
+thư mục. Nó có thể được sử dụng như tùy chọn "track change" trong Word, LibreOffice hoặc
+TGoogle docs, nhưng dành cho tất cả các loại tệp. Nó là một trong những công cụ mạnh mẽ nhất
+và được sử dụng nhiều nhất để kiểm soát phiên bản. 
 
-**Why have I never heard of it? -** While people with a developer
-background routinely learn to use version control software (Git,
-Mercurial, Subversion or others), few of us from
-quantitative disciplines are taught these skills. Consequently, most epidemiologists never
-hear of it during their studies, and have to learn it on the fly.
+**Tại sao tôi chưa bao giờ nghe nói về Git? -** Trong khi hầu hết mọi người phát triển
+nền tảng thường xuyên phải học cách sử dụng phần mềm để kiểm soát phiên bản (Git,
+Mercurial, Subversion hoặc những người khác), ít người trong chúng ta xuất thân từ
+các ngành định lượng được dạy các kỹ năng này. Do đó, hầu hết các nhà dịch tễ học không bao giờ
+nghe nói về nó trong các nghiên cứu của họ, và phải tìm hiểu nó một cách nhanh chóng. 
 
-**Wait, I heard of Github, is it the same?** - Not exactly, but you
-often use them together, and we will show you how to. In short:
+**Chờ đã, tôi có nghe nói về Github, có giống Git không?** - Không giống, nhưng bạn
+thường sử dụng chúng cùng nhau và chúng tôi sẽ hướng dẫn bạn cách thực hiện. Nói ngắn gọn như sau: 
 
--   **Git** is the version control system, a piece of software. You can use it
-    locally on your computer or to synchronize a folder with a
-    host **website**. By default, one uses a terminal to give Git
-    instructions in command-line.
+-   **Git** là hệ thống kiểm soát phiên bản, một phần của phần mềm. Bạn có thể tải phần mềm để sử dụng trên máy tính      của mình hoặc để đồng bộ hóa một thư mục với một máy chủ trên **trang web**. Theo mặc định, người ta sử dụng một 
+    thiết bị đầu cuối để đưa ra hướng dẫn Git trong dòng lệnh. 
 
--   You can use a **Git client/interface** to avoid the command-line and
-    perform the same actions (at least for the simple, super common
-    ones).
+-   Bạn có thể sử dụng **ứng dụng người dùng/giao diện Git** để tránh dòng lệnh và thực hiện các hành động tương tự 
+    (ít nhất là đối với những hành động đơn giản, rất thường dùng). 
+    
+-   Nếu bạn muốn lưu trữ thư mục của mình trong **trang web chủ** để cùng làm việc với những người khác, bạn có thể 
+    tạo một tài khoản tại Github, Gitlab, Bitbucket hoặc các tài khoản khác. 
 
--   If you want to store your folder in a **host website** to
-    collaborate with others, you may create an account at Github,
-    Gitlab, Bitbucket or others.
+Vì vậy, bạn có thể sử dụng máy khách/giao diện **Github Desktop**, sử dụng **Git** trong ổ cứng để quản lý các tệp của bạn, cả cục bộ trên máy tính của bạn và từ xa trên máy chủ **Github**. 
 
-So you could use the client/interface **Github Desktop**, which uses
-**Git** in the background to manage your files, both locally on your
-computer, and remotely on a **Github** server.
+## Tại sao sử dụng kết hợp Git và Github?
 
-## Why use the combo Git and Github?
+Sử dụng **Git** để:
 
-Using **Git** facilitates:
+1)  Lưu trữ các phiên bản dạng tài liệu với các thay đổi đã được ghi chú để bạn
+    có thể dễ dàng chuyển lại về bất kỳ trạng thái nào trước đó 
+2)  Có các *nhánh* song song, tức là các phiên bản đang phát triển/"đang làm việc" với
+    các cấu trúc để tích hợp các thay đổi sau khi xem xét 
 
-1)  Archiving documented versions with incremental changes so that you
-    can easily revert backwards to any previous state
-2)  Having parallel *branches*, i.e. developing/"working" versions with
-    structured ways to integrate the changes after review
+Điều này có thể được thực hiện cục bộ trên máy tính của bạn, ngay cả khi bạn không cộng tác
+với những người khác. Bạn đã từng: 
 
-This can be done locally on your computer, even if you don't collaborate
-with other people. Have you ever:
+-   hối tiếc vì đã xóa một đoạn mã, chỉ để nhận ra hai
+    vài tháng sau mà bạn thực sự cần nó? 
 
--   regretted having deleted a section of code, only to realize two
-    months later that you actually needed it?
+-   quay lại một dự án đã bị tạm dừng và cố gắng
+    nhớ liệu bạn đã thực hiện sửa đổi phức tạp đó ở một trong những
+    mô hình? 
 
+-   có một tệp *model_1.R* và một tệp khác *model_1\_test.R * và một tệp
+    *model_1\_not_working.R * để thử mọi thứ? 
 
--   come back on a project that had been on pause and attempted to
-    remember whether you had made that tricky modification in one of the
-    models?
+-   có một tệp *report.Rmd*, tệp *report_full.Rmd*, tệp
+    *report_true_final.Rmd*, tệp *report_final_20210304.Rmd*, tệp
+    *report_final_20210402.Rmd* và khó chịu với kỹ năng lưu trữ của bạn? 
 
--   had a *file model_1.R* and another file *model_1\_test.R* and a file
-    *model_1\_not_working.R* to try things out?
+Git sẽ giúp bạn giải quyết tất cả vấn đề trên, và đây cũng là những thứ rất đáng để học. 
 
--   had a file *report.Rmd*, a file *report_full.Rmd*, a file
-    *report_true_final.Rmd*, a file *report_final_20210304.Rmd*, a file
-    *report_final_20210402.Rmd* and cursed your archiving skills?
+Tuy nhiên, nó thậm chí còn trở nên mạnh mẽ hơn khi được sử dụng với kho lưu trữ trực tuyến
+chẳng hạn như Github để hỗ trợ **các dự án hợp tác**. Điều này tạo điều kiện cho việc: 
 
-Git will help with all that, and is worth to learn for that alone.
+-   Cộng tác: những người khác có thể đánh giá, nhận xét và
+    chấp nhận/từ chối các thay đổi  
+-   Chia sẻ mã, dữ liệu và kết quả đầu ra của bạn và mời phản hồi
+    từ công chúng (hoặc riêng tư, với nhóm của bạn) 
 
+và tránh: 
 
-However, it becomes even more powerful when used with a online repository
-such as Github to support **collaborative projects**. This facilitates:
+-   "Rất tiếc, tôi đã quên gửi phiên bản cuối cùng và bây giờ bạn cần
+    làm lại tệp mới này trong hai ngày làm việc" 
 
--   Collaboration: others can review, comment on, and
-    accept/decline changes
+-   Mina, Henry và Oumar đều làm việc cùng lúc trên một script và
+    cần phải hợp nhất các thay đổi của chúng theo cách thủ công 
 
--   Sharing your code, data, and outputs, and invite feedback
-    from the public (or privately, with your team)
+-   Hai người cố gắng sửa đổi cùng một tệp trên Dropbox và Sharepoint
+    và điều này tạo ra lỗi đồng bộ hóa. 
 
-and avoids:
+### Điều này nghe có vẻ phức tạp, tôi không phải là một lập trình viên {-}
 
--   "Oops, I forgot to send the last version and now you need to
-    redo two days worth of work on this new file"
+Điều này hoàn toàn có thể. Ví dụ về cách sử dụng nâng cao có thể khá đáng sợ. Tuy nhiên, giống với
+như R, hoặc thậm chí là Excel, bạn không cần phải trở thành một chuyên gia để tận dụng
+lợi ích của công cụ. Học *một số nhỏ các hàm và khái niệm*
+cho phép bạn theo dõi các thay đổi của mình, đồng bộ hóa các tệp của bạn trực tuyến
+kho lưu trữ và cộng tác với đồng nghiệp của bạn với thời gian ngắn. 
+ 
 
--   Mina, Henry and Oumar all worked at the same time on one script and
-    need to manually merge their changes
+Do đường cong học tập, khi bạn cần hoàn thiện một công viêc trong trường hợp khẩn cấp, đó có thể không phải là thời 
+điểm tốt nhấtvđể tìm hiểu các công cụ này. Nhưng việc học có thể đạt được theo từng bước. Một khi bạn có được
+một vài khái niệm, quy trình làm việc của bạn có thể khá hiệu quả và nhanh chóng.
+Nếu bạn chưa làm việc trong một dự án cộng tác với mọi người
+và buộc phải sử dụng qua Git, **đó thực sự là thời điểm tốt để có được tự tin để sử dụng Git** trước khi bắt tay vào cộng tác với người khác. 
 
--   Two people try to modify the same file on Dropbox and Sharepoint 
-    and this creates a synchronization error.
+## Cài đặt
 
-### This sounds complicated, I am not a programmer {-}
-
-It can be. Examples of advanced uses can be quite scary. However, much
-like R, or even Excel, you don't need to become an expert to reap the
-benefits of the tool. Learning a *small number of functions and notions*
-lets you track your changes, synchronize your files on a online
-repository and collaborate with your colleagues in a very short amount
-of time.
-
-Due to the learning curve, emergency context may not be the best of time
-to learn these tools. But learning can be achieved by steps. Once you acquire 
-a couple of notions, your workflow can be quite efficient and fast.
-If you are not working on a project where collaborating with people
-through Git is a necessity, **it is actually a good time to get
-confident using it** in solo before diving in collaboration.
-
-## Setup
-
-### Install Git {.unnumbered}
+### Cài đặt Git {.unnumbered}
 
 *Git* is the engine behind the scenes on your computer, which tracks
 changes, branches (versions), merges, and reverting. **You must first
 install *Git* from <https://git-scm.com/downloads>.**
+*Git* là công cụ đằng sau hậu trường trên máy tính của bạn, theo dõi
+thay đổi, các nhánh (phiên bản), hợp nhất và hoàn nguyên. **Đầi tiên bạn phải
+cài đặt *Git* từ đường link sau <https://git-scm.com/downloads>.** 
 
-### Install an interface (optional but recommended) {.unnumbered}
+### Cài đặt giao diện (tùy chọn nhưng được khuyến nghị) {.unnumbered}
 
-Git has its own language of commands, which can be typed into a command
-line terminal. However, there are many clients/interfaces and as non-developpers, in your
-day-to-day use, you will rarely _need_ to interact with Git directly and 
-interface usually provide nice visualisation tools for file modifications or branches. 
-
-Many options exist, on all OS, from beginner friendly to more complex ones. 
-Good options for beginners include the RStudio Git pane and 
-[Github Desktop](https://desktop.github.com/), which we will showcase in 
-this chapter.
-Intermediate (more powerfull, but more complex) options include Source Tree, 
-Gitkracken, Smart Git and others.
-
-Quick explanation on [Git clients](-%09https:/happygitwithr.com/git-client.html#git-client).
-
-*Note: since interfaces actually all use Git internally, you can try several of
-them, switch from one to another on a given project, use the console punctually 
-for an action your interface does not support, or even perform any number of 
-actions online on Github.*
-
-As noted below, you may occasionally have to write Git commands into a
-terminal such as the RStudio terminal pane (a tab adjacent to the R
-Console) or the Git Bash terminal.
+Git có ngôn ngữ lệnh riêng, có thể được nhập vào một thiết bị đầu cuối dòng lệnh. Tuy nhiên, có nhiều máy/giao diện và
+với tư cách là người không phải là nhà phát triển, trong quá trình sử dụng hàng ngày, bạn sẽ hiếm khi _cần_ tương tác 
+trực tiếp với Git và giao diện thường cung cấp các công cụ trực quan hóa đẹp mắt để sửa đổi tệp hoặc các nhánh. 
 
 
-### Github account {.unnumbered}
+Có nhiều tùy chọn, trên tất cả các hệ điều hành, từ thân thiện với người mới bắt đầu đến những tùy chọn phức tạp hơn.
+Các tùy chọn tốt cho người mới bắt đầu bao gồm ngăn RStudio Git và
+[Github Desktop](https://desktop.github.com/), mà chúng tôi sẽ giới thiệu trong
+chương này. 
+Các tùy chọn trung gian (tiện ích hơn nhưng phức tạp hơn) bao gồm Cây tài liệu,
+Gitkracken, Smart Git và những tùy chọn khác. 
 
-Sign-up for a free account at [github.com](github.com).
+Bạn có thể xem giải thích ngắn gọn về Git clients ở đây  [Git clients](-%09https:/happygitwithr.com/git-client.html#git-client).
 
-You may be offered to set-up two-factor authentication with an app on
-your phone. Read more in the Github [help
-documents](https://docs.github.com/en/github/authenticating-to-github/securing-your-account-with-two-factor-authentication-2fa).
+*Lưu ý: vì thực tế tất cả các giao diện đều sử dụng Git nội bộ, bạn có thể thử một số trong
+đó, chuyển từ dạng này sang dạng khác trong một dự án nhất định, sử dụng bảng điều khiển đúng giờ
+đối với một hành động mà giao diện của bạn không hỗ trợ hoặc thậm chí thực hiện bất kỳ số
+hành động trực tuyến trên Github.* 
 
-If you use Github Desktop, you can enter your Gitub credentials after
-installation following these
-[steps](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/authenticating-to-github).
-If you don't do it know, credentials will be asked later when you try to
-clone a project from Github.
+Như đã lưu ý bên dưới, đôi khi bạn có thể phải viết các lệnh Git thành một thiết bị đầu cuối
+chẳng hạn như cửa sổ cuối RStudio (một tab liền kề với R
+Console) hoặc thiết bị đầu cuối Git Bash. 
 
-## Vocabulary, concepts and basic functions
+### Tài khoản Github {.unnumbered}
 
-As when learning R, there is a bit of vocabulary to remember to
-understand Git. Here are the [basics to get you
-going](https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/)
-/ [interactive tutorial](learngitbranching.js.org). In the next
-sections, we will show how to use interfaces, but it is good
-to have the vocabulary and concepts in mind, to build your mental model,
-and as you'll need them when using interfaces anyway.
+Đăng ký tài khoản miễn phí tại [github.com](github.com).
 
-### Repository {.unnumbered}
+Bạn có thể được đề nghị thiết lập xác thực hai yếu tố với một ứng dụng trên
+điện thoại của bạn. Đọc thêm trong [tài liệu trợ giúp](https://docs.github.com/en/github/authenticating-to-github/securing-your-account-with-two-factor-authentication-2fa) của Github . 
 
-A Git *repository* ("*repo*") is a folder that contains all the
-sub-folders and files for your project (data, code, images, etc.) and
-their revision histories. When you begin tracking changes in the
-repository with it, Git will create a hidden folder that contains
-all tracking information. A typical Git repository is
-your *R Project* folder (see handbook page on [R projects]).
+Nếu bạn sử dụng Github Desktop, bạn có thể nhập thông tin đăng nhập Gitub của mình sau
+khi cài đặt [các bước](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/authenticating-to-github).
+Nếu bạn không biết, thông tin đăng nhập sẽ được hỏi sau khi bạn cố gắng
+sao chép một dự án từ Github. 
 
-We will show how to create (_initialize_) a Git repository 
-from Github, Github Desktop or Rstudio in the next
-sections.
+## Từ vựng, khái niệm và các chức năng cơ bản
 
-### Commits {.unnumbered}
+Như khi học R, có một chút từ vựng cần nhớ để
+hiểu Git. Đây là [những điều cơ bản giúp bạn làm việc](https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/)
+/[hướng dẫn tương tác](learningngitbranching.js.org). Ở phần tiếp theo, 
+chúng tôi sẽ chỉ ra cách sử dụng các giao diện, nhưng tốt hơn là bạn nên
+có từ vựng và khái niệm trong đầu, để xây dựng mô hình tinh thần của bạn,
+và vì bạn sẽ cần chúng khi sử dụng các giao diện. 
 
-A *commit* is a **snapshot** of the project at a given time. 
-When you make a change to the project, you will make a new commit
-to track the changes (the delta) made to your
-files. For example, perhaps you edited some lines of code and updated a
-related dataset. Once your changes are saved, you can bundle these
-changes together into one "commit".
+### Kho lưu trữ {.unnumbered}
 
-Each commit has a unique ID (a *hash*). For version control purposes,
-you can revert your project back in time based on commits, so it is best
-to keep them relatively small and coherent. You will also attach a brief
-description of the changes called the "commit message".
+Kho *lưu trữ Git* ("*repo*") là một thư mục chứa tất cả
+các thư mục con và tệp cho dự án của bạn (dữ liệu, mã code, hình ảnh, v.v.) và
+lịch sử sửa đổi của chúng, Khi bạn bắt đầu theo dõi những thay đổi trong
+kho lưu trữ, Git sẽ tạo một thư mục ẩn chứa
+tất cả các thông tin theo dõi. Một kho lưu trữ Git điển hình là
+thư mục *R Project* của bạn (xem thêm chương [Dự án R] để biết thêm chi tiết). 
 
-*Staged changes*? To stage changes is to add them to the *staging area*
-in preparation for the next commit. The idea is that you can finely
-decide which changes to include in a given commit. For example, if you
-worked on model specification in one script, and later on a figure in
-another script, it would make sense to have two different commits (it would be easier
-in case you wanted to revert the changes on the figure but not the model).
+Chúng tôi sẽ hướng dẫn bạn cách tạo (_initialize_) một kho lưu trữ Git
+từ Github, Github Desktop hoặc Rstudio trong phần tiếp theo
+của chương này. 
 
+### Sự cam kết {.unnumbered}
 
-### Branches {.unnumbered}
+*Sự cam kết* là một **bức tranh phản ánh** của dự án tại một thời điểm nhất định.
+Khi bạn thực hiện một thay đổi đối với một dự án, bạn sẽ thực hiện một cam kết mới
+để theo dõi những thay đổi (delta) được thực hiện đối với
+các tập tin. Ví dụ: có lẽ bạn đã chỉnh sửa một số dòng mã và cập nhật
+tập dữ liệu liên quan. Sau khi các thay đổi của bạn được lưu, bạn có thể nhóm các
+thay đổi cùng nhau thành một "cam kết". 
 
-A branch represents an *independent line* of changes in your repo, a
-parallel, alternate version of your project files. 
+Mỗi cam kết có một ID duy nhất (một *hash*). Đối với mục đích kiểm soát phiên bản,
+bạn có thể khôi phục dự án của mình theo thời gian dựa trên các cam kết, vì vậy tốt nhất là
+để giữ cho chúng tương đối nhỏ và mạch lạc. Bạn cũng sẽ đính kèm một bản tóm tắt
+mô tả về những thay đổi được gọi là "thông báo cam kết". 
 
+*Thay đổi theo giai đoạn*? Đối với các thay đổi theo giai đoạn là thêm chúng vào *khu vực dàn dựng*
+để chuẩn bị cho lần cam kết tiếp theo. Ý tưởng là bạn có thể 
+quyết định rõ ràng những thay đổi nào sẽ bao gồm trong một cam kết nhất định nào. Ví dụ, nếu bạn
+đã làm việc trên đặc tả mô hình trong một tập lệnh và sau đó là một con số trong
+một tập lệnh khác, sẽ hợp lý nếu có hai cam kết khác nhau (sẽ dễ dàng hơn
+trong trường hợp bạn muốn khôi phục các thay đổi trên hình nhưng không phải mô hình). 
 
-Branches are useful to test changes before they are incorporated into
-the *main* branch, which is usually the primary/final/"live" version of
-your project. When you are done experimenting on a branch, you can bring
-the changes into your *main* branch, by *merging* it, or delete it, if
-the changes were not so successful.
+### Nhánh {.unnumbered}
 
-*Note: you do not have to collaborate with other people to use branches,
-nor need to have a remote online repository.*
+Một nhánh đại diện cho một *dòng độc lập* chứa các thay đổi trong một phiên bản song song (repo) của bạn, 
+thay thế của các tệp dự án của bạn. 
 
+Các nhánh rất hữu ích để kiểm tra các thay đổi trước khi chúng được tích hợp vào
+nhánh *chính*, thường là phiên bản chính/cuối cùng /"live" của
+dự án của bạn. Khi bạn hoàn thành việc thử nghiệm trên một nhánh, bạn có thể *hợp nhất*
+những thay đổi đó vào nhánh *chính* của bạn,hoặc xóa những thay đổi, nếu
+những thay đổi không tốt. 
 
-
-### Local and remote repositories {.unnumbered}
-
-To *clone* is to create a copy of a Git repository in another place.
-
-For example, you can *clone* a online repository _from_ Github locally on
-your computer, or begin with a local repository and clone
-it online _to_ Github.
-
-When you have cloned a repository, the project files exist in
-two places:
-
--   the *LOCAL* repository on your physical computer. This
-    is where you make the actual changes to the files/code.
-
--   the *REMOTE*, online repository: the versions of your project files
-    in the Github repository (or on any other web
-    host).
-
-To synchronize these repositories, we will use more functions. Indeed,
-unlike Sharepoint, Dropbox or other synchronizing software, Git does
-not automatically update your local repository based or what's online,
-or vice-versa. You get to choose when and how to synchronize.
-
--   `git fetch` downloads the new changes from the remote repository but does not 
-change your local repository. Think of it as checking the state of the remote repository.
-
--   `git pull` downloads the new changes from the remote repositories
-    and update your local repository.
-
--   When you have made one or several commits locally, you can
-    `git push` the commits to the remote repository. This sends your
-    changes on Github so that other people can see and pull them if
-    they want to.
+*Lưu ý: bạn không phải cộng tác với người khác để sử dụng các nhánh,
+cũng như không cần phải có một kho lưu trữ trực tuyến từ xa.* 
 
 
-## Get started: create a new repository
+### Kho lưu trữ cục bộ và từ xa  {.unnumbered}
 
-There are many ways to create new repositories. You can do it from the
-console, from Github, from an interface.
+*Nhân bản* (clone) là tạo một bản sao của kho lưu trữ Git ở một nơi khác. 
 
-Two general approaches to set-up are:
+Ví dụ: bạn có thể *nhân bản* một tệp vào kho lưu trữ trực tuyến _từ_ Github cục bộ trên
+máy tính của bạn hoặc bắt đầu với một kho lưu trữ cục bộ và sao chép
+nó _trên_ Github trực tuyến 
 
+Khi bạn đã nhân bản một kho lưu trữ, các tệp dự án tồn tại trong
+hai nơi: 
 
--   Create a new R Project from an existing or new Github repository
-    (*preferred for beginners*), or
--   Create a Github repository for an existing R project
+-   kho lưu trữ *CỤC BỘ* trên máy tính của bạn. Cái này
+    là nơi bạn thực hiện các thay đổi thực tế đối với các tệp/mã. 
 
+-   *Từ xa*, kho lưu trữ trực tuyến: các phiên bản của tệp dự án của bạn
+    trong kho lưu trữ Github (hoặc trên bất kỳ trang web chủ nào khác).
 
-### Start-up files {.unnumbered}
+Để đồng bộ hóa các kho này, chúng ta sẽ sử dụng nhiều chức năng hơn. Thật vậy,
+không giống như Sharepoint, Dropbox hoặc phần mềm đồng bộ hóa khác, Git thực hiện
+không tự động cập nhật kho lưu trữ cục bộ của bạn dựa trên hoặc những gì trực tuyến,
+hoặc ngược lại. Bạn có thể chọn thời điểm và cách thức đồng bộ hóa. 
 
-When you create a new repository, you can optionally create 
-all of the below files, or you can add them to your repository at a later stage.
-They would typically live in the "root" folder of the repository.
+-   `git fetch` tải xuống các thay đổi mới từ kho lưu trữ từ xa nhưng không tải xuống
+     thay đổi kho lưu trữ cục bộ của bạn. Hãy coi như nó giống như việc kiểm tra trạng thái của kho lưu trữ từ xa.
 
--   A *README* file is a file that someone can read to understand why
-    your project exists and what else they should know to use it. It
-    will be empty at first, but you should complete it later.
+-   `git pull` tải xuống các thay đổi mới từ kho lưu trữ từ xa
+     và cập nhật kho lưu trữ cục bộ của bạn. 
 
--   A *.gitignore* file is a text file where each line would contain
-    folders or files that Git should ignore (not track changes). Read
-    more about it and see examples
-    [here](https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/).
+-   Khi bạn đã thực hiện một hoặc một số cam kết cục bộ, bạn có thể
+    `git push` để cam kết đến kho lưu trữ từ xa. Điều này giúp gửi 
+    các thay đổi của bạn trên Github để người khác có thể xem và chấp nhận chúng nếu
+    họ muốn. 
 
--   You can choose a *license* for your work, so that other people
-    know under which conditions they can use or reproduce your work. For more
-    information, see the [Creative Commons
-    licenses](https://creativecommons.org/licenses/).
+## Bắt đầu: tạo một kho lưu trữ mới 
 
-### Create a new repository in Github {.unnumbered}
+Có nhiều cách để tạo kho lưu trữ mới. Bạn có thể làm điều đó từ
+R console, từ Github, hoặc từ một giao diện. 
 
-To create a new repository, log into Github and look for the green
-button to create a new repository. This now empty repository can be
-cloned locally to your computer (see next section).
+Hai cách tiếp cận chung để tạo một kho lưu trữ là:
+
+-   Tạo một Dự án R mới từ kho lưu trữ Github hiện có hoặc mới
+    (*ưu tiên cho người mới bắt đầu*), hoặc
+-   Tạo kho lưu trữ Github cho một dự án R hiện có 
+
+### Tệp khởi động {.unnumbered}
+
+Khi bạn tạo một kho lưu trữ mới, bạn có thể tùy chọn tạo
+tất cả các tệp bên dưới hoặc bạn có thể thêm chúng vào kho lưu trữ của mình ở giai đoạn sau.
+Chúng thường nằm trong thư mục "gốc" của kho lưu trữ. 
+
+-   Tệp *README* là tệp mà người khác có thể đọc để hiểu tại sao
+    dự án của bạn tồn tại và những điều họ nên biết để sử dụng nó. Nó
+    lúc đầu sẽ trống, nhưng bạn nên hoàn thành nó sau. 
+
+-   Tệp *.gitignore* là tệp văn bản trong đó mỗi dòng sẽ chứa
+    các thư mục hoặc tệp mà Git nên bỏ qua (không theo dõi các thay đổi). Đọc
+    thêm về điều này và xem các ví dụ
+    [tại đây](https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/). 
+
+-   Bạn có thể chọn *license* cho dự án của mình, để những người khác
+    biết họ có thể sử dụng hoặc khôi phục tệp của bạn trong những điều kiện nào. Để biết thêm
+    thông tin, hãy xem [Cách tạo các license phổ biến](https://creativecommons.org/licenses/). 
+
+### Tạo một kho lưu trữ mới trong Github {.unnumbered}
+
+Để tạo một kho lưu trữ mới, hãy đăng nhập vào Github và tìm một nút màu xanh lục
+để tạo một kho lưu trữ mới. Kho lưu trữ hiện đang trống này có thể được
+được sao chép cục bộ vào máy tính của bạn (xem phần tiếp theo để biết thêm chi tiết). 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_new.png"))
 ```
 
-You must choose if you want your repository to be **public** (visible to
-everyone on the internet) or **private** (only visible to those with
-permission). This has important implications if your data are sensitive.
-If your repository is private you will encounter some quotas in advanced
-special circumstances, such as if you are using Github *actions* to
-automatically run your code in the cloud.
+
+Bạn phải chọn nếu bạn muốn kho lưu trữ của mình ở dạng **công khai** (hiển thị với
+mọi người trên internet) hoặc **riêng tư** (chỉ hiển thị với những người trong sự
+sự cho phép của bạn). Điều này có ý nghĩa quan trọng nếu dữ liệu của bạn nhạy cảm.
+Nếu kho lưu trữ của bạn là riêng tư, bạn sẽ gặp phải một số giới hạn trong
+các trường hợp đặc biệt, chẳng hạn như nếu bạn đang sử dụng *các thao tác* trong Github để
+tự động chạy mã của bạn trên ổ lưu trữ đám mây. 
  
-### Clone from a Github repository {.unnumbered}
+### Sao chép từ kho lưu trữ Github {.unnumbered}
 
-You can *clone* an existing Github repository to create
-a new local R project on your computer.
+Bạn có thể *sao chép* kho lưu trữ Github hiện có để tạo
+một dự án R cục bộ mới trên máy tính của bạn. 
 
-The Github repository could be one that already exists and contains
-content, or could be an empty repository that you just created. In this
-latter case you are essentially creating the Github repo and local R
-project at the same time (see instructions above).
+Kho lưu trữ của Github có thể là một kho lưu trữ đã tồn tại và chứa
+nội dung, hoặc có thể là một kho lưu trữ trống mà bạn vừa tạo. Trong các
+trường hợp sau, về cơ bản bạn đang tạo một repo Github và dự án R
+cục bộ trên máy tính của bạn cùng một lúc (xem hướng dẫn ở trên) 
 
-_Note_: if you do not have contributing rights on a Github repository, 
-it is possible to first _fork_ the repository to your profile, and then
-proceed with the other actions. Forking is explained at the end of this 
-chapter, but we recommend that you read the other sections first.
+_Lưu ý_: nếu bạn không được phép đóng góp trên kho lưu trữ Github,
+trước tiên bạn có thể _tách nhánh_ kho lưu trữ đó vào hồ sơ riêng của bạn, và sau đó
+tiếp tục với các hành động khác. Tách nhánh được giải thích ở phần cuối của chương này
+nhưng chúng tôi khuyên bạn nên đọc các phần khác trước. 
 
-Step 1: Navigate in Github to the repository, click on the green "**Code**"
-button and copy the **HTTPS clone URL** (see image below)
+Bước 1: Điều hướng trong Github đến kho lưu trữ, nhấp vào nút màu xanh lá cây "**Code**" 
+và sao chép **HTTPS clone URL** (xem hình ảnh minh họa bên dưới) 
 
 ```{r echo=F, out.width = '100%', out.height='100%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_clone.png"))
 ```
 
-The next step can be performed in any interface. We will illustrate with
+Bước tiếp theo có thể được thực hiện trong bất kỳ giao diện nào. Chúng tôi sẽ minh họa bằng
 Rstudio and Github desktop.
 
-#### In Rstudio {.unnumbered}
+#### Trong Rstudio {.unnumbered}
 
 In RStudio, start a new R project by clicking *File \> New Project \>
 Version Control \> Git*
+Trong RStudio, để bắt đầu một dự án R mới, bạn cần nhấp vào *File \> New Project \>
+Version Control \> Git*
 
--   When prompted for the "Repository URL", paste the HTTPS URL from
-    Github\
--   Assign the R project a short, informative name\
--   Choose where the new R Project will be saved locally\
--   Check "Open in new session" and click "Create project"
+-   Khi được yêu cầu nhập "URL của kho lưu trữ", hãy dán URL HTTPS từ
+    Github\ 
+-   Gán cho dự án R một cái tên ngắn gọn, đầy đủ thông tin\
+-   Chọn nơi Dự án R mới sẽ được lưu cục bộ trên máy tính của bạn\
+-   Chọn "Open in new session" và click vào mục "Create project"
 
 
-You are now in a new, local, RStudio project that is a clone of the
-Github repository. This local project and the Github repository are now
-linked.
+Bạn hiện đang trong một dự án RStudio mới, cục bộ trên máy tính của bạn, là một bản sao của
+Kho lưu trữ online trên Github. Dự án cục bộ này và kho lưu trữ Github hiện
+được liên kết. 
 
-#### In Github Desktop {.unnumbered}
+#### Trong Github Desktop {.unnumbered}
 
--   Click on *File \> Clone a repository*
+-   Nhấn vào *File \> Clone a repository*
 
 -   Select the URL tab
 
--   Paste the HTTPS URL from Github in the first box
+-   Dán đường dẫn HTTPS URL từ Github vào hộp đầu tiên 
 
--   Select the folder in which you want to have your local repository
+-   Chọn thư mục mà bạn muốn có kho lưu trữ cục bộ của mình 
 
--   Click "CLONE"
+-   Nhấn vào "CLONE"
 
 ```{r echo=F, out.width = '100%', out.height='100%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_clone_desktop.png"))
 ```
 
-### New Github repo from existing R project {.unnumbered}
+### Tạo một Github repo mới từ dự án R đã có sẵn {.unnumbered}
 
-An alternative setup scenario is that you have an existing R project
-with content, and you want to create a Github repository for it.
+Một kịch bản thiết lập thay thế là bạn có một dự án R hiện tại
+có nội dung và bạn muốn tạo một kho lưu trữ Github cho nó. 
 
-1)  Create a new, empty Github repository for the project (see
-    instructions above)\
-2)  Clone this repository locally (see HTTPS instructions above)\
-3)  Copy all the content from your pre-existing R
-    project (codes, data, etc.) into this new empty, local, repository (e.g. use copy and paste).\
-4)  Open your new project in RStudio, and go to the Git pane. The new files should
-    register as file changes, now tracked by Git. Therefore, you can
-    bundle these changes as a *commit* and *push* them up to Github.
-    Once *pushed*, the repository on Github will reflect all the files.
+1)  Tạo một kho lưu trữ Github mới, trống cho dự án (Xem
+    hướng dẫn ở trên)\
+2)  Sao chép cục bộ kho lưu trữ này (Xem hướng dẫn về HTTPS ở trên)\
+3)  Sao chép tất cả nội dung từ dự án R đã có từ trước của bạn
+    (mã, dữ liệu, v.v.) vào kho lưu trữ trống, cục bộ, mới này (ví dụ: sử dụng sao chép và dán).\
+4)  Tạo một dự án mới của bạn trong RStudio và chuyển đến cửa sổ Git. Các tệp mới sẽ được đăng ký 
+    dưới dạng thay đổi tệp, hiện được theo dõi bởi Git. Do đó, bạn có thể 
+    gộp những thay đổi này dưới dạng  *commit* và *đẩy* chúng lên Github.
+    Sau khi *được đẩy*, kho lưu trữ trên Github của bạn sẽ theo dõi sự thay đổi của tất cả các tệp. 
     
-See the Github workflow section below for details on this process.
+Xem phần quy trình làm việc Github bên dưới để biết chi tiết về quy trình này. 
 
-### What does it look like now? {.unnumbered}
+### Bây giờ, nó trông như thế nào? {.unnumbered}
 
-#### In RStudio {-}
+#### Trong RStudio {-}
 
-Once you have cloned a Github repository to a new R project, 
-you now see in RStudio a "Git" tab. This tab appears in the same RStudio pane
-as your R Environment:
+Khi bạn đã cloned kho lưu trữ Github sang một dự án R mới,
+bây giờ bạn thấy trong RStudio có một tab "Git". Tab này xuất hiện trong cùng một cửa sổ RStudio
+với  cửaa sổ Environment của bạn:
 
 ```{r echo=F, out.width = "75%", out.height="75%", fig.align = "center"}
 knitr::include_graphics(here::here("images", "Git_console.png"))
 ```
 
-Please note the buttons circled in the image above, as they will be
-referenced later (from left to right):
+Vui lòng lưu ý các nút được khoanh tròn trong hình trên, vì chúng sẽ
+được giới thiệu dưới đây (từ trái sang phải): 
 
--   Button to *commit* the saved file changes to the local
-    branch (this will open a new window)
--   Blue arrow to *pull* (update your local version of the branch with
-    any changes made on the remote/Github version of that branch)
--   Green arrow to *push* (send any commits/changes for your local
-    version of the branch to the remote/Github version of that branch)
--   The Git tab in RStudio
--   Button to create a NEW branch using whichever local branch is shown
-    to the right as the base. *You almost always want to branch off from
-    the main branch (after you first pull to update the main branch)*
--   The branch you are currently working in
--   Changes you made to code or other files will appear below
+-   Nút *commit* để lưu tệp đã thay đổi thành chi nhánh 
+    cục bộ trong máy tính (điều này sẽ mở ra một cửa sổ mới) 
+-   Mũi lên màu xanh lam hướng lên *pull* (cập nhật phiên bản cục bộ của chi nhánh với
+    bất kỳ thay đổi nào được thực hiện trên phiên bản từ xa/Github của nhánh đó) 
+-   Mũi tên màu xanh lục hướng xuống *push* (gửi bất kỳcommits/bất kỳ thay đổi nào trong tệp cục bộ của bạn
+    trong nhánh sang phiên bản từ xa/Github của nhánh đó) 
+-   Tab Git trong RStudio 
+-   Nút để tạo một nhánh MỚI bằng cách sử dụng bất kỳ nhánh cục bộ nào được hiển thị
+    bên phải làm cơ sở. *Bạn hầu như luôn muốn tách khỏi chi nhánh chính (sau khi bạn kéo lần đầu tiên để cập nhật chi nhánh chính)* 
+-   Chi nhánh bạn hiện đang làm việc 
+-   Những thay đổi bạn đã thực hiện đối với mã hoặc các tệp khác sẽ xuất hiện bên dưới 
 
-#### In Github Desktop {-}
+#### Trong Github Desktop {-}
 
-Github Desktop is an independent application that allows you to manage
-all your repositories. When you open it, the interface allows you to
-choose the repository you want to work on, and then to perform basic Git
-actions from there.
+Github Desktop là một ứng dụng độc lập trong máy tính của bạn cho phép bạn quản lý
+tất cả các kho lưu trữ của bạn. Khi bạn mở nó, giao diện của nó cho phép bạn
+chọn kho lưu trữ bạn muốn làm việc và sau đó thực hiện Git thao tác
+cơ bản từ đó. 
 
 ```{r echo=F, out.width = "75%", out.height="75%", fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_interface.png"))
 ```
 
 
-## Git + Github workflow
+## Quy trình làm việc với Git + Github 
 
-### Process overview {.unnumbered}
+### Tổng quan về quy trình {.unnumbered}
 
-Once you have completed the setup (described above), you will have a
-Github repo that is connected (*cloned*) to a local R project. The
-*main* branch (created by default) is the so-called "live" version of
-*all* the files. When you want to make modifications, it is a good
-practice to create a *new branch* from the *main* branch (like "Make a
-Copy"). This is a typical workflow in Git because creating a branch is
-easy and fast.
+Khi bạn đã hoàn tất các bước thiết lập (được mô tả ở trên), bạn sẽ có một
+Github repo được kết nối (*nhân bản*) với một dự án R cục bộ. Các
+*nhánh chính* (được tạo theo mặc định) là phiên bản được gọi là "live" của
+*tất* cả các tệp tin. Khi bạn muốn sửa đổi, nó là một điều tốt
+khi thực hành tạo một *nhánh mới* từ nhánh *chính* (như "Tạo
+Sao chép"). Đây là quy trình công việc điển hình trong Git vì việc tạo một nhánh là
+dễ dàng và nhanh chóng. 
 
+Quy trình làm việc điển hình như sau:
 
-A typical workflow is as follow:
+1.  Đảm bảo rằng kho lưu trữ cục bộ của bạn được cập nhật, hãy cập nhật nó nếu không 
 
-1.  Make sure that your local repository is up-to-date, update it if
-    not
-
-2.  Go to the branch you were working on previously, or create a new
-    branch to try out some things
+2.  Chuyển đến nhánh mà bạn đã làm việc trước đây hoặc tạo một nhánh làm việc mới
+    để thử một số thứ 
 
 
-3.  Work on the files locally on your computer, make one or several
-    commits to this branch
+3.  Làm việc trên các tệp cục bộ trên máy tính của bạn, tạo một hoặc nhiều tệp
+    cam kết với nhánh làm việc này 
 
-4.  Update the remote version of the branch with your changes (push)
+4.  Cập nhật phiên bản từ xa của nhánh làm việc với các thay đổi của bạn (push) 
 
-5.  When you are satisfied with your branch, you can merge the online
-    version of the working branch into the online "main" branch to
-    transfer the changes
+5.  Khi bạn hài lòng với nhánh cục bộ của mình, bạn có thể hợp nhất với phiên bản trực tuyến
+    thành nhánh "chính" trực tuyến để hợp nhất những thay đổi vào nhánh chính
 
-Other team members may be doing the same thing with their own branches,
-or perhaps contributing commits into your working branch as well. 
+Các thành viên khác trong nhóm có thể đang làm điều tương tự với các nhánh cục bộ của riêng họ,
+hoặc có thể đóng góp commits vào nhánh làm việc của bạn. 
 
-We go through the above process step-by-step in more detail below.
-Here is a schematic we've developed - it's in the format of a two-way
-table so it should help epidemiologists understand.
+Chúng ta sẽ đi qua một cách chi tiết hơn từng bước trong quá trình trên ở dưới đây.
+Đây là một giản đồ mà chúng tôi đã phát triển - nó ở định dạng hai chiều
+vì vậy nó sẽ giúp các nhà dịch tễ học dễ dàng hiểu được. 
 
 ```{r echo=F, out.height='150%', out.width='100%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_table.png"))
 ```
 
-Here's [another diagram](https://build5nines.com/introduction-to-git-version-control-workflow/).
+Dây là [một sơ đồ khác](https://build5nines.com/introduction-to-git-version-control-workflow/).
 
-*Note: until recently, the term "master" branch was used, but it is now
-referred to as "main" branch.*
+*Lưu ý: cho đến gần đây, thuật ngữ nhánh "chủ" đã được sử dụng, nhưng bây giờ thuật ngữ này
+được gọi là nhánh "chính".* 
 
 ```{r echo=F, out.width = '100%', out.height='100%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "GitHub-Flow.png"))
 ```
 
-Image
-[source](https://build5nines.com/introduction-to-git-version-control-workflow/)
+Tài liệu tham khảo cho [hình ảnh](https://build5nines.com/introduction-to-git-version-control-workflow/)
 
-## Create a new branch
+## Tạo một chi nhánh mới 
 
-When you select a branch to work on, **Git resets your working directory
-the way it was the last time you were on this branch**.
+Khi bạn chọn một nhánh để làm việc, **Git đặt lại thư mục làm việc của bạn
+như lần cuối cùng bạn ở trên chi nhánh này**. 
 
-### In Rstudio Git pane {.unnumbered}
+### Trong cửa sổ Rstudio Git {.unnumbered}
 
-Ensure you are in the "main" branch, and then click on the purple icon to
-create a new branch (see image above).
+Đảm bảo bạn đang ở trong nhánh "chính", sau đó nhấp vào biểu tượng màu tím để
+tạo một nhánh mới (xem hình trên). 
 
--   You will be prompted to name your branch with a one-word descriptive
-    name (can use underscores if needed).
--   You will see that locally, you are still in the same R project, but
-    you are no longer working on the "main" branch.
--   Once created, the new branch will also appear in the Github website
-    as a branch.
-    
-You can visualize branches in the Git Pane in Rstudio after clicking on "History"
+-   Bạn sẽ được yêu cầu đặt tên chi nhánh của mình với mô tả một từ
+    (có thể sử dụng dấu gạch dưới nếu cần). 
+-   Bạn sẽ thấy rằng về cục bộ, bạn vẫn đang ở trong cùng một dự án R, nhưng
+    bạn không còn làm việc trên nhánh "chính". 
+-   Sau khi được tạo, chi nhánh mới cũng sẽ xuất hiện trên trang web Github
+    như một chi nhánh. 
+
+Bạn có thể hình dung các nhánh trong Git Pane trong Rstudio sau khi nhấp vào "History" (lịch sử)
 
 ```{r echo=F, out.width = '100%', out.height='100%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_rstudio_branchs.png"))
 ```
 
 
-### In Github Desktop {.unnumbered}
+### Trong Github Desktop {.unnumbered}
 
-The process is very much similar, you are prompted to give your branch
-a name. After, you will be prompted to "Publish you branch to Github" to
-make the new branch appear in the remote repo as well.
+Quá trình này rất giống nhau, bạn được yêu cầu cung cấp cho nhánh làm việc của mình
+một cái tên. Sau đó, bạn sẽ được yeu cầu "Xuất bản nhánh làm việc của bạn lên Github" để
+làm cho nhánh mới cũng xuất hiện trong repo từ xa. 
 
 
 ```{r echo=F, out.width = '100%', out.height='100%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_new_branch.png"))
 ```
 
-### In console {.unnumbered}
+### Trong console {.unnumbered}
 
-What is actually happening behind the scenes is that you create a new
-branch with `git branch`, then go to the branch with
-`git checkout` (_i.e._ tell Git that your next commits will occur there). 
-From your git repository:
+Điều thực sự đang xảy ra đằng sau màn hình làm việc của bạn là bạn tạo ra một
+nhánh với `git branch`, sau đó chuyển đến nhánh với
+`git checkout` (_i.e._ cho Git biết rằng các cam kết tiếp theo của bạn sẽ xảy ra ở đó).
+Từ kho lưu trữ git của bạn: 
 
 ```{bash, eval = FALSE}
 git branch my-new-branch  # Create the new branch branch
@@ -514,29 +492,28 @@ git checkout my-new-branch # Go to the branch
 git checkout -b my-new-branch # Both at once (shortcut)
 ```
 
+Để biết thêm thông tin về cách sử dụng bảng console, hãy xem phần
+Lệnh Git ở cuối. 
 
-For more information about using the console, see the section on
-Git commands at the end.
+## Cam kết thay đổi 
 
-## Commit changes
+Giờ đây, bạn có thể chỉnh sửa mã, thêm tệp mới, cập nhật bộ dữ liệu, v.v. 
 
-Now you can edit code, add new files, update datasets, etc.
+Mọi thay đổi của bạn đều được theo dõi, *sau khi tệp tương ứng được
+lưu*. Các tệp đã thay đổi sẽ xuất hiện trong tab RStudio Git, trong Github
+Desktop hoặc sử dụng lệnh `git status` trong terminal (xem bên dưới). 
+
+Bất cứ khi nào bạn thực hiện các thay đổi quan trọng (ví dụ: thêm hoặc cập nhật một phần của
+mã), tạm dừng và *cam kết* những thay đổi đó. Hãy nghĩ về một cam kết như là một "lô"
+thay đổi liên quan đến một mục đích chung. Bạn luôn có thể tiếp tục
+sửa đổi tệp sau khi đã cam kết các thay đổi trên đó. 
 
 
-Every one of your changes is tracked, *once the respective file is
-saved*. Changed files will appear in the RStudio Git tab, in Github
-Desktop, or using the command `git status` in the terminal (see below).
-
-Whenever you make substantial changes (e.g. adding or updating a section of
-code), pause and *commit* those changes. Think of a commit as a "batch"
-of changes related to a common purpose. You can always continue to
-revise a file after having committed changes on it.
-
-*Advice on commits*: generally, it is better to make small commits, that
-can be easily reverted if a problem arises, to commit together
-modifications related to a common purpose. To achieve this, you will
-find that *you should commit often*. At the beginning, you'll probably
-forget to commit often, but then the habit kicks in.
+*Lời khuyên về các cam kết*: nói chung, tốt hơn là thực hiện các cam kết nhỏ, điều đó
+có thể dễ dàng khôi phục các chỉnh sửa nếu có vấn đề phát sinh, cùng cam kết
+sửa đổi liên quan đến một mục đích chung. Để đạt được điều này, bạn sẽ
+thấy rằng *bạn nên cam kết thường xuyên*. Khi bắt đầu, bạn có thể phải nhớ để
+thường xuyên quên cam kết, nhưng sau đó thói quen cam kết thường xuyên bắt đầu xuất hiện. 
 
 ### In Rstudio {.unnumbered}
 
