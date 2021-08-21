@@ -495,7 +495,7 @@ git checkout -b my-new-branch # Both at once (shortcut)
 Để biết thêm thông tin về cách sử dụng bảng console, hãy xem phần
 Lệnh Git ở cuối. 
 
-## Cam kết thay đổi 
+## Commit các thay đổi 
 
 Giờ đây, bạn có thể chỉnh sửa mã, thêm tệp mới, cập nhật bộ dữ liệu, v.v. 
 
@@ -504,79 +504,81 @@ lưu*. Các tệp đã thay đổi sẽ xuất hiện trong tab RStudio Git, tro
 Desktop hoặc sử dụng lệnh `git status` trong terminal (xem bên dưới). 
 
 Bất cứ khi nào bạn thực hiện các thay đổi quan trọng (ví dụ: thêm hoặc cập nhật một phần của
-mã), tạm dừng và *cam kết* những thay đổi đó. Hãy nghĩ về một cam kết như là một "lô"
-thay đổi liên quan đến một mục đích chung. Bạn luôn có thể tiếp tục
-sửa đổi tệp sau khi đã cam kết các thay đổi trên đó. 
+mã), bạn hãy tạm dừng việc thay đổi và *commit* những thay đổi đó. Bạn có thể nghĩ mỗi lần commit như vậy là một "lần"
+gửi các thay đổi mà bạn chỉnh sửa đến file tổng hợp các thay đổi. Bạn sẽ luôn có thể tiếp tục
+sửa đổi tệp sau khi đã commit các thay đổi trên đó. 
 
 
-*Lời khuyên về các cam kết*: nói chung, tốt hơn là thực hiện các cam kết nhỏ, điều đó
-có thể dễ dàng khôi phục các chỉnh sửa nếu có vấn đề phát sinh, cùng cam kết
+*Lời khuyên về cách commit*: nói chung, tốt hơn là bạn nên thực hiện các commit nhỏ, điều đó
+có thể dễ dàng khôi phục các chỉnh sửa nếu có vấn đề phát sinh, cùng commit
 sửa đổi liên quan đến một mục đích chung. Để đạt được điều này, bạn sẽ
-thấy rằng *bạn nên cam kết thường xuyên*. Khi bắt đầu, bạn có thể phải nhớ để
-thường xuyên quên cam kết, nhưng sau đó thói quen cam kết thường xuyên bắt đầu xuất hiện. 
+thấy rằng *bạn nên commit thường xuyên*. Khi bắt đầu, bạn có thể phải nhớ để
+thường xuyên quên commit, nhưng sau đó thói quen commit thường xuyên bắt đầu xuất hiện. 
 
-### In Rstudio {.unnumbered}
+### Trong Rstudio {.unnumbered}
 
-The example below shows that, since the last commit, the R Markdown script "collaboration.Rmd" has changed, 
-and several PNG images were added.
+Ví dụ dưới đây cho thấy rằng, kể từ lần commit cuối cùng, tập lệnh R Markdown "collab.Rmd" đã thay đổi,
+và một số hình ảnh PNG đã được thêm vào. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_tracking2.png"))
 ```
 
-You might be wondering what the yellow, blue, green, and red squares next to
-the file names represent. Here is a snapshot from the [RStudio
-cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)
-that explains their meaning. Note that changes with yellow "?" can still
-be staged, committed, and pushed.
+Bạn có thể tự hỏi những hình vuông màu vàng, xanh lam, xanh lá cây và đỏ bên cạnh
+tên tệp đại diện có ý nghĩa gì. Đây là ảnh chụp nhanh từ [RStudio cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)
+trong đó giải thích ý nghĩa của chúng. Lưu ý rằng các thay đổi với màu vàng "?" có thể còn
+được trình bày, commit và đẩy lên nhánh chính. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_tracking.png"))
 ```
 
--   Press the "Commit" button in the Git tab, which will open a new
-    window (shown below)
+-   Nhấn vào nút "Commit" trong tab Git tab, nút này sẽ mở ra
+    một cửa sổ (hiển thị bên dưới) 
 
--   Click on a file name in the upper-left box
+-   Nhấp vào tên tệp trong hộp phía trên bên trái
 
--   Review the changes you made to that file (highlighted below in green
-    or red)
+-   Xem lại những thay đổi bạn đã thực hiện đối với tệp đó (được đánh dấu màu xanh lục bên dưới
+    hoặc đỏ) 
 
--   "Stage" the file, which will include those changes in the commit. Do
-    this by checking the box next to the file name. Alternatively, you
-    can highlight multiple file names and then click "Stage"
+-   "Trình bày" các tệp, sẽ bao gồm những thay đổi đó trong commit. Bạn có thể
+    thực hiện việc này bằng cách chọn hộp bên cạnh tên tệp. Ngoài ra, bạn
+    có thể đánh dấu nhiều tên tệp và sau đó nhấp vào "Stage" 
 
--   Write a commit message that is short but descriptive (required)
+-   Viết một thông điệp commit ngắn gọn nhưng mang tính mô tả (bắt buộc) 
 
--   Press the "Commit" button. A pop-up box will appear showing success
-    or an error message.
+-   Ấn vào nút "Commit". Một hộp sẽ xuất hiện cho biết lệnh commit được thực hiện thành công
+    hoặc một thông báo về thực hiện lỗi.
 
 
-Now you can make more changes and more commits, as many times as you would like
+Giờ đây, bạn có thể thực hiện nhiều thay đổi hơn và nhiều lần commit hơn, bao nhiêu lần tùy ý 
 
 ```{r echo=F, out.width = '100%', out.height='200%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_commit.png"))
 ```
 
-### In Github Desktop {.unnumbered}
+### Trong Github Desktop {.unnumbered}
 
-You can see the list of the files that were changed on the left. If
-you select a text file, you will see a summary of the modifications that were made
-in the right pane (the view will not work on more complex files like .docs or .xlsx).
+Bạn có thể xem danh sách các tệp đã được thay đổi ở bên trái. Nếu như
+bạn chọn một tệp văn bản, bạn sẽ thấy một bản tóm tắt về các sửa đổi đã được thực hiện
+trong ngăn bên phải (chế độ xem sẽ không hoạt động trên các tệp phức tạp hơn như .docs hoặc .xlsx). 
 
 To stage the changes, just tick the little box near file names. When you
 have selected the files you want to add to this commit, give the commit
 a name, optionally a description and then click on the **commit**
 button.
+Để trình bày các thay đổi, chỉ cần đánh dấu vào ô nhỏ gần tên tệp. Khi bạn
+đã chọn các tệp bạn muốn thêm vào lần commit này, hãy cung cấp cho lần commit một cái
+tên, tùy chọn mô tả và sau đó nhấp vào **nút commit**. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_commit.png"))
 ```
 
-### In console {.unnumbered}
+### Trong cửa sổ console {.unnumbered}
 
-The two functions used behind the scenes are `git add` to select/stage
-files and `git commit` to actually do the commit.
+Hai chức năng được sử dụng đằng sau màn hình làm việc của bạn là `git add` để chọn/theo dõi
+tệp và `git commit` để lưu các thay đổi. 
 
 ```{bash, eval = FALSE}
 git status # see the changes 
@@ -589,14 +591,14 @@ git log  # view information on past commits
 ```
 
 
-### Amend a previous commit {.unnumbered}
+### Sửa đổi lần commit trước đó {.unnumbered}
 
-What happens if you commit some changes, carry on working, and realize
-that you made changes that should "belong" to the past commit (in your opinion). 
-Fear not! You can append these changes to your previous commit.
+Điều gì sẽ xảy ra nếu bạn đã commit một số thay đổi, tiếp tục làm việc và nhận ra
+rằng bạn đã thực hiện các thay đổi mà lẽ ra "thuộc về" lần commit trong quá khứ (theo ý kiến của bạn).
+Đừng sợ! Bạn có thể nối những thay đổi này vào lần commit trước đó của mình. 
 
-In Rstudio, it should be pretty obvious as there is a "Amend previous commit" 
-box on the same line as the COMMIT button. 
+Trong Rstudio, nó sẽ khá rõ ràng vì có một "Sửa đổi lần commit trước"
+trên cùng dòng với nút COMMIT. 
 
 For some unclear reason, the functionality has not been implemented 
 as such in Github Desktop, but there is a (conceptually awkward but easy)
@@ -605,7 +607,14 @@ an "UNDO" button appears just under the COMMIT button. Click on it and
 it will revert your commit (but keep your staged files and your commit message). 
 Save your changes, add new files to the commit if necessary and commit again.
 
-In the console:  
+Vì một số lý do không rõ ràng, chức năng commit đã không được thực hiện
+chẳng hạn như trong Github Desktop, nhưng có cách (khó hiểu về mặt khái niệm nhưng dễ dàng).
+Nếu bạn đã commit **nhưng chưa đẩy** các thay đổi của bạn lên nhánh chính,
+nút "UNDO" xuất hiện ngay dưới nút COMMIT. Nhấp vào nó và
+nó sẽ khôi phục commit của bạn (nhưng vẫn giữ các tệp theo giai đoạn và thông báo commit của bạn).
+Lưu các thay đổi của bạn, thêm tệp mới vào commit nếu cần và commit lại. 
+
+Trong cửa số console:  
 
 ```{bash, eval = FALSE}
 git add [YOUR FILES] # Stage your new changes
@@ -616,94 +625,92 @@ git commit --amend -m "An updated commit message"  # Amend the previous commit A
 ```
 
 
-_Note: think before modifying commits that are already public and shared with your collaborators_.
+_Lưu ý: hãy suy nghĩ trước khi sửa đổi các commit đã được công khai và chia sẻ với các cộng tác viên của bạn_. 
+
+## Pull and push các thay đổi lên Github
+
+"Đầu tiên là PULL, sau đó PUSH"
+
+Tốt hơn là bạn nên thực hành *tìm* và *pull* trước khi bạn bắt đầu làm việc
+dự án của bạn, để cập nhật phiên bản nhánh trên máy tính cục bộ của bạn với
+bất kỳ thay đổi nào đã được thực hiện đối với nó trong phiên bản từ xa/Github. 
+
+Thường xuyên PULL often.Đừng chần chừ. *Luôn nhớ pull trước khi pushing*.
+
+Khi các thay đổi của bạn được thực hiện và commit và bạn hài lòng với
+trạng thái dự án của bạn, bạn có thể *push* (đẩy) commit của mình lên
+sang phiên bản từ xa/Github của nhánh làm việc của bạn. 
+
+Kiểm tra và lặp lại trong khi bạn đang làm việc trên kho lưu trữ. 
+
+**Lưu ý:** việc khôi phục các thay đổi đã được commit nhưng push lên Github (tức là vẫn còn cục bộ) dễ dàng hơn nhiều
+nếu đã được push lên kho lưu trữ từ xa (và có lẽ đã được người khác sử dụng), vì vậy tốt hơn là
+bạn nên push những thay đổi khi bạn hoàn thành việc giới thiệu các thay đổi về nhiệm vụ
+bạn đã làm việc trên. 
 
 
-## Pull and push changes up to Github
+#### Trong Rstudio {.unnumbered}
 
-"First PULL, then PUSH"
+*PULL* - Đầu tiên, ấn vào icon "Pull" (mũi tên hướng xuống) tìm và
+pulls cùng một lúc.
 
-It is good practice to *fetch* and *pull* before you begin working on
-your project, to update the branch version on your local computer with
-any changes that have been made to it in the remote/Github version.
-
-PULL often. Don't hesitate. *Always pull before pushing*.
-
-When your changes are made and committed and you are happy with the 
-state of your project, you can *push* your commits up
-to the remote/Github version of your branch.
-
-
-Rince and repeat while you are working on the repository.
-
-**Note:** it is much easier to revert changes that were committed but not 
-pushed (i.e. are still local) than to revert changes that were pushed to the
-remote repository (and perhaps already pulled by someone else), so it is better 
-to push when you are done with introducing changes on the task that 
-you were working on.
-
-
-#### In Rstudio {.unnumbered}
-
-*PULL* - First, click the "Pull" icon (downward arrow) which fetches and
-pulls at the same time.
-
-*PUSH* - Clicking the green "Pull" icon (upward arrow). You may be asked
-to enter your Github username and password. The first time you are
-asked, you may need to enter two Git command lines into the *Terminal*:
+*PUSH* - Ấn vào icon màu xanh "Pull" (mũi tên hướng lên). Bạn có thể được hỏi
+để nhập tên người dùng và mật khẩu Github của bạn. Lần đầu tiên bạn
+được hỏi, bạn có thể cần nhập hai dòng lệnh Git vào *Terminal*: 
 
 -   **git config --global user.email
-    "[you\@example.com](mailto:you@example.com){.email}"** (your Github
-    email address), and\
--   **git config --global user.name "Your Github username"**
+    "[you\@example.com](mailto:you@example.com){.email}"** (Địa chỉ email Github
+    mà bạn sử dụng), và\
+-   **git config --global user.name "Tên đăng nhập Github của bạn"**
 
-To learn more about how to enter these commands, see the section below
-on Git commands.
+Để tìm hiểu thêm về cách nhập các lệnh này, hãy xem phần bên dưới
+trên các lệnh Git. 
 
-***TIP:*** Asked to provide your password too often? See these chapters
-10 & 11 of this
-[tutorial](https://happygitwithr.com/credential-caching.html#credential-caching)
-to connect to a repository using a SSH key (more
-complicated)  
+***TIP:*** Nếu bạn cảm thấy bị yêu cầu cung cấp mật khẩu của bạn quá thường xuyên? Xem các chương 
+10 & 11 trong
+[hướng dẫn này](https://happygitwithr.com/credential-caching.html#credential-caching)
+để kết nối với kho lưu trữ bằng khóa SSH (phức tạp hơn) 
 
 
-#### In Github Desktop {.unnumbered}
+#### Trong Github Desktop {.unnumbered}
 
-Click on the "Fetch origin" button to check if there are new commits on
-the remote repository.
+Nhấp vào nút "Fetch origin" để kiểm tra xem có commit mới trên
+kho lưu trữ từ xa. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_fetch_button.png"))
 ```
 
-If Git finds new commits on the remote repository, the button will
-change into a "Pull" button. Because the same button is used to push and
-pull, you cannot push your changes if you don't pull before.
+
+Nếu Git tìm thấy các commit mới trên kho lưu trữ từ xa, nút commit sẽ
+thay đổi thành nút "Push". Bởi vì cùng một nút được sử dụng để push và
+pull, bạn không thể push các thay đổi của mình nếu bạn không pull trước đó. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_pull_button.png"))
 ```
 
-You can go to the "History" tab (near the "Changes" tab) to see all
-commits (yours and others). This is a nice way of acquainting yourself
-with what your collaborators did. You can read the commit message, the
-description if there is one, and compare the code of the two files using
-the *diff* pane.
+Bạn có thể chuyển đến tab "History" (gần tab "Changes") để xem tất cả những thay đổi được
+commits (của bạn và những người khác). Đây là một cách tốt để tự làm quen
+với những gì cộng tác viên của bạn đã làm. Bạn có thể đọc thông báo commit,
+mô tả nếu có và so sánh mã của hai tệp bằng cách sử dụng
+cửa sổ *diff*. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_history.png"))
 ```
 
-Once all remote changes have been pulled, and at least one local change
-has been committed, you can push by clicking on the same button.
+
+Khi tất cả các thay đổi từ xa đã được pull và ít nhất một thay đổi cục bộ
+đã được commit, bạn có thể push bằng cách nhấp vào cùng một nút. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_push_button.png"))
 ```
 
-#### Console {.unnumbered}
+#### Cửa sổ Console {.unnumbered}
 
-Without surprise, the commands are *fetch*, *pull* and *push*.
+Không có gì ngạc nhiên, các lệnh là *fetch*, *pull* và *push*.
 
 ```{bash, eval = FALSE}
 git fetch  # are there new commits in the remote directory?
@@ -712,26 +719,28 @@ git push   # Puch local commits of this branch to the remote branch
 ```
 
 
-### I want to pull but I have local work {.unnumbered}
+### Tôi muốn pull các chỉnh sửa nhưng tôi vẫn cần làm việc với các chỉnh sửa trong máy tính cục bộ {.unnumbered}
 
-This can happen sometimes: 
-you made some changes on your local repository, but the remote
-repository has commits that you didn't pull. 
+Điều này đôi khi có thể xảy ra:
+khi bạn đã thực hiện một số thay đổi trên kho lưu trữ cục bộ của mình, nhưng kho lưu trữ từ xa
+có các cam kết mà bạn đã không pull.  
 
 
-Git will refuse to pull because it might overwrite your changes. 
-There are several strategies to keep your changes, 
-well described in [Happy Git with R](https://happygitwithr.com/pull-tricky.html), 
-among which the two main ones are:
-- commit your changes, fetch remote changes, pull them in, resolve conflicts 
-if needed (see section below), and push everything online
-- `stash` your changes, which sort of stores them aside, pull, unstash 
-(restore), and then commit, solve any conflicts, and push. 
+Git sẽ từ chối pull vì nó có thể ghi đè các thay đổi của bạn.
+Có một số chiến lược để lưu các thay đổi của bạn,
+được mô tả tốt trong trang [Happy Git with R](https://happygitwithr.com/pull-tricky.html),
+trong đó hai điều chính như sau:
+- commit các thay đổi của bạn, tìm nạp các thay đổi từ xa, pull chúng vào, giải quyết xung đột
+nếu cần (xem phần bên dưới) và push mọi thứ lên mạng
+- `cất giữ` các thay đổi của bạn, loại lưu trữ chúng sang một bên, pull, unstash
+(khôi phục), và sau đó commit, giải quyết mọi xung đột và thúc đẩy. 
 
-If the files concerned by the remote changes and the files concerned 
-by your local changes do not overlap, Git may solve conflicts automatically.
 
-In Github Desktop, this can be done with buttons. To stash, go to _Branch > Stash all changes_.
+
+Nếu các tệp được quan tâm bởi các thay đổi từ xa và các tệp có liên quan
+bởi các thay đổi cục bộ của bạn không trùng lặp, Git có thể tự động giải quyết các xung đột. 
+
+Trong Github Desktop, điều này có thể được thực hiện với các nút. Để lưu trữ, hãy truy cập  _Branch > Stash all changes_.
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_stash.png"))
@@ -739,69 +748,67 @@ knitr::include_graphics(here::here("images", "github_desktop_stash.png"))
 
 
 
-## Merge branch into Main 
+## Hợp nhất chi nhánh vào Nhánh chính  
 
-If you have finished making changes, you can begin the process of
-merging those changes into the main branch. Depending on your situation,
-this may be fast, or you may have deliberate review and approval
-steps involving teammates.
+Nếu bạn đã thực hiện xong các thay đổi, bạn có thể bắt đầu quá trình
+hợp nhất những thay đổi đó vào nhánh chính. Tùy thuộc vào tình huống của bạn,
+điều này có thể nhanh hoặc bạn có thể có sự xem xét và phê duyệt có chủ ý
+liên quan đến các thành viên trong nhóm. 
 
-### Locally in Github Desktop {.unnumbered}
+### Cục bộ trong Github Desktop {.unnumbered}
 
-One can merge branches locally using Github Desktop. First, go to
-(checkout) the branch that will be the recipient of the commits, in other words, the
-branch you want to update. Then go to the menu *Branch \> Merge into
-current branch* and click. A box will allow you to select the branch you
-want to import from.
+Người ta có thể hợp nhất các chi nhánh cục bộ bằng Github Desktop. Đầu tiên, hãy truy cập
+(thanh toán) chi nhánh sẽ là người nhận các commit, nói cách khác,
+chi nhánh bạn muốn cập nhật. Sau đó vào menu *Branch \> Merge into
+current branch* và nhấp vào. Một hộp sẽ cho phép bạn chọn chi nhánh bạn
+muốn nhập vào. 
 
 ```{r echo=F, fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_desktop_merge.png"))
 ```
 
-### In console {.unnumbered}
+### Trong cửa sổ console {.unnumbered}
 
-First move back to the branch that will be the recipient of the changes.
-This is usually *master*, but it could be another branch. Then merge your
-working branch into master.
+Đầu tiên hãy quay lại chi nhánh sẽ nhận các thay đổi.
+Đây thường là nhánh *master*, nhưng nó cũng có thể là một nhánh khác. Sau đó hợp nhất các chi nhánh làm việc
+của bạn thành một file tổng thể. 
 
 ```{bash, eval = FALSE}
 git checkout master  # Go back to master (or to the branch you want to move your )
 git merge this_fancy_new_branch
 ```
 
-[This
-page](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)
-shows a more advanced example of branching and explains a bit what is
-happening behind the scenes.
+[Tài liệu này](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)
+hiển thị một ví dụ nâng cao hơn về phân nhánh và giải thích một chút
+quá trình diễn ra sau màn hình của bạn. 
 
-### In Github: submitting pull requests {.unnumbered}
+### Trong Github: gửi một pull requests {.unnumbered}
 
-
-While it is totally possible to merge two branches locally, or without
-informing anybody, a merge may be discussed or investigated by several
-people before being integrated to the master branch. To help with the
-process, Github offers some discussion features around the merge: the
-**pull request**.
-
-A pull request (a "PR") is a request to merge one branch into another 
-(in other words, a request that _your working branch be pulled into the "main" branch_). 
-A pull request typically involves multiple commits. A pull request usually begins a conversation and review 
-process before it is accepted and the branch is merged. For example, 
-you can read pull request discussions on [dplyr's
-github](https://github.com/tidyverse/dplyr/pulls).
+Mặc dù hoàn toàn có thể hợp nhất hai chi nhánh cục bộ mà không
+thông báo cho bất kỳ ai, hoặc việc hợp nhất có thể được thảo luận hoặc điều tra bởi một số
+người trước khi được tích hợp vào nhánh chủ. Để giúp đỡ với
+quá trình này, Github cung cấp một số tính năng thảo luận xung quanh việc hợp nhất có tên là:
+**pull request**. 
 
 
-You can submit a pull request (PR) directly form the website (as
-illustrated bellow) or from Github Desktop.
+Một pull request (một "PR") là một yêu cầu hợp nhất một nhánh vào một nhánh khác
+(nói cách khác, một yêu cầu _nhánh làm việc của bạn được kéo vào nhánh "chính"_).
+Một pull request thường bao gồm nhiều lần commit. Một pull request thường bắt đầu một cuộc thảo luận và xem xét
+xử lý trước khi nó được chấp nhận và được hợp nhất vào chi nhánh chính. Ví dụ,
+bạn có thể đọc các cuộc thảo luận về pull request trên [dplyr's github](https://github.com/tidyverse/dplyr/pulls).
 
--   Go to Github repository (online)
--   View the tab "Pull Requests" and click the "New pull request" button
--   Select from the drop-down menu to merge your branch into main
--   Write a detailed Pull Request comment and click "Create Pull
+
+Bạn có thể submit một pull request (PR) trực tiếp từ trang web (như
+minh họa bên dưới) hoặc từ Github Desktop. 
+
+-   Đi tới kho lưu trữ Github (trực tuyến) 
+-   Xem tab "Pull Requests" và ấn vào nút "New pull request" 
+-   Chọn từ menu thả xuống để hợp nhất chi nhánh của bạn thành chính 
+-   Viết chi tiết bình luận cho Pull Request và ấn vào "Create Pull
     Request".
 
-In the image below, the branch "forests" has been selected to be merged
-into "main":
+Trong hình ảnh dưới đây, các nhánh "phụ" (forest) đã được chọn để hợp nhất
+thành "chính" (main):
 
 ```{r echo=F, out.width = '100%', out.height='150%', fig.align = "center"}
 knitr::include_graphics(here::here("images", "github_pull_request2.png"))
