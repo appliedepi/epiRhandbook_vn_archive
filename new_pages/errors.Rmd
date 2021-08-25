@@ -126,7 +126,7 @@ Nếu thông báo lỗi là `Error in options[[sprintf("fig.%s", i)]]`, kiểm t
 
 ### Tổng hợp {.unnumbered}  
 
-Cân nhắc liệu bạn có đã sắp xếp lại các động từ **dplyr** đã được pipe và đã không thay thế một pipe ở giữa, hoặc đã không xóa một pipe ở cuối sau khi sắp xếp lại.
+Cân nhắc liệu bạn có đã sắp xếp lại các hàm đã được pipe trong package **dplyr** và đã không thay thế một pipe ở giữa, hoặc đã không xóa một pipe ở cuối sau khi sắp xếp lại.
 
  
 

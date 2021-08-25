@@ -1261,7 +1261,7 @@ linelist %>%
 
 **`%<>%`**\
 
-Đây là một "assignment pipe (pipe dùng để gán" từ package **magrittr**, package này sẽ *pipe một đối tượng theo chiều tiến lên và cũng tái định nghĩa lại đối tượng*. Đối tượng cần đứng đầu trong chuỗi pipe. Nó nhanh hơn sử dụng pipe thông thường. Hai lệnh dưới đây là tương đương với nhau:
+Đây là một "assignment pipe (pipe dùng để gán)" từ package **magrittr**, package này sẽ *pipe một đối tượng theo chiều tiến lên và cũng tái định nghĩa lại đối tượng*. Đối tượng cần đứng đầu trong chuỗi pipe. Nó nhanh hơn sử dụng pipe thông thường. Hai lệnh dưới đây là tương đương với nhau:
 
 ```{r, eval=F}
 linelist <- linelist %>%

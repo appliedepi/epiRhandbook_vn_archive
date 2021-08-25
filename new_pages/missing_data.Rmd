@@ -1,4 +1,3 @@
-
 # Dữ liệu Missing {#missing-data}
 
 ```{r, out.width=c("50%"), echo=F}
@@ -6,22 +5,21 @@ knitr::include_graphics(here::here("images", "missingness.png"))
 knitr::include_graphics(here::here("images", "missingness_overview.png"))
 ```
 
-This page will cover how to:  
+Chương này sẽ bao gồm cách để:
 
-1) Assess missingness  
-2) Filter out rows by missingness  
-3) Plot missingness over time  
-4) Handle how `NA` is displayed in plots  
-5) Perform missing value imputation: MCAR, MAR, MNAR  
-
-
+1)  Đánh giá số liệu bị thiếu\
+2)  Lọc ra các hàng có số liệu bị thiếu\
+3)  Vẽ biểu đồ số liệu bị thiếu theo thời gian\
+4)  Xử lý cách `NA` được hiển thị trong biểu đồ\
+5)  Thực hiện gán số liệu bị thiếu: MCAR, MAR, MNAR
 
 <!-- ======================================================= -->
-## Preparation { }
 
-### Load packages {.unnumbered}  
+## Chuẩn bị
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+### Gọi package {.unnumbered}
+
+Đoạn code này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sổ tay này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, mà hàm này sẽ cài đặt package khi cần thiết và gọi nó ra để sử dụng. Bạn cũng có thể gọi các gói lệnh đã cài đặt bằng hàm `library()` trong **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các R packages.
 
 ```{r}
 pacman::p_load(
@@ -32,10 +30,9 @@ pacman::p_load(
 )
 ```
 
+### Nhập số liệu {.unnumbered}
 
-### Import data {.unnumbered}
-
-We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import your data with the `import()` function from the **rio** package (it accepts many file types like .xlsx, .rds, .csv - see the [Import and export] page for details).  
+Chúng ta nhập bộ số liệu của các ca bệnh được mô phỏng từ một vụ dịch Ebola. Để tiện làm theo, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải số liệu linelist "đã làm sạch"</a> (as .rds file). Nhập số liệu này bằng hàm `import()` trong package **rio** (nó chấp nhận nhiều loại tập tin như .xlsx, .rds, .csv -- xem chi tiết trong chương [Nhập xuất dữ liệu]).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -47,40 +44,36 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-The first 50 rows of the linelist are displayed below.
+Bên dưới là hiển thị của 50 hàng đầu tiên của bộ số liệu linelist.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
+### Chuyển đổi missing khi nhập dữ liệu {.unnumbered}
 
-### Convert missing on import {.unnumbered}  
-
-When importing your data, be aware of values that should be classified as missing. For example, 99, 999, "Missing", blank cells (""), or cells with an empty space (" "). You can convert these to `NA` (R's version of missing data) during the data import command.  
-See the page on importing page section on [Missing data](#import_missing) for details, as the exact syntax varies by file type.  
-
+Khi nhập số liệu, hãy lưu ý các giá trị có thể được phân loại là các giá trị missing. Ví dụ: 99, 999, "Missing", ô trống (""), hoặc các ô có khoảng trống (" "). Bạn có thể chuyển đổi các giá trị này thành `NA` (cách R lưu trữ số liệu missing) trong khi thực hiện lệnh nhập số liệu.\
+Xem phần nhập số liệu trong chương [Dữ liệu missing](#import_missing) để biết thêm chi tiết, vì cú pháp chính xác sẽ khác nhau tùy theo loại tệp.
 
 <!-- ======================================================= -->
-## Missing values in R { }
 
-Below we explore ways that missingness is presented and assessed in R, along with some adjacent values and functions.  
+## Giá trị missing trong R
 
-### `NA` {.unnumbered}  
+Sau đây chúng ta sẽ khảo sát rõ cách số liệu bị thiếu được trình bày và đánh giá trong R bởi các giá trị liền kề và các hàm.
 
-In R, missing values are represented by a reserved (special) value - `NA`. Note that this is typed *without* quotes. "NA" is different and is just a normal character value (also a Beatles lyric from the song Hey Jude).  
+### `NA` {.unnumbered}
 
-Your data may have other ways of representing missingness, such as "99", or "Missing", or "Unknown" - you may even have empty character value "" which looks "blank", or a single space " ". Be aware of these and consider whether to [convert them to `NA` during import](#import_missing) or during data cleaning with `na_if()`.  
+Trong R, giá trị bị thiếu được đại diện bởi một giá trị dành riêng (đặc biệt) - `NA`. Lưu ý rằng giá trị này được nhập *không có* dấu ngoặc kép. "NA" là khác biệt và cũng chỉ là một giá trị ký tự bình thường (như lời bài hát của Beatles trong bài Hey Jude).
 
-In your data cleaning, you may also want to convert the other way - changing all `NA` to "Missing" or similar with `replace_na()` or with `fct_explicit_na()` for factors.  
+Số liệu của chúng ta có thể có các cách khác để biểu thị giá trị bị thiếu, như là "99", hoặc "Giá trị bị thiếu / Missing", hoặc "Không biết / Unknown", thậm chí chúng ta có giá trị ký tự trống "" như "để trống / blank", hoặc một khoảng trắng " ". Cần lưu ý những giá trị này và xem xét có nên [chuyển đổi chúng thành NA khi nhập vào R](#import_missing) hoặc trong khi làm sạch số liệu bằng hàm `na_if()` hay không.
 
+Trong lúc làm sạch số liệu, chúng ta cũng có thể muốn chuyển đổi số liệu theo một cách khác -- chuyển đổi tất cả `NA` thành "Missing" hoặc làm tương tự với hàm `replace_na()` hoặc với hàm `fct_explicit_na()` cho các factors.
 
+### Các phiên bản của `NA` {.unnumbered}
 
-
-### Versions of `NA` {.unnumbered}  
-
-Most of the time, `NA` represents a missing value and everything works fine. However, in some circumstances you may encounter the need for *variations* of `NA` specific to an object class (character, numeric, etc). This will be rare, but you should be aware.    
-The typical scenario for this is when creating a new column with the **dplyr** function `case_when()`. As described in the [Cleaning data and core functions](#clean_case_when) page, this function evaluates every row in the data frame, assess whether the rows meets specified logical criteria (right side of the code), and assigns the correct new value (left side of the code). *Importantly: all values on the right side must be the same class*.  
+Trong hầu hết trường hợp, `NA` đại diện cho giá trị bị thiếu và mọi thứ đều vận hành tốt. Tuy nhiên, trong một số trường hợp, chúng ta có thể gặp phải những tình huống khó khăn đối với *các biến thể* của `NA` mà đặc trưng cho một lớp đối tượng (ký tự, số, .v.v.). Điều này rất hiếm, nhưng chúng ta cần phải lưu ý.\
+Tình huống điển hình cho trường hợp này là khi tạo một cột mới bằng hàm `case_when()` trong package **dplyr**. Như được mô tả trong chương [Làm sạch số liệu và các hàm quan trọng](#clean_case_when), hàm này lượng giá mọi hàng trong data frame, đánh giá xem các hàng có đáp ứng với các tiêu chí logic cụ thể hay không (phía bên phải của code), và gán giá trị chính xác mới (phía bên trái của code). *Quan trọng: tất cả các giá trị bên phải phải cùng một lớp biến số*.
 
 ```{r, eval=F}
 linelist <- linelist %>% 
@@ -93,41 +86,33 @@ linelist <- linelist %>%
     TRUE                 ~ NA_real_)) # any other circumstance, assign missing
 ```
 
-If you want `NA` on the right side, you may need to specify one of the special `NA` options listed below. If the other right side values are character, consider using "Missing" instead or otherwise use `NA_character_`. If they are all numeric, use `NA_real_`. If they are all dates or logical, you can use `NA`.  
+Nếu bạn muốn `NA` ở phía bên phải, có thể cần phải chỉ định một trong các tùy chọn đặc biệt của `NA` được liệt kê bên dưới. Nếu các giá trị bên phải khác là ký tự, cân nhắc sử dụng "Missing" hoặc sử dụng `NA_character_`. Nếu chúng là các giá trị số, sử dụng `NA_real_`. Nếu tất cả các giá trị là ngày tháng hoặc logic, chúng ta có thể sử dụng `NA`.
 
-* `NA` - use for dates or logical TRUE/FALSE 
-* `NA_character_` - use for characters  
-* `NA_real_`  - use for numeric
+-   `NA` - dùng cho biến ngày tháng hoặc biến số logic TRUE/FALSE
+-   `NA_character_` - dùng cho biến số ký tự\
+-   `NA_real_` - dùng cho biến dạng số
 
-Again, it is not likely you will encounter these variations *unless* you are using `case_when()` to create a new column. See the [R documentation on NA](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) for more information. 
+Một lần nữa, chúng ta sẽ không gặp các loại biến thể này *trừ khi* chúng ta sử dụng hàm `case_when()` để tạo biến mới. Xem phần [Tài liệu về NA trong R](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) để biết thêm thông tin.
 
+### `NULL` {.unnumbered}
 
+`NULL` là một giá trị dành riêng khác nữa trong R. Nó đại điện cho một mệnh đề không đúng cũng không sai. Nó là kết quả của các biểu thức hoặc hàm có giá trị không xác định. Nói chung, không gán NULL như một giá trị, trừ khi viết hàm hoặc khi viết mộ [Ứng dụng **shiny**][Dashboards with Shiny] để trả về `NULL` trong các tình huống cụ thể.
 
+Null có thể được đánh giá bằng cách sử dụng hàm `is.null()` và có thể chuyển đổi thành bằng hàm `as.null()`.
 
+Xem [bài viết trên blog này](https://www.r-bloggers.com/2010/04/r-na-vs-null/) on để biết về sự khác biệt giữa `NULL` và `NA`.
 
-### `NULL` {.unnumbered}  
+### `NaN` {.unnumbered}
 
-`NULL` is another reserved value in R. It is the logical representation of a statement that is neither true nor false. It is returned by expressions or functions whose values are undefined. Generally do not assign NULL as a value, unless writing functions or perhaps writing a [**shiny** app][Dashboards with Shiny] to return `NULL` in specific scenarios.  
+Các giá trị không thể được đại diện bằng một giá trị đặc biệt `NaN`. Một ví dụ cho giá trị này là khi chúng ta bắt buộc R chia 0 cho 0. Chúng ta có thể đánh giá giá trị này bằng cách dùng hàm `is.nan()`. Chúng ta cũng có thể gặp các hàm bổ sung bao gồm `is.infinite()` và `is.finite()`.
 
-Null-ness can be assessed using `is.null()` and conversion can made with `as.null()`.  
+### `Inf` {.unnumbered}
 
-See this [blog post](https://www.r-bloggers.com/2010/04/r-na-vs-null/) on the difference between `NULL` and `NA`.  
+`Inf` đại diện cho giá trị vô hạn như là khi chia một số nào đó cho 0.
 
+Một ví dụ về cách mà giá trị này ảnh hưởng đến số liệu của chúng ta: giả sử chúng ta có một véctơ hay một cột `z` chứa các giá trị sau: `z <- c(1, 22, NA, Inf, NaN, 5)`
 
-
-
-### `NaN` {.unnumbered}  
-
-Impossible values are represented by the special value `NaN`. An example of this is when you force R to divide 0 by 0. You can assess this with `is.nan()`. You may also encounter complementary functions including `is.infinite()` and `is.finite()`.  
-
-
-### `Inf` {.unnumbered}  
-
-`Inf` represents an infinite value, such as when you divide a number by 0.  
-
-As an example of how this might impact your work: let's say you have a vector/column `z` that contains these values: `z <- c(1, 22, NA, Inf, NaN, 5)`
-
-If you want to use `max()` on the column to find the highest value, you can use the `na.rm = TRUE` to remove the `NA` from the calculation, but the `Inf` and `NaN` remain and `Inf` will be returned. To resolve this, you can use brackets `[ ]` and `is.finite()` to subset such that only finite values are used for the calculation: `max(z[is.finite(z)])`.  
+Nếu bạn muốn sử dụng hàm `max()` của cột bên trên để tìm giá trị lớn nhất, bạn có thể sử dụng `na.rm = TRUE` để loại bỏ `NA` khỏi phép tính, nhưng `Inf` và `NaN` vẫn còn, và `Inf` sẽ được trả về. Để giải quyết vấn đề này, chúng ta có thể sử dụng dấu ngoặc vuông `[ ]` và hàm `is.finite()` để tạo tập hợp con mà chỉ có các giá trị hữu hạn được sử dụng để tính toán: `max(z[is.finite(z)])`.
 
 ```{r, eval=F}
 z <- c(1, 22, NA, Inf, NaN, 5)
@@ -136,53 +121,48 @@ max(z, na.rm=T)                  # returns Inf
 max(z[is.finite(z)])             # returns 22
 ```
 
+### Các ví dụ {.unnumbered}
 
-### Examples {.unnumbered}  
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------------------+
+| Lệnh trong R                                                                                                          | Đầu ra                                  |
++=======================================================================================================================+=========================================+
+| `5 / 0`                                                                                                               | `Inf`                                   |
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------------------+
+| `0 / 0`                                                                                                               | `NaN`                                   |
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------------------+
+| `5 / NA`                                                                                                              | `NA`                                    |
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------------------+
+| `5 / Inf |`0NA - 5`|`NAInf / 5`|`Infclass(NA)`| "logical"`class(NaN)`| "numeric"`class(Inf)`| "numeric"`class(NULL)\` | "NULL"                                  |
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------------------+
 
-
-R command | Outcome
-----------|--------------
-`5 / 0` | `Inf`  
-`0 / 0` | `NaN`  
-`5 / NA` | `NA`  
-`5 / Inf | `0`  
-`NA - 5` | `NA`  
-`Inf / 5` | `Inf`  
-`class(NA)` | "logical"  
-`class(NaN)` | "numeric"  
-`class(Inf)` | "numeric"  
-`class(NULL)` | "NULL"  
-
-"NAs introduced by coercion" is a common warning message. This can happen if you attempt to make an illegal conversion like inserting a character value into a vector that is otherwise numeric.  
+"NAs introduced by coercion (NAs được tạo ra do ép buộc)" là một cảnh báo phổ biến. Điều này có thể xảy ra khi chúng ta cố gắng thực hiện một chuyển đổi không hợp lệ như chèn một giá trị ký tự vào trong một véctơ dạng số.
 
 ```{r}
 as.numeric(c("10", "20", "thirty", "40"))
 ```
 
-`NULL` is ignored in a vector.  
+`NULL` được bỏ qua trong một véctơ.
 
 ```{r}
 my_vector <- c(25, NA, 10, NULL)  # define
 my_vector                         # print
 ```
 
-
-Variance of one number results in `NA`.  
+Phương sai của một số cho kết quả là `NA`.
 
 ```{r}
 var(22)
 ```
 
-
 <!-- ======================================================= -->
-## Useful functions { }
 
-The following are useful **base** R functions when assessing or handling missing values:  
+## Các hàm hữu dụng
 
+Dưới đây là các hàm hữu dụng trong **base** R khi đánh giá hoặc xử lý các giá trị bị thiếu:
 
-### `is.na()` and `!is.na()` {.unnumbered}  
+### `is.na()` và `!is.na()` {.unnumbered}
 
-Use `is.na()`to identify missing values, or use its opposite (with `!` in front) to identify non-missing values. These both return a logical value (`TRUE` or `FALSE`). Remember that you can `sum()` the resulting vector to count the number `TRUE`, e.g. `sum(is.na(linelist$date_outcome))`.    
+Sử dụng hàm `is.na()` để nhận ra các giá trị bị thiếu hoặc sử dụng hàm đối của nó (với dấu `!` ở phía trước) để nhận ra các giá trị không phải là missing. Cả hai hàm trên đều trả kết quả về một giá trị logic (`TRUE` hoặc `FALSE`). Nhớ rằng bạn có thể dùng hàm `sum()` đối với véc tơ kết quả/đầu ra để đếm số lượng `TRUE`, vd: `sum(is.na(linelist$date_outcome))`.
 
 ```{r}
 my_vector <- c(1, 4, 56, NA, 5, NA, 22)
@@ -191,32 +171,29 @@ is.na(my_vector)
 sum(is.na(my_vector))
 ```
 
+### `na.omit()` {.unnumbered}
 
-### `na.omit()` {.unnumbered}  
-
-This function, if applied to a data frame, will remove rows with *any* missing values. It is also from **base** R.  
-If applied to a vector, it will remove `NA` values from the vector it is applied to. For example:  
+Hàm này, nếu được áp dụng trên một data frame, sẽ loại bỏ các hàng có *bất kỳ*  giá trị nào bị thiếu. Hàm này cũng từ **base** R.\
+Nếu áp dụng cho một véctơ, hàm này sẽ loại bỏ các giá trị `NA` của véctơ này. Ví dụ:
 
 ```{r}
 na.omit(my_vector)
 ```
 
-### `drop_na()` {.unnumbered}  
+### `drop_na()` {.unnumbered}
 
-This is a **tidyr** function that is useful in a [data cleaning pipeline][Cleaning data and core functions]. If run with the parentheses empty, it removes rows with *any* missing values. If column names are specified in the parentheses, rows with missing values in those columns will be dropped. You can also use "tidyselect" syntax to specify the columns.  
+Đây là một hàm của package **tidyr** mà rất hữu dụng trong một [pipeline làm sạch số liệu][Cleaning data and core functions]. Nếu thực hiện hàm với dấu ngoặc trống, nó sẽ loại bỏ các hàng có *bất kỳ* giá trị nào bị thiếu. Nếu cụ thể tên cột trong dấu ngoặc, các hàng nào có giá trị bị thiếu trong những cột này sẽ bị loại bỏ. Chúng ta có thể sử dụng cú pháp “tidyselect” để chỉ định các cột này.
 
 ```{r, eval=F}
 linelist %>% 
   drop_na(case_id, date_onset, age) # drops rows missing values for any of these columns
 ```
 
+### `na.rm = TRUE` {.unnumbered}
 
-### `na.rm = TRUE` {.unnumbered}  
+Khi chúng ta thực hiện một hàm toán học như `max()`, `min()`, `sum()` hoặc `mean()`, nếu có sự hiện diện của bất kỳ giá trị `NA`, kết quả sẽ là `NA`. Cách xử lý mặc định này là có chủ ý để cảnh báo chúng ta khi có số liệu bị thiếu.
 
-When you run a mathematical function such as `max()`, `min()`, `sum()` or `mean()`, if there are any `NA` values present the returned value will be `NA`. This default behavior is intentional, so that you are alerted if any of your data are missing.  
-
-You can avoid this by removing missing values from the calculation. To do this, include the argument `na.rm = TRUE` ("na.rm" stands for "remove `NA`").  
-
+Bạn có thể tránh việc này bằng cách loại bỏ các giá trị bị thiếu ra khỏi phép tính. Để thực hiện, hãy thêm đối số `na.rm = TRUE` ("na.rm" là viết tắt của "remove `NA`").
 
 ```{r}
 my_vector <- c(1, 4, 56, NA, 5, NA, 22)
@@ -226,28 +203,27 @@ mean(my_vector)
 mean(my_vector, na.rm = TRUE)
 ```
 
-
-
 <!-- ======================================================= -->
-## Assess missingness in a data frame { }
 
-You can use the package **naniar** to assess and visualize missingness in the data frame `linelist`.  
+## Đánh giá tính không đầy đủ của một data frame
+
+Bạn có thể sử dụng package **naniar** để đánh giá và trực quan hóa các giá trị bị thiếu trong bộ số liệu `linelist`.
 
 ```{r}
 # install and/or load package
 pacman::p_load(naniar)
 ```
 
-### Quantifying missingness {.unnumbered}
+### Định lượng tính không đầy đủ {.unnumbered}
 
-To find the percent of all values that are missing use `pct_miss()`. Use `n_miss()` to get the number of missing values.  
+Để tìm phần trăm của tất cả các giá trị bị thiếu, sử dụng hàm `pct_miss()`. Để biết số lượng bị thiếu, sử dụng hàm `n_miss()`.
 
 ```{r}
 # percent of ALL data frame values that are missing
 pct_miss(linelist)
 ```
 
-The two functions below return the percent of rows with any missing value, or that are entirely complete, respectively. Remember that `NA` means missing, and that ``""` or `" "` will not be counted as missing.  
+Hai hàm bên dưới trả về phần trăm số hàng có bất kỳ giá trị bị thiếu hoặc hoàn toàn đầy đủ. Hãy nhớ rằng `NA` có nghĩa là giá trị missing, và \``""` hoặc `" "` sẽ không được đếm là giá trị missing.
 
 ```{r}
 # Percent of rows with any value missing
@@ -259,46 +235,39 @@ pct_miss_case(linelist)   # use n_complete() for counts
 pct_complete_case(linelist) # use n_complete() for counts
 ```
 
+### Trực quan hóa tính không đầy đủ {.unnumbered}
 
+Hàm `gg_miss_var()` sẽ hiển thị cho chúng ta số lượng (hoặc %) của các giá trị bị thiếu trong mỗi cột. Một vài sắc thái như sau:
 
-### Visualizing missingness {.unnumbered}  
-
-The `gg_miss_var()` function will show you the number (or %) of missing values in each column. A few nuances:  
-
-* You can add a column name (not in quote) to the argument `facet = ` to see the plot by groups  
-* By default, counts are shown instead of percents, change this with `show_pct = TRUE`  
-* You can add axis and title labels as for a normal `ggplot()` with `+ labs(...)`  
-
+-   Chúng ta có thể thêm tên cột (không ở trong dấu ngoặc kép) vào đối số `facet =` để xem biểu đồ theo nhóm\
+-   Theo mặc định, số đếm sẽ được hiển thị thay vì con số phần trăm, để thay đổi điều này bằng cách sử dụng thêm `show_pct = TRUE`\
+-   Chúng ta có thể thêm nhãn các trục và tiêu đề như đối với các hàm `ggplot()` thông thường với `+ labs(...)`
 
 ```{r}
 gg_miss_var(linelist, show_pct = TRUE)
 ```
 
-Here the data are piped `%>%` into the function. The `facet = ` argument is also used to split the data.  
+Ở đây số liệu được dẫn bằng ký hiệu `%>%` vào trong hàm. Đối số `facet =` cũng được sử dụng để phân chia số liệu.
 
 ```{r}
 linelist %>% 
   gg_miss_var(show_pct = TRUE, facet = outcome)
 ```
 
-
-You can use `vis_miss()` to visualize the data frame as a heatmap, showing whether each value is missing or not. You can also `select()` certain columns from the data frame and provide only those columns to the function.    
+Bạn có thể sử dụng hàm `vis_miss()` để hình ảnh hóa số liệu dưới dạng một bản đồ nhiệt, mà cho biết từng giá trị có bị thiếu hay không. Chúng ta cũng có thể sử dụng hàm `select()` để lựa chọn một số cột nhất định từ data frame và chỉ cung cấp các cột đó vào trong hàm.
 
 ```{r}
 # Heatplot of missingness across the entire data frame  
 vis_miss(linelist)
 ```
 
+### Khám phá và trực quan hóa các mối quan hệ của dữ liệu bị thiếu {.unnumbered}
 
-### Explore and visualize missingness relationships {.unnumbered} 
+Làm thế nào chúng ta hình ảnh hóa một cái gì đó mà không có ở đó??? Theo mặc định, hàm `ggplot()` sẽ loại bỏ các giá trị bị thiếu ra khỏi biểu đồ.
 
-How do you visualize something that is not there??? By default, `ggplot()` removes points with missing values from plots.  
+Package **naniar**  cung cấp một giải pháp thông qua hàm `geom_miss_point()`. Khi tạo biểu đồ phân tán của hai cột, các bản ghi có một trong các giá trị bị thiếu và sự hiện diện của giá trị khác được hiển thị bằng cách đặt các giá trị bị thiếu thấp hơn 10% so với giá trị thấp nhất trong cột đó và và tô màu để dễ phân biệt.
 
-**naniar** offers a solution via `geom_miss_point()`. When creating a scatterplot of two columns, records with one of the values missing and the other value present are shown by setting the missing values to 10% lower than the lowest value in the column, and coloring them distinctly.  
-
-In the scatterplot below, the red dots are records where the value for one column is present but the value for the other column is missing. This allows you to see the distribution of missing values in relation to the non-missing values.  
-
-
+Trong biểu đồ phân tán bên dưới, các chấm màu đỏ là các bản ghi khi có giá trị của một cột nhưng thiếu giá trị của cột còn lại. Điều này cho phép chúng ta thấy được sự phân bố của các giá trị bị thiếu tương quan với giá trị không bị thiếu.
 
 ```{r}
 ggplot(
@@ -307,26 +276,21 @@ ggplot(
   geom_miss_point()
 ```
 
-To assess missingness in the data frame *stratified by another column*, consider `gg_miss_fct()`, which returns a heatmap of percent missingness in the data frame *by a factor/categorical (or date) column*:  
+Để đánh giá giá trị bị thiếu trong một data frame *được phân tầng bởi một cột khác*, hãy lưu ý đến hàm `gg_miss_fct()`, mà sẽ trả về một bản đồ nhiệt chứa thông tin về phần trăm giá trị bị thiếu trong một data frame *bởi một cột của biến số factor/phân loại (hoặc ngày)*:
 
 ```{r}
 gg_miss_fct(linelist, age_cat5)
 ```
 
-
-This function can also be used with a date column to see how missingness has changed over time:  
+Hàm này cũng có thể được sử dụng đối với cột dạng ngày tháng để xem mức độ của số liệu bị thiếu thay đổi theo thời gian:
 
 ```{r}
 gg_miss_fct(linelist, date_onset)
 ```
 
+### Các cột “hình bóng” {.unnumbered}
 
-
-
-### "Shadow" columns {.unnumbered}
-
-Another way to visualize missingness in one column by values in a second column is using the "shadow" that **naniar** can create. `bind_shadow()` creates a binary `NA`/not `NA` column for every existing column, and binds all these new columns to the original dataset with the appendix "_NA". This doubles the number of columns - see below:  
-
+Một cách khác để trực quan hóa số liệu bị thiếu trong một cột bởi các giá trị của cột thứ hai là sử dụng “hình bóng/shadow” mà package **naniar** có thể tạo ra. Hàm `bind_shadow()` tạo ra một cột biến số nhị phân `NA`/không `NA` cho mọi cột hiện có và liên kết tất cả các cột mới này với bộ số liệu gốc bằng phần phụ "\_NA". Điều này làm tăng gấp đôi số cột – xem bên dưới:
 
 ```{r}
 shadowed_linelist <- linelist %>% 
@@ -335,10 +299,9 @@ shadowed_linelist <- linelist %>%
 names(shadowed_linelist)
 ```
 
-These "shadow" columns can be used to plot the proportion of values that are missing, by any another column.  
+Các cột “hình bóng” này có thể được sử dụng để vẽ biểu đồ tỷ lệ các giá trị bị thiếu theo bất kỳ cột nào khác.
 
-For example, the plot below shows the proportion of records missing `days_onset_hosp` (number of days from symptom onset to hospitalisation), by that record's value in `date_hospitalisation`. Essentially, you are plotting the density of the x-axis column, but stratifying the results (`color = `) by a shadow column of interest. This analysis works best if the x-axis is a numeric or date column.  
-
+Ví dụ: biểu đồ bên dưới cho thấy tỷ lệ các giá trị bị thiếu của các bản ghi trong biến số `days_onset_hosp` (số ngày từ ngày khởi phát triệu chứng đến ngày nhập viện), theo giá trị của bản ghi đó trong biến số `date_hospitalisation`. Về bản chất là chúng ta đang vẽ biểu độ mật độ của cột này trên trục x, nhưng phân tầng kết quả (`color =`) bằng cột hình bóng đang được quan tâm. Phân tích này thể hiện tốt nhất khi trục x là cột số hoặc cột ngày.
 
 ```{r, message = F}
 ggplot(data = shadowed_linelist,          # data frame with shadow columns
@@ -347,7 +310,7 @@ ggplot(data = shadowed_linelist,          # data frame with shadow columns
   geom_density()                          # plots the density curves
 ```
 
-You can also use these "shadow" columns to stratify a statistical summary, as shown below:
+Bạn cũng có thể sử dụng cột “hình bóng” để phân tầng một bảng tóm tắt thống kê, như được hiển thị bên dưới:
 
 ```{r}
 linelist %>%
@@ -363,13 +326,12 @@ linelist %>%
     na.rm = TRUE))                 # other arguments for the stat calculations
 ```
 
+Bên dưới là một cách khác để vẽ biểu đồ tỷ lệ các giá trị bị thiếu của một cột theo thời gian. Nó *không* liên quan đến package **naniar**. Ví dụ này cho thấy phần trăm số liệu bị thiếu theo tuần.
 
-An alternative way to plot the proportion of a column's values that are missing over time is shown below. It does *not* involve **naniar**. This example shows percent of weekly observations that are missing).  
+1)  Tổng hợp số liệu thành một đơn vị thời gian muốn sử dụng (ngày, tuần, .v.v.), tóm tắt tỷ lệ quan sát theo `NA` (và bất kỳ các giá trị quan tâm khác)\
+2)  Vẽ biểu đồ tỷ lệ giá trị bị thiếu dưới dạng một dòng bằng cách sử dụng hàm `ggplot()`
 
-1) Aggregate the data into a useful time unit (days, weeks, etc.), summarizing the proportion of observations with `NA` (and any other values of interest)  
-2) Plot the proportion missing as a line using `ggplot()`  
-
-Below, we take the linelist, add a new column for week, group the data by week, and then calculate the percent of that week's records where the value is missing. (note: if you want % of 7 days the calculation would be slightly different).  
+Bên dưới, chúng ta lấy bộ số liệu linelist, thêm một cột mới cho tuần, nhóm số liệu theo tuần và sau đó tính phần trăm của các bản ghi có số liệu bị thiếu theo tuần. (lưu ý: nếu chúng ta muốn % của 7 ngày, việc tính toán sẽ hơi khác một chút).
 
 ```{r}
 outcome_missing <- linelist %>%
@@ -388,7 +350,7 @@ outcome_missing <- linelist %>%
   filter(stringr::str_detect(statistic, "_p_"))                  # keep only the proportion values
 ```
 
-Then we plot the proportion missing as a line, by week. The [ggplot basics] page if you are unfamiliar with the **ggplot2** plotting package.  
+Sau đó, chúng ta vẽ biểu đồ tỷ lệ các giá trị bị thiếu dưới dạng một dòng theo tuần. Xem thêm chương [ggplot cơ bản] nếu bạn chưa quen với package vẽ biểu đồ **ggplot2**.
 
 ```{r, message=F, warning=F}
 ggplot(data = outcome_missing)+
@@ -407,19 +369,15 @@ ggplot(data = outcome_missing)+
   theme(legend.position = "bottom")
 ```
 
-
-
-
-
 <!-- ======================================================= -->
-## Using data with missing values  
 
+## Sử dụng dữ liệu có giá trị missing
 
-### Filter out rows with missing values {.unnumbered}
+### Lọc bỏ các hàng có giá trị bị thiếu {.unnumbered}
 
-To quickly remove rows with missing values, use the **dplyr** function `drop_na()`.  
+Để loại bỏ nhanh các hàng có giá trị bị thiếu, sử dụng hàm `drop_na()` trong package **dplyr**.
 
-The original `linelist` has ` nrow(linelist)` rows. The adjusted number of rows is shown below:  
+Bộ số liệu gốc `linelist` có `nrow(linelist)` hàng. Số hàng sau khi hiệu chỉnh được hiển thị bên dưới:
 
 ```{r}
 linelist %>% 
@@ -427,7 +385,7 @@ linelist %>%
   nrow()
 ```
 
-You can specify to drop rows with missingness in certain columns:  
+Bạn có thể chỉ định loại bỏ các hàng có giá trị bị thiếu trong một số hàng nhất định:
 
 ```{r}
 linelist %>% 
@@ -435,7 +393,7 @@ linelist %>%
   nrow()
 ```
 
-You can list columns one after the other, or use ["tidyselect" helper functions](#clean_tidyselect):  
+Bạn có thể liệt kê lần lượt từng cột một, hoặc sử dụng [các hàm trợ giúp trong “tidyselect”](#clean_tidyselect):
 
 ```{r}
 linelist %>% 
@@ -443,17 +401,16 @@ linelist %>%
   nrow()
 ```
 
-
-
 <!-- ======================================================= -->
-### Handling `NA` in `ggplot()` {.unnumbered}
 
-It is often wise to report the number of values excluded from a plot in a caption. Below is an example:  
+### Xử lý `NA` trong hàm `ggplot()` {.unnumbered}
 
-In `ggplot()`, you can add `labs()` and within it a `caption = `. In the caption, you can use `str_glue()` from **stringr** package to paste values together into a sentence dynamically so they will adjust to the data. An example is below:  
+Thường là khôn ngoan khi báo cáo số lượng các giá trị bị loại ra trong phần chú thích của biểu đồ. Bên dưới là một ví dụ:
 
-* Note the use of `\n` for a new line.  
-* Note that if multiple column would contribute to values not being plotted (e.g. age or sex if those are reflected in the plot), then you must filter on those columns as well to correctly calculate the number not shown.  
+Trong hàm `ggplot()`, bạn có thể thêm `labs()` và bên trong nó là một chú thích `caption =`. Trong phần chú thích này, chúng ta có thể sử dụng hàm `str_glue()` từ package **stringr** để dán các giá trị lại với nhau thành một câu có tính chất động (dynamic), vì vậy nó sẽ điều chỉnh theo số liệu. Bên dưới là một ví dụ:
+
+-   Lưu ý sử dụng `\n` để tạo một hàng mới (ngắt chữ xuống hàng).\
+-   Lưu ý rằng nếu nhiều cột góp phần tạo ra các giá trị, thì sẽ không vẽ được trên biểu đồ (ví dụ như tuổi hoặc giới nếu chúng được phản ánh trên biểu đồ, thì chúng ta cũng phải lọc trên các cột đó để tính toán chính xác số lượng không được hiển thị.
 
 ```{r, eval=F}
 labs(
@@ -465,13 +422,13 @@ labs(
   {nrow(central_data %>% filter(is.na(date_onset)))} cases missing date of onset and not shown."))  
 ```
 
-Sometimes, it can be easier to save the string as an object in commands prior to the `ggplot()` command, and simply reference the named string object within the `str_glue()`.  
-
+Thỉnh thoảng, có thể dễ dàng hơn để lưu chuỗi này dưới dạng một đối tượng trong các lệnh trước khi dùng lệnh `ggplot()`, và chỉ cần tham chiếu tên của đối tượng chuỗi bên trong hàm `str_glue()`.
 
 <!-- ======================================================= -->
-### `NA` in factors {.unnumbered}
 
-If your column of interest is a factor, use `fct_explicit_na()` from the **forcats** package to convert `NA` values to a character value. See more detail in the [Factors] page. By default, the new value is "(Missing)" but this can be adjusted via the `na_level =` argument.   
+### `NA` trong các factors {.unnumbered}
+
+Nếu cột đang quan tâm là một factor, sử dụng hàm `fct_explicit_na()` thuộc package **forcats**  để chuyển đổi các giá trị `NA` thành giá trị ký tự. Xem thêm chi tiết trong chương [Factors]. Theo mặc định, giá trị mới là "(Missing)" nhưng nó có thể được điều chỉnh thông qua đối số `na_level =`.
 
 ```{r}
 pacman::p_load(forcats)   # load package
@@ -482,61 +439,59 @@ linelist <- linelist %>%
 levels(linelist$gender)
 ```
 
-
-
 <!-- ======================================================= -->
-## Imputation { }
 
+## Thay thế missing - Imputation
 
-Sometimes, when analyzing your data, it will be important to "fill in the gaps" and impute missing data While you can always simply analyze a dataset after removing all missing values, this can cause problems in many ways. Here are two examples: 
+Thỉnh thoảng, khi phân tích số liệu, điều quan trọng là phải “làm đầy khoảng trống” và gán giá trị cho số liệu bị thiếu. Trong khi chúng ta luôn luôn có thể chỉ cần phân tích một bộ số liệu sau khi đã loại bỏ tất cả các giá trị bị thiếu, nhưng điều này có thể đưa đến các vấn đề theo nhiều cách. Đây là các ví dụ:
 
-1) By removing all observations with missing values or variables with a large amount of missing data, you might reduce your power or ability to do some types of analysis. For example, as we discovered earlier, only a small fraction of the observations in our linelist dataset have no missing data across all of our variables. If we removed the majority of our dataset we'd be losing a lot of information! And, most of our variables have some amount of missing data--for most analysis it's probably not reasonable to drop every variable that has a lot of missing data either.
+1)  Bằng cách loại bỏ tất cả các quan sát có giá trị bị thiếu hoặc các biến số có một số lượng lớn giá trị bị thiếu, chúng ta có thể giảm lực thống kê hay khả năng thực hiện một số loại phân tích. Ví dụ như khi chúng ta đã phát hiện trước đó, chỉ có một phần nhỏ của các quan sát trong bộ số liệu linelist không có số liệu bị thiếu trên tất cả các biến số. Nếu chúng ta xóa phần lớn số liệu, chúng ta sẽ mất rất nhiều thông tin! Và hầu hết các biến của bộ số liệu trên đều có một số lượng dữ liệu missing – đối với hầu hết các phân tích, hầu như là không hợp lý để loại bỏ tất cả các biến có nhiều số liệu bị missing.
 
-2) Depending on why your data is missing, analysis of only non-missing data might lead to biased or misleading results. For example, as we learned earlier we are missing data for some patients about whether they've had some important symptoms like fever or cough. But, as one possibility, maybe that information wasn't recorded for people that just obviously weren't very sick. In that case, if we just removed these observations we'd be excluding some of the healthiest people in our dataset and that might really bias any results.
+2)  Tùy thuộc vào lý do tại sao số liệu bị thiếu, nhưng chỉ phân tích số liệu không bị thiếu có thể dẫn đến kết quả sai lệch. Ví dụ như khi chúng ta đã biết trước đó, chúng ta đang thiếu số liệu của một số bệnh nhân về việc họ có một số triệu chứng quan trọng như sốt hoặc ho hay không. Nhưng có một khả năng là có thể thông tin đó không được ghi nhận đối với những người mà rõ ràng không bị bệnh nặng. Trong trường hợp đó, nếu chúng ta chỉ loại bỏ những quan sát này, chúng ta sẽ loại trừ một số người khỏe nhất trong bộ số liệu và điều đó thật sự có thể làm sai lệch bất kỳ kết quả nào.
 
-It's important to think about why your data might be missing in addition to seeing how much is missing. Doing this can help you decide how important it might be to impute missing data, and also which method of imputing missing data might be best in your situation.
+Điều quan trọng là suy nghĩ tại sao số liệu có thể bị thiếu cũng như là thiếu bao nhiêu. Làm điều này có thể giúp chúng ta xác định mức độ quan trọng của việc gán giá trị bị thiếu và lựa chọn phương pháp tốt nhất để imputing giá trị missing trong tình huống của chúng ta.
 
-### Types of missing data {.unnumbered}
+### Các loại số liệu bị thiếu {.unnumbered}
 
-Here are three general types of missing data:
+Dưới đây là ba loại số liệu bị thiếu điển hình:
 
-1) **Missing Completely at Random** (MCAR). This means that there is no relationship between the probability of data being missing and any of the other variables in your data. The probability of being missing is the same for all cases This is a rare situation. But, if you have strong reason to believe your data is MCAR analyzing only non-missing data without imputing won't bias your results (although you may lose some power). [TODO: consider discussing statistical tests for MCAR]
+1)  **Missing Completely at Random** (MCAR): Số liệu bị thiếu hoàn toàn ngẫu nhiên. Điều này có nghĩa là không có mối quan hệ giữa xác suất số liệu bị thiếu và bất kỳ biến số nào trong bộ số liệu. Xác suất số liệu bị thiếu là ngang nhau đối với tất cả các trường hợp. Đây là một tình huống hiếm gặp. Nhưng nếu chúng ta có lý do chính đáng để tin rằng số liệu của chúng ta là MCAR, thì chỉ phân tích số liệu không bị thiếu (mà không imputing giá trị bị thiếu) sẽ không làm sai lệch kết quả (mặc dù chúng ta có thể mất một ít lực thống kê). [CẦN LÀM: lưu ý đến các thảo luận về các kiểm định thống kê cho MCAR]
 
-2) **Missing at Random** (MAR). This name is actually a bit misleading as MAR means that your data is missing in a systematic, predictable way based on the other information you have. For example, maybe every observation in our dataset with a missing value for fever was actually not recorded because every patient with chills and and aches was just assumed to have a fever so their temperature was never taken. If true, we could easily predict that every missing observation with chills and aches has a fever as well and use this information to impute our missing data. In practice, this is more of a spectrum. Maybe if a patient had both chills and aches they were more likely to have a fever as well if they didn't have their temperature taken, but not always. This is still predictable even if it isn't perfectly predictable. This is a common type of missing data 
+2)  **Missing at Random** (MAR). Số liệu bị thiếu Ngẫu nhiên. Tên của loại số liệu này thực sự gây ra một ít hiểu lầm vì MAR có nghĩa là số liệu bị thiếu một cách có hệ thống, có thể dự đoán dựa trên các thông tin khác mà chúng ta có. Ví dụ như có lẽ giá trị bị thiếu đối với biến số sốt của mọi quan sát trong bộ số liệu là thật sự không được ghi nhận vì mọi bệnh nhân có ớn lạnh và đau nhức được giả định là bị sốt, vì vậy thân nhiệt của họ không bao giờ được đo. Nếu đúng như vậy, chúng ta có thể dễ dàng dự đoán rằng, mọi quan sát bị thiếu khi có ớn lạnh và đau nhức cũng sẽ bị sốt và chúng ta sẽ sử dụng thông tin này để gán các giá trị bị thiếu. Trong thực tế, đây là loại nhiều hơn. Có thể nếu một bệnh nhân có cả ớn lạnh và đau nhức, thì hầu như họ cũng sẽ bị sốt nếu thân nhiệt không được đo, nhưng không phải lúc nào cũng như vậy. Điều này vẫn có thể dự đoán được ngay cả khi nó không thể dự đoán một cách hoàn toàn, nhưng không phải là luôn luôn. Đây là một loại số liệu bị thiếu phổ biến
 
-3) **Missing not at Random** (MNAR). Sometimes, this is also called **Not Missing at Random** (NMAR). This assumes that the probability of a value being missing is NOT systematic or predictable using the other information we have but also isn't missing randomly. In this situation data is missing for unknown reasons or for reasons you don't have any information about. For example, in our dataset maybe information on age is missing because some very elderly patients either don't know or refuse to say how old they are. In this situation, missing data on age is related to the value itself (and thus isn't random) and isn't predictable based on the other information we have. MNAR is complex and often the best way of dealing with this is to try to collect more data or information about why the data is missing rather than attempt to impute it. 
+3)  **Missing not at Random** (MNAR): Số liệu bị thiếu không ngẫu nhiên. Thỉnh thoảng, loại này được gọi là **Not Missing at Random - Không bị Thiếu Ngẫu nhiên** (NMAR). Loại này giả định rằng xác suất của một giá trị bị thiếu là KHÔNG có hệ thống hoặc không thể dự đoán được bằng cách sử dụng thông tin khác mà chúng ta có, nhưng nó cũng không là giá trị bị thiếu một cách ngẫu nhiên. Trong tình huống này, số liệu bị thiếu không rõ lý do hoặc vì các lý do mà chúng ta không có bất kỳ thông tin nào. Ví dụ: trong bộ số liệu có thể thiếu thông tin về tuổi bởi vì một số bệnh nhân rất cao tuổi hoặc không biết hoặc từ chối cho biết tuổi. Trong tình huống này, số liệu bị thiếu về tuổi có liên quan đến giá trị của chính nó (và vì thế nó không phải là ngẫu nhiên) và không thể dự đoán được dựa trên các thông tin khác mà chúng ta có. MNAR là phức tạp và cách tốt nhất để giải quyết loại số liệu này thường là cố gắng thu thập thêm số liệu hoặc thông tin tại sao số liệu bị thiếu thay vì cố gắng gán giá trị cho nó.
 
-In general, imputing MCAR data is often fairly simple, while MNAR is very challenging if not impossible. Many of the common data imputation methods assume MAR. 
+Nhìn chung, việc gán số liệu cho MCAR thường khá đơn giản, trong khi cho MNAR là khá thách thức nếu không muốn nói là không thể. Có nhiều phương pháp gán số liệu phổ biến cho các số liệu được cho là MAR.
 
-### Useful packages {.unnumbered}
+### Các packages hữu dụng {.unnumbered}
 
-Some useful packages for imputing missing data are Mmisc, missForest (which uses random forests to impute missing data), and mice (Multivariate Imputation by Chained Equations). For this section we'll just use the mice package, which implements a variety of techniques. The maintainer of the mice package has published an online book about imputing missing data that goes into more detail here (https://stefvanbuuren.name/fimd/).  
+Một số package hữu dụng để gán số liệu bị thiếu là Mmisc, missForest (mà sử dụng kỹ thuật Random Forests để gán số liệu bị thiếu), và package mice (viết tắt của Multivariate Imputation by Chained Equations). Đối với phần này, chúng ta chỉ sử dụng package mice để thực hiện nhiều kỹ thuật khác nhau. Người bảo trì package mice xuất bản một cuốn sách trực tuyến về gán số liệu bị thiếu, xem chi tiết hơn tại đây (<https://stefvanbuuren.name/fimd/>).
 
-Here is the code to load the mice package:
+Đây là code để tải package mice:
 
 ```{r}
 pacman::p_load(mice)
 ```
 
-### Mean Imputation {.unnumbered}
+### Gán bằng giá trị trung bình {.unnumbered}
 
-Sometimes if you are doing a simple analysis or you have strong reason to think you can assume MCAR, you can simply set missing numerical values to the mean of that variable. Perhaps we can assume that missing temperature measurements in our dataset were either MCAR or were just normal values. Here is the code to create a new variable that replaces missing temperature values with the mean temperature value in our dataset. However, in many situations replacing data with the mean can lead to bias, so be careful.
+Thỉnh thoảng, nếu chúng ta thực hiện một phân tích đơn giản hoặc chúng ta có một lý do chính đáng để nghĩ rằng chúng ta có thể giả định số liệu bị thiếu là hoàn toàn ngẫu nhiên (MCAR), chúng ta có thể chỉ cần gán các giá trị bị thiếu bằng giá trị trung bình của biến số đó. Có lẽ chúng ta có thể giả định rằng các giá trị bị thiếu của thân nhiệt trong bộ số liệu là MCAR hoặc chỉ là các giá trị bình thường. Đây là code để tạo một biến số mới để thay thế các giá trị thân nhiệt bị thiếu bằng giá trị thân nhiệt trung bình trong bộ số liệu. Tuy nhiên, trong nhiều tình huống, việc thay thế số liệu bằng giá trị trung bình có thể dẫn đến sai lệch, vì thế hãy cẩn thận.
 
 ```{r}
 linelist <- linelist %>%
   mutate(temp_replace_na_with_mean = replace_na(temp, mean(temp, na.rm = T)))
 ```
 
-You could also do a similar process for replacing categorical data with a specific value. For our dataset, imagine you knew that all observations with a missing value for their outcome (which can be "Death" or "Recover") were actually people that died (note: this is not actually true for this dataset):
+Bạn cũng có thể thực hiện một quy trình tương tự để thay thế số liệu của biến phân loại bằng một giá trị cụ thể.  Đối với bộ số liệu linelist, giả sử là bạn đã biết tất cả các quan sát có giá trị bị thiếu của biến số kết cục (mà có thể là “Tử vong” hoặc “Hồi phục”) thực sự là những người đã chết (lưu ý: điều này không thực sự đúng đối với bộ số liệu này):
 
 ```{r}
 linelist <- linelist %>%
   mutate(outcome_replace_na_with_death = replace_na(outcome, "Death"))
 ```
 
-### Regression imputation {.unnumbered}
+### Gán bằng hồi quy {.unnumbered}
 
-A somewhat more advanced method is to use some sort of statistical model to predict what a missing value is likely to be and replace it with the predicted value. Here is an example of creating predicted values for all the observations where temperature is missing, but age and fever are not, using simple linear regression using fever status and age in years as predictors. In practice you'd want to use a better model than this sort of simple approach.
+Một phương pháp nâng hơi cao hơn là sử dụng một số loại mô hình thống kê để dự đoán giá trị có lẽ bị thiếu và thay thế nó bằng giá trị dự đoán. Đây là một ví dụ về việc tạo ra các giá trị dự đoán cho tất cả các quan sát bị thiếu của biến số thân nhiệt (temperature), nhưng biến số tuổi (age) và biến số sốt (fever) thì không bị thiếu, bằng cách sử dụng hồi quy tuyến tính đơn giản với biến số dự đoán là tình trạng sốt và tuổi theo năm. Trong thực tế, chúng ta muốn sử dụng một mô hình tốt hơn kiểu tiếp cận đơn giản này..
 
 ```{r, warning=F, message=F}
 simple_temperature_model_fit <- lm(temp ~ fever + age_years, data = linelist)
@@ -546,7 +501,7 @@ predictions_for_missing_temps <- predict(simple_temperature_model_fit,
                                         newdata = linelist %>% filter(is.na(temp))) 
 ```
 
-Or, using the same modeling approach through the mice package to create imputed values for the missing temperature observations:
+Hoặc sử dụng cùng phương pháp mô hình hóa thông qua gói lệnh mice để tạo ra các giá trị gán cho các quan sát thân nhiệt bị thiếu:
 
 ```{r}
 model_dataset <- linelist %>%
@@ -562,14 +517,13 @@ temp_imputed_values <- temp_imputed$imp$temp
 
 ```
 
+Cách trên có cùng cách tiếp cận với một số phương pháp nâng cao hơn như sử dụng package missForest để thay thế giá trị bị thiếu bằng các giá trị dự đoán. Trong trường hợp đó, mô hình dự đoán là một random forest thay vì là một hồi quy tuyến tính. Chúng ta cũng có thể sử dụng các loại mô hình khác để làm điều này. Tuy nhiên, phương pháp này thực hiện tốt với số liệu loại MCAR, nhưng chúng ta nên cẩn thận một chút nếu chúng ta tin rằng loại số liệu của chúng ta chính xác hơn là MAR hoặc MNAR. Chất lượng của việc gán giá trị bị thiếu sẽ phụ thuộc vào mô hình dự đoán tốt như thế nào, và ngay cả khi với một mô hình dự đoán rất tốt, tính biến thiên của số liệu được gán có thể đưa đến một ước lượng non.
 
-This is the same type of approach by some more advanced methods like using the missForest package to replace missing data with predicted values. In that case, the prediction model is a random forest instead of a linear regression. You can use other types of models to do this as well. However, while this approach works well under MCAR you should be a bit careful if you believe MAR or MNAR more accurately describes your situation. The quality of your imputation will depend on how good your prediction model is and even with a very good model the variability of your imputed data may be underestimated. 
+### LOCF và BOCF {.unnumbered}
 
-### LOCF and BOCF {.unnumbered}
+LOCF (viết tắt của Last observation carried forward) và BOCF (viết tắt của baseline observation carried forward) là các phương pháp gán số liệu bị thiếu đối với số liệu chuỗi thời gian/số liệu dọc. Ý tưởng là lấy giá trị được quan sát trước đó để thay thế cho số liệu bị thiếu. Khi có nhiều giá trị bị thiếu liên tiếp, phương pháp này sẽ tìm kiếm giá trị được quan sát cuối cùng.
 
-Last observation carried forward (LOCF) and baseline observation carried forward (BOCF) are imputation methods for time series/longitudinal data. The idea is to take the previous observed value as a replacement for the missing data. When multiple values are missing in succession, the method searches for the last observed value.
-
-The `fill()` function from the **tidyr** package can be used for both LOCF and BOCF imputation (however, other packages such as **HMISC**, **zoo**, and **data.table** also include methods for doing this). To show the `fill()` syntax we'll make up a simple time series dataset containing the number of cases of a disease for each quarter of the years 2000 and 2001. However, the year value for subsequent quarters after Q1 are missing so we'll need to impute them. The `fill()` junction is also demonstrated in the [Pivoting data] page.  
+Hàm `fill()` từ package **tidyr** có thể được sử dụng cho cả phương pháp gán LOCF và BOCF (tuy nhiên, các package khác như **HMISC**, **zoo**, và **data.table** cũng có các phương pháp để làm điều này). Để hiển thị cú pháp của hàm`fill()`,  chúng ta sẽ tạo một bộ số liệu chuỗi thời gian đơn giản mà bao gồm một số ca của một bệnh trong các quý của năm 2000 và 2001. Tuy nhiên, giá trị năm cho các quý tiếp theo sau Q1 bị thiếu, vì thế chúng ta cần gán các số liệu bị thiếu này. Hàm `fill()` cũng được trình bày chi tiết trong chương [Xoay trục dữ liệu].
 
 ```{r}
 #creating our simple dataset
@@ -589,7 +543,7 @@ disease %>% fill(year)
 
 ```
 
-Note: make sure your data are sorted correctly before using the `fill()` function. `fill()`  defaults to filling "down" but you can also impute values in different directions by changing the `.direction` parameter. We can make a similar dataset where the year value is recorded only at the end of the year and missing for earlier quarters: 
+Lưu ý: cần đảm bảo số liệu được sắp xếp chính xác trước khi sử dụng hàm `fill()`. Mặc định của hàm `fill()`  là điền “xuống” nhưng chúng ta cũng có thể gán giá trị bị thiếu theo các hướng khác nhau bằng cách thay đổi tham số `.direction`. WChúng ta có thể tạo một tập số liệu tương tự mà giá trị của năm chỉ được ghi nhận vào cuối năm và bị thiếu ở các quý trước đó:
 
 ```{r}
 #creating our slightly different dataset
@@ -608,18 +562,19 @@ disease <- tibble::tribble(
 disease %>% fill(year, .direction = "up")
 
 ```
-In this example, LOCF and BOCF are clearly the right things to do, but in more complicated situations it may be harder to decide if these methods are appropriate. For example, you may have missing laboratory values for a hospital patient after the first day. Sometimes, this can mean the lab values didn't change...but it could also mean the patient recovered and their values would be very different after the first day! Use these methods with caution.
 
+Trong ví dụ này, rõ ràng LOCF và BOCF thực hiện đúng các công việc, nhưng trong những tình huống phức tạp hơn, có thể là khó khăn hơn để quyết định những phương pháp này có phù hợp hay không. Ví dụ: chúng ta có thể thiếu các giá trị xét nghiệm của một bệnh nhân nằm viện sau ngày đầu tiên. Đôi lúc, điều này có thể có nghĩa là các giá trị xét nghiệm không thay đổi ... nhưng cũng có thể là bệnh nhân đã hồi phục và những giá trị xét nghiệm của bệnh nhân này có thể là rất khác sau ngày đầu tiên! Hãy sử dụng những phương pháp này một cách thận trọng.
 
-### Multiple Imputation {.unnumbered}
+### Gán số liệu nhiều lần {.unnumbered}
 
-The online book we mentioned earlier by the author of the mice package (https://stefvanbuuren.name/fimd/) contains a detailed explanation of multiple imputation and why you'd want to use it. But, here is a basic explanation of the method:
+Cuốn sách trực tuyến mà chúng tôi đã đề cập trước đây bởi tác giả của package mice (<https://stefvanbuuren.name/fimd/>) bao gồm một giải thích chi tiết về gán số liệu nhiều lần và lý do tại sao chúng ta muốn sử dụng nó. Dưới đây là một giải thích cơ bản của phương pháp này:
 
-When you do multiple imputation, you create multiple datasets with the missing values imputed to plausible data values (depending on your research data you might want to create more or less of these imputed datasets, but the mice package sets the default number to 5). The difference is that rather than a single, specific value each imputed value is drawn from an estimated distribution (so it includes some randomness). As a result, each of these datasets will have slightly different different imputed values (however, the non-missing data will be the same in each of these imputed datasets). You still use some sort of predictive model to do the imputation in each of these new datasets (mice has many options for prediction methods including *Predictive Mean Matching*, *logistic regression*, and *random forest*) but the mice package can take care of many of the modeling details. 
+Khi chúng ta thực hiện gán nhiều lần, chúng ta tạo nhiều bộ số liệu với các giá trị bị thiếu mà được gán các giá trị hợp lý (tùy thuộc vào số liệu của chúng ta, chúng ta có thể muốn tạo nhiều hay ít các bộ số liệu được gán này, nhưng package mice đặt con số mặc định là 5). TSự khác biệt là thay vì một giá trị đơn lẻ cụ thể, mỗi giá trị được gán được rút ra từ một phân phối được ước tính (vì vậy nó bao gồm một số đặc tính ngẫu nhiên). Kết quả là, mỗi bộ số liệu này sẽ có các giá trị được gán khác nhau một chút (tuy nhiên, số liệu không bị thiếu sẽ giống nhau trong mỗi bộ số liệu được gán này). Chúng ta vẫn sử dụng một số loại mô hình dự đoán để thực hiện việc gán số liệu bị thiếu cho mỗi bộ số liệu mới này (package mice có nhiều tùy chọn cho các phương pháp dự đoán bao gồm *Predictive Mean Matching*, *logistic regression*, và *random forest*), nhưng package mice có thể đảm nhận nhiều chi tiết của mô hình.
 
-Then, once you have created these new imputed datasets, you can apply then apply whatever statistical model or analysis you were planning to do for each of these new imputed datasets and pool the results of these models together. This works very well to reduce bias in both MCAR and many MAR settings and often results in more accurate standard error estimates.
+Sau đó, một khi chúng ta đã tạo các bộ số liệu mới được gán giá trị bị thiếu này, chúng ta có thể áp dụng bất kỳ mô hình thống kê hoặc phân tích nào mà chúng ta dự định thực hiện cho mỗi bộ số liệu mới này và gộp kết quả của các mô hình này lại với nhau. Thao tác này rất tốt để giảm sai lệch đối với cả MCAR và MAR và thường cho các ước tính sai số chuẩn chính xác hơn.
 
-Here is an example of applying the Multiple Imputation process to predict temperature in our linelist dataset using a age and fever status (our simplified model_dataset from above):  
+Đây là một ví dụ về việc áp dụng quy trình Gán Nhiều lần để dự đoán thân nhiệt trong bộ số liệu linelist bằng cách sử dụng tuổi và sốt (bộ số liệu mô hình đơn giản hóa bên trên):
+
 
 ```{r}
 # imputing missing values for all variables in our model_dataset, and creating 10 new imputed datasets
@@ -634,17 +589,14 @@ model_fit <- with(multiple_imputation, lm(temp ~ age_years + fever))
 base::summary(mice::pool(model_fit))
 ```
 
-Here we used the mice default method of imputation, which is Predictive Mean Matching. We then used these imputed datasets to separately estimate and then pool results from simple linear regressions on each of these datasets. There are many details we've glossed over and many settings you can adjust during the Multiple Imputation process while using the mice package. For example, you won't always have numerical data and might need to use other imputation methods (you can still use the mice package for many other types of data and methods). But, for a more robust analysis when missing data is a significant concern, Multiple Imputation is good solution that isn't always much more work than doing a complete case analysis. 
-
-
-
-
+Ở đây, chúng tôi sử dụng phương pháp gán mặc định của gói lệnh mice, đó là Predictive Mean Matching. Sau đó, chúng tôi sử dụng các bộ số liệu đã được gán này để ước tính riêng rẽ và gộp kết quả từ các hồi quy tuyến tính đơn giản trên mỗi bộ số liệu này. Có nhiều chi tiết mà chúng tôi đã phớt lờ và nhiều chỗ mà chúng ta có thể điều chỉnh trong suốt quá trình Gán Nhiều lần trong khi sử dụng gói lệnh mice. Ví dụ: chúng ta không phải lúc nào cũng có số liệu dạng số và có thể cần các phương pháp gán khác (chúng ta vẫn có thể sử dụng gói lệnh mice cho nhiều loại số liệu và phương pháp khác). Để một phân tích thiết thực hơn khi số liệu bị thiếu là một mối quan tâm đáng chú ý, Gán số liệu Nhiều lần là một giải pháp tốt, nhưng không phải lúc nào cũng hiệu quả hơn việc thực hiện một phân tích của các trường hợp hoàn chỉnh.
 
 <!-- ======================================================= -->
-## Resources { }
 
-Vignette on the [naniar package](https://cran.r-project.org/web/packages/naniar/vignettes/getting-started-w-naniar.html)
+## Tài nguyên học liệu
 
-Gallery of [missing value visualizations](https://cran.r-project.org/web/packages/naniar/vignettes/naniar-visualisation.html)
+Mô tả của [naniar package](https://cran.r-project.org/web/packages/naniar/vignettes/getting-started-w-naniar.html)
 
-[Online book](https://stefvanbuuren.name/fimd/) about multiple imputation in R by the maintainer of the **mice** package 
+Thư viện [trực quan hóa giá trị Missing](https://cran.r-project.org/web/packages/naniar/vignettes/naniar-visualisation.html)
+
+[Sách trực tuyến](https://stefvanbuuren.name/fimd/) về multiple imputation trong R bởi người bảo trì của package **mice**
