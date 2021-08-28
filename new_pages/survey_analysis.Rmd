@@ -1,54 +1,32 @@
-
-# Phân tích khảo sát {#survey-analysis}  
-
-<!-- ======================================================= -->
-## Overview {  }
-
-This page demonstrates the use of several packages for survey analysis. 
-
-
-Most survey R packages rely on the [**survey** package](https://cran.r-project.org/web/packages/survey/index.html) 
-for doing weighted analysis. 
-We will use **survey** as well as [**srvyr**](https://cran.r-project.org/web/packages/srvyr/index.html) 
-(a wrapper for **survey** allowing for tidyverse-style coding) and
-[**gtsummary**](https://cran.r-project.org/web/packages/gtsummary/index.html) 
-(a wrapper for **survey** allowing for publication ready tables). 
-While the original **survey** package does not allow for tidyverse-style coding, 
-it does have the added benefit of allowing for survey-weighted generalised linear 
-models (which will be added to this page at a later date). 
-We will also demonstrate using a function from the [**sitrep**](https://github.com/R4EPI/sitrep)
-package to create sampling weights (*n.b* this package is currently not yet on CRAN, 
-but can be installed from github).
-
-Most of this page is based off work done for the ["R4Epis" project](https://r4epis.netlify.app/); 
-for detailed code and R-markdown templates see the ["R4Epis" github page](https://github.com/R4EPI/sitrep). 
-Some of the **survey** package based code is based off early versions of 
-[EPIET case studies](https://github.com/EPIET/RapidAssessmentSurveys).
-
-At current this page does not address sample size calculations or sampling. 
-For a simple to use sample size calculator see [OpenEpi](https://www.openepi.com/Menu/OE_Menu.htm). 
-The [GIS basics](https://epirhandbook.com/gis-basics.html) page of the handbook 
-will eventually have a section on spatial random sampling, and this page will 
-eventually have a section on sampling frames as well as sample size calculations. 
-
-
-
-1.  Survey data 
-2.  Observation time 
-3.  Weighting 
-4.  Survey design objects
-5.  Descriptive analysis 
-6.  Weighted proportions
-7.  Weighted rates 
-
+# Phân tích khảo sát {#survey-analysis}
 
 <!-- ======================================================= -->
-## Preparation {  }
+
+## Tổng quan
+
+Chương này trình bày việc sử dụng một số packages để phân tích khảo sát.
+
+Hầu hết các packages R đều dựa trên [**survey** package](https://cran.r-project.org/web/packages/survey/index.html) cho phân tích có trọng số. Chúng tôi sẽ sử dụng **survey** cũng như [**srvyr**](https://cran.r-project.org/web/packages/srvyr/index.html) (một trình gọn hơn **survey** cho phép mã hóa theo kiểu tidyverse) và [**gtsummary**](https://cran.r-project.org/web/packages/gtsummary/index.html) (một trình bao bọc cho **survey** cho phép sẵn sàng xuất các bảng). Trong khi package **survey** ban đầu không cho phép mã hóa theo kiểu tidyverse, nó có thêm lợi ích là cho phép khảo sát được trọng số hóa mô hình tuyến tính tổng quát (sẽ được thêm vào chương này sau). Chúng tôi cũng sẽ chứng minh bằng cách sử dụng một hàm từ package [**sitrep**](https://github.com/R4EPI/sitrep) để tạo mẫu trọng số (*lưu ý* package này hiện chưa có trên CRAN, nhưng có thể được cài đặt từ github).
+
+Hầu hết trang này dựa trên công việc hoàn thành cho [dự án "R4Epis"](https://r4epis.netlify.app/); để biết code chi tiết và mẫu R-markdown xem [github chương "R4Epis"](https://github.com/R4EPI/sitrep). Một số package **survey** dựa trên các phiên bản đầu tiên của [các nghiên cứuu trường hợp EPIET](https://github.com/EPIET/RapidAssessmentSurveys).
+
+Hiện tại, chương này không đề cập đến các phép tính cỡ mẫu hoặc lấy mẫu. Để tính cỡ mẫu đơn giản, hãy xem [OpenEpi](https://www.openepi.com/Menu/OE_Menu.htm). Chương [GIS cơ bản](https://epirhandbook.com/gis-basics.html) của sổ tay sẽ có một phần về lấy mẫu ngẫu nhiên theo không gian và chương này cuối cùng sẽ có một phần về khung lấy mẫu cũng như kích thước mẫu các phép tính.
+
+1.  Dữ liệu khảo sát
+2.  Thời gian theo dõi
+3.  Áp dụng trọng số
+4.  Đối tượng thiết kế nghiên cứu
+5.  Phân tích mô tả
+6.  Tỷ lệ được áp dụng trọng số
+7.  Tỷ suất được áp dụng trọng số
+
+<!-- ======================================================= -->
+
+## Chuẩn bị
 
 ### Packages {.unnumbered}
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load packages with `library()` from **base** R. See the page on [R basics] for more information on R packages.  
-Here we also demonstrate using the `p_load_gh()` function from **pacman** to install a load a package from github which has not yet been published on CRAN. 
+Đoạn code này hiển thị tải các packages cần thiết cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến `p_load()` từ **pacman**, cài đặt packages nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các packages với `library()` từ **base** R. Xem chương về [R cơ bản] để biết thêm thông tin về các packages R. Ở đây chúng tôi cũng chứng minh việc sử dụng hàm `p_load_gh()` từ **pacman** để cài đặt một package tải từ github chưa được công bố trên CRAN.
 
 ```{r}
 
@@ -70,40 +48,25 @@ pacman::p_load_gh(
      "R4EPI/sitrep"          # for observation time / weighting functions
 )
 
-``` 
+```
 
-### Load data {.unnumbered}
+### Tải dữ liệu {.unnumbered}
 
-The example dataset used in this section:
+Bộ dữ liệu ví dụ được sử dụng trong phần này:
 
--   fictional mortality survey data.
--   fictional population counts for the survey area. 
--   data dictionary for the fictional mortality survey data. 
+-   dữ liệu điều tra tỷ lệ tử vong hư cấu.
+-   số lượng dân số hư cấu cho khu vực khảo sát.
+-   từ điển dữ liệu cho dữ liệu khảo sát tử vong hư cấu.
 
-This is based off the MSF OCA ethical review board pre-approved survey. The 
-fictional dataset was produced as part of the ["R4Epis" project](https://r4epis.netlify.app/). 
-This is all based off data collected using [KoboToolbox](https://www.kobotoolbox.org/), 
-which is a data collection software based off [Open Data Kit](https://opendatakit.org/).
+Bộ này dựa trên khảo sát đã được phê duyệt trước của hội đồng đạo đức MSF OCA. Các tập dữ liệu hư cấu được tạo như một phần của [Dự án "R4Epis"](https://r4epis.netlify.app/). Tất cả đều dựa trên dữ liệu được thu thập bằng [KoboToolbox](https://www.kobotoolbox.org/), đây là một phần mềm thu thập dữ liệu dựa trên [Open Data Kit](https://opendatakit.org/).
 
-Kobo allows you to export both the collected data, as well as the data dictionary 
-for that dataset. We strongly recommend doing this as it simplifies data cleaning 
-and is useful for looking up variables/questions. 
+Kobo cho phép bạn xuất cả dữ liệu đã thu thập, cũng như từ điển dữ liệu cho tập dữ liệu đó. Chúng tôi thực sự khuyên bạn nên làm điều này vì nó đơn giản hóa việc làm sạch dữ liệu và hữu ích cho việc tra cứu các biến/câu hỏi.
 
+[***MẸO:*** Từ điển dữ liệu Kobo có tên biến trong cột "name" của sheet "survey" (khảo sát). Các giá trị có thể có cho mỗi biến được chỉ định trong sheet "choices" (lựa chọn). Trong tab lựa chọn, "name" có giá trị rút gọn và các cột "label::english" và "label::french" có các phiên bản dài thích hợp. Sử dụng hàm **epidict** của package `msf_dict_survey()` để nhập tệp excel từ điển Kobo sẽ định dạng lại tệp này cho bạn để bạn có thể dễ dàng sử dụng để code lại.]{style="color: darkgreen;"}
 
-<span style="color: darkgreen;">**_TIP:_** The Kobo data dictionary has variable
-names in the "name" column of the survey sheet. 
-Possible values for each variable are specified in choices sheet. 
-In the choices tab, "name" has the shortened value and the "label::english" and 
-"label::french" columns have the appropriate long versions. 
-Using the **epidict** package `msf_dict_survey()` function to import a Kobo 
-dictionary excel file will re-format this for you so it can be used easily to recode.  </span>
+[***THẬN TRỌNG:*** Bộ dữ liệu ví dụ không giống nhau dưới dạng xuất (như trong Kobo, bạn xuất từng cấp bảng câu hỏi khác nhau) - xem phần dữ liệu khảo sát bên dưới để hợp nhất các cấp độ khác nhau.]{style="color: orange;"}
 
-<span style="color: orange;">**_CAUTION:_** The example dataset is not the same 
-as an export (as in Kobo you export different questionnaire levels individually) 
-- see the survey data section below to merge the different levels.</span>
-
-
-The dataset is imported using the `import()` function from the **rio** package. See the page on [Import and export](https://epirhandbook.com/import-and-export.html) for various ways to import data.
+Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương về [Nhập xuất dữ liệu](https://epirhandbook.com/import-and-export.html) để biết các cách nhập dữ liệu khác nhau.
 
 ```{r echo = FALSE}
 # import the survey into R
@@ -124,37 +87,28 @@ survey_data <- rio::import("survey_data.xlsx")
 survey_dict <- rio::import("survey_dict.xlsx") 
 ```
 
-The first 10 rows of the survey are displayed below.
+10 hàng đầu tiên của khảo sát được hiển thị bên dưới.
 
 ```{r, message = FALSE, echo = FALSE}
 # display the survey data as a table
 DT::datatable(head(survey_data, 10), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-We also want to import the data on sampling population so that we can produce 
-appropriate weights. This data can be in different formats, however we would 
-suggest to have it as seen below (this can just be typed in to an excel). 
-
+Chúng tôi cũng muốn nhập dữ liệu về quần thể mẫu để có thể tạo ra các trọng số thích hợp. Dữ liệu này có thể ở các định dạng khác nhau, tuy nhiên chúng tôi khuyên bạn nên định dạng như hình bên dưới (dữ liệu này có thể chỉ cần nhập vào excel).
 
 ```{r read_data_pop_show, eval = FALSE}
 # import the population data
 population <- rio::import("population.xlsx")
 ```
 
-The first 10 rows of the survey are displayed below.
+10 hàng đầu tiên của khảo sát được hiển thị bên dưới.
 
 ```{r message=FALSE, echo=F}
 # display the survey data as a table
 DT::datatable(head(population, 10), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-For cluster surveys you may want to add survey weights at the cluster level. 
-You could read this data in as above. 
-Alternatively if there are only a few counts, these could be entered as below
-in to a tibble. 
-In any case you will need to have one column with a cluster identifier which 
-matches your survey data, and another column with the number of households in 
-each cluster. 
+Đối với khảo sát cụm, bạn có thể muốn thêm trọng số khảo sát ở cấp cụm. Bạn có thể đọc dữ liệu này như trên. Ngoài ra, nếu chỉ có một vài số đếm, chúng có thể được nhập như dưới đây trong một bảng. Trong mọi trường hợp, bạn sẽ cần có một cột với mã định danh cụm khớp với dữ liệu khảo sát của bạn và một cột khác với số lượng hộ gia đình ở từng cụm.
 
 ```{r cluster_counts}
 
@@ -167,20 +121,13 @@ cluster_counts <- tibble(cluster = c("village_1", "village_2", "village_3", "vil
 
 ```
 
-### Clean data {.unnumbered}
+### Làm sạch dữ liệu {.unnumbered}
 
-The below makes sure that the date column is in the appropriate format. 
-There are several other ways of doing this (see the [Working with dates](https://epirhandbook.com/working-with-dates.html)
-page for details), however using the dictionary to define dates is quick and easy. 
+Dưới đây đảm bảo rằng cột ngày ở định dạng thích hợp. Có một số cách khác để thực hiện việc này (xem chương [Làm việc với ngày tháng](https://epirhandbook.com/working-with-dates.html) để biết chi tiết), tuy nhiên sử dụng từ điển để xác định ngày sẽ nhanh chóng và dễ dàng.
 
-We also create an age group variable using the `age_categories()` function from 
-**epikit** - see [cleaning data](https://epirhandbook.com/cleaning-data-and-core-functions.html#num_cats)
-handbook section for details. 
-In addition, we create a character variable defining which district the various clusters
-are in. 
+Chúng tôi cũng tạo một biến nhóm tuổi bằng cách sử dụng hàm `age_categories()` từ **epikit** - xem phần [Làm sạch dữ liệu](https://epirhandbook.com/cleaner-data-and-core-functions.html#num_cats) của sổ tay để biết chi tiết. Ngoài ra, chúng tôi tạo một biến ký tự xác định các cụm khác nhau nằm trong khu vực nào.
 
-Finally, we recode all of the yes/no variables to TRUE/FALSE variables - otherwise
-these cant be used by the **survey** proportion functions. 
+Cuối cùng, chúng tôi mã hóa lại tất cả các biến có/không thành các biến TRUE/FALSE - nếu không, các biến này không thể được sử dụng bởi các hàm tỷ lệ **survey**.
 
 ```{r cleaning}
 
@@ -232,27 +179,15 @@ survey_data <- survey_data %>%
 
 ```
 
-
-
 <!-- ======================================================= -->
-## Survey data {  }
 
-There numerous different sampling designs that can be used for surveys. Here 
-we will demonstrate code for: 
-- Stratified 
-- Cluster 
-- Stratified and cluster 
+## Dữ liệu khảo sát
 
-As described above (depending on how you design your questionnaire) the data for 
-each level would be exported as a separate dataset from Kobo. In our example there
-is one level for households and one level for individuals within those households. 
+Có rất nhiều thiết kế lấy mẫu khác nhau có thể được sử dụng cho các khảo sát. Ở đây chúng tôi sẽ trình bày code cho: - Phân tầng - Cụm - Cụm phân tầng  
 
-These two levels are linked by a unique identifier. 
-For a Kobo dataset this variable is "_index" at the household level, which 
-matches the "_parent_index" at the individual level.
-This will create new rows for household with each matching individual, 
-see the handbook section on [joining](https://epirhandbook.com/joining-data.html)
-for details. 
+Như đã mô tả ở trên (tùy thuộc vào cách bạn thiết kế bảng câu hỏi của mình), dữ liệu cho mỗi cấp độ sẽ được xuất dưới dạng bộ dữ liệu riêng biệt từ Kobo. Trong ví dụ của chúng tôi, có một cấp cho các hộ gia đình và một cấp cho các cá nhân trong các hộ gia đình đó.  
+
+Hai cấp độ này được liên kết bởi một mã định danh duy nhất. Đối với bộ dữ liệu Kobo, biến này là "\_index" ở cấp hộ gia đình, khớp với "\_parent_index" ở cấp cá nhân. Thao tác này sẽ tạo các hàng mới cho hộ gia đình với mỗi cá nhân phù hợp, hãy xem phần [Nối dữ liệu](https://epirhandbook.com/joining-data.html) để biết chi tiết.  
 
 ```{r merge_data_levels, eval = FALSE}
 
@@ -269,19 +204,12 @@ survey_data <- survey_data %>%
 ```
 
 <!-- ======================================================= -->
-## Observation time {  }
 
-For mortality surveys we want to now how long each individual was present for in 
-the location to be able to calculate an appropriate mortality rate for our period 
-of interest. This is not relevant to all surveys, but particularly for mortality
-surveys this is important as they are conducted frequently among mobile or displaced
-populations. 
+## Thời gian theo dõi
 
-To do this we first define our time period of interest, also known as a recall 
-period (i.e. the time that participants are asked to report on when answering 
-questions). 
-We can then use this period to set inappropriate dates to missing, i.e. if deaths
-are reported from outside the period of interest. 
+Đối với các cuộc khảo sát về tỷ lệ tử vong, chúng ta muốn biết mỗi cá nhân đã có mặt tại địa điểm trong bao lâu để có thể tính toán tỷ lệ tử vong thích hợp trong khoảng thời gian nghiên cứu. Điều này không liên quan đến tất cả các cuộc điều tra, nhưng đặc biệt rất quan trọng đối với các cuộc điều tra tử vong vì chúng thường được khảo sát ở các quần thể di động hoặc di cư.  
+
+Để làm điều này, trước tiên chúng ta xác định khoảng thời gian khảo sát, còn được gọi là khoảng thời gian hồi cứu (tức là thời gian mà những người tham gia được yêu cầu báo cáo khi trả lời câu hỏi). Sau đó, chúng ta có thể sử dụng khoảng thời gian này để đặt các ngày không thích hợp thành giá trị bị thiếu, tức là nếu các trường hợp tử vong được báo cáo ngoài khoảng thời gian khảo sát.  
 
 ```{r recall_period}
 
@@ -314,20 +242,11 @@ survey_data <- survey_data %>%
 
 ```
 
+Sau đó, chúng ta có thể sử dụng các biến ngày của mình để xác định ngày bắt đầu và ngày kết thúc cho từng cá nhân. Chúng ta có thể sử dụng hàm `find_start_date()` từ **sitrep** để xác định ngày bắt đầu và sau đó sử dụng hàm đó để tính toán sự khác biệt giữa các ngày (người-thời gian).  
 
-We can then use our date variables to define start and end dates for each individual. 
-We can use the `find_start_date()` function from **sitrep** to fine the causes for 
-the dates and then use that to calculate the difference between days (person-time). 
+Ngày bắt đầu: Sự kiện phù hợp tới sớm nhất trong khoảng thời gian hồi cứu của bạn. Hoặc là ngày bắt đầu thời gian hồi cứu của bạn (mà bạn xác định trước) hoặc ngày sau khi bắt đầu hồi cứu nếu có (ví dụ: đến hoặc sinh)  
 
-start date: 
-Earliest appropriate arrival event within your recall period
-Either the beginning of your recall period (which you define in advance), or a 
-date after the start of recall if applicable (e.g. arrivals or births)
-
-end date: 
-Earliest appropriate departure event within your recall period
-Either the end of your recall period, or a date before the end of recall 
-if applicable (e.g. departures, deaths)
+Ngày kết thúc: Sự kiện dừng lại thích hợp sớm nhất trong thời gian hồi cứu của bạn. Hoặc là ngày kết thúc thời gian hồi cứu hoặc ngày trước khi kết thúc hồi cứu nếu có (ví dụ: rời đi, tử vong)  
 
 ```{r observation_time}
 
@@ -376,25 +295,15 @@ survey_data <- survey_data %>%
 
 ```
 
-
 <!-- ======================================================= -->
-## Weighting {  }
 
-It is important that you drop erroneous observations before adding survey weights. 
-For example if you have observations with negative observation time, you will need
-to check those (you can do this with the `assert_positive_timespan()` function 
-from **sitrep**. 
-Another thing is if you want to drop empty rows (e.g. with `drop_na(uid)`)
-or remove duplicates (see handbook section on [De-duplication] 
-for details). 
-Those without consent need to be dropped too. 
+## Áp dụng trọng số
 
-In this example we filter for the cases we want to drop and store them in a separate
-data frame - this way we can describe those that were excluded from the survey. 
-We then use the `anti_join()` function from **dplyr** to remove these dropped cases
-from our survey data. 
+Điều quan trọng là bạn phải loại bỏ các đối tượng có lỗi trước khi thêm trọng số khảo sát. Ví dụ: nếu bạn có các quan sát với thời gian theo dõi âm, bạn sẽ cần kiểm tra các đối tượng đó (bạn có thể thực hiện việc này với hàm `assert_positive_timespan()` từ **sitrep**. Một điều khác là nếu bạn muốn bỏ các hàng trống (ví dụ: với `drop_na(uid)`) hoặc xóa các bản trùng (xem phần sổ tay về [Loại bỏ trùng lặp] để biết thêm chi tiết). Những đối tượng không có sự đồng ý cũng cần phải bị xóa.  
 
-<span style="color: red;">**_DANGER:_** You cant have missing values in your weight variable, or any of the variables relevant to your survey design (e.g. age, sex, strata or cluster variables).</span>  
+Trong ví dụ này, chúng tôi lọc các trường hợp muốn loại bỏ và lưu trữ chúng trong một dataframe riêng - theo cách này, chúng tôi có thể mô tả những trường hợp đã bị loại khỏi khảo sát. Sau đó, chúng tôi sử dụng hàm `anti_join()` từ **dplyr** để xóa những trường hợp bị loại bỏ này khỏi dữ liệu khảo sát của chúng tôi.
+
+[***NGUY HIỂM:*** Bạn không được có giá trị trống trong biến trọng số của mình hoặc bất kỳ biến nào có liên quan đến thiết kế khảo sát của bạn (ví dụ: tuổi, giới tính, biến tầng hoặc cụm).]{style="color: red;"}  
 
 ```{r remove_unused_data}
 
@@ -408,11 +317,7 @@ survey_data <- anti_join(survey_data, dropped, by = names(dropped))
 
 ```
 
-As mentioned above we demonstrate how to add weights for three different study 
-designs (stratified, cluster and stratified cluster). These require information 
-on the source population and/or the clusters surveyed. 
-We will use the stratified cluster code for this example, but use whichever is
-most appropriate for your study design. 
+Như đã đề cập ở trên, chúng tôi trình bày cách thêm trọng số cho ba thiết kế nghiên cứu khác nhau (phân tầng, phân cụm và cụm phân tầng). Chúng yêu cầu thông tin về dân số gốc và/hoặc các cụm được khảo sát. Chúng tôi sẽ sử dụng code cụm phân tầng cho ví dụ này, nhưng hãy sử dụng code nào thích hợp nhất cho thiết kế nghiên cứu của bạn.  
 
 ```{r survey_weights}
 
@@ -455,38 +360,23 @@ survey_data <- survey_data %>%
 
 ```
 
-
 <!-- ======================================================= -->
-## Survey design objects {  }
 
-Create survey object according to your study design. 
-Used the same way as data frames to calculate weight proportions etc. 
-Make sure that all necessary variables are created before this. 
+## Đối tượng theo thiết kế nghiên cứu
 
-There are four options, comment out those you do not use: 
-- Simple random 
-- Stratified 
-- Cluster 
-- Stratified cluster
+Tạo đối tượng khảo sát theo thiết kế nghiên cứu của bạn. Sử dụng theo cách tương tự như dataframe để tính toán tỷ lệ trọng số, v.v. Đảm bảo rằng tất cả các biến cần thiết đã được tạo trước bước này.  
 
-For this template - we will pretend that we cluster surveys in two separate 
-strata (health districts A and B). 
-So to get overall estimates we need have combined cluster and strata weights. 
+Có bốn tùy chọn, hãy tạo thành bình luận trong code những tùy chọn bạn không sử dụng: - Ngẫu nhiên đơn - Phân tầng - Cụm - Cụm phân tầng  
 
-As mentioned previously, there are two packages available for doing this. The 
-classic one is **survey** and then there is a wrapper package called **srvyr** 
-that makes tidyverse-friendly objects and functions. We will demonstrate both, 
-but note that most of the code in this chapter will use **srvyr** based objects. 
-The one exception is that the **gtsummary** package only accepts **survey** objects. 
+Đối với mẫu này - chúng tôi sẽ giả vờ rằng chúng tôi nhóm cụm các cuộc khảo sát theo hai tầng riêng biệt (khu vực A và B). Vì vậy, để có được ước tính tổng thể, chúng ta cần có trọng số kết hợp của cụm và tầng.  
 
-### **Survey** package  
+Như đã đề cập trước đây, có hai packages có sẵn để thực hiện việc này. Package cổ điển là **survey** và một package gọn hơn được gọi là **srvyr** giúp tạo các đối tượng và chức năng theo giao diện tương tự tidyverse. Chúng tôi sẽ trình bày cả hai, nhưng lưu ý rằng hầu hết code trong chương này sẽ sử dụng các đối tượng dựa trên **srvyr**. Một ngoại lệ là package **gtsummary** chỉ chấp nhận các đối tượng **survey**.  
 
-The **survey** package effectively uses **base** *R* coding, and so it is not 
-possible to use pipes (`%>%`) or other **dplyr** syntax. 
-With the **survey** package we use the `svydesign()` function to define a survey
-object with appropriate clusters, weights and strata. 
+### Package **Survey** 
 
-<span style="color: black;">**_NOTE:_** we need to use the tilde (`~`) in front of variables, this is because the package uses the **base** *R* syntax of assigning variables based on formulae. </span>
+Package **survey** sử dụng hiệu quả code **base** *R* nên không thể sử dụng các pipes (`%>%`) hoặc cú pháp **dplyr** khác. Với package **survey**, chúng tôi sử dụng hàm `svydesign()` để xác định đối tượng khảo sát với các cụm, trọng số và tầng thích hợp.  
+
+[***LƯU Ý:*** chúng ta cần sử dụng dấu ngã (`~`) trước các biến, điều này là do package sử dụng cú pháp **base** *R* để gán các biến dựa trên công thức.]{style="color: black;"}  
 
 ```{r survey_design}
 
@@ -519,14 +409,10 @@ base_survey_design <- svydesign(ids = ~village_name,      # cluster ids
                   )
 ```
 
+### Package **Srvyr** 
 
-
-### **Srvyr** package  
-
-With the **srvyr** package we can use the `as_survey_design()` function, which 
-has all the same arguments as above but allows pipes (`%>%`), and so we do not 
-need to use the tilde (`~`). 
-
+Với package **srvyr**, chúng ta có thể sử dụng hàm `as_survey_design()`, nó có tất cả các đối số tương tự như trên nhưng cho phép dùng các pipes (`%>%`), và vì vậy chúng ta không cần sử dụng dấu ngã (`~`).  
+ 
 ```{r survey_design_srvyr}
 ## simple random ---------------------------------------------------------------
 survey_design_simple <- survey_data %>% 
@@ -556,39 +442,24 @@ survey_design <- survey_data %>%
 ```
 
 <!-- ======================================================= -->
-## Descriptive analysis {  }
 
-Basic descriptive analysis and visualisation is covered extensively in other 
-chapters of the handbook, so we will not dwell on it here. 
-For details see the chapters on [descriptive tables](https://epirhandbook.com/descriptive-tables.html), 
-[statistical tests](https://epirhandbook.com/simple-statistical-tests.html), 
-[tables for presentation](https://epirhandbook.com/tables-for-presentation.html), 
-[ggplot basics](https://epirhandbook.com/ggplot-basics.html) and 
-[R markdown reports](https://epirhandbook.com/r-markdown-reports.html). 
+## Phân tích mô tả  
 
-In this section we will focus on how to investigate bias in your sample and visualise this. 
-We will also look at visualising population flow in a survey setting using 
-alluvial/sankey diagrams. 
+Phân tích mô tả và trực quan hóa cơ bản được đề cập nhiều trong các chương khác của cuốn sổ tay, vì vậy chúng tôi sẽ không đi sâu vào nó ở đây. Để biết chi tiết, hãy xem các chương về [Bảng mô tả](https://epirhandbook.com/descriptive-tables.html), [Các kiểm định thống kê cơ bản](https://epirhandbook.com/simple-statistical-tests.html), [Trình bày bảng](https://epirhandbook.com/tables-for-presentation.html), [ggplot cơ bản](https://epirhandbook.com/ggplot-basics.html) and [Báo cáo với R Markdown](https://epirhandbook.com/r-markdown-reports.html).  
 
-In general, you should consider including the following descriptive analyses:  
+Trong phần này, chúng tôi sẽ tập trung vào cách điều tra sai số trong mẫu của bạn và trực quan chúng. Chúng ta cũng sẽ xem xét việc trực quan hóa dòng dân cư trong bối cảnh khảo sát bằng cách sử dụng sơ đồ luồng alluvial/sankey.  
 
-- Final number of clusters, households and individuals included  
-- Number of excluded individuals and the reasons for exclusion 
-- Median (range) number of households per cluster and individuals per household 
+Nhìn chung, bạn nên xem xét đưa vào các phân tích mô tả sau:  
 
+-   Số cụm, hộ gia đình và cá nhân cuối cùng được đưa vào
+-   Số lượng cá nhân bị loại trừ và lý do loại trừ
+-   Trung vị (biên độ) số hộ gia đình trên một cụm và số cá thể trên một hộ gia đình  
 
-### Sampling bias 
+### Sai số chọn mẫu  
 
-Compare the proportions in each age group between your sample and 
-the source population. 
-This is important to be able to highlight potential sampling bias. 
-You could similarly repeat this looking at distributions by sex. 
+So sánh tỷ lệ trong từng nhóm tuổi giữa mẫu của bạn và quần thể gốc. Điều này rất quan trọng để có thể làm nổi bật sai số chọn mẫu tiềm ẩn. Tương tự, bạn có thể lặp lại điều này khi xem xét sự phân bố theo giới tính.
 
-Note that these p-values are just indicative, and a descriptive discussion (or
-visualisation with age-pyramids below) of the distributions in your study sample 
-compared to the source population is more important than the binomial test itself.
-This is because increasing sample size will more often than not lead to 
-differences that may be irrelevant after weighting your data.
+Lưu ý rằng các giá trị p này chỉ mang tính chất chỉ dẫn và phần thảo luận mang tính mô tả (hoặc trực quan với tháp tuổi bên dưới) về các phân bố trong mẫu nghiên cứu của bạn so với quần thể gốc quan trọng hơn chính phép kiểm định hai nhóm. Đó là do việc tăng cỡ mẫu sẽ hay dẫn đến những khác biệt có thể không liên quan sau khi áp dụng trọng số vào dữ liệu của bạn.  
 
 ```{r descriptive_sampling_bias, warning = FALSE}
 
@@ -640,35 +511,13 @@ left_join(ag, propcount, by = "age_group", suffix = c("", "_pop")) %>%
   )
 ```
 
+### Tháp dân số  
 
+Tháp dân số (hoặc tuổi-giới) là một cách dễ dàng để trực quan hóa sự phân bố trong quần thể khảo sát của bạn. Cũng nên xem xét việc tạo [bảng mô tả](https://epirhandbook.com/descriptive-tables.html) về độ tuổi và giới tính theo tầng khảo sát. Chúng tôi sẽ biểu diễn bằng package **apyramid** vì nó cho phép các tỷ lệ được áp dụng trọng số sử dụng đối tượng theo thiết kế nghiên cứu của chúng tôi đã tạo ở trên. Các tùy chọn khác để tạo [Tháp dân số](https://epirhandbook.com/demographic-pyramids-and-likert-scales.html) được đề cập nhiều trong chương đó của sổ tay. Chúng tôi cũng sẽ sử dụng một hàm gọn hơn từ **sitrep** được gọi là `plot_age_pyramid()` để lưu một vài dòng code để tạo ra một biểu đồ theo tỷ lệ.  
 
-### Demographic pyramids 
+Giống như với phép kiểm định sự khác biệt giữa hai nhóm chuẩn, được thấy ở trên trong phần sai số chọn mẫu, ở đây chúng ta quan tâm đến việc hình dung liệu quần thể mẫu của chúng ta có khác biệt đáng kể so với quần thể gốc hay không, và liệu trọng số có sửa chữa được sự khác biệt này hay không. Để làm điều này, chúng tôi sẽ sử dụng package **patchwork** để hiển thị các hình ảnh trực quan **ggplot** song song với nhau; chi tiết xem phần kết hợp các đồ thị trong chương [Các tips với ggplot](https://epirhandbook.com/ggplot-tips.html?q=patch#combine-plots) của sổ tay. Chúng tôi sẽ trực quan hóa quần thể gốc, quần thể khảo sát không trọng số và quần thể khảo sát có trọng số. Bạn cũng có thể xem xét trực quan theo từng tầng của khảo sát - bằng cách sử dụng đối số `stack_by  = "health_district"` trong ví dụ của chúng tôi ở đây (xem `?plot_age_pyramid` để biết chi tiết).  
 
-Demographic (or age-sex) pyramids are an easy way of visualising the distribution
-in your survey population. It is also worth considering creating 
-[descriptive tables](https://epirhandbook.com/descriptive-tables.html) of age 
-and sex by survey strata. 
-We will demonstrate using the **apyramid** package as it allows for weighted 
-proportions using our survey design object created above. Other options for creating
-[demographic pyramids](https://epirhandbook.com/demographic-pyramids-and-likert-scales.html)
-are covered extensively in that chapter of the handbook. We will also use a 
-wrapper function from **sitrep** called `plot_age_pyramid()` which saves a few lines
-of coding for producing a plot with proportions. 
-
-As with the formal binomial test of difference, seen above in the sampling bias 
-section, we are interested here in visualising whether our sampled population 
-is substantially different from the source population and whether weighting corrects
-this difference. To do this we will use the **patchwork** package to show our 
-**ggplot** visualisations side-by-side; for details see the section on 
-combining plots in [ggplot tips](https://epirhandbook.com/ggplot-tips.html?q=patch#combine-plots)
-chapter of the handbook. 
-We will visualise our source population, our un-weighted survey population and 
-our weighted survey population.
-You may also consider visualising by each strata of your survey - in our example 
-here that would be by using the argument `stack_by  = "health_district"` 
-(see `?plot_age_pyramid` for details). 
-
-<span style="color: black;">**_NOTE:_** The x and y axes are flipped in pyramids </span>
+[***Lưu ý:*** Trục x và y được lật ngược trong tháp]{style="color: black;"}
 
 ```{r weighted_age_pyramid, warning = FALSE, message = FALSE, fig.show = "hold", fig.width = 15}
 
@@ -776,16 +625,9 @@ source_population + sample_population + weighted_population +
        )
 ```
 
+### Sơ đồ alluvial/sankey
 
-### Alluvial/sankey diagram
-
-Visualising starting points and outcomes for individuals can be very helpful to 
-get an overview. There is quite an obvious application for mobile populations, 
-however there are numerous other applications such as cohorts or any other situation
-where there are transitions in states for individuals. These diagrams have several
-different names including alluvial, sankey and parallel sets - the details are 
-in the handbook chapter on [diagrams and charts](https://epirhandbook.com/diagrams-and-charts.html#alluvialsankey-diagrams). 
-
+Trực quan điểm bắt đầu và kết quả của từng cá nhân có thể rất hữu ích để có được cái nhìn tổng quan. Có một ứng dụng khá rõ ràng cho quần thể di động, tuy nhiên có rất nhiều ứng dụng khác như nhóm thuần tập hoặc bất kỳ tình huống nào khác trong đó có sự chuyển đổi ở các trạng thái cho các cá nhân. Các sơ đồ này có một số tên khác nhau bao gồm các tập hợp alluvial, sankey và song song - chi tiết có trong chương sổ tay về [Sơ đồ và biểu đồ](https://epirhandbook.com/diagrams-and-charts.html#alluvialsankey-diagrams).  
 
 ```{r visualise_population_flow}
 
@@ -828,33 +670,17 @@ ggplot(flow_table, aes(x, id = id, split = y, value = n)) +
 
 ```
 
-
 <!-- ======================================================= -->
-## Weighted proportions {  }
 
-This section will detail how to produce tables for weighted counts and proportions,
-with associated confidence intervals and design effect. 
-There are four different options using functions from the following packages: 
-**survey**, **srvyr**, **sitrep** and **gtsummary**. 
-For minimal coding to produce a standard epidemiology style table, we would 
-recommend the **sitrep** function - which is a wrapper for **srvyr** code; note 
-however that this is not yet on CRAN and may change in the future. 
-Otherwise, the **survey** code is likely to be the most stable long-term, whereas 
-**srvyr** will fit most nicely within tidyverse work-flows. While **gtsummary** 
-functions hold a lot of potential, they appear to be experimental and incomplete
-at the time of writing. 
+## Tỷ lệ được áp dụng trọng số
 
+Phần này sẽ trình bày chi tiết cách tạo bảng cho số lượng và tỷ lệ được áp dụng trọng số, với khoảng tin cậy và hệ số thiết kế liên quan. Có bốn tùy chọn khác nhau sử dụng các hàm từ các packages sau: **survey**, **srvyr**, **sitrep** và **gtsummary**. Để tạo ra một bảng dịch tễ học tiêu chuẩn với code tối giản, chúng tôi khuyên bạn nên dùng hàm **sitrep** - là một hàm có code gọn hơn của **srvyr**; Tuy nhiên, lưu ý rằng hàm này chưa có trên CRAN và có thể thay đổi trong tương lai. Mặt khác, code của **survey** có thể là code ổn định nhất trong thời gian dài, trong khi **srvyr** sẽ phù hợp nhất trong các luồng việc tidyverse. Mặc dù các hàm **gtsummary** có rất nhiều tiềm năng, nhưng chúng vẫn đang được thử nghiệm và chưa hoàn thiện tại thời điểm viết chương này.  
 
-### **Survey** package 
+### Package **survey**
 
-We can use the `svyciprop()` function from **survey** to get weighted proportions 
-and accompanying 95% confidence intervals. An appropriate design effect can be 
-extracted using the `svymean()` rather than `svyprop()` function. 
-It is worth noting that `svyprop()` only appears to accept variables between 0 and
-1 (or TRUE/FALSE), so categorical variables will not work.
+Chúng ta có thể sử dụng hàm `svyciprop()` từ **survey** để lấy tỷ lệ có trọng số và khoảng tin cậy 95% đi kèm. Một hệ số thiết kế thích hợp có thể được trích xuất bằng cách sử dụng hàm `svymean()` chứ không phải hàm `svyprop()`. Cần lưu ý rằng `svyprop()` dường như chỉ chấp nhận các biến từ 0 đến 1 (hoặc TRUE/FALSE), vì vậy các biến phân loại sẽ không hoạt động.  
 
-<span style="color: black;">**_NOTE:_** Functions from **survey** also accept **srvyr** design objects, but here we have used the **survey** design object just for consistency </span>
-
+[***LƯU Ý:*** Các hàm từ **survey** cũng chấp nhận các đối tượng thiết kế **srvyr**, nhưng ở đây chúng tôi đã sử dụng đối tượng thiết kế **survey** chỉ cho tính nhất quán]{style="color: black;"}  
 
 ```{r survey_props}
 
@@ -870,11 +696,7 @@ svymean(~died, base_survey_design, na.rm = T, deff = T) %>%
 
 ```
 
-We can combine the functions from **survey** shown above in to a function which 
-we define ourselves below, called `svy_prop`; and we can then use that function 
-together with `map()` from the purrr package to iterate over several variables 
-and create a table. See the handbook [iteration](https://epirhandbook.com/iteration-loops-and-lists.html) 
-chapter for details on **purrr**. 
+Chúng ta có thể kết hợp các hàm từ **survey** được hiển thị ở trên với một hàm mà chúng ta tự định nghĩa bên dưới, được gọi là `svy_prop`; và sau đó chúng ta có thể sử dụng hàm đó cùng với `map()` từ package purrr để lặp qua một số biến và tạo một bảng. Xem chương [Lặp](https://epirhandbook.com/iteration-loops-and-lists.html) để biết chi tiết về **purrr**.  
 
 ```{r survey_prop_fun}
 # Define function to calculate weighted counts, proportions, CI and design effect
@@ -928,17 +750,11 @@ purrr::map(
 
 ```
 
+### Package **srvyr** 
 
+Với **srvyr** chúng ta có thể sử dụng cú pháp **dplyr** để tạo một bảng. Lưu ý rằng hàm `survey_mean()` được sử dụng, đối số tỷ lệ được chỉ định và hàm tương tự cũng được sử dụng để tính toán hệ số thiết kế. Điều này là do **srvyr** bao gồm cả hai hàm `svyciprop()` và `svymean()` của package **survey**, được sử dụng trong phần trên.  
 
-### **Srvyr** package 
-
-With **srvyr** we can use **dplyr** syntax to create a table. Note that the 
-`survey_mean()` function is used and the proportion argument is specified, and 
-also that the same function is used to calculate design effect. This is because 
-**srvyr** wraps around both of the **survey** package functions `svyciprop()` and 
-`svymean()`, which are used in the above section. 
-
-<span style="color: black;">**_NOTE:_** It does not seem to be possible to get proportions from categorical variables using **srvyr** either, if you need this then check out the section below using **sitrep** </span>
+[***LƯU Ý:*** Có vẻ như không thể lấy tỷ lệ từ các biến phân loại bằng **srvyr**, nếu bạn cần điều này, hãy xem phần bên dưới sử dụng **sitrep**]{style="color: black;"}  
 
 ```{r srvyr_prop}
 
@@ -960,10 +776,7 @@ survey_design %>%
 
 ```
 
-Here too we could write a function to then iterate over multiple variables using
-the **purrr** package. 
-See the handbook [iteration](https://epirhandbook.com/iteration-loops-and-lists.html) 
-chapter for details on **purrr**. 
+Ở đây, chúng ta cũng có thể viết một hàm để sau đó lặp qua nhiều biến bằng cách sử dụng package **purrr**. Xem chương [Lặp](https://epirhandbook.com/iteration-loops-and-lists.html) của sổ tay để biết chi tiết về **purrr**.  
 
 ```{r srvyr_prop_fun}
 
@@ -1007,13 +820,9 @@ purrr::map(
 
 ```
 
+### Package **sitrep** 
 
-
-### **Sitrep** package 
-
-The `tab_survey()` function from **sitrep** is a wrapper for **srvyr**, allowing 
-you to create weighted tables with minimal coding. It also allows you to calculate
-weighted proportions for categorical variables. 
+Hàm `tab_survey()` từ **sitrep** là một hàm gọn hơn cho **srvyr**, cho phép bạn tạo các bảng có trọng số với code tối giản. Nó cũng cho phép bạn tính toán tỷ lệ có trọng số cho các biến phân loại.  
 
 ```{r sitrep_props}
 
@@ -1027,16 +836,9 @@ survey_design %>%
 
 ```
 
+### Package **gtsummary** 
 
-
-### **Gtsummary** package
-
-With **gtsummary** there does not seem to be inbuilt functions yet to add confidence
-intervals or design effect. 
-Here we show how to define a function for adding confidence intervals and then 
-add confidence intervals to a **gtsummary** table created using the `tbl_svysummary()` 
-function. 
-
+Với **gtsummary**, dường như vẫn chưa có hàm sẵn có để thêm khoảng tin cậy hoặc hệ số thiết kế. Ở đây chúng tôi trình bày cách định nghĩa một hàm để thêm khoảng tin cậy và sau đó thêm khoảng tin cậy vào bảng được tạo bằng **gtsummary** với hàm `tbl_svysummary()`.  
 
 ```{r gtsummary_table}
 
@@ -1071,19 +873,13 @@ tbl_svysummary(base_survey_design,
 
 ```
 
-
-
 <!-- ======================================================= -->
-## Weighted ratios {  }
 
-Similarly for weighted ratios (such as for mortality ratios) you can use the 
-**survey** or the **srvyr** package. 
-You could similarly write functions (similar to those above) to iterate over 
-several variables. You could also create a function for **gtsummary** as above
-but currently it does not have inbuilt functionality. 
+## Tỷ suất được áp dụng trọng số
 
+Tương tự đối với các tỷ lệ được áp dụng trọng số (chẳng hạn như tỷ lệ tử vong), bạn có thể sử dụng package **survey** hoặc **srvyr**. Tương tự, bạn có thể viết các hàm (tương tự như ở trên) để lặp qua một số biến. Bạn cũng có thể tạo một hàm cho **gtsummary** như trên nhưng hiện tại nó không có chức năng sẵn có.  
 
-### **Survey** package 
+### Package **survey**
 
 ```{r survey_ratio}
 
@@ -1100,8 +896,7 @@ cbind(
 
 ```
 
-
-### **Srvyr** package 
+### Package **srvyr** 
 
 ```{r srvyr_ratio}
 
@@ -1116,18 +911,16 @@ survey_design %>%
 
 ```
 
-
-
-
 <!-- ======================================================= -->
-## Resources {  }
 
-[UCLA stats page](https://stats.idre.ucla.edu/r/seminars/survey-data-analysis-with-r/)  
+## Tài nguyên 
 
-[Analyze survey data free](http://asdfree.com/)  
+[UCLA stats page](https://stats.idre.ucla.edu/r/seminars/survey-data-analysis-with-r/)
 
-[srvyr packge](http://gdfe.co/srvyr/)  
+[Analyze survey data free](http://asdfree.com/)
 
-[gtsummary package](http://www.danieldsjoberg.com/gtsummary/reference/index.html) 
+[srvyr packge](http://gdfe.co/srvyr/)
+
+[gtsummary package](http://www.danieldsjoberg.com/gtsummary/reference/index.html)
 
 [EPIET survey case studies](https://github.com/EPIET/RapidAssessmentSurveys)
