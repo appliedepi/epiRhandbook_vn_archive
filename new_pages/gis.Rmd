@@ -530,7 +530,7 @@ tm_layout(title = "Cases by clinic catchment area")
 
 ### Các hàm nối theo không gian khác {.unnumbered}
 
-Các giá trị tùy chọn cho đối số `join` bao gồm (lấy từ [tai liệu này](https://r-spatial.github.io/sf/reference/st_join.html))
+Các giá trị tùy chọn cho đối số `join` bao gồm (lấy từ [tài liệu này](https://r-spatial.github.io/sf/reference/st_join.html))
 
 -   st_contains_properly\
 -   st_contains\

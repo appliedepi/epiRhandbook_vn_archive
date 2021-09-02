@@ -72,7 +72,7 @@
 <li><a class="" href="stat-tests.html"><span class="header-section-number">18</span> Các kiểm định thống kê cơ bản</a></li>
 <li><a class="" href="regression.html"><span class="header-section-number">19</span> Hồi quy đơn và đa biến</a></li>
 <li><a class="" href="missing-data.html"><span class="header-section-number">20</span> Dữ liệu Missing</a></li>
-<li><a class="" href="standardization.html"><span class="header-section-number">21</span> Tỷ lệ chuẩn hóa</a></li>
+<li><a class="" href="standardization.html"><span class="header-section-number">21</span> Tỷ suất chuẩn hóa</a></li>
 <li><a class="" href="moving-average.html"><span class="header-section-number">22</span> Đường trung bình động</a></li>
 <li><a class="" href="time-series.html"><span class="header-section-number">23</span> Chuỗi thời gian và phát hiện ổ dịch</a></li>
 <li><a class="" href="epidemic-models.html"><span class="header-section-number">24</span> Mô hình hóa dịch bệnh</a></li>
@@ -116,539 +116,323 @@
 <h1>
 <span class="header-section-number">46</span> Version control với Git và Github<a class="anchor" aria-label="anchor" href="#collaboration"><i class="fas fa-link"></i></a>
 </h1>
-<p>This chapter presents an overview of using Git to collaborate with others.
-More extensive tutorials can be
-found at the bottom in the Resources section.</p>
-<div id="what-is-git" class="section level2" number="46.1">
+<p>Chương này trình bày tổng quan về việc sử dụng Git để làm việc nhóm với những người khác. Bạn có thể tìm các hướng dẫn nâng cao hơn ở trong phần Tài nguyên học liệu.</p>
+<div id="git-là-gì" class="section level2" number="46.1">
 <h2>
-<span class="header-section-number">46.1</span> What is Git?<a class="anchor" aria-label="anchor" href="#what-is-git"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.1</span> Git là gì?<a class="anchor" aria-label="anchor" href="#git-l%C3%A0-g%C3%AC"><i class="fas fa-link"></i></a>
 </h2>
-<p>Git is a <strong>version control</strong> software that allows tracking changes in a
-folder. It can be used like the “track change” option in Word, LibreOffice or
-Google docs, but for all types of files. It is one of the most powerful
-and most used options for version control.</p>
-<p><strong>Why have I never heard of it? -</strong> While people with a developer
-background routinely learn to use version control software (Git,
-Mercurial, Subversion or others), few of us from
-quantitative disciplines are taught these skills. Consequently, most epidemiologists never
-hear of it during their studies, and have to learn it on the fly.</p>
-<p><strong>Wait, I heard of Github, is it the same?</strong> - Not exactly, but you
-often use them together, and we will show you how to. In short:</p>
+<p>Git là một phần mềm <strong>kiểm soát phiên bản</strong> cho phép theo dõi các thay đổi trong một thư mục. Nó có thể được sử dụng như tùy chọn “track change” trong Word, LibreOffice hoặc Google docs, nhưng dành cho tất cả các loại tệp. Nó là một trong những công cụ mạnh mẽ nhất và được sử dụng nhiều nhất để kiểm soát phiên bản.</p>
+<p><strong>Tại sao tôi chưa bao giờ nghe nói về Git? -</strong> Trong khi hầu hết những nhà lập trình thường xuyên phải học cách sử dụng phần mềm để kiểm soát phiên bản (Git, Mercurial, Subversion hoặc những phần mềm khác), ít người trong chúng ta xuất thân từ các ngành định lượng được dạy các kỹ năng này. Do đó, hầu hết các nhà dịch tễ học không bao giờ nghe nói về nó trong các nghiên cứu của họ, và phải tìm hiểu nó một cách nhanh chóng.</p>
+<p><strong>Chờ đã, tôi có nghe nói về Github, chúng có giống nhau không?</strong> - Không hoàn toàn, nhưng bạn thường sử dụng chúng cùng nhau và chúng tôi sẽ hướng dẫn bạn cách thực hiện. Nói ngắn gọn như sau:</p>
 <ul>
-<li><p><strong>Git</strong> is the version control system, a piece of software. You can use it
-locally on your computer or to synchronize a folder with a
-host <strong>website</strong>. By default, one uses a terminal to give Git
-instructions in command-line.</p></li>
-<li><p>You can use a <strong>Git client/interface</strong> to avoid the command-line and
-perform the same actions (at least for the simple, super common
-ones).</p></li>
-<li><p>If you want to store your folder in a <strong>host website</strong> to
-collaborate with others, you may create an account at Github,
-Gitlab, Bitbucket or others.</p></li>
+<li><p><strong>Git</strong> là hệ thống kiểm soát phiên bản, là một phần của phần mềm. Bạn có thể tải phần mềm để sử dụng trên máy tính của mình hoặc để đồng bộ hóa một thư mục với một máy chủ trên <strong>web</strong>. Theo mặc định, bạn sử dụng terminal để đưa ra hướng dẫn cho Git thông qua các dòng lệnh.</p></li>
+<li><p>Bạn có thể sử dụng <strong>ứng dụng người dùng/giao diện Git</strong> để không phải gõ lệnh và thực hiện các hành động tương tự (ít nhất là đối với những hành động đơn giản, rất thường dùng).</p></li>
+<li><p>Nếu bạn muốn lưu trữ thư mục của mình trong một <strong>host website</strong> để cùng làm việc với những người khác, bạn có thể tạo một tài khoản tại Github, Gitlab, Bitbucket hoặc những nền tảng khác.</p></li>
 </ul>
-<p>So you could use the client/interface <strong>Github Desktop</strong>, which uses
-<strong>Git</strong> in the background to manage your files, both locally on your
-computer, and remotely on a <strong>Github</strong> server.</p>
+<p>Vì vậy, bạn có thể sử dụng ứng dụng/giao diện <strong>Github Desktop</strong>, sử dụng <strong>Git</strong> trong nền để quản lý các tệp của bạn, cả cục bộ trên máy tính của bạn và từ xa trên máy chủ <strong>Github</strong>.</p>
 </div>
-<div id="why-use-the-combo-git-and-github" class="section level2" number="46.2">
+<div id="tại-sao-lại-sử-dụng-combo-git-và-github" class="section level2" number="46.2">
 <h2>
-<span class="header-section-number">46.2</span> Why use the combo Git and Github?<a class="anchor" aria-label="anchor" href="#why-use-the-combo-git-and-github"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.2</span> Tại sao lại sử dụng combo Git và Github?<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1i-sao-l%E1%BA%A1i-s%E1%BB%AD-d%E1%BB%A5ng-combo-git-v%C3%A0-github"><i class="fas fa-link"></i></a>
 </h2>
-<p>Using <strong>Git</strong> facilitates:</p>
+<p>Sử dụng <strong>Git</strong> để:</p>
 <ol style="list-style-type: decimal">
-<li>Archiving documented versions with incremental changes so that you
-can easily revert backwards to any previous state</li>
-<li>Having parallel <em>branches</em>, i.e. developing/“working” versions with
-structured ways to integrate the changes after review</li>
+<li>Lưu trữ các phiên bản của tài liệu với sự ghi nhận các thay đổi để bạn có thể dễ dàng chuyển lại về bất kỳ trạng thái nào trước đó</li>
+<li>Có các <em>nhánh (branches)</em> song song, tức là các phiên bản đang phát triển/“đang làm việc” hoạt động có cấu trúc để tích hợp các thay đổi sau khi đánh giá</li>
 </ol>
-<p>This can be done locally on your computer, even if you don’t collaborate
-with other people. Have you ever:</p>
+<p>Điều này có thể được thực hiện cục bộ trên máy tính của bạn, ngay cả khi bạn không cộng tác với những người khác. Bạn đã bao giờ từng:</p>
 <ul>
-<li><p>regretted having deleted a section of code, only to realize two
-months later that you actually needed it?</p></li>
-<li><p>come back on a project that had been on pause and attempted to
-remember whether you had made that tricky modification in one of the
-models?</p></li>
-<li><p>had a <em>file model_1.R</em> and another file <em>model_1_test.R</em> and a file
-<em>model_1_not_working.R</em> to try things out?</p></li>
-<li><p>had a file <em>report.Rmd</em>, a file <em>report_full.Rmd</em>, a file
-<em>report_true_final.Rmd</em>, a file <em>report_final_20210304.Rmd</em>, a file
-<em>report_final_20210402.Rmd</em> and cursed your archiving skills?</p></li>
+<li><p>hối tiếc vì đã xóa một đoạn mã, chỉ để nhận ra hai tháng sau bạn thực sự cần nó?</p></li>
+<li><p>quay lại một dự án đã bị tạm dừng và cố gắng nhớ liệu bạn đã thực hiện một sửa đổi gì đó phức tạp ở một trong những mô hình?</p></li>
+<li><p>có một tệp <em>model_1.R</em> và một tệp khác <em>model_1_test.R</em> và một tệp <em>model_1_not_working.R</em> để thử mọi thứ?</p></li>
+<li><p>có một tệp <em>report.Rmd</em>, tệp <em>report_full.Rmd</em>, tệp <em>report_true_final.Rmd</em>, tệp <em>report_final_20210304.Rmd</em>, tệp <em>report_final_20210402.Rmd</em> và khó chịu với kỹ năng lưu trữ của bạn?</p></li>
 </ul>
-<p>Git will help with all that, and is worth to learn for that alone.</p>
-<p>However, it becomes even more powerful when used with a online repository
-such as Github to support <strong>collaborative projects</strong>. This facilitates:</p>
+<p>Git sẽ giúp bạn giải quyết tất cả vấn đề trên, và đây cũng là những thứ rất đáng để học.</p>
+<p>Tuy nhiên, nó thậm chí còn trở nên mạnh mẽ hơn khi được sử dụng với kho lưu trữ trực tuyến chẳng hạn như Github để hỗ trợ <strong>các dự án hợp tác</strong>. Điều này tạo điều kiện cho việc:</p>
 <ul>
-<li><p>Collaboration: others can review, comment on, and
-accept/decline changes</p></li>
-<li><p>Sharing your code, data, and outputs, and invite feedback
-from the public (or privately, with your team)</p></li>
+<li><p>Cộng tác: những người khác có thể đánh giá, nhận xét và chấp nhận/từ chối các thay đổi<br></p></li>
+<li><p>Chia sẻ mã, dữ liệu và kết quả đầu ra của bạn và mời phản hồi từ công chúng (hoặc riêng tư, với nhóm của bạn) và tránh:</p></li>
+<li><p>“Rất tiếc, tôi đã quên gửi phiên bản cuối cùng và bây giờ bạn cần làm lại tệp mới này trong hai ngày làm việc”</p></li>
+<li><p>Mina, Henry và Oumar đều làm việc cùng lúc trên một script và cần phải hợp nhất các thay đổi của họ theo cách thủ công</p></li>
+<li><p>Hai người cố gắng sửa đổi cùng một tệp trên Dropbox và Sharepoint và điều này tạo ra một lỗi đồng bộ hóa.</p></li>
 </ul>
-<p>and avoids:</p>
-<ul>
-<li><p>“Oops, I forgot to send the last version and now you need to
-redo two days worth of work on this new file”</p></li>
-<li><p>Mina, Henry and Oumar all worked at the same time on one script and
-need to manually merge their changes</p></li>
-<li><p>Two people try to modify the same file on Dropbox and Sharepoint
-and this creates a synchronization error.</p></li>
-</ul>
-<div id="this-sounds-complicated-i-am-not-a-programmer" class="section level3 unnumbered">
-<h3>This sounds complicated, I am not a programmer<a class="anchor" aria-label="anchor" href="#this-sounds-complicated-i-am-not-a-programmer"><i class="fas fa-link"></i></a>
+<div id="điều-này-nghe-có-vẻ-phức-tạp-tôi-không-phải-là-một-lập-trình-viên" class="section level3 unnumbered">
+<h3>Điều này nghe có vẻ phức tạp, tôi không phải là một lập trình viên<a class="anchor" aria-label="anchor" href="#%C4%91i%E1%BB%81u-n%C3%A0y-nghe-c%C3%B3-v%E1%BA%BB-ph%E1%BB%A9c-t%E1%BA%A1p-t%C3%B4i-kh%C3%B4ng-ph%E1%BA%A3i-l%C3%A0-m%E1%BB%99t-l%E1%BA%ADp-tr%C3%ACnh-vi%C3%AAn"><i class="fas fa-link"></i></a>
 </h3>
-<p>It can be. Examples of advanced uses can be quite scary. However, much
-like R, or even Excel, you don’t need to become an expert to reap the
-benefits of the tool. Learning a <em>small number of functions and notions</em>
-lets you track your changes, synchronize your files on a online
-repository and collaborate with your colleagues in a very short amount
-of time.</p>
-<p>Due to the learning curve, emergency context may not be the best of time
-to learn these tools. But learning can be achieved by steps. Once you acquire
-a couple of notions, your workflow can be quite efficient and fast.
-If you are not working on a project where collaborating with people
-through Git is a necessity, <strong>it is actually a good time to get
-confident using it</strong> in solo before diving in collaboration.</p>
+<p>Bạn hoàn toàn có thể. Ví dụ về cách sử dụng nâng cao có thể khá đáng sợ. Tuy nhiên, giống với như R, hoặc thậm chí là Excel, bạn không cần phải trở thành một chuyên gia để tận dụng lợi ích của công cụ. Học <em>một số nhỏ các hàm và khái niệm</em> cho phép bạn theo dõi các thay đổi của mình, đồng bộ hóa các tệp của bạn trên kho lưu trữ trực tuyến và cộng tác với đồng nghiệp của bạn với thời gian ngắn.</p>
+<p>Do tiến trình học tập, khi bạn cần hoàn thiện một công viêc trong trường hợp khẩn cấp, đó có thể không phải là thời điểm tốt nhất để tìm hiểu các công cụ này. Nhưng việc học có thể đạt được theo từng bước. Một khi bạn có được một vài khái niệm, quy trình làm việc của bạn có thể khá hiệu quả và nhanh chóng. Nếu bạn chưa làm việc trong một dự án cộng tác với mọi người và buộc phải sử dụng qua Git, <strong>đó thực sự là thời điểm tốt để có được sự tự tin khi sử dụng Git</strong> trước khi bắt tay vào cộng tác với người khác.</p>
 </div>
 </div>
-<div id="setup" class="section level2" number="46.3">
+<div id="cài-đặt-2" class="section level2" number="46.3">
 <h2>
-<span class="header-section-number">46.3</span> Setup<a class="anchor" aria-label="anchor" href="#setup"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.3</span> Cài đặt<a class="anchor" aria-label="anchor" href="#c%C3%A0i-%C4%91%E1%BA%B7t-2"><i class="fas fa-link"></i></a>
 </h2>
-<div id="install-git" class="section level3 unnumbered">
-<h3>Install Git<a class="anchor" aria-label="anchor" href="#install-git"><i class="fas fa-link"></i></a>
+<div id="cài-đặt-git" class="section level3 unnumbered">
+<h3>Cài đặt Git<a class="anchor" aria-label="anchor" href="#c%C3%A0i-%C4%91%E1%BA%B7t-git"><i class="fas fa-link"></i></a>
 </h3>
-<p><em>Git</em> is the engine behind the scenes on your computer, which tracks
-changes, branches (versions), merges, and reverting. <strong>You must first
-install <em>Git</em> from <a href="https://git-scm.com/downloads" class="uri">https://git-scm.com/downloads</a>.</strong></p>
+<p><em>Git</em> là công cụ phía sau hậu trường trên máy tính của bạn, theo dõi các thay đổi, các nhánh (phiên bản), hợp nhất và hoàn nguyên. <strong>Đầu tiên bạn phải cài đặt <em>Git</em> từ đường link sau <a href="https://git-scm.com/downloads" class="uri">https://git-scm.com/downloads</a>.</strong></p>
 </div>
-<div id="install-an-interface-optional-but-recommended" class="section level3 unnumbered">
-<h3>Install an interface (optional but recommended)<a class="anchor" aria-label="anchor" href="#install-an-interface-optional-but-recommended"><i class="fas fa-link"></i></a>
+<div id="cài-đặt-giao-diện-tùy-chọn-nhưng-được-khuyến-nghị" class="section level3 unnumbered">
+<h3>Cài đặt giao diện (tùy chọn nhưng được khuyến nghị)<a class="anchor" aria-label="anchor" href="#c%C3%A0i-%C4%91%E1%BA%B7t-giao-di%E1%BB%87n-t%C3%B9y-ch%E1%BB%8Dn-nh%C6%B0ng-%C4%91%C6%B0%E1%BB%A3c-khuy%E1%BA%BFn-ngh%E1%BB%8B"><i class="fas fa-link"></i></a>
 </h3>
-<p>Git has its own language of commands, which can be typed into a command
-line terminal. However, there are many clients/interfaces and as non-developpers, in your
-day-to-day use, you will rarely <em>need</em> to interact with Git directly and
-interface usually provide nice visualisation tools for file modifications or branches.</p>
-<p>Many options exist, on all OS, from beginner friendly to more complex ones.
-Good options for beginners include the RStudio Git pane and
-<a href="https://desktop.github.com/">Github Desktop</a>, which we will showcase in
-this chapter.
-Intermediate (more powerfull, but more complex) options include Source Tree,
-Gitkracken, Smart Git and others.</p>
-<p>Quick explanation on <a href="-%09https:/happygitwithr.com/git-client.html#git-client">Git clients</a>.</p>
-<p><em>Note: since interfaces actually all use Git internally, you can try several of
-them, switch from one to another on a given project, use the console punctually
-for an action your interface does not support, or even perform any number of
-actions online on Github.</em></p>
-<p>As noted below, you may occasionally have to write Git commands into a
-terminal such as the RStudio terminal pane (a tab adjacent to the R
-Console) or the Git Bash terminal.</p>
+<p>Git có ngôn ngữ lệnh riêng, có thể được nhập vào terminal. Tuy nhiên, có nhiều phần mềm/giao diện và với tư cách không phải là một lập trình viên, trong quá trình sử dụng hàng ngày, bạn sẽ hiếm khi <em>cần</em> tương tác trực tiếp với Git và giao diện người dùng thường cung cấp các công cụ trực quan đẹp mắt để sửa đổi tệp hoặc các nhánh.</p>
+<p>Có nhiều tùy chọn, trên tất cả các hệ điều hành, từ thân thiện với người mới bắt đầu đến những tùy chọn phức tạp hơn. Các tùy chọn tốt cho người mới bắt đầu bao gồm cửa sổ RStudio Git và <a href="https://desktop.github.com/">Github Desktop</a>, mà chúng tôi sẽ giới thiệu trong chương này. Các tùy chọn trung gian (tiện ích hơn nhưng phức tạp hơn) bao gồm Source Tree, Gitkracken, Smart Git và những tùy chọn khác.</p>
+<p>Giải thích ngắn gọn về <a href="-%09https:/happygitwithr.com/git-client.html#git-client">Git clients</a> ở đây.</p>
+<p><em>Lưu ý: vì thực tế tất cả các giao diện đều sử dụng Git nội bộ, bạn có thể thử một số trong đó, chuyển từ dạng này sang dạng khác trong một dự án nhất định, sử dụng console đối với một hành động mà giao diện của bạn không hỗ trợ hoặc thậm chí thực hiện bất kỳ hành động nào trực tuyến trên Github.</em></p>
+<p>Như đã lưu ý bên dưới, đôi khi bạn có thể phải viết các lệnh Git trong termial chẳng hạn như cửa sổ Ternmial trong RStudio (một tab liền kề với R Console) hoặc terminal của Git Bash.</p>
 </div>
-<div id="github-account" class="section level3 unnumbered">
-<h3>Github account<a class="anchor" aria-label="anchor" href="#github-account"><i class="fas fa-link"></i></a>
+<div id="tài-khoản-github" class="section level3 unnumbered">
+<h3>Tài khoản Github<a class="anchor" aria-label="anchor" href="#t%C3%A0i-kho%E1%BA%A3n-github"><i class="fas fa-link"></i></a>
 </h3>
-<p>Sign-up for a free account at <a href="github.com">github.com</a>.</p>
-<p>You may be offered to set-up two-factor authentication with an app on
-your phone. Read more in the Github <a href="https://docs.github.com/en/github/authenticating-to-github/securing-your-account-with-two-factor-authentication-2fa">help
-documents</a>.</p>
-<p>If you use Github Desktop, you can enter your Gitub credentials after
-installation following these
-<a href="https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/authenticating-to-github">steps</a>.
-If you don’t do it know, credentials will be asked later when you try to
-clone a project from Github.</p>
+<p>Đăng ký tài khoản miễn phí tại <a href="github.com">github.com</a>.</p>
+<p>Bạn có thể được đề nghị thiết lập xác thực hai yếu tố với một ứng dụng trên điện thoại của bạn. Đọc thêm trong <a href="https://docs.github.com/en/github/authenticating-to-github/securing-your-account-with-two-factor-authentication-2fa">tài liệu trợ giúp</a> của Github .</p>
+<p>Nếu bạn sử dụng Github Desktop, bạn có thể nhập thông tin đăng nhập Gitub của mình sau khi cài đặt <a href="https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/authenticating-to-github">các bước sau</a>. Nếu bạn không biết, thông tin đăng nhập sẽ được hỏi sau khi bạn cố gắng clone một dự án từ Github.</p>
 </div>
 </div>
-<div id="vocabulary-concepts-and-basic-functions" class="section level2" number="46.4">
+<div id="thuật-ngữ-khái-niệm-và-các-hàm-cơ-bản" class="section level2" number="46.4">
 <h2>
-<span class="header-section-number">46.4</span> Vocabulary, concepts and basic functions<a class="anchor" aria-label="anchor" href="#vocabulary-concepts-and-basic-functions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.4</span> Thuật ngữ, khái niệm và các hàm cơ bản<a class="anchor" aria-label="anchor" href="#thu%E1%BA%ADt-ng%E1%BB%AF-kh%C3%A1i-ni%E1%BB%87m-v%C3%A0-c%C3%A1c-h%C3%A0m-c%C6%A1-b%E1%BA%A3n"><i class="fas fa-link"></i></a>
 </h2>
-<p>As when learning R, there is a bit of vocabulary to remember to
-understand Git. Here are the <a href="https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/">basics to get you
-going</a>
-/ <a href="learngitbranching.js.org">interactive tutorial</a>. In the next
-sections, we will show how to use interfaces, but it is good
-to have the vocabulary and concepts in mind, to build your mental model,
-and as you’ll need them when using interfaces anyway.</p>
-<div id="repository" class="section level3 unnumbered">
-<h3>Repository<a class="anchor" aria-label="anchor" href="#repository"><i class="fas fa-link"></i></a>
+<p>Giống như khi học R, bạn cần nhớ một chút thuật ngữ để hiểu Git. Đây là <a href="https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/">những điều cơ bản giúp bạn làm việc</a> / <a href="learningngitbranching.js.org">hướng dẫn tương tác</a>. Ở phần tiếp theo, chúng tôi sẽ chỉ ra cách sử dụng các giao diện, nhưng tốt hơn là bạn nên có một số thuật ngữ và khái niệm trong đầu, để xây dựng mô hình tinh thần của bạn, và vì bạn sẽ cần chúng khi sử dụng các giao diện.</p>
+<div id="kho-lưu-trữ-repository" class="section level3 unnumbered">
+<h3>Kho lưu trữ (Repository)<a class="anchor" aria-label="anchor" href="#kho-l%C6%B0u-tr%E1%BB%AF-repository"><i class="fas fa-link"></i></a>
 </h3>
-<p>A Git <em>repository</em> (“<em>repo</em>”) is a folder that contains all the
-sub-folders and files for your project (data, code, images, etc.) and
-their revision histories. When you begin tracking changes in the
-repository with it, Git will create a hidden folder that contains
-all tracking information. A typical Git repository is
-your <em>R Project</em> folder (see handbook page on [R projects]).</p>
-<p>We will show how to create (<em>initialize</em>) a Git repository
-from Github, Github Desktop or Rstudio in the next
-sections.</p>
+<p>Kho <em>lưu trữ Git</em> (“<em>repo</em>”) là một thư mục chứa tất cả các thư mục con và tệp cho dự án của bạn (dữ liệu, mã code, hình ảnh, v.v.) và lịch sử sửa đổi của chúng. Khi bạn bắt đầu theo dõi những thay đổi trong kho lưu trữ, Git sẽ tạo một thư mục ẩn chứa tất cả các thông tin theo dõi. Một kho lưu trữ Git điển hình là thư mục <em>Dự án R</em> của bạn (xem thêm chương <a href="r-projects.html#r-projects">Dự án R</a> để biết thêm chi tiết).</p>
+<p>Chúng tôi sẽ hướng dẫn bạn cách tạo (<em>initialize</em>) một kho lưu trữ Git từ Github, Github Desktop hoặc Rstudio trong phần tiếp theo của chương này.</p>
 </div>
 <div id="commits" class="section level3 unnumbered">
 <h3>Commits<a class="anchor" aria-label="anchor" href="#commits"><i class="fas fa-link"></i></a>
 </h3>
-<p>A <em>commit</em> is a <strong>snapshot</strong> of the project at a given time.
-When you make a change to the project, you will make a new commit
-to track the changes (the delta) made to your
-files. For example, perhaps you edited some lines of code and updated a
-related dataset. Once your changes are saved, you can bundle these
-changes together into one “commit”.</p>
-<p>Each commit has a unique ID (a <em>hash</em>). For version control purposes,
-you can revert your project back in time based on commits, so it is best
-to keep them relatively small and coherent. You will also attach a brief
-description of the changes called the “commit message”.</p>
-<p><em>Staged changes</em>? To stage changes is to add them to the <em>staging area</em>
-in preparation for the next commit. The idea is that you can finely
-decide which changes to include in a given commit. For example, if you
-worked on model specification in one script, and later on a figure in
-another script, it would make sense to have two different commits (it would be easier
-in case you wanted to revert the changes on the figure but not the model).</p>
+<p>Một <em>commit</em> là một <strong>ảnh chụp nhanh</strong> của dự án tại một thời điểm xác định. Khi bạn thực hiện một thay đổi đối với dự án, bạn sẽ tạo một commit mới để theo dõi những thay đổi (the delta) được thực hiện đối với các tập tin của bạn. Ví dụ: bạn đã chỉnh sửa một vài dòng lệnh và cập nhật bộ dữ liệu liên quan. Sau khi các thay đổi của bạn được lưu, bạn có đóng gói các thay đổi cùng nhau tạo thành một “commit”.</p>
+<p>Mỗi commit có một ID duy nhất (một <em>hash</em>). Đối với mục tiêu kiểm soát phiên bản, bạn có thể khôi phục dự án của mình theo thời gian dựa trên các commit, vì vậy tốt nhất là bạn nên tạo các commit tương đối nhỏ và mạch lạc. Bạn cũng sẽ đính kèm một bản tóm tắt mô tả về những thay đổi được gọi là “commit message”.</p>
+<p><em>Tổ chức các thay đổi (Staged change)</em>? Tổ chức các thay đổi nghĩa là thêm chúng vào một <em>staging area - khu vực sân khẩu</em> để chuẩn bị cho lần commit tiếp theo. Ý tưởng là bạn có thể quyết định rõ ràng những thay đổi nào sẽ bao gồm trong một commit cụ thể. Ví dụ, nếu bạn đã làm việc với mô hình trong một script và sau đó làm việc với một biểu đồ trong một script khác, sẽ hợp lý nếu có hai commit khác nhau (sẽ dễ dàng hơn trong trường hợp bạn muốn khôi phục các thay đổi trên biểu đồ nhưng không phải trên mô hình).</p>
 </div>
 <div id="branches" class="section level3 unnumbered">
 <h3>Branches<a class="anchor" aria-label="anchor" href="#branches"><i class="fas fa-link"></i></a>
 </h3>
-<p>A branch represents an <em>independent line</em> of changes in your repo, a
-parallel, alternate version of your project files.</p>
-<p>Branches are useful to test changes before they are incorporated into
-the <em>main</em> branch, which is usually the primary/final/“live” version of
-your project. When you are done experimenting on a branch, you can bring
-the changes into your <em>main</em> branch, by <em>merging</em> it, or delete it, if
-the changes were not so successful.</p>
-<p><em>Note: you do not have to collaborate with other people to use branches,
-nor need to have a remote online repository.</em></p>
+<p>Một nhánh (branch) đại diện cho một <em>con đường độc lập</em> chứa các thay đổi trong kho lưu trữ (repo) của bạn. Nó là một phiên bản song song của các tệp dự án của bạn.</p>
+<p>Các nhánh rất hữu ích để thử nghiệm các thay đổi trước khi chúng được tích hợp vào nhánh <em>chính (main branch)</em>, thường là phiên bản chính/cuối cùng/“live” của dự án của bạn. Khi bạn hoàn thành việc thử nghiệm trên một nhánh, bạn có thể <em>hợp nhất</em> những thay đổi đó vào nhánh <em>chính</em> của bạn, hoặc xóa những thay đổi không thành công.</p>
+<p><em>Lưu ý: bạn không cần phải cộng tác với người khác để sử dụng các nhánh, cũng như không cần phải có một kho lưu trữ trực tuyến từ xa.</em></p>
 </div>
-<div id="local-and-remote-repositories" class="section level3 unnumbered">
-<h3>Local and remote repositories<a class="anchor" aria-label="anchor" href="#local-and-remote-repositories"><i class="fas fa-link"></i></a>
+<div id="kho-lưu-trữ-cục-bộ-và-từ-xa" class="section level3 unnumbered">
+<h3>Kho lưu trữ cục bộ và từ xa<a class="anchor" aria-label="anchor" href="#kho-l%C6%B0u-tr%E1%BB%AF-c%E1%BB%A5c-b%E1%BB%99-v%C3%A0-t%E1%BB%AB-xa"><i class="fas fa-link"></i></a>
 </h3>
-<p>To <em>clone</em> is to create a copy of a Git repository in another place.</p>
-<p>For example, you can <em>clone</em> a online repository <em>from</em> Github locally on
-your computer, or begin with a local repository and clone
-it online <em>to</em> Github.</p>
-<p>When you have cloned a repository, the project files exist in
-two places:</p>
+<p><em>Clone (Nhân bản)</em> là tạo một bản sao của kho lưu trữ Git ở một nơi khác.</p>
+<p>Ví dụ: bạn có thể <em>clone</em> một kho lưu trữ trực tuyến <em>từ</em> Github xuống máy tính của bạn hoặc bắt đầu với một kho lưu trữ cục bộ (local repository) và clone nó <em>trực tuyến</em> lên Github.</p>
+<p>Khi bạn đã clone một kho lưu trữ, các tệp dự án tồn tại ở hai nơi:</p>
 <ul>
-<li><p>the <em>LOCAL</em> repository on your physical computer. This
-is where you make the actual changes to the files/code.</p></li>
-<li><p>the <em>REMOTE</em>, online repository: the versions of your project files
-in the Github repository (or on any other web
-host).</p></li>
+<li><p>kho lưu trữ <em>CỤC BỘ (LOCAL)</em> trên máy tính của bạn. Đây là nơi bạn thực hiện các thay đổi thực tế đối với các tệp/code.</p></li>
+<li><p><em>TỪ XA (REMOTE)</em>, kho lưu trữ trực tuyến: các phiên bản của tệp dự án trên kho lưu trữ Github (hoặc trên bất kỳ nền tảng nào khác).</p></li>
 </ul>
-<p>To synchronize these repositories, we will use more functions. Indeed,
-unlike Sharepoint, Dropbox or other synchronizing software, Git does
-not automatically update your local repository based or what’s online,
-or vice-versa. You get to choose when and how to synchronize.</p>
+<p>Để đồng bộ hóa các kho này, chúng ta sẽ sử dụng nhiều hàm hơn. Thật vậy, không giống như Sharepoint, Dropbox hoặc các phần mềm đồng bộ hóa khác, Git không thực hiện tự động cập nhật kho lưu trữ cục bộ của bạn dựa trên những gì có trên cloud, hoặc ngược lại. Tuy nhiên, bạn có thể chọn thời điểm và cách thức đồng bộ hóa.</p>
 <ul>
-<li><p><code>git fetch</code> downloads the new changes from the remote repository but does not
-change your local repository. Think of it as checking the state of the remote repository.</p></li>
-<li><p><code>git pull</code> downloads the new changes from the remote repositories
-and update your local repository.</p></li>
-<li><p>When you have made one or several commits locally, you can
-<code>git push</code> the commits to the remote repository. This sends your
-changes on Github so that other people can see and pull them if
-they want to.</p></li>
+<li><p><code>git fetch</code> tải xuống các thay đổi mới từ kho lưu trữ từ xa nhưng không làm thay đổi kho lưu trữ cục bộ của bạn. Hãy coi như nó giống như việc kiểm tra trạng thái của kho lưu trữ từ xa.</p></li>
+<li><p><code>git pull</code> tải xuống các thay đổi mới từ kho lưu trữ từ xa và cập nhật kho lưu trữ cục bộ của bạn.</p></li>
+<li><p>Khi bạn đã thực hiện một hoặc một số commit cục bộ, bạn có thể <code>git push</code> để đẩy các commit đến kho lưu trữ từ xa. Điều này giúp gửi các thay đổi của bạn tới Github để người khác có thể xem và kéo về (pull) nếu họ muốn.</p></li>
 </ul>
 </div>
 </div>
-<div id="get-started-create-a-new-repository" class="section level2" number="46.5">
+<div id="bắt-đầu-tạo-một-kho-lưu-trữ-mới" class="section level2" number="46.5">
 <h2>
-<span class="header-section-number">46.5</span> Get started: create a new repository<a class="anchor" aria-label="anchor" href="#get-started-create-a-new-repository"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.5</span> Bắt đầu: tạo một kho lưu trữ mới<a class="anchor" aria-label="anchor" href="#b%E1%BA%AFt-%C4%91%E1%BA%A7u-t%E1%BA%A1o-m%E1%BB%99t-kho-l%C6%B0u-tr%E1%BB%AF-m%E1%BB%9Bi"><i class="fas fa-link"></i></a>
 </h2>
-<p>There are many ways to create new repositories. You can do it from the
-console, from Github, from an interface.</p>
-<p>Two general approaches to set-up are:</p>
+<p>Có nhiều cách để tạo kho lưu trữ mới. Bạn có thể làm điều đó từ R console, từ Github, hoặc thông qua giao diện người dùng.</p>
+<p>Hai cách tiếp cận thường dùng để tạo một kho lưu trữ là:</p>
 <ul>
-<li>Create a new R Project from an existing or new Github repository
-(<em>preferred for beginners</em>), or</li>
-<li>Create a Github repository for an existing R project</li>
+<li>Tạo một Dự án R mới từ kho lưu trữ Github hiện có hoặc mới (<em>ưu tiên cho người mới bắt đầu</em>), hoặc</li>
+<li>Tạo kho lưu trữ Github cho một dự án R hiện có</li>
 </ul>
-<div id="start-up-files" class="section level3 unnumbered">
-<h3>Start-up files<a class="anchor" aria-label="anchor" href="#start-up-files"><i class="fas fa-link"></i></a>
+<div id="các-tệp-khởi-động" class="section level3 unnumbered">
+<h3>Các tệp khởi động<a class="anchor" aria-label="anchor" href="#c%C3%A1c-t%E1%BB%87p-kh%E1%BB%9Fi-%C4%91%E1%BB%99ng"><i class="fas fa-link"></i></a>
 </h3>
-<p>When you create a new repository, you can optionally create
-all of the below files, or you can add them to your repository at a later stage.
-They would typically live in the “root” folder of the repository.</p>
+<p>Khi bạn tạo một kho lưu trữ mới, bạn có thể tùy chọn tạo tất cả các tệp bên dưới hoặc bạn có thể thêm chúng vào kho lưu trữ của mình ở giai đoạn sau. Chúng thường nằm trong thư mục “gốc” của kho lưu trữ.</p>
 <ul>
-<li><p>A <em>README</em> file is a file that someone can read to understand why
-your project exists and what else they should know to use it. It
-will be empty at first, but you should complete it later.</p></li>
-<li><p>A <em>.gitignore</em> file is a text file where each line would contain
-folders or files that Git should ignore (not track changes). Read
-more about it and see examples
-<a href="https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/">here</a>.</p></li>
-<li><p>You can choose a <em>license</em> for your work, so that other people
-know under which conditions they can use or reproduce your work. For more
-information, see the <a href="https://creativecommons.org/licenses/">Creative Commons
-licenses</a>.</p></li>
+<li><p>Tệp <em>README</em> là tệp mà người khác có thể đọc để hiểu tại sao dự án của bạn tồn tại và những điều họ nên biết để sử dụng nó. Tệp này ban đầu sẽ trống, nhưng bạn có thể hoàn thiện nó sau đó.</p></li>
+<li><p>Tệp <em>.gitignore</em> là tệp văn bản trong đó mỗi dòng sẽ chứa các thư mục hoặc tệp mà Git nên bỏ qua (không theo dõi các thay đổi). Đọc thêm về điều này và xem các ví dụ <a href="https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/">tại đây</a>.</p></li>
+<li><p>Bạn có thể chọn <em>license</em> cho dự án của mình, để những người khác biết họ có thể sử dụng hoặc tái lập dự án của bạn trong những điều kiện nào. Để biết thêm thông tin, hãy xem <a href="https://creativecommons.org/licenses/">Creative Commons licenses</a>.</p></li>
 </ul>
 </div>
-<div id="create-a-new-repository-in-github" class="section level3 unnumbered">
-<h3>Create a new repository in Github<a class="anchor" aria-label="anchor" href="#create-a-new-repository-in-github"><i class="fas fa-link"></i></a>
+<div id="tạo-một-kho-lưu-trữ-mới-trong-github" class="section level3 unnumbered">
+<h3>Tạo một kho lưu trữ mới trong Github<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1o-m%E1%BB%99t-kho-l%C6%B0u-tr%E1%BB%AF-m%E1%BB%9Bi-trong-github"><i class="fas fa-link"></i></a>
 </h3>
-<p>To create a new repository, log into Github and look for the green
-button to create a new repository. This now empty repository can be
-cloned locally to your computer (see next section).</p>
+<p>Để tạo một kho lưu trữ mới, hãy đăng nhập vào Github và tìm một nút màu xanh lục để tạo một kho lưu trữ mới. Một kho lưu trữ trống được tạo ra và có thể được clone xuống máy tính của bạn (xem phần tiếp theo để biết thêm chi tiết).</p>
 <div class="inline-figure"><img src="images/github_new.png" width="276" style="display: block; margin: auto;"></div>
-<p>You must choose if you want your repository to be <strong>public</strong> (visible to
-everyone on the internet) or <strong>private</strong> (only visible to those with
-permission). This has important implications if your data are sensitive.
-If your repository is private you will encounter some quotas in advanced
-special circumstances, such as if you are using Github <em>actions</em> to
-automatically run your code in the cloud.</p>
+<p>Bạn phải chọn nếu bạn muốn kho lưu trữ của mình ở dạng <strong>công khai</strong> (hiển thị với mọi người trên internet) hoặc <strong>riêng tư</strong> (chỉ hiển thị với những người trong sự cho phép của bạn). Điều này có ý nghĩa quan trọng nếu dữ liệu của bạn nhạy cảm. Nếu kho lưu trữ của bạn là riêng tư, bạn sẽ gặp phải một số giới hạn trong các trường hợp đặc biệt, chẳng hạn như nếu bạn đang sử dụng <em>actions</em> trong Github để tự động chạy code trên cloud.</p>
 </div>
-<div id="clone-from-a-github-repository" class="section level3 unnumbered">
-<h3>Clone from a Github repository<a class="anchor" aria-label="anchor" href="#clone-from-a-github-repository"><i class="fas fa-link"></i></a>
+<div id="clone-từ-kho-lưu-trữ-github" class="section level3 unnumbered">
+<h3>Clone từ kho lưu trữ Github<a class="anchor" aria-label="anchor" href="#clone-t%E1%BB%AB-kho-l%C6%B0u-tr%E1%BB%AF-github"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can <em>clone</em> an existing Github repository to create
-a new local R project on your computer.</p>
-<p>The Github repository could be one that already exists and contains
-content, or could be an empty repository that you just created. In this
-latter case you are essentially creating the Github repo and local R
-project at the same time (see instructions above).</p>
-<p><em>Note</em>: if you do not have contributing rights on a Github repository,
-it is possible to first <em>fork</em> the repository to your profile, and then
-proceed with the other actions. Forking is explained at the end of this
-chapter, but we recommend that you read the other sections first.</p>
-<p>Step 1: Navigate in Github to the repository, click on the green “<strong>Code</strong>”
-button and copy the <strong>HTTPS clone URL</strong> (see image below)</p>
+<p>Bạn có thể <em>clone</em> một kho lưu trữ Github có sẵn để tạo một dự án R mới cục bộ trên máy tính của bạn.</p>
+<p>Kho lưu trữ Github có thể là một kho lưu trữ đã tồn tại và chứa nội dung, hoặc có thể là một kho lưu trữ trống mà bạn vừa tạo. Trong trường hợp thứ hai, về cơ bản bạn đang tạo một repo Github và dự án R cục bộ trên máy tính của bạn cùng một lúc (xem hướng dẫn ở trên)</p>
+<p><em>Lưu ý</em>: nếu bạn không có quyền đóng góp trên kho lưu trữ Github, trước tiên bạn có thể <em>fork</em> kho lưu trữ đó vào hồ sơ riêng của bạn, và sau đó tiếp tục với các hành động khác. Forking được giải thích ở phần cuối của chương này nhưng chúng tôi khuyên bạn nên đọc các phần khác trước.</p>
+<p>Bước 1: Điều hướng trong Github đến kho lưu trữ, nhấp vào nút màu xanh lá cây “<strong>Code</strong>” và sao chép <strong>HTTPS clone URL</strong> (xem hình ảnh minh họa bên dưới)</p>
 <div class="inline-figure"><img src="images/github_clone.png" width="100%" height="100%" style="display: block; margin: auto;"></div>
-<p>The next step can be performed in any interface. We will illustrate with
-Rstudio and Github desktop.</p>
-<div id="in-rstudio" class="section level4 unnumbered">
-<h4>In Rstudio<a class="anchor" aria-label="anchor" href="#in-rstudio"><i class="fas fa-link"></i></a>
+<p>Bước tiếp theo có thể được thực hiện trong bất kỳ giao diện người dùng nào. Chúng tôi sẽ minh họa bằng Rstudio và Github desktop.</p>
+<div id="trong-rstudio" class="section level4 unnumbered">
+<h4>Trong Rstudio<a class="anchor" aria-label="anchor" href="#trong-rstudio"><i class="fas fa-link"></i></a>
 </h4>
-<p>In RStudio, start a new R project by clicking <em>File &gt; New Project &gt;
-Version Control &gt; Git</em></p>
+<p>Trong RStudio, để bắt đầu một dự án R mới, bạn cần nhấp vào <em>File &gt; New Project &gt; Version Control &gt; Git</em></p>
 <ul>
-<li>When prompted for the “Repository URL”, paste the HTTPS URL from
-Github<br>
+<li>Khi được yêu cầu nhập “Repository URL”, hãy dán URL HTTPS từ Github </li>
+<li>Gán cho dự án R một cái tên ngắn gọn, đầy đủ thông tin<br>
 </li>
-<li>Assign the R project a short, informative name<br>
+<li>Chọn nơi Dự án R mới sẽ được lưu cục bộ trên máy tính của bạn<br>
 </li>
-<li>Choose where the new R Project will be saved locally<br>
-</li>
-<li>Check “Open in new session” and click “Create project”</li>
+<li>Chọn “Open in new session” và nhấp vào mục “Create project”</li>
 </ul>
-<p>You are now in a new, local, RStudio project that is a clone of the
-Github repository. This local project and the Github repository are now
-linked.</p>
+<p>Bạn hiện đang trong một dự án RStudio mới, cục bộ trên máy tính của bạn, là một bản sao của kho lưu trữ online trên Github. Dự án cục bộ này và kho lưu trữ Github hiện đã được liên kết.</p>
 </div>
-<div id="in-github-desktop" class="section level4 unnumbered">
-<h4>In Github Desktop<a class="anchor" aria-label="anchor" href="#in-github-desktop"><i class="fas fa-link"></i></a>
+<div id="trong-github-desktop" class="section level4 unnumbered">
+<h4>Trong Github Desktop<a class="anchor" aria-label="anchor" href="#trong-github-desktop"><i class="fas fa-link"></i></a>
 </h4>
 <ul>
-<li><p>Click on <em>File &gt; Clone a repository</em></p></li>
-<li><p>Select the URL tab</p></li>
-<li><p>Paste the HTTPS URL from Github in the first box</p></li>
-<li><p>Select the folder in which you want to have your local repository</p></li>
-<li><p>Click “CLONE”</p></li>
+<li><p>Nhấn vào <em>File &gt; Clone a repository</em></p></li>
+<li><p>Chọn tab URL</p></li>
+<li><p>Dán đường dẫn HTTPS URL từ Github vào hộp đầu tiên</p></li>
+<li><p>Chọn thư mục mà bạn muốn lưu kho lưu trữ cục bộ của mình</p></li>
+<li><p>Nhấn vào “CLONE”</p></li>
 </ul>
 <div class="inline-figure"><img src="images/github_clone_desktop.png" width="100%" height="100%" style="display: block; margin: auto;"></div>
 </div>
 </div>
-<div id="new-github-repo-from-existing-r-project" class="section level3 unnumbered">
-<h3>New Github repo from existing R project<a class="anchor" aria-label="anchor" href="#new-github-repo-from-existing-r-project"><i class="fas fa-link"></i></a>
+<div id="tạo-một-github-repo-mới-từ-dự-án-r-đã-có-sẵn" class="section level3 unnumbered">
+<h3>Tạo một Github repo mới từ dự án R đã có sẵn<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1o-m%E1%BB%99t-github-repo-m%E1%BB%9Bi-t%E1%BB%AB-d%E1%BB%B1-%C3%A1n-r-%C4%91%C3%A3-c%C3%B3-s%E1%BA%B5n"><i class="fas fa-link"></i></a>
 </h3>
-<p>An alternative setup scenario is that you have an existing R project
-with content, and you want to create a Github repository for it.</p>
+<p>Một kịch bản khác là bạn có một dự án R đã tồn tại với các nội dung và bạn muốn tạo một kho lưu trữ Github cho nó.</p>
 <ol style="list-style-type: decimal">
-<li>Create a new, empty Github repository for the project (see
-instructions above)<br>
+<li>Tạo một kho lưu trữ Github mới, trống cho dự án (Xem hướng dẫn ở trên)<br>
 </li>
-<li>Clone this repository locally (see HTTPS instructions above)<br>
+<li>Clone cục bộ kho lưu trữ này (Xem hướng dẫn về HTTPS ở trên)<br>
 </li>
-<li>Copy all the content from your pre-existing R
-project (codes, data, etc.) into this new empty, local, repository (e.g. use copy and paste).<br>
+<li>Sao chép tất cả nội dung từ dự án R đã có từ trước của bạn (mã, dữ liệu, v.v.) vào kho lưu trữ trống, cục bộ, mới này (ví dụ: sử dụng sao chép và dán).<br>
 </li>
-<li>Open your new project in RStudio, and go to the Git pane. The new files should
-register as file changes, now tracked by Git. Therefore, you can
-bundle these changes as a <em>commit</em> and <em>push</em> them up to Github.
-Once <em>pushed</em>, the repository on Github will reflect all the files.</li>
+<li>Mở dự án mới của bạn trong RStudio và chuyển đến cửa sổ Git. Các tệp mới sẽ được đăng ký dưới dạng tệp có thay đổi, và hiện được theo dõi bởi Git. Do đó, bạn có thể đóng gói những thay đổi này dưới dạng một <em>commit</em> và <em>push</em> chúng lên Github. Sau khi <em>được push</em>, kho lưu trữ trên Github của bạn sẽ theo dõi sự thay đổi của tất cả các tệp.</li>
 </ol>
-<p>See the Github workflow section below for details on this process.</p>
+<p>Xem phần quy trình làm việc Github bên dưới để biết chi tiết về quy trình này.</p>
 </div>
-<div id="what-does-it-look-like-now" class="section level3 unnumbered">
-<h3>What does it look like now?<a class="anchor" aria-label="anchor" href="#what-does-it-look-like-now"><i class="fas fa-link"></i></a>
+<div id="bây-giờ-nó-trông-như-thế-nào" class="section level3 unnumbered">
+<h3>Bây giờ, nó trông như thế nào?<a class="anchor" aria-label="anchor" href="#b%C3%A2y-gi%E1%BB%9D-n%C3%B3-tr%C3%B4ng-nh%C6%B0-th%E1%BA%BF-n%C3%A0o"><i class="fas fa-link"></i></a>
 </h3>
-<div id="in-rstudio-1" class="section level4 unnumbered">
-<h4>In RStudio<a class="anchor" aria-label="anchor" href="#in-rstudio-1"><i class="fas fa-link"></i></a>
+<div id="trong-rstudio-1" class="section level4 unnumbered">
+<h4>Trong RStudio<a class="anchor" aria-label="anchor" href="#trong-rstudio-1"><i class="fas fa-link"></i></a>
 </h4>
-<p>Once you have cloned a Github repository to a new R project,
-you now see in RStudio a “Git” tab. This tab appears in the same RStudio pane
-as your R Environment:</p>
+<p>Khi bạn đã clone kho lưu trữ Github sang một dự án R mới, bây giờ bạn sẽ thấy trong RStudio có một tab “Git”. Tab này xuất hiện bên cạnh cửa sổ RStudio Environment của bạn:</p>
 <div class="inline-figure"><img src="images/Git_console.png" width="75%" height="75%" style="display: block; margin: auto;"></div>
-<p>Please note the buttons circled in the image above, as they will be
-referenced later (from left to right):</p>
+<p>Lưu ý các nút được khoanh tròn trong hình trên, vì chúng sẽ được giới thiệu dưới đây (từ trái sang phải):</p>
 <ul>
-<li>Button to <em>commit</em> the saved file changes to the local
-branch (this will open a new window)</li>
-<li>Blue arrow to <em>pull</em> (update your local version of the branch with
-any changes made on the remote/Github version of that branch)</li>
-<li>Green arrow to <em>push</em> (send any commits/changes for your local
-version of the branch to the remote/Github version of that branch)</li>
-<li>The Git tab in RStudio</li>
-<li>Button to create a NEW branch using whichever local branch is shown
-to the right as the base. <em>You almost always want to branch off from
-the main branch (after you first pull to update the main branch)</em>
+<li>Nút để <em>commit</em> những tệp có thay đổi đã được lưu tới nhánh cục bộ “local branch” (sẽ mở ra một cửa sổ mới)</li>
+<li>Mũi lên màu xanh lam hướng lên để <em>pull</em> (cập nhật phiên bản của nhánh cục bộ với bất kỳ các thay đổi được thực hiện trên phiên bản từ xa/Github của nhánh đó)</li>
+<li>Mũi tên màu xanh lục hướng xuống <em>push</em> (gửi bất kỳ các commits/thay đổi nào trong phiên bản cục bộ lên phiên bản từ xa/Github của nhánh đó)</li>
+<li>Tab Git trong RStudio</li>
+<li>Nút để tạo một nhánh MỚI bằng cách sử dụng bất kỳ nhánh cục bộ nào được hiển thị bên phải làm cơ sở. <em>Bạn hầu như luôn muốn tách khỏi nhánh chính (sau khi bạn pull lần đầu tiên để cập nhật nhánh chính)</em>
 </li>
-<li>The branch you are currently working in</li>
-<li>Changes you made to code or other files will appear below</li>
+<li>Nhánh bạn hiện đang làm việc</li>
+<li>Những thay đổi bạn đã thực hiện đối với code hoặc các tệp khác sẽ xuất hiện bên dưới</li>
 </ul>
 </div>
-<div id="in-github-desktop-1" class="section level4 unnumbered">
-<h4>In Github Desktop<a class="anchor" aria-label="anchor" href="#in-github-desktop-1"><i class="fas fa-link"></i></a>
+<div id="trong-github-desktop-1" class="section level4 unnumbered">
+<h4>Trong Github Desktop<a class="anchor" aria-label="anchor" href="#trong-github-desktop-1"><i class="fas fa-link"></i></a>
 </h4>
-<p>Github Desktop is an independent application that allows you to manage
-all your repositories. When you open it, the interface allows you to
-choose the repository you want to work on, and then to perform basic Git
-actions from there.</p>
+<p>Github Desktop là một ứng dụng độc lập trong máy tính cho phép bạn quản lý tất cả các kho lưu trữ của bạn. Khi bạn mở nó, giao diện của nó cho phép bạn chọn kho lưu trữ bạn muốn làm việc và sau đó thực hiện các thao tác Git cơ bản tại đây.</p>
 <div class="inline-figure"><img src="images/github_desktop_interface.png" width="75%" height="75%" style="display: block; margin: auto;"></div>
 </div>
 </div>
 </div>
-<div id="git-github-workflow" class="section level2" number="46.6">
+<div id="quy-trình-làm-việc-với-git-github" class="section level2" number="46.6">
 <h2>
-<span class="header-section-number">46.6</span> Git + Github workflow<a class="anchor" aria-label="anchor" href="#git-github-workflow"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.6</span> Quy trình làm việc với Git + Github<a class="anchor" aria-label="anchor" href="#quy-tr%C3%ACnh-l%C3%A0m-vi%E1%BB%87c-v%E1%BB%9Bi-git-github"><i class="fas fa-link"></i></a>
 </h2>
-<div id="process-overview" class="section level3 unnumbered">
-<h3>Process overview<a class="anchor" aria-label="anchor" href="#process-overview"><i class="fas fa-link"></i></a>
+<div id="tổng-quan-về-quy-trình" class="section level3 unnumbered">
+<h3>Tổng quan về quy trình<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-quan-v%E1%BB%81-quy-tr%C3%ACnh"><i class="fas fa-link"></i></a>
 </h3>
-<p>Once you have completed the setup (described above), you will have a
-Github repo that is connected (<em>cloned</em>) to a local R project. The
-<em>main</em> branch (created by default) is the so-called “live” version of
-<em>all</em> the files. When you want to make modifications, it is a good
-practice to create a <em>new branch</em> from the <em>main</em> branch (like “Make a
-Copy”). This is a typical workflow in Git because creating a branch is
-easy and fast.</p>
-<p>A typical workflow is as follow:</p>
+<p>Khi bạn đã hoàn tất các bước thiết lập (được mô tả ở trên), bạn sẽ có một Github repo được kết nối (<em>cloned</em>) với một dự án R cục bộ. Nhánh <em>chính</em> (được tạo theo mặc định) còn được gọi là phiên bản “live” của <em>tất cả</em> các tệp tin. Khi bạn muốn sửa đổi, một thực hành tốt đó là tạo một <em>nhánh mới</em> từ nhánh <em>chính</em> (giống như “Tạo một bản sao”). Đây là quy trình làm việc điển hình trong Git vì việc tạo một nhánh là dễ dàng và nhanh chóng.</p>
+<p>Quy trình làm việc điển hình như sau:</p>
 <ol style="list-style-type: decimal">
-<li><p>Make sure that your local repository is up-to-date, update it if
-not</p></li>
-<li><p>Go to the branch you were working on previously, or create a new
-branch to try out some things</p></li>
-<li><p>Work on the files locally on your computer, make one or several
-commits to this branch</p></li>
-<li><p>Update the remote version of the branch with your changes (push)</p></li>
-<li><p>When you are satisfied with your branch, you can merge the online
-version of the working branch into the online “main” branch to
-transfer the changes</p></li>
+<li><p>Đảm bảo rằng kho lưu trữ cục bộ của bạn được cập nhật, hãy cập nhật nó nếu nó chưa phải bản mới nhất</p></li>
+<li><p>Chuyển đến nhánh mà bạn đã làm việc trước đây hoặc tạo một nhánh làm việc mới để thử một số thứ</p></li>
+<li><p>Làm việc với các tệp trực tiếp trên máy tính của bạn, tạo một hoặc nhiều commit với nhánh làm việc này</p></li>
+<li><p>Cập nhật phiên bản từ xa của nhánh làm việc với các thay đổi của bạn (push)</p></li>
+<li><p>Khi bạn hài lòng với nhánh làm việc này, bạn có thể hợp nhất phiên bản trực tuyến vào nhánh “chính” trực tuyến để chuyển tiếp các thay đổi</p></li>
 </ol>
-<p>Other team members may be doing the same thing with their own branches,
-or perhaps contributing commits into your working branch as well.</p>
-<p>We go through the above process step-by-step in more detail below.
-Here is a schematic we’ve developed - it’s in the format of a two-way
-table so it should help epidemiologists understand.</p>
+<p>Các thành viên khác trong nhóm có thể đang làm điều tương tự với các nhánh của riêng họ, hoặc cũng có thể đóng góp các commits vào nhánh làm việc của bạn.</p>
+<p>Chúng ta sẽ đi qua một cách chi tiết hơn từng bước của quá trình trên ở phần sau. Đây là một giản đồ mà chúng tôi đã phát triển - nó ở định dạng bảng hai chiều vì vậy nó sẽ giúp các nhà dịch tễ học dễ dàng hiểu được.</p>
 <div class="inline-figure"><img src="images/github_table.png" width="100%" height="150%" style="display: block; margin: auto;"></div>
-<p>Here’s <a href="https://build5nines.com/introduction-to-git-version-control-workflow/">another diagram</a>.</p>
-<p><em>Note: until recently, the term “master” branch was used, but it is now
-referred to as “main” branch.</em></p>
+<p>Dây là <a href="https://build5nines.com/introduction-to-git-version-control-workflow/">một sơ đồ khác</a>.</p>
+<p><em>Lưu ý: cho đến gần đây, thuật ngữ nhánh “master” vẫn được sử dụng, nhưng bây giờ thuật ngữ này được gọi là nhánh “main (chính)”.</em></p>
 <div class="inline-figure"><img src="images/GitHub-Flow.png" width="100%" height="100%" style="display: block; margin: auto;"></div>
-<p>Image
-<a href="https://build5nines.com/introduction-to-git-version-control-workflow/">source</a></p>
+<p>Nguồn <a href="https://build5nines.com/introduction-to-git-version-control-workflow/">hình ảnh</a></p>
 </div>
 </div>
-<div id="create-a-new-branch" class="section level2" number="46.7">
+<div id="tạo-một-nhánh-mới" class="section level2" number="46.7">
 <h2>
-<span class="header-section-number">46.7</span> Create a new branch<a class="anchor" aria-label="anchor" href="#create-a-new-branch"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.7</span> Tạo một nhánh mới<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1o-m%E1%BB%99t-nh%C3%A1nh-m%E1%BB%9Bi"><i class="fas fa-link"></i></a>
 </h2>
-<p>When you select a branch to work on, <strong>Git resets your working directory
-the way it was the last time you were on this branch</strong>.</p>
-<div id="in-rstudio-git-pane" class="section level3 unnumbered">
-<h3>In Rstudio Git pane<a class="anchor" aria-label="anchor" href="#in-rstudio-git-pane"><i class="fas fa-link"></i></a>
+<p>Khi bạn chọn một nhánh để làm việc, <strong>Git đặt lại trạng thái thư mục làm việc của bạn trở lại lần cuối cùng bạn ở trên nhánh này</strong>.</p>
+<div id="trong-cửa-sổ-rstudio-git" class="section level3 unnumbered">
+<h3>Trong cửa sổ Rstudio Git<a class="anchor" aria-label="anchor" href="#trong-c%E1%BB%ADa-s%E1%BB%95-rstudio-git"><i class="fas fa-link"></i></a>
 </h3>
-<p>Ensure you are in the “main” branch, and then click on the purple icon to
-create a new branch (see image above).</p>
+<p>Đảm bảo bạn đang ở trong nhánh “chính”, sau đó nhấp vào biểu tượng màu tím để tạo một nhánh mới (xem hình trên).</p>
 <ul>
-<li>You will be prompted to name your branch with a one-word descriptive
-name (can use underscores if needed).</li>
-<li>You will see that locally, you are still in the same R project, but
-you are no longer working on the “main” branch.</li>
-<li>Once created, the new branch will also appear in the Github website
-as a branch.</li>
+<li>Bạn sẽ được yêu cầu đặt tên nhánh của mình trong một từ (có thể sử dụng dấu gạch dưới nếu cần).</li>
+<li>Bạn sẽ thấy rằng bạn vẫn đang ở trong cùng một dự án R, nhưng bạn không còn làm việc trên nhánh “chính” nữa.</li>
+<li>Sau khi được tạo, nhánh mới cũng sẽ xuất hiện trên trang web Github dưới dạng một nhánh.</li>
 </ul>
-<p>You can visualize branches in the Git Pane in Rstudio after clicking on “History”</p>
+<p>Bạn có thể xem các nhánh tại cửa sổ Git trong Rstudio bằng cách nhấp vào “History”</p>
 <div class="inline-figure"><img src="images/github_rstudio_branchs.png" width="100%" height="100%" style="display: block; margin: auto;"></div>
 </div>
-<div id="in-github-desktop-2" class="section level3 unnumbered">
-<h3>In Github Desktop<a class="anchor" aria-label="anchor" href="#in-github-desktop-2"><i class="fas fa-link"></i></a>
+<div id="trong-github-desktop-2" class="section level3 unnumbered">
+<h3>Trong Github Desktop<a class="anchor" aria-label="anchor" href="#trong-github-desktop-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>The process is very much similar, you are prompted to give your branch
-a name. After, you will be prompted to “Publish you branch to Github” to
-make the new branch appear in the remote repo as well.</p>
+<p>Quy trình tương tự bên trên, bạn được yêu cầu đặt tên cho nhánh làm việc của mình. Sau đó, bạn sẽ được yeu cầu “Publish your branch to Github - Xuất bản nhánh làm việc của bạn lên Github” để làm cho nhánh mới cũng xuất hiện trong kho lưu trữ từ xa.</p>
 <div class="inline-figure"><img src="images/github_desktop_new_branch.png" width="100%" height="100%" style="display: block; margin: auto;"></div>
 </div>
-<div id="in-console" class="section level3 unnumbered">
-<h3>In console<a class="anchor" aria-label="anchor" href="#in-console"><i class="fas fa-link"></i></a>
+<div id="trong-console" class="section level3 unnumbered">
+<h3>Trong console<a class="anchor" aria-label="anchor" href="#trong-console"><i class="fas fa-link"></i></a>
 </h3>
-<p>What is actually happening behind the scenes is that you create a new
-branch with <code>git branch</code>, then go to the branch with
-<code>git checkout</code> (<em>i.e.</em> tell Git that your next commits will occur there).
-From your git repository:</p>
+<p>Điều thực sự đang xảy ra ẩn phía sau là bạn tạo ra một nhánh với lệnh <code>git branch</code>, sau đó chuyển đến nhánh đó bằng lệnh <code>git checkout</code> (<em>vd:</em> nói cho Git biết rằng các commit tiếp theo của bạn sẽ xảy ra trên nhánh đó). Từ kho lưu trữ git của bạn, hãy gõ:</p>
 <div class="sourceCode" id="cb1950"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1950-1"><a href="collaboration.html#cb1950-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch my-new-branch  <span class="co"># Create the new branch branch</span></span>
 <span id="cb1950-2"><a href="collaboration.html#cb1950-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout my-new-branch <span class="co"># Go to the branch</span></span>
 <span id="cb1950-3"><a href="collaboration.html#cb1950-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> my-new-branch <span class="co"># Both at once (shortcut)</span></span></code></pre></div>
-<p>For more information about using the console, see the section on
-Git commands at the end.</p>
+<p>Để biết thêm thông tin về cách sử dụng bảng console, hãy xem phần Lệnh Git ở cuối.</p>
 </div>
 </div>
-<div id="commit-changes" class="section level2" number="46.8">
+<div id="commit-các-thay-đổi" class="section level2" number="46.8">
 <h2>
-<span class="header-section-number">46.8</span> Commit changes<a class="anchor" aria-label="anchor" href="#commit-changes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.8</span> Commit các thay đổi<a class="anchor" aria-label="anchor" href="#commit-c%C3%A1c-thay-%C4%91%E1%BB%95i"><i class="fas fa-link"></i></a>
 </h2>
-<p>Now you can edit code, add new files, update datasets, etc.</p>
-<p>Every one of your changes is tracked, <em>once the respective file is
-saved</em>. Changed files will appear in the RStudio Git tab, in Github
-Desktop, or using the command <code>git status</code> in the terminal (see below).</p>
-<p>Whenever you make substantial changes (e.g. adding or updating a section of
-code), pause and <em>commit</em> those changes. Think of a commit as a “batch”
-of changes related to a common purpose. You can always continue to
-revise a file after having committed changes on it.</p>
-<p><em>Advice on commits</em>: generally, it is better to make small commits, that
-can be easily reverted if a problem arises, to commit together
-modifications related to a common purpose. To achieve this, you will
-find that <em>you should commit often</em>. At the beginning, you’ll probably
-forget to commit often, but then the habit kicks in.</p>
-<div id="in-rstudio-2" class="section level3 unnumbered">
-<h3>In Rstudio<a class="anchor" aria-label="anchor" href="#in-rstudio-2"><i class="fas fa-link"></i></a>
+<p>Giờ đây, bạn có thể chỉnh sửa code, thêm tệp mới, cập nhật bộ dữ liệu, v.v.</p>
+<p>Mọi thay đổi của bạn đều được theo dõi, <em>sau khi tệp tương ứng được lưu</em>. Các tệp đã thay đổi sẽ xuất hiện trong tab RStudio Git, trong Github Desktop hoặc sử dụng lệnh <code>git status</code> trong terminal (xem bên dưới).</p>
+<p>Bất cứ khi nào bạn thực hiện các thay đổi quan trọng (ví dụ: thêm hoặc cập nhật một phần của code), bạn hãy tạm dừng việc thay đổi và <em>commit</em> những thay đổi đó. Hãy tưởng tượng mỗi một commit là một “lô (batch)” của các thay đổi cùng hướng tới một mục đích chung. Bạn sẽ luôn có thể tiếp tục sửa đổi tệp sau khi đã commit các thay đổi trên đó.</p>
+<p><em>Lời khuyên về cách commit</em>: nói chung, tốt hơn là bạn nên tạo các commit nhỏ để có thể dễ dàng khôi phục các chỉnh sửa nếu có vấn đề phát sinh, sau đó commit chúng cùng nhau. Để làm được điều này, <em>bạn sẽ cần phải commit thường xuyên</em>. Khi mới bắt đầu, bạn có thể sẽ quên commit thường xuyên, nhưng sau đó thói quen commit thường xuyên bắt đầu xuất hiện.</p>
+<div id="trong-rstudio-2" class="section level3 unnumbered">
+<h3>Trong Rstudio<a class="anchor" aria-label="anchor" href="#trong-rstudio-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>The example below shows that, since the last commit, the R Markdown script “collaboration.Rmd” has changed,
-and several PNG images were added.</p>
+<p>Ví dụ dưới đây cho thấy rằng, kể từ lần commit cuối cùng, tập lệnh R Markdown “collab.Rmd” đã thay đổi, và một số hình ảnh PNG đã được thêm vào.</p>
 <div class="inline-figure"><img src="images/github_tracking2.png" width="232" style="display: block; margin: auto;"></div>
-<p>You might be wondering what the yellow, blue, green, and red squares next to
-the file names represent. Here is a snapshot from the <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">RStudio
-cheatsheet</a>
-that explains their meaning. Note that changes with yellow “?” can still
-be staged, committed, and pushed.</p>
+<p>Bạn có thể tự hỏi những hình vuông màu vàng, xanh lam, xanh lá cây và đỏ bên cạnh tên tệp có ý nghĩa gì. Đây là ảnh chụp nhanh từ <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">RStudio cheatsheet</a> trong đó giải thích ý nghĩa của chúng. Lưu ý rằng các thay đổi với màu vàng “?” có thể hoặc là staged, commited và pushed.</p>
 <div class="inline-figure"><img src="images/github_tracking.png" width="90" style="display: block; margin: auto;"></div>
 <ul>
-<li><p>Press the “Commit” button in the Git tab, which will open a new
-window (shown below)</p></li>
-<li><p>Click on a file name in the upper-left box</p></li>
-<li><p>Review the changes you made to that file (highlighted below in green
-or red)</p></li>
-<li><p>“Stage” the file, which will include those changes in the commit. Do
-this by checking the box next to the file name. Alternatively, you
-can highlight multiple file names and then click “Stage”</p></li>
-<li><p>Write a commit message that is short but descriptive (required)</p></li>
-<li><p>Press the “Commit” button. A pop-up box will appear showing success
-or an error message.</p></li>
+<li><p>Nhấn vào nút “Commit” trong cửa sổ Git, nút này sẽ mở ra một cửa sổ mới (hiển thị bên dưới)</p></li>
+<li><p>Nhấp vào tên tệp trong hộp phía trên bên trái</p></li>
+<li><p>Xem lại những thay đổi bạn đã thực hiện đối với tệp đó (được đánh dấu màu xanh lá cây hoặc đỏ)</p></li>
+<li><p>“Trình bày - Stage” các tệp, sẽ bao gồm những thay đổi có trong commit. Bạn có thể thực hiện việc này bằng cách chọn hộp bên cạnh tên tệp. Ngoài ra, bạn có thể đánh dấu nhiều tên tệp và sau đó nhấp vào “Stage”</p></li>
+<li><p>Viết một thông điệp commit mô tả ngắn gọn những thay đổi (bắt buộc)</p></li>
+<li><p>Ấn vào nút “Commit”. Một hộp thoại xuất hiện cho biết lệnh commit được thực hiện thành công hoặc một thông báo về thực hiện lỗi.</p></li>
 </ul>
-<p>Now you can make more changes and more commits, as many times as you would like</p>
+<p>Giờ đây, bạn có thể thực hiện nhiều thay đổi hơn và nhiều lần commit hơn, bao nhiêu lần tùy ý</p>
 <div class="inline-figure"><img src="images/github_commit.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
 </div>
-<div id="in-github-desktop-3" class="section level3 unnumbered">
-<h3>In Github Desktop<a class="anchor" aria-label="anchor" href="#in-github-desktop-3"><i class="fas fa-link"></i></a>
+<div id="trong-github-desktop-3" class="section level3 unnumbered">
+<h3>Trong Github Desktop<a class="anchor" aria-label="anchor" href="#trong-github-desktop-3"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can see the list of the files that were changed on the left. If
-you select a text file, you will see a summary of the modifications that were made
-in the right pane (the view will not work on more complex files like .docs or .xlsx).</p>
-<p>To stage the changes, just tick the little box near file names. When you
-have selected the files you want to add to this commit, give the commit
-a name, optionally a description and then click on the <strong>commit</strong>
-button.</p>
+<p>Bạn có thể xem danh sách các tệp đã được thay đổi ở bên trái. Nếu như bạn chọn một tệp văn bản, bạn sẽ thấy một bản tóm tắt về các sửa đổi đã được thực hiện trong ngăn bên phải (chế độ xem sẽ không hoạt động trên các tệp phức tạp hơn như .docs hoặc .xlsx).</p>
+<p>Để stage các thay đổi, chỉ cần đánh dấu vào ô nhỏ gần tên tệp. Khi bạn đã chọn các tệp bạn muốn thêm vào lần commit này, hãy đặt một cái tên cho commit và mô tả (tùy chọn) và sau đó nhấp vào nút <strong>commit</strong>.</p>
 <div class="inline-figure"><img src="images/github_desktop_commit.png" width="988" style="display: block; margin: auto;"></div>
 </div>
-<div id="in-console-1" class="section level3 unnumbered">
-<h3>In console<a class="anchor" aria-label="anchor" href="#in-console-1"><i class="fas fa-link"></i></a>
+<div id="trong-console-1" class="section level3 unnumbered">
+<h3>Trong console<a class="anchor" aria-label="anchor" href="#trong-console-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>The two functions used behind the scenes are <code>git add</code> to select/stage
-files and <code>git commit</code> to actually do the commit.</p>
+<p>Hai hàm thực sự thực hiện các thao tác trên là <code>git add</code> để chọn/stage tệp và <code>git commit</code> để thực hiện commit.</p>
 <div class="sourceCode" id="cb1951"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1951-1"><a href="collaboration.html#cb1951-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status <span class="co"># see the changes </span></span>
 <span id="cb1951-2"><a href="collaboration.html#cb1951-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1951-3"><a href="collaboration.html#cb1951-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add new_pages/collaboration.Rmd  <span class="co"># select files to commit (= stage the changes)</span></span>
@@ -657,440 +441,295 @@ files and <code>git commit</code> to actually do the commit.</p>
 <span id="cb1951-6"><a href="collaboration.html#cb1951-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1951-7"><a href="collaboration.html#cb1951-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log  <span class="co"># view information on past commits</span></span></code></pre></div>
 </div>
-<div id="amend-a-previous-commit" class="section level3 unnumbered">
-<h3>Amend a previous commit<a class="anchor" aria-label="anchor" href="#amend-a-previous-commit"><i class="fas fa-link"></i></a>
+<div id="thêm-vào-một-commit-trước-đó" class="section level3 unnumbered">
+<h3>Thêm vào một commit trước đó<a class="anchor" aria-label="anchor" href="#th%C3%AAm-v%C3%A0o-m%E1%BB%99t-commit-tr%C6%B0%E1%BB%9Bc-%C4%91%C3%B3"><i class="fas fa-link"></i></a>
 </h3>
-<p>What happens if you commit some changes, carry on working, and realize
-that you made changes that should “belong” to the past commit (in your opinion).
-Fear not! You can append these changes to your previous commit.</p>
-<p>In Rstudio, it should be pretty obvious as there is a “Amend previous commit”
-box on the same line as the COMMIT button.</p>
-<p>For some unclear reason, the functionality has not been implemented
-as such in Github Desktop, but there is a (conceptually awkward but easy)
-way around. If you have committed <strong>but not pushed</strong> your changes yet,
-an “UNDO” button appears just under the COMMIT button. Click on it and
-it will revert your commit (but keep your staged files and your commit message).
-Save your changes, add new files to the commit if necessary and commit again.</p>
-<p>In the console:</p>
+<p>Điều gì sẽ xảy ra nếu bạn đã commit một số thay đổi, tiếp tục làm việc và nhận ra rằng bạn đã thực hiện các thay đổi mà lẽ ra “thuộc về” lần commit trước đó (theo ý kiến của bạn). Đừng sợ! Bạn có thể nối những thay đổi này vào lần commit trước đó của mình.</p>
+<p>Trong Rstudio, nó sẽ khá rõ ràng vì có một hộp kiểm “Thêm vào commit trước - Amend previous commit” trên cùng dòng với nút COMMIT.</p>
+<p>Vì một số lý do không rõ ràng, chức năng này không có sẵn trong Github Desktop, nhưng vẫn có cách (khó hiểu về mặt khái niệm nhưng dễ dàng). Nếu bạn đã commit <strong>nhưng chưa đẩy</strong> các thay đổi của bạn lên nhánh chính, nút “UNDO” xuất hiện ngay dưới nút COMMIT. Nhấp vào nó và nó sẽ khôi phục commit của bạn (nhưng vẫn giữ các staged files và thông điệp commit). Lưu các thay đổi của bạn, thêm tệp mới vào commit nếu cần và commit lại.</p>
+<p>Trong cửa số console:</p>
 <div class="sourceCode" id="cb1952"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1952-1"><a href="collaboration.html#cb1952-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add [YOUR FILES] <span class="co"># Stage your new changes</span></span>
 <span id="cb1952-2"><a href="collaboration.html#cb1952-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1952-3"><a href="collaboration.html#cb1952-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">--amend</span>  <span class="co"># Amend the previous commit</span></span>
 <span id="cb1952-4"><a href="collaboration.html#cb1952-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1952-5"><a href="collaboration.html#cb1952-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">--amend</span> <span class="at">-m</span> <span class="st">"An updated commit message"</span>  <span class="co"># Amend the previous commit AND update the commit message</span></span></code></pre></div>
-<p><em>Note: think before modifying commits that are already public and shared with your collaborators</em>.</p>
+<p><em>Lưu ý: hãy suy nghĩ trước khi sửa đổi các commit đã được công khai và chia sẻ với các cộng tác viên của bạn</em>.</p>
 </div>
 </div>
-<div id="pull-and-push-changes-up-to-github" class="section level2" number="46.9">
+<div id="pull-và-push-các-thay-đổi-lên-github" class="section level2" number="46.9">
 <h2>
-<span class="header-section-number">46.9</span> Pull and push changes up to Github<a class="anchor" aria-label="anchor" href="#pull-and-push-changes-up-to-github"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.9</span> Pull và push các thay đổi lên Github<a class="anchor" aria-label="anchor" href="#pull-v%C3%A0-push-c%C3%A1c-thay-%C4%91%E1%BB%95i-l%C3%AAn-github"><i class="fas fa-link"></i></a>
 </h2>
-<p>“First PULL, then PUSH”</p>
-<p>It is good practice to <em>fetch</em> and <em>pull</em> before you begin working on
-your project, to update the branch version on your local computer with
-any changes that have been made to it in the remote/Github version.</p>
-<p>PULL often. Don’t hesitate. <em>Always pull before pushing</em>.</p>
-<p>When your changes are made and committed and you are happy with the
-state of your project, you can <em>push</em> your commits up
-to the remote/Github version of your branch.</p>
-<p>Rince and repeat while you are working on the repository.</p>
-<p><strong>Note:</strong> it is much easier to revert changes that were committed but not
-pushed (i.e. are still local) than to revert changes that were pushed to the
-remote repository (and perhaps already pulled by someone else), so it is better
-to push when you are done with introducing changes on the task that
-you were working on.</p>
-<div id="in-rstudio-3" class="section level4 unnumbered">
-<h4>In Rstudio<a class="anchor" aria-label="anchor" href="#in-rstudio-3"><i class="fas fa-link"></i></a>
+<p>“PULL trước, PUSH sau”</p>
+<p>Một thực hành tốt đố là <em>fetch</em> và <em>pull</em> trước khi bạn bắt đầu làm việc dự án của bạn, để cập nhật phiên bản nhánh trên máy tính của bạn với bất kỳ thay đổi nào đã được thực hiện trên nhanh đó ở phiên bản từ xa/Github.</p>
+<p>Đừng ngần ngại PULL thường xuyên. <em>Luôn nhớ pull trước khi push</em>.</p>
+<p>Khi các thay đổi của bạn được thực hiện và được commit, cũng như bạn hài lòng với chúng, bạn có thể <em>push</em> (đẩy) commit của mình lên sang phiên bản từ xa/Github nhánh làm việc của bạn.</p>
+<p>Kiểm tra và lặp lại trong khi bạn đang làm việc trên kho lưu trữ.</p>
+<p><strong>Lưu ý:</strong> việc khôi phục các thay đổi đã được commit nhưng chưa push lên Github (tức là vẫn còn ở local) dễ dàng hơn nhiều so với các commit đã được push lên kho lưu trữ từ xa (và có thể đã được ai đó pull xuống), vì vậy tốt nhất là bạn nên push những thay đổi khi bạn hoàn thành nó và giới thiệu về các thay đổi mà bạn đã thực hiện.</p>
+<div id="trong-rstudio-3" class="section level4 unnumbered">
+<h4>Trong Rstudio<a class="anchor" aria-label="anchor" href="#trong-rstudio-3"><i class="fas fa-link"></i></a>
 </h4>
-<p><em>PULL</em> - First, click the “Pull” icon (downward arrow) which fetches and
-pulls at the same time.</p>
-<p><em>PUSH</em> - Clicking the green “Pull” icon (upward arrow). You may be asked
-to enter your Github username and password. The first time you are
-asked, you may need to enter two Git command lines into the <em>Terminal</em>:</p>
+<p><em>PULL</em> - Đầu tiên, ấn vào biểu tượng “Pull” (mũi tên hướng xuống) để fetch và pull cùng một lúc.</p>
+<p><em>PUSH</em> - Ấn vào icon màu xanh “Push” (mũi tên hướng lên). Bạn có thể được yêu cầu nhập tên người dùng và mật khẩu Github của bạn. Trong lần đầu tiên được hỏi, bạn có thể cần nhập hai dòng lệnh Git sau vào <em>Terminal</em>:</p>
 <ul>
 <li>
-<strong>git config –global user.email
-“<a href="mailto:you@example.com" class="email">you@example.com</a>”</strong> (your Github
-email address), and<br>
+<strong>git config –global user.email “<a href="mailto:you@example.com" class="email">you@example.com</a>”</strong> (Địa chỉ email Github của bạn), và<br>
 </li>
-<li><strong>git config –global user.name “Your Github username”</strong></li>
+<li><strong>git config –global user.name “Tên đăng nhập Github của bạn”</strong></li>
 </ul>
-<p>To learn more about how to enter these commands, see the section below
-on Git commands.</p>
-<p><strong><em>TIP:</em></strong> Asked to provide your password too often? See these chapters
-10 &amp; 11 of this
-<a href="https://happygitwithr.com/credential-caching.html#credential-caching">tutorial</a>
-to connect to a repository using a SSH key (more
-complicated)</p>
+<p>Để tìm hiểu thêm về cách nhập các lệnh này, hãy xem phần bên dưới về các lệnh Git.</p>
+<p><strong><em>MẸO:</em></strong> Bị yêu cầu cung cấp mật khẩu quá nhiều? Xem các chương 10 &amp; 11 trong <a href="https://happygitwithr.com/credential-caching.html#credential-caching">hướng dẫn này</a> để kết nối với kho lưu trữ bằng khóa SSH (phức tạp hơn)</p>
 </div>
-<div id="in-github-desktop-4" class="section level4 unnumbered">
-<h4>In Github Desktop<a class="anchor" aria-label="anchor" href="#in-github-desktop-4"><i class="fas fa-link"></i></a>
+<div id="trong-github-desktop-4" class="section level4 unnumbered">
+<h4>Trong Github Desktop<a class="anchor" aria-label="anchor" href="#trong-github-desktop-4"><i class="fas fa-link"></i></a>
 </h4>
-<p>Click on the “Fetch origin” button to check if there are new commits on
-the remote repository.</p>
+<p>Nhấp vào nút “Fetch origin” để kiểm tra xem có commit mới nào trên kho lưu trữ từ xa hay không.</p>
 <div class="inline-figure"><img src="images/github_desktop_fetch_button.png" width="817" style="display: block; margin: auto;"></div>
-<p>If Git finds new commits on the remote repository, the button will
-change into a “Pull” button. Because the same button is used to push and
-pull, you cannot push your changes if you don’t pull before.</p>
+<p>Nếu Git tìm thấy các commit mới trên kho lưu trữ từ xa, nút commit sẽ thay đổi thành nút “Push”. Bởi vì cùng một nút được sử dụng để push và pull, bạn không thể push các thay đổi của mình nếu bạn không pull trước đó.</p>
 <div class="inline-figure"><img src="images/github_desktop_pull_button.png" width="496" style="display: block; margin: auto;"></div>
-<p>You can go to the “History” tab (near the “Changes” tab) to see all
-commits (yours and others). This is a nice way of acquainting yourself
-with what your collaborators did. You can read the commit message, the
-description if there is one, and compare the code of the two files using
-the <em>diff</em> pane.</p>
+<p>Bạn có thể chuyển đến tab “History” (gần tab “Changes”) để xem tất cả các commits (của bạn và những người khác). Đây là một cách tốt để tự làm quen với những gì những người cộng tác với bạn đã làm. Bạn có thể đọc các thông điệp commit, các mô tả nếu có và so sánh code của hai tệp bằng cách sử dụng cửa sổ <em>diff</em>.</p>
 <div class="inline-figure"><img src="images/github_desktop_history.png" width="993" style="display: block; margin: auto;"></div>
-<p>Once all remote changes have been pulled, and at least one local change
-has been committed, you can push by clicking on the same button.</p>
+<p>Khi tất cả các thay đổi từ xa đã được pull và ít nhất một thay đổi cục bộ đã được commit, bạn có thể push bằng cách nhấp trên cùng một nút.</p>
 <div class="inline-figure"><img src="images/github_desktop_push_button.png" width="816" style="display: block; margin: auto;"></div>
 </div>
 <div id="console" class="section level4 unnumbered">
 <h4>Console<a class="anchor" aria-label="anchor" href="#console"><i class="fas fa-link"></i></a>
 </h4>
-<p>Without surprise, the commands are <em>fetch</em>, <em>pull</em> and <em>push</em>.</p>
+<p>Không có gì ngạc nhiên, các lệnh là <em>fetch</em>, <em>pull</em> và <em>push</em>.</p>
 <div class="sourceCode" id="cb1953"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1953-1"><a href="collaboration.html#cb1953-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch  <span class="co"># are there new commits in the remote directory?</span></span>
 <span id="cb1953-2"><a href="collaboration.html#cb1953-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull   <span class="co"># Bring remote commits into your local branch</span></span>
 <span id="cb1953-3"><a href="collaboration.html#cb1953-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push   <span class="co"># Puch local commits of this branch to the remote branch</span></span></code></pre></div>
 </div>
-<div id="i-want-to-pull-but-i-have-local-work" class="section level3 unnumbered">
-<h3>I want to pull but I have local work<a class="anchor" aria-label="anchor" href="#i-want-to-pull-but-i-have-local-work"><i class="fas fa-link"></i></a>
+<div id="tôi-muốn-pull-nhưng-tôi-cũng-có-các-chỉnh-sửa-trong-local" class="section level3 unnumbered">
+<h3>Tôi muốn pull nhưng tôi cũng có các chỉnh sửa trong local<a class="anchor" aria-label="anchor" href="#t%C3%B4i-mu%E1%BB%91n-pull-nh%C6%B0ng-t%C3%B4i-c%C5%A9ng-c%C3%B3-c%C3%A1c-ch%E1%BB%89nh-s%E1%BB%ADa-trong-local"><i class="fas fa-link"></i></a>
 </h3>
-<p>This can happen sometimes:
-you made some changes on your local repository, but the remote
-repository has commits that you didn’t pull.</p>
-<p>Git will refuse to pull because it might overwrite your changes.
-There are several strategies to keep your changes,
-well described in <a href="https://happygitwithr.com/pull-tricky.html">Happy Git with R</a>,
-among which the two main ones are:
-- commit your changes, fetch remote changes, pull them in, resolve conflicts
-if needed (see section below), and push everything online
-- <code>stash</code> your changes, which sort of stores them aside, pull, unstash
-(restore), and then commit, solve any conflicts, and push.</p>
-<p>If the files concerned by the remote changes and the files concerned
-by your local changes do not overlap, Git may solve conflicts automatically.</p>
-<p>In Github Desktop, this can be done with buttons. To stash, go to <em>Branch &gt; Stash all changes</em>.</p>
+<p>Điều này đôi khi có thể xảy ra: khi bạn đã thực hiện một số thay đổi trên kho lưu trữ cục bộ của mình, nhưng kho lưu trữ từ xa có các commit mà bạn đã không pull.</p>
+<p>Git sẽ từ chối pull vì nó có thể ghi đè các thay đổi của bạn. Có một số chiến lược để giữ các thay đổi của bạn, được mô tả tốt trong trang <a href="https://happygitwithr.com/pull-tricky.html">Happy Git with R</a>, trong đó có hai điểm chính sau:</p>
+<ul>
+<li><p>commit các thay đổi của bạn, fetch các thay đổi từ xa, pull chúng xuống, giải quyết các xung đột nếu có (xem phần bên dưới) và push mọi thứ lên</p></li>
+<li><p><code>stash</code> các thay đổi của bạn, tức là lưu trữ chúng sang một bên, sau đó pull và unstash (khôi phục), sau đó commit, giải quyết các xung đột và push.</p></li>
+</ul>
+<p>Nếu các tệp có thay đổi từ remote và hay đổi bởi local không trùng lặp, Git có thể tự động giải quyết các xung đột.</p>
+<p>Trong Github Desktop, việc này có thể được thực hiện với các nút bấm. Để stash, hãy truy cập <em>Branch &gt; Stash all changes</em>.</p>
 <div class="inline-figure"><img src="images/github_desktop_stash.png" width="922" style="display: block; margin: auto;"></div>
 </div>
 </div>
-<div id="merge-branch-into-main" class="section level2" number="46.10">
+<div id="hợp-nhất-nhánh-vào-nhánh-chính" class="section level2" number="46.10">
 <h2>
-<span class="header-section-number">46.10</span> Merge branch into Main<a class="anchor" aria-label="anchor" href="#merge-branch-into-main"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.10</span> Hợp nhất nhánh vào Nhánh chính<a class="anchor" aria-label="anchor" href="#h%E1%BB%A3p-nh%E1%BA%A5t-nh%C3%A1nh-v%C3%A0o-nh%C3%A1nh-ch%C3%ADnh"><i class="fas fa-link"></i></a>
 </h2>
-<p>If you have finished making changes, you can begin the process of
-merging those changes into the main branch. Depending on your situation,
-this may be fast, or you may have deliberate review and approval
-steps involving teammates.</p>
-<div id="locally-in-github-desktop" class="section level3 unnumbered">
-<h3>Locally in Github Desktop<a class="anchor" aria-label="anchor" href="#locally-in-github-desktop"><i class="fas fa-link"></i></a>
+<p>Nếu bạn đã thực hiện xong các thay đổi, bạn có thể bắt đầu quá trình hợp nhất những thay đổi đó vào nhánh chính. Tùy thuộc vào tình huống của bạn, việc này có thể nhanh hoặc bạn có thể cần sự xem xét và phê duyệt của các thành viên trong nhóm.</p>
+<div id="hợp-nhất-cục-bộ-bằng-github-desktop" class="section level3 unnumbered">
+<h3>Hợp nhất cục bộ bằng Github Desktop<a class="anchor" aria-label="anchor" href="#h%E1%BB%A3p-nh%E1%BA%A5t-c%E1%BB%A5c-b%E1%BB%99-b%E1%BA%B1ng-github-desktop"><i class="fas fa-link"></i></a>
 </h3>
-<p>One can merge branches locally using Github Desktop. First, go to
-(checkout) the branch that will be the recipient of the commits, in other words, the
-branch you want to update. Then go to the menu <em>Branch &gt; Merge into
-current branch</em> and click. A box will allow you to select the branch you
-want to import from.</p>
+<p>Bạn có thể hợp nhất các nhánh bằng Github Desktop. Đầu tiên, hãy truy cập (checkout) nhánh sẽ là nơi tiếp nhận các commit, nói cách khác, nhánh bạn muốn cập nhật. Sau đó vào menu và lựa chọn <em>Branch &gt; Merge into current branch</em>. Một hộp thoại sẽ cho phép bạn chọn nhánh bạn muốn nhập vào.</p>
 <div class="inline-figure"><img src="images/github_desktop_merge.png" width="623" style="display: block; margin: auto;"></div>
 </div>
-<div id="in-console-2" class="section level3 unnumbered">
-<h3>In console<a class="anchor" aria-label="anchor" href="#in-console-2"><i class="fas fa-link"></i></a>
+<div id="trong-console-2" class="section level3 unnumbered">
+<h3>Trong console<a class="anchor" aria-label="anchor" href="#trong-console-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>First move back to the branch that will be the recipient of the changes.
-This is usually <em>master</em>, but it could be another branch. Then merge your
-working branch into master.</p>
+<p>Đầu tiên hãy quay lại nhánh sẽ nhận các thay đổi. Nó thường là nhánh có tên <em>master</em>, nhưng nó cũng có thể là một nhánh khác. Sau đó hợp nhất nhánh làm việc của bạn vào master.</p>
 <div class="sourceCode" id="cb1954"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1954-1"><a href="collaboration.html#cb1954-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout master  <span class="co"># Go back to master (or to the branch you want to move your )</span></span>
 <span id="cb1954-2"><a href="collaboration.html#cb1954-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge this_fancy_new_branch</span></code></pre></div>
-<p><a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">This
-page</a>
-shows a more advanced example of branching and explains a bit what is
-happening behind the scenes.</p>
+<p><a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">Trang này</a> trình bày một ví dụ nâng cao hơn về phân nhánh và giải thích sơ bộ về cơ chế của nó.</p>
 </div>
-<div id="in-github-submitting-pull-requests" class="section level3 unnumbered">
-<h3>In Github: submitting pull requests<a class="anchor" aria-label="anchor" href="#in-github-submitting-pull-requests"><i class="fas fa-link"></i></a>
+<div id="trong-github-gửi-một-pull-requests" class="section level3 unnumbered">
+<h3>Trong Github: gửi một pull requests<a class="anchor" aria-label="anchor" href="#trong-github-g%E1%BB%ADi-m%E1%BB%99t-pull-requests"><i class="fas fa-link"></i></a>
 </h3>
-<p>While it is totally possible to merge two branches locally, or without
-informing anybody, a merge may be discussed or investigated by several
-people before being integrated to the master branch. To help with the
-process, Github offers some discussion features around the merge: the
-<strong>pull request</strong>.</p>
-<p>A pull request (a “PR”) is a request to merge one branch into another
-(in other words, a request that <em>your working branch be pulled into the “main” branch</em>).
-A pull request typically involves multiple commits. A pull request usually begins a conversation and review
-process before it is accepted and the branch is merged. For example,
-you can read pull request discussions on <a href="https://github.com/tidyverse/dplyr/pulls">dplyr’s
-github</a>.</p>
-<p>You can submit a pull request (PR) directly form the website (as
-illustrated bellow) or from Github Desktop.</p>
+<p>Mặc dù hoàn toàn có thể hợp nhất hai nhánh một cách cục bộ, hoặc không thông báo cho bất kỳ ai, thì việc hợp nhất có thể được thảo luận hoặc kiểm tra bởi một số người trước khi được tích hợp vào nhánh master. Để giúp đỡ quá trình này, Github cung cấp một số tính năng thảo luận cho việc hợp nhất có tên là: <strong>pull request</strong>.</p>
+<p>Một pull request (một “PR”) là một yêu cầu hợp nhất một nhánh vào một nhánh khác (nói cách khác, một yêu cầu <em>nhánh làm việc của bạn được pull vào nhánh “chính”</em>). Một pull request thường bao gồm nhiều lần commit. Một pull request thường bắt đầu một cuộc thảo luận và quá trình review trước khi nó được chấp nhận và được hợp nhất vào nhánh chính. Ví dụ, bạn có thể đọc các cuộc thảo luận về pull request trên <a href="https://github.com/tidyverse/dplyr/pulls">trang github của package dplyr</a>.</p>
+<p>Bạn có thể gửi một pull request (PR) trực tiếp từ trang web (như minh họa bên dưới) hoặc từ Github Desktop.</p>
 <ul>
-<li>Go to Github repository (online)</li>
-<li>View the tab “Pull Requests” and click the “New pull request” button</li>
-<li>Select from the drop-down menu to merge your branch into main</li>
-<li>Write a detailed Pull Request comment and click “Create Pull
-Request”.</li>
+<li>Đi tới kho lưu trữ Github (trực tuyến)</li>
+<li>Xem tab “Pull Requests” và ấn vào nút “New pull request”</li>
+<li>Chọn nhánh cần hợp nhất từ menu thả xuống để hợp nhất vào nhánh chính</li>
+<li>Viết chi tiết bình luận cho Pull Request và ấn vào “Create Pull Request”.</li>
 </ul>
-<p>In the image below, the branch “forests” has been selected to be merged
-into “main”:</p>
+<p>Trong ảnh dưới đây, nhánh “forest” được chọn để hợp nhất vào nhánh “chính” (main):</p>
 <div class="inline-figure"><img src="images/github_pull_request2.png" width="100%" height="150%" style="display: block; margin: auto;"></div>
-<p>Now you should be able to see the pull request (example image below):</p>
+<p>Bây giờ bạn đã có thể xem một pull request (ảnh minh họa bên dưới):</p>
 <ul>
-<li>Review the tab “Files changed” to see how the “main” branch would
-change if the branch were merged.<br>
+<li>Kiểm tra tab “Files changed” để xem nhánh “chính” sẽ thay đổi như thế nào nếu được hợp nhất.<br>
 </li>
-<li>On the right, you can request a review from members of your team by
-tagging their Github ID. If you like, you can set the repository
-settings to require one approving review in order to merge into
-main.<br>
+<li>Ở phía bên phải, bạn có thể yêu cầu một thành viên trong nhóm review bằng cách gắn thẻ (tag) ID Github của họ. Nếu bạn muốn, bạn có thể thiết lập các cài đặt cho repository để yêu cầu một ai đó chấp thuận trước khi hợp nhất vào nhánh chính.<br>
 </li>
-<li>Once the pull request is approved, a button to
-“Merge pull request” will become active. Click this.<br>
+<li>Khi pull request được chấp thuận, nút “Merge pull request” sẽ được active. Hãy ấn vào đó.<br>
 </li>
-<li>Once completed, delete your branch as explained below.</li>
+<li>Khi hợp nhất thành công, xóa nhánh của bạn như được giải thích bên dưới.</li>
 </ul>
 <div class="inline-figure"><img src="images/github_pull_request.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
 </div>
-<div id="resolving-conflicts" class="section level3 unnumbered">
-<h3>Resolving conflicts<a class="anchor" aria-label="anchor" href="#resolving-conflicts"><i class="fas fa-link"></i></a>
+<div id="giải-quyết-xung-đột" class="section level3 unnumbered">
+<h3>Giải quyết xung đột<a class="anchor" aria-label="anchor" href="#gi%E1%BA%A3i-quy%E1%BA%BFt-xung-%C4%91%E1%BB%99t"><i class="fas fa-link"></i></a>
 </h3>
-<p>When two people modified the same line(s) at the same time, a
-merge conflict arises. Indeed, Git refuses to make a decision about
-which version to keep, but it helps you find where the
-conflict is. <strong>DO NOT PANIC</strong>. Most of the time, it is pretty straightforward
-to resolve.</p>
-<p>For example, on Github:</p>
+<p>Khi hai người cùng thay đổi code trên cùng một (hoặc nhiều) dòng, thì xung đột khi hợp nhất sẽ xảy ra. Thực tế là Git sẽ từ chối việc đưa ra quyết định phiên bản nào sẽ được giữ, nhưng nó cho phép bạn tìm kiếm nơi xảy ra xung đột. <strong>ĐỪNG HOẢNG LẠN</strong>. Hầu hết các trường hợp khá dễ dàng để giải quyết.</p>
+<p>Ví dụ, trên Github:</p>
 <div class="inline-figure"><img src="images/github_conflict2.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
-<p>After the merge raised a conflict, open the file in your favorite editor.
-The conflict will be indicated by series of characters:</p>
+<p>Sau khi việc hợp nhất nhắc nhở về có xung đột, hãy mở tệp trong trình chỉnh sửa ưa thích của bạn. Xung đột sẽ được đánh dấu bằng một chuỗi các ký tự như sau:</p>
 <div class="inline-figure"><img src="images/github_conflict3.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
-<p>The text between <em>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</em> and <em>=======</em> comes from your
-local repository, and the one between <em>=======</em> and <em>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</em> from the
-the other branch (which may be origin, master or any branch of
-your choice).</p>
-<p>You need to decide which version of the code you prefer (or even write a
-third, including changes from both sides if pertinent), delete the rest
-and remove all the marks that Git added <em>(&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD, =======,
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/master/your_branch_name</em>).</p>
-<p>Then, save the file, stage it and commit it : this is the commit
-that makes the merged version “official”. Do not forget to push afterwards.</p>
-<p>The more often you and your collaborators pull and push, the smaller the
-conflicts will be.</p>
-<p><em>Note: If you feel at ease with the console, there are more <a href="https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging">advanced
-merging
-options</a>
-(e.g. ignoring whitespace, giving a collaborator priority etc.).</em></p>
+<p>Đoạn văn bản nằm giữa <em>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</em> và <em>=======</em> đến từ local repository của bạn, và đoạn văn bản nằm giữa <em>=======</em> và <em>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</em> đến từ một nhánh khác (có thể là bản gốc, master hoặc bất kỳ nhánh nào theo lựa chọn của bạn).</p>
+<p>Bạn phải quyết định phiên bản nào của code bạn muốn giữ (hoặc thậm chí viết một phiên bản thứ ba, bao gồm các thay đổi từ cả hai phía), xóa phần còn lại và loại bỏ tất cả các ký tự đánh dấu mà Git đã thêm vào <em>(&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/master/your_branch_name</em>).</p>
+<p>Sau đó, lưu tệp, stage và commit nó: Đây là commit để tạo phiên bản hợp nhất “chính thức”. Đừng quên push sau đó.</p>
+<p>Nếu bạn và những người cộng tác với bạn thường xuyên pull và push, thì các xung đột lớn hiếm khi xảy ra.</p>
+<p><em>Lưu ý: Nếu bạn tự tin tương tác với console, có nhiều <a href="https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging">lựa chọn hợp nhất nâng cao</a> (ví dụ: bỏ qua khoảng trống, cho người cộng tác quyền ưu tiên, v.v.).</em></p>
 </div>
-<div id="delete-your-branch" class="section level3 unnumbered">
-<h3>Delete your branch<a class="anchor" aria-label="anchor" href="#delete-your-branch"><i class="fas fa-link"></i></a>
+<div id="xóa-nhánh-của-bạn" class="section level3 unnumbered">
+<h3>Xóa nhánh của bạn<a class="anchor" aria-label="anchor" href="#x%C3%B3a-nh%C3%A1nh-c%E1%BB%A7a-b%E1%BA%A1n"><i class="fas fa-link"></i></a>
 </h3>
-<p>Once a branch was merged into master and is no longer needed, you can
-delete it.</p>
+<p>Khi một nhánh đã được hợp nhất vào master và bạn không cần đến nó nữa, bạn có thể xóa nó.</p>
 <div id="github-rstudio" class="section level4" number="46.10.0.1">
 <h4>
 <span class="header-section-number">46.10.0.1</span> Github + Rstudio<a class="anchor" aria-label="anchor" href="#github-rstudio"><i class="fas fa-link"></i></a>
 </h4>
-<p>Go to the repository on Github and click the button to view all the
-branches (next to the drop-down to select branches). Now find your
-branch and click the trash icon next to it. Read more detail on deleting
-a branch
-<a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-and-deleting-branches-within-your-repository#deleting-a-branch">here</a>.</p>
-<p>Be sure to also delete the branch locally on your computer. This will
-not happen automatically.</p>
+<p>Đi tới thư mục lưu trữ trên Github và nhấn nút để xem toàn bộ các nhánh hiện có (cạnh mũi tên trỏ xuống để lựa chọn nhánh). Bây giờ tìm nhánh của bạn và nhấn biểu tượng thúng rác bên cạnh nó. Đọc thêm về cách xóa một nhánh <a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-and-deleting-branches-within-your-repository#deleting-a-branch">tại đây</a>.</p>
+<p>Hãy chắc chắn là bạn cũng đã xóa nhánh trong máy tính của mình bởi vì quá trình này không được diễn ra một cách tự động.</p>
 <ul>
-<li>From RStudio, make sure you are in the Main branch</li>
-<li>Switch to typing Git commands in the RStudio “Terminal” (the tab
-adjacent to the R console), and type: <strong>git branch -d
-branch_name</strong>, where “branch_name” is the name of your branch to be
-deleted</li>
-<li>Refresh your Git tab and the branch should be gone</li>
+<li>Trong RStudio, hãy chắc chắn bạn đang ở nhánh chính (Main branch)</li>
+<li>Chuyển sang cửa sổ “Terminal” của RStudio (bên cạnh cửa sổR console), và gõ: <strong>git branch -d branch_name</strong>, trong đó “branch_name” là tên của nhánh mà bạn muốn xóa</li>
+<li>Refresh lại cửa sổ Git và nhánh đó sẽ biến mất</li>
 </ul>
 </div>
-<div id="in-github-desktop-5" class="section level4" number="46.10.0.2">
+<div id="trong-github-desktop-5" class="section level4" number="46.10.0.2">
 <h4>
-<span class="header-section-number">46.10.0.2</span> In Github Desktop<a class="anchor" aria-label="anchor" href="#in-github-desktop-5"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.10.0.2</span> Trong Github Desktop<a class="anchor" aria-label="anchor" href="#trong-github-desktop-5"><i class="fas fa-link"></i></a>
 </h4>
-<p>Just checkout the branch you want to delete, and go to the menu
-<em>Branch &gt; Delete</em>.</p>
+<p>Đơn giản chỉ cần checkout tới nhánh bạn muốn xóa, và đi tới menu <em>Branch &gt; Delete</em>.</p>
 </div>
 </div>
 <div id="forking" class="section level3 unnumbered">
 <h3>Forking<a class="anchor" aria-label="anchor" href="#forking"><i class="fas fa-link"></i></a>
 </h3>
-<p>You can fork a project if you would like to contribute to it but
-do not have the rights to do so, or if you just
-want to modify it for your personal use. A
-short description of forking can be found <a href="https://guides.github.com/activities/forking/">here</a>.</p>
-<p>On Github, click on the “Fork” button:</p>
+<p>Bạn có thể fork một dự án nếu bạn muốn đóng góp cho nó nhưng không có quyền để thực hiện, hoặc chỉ là bạn muốn chỉnh sửa cho mục đích sử dụng cá nhân. Một mô tả ngắn về forking có thể xem <a href="https://guides.github.com/activities/forking/">tại đây</a>.</p>
+<p>Trong Github, nhấp vào nút “Fork”:</p>
 <div class="inline-figure"><img src="images/github_fork_1.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
-<p>This will clone the original repository, but in your own profile. So now,
-there are two versions of the repository <strong>on Github</strong>: the original one,
-that you cannot modify, and the cloned version in your profile.</p>
-<p>Then, you can proceed to clone your version of the online repository locally
-on your computer, using any of the methods described in previous sections.
-Then, you can create a new branch, make changes, commit and push them
-<em>to your remote repository</em>.</p>
-<p>Once you are happy with the result you can create a Pull Request
-from Github or Github Desktop to begin the conversation with the
-owners/maintainers of the original repository.</p>
-<p><strong>What if you need some newer commits from the official repository?</strong></p>
-<p>Imagine that someone makes a critical modification to the official repository,
-which you want to include to your cloned version.
-It is possible to synchronize your fork with the official repository.
-It involves using the terminal, but it is not too complicated.
-You mostly need to remember that:
-- <em>upstream</em> = the official repository, the one that you could not modify
-- <em>origin</em> = your version of the repository on your Github profile</p>
-<p>You can read <a href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork">this tutorial</a> or follow along below:</p>
-<p>First, type in your Git terminal (inside your repo):</p>
+<p>Thao tác này sẽ clone kho lưu trữ gốc, nhưng được lưu trong hồ sơ của bạn. Do đó, bây giờ có hai phiển bản của kho lưu trữ <strong>trong Github</strong>: phiên bản gốc mà bạn không thể chỉnh sửa, và phiên bản clone trong hồ sơ của bạn.</p>
+<p>Sau đó, bạn có thể tiếp tục clone phiên bản trực tuyến xuống máy tính của bạn, sử dụng bất kỳ phương pháp nào đã được mô tả bên trên. Tiếp theo, bạn có thể tạo một nhánh mới, tạo các thay đổi, commit và push chúng <em>lên kho lưu trữ từ xa của bạn</em>.</p>
+<p>Khi bạn hài lòng với các kết quả, bạn có thể tạo một Pull Request từ Github hoặc Github Desktop để bắt đầu một cuộc thảo luận với chủ sở hữu/người bảo trì của kho lưu trữ gốc.</p>
+<p><strong>Nếu bạn muốn lấy những commits mới hơn từ kho lưu trữ gốc thì sao?</strong></p>
+<p>hãy tưởng tượng ai đó đã tạo một thay đổi quan trọng trong kho lưu trữ gốc, và bạn muốn thêm những thay đổi đó vào kho lưu trữ của mình. Điều này là khả thi để đồng bộ hóa kho lưu trữ bạn đã fork với kho lưu trữ gốc. Nó yêu cầu sử dụng terminal, nhưng không quá phức tạp. Bạn chỉ cần nhớ rằng: - <em>upstream (thượng nguồn)</em> = kho lưu trữ gốc, là cái mà bạn không thể chỉnh sửa - <em>origin (bản gốc)</em> = phiên bản kho lưu trữ trong hồ sơ Github của bạn</p>
+<p>Bạn có thể đọc <a href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork">tutorial này</a> hoặc theo dõi các bước dưới đây:</p>
+<p>Đầu tiên, gõ vào Git terminal (bên trong repo của bạn):</p>
 <div class="sourceCode" id="cb1955"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1955-1"><a href="collaboration.html#cb1955-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span></span></code></pre></div>
-<p>If you have not yet configured the upstream repository you should
-see two lines, beginning by <em>origin</em>. They show the remote repo
-that <code>fetch</code> and <code>push</code> point to. Remember, <em>origin</em> is the conventional
-nickname for your own version of the repository on Github. For example:</p>
+<p>Nếu bạn chưa từng cấu hình upstream repository (kho lưu trữ gốc), bạn sẽ thấy hai dòng, bắt đầu bởi từ <em>origin</em>. Chúng hiển thị kho lưu trữ từ xa để <code>fetch</code> và <code>push</code> các điểm vào. Hãy nhớ, <em>origin</em> là biệt danh thường dùng cho phiên bản kho lưu trữ của chính bạn trên Github. Ví dụ:</p>
 <div class="inline-figure"><img src="images/github_fork_2.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
-<p>Now, add a new remote repository:</p>
+<p>Bây giờ, thêm một kho lưu trữ từ xa:</p>
 <div class="sourceCode" id="cb1956"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1956-1"><a href="collaboration.html#cb1956-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add upstream https://github.com/appliedepi/epirhandbook_eng.git</span></code></pre></div>
-<p>Here the address is the address that Github generates when you clone
-a repository (see section on cloning). Now you will have four remote pointers:</p>
+<p>Địa chỉ ở đây là địa chỉ mà Github tạo ra khi bạn clone một repository (xem mục về cloning). Bây giờ bạn sẽ có bốn điểm từ xa:</p>
 <div class="inline-figure"><img src="images/github_fork_3.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
-<p>Now that the setup is done, whenever you want to get the changes from
-the original (<em>upstream</em>) repository, you just have to go (<em>checkout</em>) to
-the branch you want to update and type:</p>
+<p>Quá trình thiết lập đã xong. Bất cứ khi nào bạn muốn lấy các sự thay đổi từ kho lưu trữ gốc (<em>upstream</em>), bạn chỉ cần đi tới (<em>checkout</em>) nhánh bạn muốn cập nhật và gõ:</p>
 <div class="sourceCode" id="cb1957"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1957-1"><a href="collaboration.html#cb1957-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch upstream <span class="co"># Get the new commits from the remote repository</span></span>
 <span id="cb1957-2"><a href="collaboration.html#cb1957-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout the_branch_you_want_to_update</span>
 <span id="cb1957-3"><a href="collaboration.html#cb1957-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge upstream/the_branch_you_want_to_update  <span class="co"># Merge the upstream branch into your branch.</span></span>
 <span id="cb1957-4"><a href="collaboration.html#cb1957-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="co"># Update your own version of the remote repo</span></span></code></pre></div>
-<p>If there are conflicts, you will have to solve them, as explained
-in the Resolving conflicts section.</p>
-<p><strong>Summary</strong>: forking is cloning, but on the Github server side.
-The rest of the actions are typical collaboration workflow actions
-(clone, push, pull, commit, merge, submit pull requests…).</p>
-<p><em>Note: while forking is a concept, not a Git command, it also exist on other Web hosts, like <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow">Bitbucket</a>.</em></p>
+<p>Nếu có xung đột, bạn sẽ phải giải quyết chúng như đã trình bày ở bên trên.</p>
+<p><strong>Tổng kết</strong>: forking là cloning, nhưng chỉ trên phía máy chủ của Github. Các hành động còn lại là điển hình của mô quy trình cộng tác(clone, push, pull, commit, merge, gửi pull requests…).</p>
+<p><em>Lưu ý: trong khi forking là một khái niệm, không phải là một lệnh Git, nó cũng tồn tại ở các nền tảng khác, chẳng hạn như <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow">Bitbucket</a>.</em></p>
 <div class="inline-figure"><img src="images/github_fork_4.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
 </div>
 </div>
-<div id="what-we-learned" class="section level2" number="46.11">
+<div id="chúng-ta-đã-học-được-những-gì" class="section level2" number="46.11">
 <h2>
-<span class="header-section-number">46.11</span> What we learned<a class="anchor" aria-label="anchor" href="#what-we-learned"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.11</span> Chúng ta đã học được những gì<a class="anchor" aria-label="anchor" href="#ch%C3%BAng-ta-%C4%91%C3%A3-h%E1%BB%8Dc-%C4%91%C6%B0%E1%BB%A3c-nh%E1%BB%AFng-g%C3%AC"><i class="fas fa-link"></i></a>
 </h2>
-<p>You have learned how to:</p>
+<p>Bạn đã học được cách:</p>
 <ul>
-<li>setup Git to track modifications in your folders,<br>
+<li>thiết lập Git để theo dõi sự thay đổi trong thư mục của bạn,<br>
 </li>
-<li>connect your local repository to a remote online repository,<br>
+<li>kết nối kho lưu trữ cục bộ và từ xa,<br>
 </li>
-<li>commit changes,<br>
+<li>commit các thay đổi,<br>
 </li>
-<li>synchronize your local and remote repositories.</li>
+<li>đồng bộ kho lưu trữ cục bộ và từ xa.</li>
 </ul>
-<p>All this should get you going and be enough for most of your needs as
-epidemiologists. We usually do not have as advanced usage as developers.</p>
-<p>However, know that should you want (or need) to go further, Git offers more power to simplify
-commit histories, revert one or several commits, cherry-pick commits, etc.
-Some of it may sound like pure wizardry, but now that you have the basics,
-it is easier to build on it.</p>
-<p>Note that while the Git pane in Rstudio and Github Desktop are good for
-beginners / day-to-day usage in our line of work, they do not offer an
-interface to some of the intermediate / advanced Git functions.
-Some more complete interfaces allows you to do more with point-and-click
-(usually at the cost of a more complex layout).</p>
-<p>Remember that since you can use any tool at any point to track your repository,
-you can very easily install an interface to try it out sometimes,
-or to perform some less common complex task occasionally,
-while preferring a simplified interface for the rest of time (e.g. using
-Github Desktop most of the time, and switching to SourceTree or Gitbash for some specific tasks).</p>
+<p>Tất cả chúng là khá đầy đủ cho những nhu cầu của một nhà dịch tễ học. Chúng ta thường không cần sử dụng những chức năng nâng cao như những lập trình viên.</p>
+<p>Tuy nhiên, nếu bạn muốn (hoặc cần) đi xa hơn, Git cung cấp nhiều tính năng để đơn giản hóa lịch sử commit, khôi phục một hoặc nhiều commits, cherry-pick commits (chỉ lấy một vài commit trong PR), v.v. Một số chúng nghe thực sự rất thần thánh, nhưng không sao vì bạn đã có cơ bản rồi, sẽ dễ dàng để bổ sung kiến thức trên nền tảng đó.</p>
+<p>Lưu ý là trong khi cửa sổ Git trong Rstudio và Github Desktop tốt cho những người mới bắt đầu / sử dụng trong các công việc hàng này, thì chúng không cung cấp giao diện cho những hàm Git trung cấp / cao cấp. Các giao diện đầy đủ hơn cho phép bạn phải sử dụng những tính năng nâng cao chỉ với các thao tác chuột (thông thường phải trả phí).</p>
+<p>Hãy nhớ là bạn có thể sử dụng bất kỳ công cụ nào tại mọi thời điểm để theo dõi kho lưu trữ của mình, do đó bạn có thể cài đặt một giao diện để thỉnh thoảng sử dụng, hoặc thực hiện những tác vụ không phiỉ biến, trong khi lựa chọn một giao diện đơn giản hầu hết thời gian (vd: sử dụng Github Desktop phần lớn thời gian, và chuyển qua phần mềm SourceTree hoặc Gitbash cho những tác vụ cụ thể).</p>
 </div>
 <div id="git" class="section level2" number="46.12">
 <h2>
-<span class="header-section-number">46.12</span> Git commands<a class="anchor" aria-label="anchor" href="#git"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.12</span> Các lệnh Git<a class="anchor" aria-label="anchor" href="#git"><i class="fas fa-link"></i></a>
 </h2>
-<div id="recommended-learning" class="section level3 unnumbered">
-<h3>Recommended learning<a class="anchor" aria-label="anchor" href="#recommended-learning"><i class="fas fa-link"></i></a>
+<div id="được-khuyến-khích-học" class="section level3 unnumbered">
+<h3>Được khuyến khích học<a class="anchor" aria-label="anchor" href="#%C4%91%C6%B0%E1%BB%A3c-khuy%E1%BA%BFn-kh%C3%ADch-h%E1%BB%8Dc"><i class="fas fa-link"></i></a>
 </h3>
-<p>To learn Git commands in an interactive tutorial, see <a href="https://learngitbranching.js.org/">this
-website</a>.</p>
+<p>Để học các lệnh Git một cách tương tác, xem <a href="https://learngitbranching.js.org/">trang web này</a>.</p>
 </div>
-<div id="where-to-enter-commands" class="section level3 unnumbered">
-<h3>Where to enter commands<a class="anchor" aria-label="anchor" href="#where-to-enter-commands"><i class="fas fa-link"></i></a>
+<div id="gõ-lệnh-vào-đâu" class="section level3 unnumbered">
+<h3>Gõ lệnh vào đâu<a class="anchor" aria-label="anchor" href="#g%C3%B5-l%E1%BB%87nh-v%C3%A0o-%C4%91%C3%A2u"><i class="fas fa-link"></i></a>
 </h3>
-<p>You enter commands in a Git shell.</p>
-<p><em>Option 1</em> You can open a new Terminal in RStudio. This tab is next to
-the R Console. If you cannot type any text in it, click on the
-drop-down menu below “Terminal” and select “New terminal”. Type the
-commands at the blinking space in front of the dollar sign “$”.</p>
+<p>Bạn gõ lệnh vào Git shell.</p>
+<p><em>Lựa chọn 1</em> Bạn mở một Terminal mới trong RStudio. Tab này ở bên cạnh R Console. Nếu bạn không thể gõ trên đó, nhấp vào menu thả xuống ở dưới chữ “Terminal” và chọn “New terminal”. Gõ lệnh ở khoảng trống phía sau ký tự dollar “$”.</p>
 <div class="inline-figure"><img src="images/github_terminal.png" width="100%" height="200%" style="display: block; margin: auto;"></div>
-<p><em>Option 2</em> You can also open a <em>shell</em> (a terminal to enter commands) by
-clicking the blue “gears” icon in the Git tab (near the RStudio
-Environment). Select “Shell” from the drop-down menu. A new window will
-open where you can type the commands after the dollar sign “$”.</p>
-<p><em>Option 3</em> Right click to open “Git Bash here” which will open the same
-sort of terminal, or open <em>Git Bash</em> form your application list.
-<a href="https://happygitwithr.com/shell.html">More beginner-friendly informations on Git Bash</a>,
-how to find it and some bash commands you will need.</p>
+<p><em>Lựa chọn 2</em> Bạn cũng có thể mở một <em>shell</em> (một terminal để gõ lệnh) bằng cách nhấp vào biểu tượng “bánh răng” màu xanh trong cửa sổ Git (bên cạnh cửa sổ RStudio Environment). Chọn “Shell” từ menu thả xuống. Một cửa sổ mới sẽ mở ra nơi mà bạn có thể gõ các lệnh sau ký tự dollar “$”.</p>
+<p><em>Lựa chọn 3</em> Nháy chuột phải để mở “Git Bash here”, cho phép mở một cửa sổ terminal tương tự, hoặc mở <em>Git Bash</em> từ danh sách ứng dụng của bạn. <a href="https://happygitwithr.com/shell.html">Các thông tin về Git Bash cho người mới bắt đầu</a>, cách tìm nó và một số lệnh bash bạn sẽ cần.</p>
 </div>
-<div id="sample-commands" class="section level3 unnumbered">
-<h3>Sample commands<a class="anchor" aria-label="anchor" href="#sample-commands"><i class="fas fa-link"></i></a>
+<div id="một-số-lệnh-mẫu" class="section level3 unnumbered">
+<h3>Một số lệnh mẫu<a class="anchor" aria-label="anchor" href="#m%E1%BB%99t-s%E1%BB%91-l%E1%BB%87nh-m%E1%BA%ABu"><i class="fas fa-link"></i></a>
 </h3>
-<p>Below we present a few common git commands. When you use them, keep in mind
-which branch is active (checked-out), as that will change the action!</p>
-<p>In the commands below, <name> represents a branch name.
-<commit_hash> represents the hash ID of a specific
-commit. <num> represents a number. Do not type the
-&lt; or &gt; symbols.</num></commit_hash></name></p>
+<p>Sau đây chúng tôi sẽ trình bày một số lệnh git phổ biến. Khi bạn sử dụng chúng, hãy chú ý nhánh nào đang được active (checked-out), bởi vì điều này sẽ quyết định hành động nào được thực hiện!</p>
+<p>Trong các lệnh dưới đây, <name> đại diện cho tên nhánh. <commit_hash> đại diện cho hash ID của một commit cụ thể. <num> đại diện cho một số. Bạn không cần gõ ký tự &lt; hoặc &gt;.</num></commit_hash></name></p>
 <div class="inline-table"><table class="table table-sm">
 <colgroup>
-<col width="26%">
-<col width="74%">
+<col width="30%">
+<col width="69%">
 </colgroup>
 <thead><tr class="header">
-<th>Git command</th>
-<th>Action</th>
+<th>Lệnh Git</th>
+<th>Hành động</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><code>git branch &lt;name&gt;</code></td>
-<td>Create a new branch with the name <name></name>
+<td>Tạo một nhánh mới có tên <name></name>
 </td>
 </tr>
 <tr class="even">
 <td><code>git checkout &lt;name&gt;</code></td>
-<td>Switch current branch to <name></name>
+<td>Chuyển từ nhánh hiện tại sang nhánh có tên <name></name>
 </td>
 </tr>
 <tr class="odd">
 <td><code>git checkout -b &lt;name&gt;</code></td>
-<td>Shortcut to create new branch <em>and</em> switch to it</td>
+<td>Lối tắt để tạo nhánh mới <em>và</em> chuyển qua nó</td>
 </tr>
 <tr class="even">
 <td><code>git status</code></td>
-<td>See untracked changes</td>
+<td>Xem những thay đổi không được theo dõ</td>
 </tr>
 <tr class="odd">
 <td><code>git add &lt;file&gt;</code></td>
-<td>Stage a file</td>
+<td>Stage một tệp</td>
 </tr>
 <tr class="even">
 <td><code>git commit -m &lt;message&gt;</code></td>
-<td>Commit currently staged changes to current branch with message</td>
+<td>Commit những thay đổi tới nhánh hiện tại kèm một thông điệp</td>
 </tr>
 <tr class="odd">
 <td><code>git fetch</code></td>
-<td>Fetch commits from remote repository</td>
+<td>Fetch các commit từ kho lưu trữ trực tuyến</td>
 </tr>
 <tr class="even">
 <td><code>git pull</code></td>
-<td>Pull commits from remote repository in current branch</td>
+<td>Pull các commit từ kho lưu trữ trực tuyến tới nhánh hiện tại</td>
 </tr>
 <tr class="odd">
 <td><code>git push</code></td>
-<td>Push local commits to remote directory</td>
+<td>Push các commits trong local lên thư mục trực tuyến</td>
 </tr>
 <tr class="even">
 <td><code>git switch</code></td>
-<td>An alternative to <code>git checkout</code> that is being phased in to Git</td>
+<td>Cách khác của <code>git checkout</code>
+</td>
 </tr>
 <tr class="odd">
 <td><code>git merge &lt;name&gt;</code></td>
-<td>Merge <name> branch into current branch</name>
+<td>Hợp nhất nhánh có tên <name> vào nhánh hiện tại</name>
 </td>
 </tr>
 <tr class="even">
 <td><code>git rebase &lt;name&gt;</code></td>
-<td>Append commits from current branch on to <name> branch</name>
+<td>Thêm các commit từ nhánh hiện tại vào nhánh có tên <name></name>
 </td>
 </tr>
 </tbody>
@@ -1098,38 +737,22 @@ commit. <num> represents a number. Do not type the
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="resources-15" class="section level2" number="46.13">
+<div id="tài-nguyên-học-liệu-15" class="section level2" number="46.13">
 <h2>
-<span class="header-section-number">46.13</span> Resources<a class="anchor" aria-label="anchor" href="#resources-15"><i class="fas fa-link"></i></a>
+<span class="header-section-number">46.13</span> Tài nguyên học liệu<a class="anchor" aria-label="anchor" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u-15"><i class="fas fa-link"></i></a>
 </h2>
-<p>Much of this page was informed by <a href="https://happygitwithr.com/">this “Happy Git with R”
-website</a> by Jenny Bryan. There is a very helpful
-section of this website that helps you troubleshoot common Git and
-R-related errors.</p>
-<p>The <a href="https://docs.github.com/en/github">Github.com documentation and start
-guide</a>.</p>
-<p>The RStudio <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">“IDE”
-cheatsheet</a>
-which includes tips on Git with RStudio.</p>
+<p>Phần lớn chương này lấy thông tin từ <a href="https://happygitwithr.com/">trang web “Happy Git with R”</a> viết bởi Jenny Bryan. Có một chuyên mục rất hữu ích trong trang web đó có thể giúp bạn giải quyết những lỗi phổ biến về Git và các lỗi liên quan tới R.</p>
+<p>Tài liệu <a href="https://docs.github.com/en/github">Github.com documentation and start guide</a>.</p>
+<p>RStudio <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">“IDE” cheatsheet</a> bao gồm các mẹo về Git với RStudio.</p>
 <p><a href="https://ohi-science.org/news/github-going-back-in-time" class="uri">https://ohi-science.org/news/github-going-back-in-time</a></p>
-<p><strong>Git commands for beginners</strong></p>
-<p>An <a href="learngitbranching.js.org">interactive
-tutorial</a> to learn
-Git commands.</p>
-<p><a href="https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/" class="uri">https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/</a>:
-good for learning the absolute basics to track changes in one folder on
-you own computer.</p>
-<p>Nice schematics to understand branches:
-<a href="https://speakerdeck.com/alicebartlett/git-for-humans" class="uri">https://speakerdeck.com/alicebartlett/git-for-humans</a></p>
-<p><strong>Tutorials covering both basic and more advanced subjects</strong></p>
+<p><strong>Lệnh Git cho người mới</strong></p>
+<p>Một <a href="learngitbranching.js.org">hướng dẫn tương tác</a> để học các lệnh Git.</p>
+<p><a href="https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/" class="uri">https://www.freecodecamp.org/news/an-introduction-to-git-for-absolute-beginners-86fa1d32ff71/</a>: tốt cho việc học những thứ cơ bản để theo dõi các thay đổi trong một thư mục của máy tính của bạn</p>
+<p>Lược đồ để hiểu về nhánh: <a href="https://speakerdeck.com/alicebartlett/git-for-humans" class="uri">https://speakerdeck.com/alicebartlett/git-for-humans</a></p>
+<p><strong>Hướng dẫn bao gồm các chủ đề cơ bản và nâng cao</strong></p>
 <p><a href="https://tutorialzine.com/2016/06/learn-git-in-30-minutes" class="uri">https://tutorialzine.com/2016/06/learn-git-in-30-minutes</a></p>
-<p><a href="https://dzone.com/articles/git-tutorial-commands-and-operations-in-git" class="uri">https://dzone.com/articles/git-tutorial-commands-and-operations-in-git</a>
-<a href="https://swcarpentry.github.io/git-novice/" class="uri">https://swcarpentry.github.io/git-novice/</a> (short course)
-<a href="https://rsjakob.gitbooks.io/git/content/chapter1.html" class="uri">https://rsjakob.gitbooks.io/git/content/chapter1.html</a></p>
-<p>The <a href="https://git-scm.com/book/en/v2">Pro Git book</a> is considered an official reference.
-While some chapters are ok, it is usually a bit <em>technical</em>. It is probably a good resource
-once you have used Git a bit and want to learn a bit more precisely
-what happens and how to go further.</p>
+<p><a href="https://dzone.com/articles/git-tutorial-commands-and-operations-in-git" class="uri">https://dzone.com/articles/git-tutorial-commands-and-operations-in-git</a> <a href="https://swcarpentry.github.io/git-novice/" class="uri">https://swcarpentry.github.io/git-novice/</a> (khóa ngắn hạn) <a href="https://rsjakob.gitbooks.io/git/content/chapter1.html" class="uri">https://rsjakob.gitbooks.io/git/content/chapter1.html</a></p>
+<p>Sách <a href="https://git-scm.com/book/en/v2">Pro Git</a> được xem là tài liệu tham khảo chính thức. Trong khi một số chương khá ổn, đa số khá nặng <em>tính kỹ thuật</em>. Nó có thể là một nguồn tốt khi bạn đã sử dụng Git một thời gian và muốn học thêm những kiến thức nâng cao.</p>
 
 </div>
 </div>
@@ -1140,74 +763,74 @@ what happens and how to go further.</p>
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#collaboration"><span class="header-section-number">46</span> Version control với Git và Github</a></li>
-<li><a class="nav-link" href="#what-is-git"><span class="header-section-number">46.1</span> What is Git?</a></li>
+<li><a class="nav-link" href="#git-l%C3%A0-g%C3%AC"><span class="header-section-number">46.1</span> Git là gì?</a></li>
 <li>
-<a class="nav-link" href="#why-use-the-combo-git-and-github"><span class="header-section-number">46.2</span> Why use the combo Git and Github?</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#this-sounds-complicated-i-am-not-a-programmer">This sounds complicated, I am not a programmer</a></li></ul>
+<a class="nav-link" href="#t%E1%BA%A1i-sao-l%E1%BA%A1i-s%E1%BB%AD-d%E1%BB%A5ng-combo-git-v%C3%A0-github"><span class="header-section-number">46.2</span> Tại sao lại sử dụng combo Git và Github?</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#%C4%91i%E1%BB%81u-n%C3%A0y-nghe-c%C3%B3-v%E1%BA%BB-ph%E1%BB%A9c-t%E1%BA%A1p-t%C3%B4i-kh%C3%B4ng-ph%E1%BA%A3i-l%C3%A0-m%E1%BB%99t-l%E1%BA%ADp-tr%C3%ACnh-vi%C3%AAn">Điều này nghe có vẻ phức tạp, tôi không phải là một lập trình viên</a></li></ul>
 </li>
 <li>
-<a class="nav-link" href="#setup"><span class="header-section-number">46.3</span> Setup</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#install-git">Install Git</a></li>
-<li><a class="nav-link" href="#install-an-interface-optional-but-recommended">Install an interface (optional but recommended)</a></li>
-<li><a class="nav-link" href="#github-account">Github account</a></li>
+<a class="nav-link" href="#c%C3%A0i-%C4%91%E1%BA%B7t-2"><span class="header-section-number">46.3</span> Cài đặt</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#c%C3%A0i-%C4%91%E1%BA%B7t-git">Cài đặt Git</a></li>
+<li><a class="nav-link" href="#c%C3%A0i-%C4%91%E1%BA%B7t-giao-di%E1%BB%87n-t%C3%B9y-ch%E1%BB%8Dn-nh%C6%B0ng-%C4%91%C6%B0%E1%BB%A3c-khuy%E1%BA%BFn-ngh%E1%BB%8B">Cài đặt giao diện (tùy chọn nhưng được khuyến nghị)</a></li>
+<li><a class="nav-link" href="#t%C3%A0i-kho%E1%BA%A3n-github">Tài khoản Github</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#vocabulary-concepts-and-basic-functions"><span class="header-section-number">46.4</span> Vocabulary, concepts and basic functions</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#repository">Repository</a></li>
+<a class="nav-link" href="#thu%E1%BA%ADt-ng%E1%BB%AF-kh%C3%A1i-ni%E1%BB%87m-v%C3%A0-c%C3%A1c-h%C3%A0m-c%C6%A1-b%E1%BA%A3n"><span class="header-section-number">46.4</span> Thuật ngữ, khái niệm và các hàm cơ bản</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#kho-l%C6%B0u-tr%E1%BB%AF-repository">Kho lưu trữ (Repository)</a></li>
 <li><a class="nav-link" href="#commits">Commits</a></li>
 <li><a class="nav-link" href="#branches">Branches</a></li>
-<li><a class="nav-link" href="#local-and-remote-repositories">Local and remote repositories</a></li>
+<li><a class="nav-link" href="#kho-l%C6%B0u-tr%E1%BB%AF-c%E1%BB%A5c-b%E1%BB%99-v%C3%A0-t%E1%BB%AB-xa">Kho lưu trữ cục bộ và từ xa</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#get-started-create-a-new-repository"><span class="header-section-number">46.5</span> Get started: create a new repository</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#start-up-files">Start-up files</a></li>
-<li><a class="nav-link" href="#create-a-new-repository-in-github">Create a new repository in Github</a></li>
-<li><a class="nav-link" href="#clone-from-a-github-repository">Clone from a Github repository</a></li>
-<li><a class="nav-link" href="#new-github-repo-from-existing-r-project">New Github repo from existing R project</a></li>
-<li><a class="nav-link" href="#what-does-it-look-like-now">What does it look like now?</a></li>
+<a class="nav-link" href="#b%E1%BA%AFt-%C4%91%E1%BA%A7u-t%E1%BA%A1o-m%E1%BB%99t-kho-l%C6%B0u-tr%E1%BB%AF-m%E1%BB%9Bi"><span class="header-section-number">46.5</span> Bắt đầu: tạo một kho lưu trữ mới</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#c%C3%A1c-t%E1%BB%87p-kh%E1%BB%9Fi-%C4%91%E1%BB%99ng">Các tệp khởi động</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A1o-m%E1%BB%99t-kho-l%C6%B0u-tr%E1%BB%AF-m%E1%BB%9Bi-trong-github">Tạo một kho lưu trữ mới trong Github</a></li>
+<li><a class="nav-link" href="#clone-t%E1%BB%AB-kho-l%C6%B0u-tr%E1%BB%AF-github">Clone từ kho lưu trữ Github</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A1o-m%E1%BB%99t-github-repo-m%E1%BB%9Bi-t%E1%BB%AB-d%E1%BB%B1-%C3%A1n-r-%C4%91%C3%A3-c%C3%B3-s%E1%BA%B5n">Tạo một Github repo mới từ dự án R đã có sẵn</a></li>
+<li><a class="nav-link" href="#b%C3%A2y-gi%E1%BB%9D-n%C3%B3-tr%C3%B4ng-nh%C6%B0-th%E1%BA%BF-n%C3%A0o">Bây giờ, nó trông như thế nào?</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#git-github-workflow"><span class="header-section-number">46.6</span> Git + Github workflow</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#process-overview">Process overview</a></li></ul>
+<a class="nav-link" href="#quy-tr%C3%ACnh-l%C3%A0m-vi%E1%BB%87c-v%E1%BB%9Bi-git-github"><span class="header-section-number">46.6</span> Quy trình làm việc với Git + Github</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#t%E1%BB%95ng-quan-v%E1%BB%81-quy-tr%C3%ACnh">Tổng quan về quy trình</a></li></ul>
 </li>
 <li>
-<a class="nav-link" href="#create-a-new-branch"><span class="header-section-number">46.7</span> Create a new branch</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#in-rstudio-git-pane">In Rstudio Git pane</a></li>
-<li><a class="nav-link" href="#in-github-desktop-2">In Github Desktop</a></li>
-<li><a class="nav-link" href="#in-console">In console</a></li>
+<a class="nav-link" href="#t%E1%BA%A1o-m%E1%BB%99t-nh%C3%A1nh-m%E1%BB%9Bi"><span class="header-section-number">46.7</span> Tạo một nhánh mới</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#trong-c%E1%BB%ADa-s%E1%BB%95-rstudio-git">Trong cửa sổ Rstudio Git</a></li>
+<li><a class="nav-link" href="#trong-github-desktop-2">Trong Github Desktop</a></li>
+<li><a class="nav-link" href="#trong-console">Trong console</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#commit-changes"><span class="header-section-number">46.8</span> Commit changes</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#in-rstudio-2">In Rstudio</a></li>
-<li><a class="nav-link" href="#in-github-desktop-3">In Github Desktop</a></li>
-<li><a class="nav-link" href="#in-console-1">In console</a></li>
-<li><a class="nav-link" href="#amend-a-previous-commit">Amend a previous commit</a></li>
+<a class="nav-link" href="#commit-c%C3%A1c-thay-%C4%91%E1%BB%95i"><span class="header-section-number">46.8</span> Commit các thay đổi</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#trong-rstudio-2">Trong Rstudio</a></li>
+<li><a class="nav-link" href="#trong-github-desktop-3">Trong Github Desktop</a></li>
+<li><a class="nav-link" href="#trong-console-1">Trong console</a></li>
+<li><a class="nav-link" href="#th%C3%AAm-v%C3%A0o-m%E1%BB%99t-commit-tr%C6%B0%E1%BB%9Bc-%C4%91%C3%B3">Thêm vào một commit trước đó</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#pull-and-push-changes-up-to-github"><span class="header-section-number">46.9</span> Pull and push changes up to Github</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#i-want-to-pull-but-i-have-local-work">I want to pull but I have local work</a></li></ul>
+<a class="nav-link" href="#pull-v%C3%A0-push-c%C3%A1c-thay-%C4%91%E1%BB%95i-l%C3%AAn-github"><span class="header-section-number">46.9</span> Pull và push các thay đổi lên Github</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#t%C3%B4i-mu%E1%BB%91n-pull-nh%C6%B0ng-t%C3%B4i-c%C5%A9ng-c%C3%B3-c%C3%A1c-ch%E1%BB%89nh-s%E1%BB%ADa-trong-local">Tôi muốn pull nhưng tôi cũng có các chỉnh sửa trong local</a></li></ul>
 </li>
 <li>
-<a class="nav-link" href="#merge-branch-into-main"><span class="header-section-number">46.10</span> Merge branch into Main</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#locally-in-github-desktop">Locally in Github Desktop</a></li>
-<li><a class="nav-link" href="#in-console-2">In console</a></li>
-<li><a class="nav-link" href="#in-github-submitting-pull-requests">In Github: submitting pull requests</a></li>
-<li><a class="nav-link" href="#resolving-conflicts">Resolving conflicts</a></li>
-<li><a class="nav-link" href="#delete-your-branch">Delete your branch</a></li>
+<a class="nav-link" href="#h%E1%BB%A3p-nh%E1%BA%A5t-nh%C3%A1nh-v%C3%A0o-nh%C3%A1nh-ch%C3%ADnh"><span class="header-section-number">46.10</span> Hợp nhất nhánh vào Nhánh chính</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#h%E1%BB%A3p-nh%E1%BA%A5t-c%E1%BB%A5c-b%E1%BB%99-b%E1%BA%B1ng-github-desktop">Hợp nhất cục bộ bằng Github Desktop</a></li>
+<li><a class="nav-link" href="#trong-console-2">Trong console</a></li>
+<li><a class="nav-link" href="#trong-github-g%E1%BB%ADi-m%E1%BB%99t-pull-requests">Trong Github: gửi một pull requests</a></li>
+<li><a class="nav-link" href="#gi%E1%BA%A3i-quy%E1%BA%BFt-xung-%C4%91%E1%BB%99t">Giải quyết xung đột</a></li>
+<li><a class="nav-link" href="#x%C3%B3a-nh%C3%A1nh-c%E1%BB%A7a-b%E1%BA%A1n">Xóa nhánh của bạn</a></li>
 <li><a class="nav-link" href="#forking">Forking</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#what-we-learned"><span class="header-section-number">46.11</span> What we learned</a></li>
+<li><a class="nav-link" href="#ch%C3%BAng-ta-%C4%91%C3%A3-h%E1%BB%8Dc-%C4%91%C6%B0%E1%BB%A3c-nh%E1%BB%AFng-g%C3%AC"><span class="header-section-number">46.11</span> Chúng ta đã học được những gì</a></li>
 <li>
-<a class="nav-link" href="#git"><span class="header-section-number">46.12</span> Git commands</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#recommended-learning">Recommended learning</a></li>
-<li><a class="nav-link" href="#where-to-enter-commands">Where to enter commands</a></li>
-<li><a class="nav-link" href="#sample-commands">Sample commands</a></li>
+<a class="nav-link" href="#git"><span class="header-section-number">46.12</span> Các lệnh Git</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%C4%91%C6%B0%E1%BB%A3c-khuy%E1%BA%BFn-kh%C3%ADch-h%E1%BB%8Dc">Được khuyến khích học</a></li>
+<li><a class="nav-link" href="#g%C3%B5-l%E1%BB%87nh-v%C3%A0o-%C4%91%C3%A2u">Gõ lệnh vào đâu</a></li>
+<li><a class="nav-link" href="#m%E1%BB%99t-s%E1%BB%91-l%E1%BB%87nh-m%E1%BA%ABu">Một số lệnh mẫu</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#resources-15"><span class="header-section-number">46.13</span> Resources</a></li>
+<li><a class="nav-link" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u-15"><span class="header-section-number">46.13</span> Tài nguyên học liệu</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1224,7 +847,7 @@ what happens and how to go further.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-08-05.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -6,14 +6,14 @@
 
 Chương này trình bày việc sử dụng một số packages để phân tích khảo sát.
 
-Hầu hết các packages R đều dựa trên [**survey** package](https://cran.r-project.org/web/packages/survey/index.html) cho phân tích có trọng số. Chúng tôi sẽ sử dụng **survey** cũng như [**srvyr**](https://cran.r-project.org/web/packages/srvyr/index.html) (một trình gọn hơn **survey** cho phép mã hóa theo kiểu tidyverse) và [**gtsummary**](https://cran.r-project.org/web/packages/gtsummary/index.html) (một trình bao bọc cho **survey** cho phép sẵn sàng xuất các bảng). Trong khi package **survey** ban đầu không cho phép mã hóa theo kiểu tidyverse, nó có thêm lợi ích là cho phép khảo sát được trọng số hóa mô hình tuyến tính tổng quát (sẽ được thêm vào chương này sau). Chúng tôi cũng sẽ chứng minh bằng cách sử dụng một hàm từ package [**sitrep**](https://github.com/R4EPI/sitrep) để tạo mẫu trọng số (*lưu ý* package này hiện chưa có trên CRAN, nhưng có thể được cài đặt từ github).
+Hầu hết các packages R dùng để phân tích khảo sát đều dựa trên [**survey** package](https://cran.r-project.org/web/packages/survey/index.html) cho phân tích có trọng số. Chúng tôi sẽ sử dụng **survey** cũng như [**srvyr**](https://cran.r-project.org/web/packages/srvyr/index.html) (cho phép **survey** mã hóa theo kiểu tidyverse) và [**gtsummary**](https://cran.r-project.org/web/packages/gtsummary/index.html) (cho phép **survey** tạo các bảng sẵn sàng cho xuất bản). Trong khi package **survey** ban đầu không cho phép mã hóa theo kiểu tidyverse, nhưng nó có điểm cộng là cho phép khảo sát được trọng số hóa mô hình tuyến tính tổng quát (sẽ được thêm vào chương này sau). Chúng tôi cũng sẽ minh họa bằng cách sử dụng một hàm từ package [**sitrep**](https://github.com/R4EPI/sitrep) để tạo mẫu trọng số (*lưu ý* package này hiện chưa có trên CRAN, nhưng có thể được cài đặt từ github).
 
-Hầu hết trang này dựa trên công việc hoàn thành cho [dự án "R4Epis"](https://r4epis.netlify.app/); để biết code chi tiết và mẫu R-markdown xem [github chương "R4Epis"](https://github.com/R4EPI/sitrep). Một số package **survey** dựa trên các phiên bản đầu tiên của [các nghiên cứuu trường hợp EPIET](https://github.com/EPIET/RapidAssessmentSurveys).
+Hầu hết chương này dựa trên công việc đã hoàn thành của [dự án "R4Epis"](https://r4epis.netlify.app/); để biết code chi tiết và mẫu R-markdown xem [trang github của "R4Epis"](https://github.com/R4EPI/sitrep). Một số package **survey** dựa trên các phiên bản đầu tiên của [các nghiên cứuu trường hợp EPIET](https://github.com/EPIET/RapidAssessmentSurveys).
 
-Hiện tại, chương này không đề cập đến các phép tính cỡ mẫu hoặc lấy mẫu. Để tính cỡ mẫu đơn giản, hãy xem [OpenEpi](https://www.openepi.com/Menu/OE_Menu.htm). Chương [GIS cơ bản](https://epirhandbook.com/gis-basics.html) của sổ tay sẽ có một phần về lấy mẫu ngẫu nhiên theo không gian và chương này cuối cùng sẽ có một phần về khung lấy mẫu cũng như kích thước mẫu các phép tính.
+Hiện tại, chương này không đề cập đến các phép tính cỡ mẫu hoặc lấy mẫu. Để tính cỡ mẫu đơn giản, hãy xem [OpenEpi](https://www.openepi.com/Menu/OE_Menu.htm). Chương [GIS cơ bản] trong sổ tay này sẽ có một phần về lấy mẫu ngẫu nhiên theo không gian và chương này cũng sẽ đề cập một phần về khung lấy mẫu cũng như tính toán cỡ mẫu.
 
 1.  Dữ liệu khảo sát
-2.  Thời gian theo dõi
+2.  Thời gian quan sát
 3.  Áp dụng trọng số
 4.  Đối tượng thiết kế nghiên cứu
 5.  Phân tích mô tả
@@ -26,7 +26,7 @@ Hiện tại, chương này không đề cập đến các phép tính cỡ mẫ
 
 ### Packages {.unnumbered}
 
-Đoạn code này hiển thị tải các packages cần thiết cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến `p_load()` từ **pacman**, cài đặt packages nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các packages với `library()` từ **base** R. Xem chương về [R cơ bản] để biết thêm thông tin về các packages R. Ở đây chúng tôi cũng chứng minh việc sử dụng hàm `p_load_gh()` từ **pacman** để cài đặt một package tải từ github chưa được công bố trên CRAN.
+Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm `p_load()` từ package **pacman**, giúp cài đặt các package cần thiết *và* gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` của **base** R. Xem thêm chương [R cơ bản] để có thêm thông tin về các packages trong R. Ở đây chúng tôi cũng minh họa việc sử dụng hàm `p_load_gh()` từ **pacman** để cài đặt một package tải từ github mà chưa được công bố trên CRAN.
 
 ```{r}
 
@@ -50,23 +50,23 @@ pacman::p_load_gh(
 
 ```
 
-### Tải dữ liệu {.unnumbered}
+### Nạp dữ liệu {.unnumbered}
 
 Bộ dữ liệu ví dụ được sử dụng trong phần này:
 
--   dữ liệu điều tra tỷ lệ tử vong hư cấu.
--   số lượng dân số hư cấu cho khu vực khảo sát.
--   từ điển dữ liệu cho dữ liệu khảo sát tử vong hư cấu.
+-   dữ liệu điều tra tỷ lệ tử vong mô phỏng.
+-   số lượng dân cư mô phỏng cho khu vực khảo sát.
+-   từ điển dữ liệu cho dữ liệu khảo sát tử vong mô phỏng.
 
-Bộ này dựa trên khảo sát đã được phê duyệt trước của hội đồng đạo đức MSF OCA. Các tập dữ liệu hư cấu được tạo như một phần của [Dự án "R4Epis"](https://r4epis.netlify.app/). Tất cả đều dựa trên dữ liệu được thu thập bằng [KoboToolbox](https://www.kobotoolbox.org/), đây là một phần mềm thu thập dữ liệu dựa trên [Open Data Kit](https://opendatakit.org/).
+Bộ này dựa trên khảo sát đã được phê duyệt trước của hội đồng đạo đức MSF OCA. Các tập dữ liệu mô phỏng được tạo như một phần của [Dự án "R4Epis"](https://r4epis.netlify.app/). Tất cả đều dựa trên dữ liệu được thu thập bằng [KoboToolbox](https://www.kobotoolbox.org/), đây là một phần mềm thu thập dữ liệu dựa trên [Open Data Kit](https://opendatakit.org/).
 
 Kobo cho phép bạn xuất cả dữ liệu đã thu thập, cũng như từ điển dữ liệu cho tập dữ liệu đó. Chúng tôi thực sự khuyên bạn nên làm điều này vì nó đơn giản hóa việc làm sạch dữ liệu và hữu ích cho việc tra cứu các biến/câu hỏi.
 
-[***MẸO:*** Từ điển dữ liệu Kobo có tên biến trong cột "name" của sheet "survey" (khảo sát). Các giá trị có thể có cho mỗi biến được chỉ định trong sheet "choices" (lựa chọn). Trong tab lựa chọn, "name" có giá trị rút gọn và các cột "label::english" và "label::french" có các phiên bản dài thích hợp. Sử dụng hàm **epidict** của package `msf_dict_survey()` để nhập tệp excel từ điển Kobo sẽ định dạng lại tệp này cho bạn để bạn có thể dễ dàng sử dụng để code lại.]{style="color: darkgreen;"}
+[***MẸO:*** Từ điển dữ liệu Kobo có tên biến trong cột "name" của sheet "survey" (khảo sát). Các giá trị có thể có cho mỗi biến được chỉ định trong sheet "choices" (lựa chọn). Trong tab lựa chọn, "name" có giá trị rút gọn và các cột "label::english" và "label::french" chứa các nhãn mô tả đầy đủ. Sử dụng hàm `msf_dict_survey()` của package **epidict** để nhập tệp excel từ điển Kobo sẽ định dạng lại tệp này cho bạn để bạn có thể dễ dàng sử dụng để code lại.]{style="color: darkgreen;"}
 
 [***THẬN TRỌNG:*** Bộ dữ liệu ví dụ không giống nhau dưới dạng xuất (như trong Kobo, bạn xuất từng cấp bảng câu hỏi khác nhau) - xem phần dữ liệu khảo sát bên dưới để hợp nhất các cấp độ khác nhau.]{style="color: orange;"}
 
-Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương về [Nhập xuất dữ liệu](https://epirhandbook.com/import-and-export.html) để biết các cách nhập dữ liệu khác nhau.
+Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương về [Nhập xuất dữ liệu] để biết các cách nhập dữ liệu khác nhau.
 
 ```{r echo = FALSE}
 # import the survey into R
@@ -94,7 +94,7 @@ survey_dict <- rio::import("survey_dict.xlsx")
 DT::datatable(head(survey_data, 10), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Chúng tôi cũng muốn nhập dữ liệu về quần thể mẫu để có thể tạo ra các trọng số thích hợp. Dữ liệu này có thể ở các định dạng khác nhau, tuy nhiên chúng tôi khuyên bạn nên định dạng như hình bên dưới (dữ liệu này có thể chỉ cần nhập vào excel).
+Chúng ta cũng muốn nhập dữ liệu về quần thể lấy mẫu để có thể tạo ra các trọng số thích hợp. Dữ liệu này có thể ở các định dạng khác nhau, tuy nhiên chúng tôi khuyên bạn nên định dạng như hình bên dưới (dữ liệu này có thể chỉ cần nhập vào excel).
 
 ```{r read_data_pop_show, eval = FALSE}
 # import the population data
@@ -108,7 +108,7 @@ population <- rio::import("population.xlsx")
 DT::datatable(head(population, 10), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Đối với khảo sát cụm, bạn có thể muốn thêm trọng số khảo sát ở cấp cụm. Bạn có thể đọc dữ liệu này như trên. Ngoài ra, nếu chỉ có một vài số đếm, chúng có thể được nhập như dưới đây trong một bảng. Trong mọi trường hợp, bạn sẽ cần có một cột với mã định danh cụm khớp với dữ liệu khảo sát của bạn và một cột khác với số lượng hộ gia đình ở từng cụm.
+Đối với khảo sát theo cụm, bạn có thể muốn thêm trọng số khảo sát ở cấp cụm. Bạn có thể đọc dữ liệu này như trên. Ngoài ra, nếu số lượng ít, chúng có thể được nhập như dưới đây dưới dạng một tibble. Trong mọi trường hợp, bạn sẽ cần có một cột với mã định danh cụm khớp với dữ liệu khảo sát của bạn và một cột khác với số lượng hộ gia đình ở từng cụm.
 
 ```{r cluster_counts}
 
@@ -123,11 +123,11 @@ cluster_counts <- tibble(cluster = c("village_1", "village_2", "village_3", "vil
 
 ### Làm sạch dữ liệu {.unnumbered}
 
-Dưới đây đảm bảo rằng cột ngày ở định dạng thích hợp. Có một số cách khác để thực hiện việc này (xem chương [Làm việc với ngày tháng](https://epirhandbook.com/working-with-dates.html) để biết chi tiết), tuy nhiên sử dụng từ điển để xác định ngày sẽ nhanh chóng và dễ dàng.
+Dưới đây đảm bảo rằng cột ngày ở định dạng thích hợp. Có một số cách khác để thực hiện việc này (xem chương [Làm việc với ngày tháng] để biết chi tiết), tuy nhiên sử dụng từ điển để xác định ngày sẽ nhanh chóng và dễ dàng.
 
-Chúng tôi cũng tạo một biến nhóm tuổi bằng cách sử dụng hàm `age_categories()` từ **epikit** - xem phần [Làm sạch dữ liệu](https://epirhandbook.com/cleaner-data-and-core-functions.html#num_cats) của sổ tay để biết chi tiết. Ngoài ra, chúng tôi tạo một biến ký tự xác định các cụm khác nhau nằm trong khu vực nào.
+Chúng tôi cũng tạo một biến nhóm tuổi bằng cách sử dụng hàm `age_categories()` từ **epikit** - xem phần [Làm sạch dữ liệu](#cleaning) của sổ tay để biết chi tiết. Ngoài ra, chúng tôi tạo một biến ký tự xác định các cụm khác nhau nằm trong khu vực nào.
 
-Cuối cùng, chúng tôi mã hóa lại tất cả các biến có/không thành các biến TRUE/FALSE - nếu không, các biến này không thể được sử dụng bởi các hàm tỷ lệ **survey**.
+Cuối cùng, chúng tôi mã hóa lại tất cả các biến yes/no thành các biến TRUE/FALSE - nếu không, các biến này không thể được sử dụng bởi các hàm tính tỷ lệ trong package **survey**.
 
 ```{r cleaning}
 
@@ -187,7 +187,7 @@ Có rất nhiều thiết kế lấy mẫu khác nhau có thể được sử d�
 
 Như đã mô tả ở trên (tùy thuộc vào cách bạn thiết kế bảng câu hỏi của mình), dữ liệu cho mỗi cấp độ sẽ được xuất dưới dạng bộ dữ liệu riêng biệt từ Kobo. Trong ví dụ của chúng tôi, có một cấp cho các hộ gia đình và một cấp cho các cá nhân trong các hộ gia đình đó.  
 
-Hai cấp độ này được liên kết bởi một mã định danh duy nhất. Đối với bộ dữ liệu Kobo, biến này là "\_index" ở cấp hộ gia đình, khớp với "\_parent_index" ở cấp cá nhân. Thao tác này sẽ tạo các hàng mới cho hộ gia đình với mỗi cá nhân phù hợp, hãy xem phần [Nối dữ liệu](https://epirhandbook.com/joining-data.html) để biết chi tiết.  
+Hai cấp độ này được liên kết bởi một mã định danh duy nhất. Đối với bộ dữ liệu Kobo, biến này là "\_index" ở cấp hộ gia đình, khớp với "\_parent_index" ở cấp cá nhân. Thao tác này sẽ tạo các hàng mới cho hộ gia đình với mỗi cá nhân phù hợp, hãy xem chương [Nối dữ liệu](#joining-matching) để biết chi tiết.  
 
 ```{r merge_data_levels, eval = FALSE}
 
@@ -205,11 +205,11 @@ survey_data <- survey_data %>%
 
 <!-- ======================================================= -->
 
-## Thời gian theo dõi
+## Thời gian quan sát
 
-Đối với các cuộc khảo sát về tỷ lệ tử vong, chúng ta muốn biết mỗi cá nhân đã có mặt tại địa điểm trong bao lâu để có thể tính toán tỷ lệ tử vong thích hợp trong khoảng thời gian nghiên cứu. Điều này không liên quan đến tất cả các cuộc điều tra, nhưng đặc biệt rất quan trọng đối với các cuộc điều tra tử vong vì chúng thường được khảo sát ở các quần thể di động hoặc di cư.  
+Đối với các cuộc khảo sát về tỷ lệ tử vong, chúng ta muốn biết mỗi cá nhân đã có mặt tại địa điểm trong bao lâu để có thể tính toán tỷ lệ tử vong thích hợp trong khoảng thời gian nghiên cứu. Điều này không áp dụng đối với tất cả các cuộc điều tra, nhưng đặc biệt rất quan trọng đối với các cuộc điều tra tử vong vì chúng thường được khảo sát ở các quần thể di động hoặc di cư.  
 
-Để làm điều này, trước tiên chúng ta xác định khoảng thời gian khảo sát, còn được gọi là khoảng thời gian hồi cứu (tức là thời gian mà những người tham gia được yêu cầu báo cáo khi trả lời câu hỏi). Sau đó, chúng ta có thể sử dụng khoảng thời gian này để đặt các ngày không thích hợp thành giá trị bị thiếu, tức là nếu các trường hợp tử vong được báo cáo ngoài khoảng thời gian khảo sát.  
+Để làm điều này, trước tiên chúng ta xác định khoảng thời gian quan tâm, còn được gọi là khoảng thời gian hồi cứu (tức là thời gian mà những người tham gia được yêu cầu báo cáo khi trả lời câu hỏi). Sau đó, chúng ta có thể sử dụng khoảng thời gian này để đặt các ngày không thích hợp thành giá trị missing, vd: các trường hợp tử vong được báo cáo ngoài khoảng thời gian quan tâm.  
 
 ```{r recall_period}
 
@@ -244,7 +244,7 @@ survey_data <- survey_data %>%
 
 Sau đó, chúng ta có thể sử dụng các biến ngày của mình để xác định ngày bắt đầu và ngày kết thúc cho từng cá nhân. Chúng ta có thể sử dụng hàm `find_start_date()` từ **sitrep** để xác định ngày bắt đầu và sau đó sử dụng hàm đó để tính toán sự khác biệt giữa các ngày (người-thời gian).  
 
-Ngày bắt đầu: Sự kiện phù hợp tới sớm nhất trong khoảng thời gian hồi cứu của bạn. Hoặc là ngày bắt đầu thời gian hồi cứu của bạn (mà bạn xác định trước) hoặc ngày sau khi bắt đầu hồi cứu nếu có (ví dụ: đến hoặc sinh)  
+Ngày bắt đầu: Sự kiện phù hợp tới sớm nhất trong khoảng thời gian hồi cứu của bạn. Hoặc là ngày bắt đầu thời gian hồi cứu của bạn (mà bạn xác định trước) hoặc ngày sau khi bắt đầu hồi cứu nếu có (ví dụ: đi đến hoặc sinh ra)  
 
 Ngày kết thúc: Sự kiện dừng lại thích hợp sớm nhất trong thời gian hồi cứu của bạn. Hoặc là ngày kết thúc thời gian hồi cứu hoặc ngày trước khi kết thúc hồi cứu nếu có (ví dụ: rời đi, tử vong)  
 
@@ -299,11 +299,11 @@ survey_data <- survey_data %>%
 
 ## Áp dụng trọng số
 
-Điều quan trọng là bạn phải loại bỏ các đối tượng có lỗi trước khi thêm trọng số khảo sát. Ví dụ: nếu bạn có các quan sát với thời gian theo dõi âm, bạn sẽ cần kiểm tra các đối tượng đó (bạn có thể thực hiện việc này với hàm `assert_positive_timespan()` từ **sitrep**. Một điều khác là nếu bạn muốn bỏ các hàng trống (ví dụ: với `drop_na(uid)`) hoặc xóa các bản trùng (xem phần sổ tay về [Loại bỏ trùng lặp] để biết thêm chi tiết). Những đối tượng không có sự đồng ý cũng cần phải bị xóa.  
+Điều quan trọng là bạn phải loại bỏ các đối tượng có lỗi trước khi thêm trọng số khảo sát. Ví dụ: nếu bạn có các quan sát với thời gian theo dõi âm, bạn sẽ cần kiểm tra các đối tượng đó (bạn có thể thực hiện việc này với hàm `assert_positive_timespan()` từ **sitrep**. Một điều khác là nếu bạn muốn bỏ các hàng trống (ví dụ: với `drop_na(uid)`) hoặc xóa các bản ghi trùng lặp (xem chương [Loại bỏ trùng lặp] trong sổ tay này để biết thêm chi tiết). Những đối tượng không có sự đồng ý tham gia nghiên cứu cũng cần phải bị xóa.  
 
-Trong ví dụ này, chúng tôi lọc các trường hợp muốn loại bỏ và lưu trữ chúng trong một dataframe riêng - theo cách này, chúng tôi có thể mô tả những trường hợp đã bị loại khỏi khảo sát. Sau đó, chúng tôi sử dụng hàm `anti_join()` từ **dplyr** để xóa những trường hợp bị loại bỏ này khỏi dữ liệu khảo sát của chúng tôi.
+Trong ví dụ này, chúng ta lọc các trường hợp muốn loại bỏ và lưu trữ chúng trong một dataframe riêng - theo cách này, chúng ta có thể mô tả những trường hợp đã bị loại khỏi khảo sát. Sau đó, chúng ta sử dụng hàm `anti_join()` từ **dplyr** để xóa những trường hợp bị loại bỏ này khỏi dữ liệu khảo sát của chúng ta.
 
-[***NGUY HIỂM:*** Bạn không được có giá trị trống trong biến trọng số của mình hoặc bất kỳ biến nào có liên quan đến thiết kế khảo sát của bạn (ví dụ: tuổi, giới tính, biến tầng hoặc cụm).]{style="color: red;"}  
+[***NGUY HIỂM:*** Bạn không thể có giá trị missing trong biến trọng số của mình hoặc bất kỳ biến nào có liên quan đến thiết kế khảo sát của bạn (ví dụ: tuổi, giới tính, biến phân tầng hoặc cụm).]{style="color: red;"}  
 
 ```{r remove_unused_data}
 
@@ -364,17 +364,17 @@ survey_data <- survey_data %>%
 
 ## Đối tượng theo thiết kế nghiên cứu
 
-Tạo đối tượng khảo sát theo thiết kế nghiên cứu của bạn. Sử dụng theo cách tương tự như dataframe để tính toán tỷ lệ trọng số, v.v. Đảm bảo rằng tất cả các biến cần thiết đã được tạo trước bước này.  
+Tạo đối tượng khảo sát theo thiết kế nghiên cứu của bạn. Sử dụng theo cách tương tự như dataframe để tính toán trọng số cho tỷ lệ, v.v. Đảm bảo rằng tất cả các biến cần thiết đã được tạo trước bước này.  
 
-Có bốn tùy chọn, hãy tạo thành bình luận trong code những tùy chọn bạn không sử dụng: - Ngẫu nhiên đơn - Phân tầng - Cụm - Cụm phân tầng  
+Có bốn tùy chọn, hãy đánh dấu thành bình luận những tùy chọn bạn không sử dụng: - Ngẫu nhiên đơn - Phân tầng - Cụm - Cụm phân tầng  
 
-Đối với mẫu này - chúng tôi sẽ giả vờ rằng chúng tôi nhóm cụm các cuộc khảo sát theo hai tầng riêng biệt (khu vực A và B). Vì vậy, để có được ước tính tổng thể, chúng ta cần có trọng số kết hợp của cụm và tầng.  
+Đối với mẫu này - chúng ta sẽ giả vờ rằng chúng ta nhóm cụm các cuộc khảo sát theo hai tầng riêng biệt (khu vực A và B). Vì vậy, để có được ước tính tổng thể, chúng ta cần có trọng số kết hợp của cụm và tầng.  
 
-Như đã đề cập trước đây, có hai packages có sẵn để thực hiện việc này. Package cổ điển là **survey** và một package gọn hơn được gọi là **srvyr** giúp tạo các đối tượng và chức năng theo giao diện tương tự tidyverse. Chúng tôi sẽ trình bày cả hai, nhưng lưu ý rằng hầu hết code trong chương này sẽ sử dụng các đối tượng dựa trên **srvyr**. Một ngoại lệ là package **gtsummary** chỉ chấp nhận các đối tượng **survey**.  
+Như đã đề cập trước đây, có hai packages có sẵn để thực hiện việc này. Package cổ điển là **survey** và một package gọn hơn được gọi là **srvyr** giúp tạo các đối tượng và hàm theo phong cách tidyverse. Chúng tôi sẽ trình bày cả hai, nhưng lưu ý rằng hầu hết code trong chương này sẽ sử dụng các đối tượng dựa trên **srvyr**. Một ngoại lệ là package **gtsummary** chỉ chấp nhận các đối tượng từ package **survey**.  
 
 ### Package **Survey** 
 
-Package **survey** sử dụng hiệu quả code **base** *R* nên không thể sử dụng các pipes (`%>%`) hoặc cú pháp **dplyr** khác. Với package **survey**, chúng tôi sử dụng hàm `svydesign()` để xác định đối tượng khảo sát với các cụm, trọng số và tầng thích hợp.  
+Package **survey** sử dụng hiệu quả code **base** *R* nên không thể sử dụng các pipes (`%>%`) hoặc các cú pháp **dplyr** khác. Với package **survey**, chúng tôi sử dụng hàm `svydesign()` để xác định đối tượng khảo sát với các cụm, trọng số và tầng thích hợp.  
 
 [***LƯU Ý:*** chúng ta cần sử dụng dấu ngã (`~`) trước các biến, điều này là do package sử dụng cú pháp **base** *R* để gán các biến dựa trên công thức.]{style="color: black;"}  
 
@@ -445,9 +445,9 @@ survey_design <- survey_data %>%
 
 ## Phân tích mô tả  
 
-Phân tích mô tả và trực quan hóa cơ bản được đề cập nhiều trong các chương khác của cuốn sổ tay, vì vậy chúng tôi sẽ không đi sâu vào nó ở đây. Để biết chi tiết, hãy xem các chương về [Bảng mô tả](https://epirhandbook.com/descriptive-tables.html), [Các kiểm định thống kê cơ bản](https://epirhandbook.com/simple-statistical-tests.html), [Trình bày bảng](https://epirhandbook.com/tables-for-presentation.html), [ggplot cơ bản](https://epirhandbook.com/ggplot-basics.html) and [Báo cáo với R Markdown](https://epirhandbook.com/r-markdown-reports.html).  
+Phân tích mô tả và trực quan hóa cơ bản được đề cập nhiều trong các chương khác của cuốn sổ tay, vì vậy chúng tôi sẽ không đi sâu vào nó ở đây. Để biết chi tiết, hãy xem các chương về [Bảng mô tả], [Các kiểm định thống kê cơ bản], [Trình bày bảng], [ggplot cơ bản] và [Báo cáo với R Markdown].  
 
-Trong phần này, chúng tôi sẽ tập trung vào cách điều tra sai số trong mẫu của bạn và trực quan chúng. Chúng ta cũng sẽ xem xét việc trực quan hóa dòng dân cư trong bối cảnh khảo sát bằng cách sử dụng sơ đồ luồng alluvial/sankey.  
+Trong phần này, chúng ta sẽ tập trung vào cách điều tra sai số trong mẫu của bạn và trực quan hóa chúng. Chúng ta cũng sẽ xem xét việc trực quan hóa dòng dân cư trong bối cảnh khảo sát bằng cách sử dụng sơ đồ luồng alluvial/sankey.  
 
 Nhìn chung, bạn nên xem xét đưa vào các phân tích mô tả sau:  
 
@@ -459,7 +459,7 @@ Nhìn chung, bạn nên xem xét đưa vào các phân tích mô tả sau:
 
 So sánh tỷ lệ trong từng nhóm tuổi giữa mẫu của bạn và quần thể gốc. Điều này rất quan trọng để có thể làm nổi bật sai số chọn mẫu tiềm ẩn. Tương tự, bạn có thể lặp lại điều này khi xem xét sự phân bố theo giới tính.
 
-Lưu ý rằng các giá trị p này chỉ mang tính chất chỉ dẫn và phần thảo luận mang tính mô tả (hoặc trực quan với tháp tuổi bên dưới) về các phân bố trong mẫu nghiên cứu của bạn so với quần thể gốc quan trọng hơn chính phép kiểm định hai nhóm. Đó là do việc tăng cỡ mẫu sẽ hay dẫn đến những khác biệt có thể không liên quan sau khi áp dụng trọng số vào dữ liệu của bạn.  
+Lưu ý rằng các giá trị p từ phép kiểm định hai nhóm chỉ mang tính chất chỉ dẫn và phần thảo luận mang tính mô tả (hoặc trực quan với tháp tuổi bên dưới) về các phân bố trong mẫu nghiên cứu của bạn so với quần thể gốc là quan trọng. Đó là bởi vì việc tăng cỡ mẫu sẽ hay dẫn đến những khác biệt có thể không liên quan sau khi áp dụng trọng số vào dữ liệu của bạn.  
 
 ```{r descriptive_sampling_bias, warning = FALSE}
 
@@ -513,9 +513,9 @@ left_join(ag, propcount, by = "age_group", suffix = c("", "_pop")) %>%
 
 ### Tháp dân số  
 
-Tháp dân số (hoặc tuổi-giới) là một cách dễ dàng để trực quan hóa sự phân bố trong quần thể khảo sát của bạn. Cũng nên xem xét việc tạo [bảng mô tả](https://epirhandbook.com/descriptive-tables.html) về độ tuổi và giới tính theo tầng khảo sát. Chúng tôi sẽ biểu diễn bằng package **apyramid** vì nó cho phép các tỷ lệ được áp dụng trọng số sử dụng đối tượng theo thiết kế nghiên cứu của chúng tôi đã tạo ở trên. Các tùy chọn khác để tạo [Tháp dân số](https://epirhandbook.com/demographic-pyramids-and-likert-scales.html) được đề cập nhiều trong chương đó của sổ tay. Chúng tôi cũng sẽ sử dụng một hàm gọn hơn từ **sitrep** được gọi là `plot_age_pyramid()` để lưu một vài dòng code để tạo ra một biểu đồ theo tỷ lệ.  
+Tháp dân số (hoặc tháp tuổi-giới) là một cách dễ dàng để trực quan hóa sự phân bố trong quần thể khảo sát của bạn. Cũng nên xem xét việc tạo [Bảng mô tả] về độ tuổi và giới tính theo tầng khảo sát. Chúng ta sẽ minh họa bằng package **apyramid** vì nó cho phép các tỷ lệ được áp dụng trọng số sử dụng đối tượng theo thiết kế nghiên cứu mà chúng ta đã tạo ở trên. Các tùy chọn khác để tạo [Tháp dân số](#age-pyramid) được đề cập nhiều hơn trong chương đó của sổ tay. Chúng ta cũng sẽ sử dụng một hàm gọn hơn từ **sitrep** được gọi là `plot_age_pyramid()` để lưu một vài dòng code để tạo ra một biểu đồ theo tỷ lệ.  
 
-Giống như với phép kiểm định sự khác biệt giữa hai nhóm chuẩn, được thấy ở trên trong phần sai số chọn mẫu, ở đây chúng ta quan tâm đến việc hình dung liệu quần thể mẫu của chúng ta có khác biệt đáng kể so với quần thể gốc hay không, và liệu trọng số có sửa chữa được sự khác biệt này hay không. Để làm điều này, chúng tôi sẽ sử dụng package **patchwork** để hiển thị các hình ảnh trực quan **ggplot** song song với nhau; chi tiết xem phần kết hợp các đồ thị trong chương [Các tips với ggplot](https://epirhandbook.com/ggplot-tips.html?q=patch#combine-plots) của sổ tay. Chúng tôi sẽ trực quan hóa quần thể gốc, quần thể khảo sát không trọng số và quần thể khảo sát có trọng số. Bạn cũng có thể xem xét trực quan theo từng tầng của khảo sát - bằng cách sử dụng đối số `stack_by  = "health_district"` trong ví dụ của chúng tôi ở đây (xem `?plot_age_pyramid` để biết chi tiết).  
+Giống như với phép kiểm định sự khác biệt giữa hai nhóm chuẩn được thảo luận ở trên trong phần sai số chọn mẫu, ở đây chúng ta quan tâm đến việc trực quan hóa liệu quần thể mẫu của chúng ta có khác biệt đáng kể so với quần thể gốc hay không, và liệu trọng số có sửa chữa được sự khác biệt này hay không. Để làm điều này, chúng ta sẽ sử dụng package **patchwork** để hiển thị các biểu đồ tạo bởi **ggplot** song song với nhau; chi tiết xem phần kết hợp các đồ thị trong chương [Các tips với ggplot] của sổ tay này. Chúng ta sẽ trực quan hóa quần thể gốc, quần thể khảo sát không trọng số và quần thể khảo sát có trọng số. Bạn cũng có thể xem xét trực quan theo từng tầng của khảo sát - bằng cách sử dụng đối số `stack_by  = "health_district"` trong ví dụ của chúng tôi ở đây (xem `?plot_age_pyramid` để biết chi tiết).  
 
 [***Lưu ý:*** Trục x và y được lật ngược trong tháp]{style="color: black;"}
 
@@ -627,7 +627,7 @@ source_population + sample_population + weighted_population +
 
 ### Sơ đồ alluvial/sankey
 
-Trực quan điểm bắt đầu và kết quả của từng cá nhân có thể rất hữu ích để có được cái nhìn tổng quan. Có một ứng dụng khá rõ ràng cho quần thể di động, tuy nhiên có rất nhiều ứng dụng khác như nhóm thuần tập hoặc bất kỳ tình huống nào khác trong đó có sự chuyển đổi ở các trạng thái cho các cá nhân. Các sơ đồ này có một số tên khác nhau bao gồm các tập hợp alluvial, sankey và song song - chi tiết có trong chương sổ tay về [Sơ đồ và biểu đồ](https://epirhandbook.com/diagrams-and-charts.html#alluvialsankey-diagrams).  
+Trực quan điểm bắt đầu và kết quả của từng cá nhân có thể rất hữu ích để có được cái nhìn tổng quan. Có một ứng dụng khá rõ ràng cho quần thể di động, tuy nhiên có rất nhiều ứng dụng khác như nhóm thuần tập hoặc bất kỳ tình huống nào khác trong đó có sự chuyển đổi ở các trạng thái của các cá nhân. Các sơ đồ này có một số tên khác nhau bao gồm các tập hợp alluvial, sankey và parallel - chi tiết có trong chương sổ tay về [Sơ đồ và biểu đồ].  
 
 ```{r visualise_population_flow}
 
@@ -674,13 +674,13 @@ ggplot(flow_table, aes(x, id = id, split = y, value = n)) +
 
 ## Tỷ lệ được áp dụng trọng số
 
-Phần này sẽ trình bày chi tiết cách tạo bảng cho số lượng và tỷ lệ được áp dụng trọng số, với khoảng tin cậy và hệ số thiết kế liên quan. Có bốn tùy chọn khác nhau sử dụng các hàm từ các packages sau: **survey**, **srvyr**, **sitrep** và **gtsummary**. Để tạo ra một bảng dịch tễ học tiêu chuẩn với code tối giản, chúng tôi khuyên bạn nên dùng hàm **sitrep** - là một hàm có code gọn hơn của **srvyr**; Tuy nhiên, lưu ý rằng hàm này chưa có trên CRAN và có thể thay đổi trong tương lai. Mặt khác, code của **survey** có thể là code ổn định nhất trong thời gian dài, trong khi **srvyr** sẽ phù hợp nhất trong các luồng việc tidyverse. Mặc dù các hàm **gtsummary** có rất nhiều tiềm năng, nhưng chúng vẫn đang được thử nghiệm và chưa hoàn thiện tại thời điểm viết chương này.  
+Phần này sẽ trình bày chi tiết cách tạo bảng cho số lượng và tỷ lệ được áp dụng trọng số, với khoảng tin cậy và hệ số thiết kế liên quan. Có bốn tùy chọn khác nhau sử dụng các hàm từ các packages sau: **survey**, **srvyr**, **sitrep** và **gtsummary**. Để tạo ra một bảng dịch tễ học tiêu chuẩn với code tối giản, chúng tôi khuyên bạn nên dùng hàm **sitrep** - là một hàm có code gọn hơn của **srvyr**; Tuy nhiên, lưu ý rằng hàm này chưa có trên CRAN và có thể thay đổi trong tương lai. Mặt khác, code của **survey** có thể là code ổn định nhất trong thời gian dài, trong khi **srvyr** sẽ phù hợp nhất đối với các luồng công việc sử dụng tidyverse. Mặc dù các hàm **gtsummary** có rất nhiều tiềm năng, nhưng chúng vẫn đang được thử nghiệm và chưa hoàn thiện tại thời điểm viết chương này.  
 
 ### Package **survey**
 
-Chúng ta có thể sử dụng hàm `svyciprop()` từ **survey** để lấy tỷ lệ có trọng số và khoảng tin cậy 95% đi kèm. Một hệ số thiết kế thích hợp có thể được trích xuất bằng cách sử dụng hàm `svymean()` chứ không phải hàm `svyprop()`. Cần lưu ý rằng `svyprop()` dường như chỉ chấp nhận các biến từ 0 đến 1 (hoặc TRUE/FALSE), vì vậy các biến phân loại sẽ không hoạt động.  
+Chúng ta có thể sử dụng hàm `svyciprop()` từ **survey** để lấy tỷ lệ có trọng số và khoảng tin cậy 95% đi kèm. Một hệ số thiết kế thích hợp có thể được trích xuất bằng cách sử dụng hàm `svymean()` chứ không phải hàm `svyprop()`. Cần lưu ý rằng `svyprop()` dường như chỉ chấp nhận các biến có giá trị từ 0 đến 1 (hoặc TRUE/FALSE), vì vậy các biến phân loại sẽ không hoạt động.  
 
-[***LƯU Ý:*** Các hàm từ **survey** cũng chấp nhận các đối tượng thiết kế **srvyr**, nhưng ở đây chúng tôi đã sử dụng đối tượng thiết kế **survey** chỉ cho tính nhất quán]{style="color: black;"}  
+[***LƯU Ý:*** Các hàm từ **survey** cũng chấp nhận các đối tượng thiết kế từ **srvyr**, nhưng ở đây chúng tôi đã sử dụng đối tượng thiết kế từ package **survey** với mục đích tạo sự nhất quán]{style="color: black;"}  
 
 ```{r survey_props}
 
@@ -696,7 +696,7 @@ svymean(~died, base_survey_design, na.rm = T, deff = T) %>%
 
 ```
 
-Chúng ta có thể kết hợp các hàm từ **survey** được hiển thị ở trên với một hàm mà chúng ta tự định nghĩa bên dưới, được gọi là `svy_prop`; và sau đó chúng ta có thể sử dụng hàm đó cùng với `map()` từ package purrr để lặp qua một số biến và tạo một bảng. Xem chương [Lặp](https://epirhandbook.com/iteration-loops-and-lists.html) để biết chi tiết về **purrr**.  
+Chúng ta có thể kết hợp các hàm từ **survey** được hiển thị ở trên với một hàm mà chúng ta tự định nghĩa như bên dưới, được gọi là `svy_prop`; và sau đó chúng ta có thể sử dụng hàm đó cùng với hàm `map()` từ package **purrr** để lặp qua một số biến và tạo một bảng. Xem chương [Lặp, vòng lặp, và danh sách] để biết chi tiết về **purrr**.  
 
 ```{r survey_prop_fun}
 # Define function to calculate weighted counts, proportions, CI and design effect
@@ -752,7 +752,7 @@ purrr::map(
 
 ### Package **srvyr** 
 
-Với **srvyr** chúng ta có thể sử dụng cú pháp **dplyr** để tạo một bảng. Lưu ý rằng hàm `survey_mean()` được sử dụng, đối số tỷ lệ được chỉ định và hàm tương tự cũng được sử dụng để tính toán hệ số thiết kế. Điều này là do **srvyr** bao gồm cả hai hàm `svyciprop()` và `svymean()` của package **survey**, được sử dụng trong phần trên.  
+Với **srvyr** chúng ta có thể sử dụng cú pháp của package **dplyr** để tạo một bảng. Lưu ý rằng hàm `survey_mean()` được sử dụng, đối số tỷ lệ được chỉ định và hàm tương tự cũng được sử dụng để tính toán hệ số thiết kế. Điều này là do **srvyr** bao gồm cả hai hàm `svyciprop()` và `svymean()` của package **survey** được sử dụng trong phần trên.  
 
 [***LƯU Ý:*** Có vẻ như không thể lấy tỷ lệ từ các biến phân loại bằng **srvyr**, nếu bạn cần điều này, hãy xem phần bên dưới sử dụng **sitrep**]{style="color: black;"}  
 
@@ -776,7 +776,7 @@ survey_design %>%
 
 ```
 
-Ở đây, chúng ta cũng có thể viết một hàm để sau đó lặp qua nhiều biến bằng cách sử dụng package **purrr**. Xem chương [Lặp](https://epirhandbook.com/iteration-loops-and-lists.html) của sổ tay để biết chi tiết về **purrr**.  
+Ở đây, chúng ta cũng có thể viết một hàm để sau đó lặp qua nhiều biến bằng cách sử dụng package **purrr**. Xem chương [Lặp, vòng lặp, và danh sách] trong sổ tay này để biết chi tiết về **purrr**.  
 
 ```{r srvyr_prop_fun}
 
@@ -913,7 +913,7 @@ survey_design %>%
 
 <!-- ======================================================= -->
 
-## Tài nguyên 
+## Tài nguyên học liệu
 
 [UCLA stats page](https://stats.idre.ucla.edu/r/seminars/survey-data-analysis-with-r/)
 

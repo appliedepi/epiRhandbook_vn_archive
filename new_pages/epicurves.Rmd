@@ -13,13 +13,13 @@ Trong chương này, chúng tôi trình bày hai cách tiếp cận để tạo 
 -   Package **incidence2**, có thể tạo ra đường cong dịch bệnh với các lệnh đơn giản\
 -   Package **ggplot2**, cho phép khả năng tùy chỉnh nâng cao thông qua các lệnh phức tạp hơn
 
-Cũng giải quyết các trường hợp cụ thể như:
+Chúng tôi cũng sẽ giải quyết các trường hợp cụ thể như:
 
 -   Lập biểu đồ dữ liệu đếm tổng hợp\
--   Các khía cạnh hoặc tạo nhiều cấu phần nhỏ\
+-   Faceting hoặc tạo nhiều cấu phần nhỏ\
 -   Áp dụng đường trung bình động\
 -   Hiển thị dữ liệu "dự kiến" hoặc có thể bị chậm trễ trong báo cáo\
--   Thêm tỷ lệ ca tích lũy bằng cách sử dụng trục thứ hai
+-   Thêm tỷ lệ ca nhiễm mới tích lũy bằng cách sử dụng trục thứ hai
 
 <!-- ======================================================= -->
 
@@ -27,7 +27,7 @@ Cũng giải quyết các trường hợp cụ thể như:
 
 ### Packages {.unnumbered}
 
-Đoạn code này hiển thị cách gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng ta nhấn mạnh đến `p_load()` từ **pacman**, sẽ được cài đặt package nếu cần *và* gọi package để sử dụng. Bạn cũng có thể cài đặt package với `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
+Đoạn code này hiển thị cách gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, sẽ cài đặt package nếu cần *và* gọi package để sử dụng. Bạn cũng có thể cài đặt package với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r message=F, warning=F}
 pacman::p_load(
@@ -44,14 +44,14 @@ pacman::p_load(
 ) 
 ```
 
-### Nạp dữ liệu {.unnumbered}
+### Nhập dữ liệu {.unnumbered}
 
 Hai bộ dữ liệu mẫu được sử dụng trong chương này:
 
 -   Bộ số liệu `linelist` về các ca bệnh từ một vụ dịch mô phỏng\
--   Số lượng tổng hợp theo bệnh viện từ cùng một dịch bệnh mô phỏng
+-   Số lượng tổng hợp theo bệnh viện từ cùng một dịch bệnh mô phỏng bên trên
 
-Các bộ dữ liệu được nạp bằng hàm `import()` từ package **rio**. Xem chương về [Nhập và xuất dữ liệu] để biết các cách nạp dữ liệu khác nhau.
+Các bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương [Nhập xuất dữ liệu] để biết các cách nhập dữ liệu khác nhau.
 
 ```{r, echo=F, message=F}
 # import the linelist into R
@@ -67,7 +67,7 @@ count_data <- linelist %>%
 
 **Bộ số liệu `linelist`**
 
-Chúng tôi nạp bộ dữ liệu về các ca bệnh mô phỏng từ một vụ dịch Ebola. Nếu bạn muốn tải xuống dữ liệu để làm theo từng bước, hãy xem hướng dẫn trong chương [Tải sách và dữ liệu]. Chúng tôi giả sử các tệp tin nằm trong thư mục làm việc nên không có thư mục con nào được chỉ định trong đường dẫn này.
+Chúng ta nhập bộ dữ liệu về các ca bệnh mô phỏng từ một vụ dịch Ebola. Nếu bạn muốn tải xuống dữ liệu để làm theo từng bước, hãy xem hướng dẫn trong chương [Tải sách và dữ liệu]. Chúng tôi giả sử các tệp tin nằm trong thư mục làm việc nên không có thư mục con nào được chỉ định trong đường dẫn này.
 
 ```{r, eval=F}
 linelist <- import("linelist_cleaned.xlsx")
@@ -100,7 +100,7 @@ count_data <- linelist %>%
 DT::datatable(head(count_data, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-### Thiết lập các thông số {.unnumbered}
+### Thiết lập các tham số {.unnumbered}
 
 Để tạo báo cáo, bạn có thể muốn thiết lập các thông số có thể chỉnh sửa, chẳng hạn như ngày dữ liệu hiện tại ("ngày dữ liệu"). Sau đó, bạn có thể tham chiếu đối tượng `data_date` trong code khi áp dụng bộ lọc hoặc trong chú thích động.
 
@@ -112,7 +112,7 @@ data_date <- as.Date("2015-05-15")
 
 ### Xác minh ngày {.unnumbered}
 
-Xác minh rằng mỗi cột ngày có liên quan là phân lớp Ngày và có phạm vi giá trị thích hợp. Bạn có thể thực hiện việc này đơn giản bằng cách sử dụng `hist()` cho biểu đồ hoặc `range()` với `na.rm=TRUE`, hoặc với `ggplot()` như bên dưới.
+Xác minh rằng mỗi cột ngày có liên quan là phân lớp Ngày và có phạm vi giá trị thích hợp. Bạn có thể thực hiện việc này đơn giản bằng cách sử dụng hàm `hist()` cho histogram hoặc hàm `range()` với `na.rm=TRUE`, hoặc với hàm `ggplot()` như bên dưới.
 
 ```{r, out.width = c('50%', '50%', '50%'), fig.show='hold', warning=F, message=F}
 # check range of onset dates
@@ -124,7 +124,7 @@ ggplot(data = linelist)+
 
 ## Đường cong dịch bệnh với package **incidence2**
 
-Dưới đây, chúng tôi trình bày cách tạo các đường cong dịch bệnh bằng cách sử dụng package **precision2**. Các tác giả của package này đã cố gắng cho phép người dùng tạo và sửa đổi các đường cong dịch bệnh mà không cần biết cú pháp **ggplot2**. Phần lớn nội dung của chương này được điều chỉnh từ package **vignettes**, bạn có thể tìm thấy tại chương **incidence2** [github](https://github.com/reconhub/incidence2).
+Dưới đây, chúng tôi trình bày cách tạo các đường cong dịch bệnh bằng cách sử dụng package **precision2**. Các tác giả của package này đã cố gắng cho phép người dùng tạo và sửa đổi các đường cong dịch bệnh mà không cần biết cú pháp **ggplot2**. Phần lớn nội dung của chương này được điều chỉnh từ **minh họa** của package, bạn có thể tìm thấy tại trang [github](https://github.com/reconhub/incidence2) của package **incidence2**.
 
 <!-- ======================================================= -->
 
@@ -132,18 +132,18 @@ Dưới đây, chúng tôi trình bày cách tạo các đường cong dịch b�
 
 **Cần có 2 bước để vẽ đường cong dịch bệnh với package *incidence2*:**
 
-1)  **Tạo** ra một *tỷ lệ mắc bệnh* (sử dụng hàm `incidence()`)
+1)  **Tạo** một *incidence object* (sử dụng hàm `incidence()`)
 
     -   Cung cấp dữ liệu\
     -   Xác định cột ngày tại `date_index =`\
-    -   Xác định `interval =` trong các ca nên được tổng hợp (hàng ngày, tuần, tháng..)\
-    -   Xác định bất kỳ cột-nhóm nào (ví dụ như giới tính, bệnh viện, kết quả)\
+    -   Xác định khoảng thời gian `interval =` các ca nên được tổng hợp (hàng ngày, tuần, tháng..)\
+    -   Xác định bất kỳ cột dùng để nhóm nào (ví dụ như giới tính, bệnh viện, kết quả)\
 
-2)  **Vẽ biểu đồ** tỷ lệ mắc bệnh
+2)  **Vẽ biểu đồ** incidence object
 
     -   Xác định nhãn, màu, tiêu đề, ...
 
-Dưới đây, chúng tôi gọi package **incidence2**, tạo tỷ lệ mắc bệnh từ `linelist` trên cột `date_onset` và các trường hợp tổng hợp theo ngày. Sau đó, chúng tôi tổng hợp về tỷ lệ mắc bệnh.
+Dưới đây, chúng tôi gọi package **incidence2**, tạo incidence object từ dữ liệu `linelist` trên cột `date_onset` và tổng hợp các trường hợp theo ngày. Sau đó, chúng tôi in ra tóm tắt về đối tượng incidence object.
 
 ```{r, warning=F, message=F}
 # load incidence2 package
@@ -157,7 +157,7 @@ epi_day <- incidence(       # create incidence object
   )
 ```
 
-Đối tượng **incidence2** trông giống như một tibble (giống như một bộ dữ liệu) và có thể được hiển thị hoặc thao tác thêm như một bộ dữ liệu.
+Đối tượng **incidence2** trông giống như một tibble (một kiểu data frame) và có thể được hiển thị hoặc thao tác thêm như một bộ dữ liệu.
 
 ```{r}
 class(epi_day)
@@ -176,7 +176,7 @@ Bạn cũng có thể tổng hợp thông tin của đối tượng:
 summary(epi_day)
 ```
 
-Để *vẽ biểu đồ tỷ lệ mắc bệnh*, hãy sử dụng `plot()` với *tên của chỉ số tỷ lệ mắc bệnh*. Ở phía sau, hàm `plot.incidence2()` được gọi, vì vậy để đọc tài liệu cụ thể về t**incidence2**, bạn cần chạy lệnh `?plot.incidence2`.
+Để *vẽ biểu đồ incidence object*, hãy sử dụng hàm `plot()` với *tên của incidence object*. Trong nền, hàm `plot.incidence2()` đã được gọi, vì vậy để đọc tài liệu cụ thể về **incidence2**, bạn cần chạy lệnh `?plot.incidence2`.
 
 ```{r}
 # plot the incidence object
@@ -187,26 +187,26 @@ Nếu bạn nhận thấy nhiều đường dọc nhỏ màu trắng, hãy cố 
 
 ### Thay đổi khoảng thời gian tổng hợp ca bệnh {.unnumbered}
 
-Argument `interval =` của `incidence()` xác định cách các quan sát được nhóm thành các thanh dọc trong biểu đồ.
+Đối số `interval =` của hàm `incidence()` xác định cách các quan sát được nhóm thành các cột dọc trong biểu đồ.
 
 **Xác định khoảng thời gian**
 
-**incidence2** đem lại sự linh hoạt và cú pháp dễ hiểu để bạn có thể dễ dàng tổng hợp số ca bệnh thành các biểu đồ cột-đường cong dịch bệnh. Cung cấp một giá trị như những giá trị bên dưới cho argument `interval =`. Bạn có thể viết bất kỳ thông tin nào bên dưới dưới dạng số nhiều (ví dụ: "week**s**") và bạn có thể thêm số phía trước (ví dụ: "3 months").
+**incidence2** đem lại sự linh hoạt và cú pháp dễ hiểu để bạn có thể dễ dàng tổng hợp số ca bệnh thành các biểu đồ cột-đường cong dịch bệnh. Cung cấp một giá trị như những giá trị bên dưới cho đối số `interval =`. Bạn có thể viết bất kỳ thông tin nào bên dưới dưới dạng số nhiều (ví dụ: "week**s**") và bạn có thể thêm số phía trước (ví dụ: "3 months").
 
-| Tùy chọn argument       | Chú thích                                                 |
+| Tùy chọn đối số         | Giải thích thêm                                           |
 |-------------------------|-----------------------------------------------------------|
-| Số (1, 7, 13, 14, etc.) | số ngày mỗi khoảng thời gian                              |
-| "tuần"                  | ghi chú: mặc định ngày bắt đầu là Thứ 2                   |
-| "2 tuần"                | hoặc 3, 4, 5...                                           |
-| "tuần Chủ nhật"         | tuần bắt đầu tính từ Chủ nhật (cũng có thể là Thứ 5, ...) |
-| "2 tuần Chủ nhật"       | hoặc 3, 4, 5...                                           |
-| "tuần MMWR"             | tuần bắt đầu vào Chủ nhật - xem thêm tại CDC Hoa Kỳ       |
-| "tháng"                 | ngày đầu của tháng                                        |
-| "quí"                   | ngày đầu của tháng của quí                                |
-| "2 tháng"               | hoặc 3, 4, 5...                                           |
-| "năm"                   | ngày đầu của năm                                          |
+| Số (1, 7, 13, 14, etc.) | số ngày cho mỗi khoảng thời gian                          |
+| "weeks"                 | ghi chú: mặc định ngày bắt đầu là Thứ 2                   |
+| "2 weeks"               | hoặc 3, 4, 5...                                           |
+| "Sunday weeks"          | tuần bắt đầu tính từ Chủ nhật (cũng có thể là Thứ 5, ...) |
+| "2 Sunday weeks"        | hoặc 3, 4, 5...                                           |
+| "MMWRweek"              | tuần bắt đầu vào Chủ nhật - xem thêm tại CDC Hoa Kỳ       |
+| "month"                 | ngày đầu tiên của tháng                                   |
+| "quarter"               | ngày đầu tiên của tháng của một quí                       |
+| "2 months"              | hoặc 3, 4, 5...                                           |
+| "year"                  | ngày đầu tiên của năm                                     |
 
-Dưới đây là ví dụ về các khoảng thời gian khác nhau trông như thế nào khi áp dụng vào bộ số liệu `linelist`. Lưu ý cách định dạng mặc định và tần suất của các *nhãn* ngày trên trục x thay đổi khi khoảng ngày thay đổi.
+Dưới đây là ví dụ về các khoảng thời gian khác nhau trông như thế nào khi áp dụng vào bộ số liệu `linelist`. Lưu ý cách mà định dạng mặc định và tần suất của các *nhãn* thời gian trên trục x thay đổi khi khoảng thời gian thay đổi.
 
 ```{r incidence, out.width=c('50%', '50%', '50%', '50%'), fig.show='hold', warning=F, message=F}
 # Create the incidence objects (with different intervals)
@@ -247,17 +247,17 @@ plot(epi_year)+    labs(title = "Years")
 
 **Ngày đầu tiên**
 
-Bạn có thể tùy chọn chỉ định một giá trị thuộc phân lớp Ngày (ví dụ: `as.Date("2016-05-01")`) đến `firstdate =` trong lệnh `incidence()`. Nếu được cung cấp, dữ liệu sẽ được cắt bớt theo phạm vi này và khoảng thời gian sẽ bắt đầu vào ngày này.
+Bạn có thể tùy chọn chỉ định một giá trị thuộc phân lớp Ngày (ví dụ: `as.Date("2016-05-01")`) tới đối số `firstdate =` trong lệnh `incidence()`. Nếu được cung cấp, dữ liệu sẽ được cắt bớt theo phạm vi này và khoảng thời gian sẽ bắt đầu từ ngày này.
 
 ### Nhóm {.unnumbered}
 
-Các nhóm được chỉ định trong lệnh `incidence()` và có thể được sử dụng để tô màu cho các cột hoặc các mặt của dữ liệu. Để chỉ định các nhóm trong dữ liệu của bạn, hãy cung cấp tên cột cho argument `groups =` trong `incidence()` (không có dấu ngoặc kép xung quanh tên cột). Nếu chỉ định nhiều cột, hãy để tên cột trong `c()`.
+Các nhóm được chỉ định trong lệnh `incidence()` và có thể được sử dụng để tô màu cho các cột hoặc facet dữ liệu. Để chỉ định các nhóm trong dữ liệu của bạn, hãy cung cấp tên cột tới đối số `groups =` trong hàm `incidence()` (không có dấu ngoặc kép xung quanh tên cột). Nếu chỉ định nhiều cột, hãy để tên các cột bên trong hàm `c()`.
 
-Bạn có thể chỉ định rằng các trường hợp có giá trị bị thiếu trong các cột nhóm được liệt kê như một nhóm `NA` riêng biệt bằng cách thiết lập `na_as_group = TRUE`. Nếu không, chúng sẽ bị loại khỏi biểu đồ.
+Bạn có thể chỉ định rằng các trường hợp có giá trị bị thiếu trong các cột được nhóm được liệt kê như một nhóm `NA` riêng biệt bằng cách thiết lập `na_as_group = TRUE`. Nếu không, chúng sẽ bị loại khỏi biểu đồ.
 
--   Để *tô màu các cột theo cột nhóm*, bạn cần cung cấp lại tên cột để `fill =` trong lệnh `plot()`.
+-   Để *tô màu các cột theo cột nhóm*, bạn cần cung cấp lại tên cột tới đối số `fill =` trong lệnh `plot()`.
 
--   Về *các khía cạnh dựa trên cột nhóm*, hãy xem chương bên dưới về các khía cạnh của **incidence2**.
+-   Để *facet dựa trên cột nhóm*, hãy xem phần bên dưới về facet với **incidence2**.
 
 Trong ví dụ dưới đây, các trường hợp trong toàn bộ đợt bùng phát được nhóm theo phân loại tuổi của họ. Các giá trị thiếu được đưa vào một nhóm. Khoảng thời gian của đường cong bệnh dịch là tuần.
 
@@ -277,7 +277,7 @@ plot(
 labs(fill = "Age Category") # change legend title from default "age_cat" (this is a ggplot2 modification)
 ```
 
-[***MẸO***: Thay đổi tiêu đề của chú giải bằng cách thêm `+` vào lệnh **ggplot2** `labs(fill = "your title")` vào biểu đồ **incidence2**.]{style="color: darkgreen;"}
+[***MẸO***: Thay đổi tiêu đề của chú giải bằng cách thêm `+` lệnh **ggplot2** `labs(fill = "your title")` vào biểu đồ **incidence2**.]{style="color: darkgreen;"}
 
 Bạn cũng có thể để các cột được nhóm hiển thị cạnh nhau bằng cách đặt `stack = FALSE` trong `plot()`, như được hiển thị bên dưới:
 
@@ -296,7 +296,7 @@ plot(
   stack = FALSE)    # side-by-side (not stacked)
 ```
 
-Bạn có thể đặt argument `na_as_group =` thành FALSE trong lệnh `incidence()` để loại bỏ các hàng có giá trị bị thiếu khỏi biểu đồ.
+Bạn có thể đặt đối số `na_as_group =` thành FALSE trong lệnh `incidence()` để loại bỏ các hàng có giá trị bị thiếu khỏi biểu đồ.
 
 ### Lọc dữ liệu {.unnumbered}
 
@@ -304,9 +304,9 @@ Bạn có thể đặt argument `na_as_group =` thành FALSE trong lệnh `incid
 
 1)  Lọc bộ số liệu `linelist`\
 2)  Cung cấp dữ liệu đã lọc vào lệnh `incidence()`\
-3)  Lập biểu đồ về chỉ số tỷ lệ mắc bệnh
+3)  Vẽ biểu đồ incidence object
 
-Ví dụ dưới đây sử dụng dữ liệu được lọc để chỉ hiển thị các trường hợp tại Bệnh viện Trung ương.
+Ví dụ dưới đây sử dụng dữ liệu được lọc để chỉ hiển thị các trường hợp tại Central Hospital.
 
 ```{r, warning=F, message=F}
 # filter the linelist
@@ -322,15 +322,15 @@ plot(central_outbreak, title = "Weekly case incidence at Central Hospital")
 
 ### Số lượng tổng hợp {.unnumbered}
 
-Nếu dữ liệu ban đầu của bạn được tổng hợp (số lượng), hãy cung cấp tên của cột chứa ca đếm trong argument `count =` khi tạo chỉ số tỷ lệ mắc bệnh với hàm `incidence()`.
+Nếu dữ liệu ban đầu của bạn được tổng hợp (số lượng), hãy cung cấp tên của cột chứa thông tin về số lượng ca tới đối số `count =` khi tạo incidence object với hàm `incidence()`.
 
-Ví dụ, bộ dữ liệu `count_data` này là danh sách dòng được tổng hợp thành số lượng hàng ngày theo bệnh viện. 50 hàng đầu tiên hiển thị như sau:
+Ví dụ, data frame `count_data` này được tổng hợp từ linelist theo số lượng hàng ngày theo bệnh viện. 50 hàng đầu tiên hiển thị như sau:
 
 ```{r message=FALSE, echo=F}
 DT::datatable(head(count_data,50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Nếu bạn đang bắt đầu phân tích với dữ liệu đếm hàng ngày như bộ dữ liệu ở trên, thì lệnh `incidence()` để chuyển đổi dữ liệu này thành đường cong dịch bệnh hàng tuần theo bệnh viện sẽ hiển thị như sau:
+Nếu bạn đang bắt đầu phân tích với dữ liệu đếm hàng ngày như bộ dữ liệu ở trên, thì lệnh `incidence()` để chuyển đổi dữ liệu này thành đường cong dịch bệnh hàng tuần theo bệnh viện sẽ trông như sau:
 
 ```{r}
 epi_counts <- incidence(              # create weekly incidence object
@@ -346,15 +346,15 @@ plot(epi_counts,                      # incidence object
      fill = hospital)                 # color the bars by hospital
 ```
 
-### Facets/small multiples {.unnumbered}
+### Facets/Các biểu đồ nhỏ {.unnumbered}
 
-Để chia nhỏ dữ liệu theo nhóm (ví dụ tạo "small multiples"):
+Để facet dữ liệu theo nhóm (ví dụ tạo "các biểu đồ nhỏ"):
 
-1)  Xác định các cột cần chia nhỏ với `groups =` khi bạn tạo chỉ số tỷ lệ mắc bệnh\
+1)  Xác định các cột dùng để facet tới đối số `groups =` khi bạn tạo incidence object\
 2)  Sử dụng lệnh `facet_plot()` thay cho `plot()`\
 3)  Xác định cột nhóm nào được sử dụng cho `fill =` và cho `facets =`
 
-Dưới đây, chúng tôi đặt cả hai cột `hospital` và `outcome` làm nhóm các cột trong lệnh `incidence()`. Sau đó, trong `facet_plot()`, chúng ta vẽ biểu đồ đường cong dịch bệnh, chỉ rõ rằng chúng ta muốn một đường cong dịch bệnh khác nhau cho mỗi bệnh viện và trong mỗi đường cong dịch bệnh, các cột nên được xếp chồng lên nhau và được tô màu theo kết quả.
+Dưới đây, chúng ta thiết lập cả hai cột `hospital` và `outcome` làm cột chia nhóm trong lệnh `incidence()`. Sau đó, trong lệnh `facet_plot()`, chúng ta vẽ biểu đồ đường cong dịch bệnh, chỉ rõ rằng chúng ta muốn có các đường cong dịch bệnh khác nhau cho mỗi bệnh viện và trong mỗi đường cong dịch bệnh, các cột được xếp chồng lên nhau và được tô màu theo outcome.
 
 ```{r, warning=F, message=F}
 epi_wks_hosp_out <- incidence(
@@ -372,38 +372,36 @@ incidence2::facet_plot(
 
 ```
 
-Lưu ý rằng package **ggtree** (được sử dụng để trực quan cây phả hệ) cũng có một hàm là `facet_plot()` - đây là lý do tại sao chúng tôi đã chỉ định `incidence2::facet_plot()` như ở trên.
+Lưu ý rằng package **ggtree** (được sử dụng để trực quan cây phả hệ) cũng có một hàm là `facet_plot()` - đây là lý do tại sao chúng ta phải cụ thể `incidence2::facet_plot()` như ở trên.
 
 ### Hiệu chỉnh với `plot()` {.unnumbered}
 
-Một đường cong dịch bệnh được tạo ra bởi **incidence2** có thể được sửa đổi thông qua các argument *trong hàm `plot()`*.
+Một đường cong dịch bệnh được tạo ra bởi **incidence2** có thể được sửa đổi thông qua các đối số *trong hàm `plot()`*.
 
-**Dưới đây là các arguments trong `plot()` để điều chỉnh cột:**
+**Dưới đây là các đối số của hàm `plot()` dùng để điều chỉnh hình thức cột:**
 
-+----------------+--------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| Argument       | Mô tả                                                                                                              | Ví dụ                                                               |
-+================+====================================================================================================================+=====================================================================+
-| `fill =`       | Màu cột. Tên màu hoặc tên cột đã được chỉ định trước đó cho `groups =` trong lệnh `incidence()`                    | `fill = "red"`, hoặc `fill = gender`                                |
-+----------------+--------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| `color =`      | Tô màu xung quanh mỗi cột hoặc xung quanh mỗi nhóm trong một cột                                                   | `border = "white"`                                                  |
-+----------------+--------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| `legend =`     | Vị trí danh mục                                                                                                    | Một trong các lựa chọn "dưới", "trên", "trái", "phải", hoặc "không" |
-+----------------+--------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| `alpha =`      | Độ trong của cột                                                                                                   | 1 là hoàn toàn không trong suốt, 0 là hoàn toàn trong suốt          |
-+----------------+--------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| `width =`      | Giá trị từ 0 đến 1 cho biết kích thước tương đối của các cột với khoảng thời gian của chúng                        | `width = .7`                                                        |
-+----------------+--------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| `show_cases =` | Logical; if TRUE, each case shows as a box. Displays best on smaller outbreaks.                                    | `show_cases = TRUE`                                                 |
-|                |                                                                                                                    |                                                                     |
-|                | Sự logic; nếu TRUE, mỗi trường hợp hiển thị như một hộp. Cách hiển thị này là tốt nhất trên các đợt bùng phát nhỏ. |                                                                     |
-+----------------+--------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
++----------------+-------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------+
+| Đối số         | Mô tả                                                                                                                   | Ví dụ                                                                |
++================+=========================================================================================================================+======================================================================+
+| `fill =`       | Màu cột. Tên màu hoặc tên cột đã được chỉ định trước đó tới đối số `groups =` trong lệnh `incidence()`                  | `fill = "red"`, hoặc `fill = gender`                                 |
++----------------+-------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------+
+| `color =`      | Tô màu xung quanh mỗi cột hoặc xung quanh mỗi nhóm trong một cột                                                        | `border = "white"`                                                   |
++----------------+-------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------+
+| `legend =`     | Vị trí danh mục                                                                                                         | Một trong các lựa chọn "bottom", "top", "left", "right", hoặc "none" |
++----------------+-------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------+
+| `alpha =`      | Độ trong suốt của cột                                                                                                   | 1 là đục hoàn toàn, 0 là trong suốt hoàn toàn                        |
++----------------+-------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------+
+| `width =`      | Giá trị từ 0 đến 1 cho biết kích thước tương đối của các cột với khoảng thời gian của chúng                             | `width = .7`                                                         |
++----------------+-------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------+
+| `show_cases =` | Giá trị logic; nếu TRUE, mỗi trường hợp hiển thị như một hộp. Cách hiển thị này là tốt nhất trên các đợt bùng phát nhỏ. | `show_cases = TRUE`                                                  |
++----------------+-------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------+
 
-**Dưới đây là các argument `plot()` để sửa đổi trục ngày:**
+**Dưới đây là các đối số của hàm `plot()` để sửa đổi trục ngày tháng:**
 
 +------------------+--------------------------------------------------------------------------------------------------------------------------------+
-| Argument(s)      | Mô tả                                                                                                                          |
+| Đối số           | Mô tả                                                                                                                          |
 +==================+================================================================================================================================+
-| `centre_dates =` | TRUE/FALSE về việc hiển thị ngày tháng xuất hiện ở giữa các cột hay ở đầu các cột                                              |
+| `centre_dates =` | TRUE/FALSE tương đương với việc hiển thị ngày tháng xuất hiện ở dưới trung tâm các cột hay ở trên đỉnh các cột                 |
 +------------------+--------------------------------------------------------------------------------------------------------------------------------+
 | `date_format =`  | Điều chỉnh định dạng hiển thị ngày bằng cú pháp `strptime("%")`. Chỉ hoạt động nếu `centre_dates = FALSE` (chi tiết bên dưới). |
 +------------------+--------------------------------------------------------------------------------------------------------------------------------+
@@ -414,21 +412,21 @@ Một đường cong dịch bệnh được tạo ra bởi **incidence2** có th
 | `size =`         | Kích thước của văn bản tính bằng điểm                                                                                          |
 +------------------+--------------------------------------------------------------------------------------------------------------------------------+
 
-Lưu ý rằng argument `date_breaks =` chỉ hoạt động nếu `centre_dates = FALSE`. Cung cấp giá trị ký tự trong dấu ngoặc kép bằng cú pháp strptime như bên dưới, cũng như được trình bày chi tiết trong chương [Làm việc với ngày tháng]. Bạn có thể sử dụng `\n` để tạo "dòng mới".
+Lưu ý rằng đối số `date_breaks =` chỉ hoạt động nếu `centre_dates = FALSE`. Cung cấp giá trị ký tự trong dấu ngoặc kép bằng cú pháp strptime như bên dưới, như đã được trình bày chi tiết trong chương [Làm việc với ngày tháng]. Bạn có thể sử dụng `\n` để tạo "dòng mới".
 
 %d = Số ngày của tháng (5, 17, 28, ...)\
 %j = Số ngày của năm (ngày Julian 001-366)\
-%a = Thứ của tuần viết tắt (Mon, Tue, Wed, ...)\
-%A = Thứ của tuần viết đủ (Monday, Tuesday, ...)\
+%a = Ngày trong tuần viết tắt (Mon, Tue, Wed, ...)\
+%A = Ngày trong tuần viết đầy đủ (Monday, Tuesday, ...)\
 %w = Số thứ tự ngày của tuần (0-6, Chủ nhật là 0)\
 %u = Số thứ tự ngày của tuần (1-7, Thứ hai là 1)\
-%W = Số tuần (00-53, Thứ hai là ngày bắt đầu)\
-%U = Số tuần (01-53, Chủ nhật là ngày bắt đầu)\
-%m = Số tháng (Ví dụ 01, 02, 03, 04)\
+%W = Số thứ tự tuần (00-53, Thứ hai là ngày bắt đầu tuần mới)\
+%U = Số thứ tự tuần (01-53, Chủ nhật là ngày bắt đầu tuần mới)\
+%m = Số thứ tự tháng (Ví dụ 01, 02, 03, 04)\
 %b = Tháng viết tắt (Jan, Feb, ...)\
 %B = Tháng viết đầy đủ (January, February, ...)\
-%y = 2-ký tự năm (Ví dụ 89)\
-%Y = 4-ký tự năm (Ví dụ 1989)\
+%y = Năm viết dạng 2 ký tự (Ví dụ 89)\
+%Y = Năm viết dạng 2 ký tự (Ví dụ 1989)\
 %H = giờ (khung 24 giờ)\
 %M = phút\
 %S = giây\
@@ -437,21 +435,21 @@ Lưu ý rằng argument `date_breaks =` chỉ hoạt động nếu `centre_dates
 
 <!--<span style="color: darkgreen;">**_MẸO:_** Đối với ngắt mỗi khoảng "thứ n" (ví dụ: mỗi khoảng thứ 4), hãy sử dụng `n.breaks = nrow(i)/n` (trong đó "i" là tên chỉ số tỷ lệ mắc bệnh và "n" là một số). Nếu dữ liệu của bạn được nhóm lại, bạn sẽ cần nhân "n" với số nhóm duy nhất.</span>-->
 
-**Dưới đây là các arguments trong `plot()` để hiệu chỉnh các nhãn trong biểu đồ:**
+**Dưới đây là các đối số trong hàm `plot()` để hiệu chỉnh các nhãn trong biểu đồ:**
 
-+-------------+---------------------------------------------------------------------------------------------------------------------------------------+
-| Argument(s) | Mô tả                                                                                                                                 |
-+=============+=======================================================================================================================================+
-| `title =`   | Tiêu đề của biểu đồ                                                                                                                   |
-+-------------+---------------------------------------------------------------------------------------------------------------------------------------+
-| `xlab =`    | Tiêu đề của trục x                                                                                                                    |
-+-------------+---------------------------------------------------------------------------------------------------------------------------------------+
-| `ylab =`    | Tiêu đề của trục y                                                                                                                    |
-+-------------+---------------------------------------------------------------------------------------------------------------------------------------+
-| `size =`    | Kích thước của đoạn văn bản trên trục x tính bằng pts (sử dụng hàm `theme()` trong ggplot để điều chỉnh các thông số kích thước khác) |
-+-------------+---------------------------------------------------------------------------------------------------------------------------------------+
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| Đối số    | Mô tả                                                                                                                                        |
++===========+==============================================================================================================================================+
+| `title =` | Tiêu đề của biểu đồ                                                                                                                          |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| `xlab =`  | Tiêu đề của trục x                                                                                                                           |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| `ylab =`  | Tiêu đề của trục y                                                                                                                           |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| `size =`  | Kích thước của đoạn văn bản trên trục x tính bằng đơn vị pts (sử dụng hàm `theme()` trong ggplot để điều chỉnh các thông số kích thước khác) |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------+
 
-Một ví dụ sử dụng các argument ở trên:
+Một ví dụ sử dụng kết hợp các đối số ở trên:
 
 ```{r, warning=F, message=F}
 # filter the linelist
@@ -482,15 +480,15 @@ plot(
   )
 ```
 
-Để điều chỉnh thêm giao diện hiện thị của biểu đồ, hãy xem chương bên dưới về các sửa đổi với `ggplot()`.
+Để điều chỉnh thêm giao diện hiển thị của biểu đồ, hãy xem mục bên dưới về các hiệu chỉnh với hàm `ggplot()`.
 
 ### Hiệu chỉnh với ggplot2 {.unnumbered}
 
-Bạn có thể sửa đổi thêm biểu đồ **incidence2** bằng cách thêm các sửa đổi **ggplot2** với dấu `+` sau khi đóng hàm biểu diễn tỷ lệ mắc bệnh `plot()`, như được minh họa bên dưới.
+Bạn có thể hiệu chỉnh biểu đồ được tạo bởi **incidence2** bằng cách thêm các hiệu chỉnh **ggplot2** với dấu `+` sau khi đóng ngoặc hàm biểu diễn tỷ lệ mắc bệnh `plot()`, như được minh họa bên dưới.
 
-Dưới đây, kết thúc biểu đồ **incidence2** và sau đó các lệnh **ggplot2** được sử dụng để sửa đổi các trục, thêm chú thích và điều chỉnh phông chữ đậm và kích thước chữ.
+Dưới đây, biểu đồ **incidence2** kết thúc và ngay sau đó các lệnh **ggplot2** được sử dụng để sửa đổi các trục, thêm chú thích và điều chỉnh phông chữ đậm và kích thước chữ.
 
-Lưu ý rằng nếu bạn thêm `scale_x_date()`, hầu hết các định dạng ngày từ `plot()` sẽ bị ghi đè. Xem chương `ggplot()` đường cong dịch bệnh và chương [Các tips với ggplot] để có thêm lựa chọn.
+Lưu ý rằng nếu bạn thêm `scale_x_date()`, hầu hết các định dạng ngày từ `plot()` sẽ bị ghi đè. Xem mục đường cong dịch bệnh với `ggplot()` và chương [Các tips với ggplot] để có thêm lựa chọn.
 
 ```{r, warning=F, message=F}
 # filter the linelist
@@ -548,7 +546,7 @@ plot(
 
 #### Chỉ định bảng màu {.unnumbered}
 
-Cung cấp tên được định danh trước đó trong bảng màu vào argument `col_pal =` trong `plot()`. Package **incidence2** đi kèm với 2 bảng màu được xác định trước: "vibrant" và "muted". Trong "vibrant", có 6 màu đầu tiên là riêng biệt và trong "muted" có 9 màu đầu tiên là khác biệt. Sau những con số này, các màu là thêm/trung gian của các màu khác. Bạn có thể tìm thấy những bảng màu được xác định trước này tại [website này](https://personal.sron.nl/~pault/#sec:qualitative). Các bảng màu trừ màu xám, được dành riêng cho dữ liệu bị thiếu (sử dụng `na_color =` để thay đổi mặc định này).
+Cung cấp tên của bảng màu đã được định danh trước tới tham số `col_pal =` trong hàm `plot()`. Package **incidence2** đi kèm với 2 bảng màu được xác định trước: "vibrant" và "muted". Trong "vibrant", có 6 màu đầu tiên là riêng biệt và trong "muted" có 9 màu đầu tiên là khác biệt. Sau những con số này, các màu là sự thêm vào/trung gian của các màu khác. Bạn có thể tìm thấy những bảng màu được xác định trước này tại [website này](https://personal.sron.nl/~pault/#sec:qualitative). Các bảng màu loại trừ màu xám, do nó được dành riêng cho dữ liệu bị thiếu (sử dụng `na_color =` để thay đổi mặc định này).
 
 ```{r out.width = c('50%', '50%'), fig.show='hold', warning = F, message = F}
 # Create incidence object, with data grouped by age category  
@@ -597,7 +595,7 @@ plot(age_outbreak, fill = age_cat, title = "RColorBrewer palette")+
 
 #### Xác định thủ công {.unnumbered}
 
-Để chỉ định màu theo cách thủ công, hãy thêm hàm **ggplot2** `scale_fill_manual()` với hàm `plot()` bằng dấu `+` và cung cấp vectơ tên màu hoặc HEX code cho các giá trị argument `values =`. Số lượng màu được liệt kê phải bằng số nhóm. Hãy lưu ý, các giá trị bị thiếu có phải là một nhóm hay không - chúng có thể được chuyển đổi thành giá trị dạng ký tự như "Missing" trong quá trình chuẩn bị dữ liệu của bạn bằng hàm `fct_explicit_na()` như được giải thích trong chương [Factors].
+Để chỉ định màu theo cách thủ công, hãy thêm hàm `scale_fill_manual()` trong **ggplot2** sau hàm `plot()` bằng dấu `+` và cung cấp vectơ tên màu hoặc mã HEX tới đối số `values =`. Số lượng màu được liệt kê phải bằng số nhóm. Hãy lưu ý, các giá trị bị thiếu có phải là một nhóm hay không - chúng có thể được chuyển đổi thành giá trị dạng ký tự chẳng hạn như "Missing" trong quá trình chuẩn bị dữ liệu của bạn bằng hàm `fct_explicit_na()`, như đã được giải thích trong chương [Factors].
 
 ```{r out.width = c('50%', '50%'), fig.show='hold', warning=F, message=F}
 # manual colors
@@ -607,7 +605,7 @@ plot(age_outbreak, fill = age_cat, title = "Manually-specified colors")+
     name = "Age Category")      # Name for legend
 ```
 
-Như đã đề cập trong chương [Các tips với ggplot], bạn có thể tạo bảng màu của riêng mình bằng cách sử dụng `colorRampPalette()` trên một vectơ màu và chỉ định số màu bạn muốn đổi lại. Đây là một cách tốt để có thể tập hợp được nhiều màu trong bằng cách chỉ định một vài màu.
+Như đã đề cập trong chương [Các tips với ggplot], bạn có thể tạo bảng màu của riêng mình bằng cách sử dụng hàm `colorRampPalette()` trên một vectơ chứa tên các màu sắc và chỉ định số màu bạn muốn trả về. Đây là một cách tốt để có thể thu được nhiều màu trong một lần bằng cách chỉ định một vài màu.
 
 ```{r}
 my_cols <- c("darkgreen", "darkblue", "purple", "grey", "yellow", "orange")
@@ -615,9 +613,9 @@ my_palette <- colorRampPalette(my_cols)(12)  # expand the 6 colors above to 12 c
 my_palette
 ```
 
-### Điều chỉnh mức độ yêu cầu {.unnumbered}
+### Điều chỉnh thứ bậc {.unnumbered}
 
-Để điều chỉnh thứ tự xuất hiện của nhóm (trên biểu đồ và trong chú giải), cột nhóm cần phải là phân lớp phân loại. Xem chương [Factors] để biết thêm thông tin.
+Để điều chỉnh thứ tự xuất hiện của nhóm (trên biểu đồ và trong chú giải), cột phân nhóm cần phải là kiểu Factor. Xem chương [Factors] để biết thêm thông tin.
 
 Đầu tiên, chúng ta hãy quan sát một đường cong dịch bệnh hàng tuần theo bệnh viện với thứ tự mặc định:
 
@@ -636,17 +634,17 @@ hospital_outbreak <- incidence(
 plot(hospital_outbreak, fill = hospital, title = "ORIGINAL - hospital not a factor")
 ```
 
-Bây giờ, để điều chỉnh thứ tự sao cho "Missing" và "Other" ở trên cùng của đường cong dịch bệnh, chúng ta có thể làm như sau:
+Bây giờ, để điều chỉnh thứ tự sao cho nhóm phân loại "Missing" và "Other" ở trên cùng của đường cong dịch bệnh, chúng ta có thể làm như sau:
 
--   Gọi package **forcats**, để làm việc với cột định dạng phân loại\
+-   Gọi package **forcats**, để làm việc với cột định dạng factor\
 
 -   Điều chỉnh bộ dữ liệu - trong trường hợp này, chúng tôi sẽ xác định một bộ dữ liệu mới (`plot_data`) trong đó:
 
-    -   Cột `gender` được xác định như một biến phân loại thứ tự các cấp được thiết lập bằng `fct_relevel()` để "Other" và "Missing" đứng đầu tiên, vì vậy chúng xuất hiện ở đầu các cột\
+    -   Cột `gender` được xác định là một biến phân loại có thứ bậc được thiết lập bằng hàm `fct_relevel()` sao cho "Other" và "Missing" đứng đầu tiên, do đó chúng xuất hiện ở trên đầu các cột\
 
--   Tỷ lệ mắc bệnh được tạo và vẽ biểu đồ như trước đó\
+-   Incidence object được tạo và vẽ biểu đồ như trước đó\
 
--   Chúng ta điều chỉnh thêm với **ggplot2**
+-   Chúng ta thêm các điều chỉnh **ggplot2**
 
     -   `scale_fill_manual()` để gán màu theo cách thủ công sao cho "Missing" là màu xám và "Other" là màu be
 
@@ -688,7 +686,7 @@ plot(hospital_outbreak_mod, fill = hospital)+
 
 ### Đường lưới dọc {.unnumbered}
 
-Nếu bạn vẽ biểu đồ với các thiết lập mặc định của **incidence2**, bạn có thể nhận thấy rằng các đường lưới dọc xuất hiện ở mỗi nhãn ngày và một lần giữa mỗi nhãn ngày. Điều này có thể dẫn đến các đường lưới giao nhau với đỉnh của một số cột.
+Nếu bạn vẽ biểu đồ với các thiết lập mặc định của **incidence2**, bạn có thể nhận thấy rằng các đường lưới dọc xuất hiện ở từng nhãn ngày và giữa mỗi nhãn ngày. Điều này có thể dẫn đến các đường lưới giao nhau với đỉnh của một số cột.
 
 <!--[Lưu ý đoạn này không áp dụng với phiên bản 1.0.0 của incidence2]. Bạn có thể chỉ định khoảng thời gian cho các đường lưới bằng cách thêm lệnh **ggplot2**'s `scale_x_date()` vào biểu đồ **incidence2**. Trong đó, chỉ định khoảng thời gian cho `date_breaks = ` và `date_minor_breaks = ` (ví dụ: "tuần" hoặc "3 tuần" hoặc "tháng"). Lưu ý rằng việc sử dụng `scale_x_date()` sẽ làm sai bất kỳ định dạng nào của nhãn ngày trong `plot()`, vì vậy bạn sẽ cần chỉ định bất kỳ định dạng chuỗi nào cho `date_labels = ` như bên dưới.-->
 
@@ -718,11 +716,11 @@ plot(a, title = "No lines")+
   theme_classic()                 # remove all gridlines
 ```
 
-Tuy nhiên, lưu ý rằng nếu sử dụng tuần, các arguments `date_breaks` và `date_minor_breaks` chỉ hoạt động cho các tuần bắt đầu vào *thứ Hai*. Nếu các tuần của bạn diễn ra vào một ngày khác trong tuần, thay vào đó, bạn sẽ cần cung cấp vectơ ngày cho các arguments `breaks =` và `minor_breaks =` theo cách thủ công. Xem chương **ggplot2** để biết các ví dụ về điều này bằng cách sử dụng `seq.Date()`.
+Tuy nhiên, lưu ý rằng nếu sử dụng tuần, các đối số `date_breaks` và `date_minor_breaks` chỉ hoạt động cho các tuần được quy định bắt đầu vào *Thứ Hai*. Nếu các tuần của bạn bắt đầu vào một ngày khác trong tuần, thay vào đó, bạn sẽ cần cung cấp vectơ ngày cho các đối số `breaks =` và `minor_breaks =` theo cách thủ công. Xem mục **ggplot2** để biết các ví dụ về điều này bằng cách sử dụng hàm `seq.Date()`.
 
-### Tỷ lệ tích lũy {.unnumbered}
+### Số mới mắc tích lũy {.unnumbered}
 
-Bạn có thể dễ dàng tạo ra một biểu đồ của tỷ lệ tích lũy bằng cách chuyển tỷ lệ này đến lệnh **incidence2** `cumulate()` và sau đó đến `plot()`. Điều này cũng tương tự với `facet_plot()`.
+Bạn có thể dễ dàng tạo ra một biểu đồ số mới mắc tích lũy bằng cách chuyển incidence object đến lệnh **incidence2** `cumulate()` và sau đó đến lệnh `plot()`. Điều này cũng tương tự với lệnh `facet_plot()`.
 
 ```{r}
 # make weekly incidence object
@@ -738,11 +736,11 @@ wkly_inci %>%
   plot()
 ```
 
-Xem chương sau để biết phương pháp thay thế để vẽ biểu đồ tỷ lệ tích lũy với **ggplot2** - ví dụ: để chồng một đường tỷ lệ tích lũy lên trên đường cong dịch bệnh.
+Xem phần sau để biết phương pháp thay thế để vẽ biểu đồ số mới mắc tích lũy với **ggplot2** - ví dụ: để chồng một đường số mới mắc tích lũy lên trên đường cong dịch bệnh.
 
 ### Trung bình động {.unnumbered}
 
-Bạn có thể thêm trung bình động vào biểu đồ **incidence2** một cách dễ dàng bằng `add_rolling_average()` từ package **i2extras**. Chuyển incidence2 tới hàm này, rồi đến `plot()`. Đặt `before =` là số ngày trước đó bạn muốn đưa vào trung bình động (mặc định là 2). Nếu dữ liệu của bạn được nhóm lại, trung bình động sẽ được tính cho mỗi nhóm.
+Bạn có thể thêm đường trung bình động vào biểu đồ tạo bởi **incidence2** một cách dễ dàng với hàm `add_rolling_average()` từ package **i2extras**. Chuyển đối tượng incidence2 của bạn tới hàm này, và sau đó vẽ bằng hàm `plot()`. Thiết lập `before =` là số ngày trước đó bạn muốn đưa vào đường trung bình động (mặc định là 2). Nếu dữ liệu của bạn được nhóm lại, trung bình động sẽ được tính cho mỗi nhóm.
 
 ```{r, warning=F, message=F}
 rolling_avg <- incidence(                    # make incidence object
@@ -757,17 +755,17 @@ rolling_avg <- incidence(                    # make incidence object
 plot(rolling_avg, n.breaks = 3) # faceted automatically because rolling average on groups
 ```
 
-Để tìm hiểu cách áp dụng đường trung bình động một cách tổng quát hơn trên dữ liệu, hãy xem chương [Đường trung bình động].
+Để tìm hiểu cách áp dụng đường trung bình động một cách tổng quát hơn trên dữ liệu, hãy xem chương [Đường trung bình động](#moving-average).
 
 <!-- ======================================================= -->
 
 ## Đường cong dịch bệnh với ggplot2
 
-Sử dụng `ggplot()` để xây dựng đường cong dịch bệnh cho phép linh hoạt và tùy chỉnh hơn, nhưng đòi hỏi nhiều nỗ lực và hiểu biết hơn về sử dụng `ggplot()`.
+Sử dụng `ggplot()` để xây dựng đường cong dịch bệnh cho phép sự linh hoạt và tùy chỉnh nhiều hơn, nhưng đòi hỏi nhiều nỗ lực và hiểu biết hơn về sử dụng `ggplot()`.
 
-Không giống như sử dụng package **incidence2**, bạn phải kiểm soát *thủ công* việc tổng hợp các trường hợp theo thời gian (theo tuần, tháng, v.v.) *và* khoảng thời gian của các nhãn trên trục ngày. Điều này phải được quản lý rất thận trọng.
+Không giống như sử dụng package **incidence2**, bạn phải kiểm soát *thủ công* việc tổng hợp các trường hợp theo thời gian (theo tuần, tháng, v.v.) *và* khoảng thời gian của các nhãn trên trục ngày thág. Việc này phải được quản lý rất cẩn thận.
 
-Các ví dụ này sử dụng một tập con của bộ dữ liệu `linelist` - chỉ các trường hợp từ Bệnh viện Trung ương.
+Các ví dụ này sử dụng một tập con của bộ dữ liệu `linelist` - chỉ các trường hợp từ Central Hospital.
 
 ```{r, echo=F}
 # import the linelist into R
@@ -786,19 +784,19 @@ library(tidyverse)
 
 Để tạo ra một đường cong dịch bệnh với `ggplot()`, có ba yếu tố chính:
 
--   Biểu đồ, với các ca bệnh `linelist` được tổng hợp thành "thùng" được phân biệt bằng các điểm "ngắt" cụ thể\
--   Phạm vi các trục và nhãn\
+-   Một histogram, với các ca bệnh `linelist` được tổng hợp thành các "bins" được phân biệt bằng các điểm "ngắt" cụ thể\
+-   Cân chỉnh các trục và nhãn\
 -   Chủ đề của biểu đồ, bao gồm tiêu đề, nhãn, chú thích, v.v.
 
-### Xác định số liệu với biểu đồ "cột" {.unnumbered}
+### Xác định bins của số liệu {.unnumbered}
 
-Ở đây chúng ta trình bày cách xa định cách các ca bệnh sẽ được tổng hợp vào các biểu đồ dạng thùng ("cột"). Điều quan trọng cần nhận ra là việc tổng hợp số ca bệnh vào biểu đồ cột không nhất thiết phải cùng khoảng thời gian với ngày sẽ xuất hiện trên trục x.
+Ở đây chúng ta trình bày cách xác định các ca bệnh sẽ được tổng hợp thành các bins của một histogram ("cột"). Điều quan trọng cần nhận ra là việc tổng hợp số ca bệnh thành các bins của một histogram không nhất thiết phải có cùng khoảng với thời gian xuất hiện trên trục x.
 
 Dưới đây có lẽ là đoạn code đơn giản nhất để tạo ra các đường cong dịch bệnh hàng ngày và hàng tuần.
 
-Trong lệnh tổng quát `ggplot()`, bộ dữ liệu được đưa vào `data =`. Trên nền tảng này, dạng hình học của biểu đồ được thêm dấu `+`. Trong `geom_histogram()`, chúng tôi ánh xạ tính trục sao cho cột `date_onset` được ánh xạ tới trục x. Cũng trong `geom_histogram()` nhưng *không* phải trong `aes()`, chúng tôi đặt `binwidth =` trong các biểu đồ cột, tính bằng ngày. Nếu cú pháp **ggplot2** này khó hiểu, hãy xem lại chương về [ggplot cơ bản].
+Trong lệnh `ggplot()` tổng quát, bộ dữ liệu được đưa vào `data =`. Trên nền tảng này, dạng hình học của histogram được thêm bằng một dấu `+`. Trong `geom_histogram()`, chúng ta ánh xạ các yếu tố thẩm mỹ sao cho cột `date_onset` được ánh xạ tới trục x. Cũng trong hàm `geom_histogram()` nhưng *không* phải trong đối số `aes()`, chúng ta đặt `binwidth =` bằng số bins của histogram, tính bằng ngày. Nếu cú pháp **ggplot2** này khó hiểu, hãy xem lại chương [ggplot cơ bản].
 
-[***LƯU Ý***: Lập biểu đồ các trường hợp hàng tuần bằng cách sử dụng `binwidth = 7` bắt đầu cột 7 ngày đầu tiên ở ca bệnh đầu tiên, có thể là bất kỳ ngày nào trong tuần! Để tạo các tuần cụ thể, hãy xem phần bên dưới.]{style="color: orange;"}
+[***THẬN TRỌNG***: Lập biểu đồ các trường hợp hàng tuần bằng cách sử dụng `binwidth = 7` bắt đầu cột 7 ngày đầu tiên ở ca bệnh đầu tiên, mà có thể là bất kỳ ngày nào trong tuần! Để tạo các tuần cụ thể, hãy xem phần bên dưới.]{style="color: orange;"}
 
 ```{r ggplot_simple,  out.width = c('50%', '50%'), fig.show='hold', warning= F, message = F}
 # daily 
@@ -816,7 +814,7 @@ ggplot(data = central_data) +          # set data
   labs(title = "Central Hospital - 7-day bins, starting at first case") # title
 ```
 
-Chúng tôi xin lưu ý rằng ca bệnh đầu tiên trong bộ dữ liệu của Bệnh viện Trung ương có triệu chứng khởi phát trên:
+Chúng tôi xin lưu ý rằng ca bệnh đầu tiên trong bộ dữ liệu của Central Hospital có triệu chứng khởi phát vào ngày:
 
 ```{r}
 format(min(central_data$date_onset, na.rm=T), "%A %d %b, %Y")
@@ -824,7 +822,7 @@ format(min(central_data$date_onset, na.rm=T), "%A %d %b, %Y")
 
 **Để chỉ định thủ công chia biểu đồ cột, *không* sử dụng argument `binwidth =` và thay vào đó cung cấp vectơ ngày để `breaks =`.**
 
-Tạo vectơ ngày tháng với hàm **base** R `seq.Date()`. Hàm này sử dụng các argument `to =`, `from =`, và `by =`. Ví dụ: lệnh bên dưới trả về ngày mỗi tháng bắt đầu từ ngày 15 tháng 1 và kết thúc trước ngày 28 tháng 6.
+Tạo vectơ ngày tháng với hàm `seq.Date()` trong **base** R. Hàm này sử dụng các đối số `to =`, `from =`, và `by =`. Ví dụ: lệnh bên dưới trả về ngày mỗi tháng bắt đầu từ ngày 15 Tháng 1 và kết thúc trước ngày 28 Tháng 6.
 
 ```{r}
 monthly_breaks <- seq.Date(from = as.Date("2014-02-01"),
@@ -834,7 +832,7 @@ monthly_breaks <- seq.Date(from = as.Date("2014-02-01"),
 monthly_breaks   # print
 ```
 
-Vectơ này có thể sử dụng trong `geom_histogram()` như `breaks =`:
+Vectơ này có được cung cấp cho hàm `geom_histogram()` dưới dạng `breaks =`:
 
 ```{r, warning=F, message=F}
 # monthly 
@@ -865,12 +863,12 @@ weekly_breaks_central <- seq.Date(
 
 Hãy giải mã đoạn code khá "khoai" ở trên:
 
--   Giá trị "from" (ngày sớm nhất của chuỗi) được tạo như sau: giá trị ngày nhỏ nhất (`min()` với `na.rm=TRUE`) trong cột `date_onset` được đưa vào `floor_date()` từ package **lubridate**. `floor_date()` được đặt thành "tuần" trả về ngày bắt đầu của "tuần" của trường hợp đó, với điều kiện là ngày bắt đầu của mỗi tuần là Thứ Hai (`week_start = 1`).\
+-   Giá trị "from" (ngày sớm nhất của chuỗi) được tạo như sau: giá trị ngày nhỏ nhất (`min()` với `na.rm=TRUE`) trong cột `date_onset` được đưa vào hàm `floor_date()` thuộc package **lubridate**. `floor_date()` được đặt thành "tuần" trả về ngày bắt đầu của "tuần" của trường hợp đó, với điều kiện là ngày bắt đầu của mỗi tuần là Thứ Hai (`week_start = 1`).\
 -   Tương tự như vậy, giá trị "to" (ngày kết thúc của chuỗi) được tạo bằng cách sử dụng hàm ngược lại `ceiling_date()` để trả về thứ hai *sau* ca cuối cùng.\
--   Argument "by" của `seq.Date()` có thể được đặt thành bất kỳ số ngày, tuần hoặc tháng nào.\
+-   Đối số "by" của `seq.Date()` có thể được đặt thành bất kỳ số ngày, tuần hoặc tháng nào.\
 -   Sử dụng `week_start = 7` cho tuần bắt đầu vào Chủ nhật
 
-Vì chúng ta sẽ sử dụng các vectơ ngày dạng này trong toàn bộ chương này, chúng ta cũng xác định một vectơ cho toàn bộ đợt bùng phát (ở trên chỉ dành cho Bệnh viện Trung ương).
+Vì chúng ta sẽ sử dụng các vectơ ngày dạng này trong toàn bộ chương này, chúng ta cũng xác định một vectơ cho toàn bộ đợt bùng phát (ở trên chỉ dành cho Central Hospital).
 
 ```{r}
 # Sequence for the entire outbreak
@@ -880,18 +878,18 @@ weekly_breaks_all <- seq.Date(
   by   = "week")
 ```
 
-Các kết quả trả về của `seq.Date()` có thể được sử dụng để tạo đoạn ngắt trong biểu đồ, nhưng cũng có thể ngắt cho các nhãn ngày, có thể độc lập với các cột. Đọc thêm về nhãn ngày trong các chương sau.
+Các kết quả trả về của `seq.Date()` có thể được sử dụng để tạo các khoảng chia bins trong histogram, cũng như khoảng chia cho các nhãn ngày mà có thể độc lập với các bins. Đọc thêm về nhãn ngày trong các phần sau.
 
-[***MẸO***: Đối với lệnh `ggplot()` đơn giản hơn, hãy lưu các đoạn ngắt cột và ngắt nhãn ngày dưới dạng các vectơ đã đặt tên trước và gán tên này vào `breaks =`.]{style="color: darkgreen;"}
+[***MẸO***: Đối với lệnh `ggplot()` đơn giản hơn, hãy lưu các khoảng chia bins và khoảng chia nhãn ngày dưới dạng các vectơ đã đặt tên trước và gán tên này vào đối số `breaks =`.]{style="color: darkgreen;"}
 
 ### Ví dụ về đường cong dịch bệnh theo tuần {.unnumbered}
 
-**Dưới đây là code ví dụ chi tiết để tạo đường cong dịch bệnh hàng tuần cho các tuần bắt đầu vào Thứ Hai, với các cột căn chỉnh, nhãn ngày và đường lưới dọc**. Chương này dành cho người dùng cần code nhanh. Để hiểu sâu từng khía cạnh (chủ đề, nhãn ngày, v.v.), hãy tiếp tục xem các chương tiếp theo. Chú ý:
+**Dưới đây là code ví dụ chi tiết để tạo đường cong dịch bệnh hàng tuần cho các tuần bắt đầu vào Thứ Hai, với các cột, nhãn ngày và đường lưới dọc đã được căn chỉnh**. Phần này dành cho người dùng có nhu cầu code nhanh. Để hiểu sâu từng khía cạnh (chủ đề, nhãn ngày, v.v.), hãy tiếp tục xem các phần tiếp theo. Chú ý:
 
--   Các *đoạn chia biểu đồ* được xác định bằng `seq.Date()` như được giải thích ở trên để bắt đầu vào thứ Hai trước ca sớm nhất và kết thúc vào thứ Hai sau ca cuối cùng\
--   Khoảng *nhãn ngày* được xác định bởi `date_breaks =` trong `scale_x_date()`\
+-   Các *đoạn chia bins của histogram* được xác định bằng hàm `seq.Date()` như được giải thích ở trên để bắt đầu vào thứ Hai trước ca sớm nhất và kết thúc vào thứ Hai sau ca cuối cùng\
+-   Khoảng *nhãn ngày* được xác định bởi `date_breaks =` bên trong `scale_x_date()`\
 -   Khoảng đường lưới dọc nhỏ giữa các nhãn ngày được xác định bởi `date_minor_breaks =`\
--   `expand = c(0,0)` trong trực x và y loại bỏ không gian thừa trên mỗi cạnh của trục, điều này cũng đảm bảo các nhãn ngày bắt đầu từ cột đầu tiên.
+-   `expand = c(0,0)` trong trục x và y loại bỏ không gian thừa trên mỗi cạnh của trục, điều này cũng đảm bảo các nhãn ngày bắt đầu từ cột đầu tiên.
 
 ```{r, warning=F, message=F}
 # TOTAL MONDAY WEEK ALIGNMENT
@@ -951,10 +949,10 @@ ggplot(data = central_data) +
 
 Để vẽ được biểu đồ cho các tuần bắt đầu bằng Chủ nhật, cần có một số sửa đổi, vì `date_breaks = "weeks"` chỉ hoạt động cho các tuần bắt đầu bằng thứ Hai.
 
--   Các điểm ngắt của các *biểu đồ cột* phải được đặt thành Chủ nhật (`week_start = 7`)\
+-   Các điểm ngắt của các *histogram bins* phải được đặt thành Chủ nhật (`week_start = 7`)\
 -   Trong `scale_x_date()`, các đoạn ngắt ngày tương tự nên được gắn với `breaks =` và `minor_breaks =` để đảm bảo các nhãn ngày và đường lưới dọc căn chỉnh vào ngày Chủ nhật.
 
-Ví dụ: lệnh `scale_x_date()` cho các tuần bắt đầu vào Chủ nhật có thể hiển thị như sau:
+Ví dụ: lệnh `scale_x_date()` cho các tuần bắt đầu vào Chủ nhật có thể trông như sau:
 
 ```{r, eval=F}
 scale_x_date(
@@ -979,11 +977,11 @@ scale_x_date(
 
 ### Nhóm/tô màu theo giá trị {.unnumbered}
 
-Các cột biểu đồ có thể được tô màu theo nhóm và "xếp chồng lên nhau". Để chỉ định cột nhóm, hãy thực hiện các thay đổi sau. Xem trang [ggplot cơ bản] để biết thêm chi tiết.
+Các cột histogram có thể được tô màu theo nhóm và "xếp chồng lên nhau". Để chỉ định cột nhóm, hãy thực hiện các thay đổi sau. Xem chương [ggplot cơ bản] để biết thêm chi tiết.
 
--   Trong hàm ánh xạ trục của biểu đồ `aes()`, ánh xạ tên cột với argument `group =` và `fill =`\
--   Loại bỏ bất kỳ argument `fill =` nào bên ngoài `aes()`, vì nó sẽ ghi đè argument bên trong\
--   Argument *bên trong* `aes()` sẽ áp dụng *theo nhóm*, trong khi bất kỳ argument bên ngoài nào đều áp dụng cho tất cả các cột (ví dụ: bạn có thể vẫn muốn `color =` bên ngoài, vì vậy mỗi cột có cùng một đường viền)
+-   Bên trong đối số `aes()` của hàm vẽ histogram, ánh xạ tên cột tới đối số `group =` và `fill =`\
+-   Loại bỏ bất kỳ tham số `fill =` nào bên ngoài đối số `aes()`, vì nó sẽ ghi đè giá trị bên trong\
+-   Đối số *bên trong* `aes()` sẽ áp dụng *theo nhóm*, trong khi bất kỳ đối số *bên ngoài* nào đều sẽ áp dụng cho tất cả các cột (ví dụ: bạn có thể vẫn muốn tô màu `color =` bên ngoài, vì vậy mỗi cột có cùng một đường viền)
 
 Đây là lệnh `aes()` hiển thị nhóm và tô màu các cột theo giới tính:
 
@@ -1012,11 +1010,11 @@ ggplot(data = linelist) +     # begin with linelist (many hospitals)
 
 ### Hiệu chỉnh màu {.unnumbered}
 
--   Để thiết lập *thủ công* màu cho từng nhóm, hãy sử dụng `scale_fill_manual()` (lưu ý: `scale_fill_manual()` là khác nhau!)
+-   Để thiết lập *thủ công* tô màu cho từng nhóm, hãy sử dụng `scale_fill_manual()` (lưu ý: `scale_color_manual()` là một cái khác!)
 
-    -   Sử dụng argument `values =` để áp dụng một vectơ màu\
+    -   Sử dụng đối số `values =` để áp dụng một vectơ màu\
     -   Sử dụng `na.value =` để xác định màu cho giá trị `NA`\
-    -   Sử dụng argument `labels =` để thay đổi ký tự văn bản trong mục chú thích. Để cho an toàn, sử dụng như một vectơ tên như `c("old" = "new", "old" = "new")` hoặc điều chỉnh giá trị trong bộ dữ liệu\
+    -   Sử dụng đối số `labels =` để thay đổi văn bản trong mục chú thích. Để cho an toàn, sử dụng một vectơ được đặt tên kiểu như `c("old" = "new", "old" = "new")` hoặc điều chỉnh giá trị trong bộ dữ liệu\
     -   Sử dụng `name =` để đặt một tiêu đề thích hợp cho mục chú thích\
 
 -   Để biết thêm mẹo về thang màu và bảng màu, hãy xem chương [ggplot cơ bản].
@@ -1043,11 +1041,11 @@ ggplot(data = linelist)+           # begin with linelist (many hospitals)
     name = "Hospital") # specify fill colors ("values") - attention to order!
 ```
 
-### Hiệu chỉnh thứ tự cấp độ {.unnumbered}
+### Hiệu chỉnh thứ bậc {.unnumbered}
 
-Thứ tự mà các cột được nhóm xếp chồng lên nhau được điều chỉnh tốt nhất bằng cách phân loại cột nhóm dưới phân lớp phân loại. Sau đó, bạn có thể chỉ định thứ tự cấp độ phân loại (và nhãn hiển thị của chúng). Xem chương về [Factors] hoặc [Các tips với ggplot] để biết thêm chi tiết.
+Thứ tự mà các cột được nhóm xếp chồng lên nhau được điều chỉnh tốt nhất bằng cách phân loại cột nhóm dưới dạng Factor. Sau đó, bạn có thể chỉ định thứ tự cấp độ phân loại (và nhãn hiển thị của chúng). Xem chương về [Factors] hoặc [Các tips với ggplot] để biết thêm chi tiết.
 
-Trước khi tạo biểu đồ, hãy sử dụng hàm `fct_relevel()` từ package **forcats** để chuyển đổi cột nhóm thành phân lớp phân loại và điều chỉnh thứ tự cấp độ theo cách thủ công, như được trình bày chi tiết trong chương về [Factors].
+Trước khi tạo biểu đồ, hãy sử dụng hàm `fct_relevel()` từ package **forcats** để chuyển đổi cột phân nhóm thành kiểu Factor và điều chỉnh thứ tự cấp độ theo cách thủ công, như được trình bày chi tiết trong chương về [Factors].
 
 ```{r}
 # load forcats package for working with factors
@@ -1112,13 +1110,13 @@ ggplot(plot_data) +                     # Use NEW dataset with hospital as re-or
 
 ### Hiệu chỉnh chú thích {.unnumbered}
 
-Đọc thêm về chú thích và thang đo trong chương [Các tips với ggplot]. Dưới đây là một vài điểm nổi bật:
+Đọc thêm về chú thích và scale trong chương [Các tips với ggplot]. Dưới đây là một vài điểm nổi bật:
 
--   Chỉnh sửa tiêu đề chú thích trong hàm tỷ lệ hoặc với `labs(fill = "Legend title")` (nếu bạn đang sử dụng `color =`, thì hãy sử dụng `labs(color = "")`)\
+-   Chỉnh sửa tiêu đề chú thích trong hàm scale hoặc với `labs(fill = "Legend title")` (nếu bạn đang sử dụng `color =`, thì hãy sử dụng `labs(color = "")`)\
 
 -   `theme(legend.title = element_blank())` để bỏ trống tiêu đề chú thích\
 
--   `theme(legend.position = "top")` ("dưới", "trái", "phải", hoặc "không" để bỏ chú thích)
+-   `theme(legend.position = "top")` ("bottom", "left", "right", hoặc "none" để bỏ chú thích)
 
 -   `theme(legend.direction = "horizontal")` xoay ngang chú thích
 
@@ -1128,7 +1126,7 @@ ggplot(plot_data) +                     # Use NEW dataset with hospital as re-or
 
 Hiển thị song song các cột nhóm (trái ngược với xếp chồng lên nhau) được chỉ định trong `geom_histogram()` với `position = "dodge"` được đặt bên ngoài `aes()`.
 
-Nếu có nhiều hơn hai nhóm giá trị, có thể gây khó đọc. Thay vào đó, hãy cân nhắc sử dụng một biểu đồ nhiều mặt (hệ số nhân nhỏ). Để dễ xem trong ví dụ này, các giá trị giới tính bị thiếu sẽ bị xóa.
+Nếu có nhiều hơn hai nhóm giá trị, nó có thể gây khó đọc. Thay vào đó, hãy cân nhắc sử dụng một biểu đồ được chia nhỏ (gồm nhiều biểu đồ nhỏ). Để dễ xem trong ví dụ này, các giá trị giới tính bị thiếu sẽ bị xóa.
 
 ```{r, warning=F, message=F}
 ggplot(central_data %>% drop_na(gender))+   # begin with Central Hospital cases dropping missing gender
@@ -1178,7 +1176,7 @@ Có hai cách để giới hạn phạm vi các giá trị trên trục.
 
 Nói chung, cách khuyến khích sử dụng là lệnh `coord_cartesian()`, chấp nhận `xlim = c(min, max)` và `ylim = c(min, max)` (trong đó bạn cung cấp giá trị nhỏ nhất và lớn nhất). Cách này hoạt động như một "thu phóng kích thước" mà không thực sự loại bỏ bất kỳ dữ liệu nào, điều này rất quan trọng đối với các số liệu thống kê và các thang đo tổng hợp.
 
-Ngoài ra, bạn có thể thiết lập giá trị ngày tối đa và tối thiểu bằng cách sử dụng `limits = c()` trong `scale_x_date()`. Ví dụ:
+Ngoài ra, bạn có thể thiết lập giá trị ngày tối đa và tối thiểu bằng cách sử dụng `limits = c()` bên trong hàm `scale_x_date()`. Ví dụ:
 
 ```{r eval=F}
 scale_x_date(limits = c(as.Date("2014-04-01"), NA)) # sets a minimum date but leaves the maximum open.  
@@ -1192,32 +1190,32 @@ scale_x_date(limits = c(NA, Sys.Date()) # ensures date axis will extend until cu
 
 [***LƯU Ý***: Hãy thận trọng khi đặt giới hạn hoặc chia tỷ lệ trục y (ví dụ: 0 đến 30 với khoảng là 5: `seq(0, 30, 5)`). Những con số tĩnh như vậy có thể cắt bớt biểu đồ quá ngắn nếu dữ liệu thay đổi vượt quá giới hạn!.]{style="color: red;"}
 
-### Nhãn trục/đường lưới của ngày {.unnumbered}
+### Nhãn/đường lưới của trục ngày {.unnumbered}
 
 [***MẸO***: Hãy nhớ rằng các **nhãn** trục ngày độc lập với việc tổng hợp dữ liệu thành các cột, nhưng về mặt trực quan, điều quan trọng là phải căn chỉnh các cột, nhãn ngày và các đường lưới dọc.]{style="color: darkgreen;"}
 
 Để **sửa đổi nhãn ngày và đường lưới**, hãy sử dụng `scale_x_date()` theo một trong những cách sau:
 
--   **Nếu cột biểu đồ là ngày, tuần bắt đầu vào thứ hai, tháng hoặc năm:**
+-   **Nếu histogram bins là ngày, tuần bắt đầu vào thứ hai, tháng hoặc năm:**
 
-    -   Sử dụng `date_breaks =` để xác định khoảng thời gian của các nhãn và đường lưới chính (ví dụ: "ngày", "tuần", "3 tuần", "tháng" hoặc "năm")
+    -   Sử dụng `date_breaks =` để xác định khoảng thời gian của các nhãn và đường lưới chính (ví dụ: "day", "week", "3 weeks", "month" hoặc "year")
     -   Sử dụng `date_minor_breaks =` để xác định khoảng của các đường lưới dọc nhỏ (giữa các nhãn ngày)\
     -   Thêm `expand = c(0,0)` để bắt đầu các nhãn ở cột đầu tiên\
     -   Sử dụng `date_labels =` để xác định định dạng của nhãn ngày - hãy xem chương Ngày để biết các mẹo (sử dụng `\n` cho một dòng mới)\
 
--   **Nếu cột biểu đồ là các tuần bắt đầu vào Chủ nhật:**
+-   **Nếu histogram bins là các tuần bắt đầu vào Chủ nhật:**
 
     -   Sử dụng `breaks =` và `minor_breaks =` bằng cách cung cấp một chuỗi ngày cho mỗi khoảng chia
     -   Vẫn có thể sử dụng `date_labels =` và `expand =` để định dạng như mô tả ở trên
 
 Một số ghi chú:
 
--   Xem phần đầu chương ggplot về hướng dẫn cách tạo chuỗi ngày bằng `seq.Date()`.\
--   Xem [chương này](https://rdrr.io/r/base/strptime.html) hoặc chương [Làm việc với ngày tháng] để biết thêm mẹo tạo nhãn ngày.
+-   Xem phần mở đầu của mục ggplot về hướng dẫn cách tạo chuỗi ngày bằng `seq.Date()`.\
+-   Xem [trang này](https://rdrr.io/r/base/strptime.html) hoặc chương [Làm việc với ngày tháng] để biết thêm mẹo tạo nhãn ngày.
 
-#### Minh chứng {.unnumbered}
+#### Minh họa {.unnumbered}
 
-Dưới đây là minh họa biểu đồ trong đó các cột và nhãn biểu đồ/đường lưới được căn chỉnh và không thẳng hàng:
+Dưới đây là minh họa biểu đồ trong đó các cột và nhãn biểu đồ/đường lưới được căn chỉnh thẳng hàng và không thẳng hàng:
 
 ```{r fig.show='hold', class.source = 'fold-hide', warning=F, message=F}
 # 7-day bins + Monday labels
@@ -1360,9 +1358,9 @@ ggplot(central_data) +
 
 ```
 
-### Tổng hợp dữ liệu {.unnumbered}
+### Dữ liệu tổng hợp {.unnumbered}
 
-Thông thường, thay vì bắt đầu với bộ số liệu `linelist`, bạn có thể bắt đầu với số lượng tổng hợp từ các cơ sở y tế, quận, huyện, v.v. Bạn có thể tạo đường cong dịch bệnh với `ggplot()` nhưng code sẽ hơi khác một chút. Chương này sẽ tận dụng bộ dữ liệu `count_data` đã được nạp trước đó, trong chương chuẩn bị dữ liệu. Bộ dữ liệu này là `linelist` được tổng hợp thành số lượng bệnh viện theo ngày. 50 hàng đầu tiên được hiển thị dưới đây.
+Thông thường, thay vì bắt đầu với bộ số liệu `linelist`, bạn có thể bắt đầu với số lượng tổng hợp từ các cơ sở y tế, quận, huyện, v.v. Bạn có thể tạo đường cong dịch bệnh với `ggplot()` nhưng code sẽ hơi khác một chút. Phần này sẽ tận dụng bộ dữ liệu `count_data` đã được nạp trước đó trong mục chuẩn bị dữ liệu. Bộ dữ liệu này là `linelist` được tổng hợp thành số lượng bệnh viện theo ngày. 50 hàng đầu tiên được hiển thị dưới đây.
 
 ```{r message=FALSE, warning=F, echo=F}
 # display the linelist data as a table
@@ -1371,13 +1369,13 @@ DT::datatable(head(count_data, 50), rownames = FALSE, filter="top", options = li
 
 #### Vẽ biểu đồ dữ liệu đếm hàng ngày {.unnumbered}
 
-Chúng tôi có thể vẽ biểu đồ đường cong dịch bệnh từ *dữ liệu đếm hàng ngày*. Dưới đây là sự khác biệt trong đoạn code:
+Chúng ta có thể vẽ biểu đồ đường cong dịch bệnh từ *dữ liệu đếm hàng ngày*. Dưới đây là sự khác biệt trong đoạn code:
 
--   Trong ánh xạ trục `aes()`, xác định `y =` làm cột đếm (trong trường hợp này, tên cột là `n_cases`)
+-   Khi ánh xạ các yếu tố trong hàm `aes()`, hãy cụ thể `y =` bằng một cột đếm (trong trường hợp này, tên cột là `n_cases`)
 
--   Thêm argument `stat = "identity"` trong `geom_histogram()`, xác định rằng chiều cao cột phải là giá trị `y =`, không phải số hàng như mặc định\
+-   Thêm đối số `stat = "identity"` trong `geom_histogram()`, giúp xác định rằng chiều cao cột phải là giá trị `y =`, không phải số hàng như mặc định\
 
--   Thêm argument `width =` để tránh các đường trắng dọc giữa các cột. Đối với dữ liệu hàng ngày được đặt thành 1. Đối với dữ liệu đếm hàng tuần được đặt thành 7. Đối với dữ liệu đếm hàng tháng, các đường màu trắng là một vấn đề (mỗi tháng có số ngày khác nhau) - hãy xem xét chuyển đổi trục x của bạn thành cột phân loại thứ tự (tháng) và sử dụng `geom_col()`.
+-   Thêm đối số `width =` để tránh các đường trắng dọc giữa các cột. Đối với dữ liệu hàng ngày được đặt thành 1. Đối với dữ liệu đếm hàng tuần được đặt thành 7. Đối với dữ liệu đếm hàng tháng, các đường màu trắng là một vấn đề (mỗi tháng có số ngày khác nhau) - hãy xem xét chuyển đổi trục x của bạn thành cột phân loại (factor) theo thứ tự (tháng) và sử dụng `geom_col()`.
 
 ```{r, message=FALSE, warning=F}
 ggplot(data = count_data)+
@@ -1403,14 +1401,14 @@ count_data_weekly <- count_data %>%
   summarize(n_cases_weekly = sum(n_cases, na.rm=T))   
 ```
 
-50 hàng đầu tiên của `count_data_weekly` được hiển thị bên dưới. Bạn có thể thấy rằng số lượng đếm đã được tổng hợp thành các tuần. Mỗi tuần được hiển thị theo ngày đầu tiên của tuần (mặc định là thứ Hai).
+50 hàng đầu tiên của `count_data_weekly` được hiển thị bên dưới. Bạn có thể thấy rằng số lượng đếm đã được tổng hợp thành các tuần. Mỗi tuần được hiển thị theo ngày đầu tiên của tuần (mặc định là Thứ Hai).
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(count_data_weekly, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Bây giờ vẽ biểu đồ sao cho `x =` cột epiweek. Hãy nhớ thêm `y =` cột đếm vào ánh xạ trục và thêm `stat = "identity"` như đã giải thích ở trên.
+Bây giờ vẽ biểu đồ sao cho `x =` cột epiweek. Hãy nhớ thêm `y =` cột đếm khi ánh xạ trục và thêm `stat = "identity"` như đã giải thích ở trên.
 
 ```{r, warning=F, message=F}
 ggplot(data = count_data_weekly)+
@@ -1441,15 +1439,15 @@ ggplot(data = count_data_weekly)+
     title = "Weekly case incidence, from aggregated count data by hospital")
 ```
 
-### Đường trung bình động {.unnumbered data-link="Moving averages"}
+### Đường trung bình động {.unnumbered}
 
-Xem chương về [Đường trung bình động] để có mô tả chi tiết và một số tùy chọn. Dưới đây là một tùy chọn để tính toán đường trung bình động với package **slider**. Theo cách tiếp cận này, *trung bình động được tính toán trong bộ dữ liệu trước khi vẽ biểu đồ*:
+Xem chương về [Đường trung bình động](#moving-average) để có mô tả chi tiết và một số tùy chọn. Dưới đây là một tùy chọn để tính toán đường trung bình động với package **slider**. Theo cách tiếp cận này, *trung bình động được tính toán trong bộ dữ liệu trước khi vẽ biểu đồ*:
 
-1)  Tổng hợp dữ liệu thành số lượng khi cần thiết (hàng ngày, hàng tuần, v.v.) (xem chương [Nhóm dữ liệu])\
-2)  Tạo một cột mới để giữ đường trung bình động, được tạo bằng `slide_index()` từ package **slider**\
-3)  Vẽ đường trung bình động dưới dạng `geom_line()` ở phía trên (sau) biểu đồ đường cong dịch bệnh
+1)  Tổng hợp dữ liệu thành số lượng nếu cần thiết (hàng ngày, hàng tuần, v.v.) (xem chương [Nhóm dữ liệu])\
+2)  Tạo một cột mới để giữ đường trung bình động, được tạo bằng hàm `slide_index()` từ package **slider**\
+3)  Vẽ đường trung bình động dưới dạng một `geom_line()` ở trên đỉnh (phía sau) histogram đường cong dịch bệnh
 
-Tham khảo thêm tại [vignette cho package **slider**](https://cran.r-project.org/web/packages/slider/vignettes/slider.html)
+Tham khảo thêm tại [vignette của package **slider**](https://cran.r-project.org/web/packages/slider/vignettes/slider.html)
 
 ```{r, warning=F, message=F}
 # load package
@@ -1507,23 +1505,23 @@ ggplot(data = ll_counts_7day) +  # begin with new dataset defined above
     theme(legend.title = element_blank())  # removes title of legend
 ```
 
-### Faceting/small-multiples {.unnumbered}
+### Faceting/chia nhỏ biểu đồ {.unnumbered}
 
-Như với các ggplots khác, bạn có thể tạo các biểu đồ được chia nhỏ ("small multiples"). Như đã giải thích trong chương [Các tips với ggplot] trong cuốn sách này, bạn có thể sử dụng `facet_wrap()` hoặc `facet_grid()`. Ở đây chúng tôi chứng minh với `facet_wrap()`. Đối với đường cong dịch bệnh, sử dụng `facet_wrap()` thường dễ dàng hơn vì có khả năng bạn chỉ cần chia nhỏ biểu đồ trong một cột.
+Như với các ggplots khác, bạn có thể tạo các biểu đồ được chia nhỏ ("nhiều biểu đồ con"). Như đã giải thích trong chương [Các tips với ggplot] trong cuốn sách này, bạn có thể sử dụng `facet_wrap()` hoặc `facet_grid()`. Ở đây chúng tôi sẽ minh họa bằng hàm `facet_wrap()`. Đối với đường cong dịch bệnh, sử dụng `facet_wrap()` thường dễ dàng hơn vì khả năng bạn thường chỉ cần chia nhỏ biểu đồ theo một biến.
 
-Cú pháp chung là `facet_wrap(rows ~ cols)`, trong đó bên trái dấu ngã (\~) là tên của một cột nằm trên các "hàng" của biểu đồ chia nhỏ và ở bên phải dấu ngã là tên của một cột nằm trên các "cột" của biểu đồ chia nhỏ. Đơn giản nhất, chỉ cần sử dụng một tên cột, ở bên phải dấu ngã: `facet_wrap(~age_cat)`.
+Cú pháp chung là `facet_wrap(rows ~ cols)`, trong đó bên trái dấu ngã (\~) là tên của biến sẽ được trải trên các "hàng" của biểu đồ chia nhỏ và ở bên phải dấu ngã là tên của biến sẽ được trải trên các "cột" của biểu đồ chia nhỏ. Đơn giản nhất, chỉ cần sử dụng một tên cột, ở bên phải dấu ngã: `facet_wrap(~age_cat)`.
 
 **Trục tự do**\
-Bạn sẽ cần phải quyết định xem tỷ lệ của các trục cho mỗi khía cạnh là "cố định" với cùng một kích thước (mặc định) hay "tự do" (nghĩa là chúng sẽ thay đổi dựa trên dữ liệu với từng khía cạnh). Thực hiện điều này với argument `scales =` trong `facet_wrap()` bằng cách chỉ định "free_x" hoặc "free_y" hoặc "free".
+Bạn sẽ cần phải quyết định xem tỷ lệ của các trục cho mỗi biểu đồ nhỏ là "cố định" với cùng một kích thước (mặc định) hay "tự do" (nghĩa là chúng sẽ thay đổi dựa trên dữ liệu của chúng). Thực hiện điều này với đối số `scales =` trong hàm `facet_wrap()` bằng cách chỉ định "free_x" hoặc "free_y" hoặc "free".
 
-**Số cột và hàng của biểu đồ con**\
-Điều này có thể xác định với `ncol =` và `nrow =` trong `facet_wrap()`.
+**Số cột và hàng của các biểu đồ con**\
+Điều này có thể xác định với `ncol =` và `nrow =` trong hàm `facet_wrap()`.
 
 **Thứ tự các biểu đồ con**\
 Để thay đổi thứ tự xuất hiện, hãy thay đổi thứ tự cơ bản của các cấp của cột phân loại được sử dụng để tạo các biểu đồ con.
 
 **Đinh dạng trục**\
-Kích thước phông chữ và mặt biểu đồ, dải màu, v.v. có thể được sửa đổi thông qua `theme()` với các argument như:
+Kích thước phông chữ và mặt biểu đồ, dải màu, v.v. có thể được sửa đổi thông qua `theme()` với các đối số như:
 
 -   `strip.text = element_text()` (kích thước, màu sắc, mặt, góc ...)
 
@@ -1532,9 +1530,9 @@ Kích thước phông chữ và mặt biểu đồ, dải màu, v.v. có thể �
 -   `strip.position =` (vị trị "dưới", "trên", "trái", hoặc "phải")
 
 **Dải nhãn**\
-Nhãn của các biểu đồ con có thể được sửa đổi thông qua "nhãn" của cột như một hệ số hoặc bằng cách sử dụng của "labeller".
+Nhãn của các biểu đồ con có thể được sửa đổi thông qua "nhãn" của cột như một factor hoặc bằng cách sử dụng một "người dán nhãn - labeller".
 
-Tạo labeller như thế này, sử dụng hàm `as_labeller()` từ **ggplot2**. Sau đó, cung cấp labeller cho argument `labeller =` của `facet_wrap()` như hình dưới đây.
+Để tạo một labeller như thế, sử dụng hàm `as_labeller()` từ **ggplot2**. Sau đó, cung cấp labeller cho đối số `labeller =` của `facet_wrap()` như dưới đây.
 
 ```{r, class.source = 'fold-show'}
 my_labels <- as_labeller(c(
@@ -1606,7 +1604,7 @@ Xem [link](https://ggplot2.tidyverse.org/reference/labellers.html) để biết 
 
 #### Tổng vụ dịch trong nền của biểu đồ con {.unnumbered}
 
-Để hiển thị tổng vụ dịch trong nền của mỗi biểu đồ con, hãy thêm hàm `gghighlight()` với dấu ngoặc đơn trống vào ggplot. Đây là từ package **gghighlight**. Lưu ý rằng trục y tối đa trong tất cả các biểu đồ con hiện dựa vào đỉnh của toàn bộ vụ dịch. Có nhiều ví dụ hơn về package này trong chương [Các tips với ggplot].
+Để hiển thị tổng vụ dịch trong nền của mỗi biểu đồ con, hãy thêm hàm `gghighlight()` với dấu ngoặc đơn trống vào ggplot. Hàm này thuộc package **gghighlight**. Lưu ý rằng trục y tối đa trong tất cả các biểu đồ con hiện dựa vào đỉnh của toàn bộ vụ dịch. Có nhiều ví dụ hơn về package này trong chương [Các tips với ggplot].
 
 ```{r, warning=F, message=F}
 ggplot(central_data) + 
@@ -1666,7 +1664,7 @@ ggplot(central_data) +
 
 Nếu bạn muốn có một hộp biểu đồ con chứa tất cả dữ liệu, hãy sao chép toàn bộ dữ liệu và coi các bản sao như một giá trị cho các biểu đồ con. Hàm "trợ giúp" `CreateAllFacet()` bên dưới có thể hỗ trợ việc này (nhờ bài đăng trên [blog](https://stackoverflow.com/questions/18933575/easily-add-an-all-facet-to-facet-wrap-in-ggplot2) này). Khi nó được chạy, số hàng tăng gấp đôi và sẽ có một cột mới được gọi là `facet`, trong đó các hàng được sao chép sẽ có giá trị "tất cả" và các hàng ban đầu có giá trị ban đầu của cột phân chia. Bây giờ bạn chỉ cần phân chia cột `facet` .
 
-Dưới đây là tính năng trợ giúp. Chạy nó và luôn có sẵn.
+Dưới đây là hàm trợ giúp. Chạy code này và nó sẽ luôn sẵn sàng để bạn sử dụng.
 
 ```{r}
 # Define helper function
@@ -1750,9 +1748,9 @@ ggplot(central_data2) +
        caption  = stringr::str_glue("n = {nrow(central_data)} from Central Hospital; Case onsets range from {format(min(central_data$date_onset, na.rm=T), format = '%a %d %b %Y')} to {format(max(central_data$date_onset, na.rm=T), format = '%a %d %b %Y')}\n{nrow(central_data %>% filter(is.na(date_onset)))} cases missing date of onset and not shown"))
 ```
 
-## Dữ liệu tạm thời
+## Dữ liệu dự kiến
 
-Dữ liệu gần đây nhất được biểu thị trong đường cong dịch tễ nên được đánh dấu là tạm thời hoặc có thể báo cáo chậm trễ. Điều này có thể được thực hiện bằng cách thêm một đường thẳng đứng và/hoặc hình chữ nhật trong một số ngày cụ thể. Đây là hai tùy chọn:
+Dữ liệu gần đây nhất được biểu thị trong đường cong dịch tễ nên được đánh dấu là dự kiến hoặc có thể báo cáo chậm trễ. Điều này có thể được thực hiện bằng cách thêm một đường thẳng đứng và/hoặc hình chữ nhật trong một số ngày cụ thể. Đây là hai tùy chọn:
 
 1)  Sử dụng `annotate()`:
 
@@ -1761,11 +1759,11 @@ Dữ liệu gần đây nhất được biểu thị trong đường cong dịch
 
 2)  Nhóm dữ liệu theo trạng thái tạm thời và tô màu các cột đó theo cách khác nhau
 
-[***LƯU Ý***: Bạn có thể thử `geom_rect()` để vẽ hình chữ nhật, nhưng việc điều chỉnh độ trong suốt không khả thi trong bối cảnh cảnh bộ số liệu `linelist`. Chức năng này sẽ phủ lên một hình chữ nhật cho mỗi hàng/quan sát!. Sử dụng hệ số alpha rất thấp (ví dụ: 0,01) hoặc một cách tiếp cận khác.]{style="color: orange;"}
+[***THẬN TRỌNG***: Bạn có thể thử hàm `geom_rect()` để vẽ hình chữ nhật, nhưng việc điều chỉnh độ trong suốt không khả thi trong bối cảnh cảnh bộ số liệu `linelist`. Hàm này sẽ phủ lên một hình chữ nhật cho mỗi hàng/quan sát!. Sử dụng hệ số alpha rất thấp (ví dụ: 0.01) hoặc một cách tiếp cận khác.]{style="color: orange;"}
 
 ### Sử dụng `annotate()` {.unnumbered}
 
--   Trong `annotate(geom = "rect")`, argument `xmin` và `xmax` cần được định dạng phân lớp ngày\
+-   Trong `annotate(geom = "rect")`, đối số `xmin` và `xmax` cần được định dạng phân lớp ngày\
 -   Lưu ý rằng vì những dữ liệu này được tổng hợp thành các cột hàng tuần và cột cuối cùng kéo dài đến Thứ Hai sau điểm dữ liệu cuối cùng, vùng được tô bóng có thể bao gồm 4 tuần\
 -   Đây là một [ví dụ trực tuyến](https://ggplot2.tidyverse.org/reference/annotate.html) về `annotate()`
 
@@ -1827,7 +1825,7 @@ ggplot(central_data) +
     angle = 90)
 ```
 
-Đường thẳng đứng màu đen có thể tạo ra với code bên dưới, nhưng sử dụng `geom_vline()`, bạn sẽ mất khả năng kiểm soát đường cao:
+Đường thẳng đứng màu đen có thể tạo ra với code bên dưới, nhưng sử dụng `geom_vline()`, bạn sẽ mất khả năng kiểm soát chiều cao:
 
 ```{r, eval=F}
 geom_vline(xintercept = max(central_data$date_onset, na.rm = T) - 21,
@@ -1877,10 +1875,10 @@ ggplot(plot_data, aes(x = date_onset, fill = tentative)) +
 
 Nếu bạn muốn phân nhiều cấp nhãn ngày (ví dụ: tháng và năm) mà *không sao chép các cấp nhãn cấp độ thấp hơn*, hãy xem xét một trong các cách tiếp cận bên dưới:
 
-Hãy nhớ rằng - bạn có thể sử dụng các công cụ như `\n` *trong* argument `date_labels` hoặc `labels` để đặt các phần của mỗi nhãn trên một dòng mới bên dưới. Tuy nhiên, đoạn code dưới đây giúp bạn thực hiện nhiều năm hoặc tháng (ví dụ) ở dòng thấp hơn *và chỉ một lần*. Một số lưu ý về code bên dưới:
+Hãy nhớ rằng - bạn có thể sử dụng các công cụ như `\n` *trong* các đối số `date_labels` hoặc `labels` để đặt các phần của mỗi nhãn trên một dòng mới bên dưới. Tuy nhiên, đoạn code dưới đây giúp bạn thực hiện nhiều năm hoặc tháng (ví dụ) ở dòng thấp hơn *và chỉ một lần*. Một số lưu ý về code bên dưới:
 
--   Số lượng ca bệnh được tổng hợp thành các tuần vì lý do định dạng. Xem chương Đường cong dịch tễ (tab dữ liệu tổng hợp) để biết chi tiết.\
--   Một `geom_area()` dòng được sử dụng thay vì biểu đồ, vì phương pháp tiếp cận nhiều mặt dưới đây không hoạt động tốt với biểu đồ.
+-   Số lượng ca bệnh được tổng hợp thành các tuần vì lý do thẩm mỹ. Xem chương Đường cong dịch bệnh (tab dữ liệu tổng hợp) để biết chi tiết.\
+-   Một miền `geom_area()` được sử dụng thay vì một histogram, vì phương pháp tiếp cận chia biểu đồ dưới đây không hoạt động tốt với histogram.
 
 **Tổng hợp dữ đếm hàng tuần**
 
@@ -1962,8 +1960,8 @@ Các kỹ thuật trên được điều chỉnh từ [đây](https://stackoverf
 Mặc dù có những cuộc thảo luận gay gắt về tính hợp lệ của trục kép trong cộng đồng về trực quan hóa dữ liệu, nhiều chuyên gia dịch tễ vẫn muốn nhìn nhận biểu đồ đường cong dịch bệnh hoặc biểu đồ tương tự với phần trăm trên trục thứ hai. Điều này được thảo luận nhiều hơn trong chương [Các tips với ggplot], nhưng một ví dụ sử dụng phương pháp **cowplot** được trình bày bên dưới:
 
 -   Hai biểu đồ riêng biệt được tạo, và sau đó được kết hợp với package **cowplot**.\
--   Các biểu đồ phải có cùng trục x chính xác (đã đặt giới hạn), nếu không dữ liệu và nhãn sẽ không được căn chỉnh phù hợp\
--   Sử dụng `theme_cowplot()` và một cái có trục y được di chuyển sang phía bên phải của biểu đồ
+-   Các biểu đồ phải có chính xác cùng trục x (đã đặt giới hạn), nếu không dữ liệu và nhãn sẽ không được căn chỉnh phù hợp\
+-   Mỗi biểu đồ sử dụng `theme_cowplot()` và một biểu đồ có trục y được di chuyển sang phía bên phải của biểu đồ
 
 ```{r, warning=F, message=F}
 #load package
@@ -2041,9 +2039,9 @@ aligned_plots <- cowplot::align_plots(plot_cases, plot_deaths, align="hv", axis=
 ggdraw(aligned_plots[[1]]) + draw_plot(aligned_plots[[2]])
 ```
 
-## Tỷ lệ tích lũy
+## Số mới mắc tích lũy
 
-Lưu ý: Nếu sử dụng **incidence2**, hãy xem chương về cách bạn có thể tính tỷ lệ tích lũy bằng một hàm đơn giản. Chương này sẽ đề cập đến cách tính tỷ lệ tích lũy và vẽ biểu đồ bằng `ggplot()`.
+Lưu ý: Nếu sử dụng **incidence2**, hãy xem chương về cách bạn có thể tính số mới mắc tích lũy bằng một hàm đơn giản. Chương này sẽ đề cập đến cách tính số mới mắc tích lũy và vẽ biểu đồ bằng `ggplot()`.
 
 Nếu bắt đầu bằng bộ số liệu `linelist`, hãy tạo một cột mới chứa số ca bệnh tích lũy mỗi ngày trong đợt bùng phát bằng cách sử dụng `cumsum()` từ **base** R:
 
@@ -2111,8 +2109,6 @@ plot_cumulative <- ggplot()+
     axis.title.x = element_blank(),
     axis.ticks = element_blank())
 ```
-
-Now use **cowplot** to overlay the two plots. Attention has been paid to the x-axis alignment, side of the y-axis, and use of `theme_cowplot()`.
 
 Bây giờ sử dụng **cowplot** để chồng lên hai biểu đồ. Sự chú ý đã được tập trung vào việc căn chỉnh trục x, cạnh của trục y và việc sử dụng `theme_cowplot()`.
 
