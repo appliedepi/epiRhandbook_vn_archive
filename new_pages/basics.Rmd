@@ -187,7 +187,7 @@ Phần mềm này thường được sử dụng để chụp "chụp ảnh màn
 
 Để RStudio hoạt động bạn cũng cần phải cài đặt R trên máy tính (xem hướng dẫn cài đặt ở bên trên).
 
-**RStudio** là một giao diện người dùng (GUI) giúp sử dụng **R** dễ dàng hơn. YBạn có thể coi R như một động cơ đang đảm đương công việc chính của một phương tiện và RStudio là phần thân của phương tiện (với ghế ngồi, các phụ kiện,...) giúp bạn sử dụng động cơ tiến về phía trước. Bạn có thể xem toàn bộ cheatsheet giao diện người dùng của RStudio (PDF) tại [đây](https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)
+**RStudio** là một giao diện người dùng (GUI) giúp sử dụng **R** dễ dàng hơn. Bạn có thể coi R như một động cơ đang đảm đương công việc chính của một phương tiện và RStudio là phần thân của phương tiện (với ghế ngồi, các phụ kiện,...) giúp bạn sử dụng động cơ tiến về phía trước. Bạn có thể xem toàn bộ cheatsheet giao diện người dùng của RStudio (PDF) tại [đây](https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)
 
 RStudio mặc định hiển thị bốn cửa sổ hình chữ nhật.
 
@@ -754,17 +754,17 @@ knitr::include_graphics(here::here("images", "working_directory_1.png"))
 ### Gợi ý cách tiếp cận {.unnumbered}
 
 **Xem thêm tại chương [Dự án R] để biết chi tiết về gợi ý các cách tiếp cận của chúng tôi trong việc quản lý thư mục làm việc của bạn.**\
-Một cách phổ biến, hiệu quả và không gặp sự cố khi quản lý thư mục làm việc và đường dẫn tệp là kết hợp 3 yếu tố này trong một quy trình làm việc với [Dự án R][R projects] có định hướng :
+Một cách phổ biến, hiệu quả và không gặp sự cố khi quản lý thư mục làm việc và đường dẫn tệp là kết hợp 3 yếu tố này trong một quy trình làm việc với [Dự án R] có định hướng :
 
-1)  Một dự án R để lưu trữ tất cả tệp của bạn (xem tại chương [Dự án R])\
-2)  Package **here** để định vị tệp (xem tại [Import and export])\
-3)  The **rio** package to import/export files (see page on [Nhập xuất dữ liệu])
+1)  Một dự án R để lưu trữ tất cả tệp của bạn (xem chương [Dự án R])\
+2)  Package **here** để định vị tệp (xem chương [Nhập xuất dữ liệu])\
+3)  Packge **rio** để nhập/xuất tệp (xem chương [Nhập xuất dữ liệu])
 
 <!-- ======================================================= -->
 
 ### Thiết lập bằng lệnh {.unnumbered}
 
-Cho tới gần đây, nhiều người học R đã được dạy để bắt đầu script của họ bằng lệnh `setwd()`. Hãy thay đổi thói quen đó bằng cách sử dụng [Dự án R][R projects] và đọc thêm tài liệu sau để hiểu [lý do không nên sử dụng `setwd()`](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/). Một cách ngắn gọn là, công việc của bạn chỉ thực hiện được trên máy tính của bạn, các đường dẫn tệp được sử dụng để nhập và xuất tệp trở nên "dễ lỗi" và điều này cản trở nghiêm trọng đến việc cộng tác và sử dụng code của bạn trên bất kỳ máy tính nào khác. Bạn có những lựa chọn khác dễ dàng hơn!
+Cho tới gần đây, nhiều người học R đã được dạy để bắt đầu script của họ bằng lệnh `setwd()`. Hãy thay đổi thói quen đó bằng cách sử dụng [Dự án R] và đọc thêm tài liệu sau để hiểu [lý do không nên sử dụng `setwd()`](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/). Một cách ngắn gọn là, công việc của bạn chỉ thực hiện được trên máy tính của bạn, các đường dẫn tệp được sử dụng để nhập và xuất tệp trở nên "dễ lỗi" và điều này cản trở nghiêm trọng đến việc cộng tác và sử dụng code của bạn trên bất kỳ máy tính nào khác. Bạn có những lựa chọn khác dễ dàng hơn!
 
 Như đã nói ở trên, mặc dù chúng tôi không khuyến nghị phương pháp này trong hầu hết các trường hợp, bạn vẫn có thể sử dụng lệnh `setwd()` với đường dẫn tệp thư mục mong muốn trong dấu ngoặc kép, ví dụ:
 
@@ -953,13 +953,13 @@ knitr::include_graphics(here::here("images", "R_data_structures.png"))
 
 Trong dịch tễ học (và đặc biệt là dịch tễ học thực địa), bạn sẽ *thường xuyên* phải tiếp xúc với data frames và vectors:
 
-+--------------------+--------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| Cấu trúc thường gặ | p \| Giái thích                                                                                  | \| Ví dụ                                                            |
-+====================+==================================================================================================+=====================================================================+
-| Vectors            | Một vùng chứa cho một chuỗi các đối tượng đơn lẻ, tất cả đều thuộc cùng một loại (e.g. số, chữ). | **"Biến" (Cột) trong dữ liệu là vectors** (ví dụ: cột `age_years`). |
-+--------------------+--------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
-| Data Frames        | Vectors (ví dụ: các cột) được liên kết với nhau mà tất cả đều có cùng số hàng. \| \`linel        | ist\` là một data frame.                                            |
-+--------------------+--------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
++---------------------+--------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
+| Cấu trúc thường gặp | Giái thích                                                                                       | Ví dụ                                                               |
++=====================+==================================================================================================+=====================================================================+
+| Vectors             | Một vùng chứa cho một chuỗi các đối tượng đơn lẻ, tất cả đều thuộc cùng một loại (e.g. số, chữ). | **"Biến" (Cột) trong dữ liệu là vectors** (ví dụ: cột `age_years`). |
++---------------------+--------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
+| Data Frames         | Vectors (ví dụ: các cột) được liên kết với nhau mà tất cả đều có cùng số hàng.                   | \`linelist\` là một data frame.                                     |
++---------------------+--------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
 
 Lưu ý rằng để tạo một vectơ "độc lập" (mà không phải là một phần của data frame), hàm `c()` được sử dụng để kết hợp các phần tử khác nhau. Ví dụ: nếu tạo một vectơ màu sắc thang màu của biểu đồ: `vector_of_colors <- c("blue", "red2", "orange", "grey")`
 
@@ -1436,9 +1436,7 @@ is.na(rdt_result)  # Tests whether the value of rdt_result is NA
 
 <!-- ======================================================= -->
 
-### Toán học và thống kê
-
-{.unnumbered}
+### Toán học và thống kê {.unnumbered}
 
 Tất cả các toán tử và hàm trong chương này đều có sẵn bằng cách sử dụng **base** R.
 
@@ -1619,7 +1617,7 @@ Tìm manh mối:
 
 -   Thông báo lỗi/cảnh báo thường sẽ bao gồm số dòng xảy ra sự cố.
 
--   Nếu một đối tượng “không xác định được (is unknown)” hoặc “không tìm thấy (not found)”, có lẽ bạn đã viết sai chính tả, quên gọi một package bằng hàm library(), hoặc quên chạy lại tập lệnh của bạn sau khi thực hiện các thay đổi.
+-   Nếu một đối tượng "không xác định được (is unknown)" hoặc "không tìm thấy (not found)", có lẽ bạn đã viết sai chính tả, quên gọi một package bằng hàm library(), hoặc quên chạy lại tập lệnh của bạn sau khi thực hiện các thay đổi.
 
 Nếu vẫn thất bại, hãy sao chép thông báo lỗi vào Google cùng với một số từ khóa chính - rất có thể ai đó cũng đã gặp lỗi này rồi!
 
@@ -1629,8 +1627,8 @@ Nếu vẫn thất bại, hãy sao chép thông báo lỗi vào Google cùng v�
 
 Một số điều cần nhớ khi viết lệnh trong R, để tránh lỗi và cảnh báo:
 
--   Luôn đóng dấu ngoặc đơn - mẹo: đếm số lần mở dấu ngoặc đơn “(” và đóng dấu ngoặc đơn “)” cho mỗi đoạn mã
--   Tránh để khoảng trắng trong tên cột và đối tượng. Thay vào đó, hãy sử dụng dấu gạch dưới (_) hoặc dấu chấm (.)
+-   Luôn đóng dấu ngoặc đơn - mẹo: đếm số lần mở dấu ngoặc đơn "(" và đóng dấu ngoặc đơn ")" cho mỗi đoạn mã
+-   Tránh để khoảng trắng trong tên cột và đối tượng. Thay vào đó, hãy sử dụng dấu gạch dưới (\_) hoặc dấu chấm (.)
 -   Theo dõi và nhớ tách các đối số của hàm bằng dấu phẩy
 -   R phân biệt chữ hoa và chữ thường, nghĩa là `Variable_A` *khác* với `variable_A`
 
