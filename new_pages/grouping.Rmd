@@ -1,39 +1,32 @@
-
-# Nhóm dữ liệu {#grouping}  
-
+# Nhóm dữ liệu {#grouping}
 
 ```{r, out.width=c('100%'), echo=F, message=F}
 knitr::include_graphics(here::here("images", "Grouping_1500x500.png"))
 ```
 
+Chương này trình bày cách nhóm và tổng hợp dữ liệu phục vụ phân tích mô tả. Sử dụng các package trong hệ sinh thái **tidyverse** với các hàm phổ biến và dễ sử dụng.
 
-This page covers how to group and aggregate data for descriptive analysis. It makes use of the **tidyverse** family of packages for common and easy-to-use functions. 
+Nhóm dữ liệu là một cấu phần cốt lõi trong quản lý và phân tích dữ liệu. Dữ liệu được nhóm tổng hợp thống kê theo nhóm và có thể được vẽ biểu đồ theo nhóm. Các hàm từ package **dplyr** (một phần của thư viện **tidyverse**) giúp việc nhóm dữ liệu và các thao tác tiếp theo trở nên dễ dàng hơn.
 
+Chương này sẽ giải quyết các chủ đề sau:
 
-Grouping data is a core component of data management and analysis. Grouped data statistically summarised by group, and can be plotted by group. Functions from the **dplyr** package (part of the **tidyverse**) make grouping and subsequent operations quite easy.  
-
-This page will address the following topics:  
-
-* Group data with the `group_by()` function  
-* Un-group data  
-* `summarise()` grouped data with statistics  
-* The difference between `count()` and `tally()`  
-* `arrange()` applied to grouped data  
-* `filter()` applied to grouped data  
-* `mutate()` applied to grouped data  
-* `select()` applied to grouped data  
-* The **base** R `aggregate()` command as an alternative  
-
-
-
+-   Nhóm dữ liệu với hàm `group_by()`\
+-   Gỡ nhóm dữ liệu\
+-   `summarise()` dữ liệu được nhóm với các thống kê \
+-   Sự khác biệt giữa hàm `count()` và `tally()`\
+-   Ứng dụng hàm `arrange()` với dữ liệu được nhóm\
+-   Ứng dụng hàm `filter()` với dữ liệu được nhóm\
+-   Ứng dụng hàm `mutate()` với dữ liệu được nhóm\
+-   Ứng dụng hàm `select()` đvới dữ liệu được nhóm\
+-   Hàm `aggregate()` trong **base** R như một lựa chọn thay thế 
 
 <!-- ======================================================= -->
-## Preparation {  }
-     
-### Load packages {.unnumbered}  
-     
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
 
+## Chuẩn bị
+
+### Gọi package {.unnumbered}
+
+Đoạn code này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn này, chúng ta nhấn mạnh đến hàm `p_load()` từ package **pacman**, sẽ cài đặt packahe nếu cần *và* gọi để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r}
 pacman::p_load(
@@ -43,12 +36,9 @@ pacman::p_load(
   janitor)   # adding total rows and columns
 ```
 
+### Nhập dữ liệu {.unnumbered}
 
-
-
-### Import data {.unnumbered}
-
-We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). The dataset is imported using the `import()` function from the **rio** package. See the page on [Import and export] for various ways to import data.
+Chúng ta nhập bộ dữ liệu về các trường hợp mô phỏng từ một vụ dịch Ebola. Nếu bạn muốn cùng thực hành, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm vào đây để tải bộ liệu `linelist` "sạch"</a> (tệp .rds). Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương [Nhập xuất dữ liệu] để biết các cách nhập dữ liệu khác nhau.
 
 ```{r, echo=F}
 linelist <- rio::import(here("data", "case_linelists", "linelist_cleaned.rds"))
@@ -58,44 +48,41 @@ linelist <- rio::import(here("data", "case_linelists", "linelist_cleaned.rds"))
 linelist <- import("linelist_cleaned.rds")
 ```
 
-
-The first 50 rows of `linelist`:  
+50 hàng đầu tiên của bộ số liệu `linelist`:
 
 ```{r message=FALSE, echo=F}
 DT::datatable(head(linelist,50), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
-
 <!-- ======================================================= -->
-## Grouping {  }
-     
-The function `group_by()` from **dplyr** groups the rows by the unique values in the column specified to it. If multiple columns are specified, rows are grouped by the unique combinations of values across the columns. Each unique value (or combination of values) constitutes a group. Subsequent changes to the dataset or calculations can then be performed within the context of each group.  
 
-For example, the command below takes the `linelist` and groups the rows by unique values in the column `outcome`, saving the output as a new data frame `ll_by_outcome`. The grouping column(s) are placed inside the parentheses of the function `group_by()`.  
+## Nhóm
+
+Hàm `group_by()` từ **dplyr** nhóm các hàng theo các giá trị duy nhất trong cột chỉ định. Nếu nhiều cột được chỉ định, các hàng được nhóm theo sự tổ hợp các giá trị thành giá trị duy nhất từ các cột. Mỗi giá trị duy nhất (hoặc tổ hợp các giá trị) tạo thành một nhóm. Những thay đổi sau đó đối với bộ dữ liệu hoặc các phép tính có thể thực hiện tùy theo đặc điểm của mỗi nhóm.
+
+Ví dụ: lệnh bên dưới truy vấn bộ số liệu `linelist` và nhóm các hàng theo giá trị duy nhất trong cột `outcome`, lưu kết quả đầu ra dưới dạng bộ dữ liệu mới có tên `ll_by_outcome`. (Các) cột được nhóm được đặt bên trong dấu ngoặc đơn của hàm `group_by()`.
 
 ```{r}
 ll_by_outcome <- linelist %>% 
   group_by(outcome)
 ```
 
-**Note that there is no perceptible change to the dataset** after running `group_by()`, *until* another **dplyr** verb such as `mutate()`, `summarise()`, or `arrange()` is applied on the "grouped" data frame.  
+**Lưu ý rằng không có thay đổi dễ nhận thấy nào đối với bộ dữ liệu** sau khi chạy lệnh `group_by()`, *cho đến khi* phối hợp thêm một số hàm từ **dplyr** khác như `mutate()`, `summarise()`, hoặc `arrange()` trong bộ dữ liệu "đã được nhóm".
 
-You can however "see" the groupings by printing the data frame. When you print a grouped data frame, you will see it has been transformed into a [`tibble` class object](https://tibble.tidyverse.org/) which, when printed, displays which groupings have been applied and how many groups there are - written just above the header row.  
+Tuy nhiên, bạn có thể "xem" các nhóm bằng cách in bộ dữ liệu. Khi bạn in một bộ dữ liệu được nhóm, bạn sẽ thấy nó đã được chuyển đổi thành một [đối tượng dạng `tibble`](https://tibble.tidyverse.org/), mà khi được in ra, sẽ hiển thị những nhóm nào đã được áp dụng và có bao nhiêu nhóm - được viết ngay phía trên hàng tiêu đề.
 
 ```{r}
 # print to see which groups are active
 ll_by_outcome
 ```
 
+### Nhóm duy nhất {.unnumbered}
 
-### Unique groups {.unnumbered}  
+**Các nhóm được tạo phản ánh từng tổ hợp giá trị duy nhất dọc theo các cột được sử dụng để nhóm.**
 
-**The groups created reflect each unique combination of values across the grouping columns.** 
+Để xem các nhóm *và số hàng trong mỗi nhóm*, hãy chuyển tiếp dữ liệu được nhóm đến hàm `tally()`. Nếu chỉ cần xem các nhóm duy nhất mà không cần số lượng, bạn có thể sử dụng hàm `group_keys()`.
 
-To see the groups *and the number of rows in each group*, pass the grouped data to `tally()`. To see just the unique groups without counts you can pass to `group_keys()`.  
-
-See below that there are **three** unique values in the grouping column `outcome`: "Death", "Recover", and `NA`. See that there were ` nrow(linelist %>% filter(outcome == "Death"))` deaths, ` nrow(linelist %>% filter(outcome == "Recover"))` recoveries, and ` nrow(linelist %>% filter(is.na(outcome)))` with no outcome recorded.
+Dưới đây là ba giá trị duy nhất trong cột được nhóm là `outcome`: "Death", "Recover", và `NA`. Ta thấy rằng đã có `nrow(linelist %>% filter(outcome == "Death"))` tử vong, `nrow(linelist %>% filter(outcome == "Recover"))` hồi phục, và `nrow(linelist %>% filter(is.na(outcome)))` không có outcome nào được ghi nhận.
 
 ```{r}
 linelist %>% 
@@ -103,8 +90,7 @@ linelist %>%
   tally()
 ```
 
-
-You can group by more than one column. Below, the data frame is grouped by `outcome` and `gender`, and then tallied. Note how each unique combination of `outcome` and `gender` is registered as its own group - including missing values for either column.   
+Bạn có thể nhóm nhiều hơn một cột. Dưới đây, bộ dữ liệu được nhóm theo `outcome` và `gender`, sau đó được đánh số. Lưu ý cách mỗi kết hợp duy nhất của `outcome` và `gender` được tổ hợp thành nhóm riêng - bao gồm cả các giá trị bị thiếu ở một trong hai cột.
 
 ```{r}
 linelist %>% 
@@ -112,9 +98,9 @@ linelist %>%
   tally()
 ```
 
-### New columns {.unnumbered} 
+### Cột mới {.unnumbered}
 
-You can also create a new grouping column *within* the `group_by()` statement. This is equivalent to calling `mutate()` before the `group_by()`. For a quick tabulation this style can be handy, but for more clarity in your code consider creating this column in its own `mutate()` step and then piping to `group_by()`.
+Bạn cũng có thể tạo một cột mới dùng để nhóm *trong* câu lệnh `group_by()`. Điều này tương đương với việc sử dụng hàm `mutate()` trước khi sử dụng hàm `group_by()`. Để tạo cột nhanh, cách này có thể hữu ích, nhưng để rõ ràng hơn trong code của bạn, hãy cân nhắc cách tạo cột này ở bước `mutate()` và sau đó chuyển tiếp đến hàm `group_by()`.
 
 ```{r}
 # group dat based on a binary column created *within* the group_by() command
@@ -124,11 +110,11 @@ linelist %>%
   tally(sort = T)
 ```
 
-### Add/drop grouping columns {.unnumbered}  
+### Thêm/bỏ cột được nhóm {.unnumbered}
 
-By default, if you run `group_by()` on data that are already grouped, the old groups will be removed and the new one(s) will apply. If you want to add new groups to the existing ones, include the argument `.add = TRUE`.  
+Mặc định, nếu bạn chạy lệnh `group_by()` trên dữ liệu đã được nhóm, các nhóm cũ sẽ bị xóa và (các) nhóm mới sẽ được áp dụng. Nếu bạn muốn thêm nhóm mới vào nhóm hiện có, hãy thêm argument `.add = TRUE`.
 
-````{r, eval=F}
+```{r, eval=F}
 # Grouped by outcome
 by_outcome <- linelist %>% 
   group_by(outcome)
@@ -138,15 +124,13 @@ by_outcome_gender <- by_outcome %>%
   group_by(gender, .add = TRUE)
 ```
 
+## Giữ tất cả các nhóm
 
-** Keep all groups**  
+Nếu bạn nhóm trên một cột dạng factor, có thể có các thức bậc của factor mà không có trong dữ liệu. Nếu bạn nhóm trên cột này, mặc định, những thứ bậc không có trong dữ liệu đó sẽ bị loại bỏ và không thuộc dạng nhóm. Để thay đổi điều này để tất cả các thứ bậc xuất hiện dưới dạng nhóm (ngay cả khi không có trong dữ liệu), đặt `.drop = FALSE` trong lệnh `group_by()`.
 
-If you group on a column of class factor there may be levels of the factor that are not currently present in the data. If you group on this column, by default those non-present levels are dropped and not included as groups. To change this so that all levels appear as groups (even if not present in the data), set `.drop = FALSE` in your `group_by()` command.  
+## Loại bỏ nhóm
 
-
-## Un-group  
-
-Data that have been grouped will remain grouped until specifically ungrouped via `ungroup()`. If you forget to ungroup, it can lead to incorrect calculations! Below is an example of removing all groupings:  
+Dữ liệu đã được nhóm sẽ vẫn được nhóm cho đến khi hủy nhóm bởi lệnh `ungroup()`. Nếu bạn quên hủy nhóm, nó có thể gây ra tính toán không chính xác! Dưới đây là ví dụ về việc loại bỏ tất cả các nhóm:
 
 ```{r, eval=F}
 linelist %>% 
@@ -155,7 +139,7 @@ linelist %>%
   ungroup()
 ```
 
-You can also remove grouping for only specific columns, by placing the column name inside `ungroup()`.  
+Bạn cũng có thể loại bỏ nhóm với các cột cụ thể, bằng cách đặt tên cột bên trong lệnh `ungroup()`.
 
 ```{r, eval=F}
 linelist %>% 
@@ -164,20 +148,17 @@ linelist %>%
   ungroup(gender) # remove the grouping by gender, leave grouping by outcome
 ```
 
+[***GHI CHÚ***: Hàm `count()` tự động hủy nhóm dữ liệu sau khi đếm.]{style="color: black;"}
 
-<span style="color: black;">**_NOTE:_** The verb `count()` automatically ungroups the data after counting.</span>
+## Tổng hợp {#group_summarise}
 
+Xem package **dplyr** trong chương [Bảng mô tả] để biết mô tả chi tiết về cách tạo bảng tổng hợp với hàm `summarise()`. Ở đây chúng ta giải quyết ngắn gọn cách hoạt động thay đổi khi áp dụng cho dữ liệu được nhóm.
 
+Hàm **dplyr** `summarise()` (hoặc `summarize()`) lấy một data frame và chuyển nó thành một data frame tổng hợp *mới*, với các cột chứa thông tin các giá trị thống kê do bạn xác định. Trên bộ dữ liệu chưa nhóm, các tổng hợp thống kê sẽ được tính toán từ tất cả các hàng. Việc áp dụng hàm `summarise()` vào dữ liệu được nhóm sẽ tổng hợp những giá trị thống kê cho từng nhóm.
 
-## Summarise {#group_summarise} 
+Cú pháp của hàm `summarise()` là bạn cung cấp tên của (các) cột tổng hợp mới, một dấu bằng và sau đó là một hàm thống kê để áp dụng cho dữ liệu, như được trình bày bên dưới. Ví dụ: `min()`, `max()`, `median()`, hoặc `sd()`. Trong hàm thống kê, hãy liệt kê cột sẽ được áp dụng và bất kỳ đối số nào có liên quan (ví dụ: `na.rm = TRUE`). Bạn có thể sử dụng hàm `sum()` để đếm số hàng đáp ứng tiêu chí logic (với dấu bằng kép `==`).
 
-See the **dplyr** section of the [Descriptive tables] page for a detailed description of how to produce summary tables with `summarise()`. Here we briefly address how its behavior changes when applied to grouped data.  
-
-The **dplyr** function `summarise()` (or `summarize()`) takes a data frame and converts it into a *new* summary data frame, with columns containing summary statistics that you define. On an ungrouped data frame, the summary statistics will be calculated from all rows. Applying `summarise()` to grouped data produces those summary statistics *for each group*.  
-
-The syntax of `summarise()` is such that you provide the name(s) of the **new** summary column(s), an equals sign, and then a statistical function to apply to the data, as shown below. For example, `min()`, `max()`, `median()`, or `sd()`. Within the statistical function, list the column to be operated on and any relevant argument (e.g. `na.rm = TRUE`). You can use `sum()` to count the number of rows that meet a logical criteria (with double equals `==`).   
-
-Below is an example of `summarise()` applied *without grouped data*. The statistics returned are produced from the entire dataset.     
+Dưới đây là một ví dụ về hàm `summarise()` được áp dụng mà *không có dữ liệu được nhóm*. Các giá trị thống kê trả về được tạo ra từ toàn bộ bộ dữ liệu.
 
 ```{r}
 # summary statistics on ungrouped linelist
@@ -190,7 +171,7 @@ linelist %>%
     n_males  = sum(gender == "m", na.rm=T))
 ```
 
-In contrast, below is the same `summarise()` statement applied to grouped data. The statistics are calculated for each `outcome` group. Note how grouping columns will carry over into the new data frame.    
+Ngược lại, bên dưới là câu lệnh `summarise()` tương tự được áp dụng cho dữ liệu được nhóm. Các số liệu thống kê được tính toán cho từng nhóm kết quả. Lưu ý cách các cột dùng để nhóm sẽ chuyển sang data frame mới.
 
 ```{r}
 # summary statistics on grouped linelist
@@ -204,24 +185,20 @@ linelist %>%
     n_males    = sum(gender == "m", na.rm=T))
 ```
 
-<span style="color: darkgreen;">**_TIP:_** The summarise function works with both UK and US spelling - `summarise()` and `summarize()` call the same function.</span>
+[***MẸO***: Hàm tổng hợp hoạt động với cả cách viết của kiểu Anh và Mỹ - `summarise()` và `summarize()` đều chỉ định cùng cùng một hàm.]{style="color: darkgreen;"}
 
+## Counts và tallies
 
+`count()` và `tally()` đều cung cấp tính năng tương tự nhưng thực chất là khác nhau. Đọc thêm về sự khác biệt giữa `tally()` và `count()` [tại đây](https://dplyr.tidyverse.org/reference/tally.html).
 
+### `tally()` {.unnumbered}
 
-## Counts and tallies  
-
-`count()` and `tally()` provide similar functionality but are different. Read more about the distinction between `tally()` and `count()` [here](https://dplyr.tidyverse.org/reference/tally.html)    
-
-### `tally()` {.unnumbered}  
-
-`tally()` is shorthand for `summarise(n = n())`, and *does not* group data. Thus, to achieve grouped tallys it must follow a `group_by()` command. You can add `sort = TRUE` to see the largest groups first.    
+`tally()` là viết tắt của `summarise(n = n())` và *không* nhóm dữ liệu. Do đó, để có thể kiểm đếm theo nhóm, nó phải theo sau lệnh `group_by()`. Bạn có thể thêm `sort = TRUE` để xem các nhóm lớn nhất trước tiên.
 
 ```{r}
 linelist %>% 
   tally()
 ```
-
 
 ```{r}
 linelist %>% 
@@ -229,29 +206,27 @@ linelist %>%
   tally(sort = TRUE)
 ```
 
+### `count()` {.unnumbered}
 
-### `count()`  {.unnumbered}  
+Ngược lại, hàm `count()` hoạt động như sau:
 
-In contrast, `count()` does the following:  
-
-1) applies `group_by()` on the specified column(s)  
-2) applies `summarise()` and returns column `n` with the number of rows per group  
-3) applies `ungroup()`  
+1)  Áp dụng `group_by()` trên (các) cột đã chỉ định\
+2)  Áp dụng `summarise()` và trả về cột `n` với số lượng dòng mỗi nhóm\
+3)  Áp dụng `ungroup()`
 
 ```{r}
 linelist %>% 
   count(outcome)
 ```
 
-Just like with `group_by()` you can create a new column within the `count()` command:  
+Cũng giống như với hàm `group_by()`, bạn có thể tạo một cột mới trong lệnh `count()`:
 
 ```{r}
 linelist %>% 
   count(age_class = ifelse(age >= 18, "adult", "child"), sort = T)
 ```
 
-
-`count()` can be called multiple times, with the functionality "rolling up". For example, to summarise the number of hospitals present for each gender, run the following. Note, the name of the final column is changed from default "n" for clarity (with `name  = `).  
+`count()` có thể được sử dụng nhiều lần, với tính năng "cuộn lên". Ví dụ: để tổng hợp số lượng bệnh viện hiện có cho mỗi giới tính, hãy chạy lệnh như sau. Lưu ý, tên của cột cuối cùng đã được thay đổi từ tên mặc định là "n" để cho rõ ràng (với `name  =`).
 
 ```{r}
 linelist %>% 
@@ -261,13 +236,11 @@ linelist %>%
   count(gender, name = "hospitals per gender" ) 
 ```
 
+### Thêm giá trị đếm {.unnumbered}
 
-### Add counts {.unnumbered}  
+Ngược lại với `count()` và `summarise()`, bạn có thể sử dụng `add_count()` để *thêm* một cột mới `n` với số lượng hàng cho mỗi nhóm *trong khi vẫn giữ lại tất cả các cột khác trong dữ liệu*.
 
-In contrast to `count()` and `summarise()`, you can use `add_count()` to *add* a new column `n` with the counts of rows per group *while retaining all the other data frame columns*.   
-
-This means that a group's count number, in the new column `n`, will be printed in each row of the group. For demonstration purposes, we add this column and then re-arrange the columns for easier viewing. See the section below on [filter on group size](#group_filter_grp_size) for another example.  
-
+Điều này có nghĩa là số lượng của nhóm, trong cột mới `n`, sẽ được in ra trong mỗi hàng của nhóm. Với mục đích minh họa, chúng tôi thêm cột này và sau đó sắp xếp lại các cột để dễ xem hơn. Xem mục bên dưới về [bộ lọc theo kích thước nhóm](#group_filter_grp_size) để biết một ví dụ khác.
 
 ```{r}
 linelist %>% 
@@ -276,11 +249,9 @@ linelist %>%
   select(hospital, n, everything()) # re-arrange for demo purposes
 ```
 
+### Thêm giá trị tổng {.unnumbered}
 
-
-### Add totals {.unnumbered} 
-
-To easily add total *sum* rows or columns after using `tally()` or `count()`, see the **janitor** section of the [Descriptive tables](#tbl_janitor) page. This package offers functions like `adorn_totals()` and `adorn_percentages()` to add totals and convert to show percentages. Below is a brief example:  
+Để dễ dàng thêm *tổng* các hàng hoặc cột sau khi sử dụng `tally()` hoặc `count()`, hãy xem mục **janitor** trong chương [Bảng mô tả](#tbl_janitor). Package này cung cấp các hàm như `adorn_totals()` và `adorn_percentages()` để thêm tổng và chuyển đổi sang hiển thị tỷ lệ phần trăm. Dưới đây là một ví dụ ngắn gọn:
 
 ```{r}
 linelist %>%                                  # case linelist
@@ -294,24 +265,19 @@ linelist %>%                                  # case linelist
     col_name = "Gender")
 ```
 
+Để thêm các hàng tổng phức tạp hơn bao gồm các thống kê tổng hợp khác, hãy xem [mục sau trong chương Bảng mô tả](#tbl_dplyr_totals).
 
-To add more complex totals rows that involve summary statistics other than *sums*, see [this section of the Descriptive Tables page](#tbl_dplyr_totals).  
+## Nhóm theo ngày
 
+Khi nhóm dữ liệu theo ngày, bạn phải có (hoặc tạo) một cột cho đơn vị ngày quan tâm - ví dụ: "ngày", "tuần dịch tễ", "tháng", v.v. Bạn có thể tạo cột này bằng cách sử dụng `floor_date()` từ **lubridate**, như được giải thích trong phần [Tuần dịch tễ học](#dates_epi_wks) trong chương [Làm việc với ngày tháng]. Khi bạn có cột này, bạn có thể sử dụng `count()` từ **dplyr** để nhóm các hàng theo các giá trị ngày duy nhất đó và thu về giá trị số lượng tổng hợp.
 
+Một bước bổ sung phổ biến cho các tình huống với ngày/tháng, là "điền vào" bất kỳ ngày nào trong chuỗi ngày không có trong dữ liệu. Sử dụng `complete()` từ **tidyr** để chuỗi ngày tổng hợp được *hoàn chỉnh* bao gồm *tất cả các đơn vị ngày có thể có* trong phạm vi. Nếu không có bước này, một tuần không có trường hợp nào được báo cáo có thể không xuất hiện trong dữ liệu của bạn!
 
-## Grouping by date  
+Trong `complete()`, bạn *xác định lại* cột ngày của mình dưới dạng một *chuỗi* ngày `seq.Date()` từ giá trị nhỏ nhất đến giá trị lớn nhất - do đó mà ngày/tháng được mở rộng. Mặc định, giá trị số lượng trong bất kỳ hàng "mở rộng" mới nào sẽ là `NA`. Bạn có thể đặt chúng thành 0 bằng cách sử dụng argument `fill =` của hàm `complete()`, trong đó yêu cầu một danh sách được đặt tên (nếu cột số lượng của bạn được đặt tên là `n`, hãy thêm `fill = list(n = 0)`). Xem `?complete` để biết chi tiết và xem ví dụ trong chương [Làm việc với ngày tháng](#dates_epi_wks).
 
-When grouping data by date, you must have (or create) a column for the date unit of interest - for example "day", "epiweek", "month", etc. You can make this column using `floor_date()` from **lubridate**, as explained in the [Epidemiological weeks section](#dates_epi_wks) of the [Working with dates] page. Once you have this column, you can use `count()` from **dplyr** to group the rows by those unique date values and achieve aggregate counts. 
+### Các trường hợp trong `linelist` theo ngày {.unnumbered}
 
-One additional step common for date situations, is to "fill-in" any dates in the sequence that are not present in the data. Use `complete()` from **tidyr** so that the aggregated date series is *complete* including *all possible date units* within the range. Without this step, a week with no cases reported might not appear in your data!  
-
-Within `complete()` you *re-define* your date column as a *sequence* of dates `seq.Date()` from the minimum to the maximum  - thus the dates are expanded. By default, the case count values in any new "expanded" rows will be `NA`. You can set them to 0 using the `fill = ` argument of `complete()`, which expects a named list (if your counts column is named `n`, provide `fill = list(n = 0)`. See `?complete` for details and the [Working with dates](#dates_epi_wks) page for an example.  
-
-
-
-### Linelist cases into days  {.unnumbered}  
-
-Here is an example of grouping cases into days *without* using `complete()`. Note the first rows skip over dates with no cases.  
+Dưới đây là một ví dụ về nhóm các trường hợp theo ngày mà *không* sử dụng `complete()`. Lưu ý các hàng đầu tiên bỏ qua các ngày mà không có trường hợp nào.
 
 ```{r}
 daily_counts <- linelist %>% 
@@ -323,7 +289,7 @@ daily_counts <- linelist %>%
 DT::datatable(daily_counts, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Below we add the `complete()` command to ensure every day in the range is represented.
+Dưới đây, chúng ta thêm lệnh `complete()` để đảm bảo mỗi ngày trong phạm vi đều được hiển thị.
 
 ```{r, eval=F}
 daily_counts <- linelist %>% 
@@ -341,10 +307,9 @@ daily_counts <- linelist %>%
 DT::datatable(daily_counts, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-### Linelist cases into weeks {.unnumbered}  
+### Các trường hợp trong `linelist` theo tuần {.unnumbered}
 
-
-The same principle can be applied for weeks. First create a new column that is the week of the case using `floor_date()` with `unit = "week"`. Then, use `count()` as above to achieve weekly case counts. Finish with `complete()` to ensure that all weeks are represented, even if they contain no cases.
+Nguyên tắc tương tự có thể được áp dụng cho tuần. Đầu tiên, hãy tạo một cột mới các trường hợp theo tuần bằng cách sử dụng `floor_date()` với `unit = "week"`. Sau đó, sử dụng `count()` như trên để đạt được số lượng ca hàng tuần. Kết thúc bằng hàm `complete()` để đảm bảo rằng tất cả các tuần đều được hiển thị, ngay cả khi chúng không chứa ca nào.
 
 ```{r}
 # Make dataset of weekly case counts
@@ -360,16 +325,15 @@ weekly_counts <- linelist %>%
     fill = list(n = 0))                   # set new filled-in rows to display 0 in column n (not NA as default) 
 ```
 
-Here are the first 50 rows of the resulting data frame:  
+Đây là 50 hàng đầu tiên của bộ dữ liệu khi trả kết quả:
 
 ```{r message=FALSE, echo=F}
 DT::datatable(weekly_counts, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-### Linelist cases into months {.unnumbered}
+### Các trường hợp trong `linelist` theo tháng{.unnumbered}
 
-To aggregate cases into months, again use `floor_date()` from the **lubridate** package, but with the argument `unit = "months"`. This rounds each date down to the 1st of its month. The output will be class Date. Note that in the `complete()` step we also use `by = "months"`.  
-
+Để tổng hợp các trường hợp theo tháng, hãy sử dụng lại `floor_date()` từ package **lubridate**, nhưng với argument `unit = "months"`. Điều này làm tròn xuống các ngày thành ngày đầu tiên của tháng. Đầu ra sẽ là định dạng ngày. Lưu ý rằng trong bước `complete()`, chúng ta cũng sử dụng `by = "months"`.
 
 ```{r}
 # Make dataset of monthly case counts
@@ -389,44 +353,33 @@ monthly_counts <- linelist %>%
 DT::datatable(monthly_counts, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
+### Số lượng đếm hàng ngày theo tuần {.unnumbered}
 
-### Daily counts into weeks {.unnumbered}
+Để tổng hợp số lượng hàng ngày thành số lượng hàng tuần, hãy sử dụng `floor_date()` như trên. Tuy nhiên, hãy sử dụng `group_by()` và `summarize()` thay vì `count()` bởi vì chúng ta cần tính tổng `sum()` số lượng trường hợp hàng ngày thay vì chỉ đếm số hàng mỗi tuần.
 
-To aggregate daily counts into weekly counts, use `floor_date()` as above. However, use `group_by()` and `summarize()` instead of `count()` because you need to `sum()` daily case counts instead of just counting the number of rows per week.
+### Số lượng đếm hàng ngày theo tuần {.unnumbered}
 
+Để tổng hợp số lượng hàng ngày thành số lượng hàng tháng, hãy sử dụng `floor_date()` với `unit = "month"` như trên. Tuy nhiên, hãy sử dụng `group_by()` và `summarize()` thay vì `count()` bởi vì chúng ta cần tính tổng `sum()` số lượng trường hợp hàng ngày thay vì chỉ đếm số hàng mỗi tháng.
 
+## Sắp xếp dữ liệu đã nhóm
 
-#### Daily counts into months {.unnumbered}
+Sử dụng hàm **dplyr** `arrange()` để sắp xếp các hàng trong bộ dữ liệu tương tự khi dữ liệu được nhóm lại, *trừ khi* bạn thiết lập đối số `.by_group =TRUE`. Trong trường hợp này, các hàng được sắp xếp thứ tự đầu tiên theo các cột nhóm và sau đó theo bất kỳ cột nào khác mà bạn chỉ định để `arrange()`.
 
-To aggregate daily counts into months counts, use `floor_date()` with `unit = "month"` as above. However, use `group_by()` and `summarize()` instead of `count()` because you need to `sum()` daily case counts instead of just counting the number of rows per month.  
-
-
-
-
-## Arranging grouped data
-
-Using the **dplyr** verb `arrange()` to order the rows in a data frame behaves the same when the data are grouped, *unless* you set the argument `.by_group =TRUE`. In this case the rows are ordered first by the grouping columns and then by any other columns you specify to `arrange()`.   
-
-
-
-## Filter on grouped data
+## Lọc trên nhóm dữ liệu đã nhóm
 
 ### `filter()` {.unnumbered}
 
-When applied in conjunction with functions that evaluate the data frame (like `max()`, `min()`, `mean()`), these functions will now be applied to the groups. For example, if you want to filter and keep rows where patients are above the median age, this will now apply per group - filtering to keep rows above the *group's* median age. 
+Khi được áp dụng cùng với các hàm đánh giá bộ dữ liệu (như `max()`, `min()`, `mean()`), các hàm này sẽ được áp dụng cho các nhóm. Ví dụ: nếu bạn muốn lọc và giữ các hàng có bệnh nhân trên độ tuổi trung vị, hàm này sẽ áp dụng cho mỗi nhóm - lọc để giữ các hàng trên độ tuổi trung bình của *nhóm*.
 
+### Cắt hàng theo nhóm {.unnumbered}
 
+Hàm **dplyr** `slice()`, mà [lọc hàng dựa trên vị trí](https://dplyr.tidyverse.org/reference/slice.html) trong dữ liệu, cũng có thể được áp dụng cho mỗi nhóm. Hãy nhớ sắp xếp dữ liệu trong mỗi nhóm để có được "lát cắt" mong muốn.
 
+Ví dụ: chỉ lấy 5 lần nhập viện gần nhất từ mỗi bệnh viện:
 
-### Slice rows per group {.unnumbered} 
-
-The **dplyr** function `slice()`, which [filters rows based on their position](https://dplyr.tidyverse.org/reference/slice.html) in the data, can also be applied per group. Remember to account for sorting the data within each group to get the desired "slice".  
-
-For example, to retrieve only the latest 5 admissions from each hospital:  
-
-1) Group the linelist by column `hospital`  
-2) Arrange the records from latest to earliest `date_hospitalisation` *within each hospital group*  
-3) Slice to retrieve the first 5 rows from each hospital  
+1)  Nhóm bộ số liệu `linelist` theo cột `hospital`\
+2)  Sắp xếp bản ghi từ gần nhất đến xa nhất theo `date_hospitalisation` *trong mỗi nhóm bệnh viện*\
+3)  Cắt để lấy 5 hàng đầu tiên từ mỗi bệnh viện
 
 ```{r,}
 linelist %>%
@@ -437,23 +390,19 @@ linelist %>%
   select(case_id, hospital, date_hospitalisation)  # for display
 ```
 
-`slice_head()` - selects n rows from the top  
-`slice_tail()` - selects n rows from the end  
-`slice_sample()` - randomly selects n rows  
-`slice_min()` - selects n rows with highest values in `order_by = ` column, use `with_ties = TRUE` to keep ties  
-`slice_max()` - selects n rows with lowest values in `order_by = ` column, use `with_ties = TRUE` to keep ties  
+`slice_head()` - chọn n hàng từ trên xuống dưới\
+`slice_tail()` - chọn n hàng từ dưới lên trên\
+`slice_sample()` - chọn ngẫu nhiên n dòng\
+`slice_min()` - chọn n dòng với giá trị cao nhất trong cột `order_by =`, sử dụng `with_ties = TRUE` để giữ mối liên hệ\
+`slice_max()` - chọn n dòng với giá trị thấp nhất trong cột `order_by =`,sử dụng `with_ties = TRUE` để giữ mối liên hệ
 
-See the [De-duplication] page for more examples and detail on `slice()`.  
+Xem chương [Loại bỏ trùng lặp] để tham khảo thêm ví dụ và chi tiết về hàm `slice()`.
 
+### Lọc theo quy mô nhóm {#group_filter_grp_size .unnumbered}
 
+Hàm `add_count()` thêm một cột `n` vào dữ liệu gốc cho biết số hàng trong nhóm của hàng đó.
 
-
-### Filter on group size {#group_filter_grp_size .unnumbered} 
-
-The function `add_count()` adds a column `n` to the original data giving the number of rows in that row's group. 
-
-Shown below, `add_count()` is applied to the column `hospital`, so the values in the new column `n` reflect the number of rows in that row's hospital group. Note how values in column `n` are repeated. In the example below, the column name `n` could be changed using `name = ` within `add_count()`. For demonstration purposes we re-arrange the columns with `select()`.  
-
+Như trình bày bên dưới, `add_count()` được áp dụng cho cột `hospital`, vì vậy các giá trị trong cột mới `n` phản ánh số hàng trong nhóm bệnh viện của hàng đó. Lưu ý cách các giá trị trong cột `n` được lặp lại. Trong ví dụ dưới đây, tên cột `n` có thể được thay đổi bằng cách sử dụng đối số `name =` trong `add_count()`. Với mục đích diễn giải, chúng ta sắp xếp lại các cột với `select()`.
 
 ```{r}
 linelist %>% 
@@ -462,7 +411,7 @@ linelist %>%
   select(hospital, n, everything())
 ```
 
-It then becomes easy to filter for case rows who were hospitalized at a "small" hospital, say, a hospital that admitted fewer than 500 patients:  
+Sau đó, nó trở nên dễ dàng để lọc các hàng trường hợp nhập viện tại một bệnh viện "nhỏ", chẳng hạn như một bệnh viện tiếp nhận ít hơn 500 bệnh nhân:
 
 ```{r, eval=F}
 linelist %>% 
@@ -470,23 +419,19 @@ linelist %>%
   filter(n < 500)
 ```
 
+## Tạo cột mới trên dữ liệu được nhóm
 
+Để giữ lại tất cả các cột và hàng (không tổng hợp) và *thêm một cột mới chứa thống kê theo nhóm*, hãy sử dụng hàm `mutate()` sau `group_by()` thay vì `summarise()`.
 
+Điều này hữu ích nếu bạn muốn nhóm thống kê trong bộ dữ liệu gốc *với tất cả các cột khác được hiển thị* - ví dụ: cho các phép tính so sánh một hàng với nhóm của nó.
 
+Ví dụ: code dưới đây tính toán sự khác biệt giữa thời gian trễ nhập viện của một hàng và thời gian chậm trễ trung vị đối với bệnh viện đó. Các bước lần lượt là:
 
-## Mutate on grouped data  
+1)  Nhóm dữ liệu theo bệnh viện\
+2)  Sử dụng cột `days_onset_hosp` (nhập viện trễ) để tạo một cột mới chứa giá trị trễ trung bình tại bệnh viện của *hàng đó*\
+3)  Tính toán sự khác biệt giữa hai cột
 
-To retain all columns and rows (not summarise) and *add a new column containing group statistics*, use `mutate()` after `group_by()` instead of `summarise()`. 
-
-This is useful if you want group statistics in the original dataset *with all other columns present* - e.g. for calculations that compare one row to its group.  
-
-For example, this code below calculates the difference between a row's delay-to-admission and the median delay for their hospital. The steps are:  
-
-1) Group the data by hospital  
-2) Use the column `days_onset_hosp` (delay to hospitalisation) to create a new column containing the mean delay at the hospital of *that row*  
-3) Calculate the difference between the two columns  
-
-We `select()` only certain columns to display, for demonstration purposes.  
+Chúng ta chỉ lựa chọn `select()` những cột cần hiển thị, cho mục đích diễn giải.
 
 ```{r}
 linelist %>% 
@@ -505,37 +450,21 @@ linelist %>%
   select(case_id, hospital, days_onset_hosp, group_delay_admit, diff_to_group)
 ```
 
+## Chọn trên dữ liệu được nhóm
 
-
-## Select on grouped data  
-
-The verb `select()` works on grouped data, but the grouping columns are always included (even if not mentioned in `select()`). If you do not want these grouping columns, use `ungroup()` first.  
-
-
-
-
-
-
-
-
-
+Hàm `select()` hoạt động trên dữ liệu được nhóm, nhưng các cột được nhóm luôn được bao gồm (ngay cả khi không được đề cập trong `select()`). Nếu bạn không muốn nhóm các cột này, trước tiên hãy bỏ nhóm bằng hàm `ungroup()`.
 
 <!-- ======================================================= -->
-## Resources {  }
 
-Here are some useful resources for more information:  
+## Tài nguyên học liệu
 
-You can perform any summary function on grouped data; see the [RStudio data transformation cheat sheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)  
+Dưới đây là một số tài nguyên hữu ích cung cấp thêm thông tin:
 
-The Data Carpentry page on [**dplyr**](https://datacarpentry.org/R-genomics/04-dplyr.html)  
-The **tidyverse** reference pages on [group_by()](https://dplyr.tidyverse.org/reference/group_by.html) and [grouping](https://dplyr.tidyverse.org/articles/grouping.html)  
+Bạn có thể thực hiện bất kỳ hàm tổng hợp nào trên dữ liệu được nhóm; xem [RStudio cheat sheet về biến đổi dữ liệu](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
 
-This page on [Data manipulation](https://itsalocke.com/files/DataManipulationinR.pdf)  
+Trang Data Carpentry của [**dplyr**](https://datacarpentry.org/R-genomics/04-dplyr.html)\
+Chương tham khảo hệ sinh thái **tidyverse** về [group_by()](https://dplyr.tidyverse.org/reference/group_by.html) và [grouping](https://dplyr.tidyverse.org/articles/grouping.html)
 
-[Summarize with conditions in dplyr](https://stackoverflow.com/questions/23528862/summarize-with-conditions-in-dplyr)  
+Trang này về [Thao tác dữ liệu](https://itsalocke.com/files/DataManipulationinR.pdf)
 
-
-
-
-
-
+[Tổng hợp có điều kiện với dplyr](https://stackoverflow.com/questions/23528862/summarize-with-conditions-in-dplyr)

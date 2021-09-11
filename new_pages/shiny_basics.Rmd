@@ -1,54 +1,54 @@
 
 # Dashboards với Shiny {#shiny-basics}  
 
-Dashboards are often a great way to share results from analyses with others. Producing a dashboard with **shiny** requires a relatively advanced knowledge of the R language, but offers incredible customization and possibilities.  
+Dashboards thường là một cách tuyệt vời để chia sẻ kết quả từ các phân tích với những người khác. Tạo ra một dashboard với **shiny** đòi hỏi kiến thức tương đối nâng cao về ngôn ngữ R, nhưng cũng cung cấp cho bạn khả năng tùy chỉnh đáng kinh ngạc.  
 
 <!-- One of the largest drawbacks of `R` is its usability for people who are new to or have no experience with programming languages. While these skills are very valuable, most people will find that this represents a barrier to sharing analyses, especially in multidisciplinary environments. It requires some work to maintain an `R` installation, and not everyone will be comfortable running shared code, even if it's well documented and easy to read. This is *especially* true when users have to change parameters of code!  -->
 
 <!-- R based dashboards are also advantageous in that they centralise how code is run - when the same code is run on different machines, often people will have to deal with differing file paths, different R versions, and different package installations. For this reason, dashboards are a great way to share code with others in a user friendly way! -->
 
-It is recommended that someone learning dashboards with **shiny** has good knowledge of data transformation and visualisation, and is comfortable debugging code, and writing functions. Working with dashboards is not intuitive when you're starting, and is difficult to understand at times, but is a great skill to learn and gets much easier with practice!
+Chúng tôi khuyến nghị rằng ai đó đang học dashboards với **shiny** phải có kiến thức tốt về biến đổi và trực quan hóa dữ liệu, đồng thời có thể tự tin gỡ lỗi code và viết hàm. Làm việc với dashboards không dễ khi bạn mới bắt đầu và đôi khi khó hiểu, nhưng là một kỹ năng tuyệt vời để học và trở nên dễ dàng hơn nhiều khi thực hành!  
 
-This page will give a short overview of how to make dashboards with **shiny** and its extensions. 
-For an alternative method of making dashboards that is faster, easier, but perhaps less customizeable, see the page on **flextable** ([Dashboards with R Markdown]).  
-
-
-
-## Preparation  
+Chương này sẽ cung cấp tổng quan ngắn gọn về cách tạo dashboards với **shiny** và các tiện ích mở rộng của nó.  
+Để biết một phương pháp thay thế tạo dashboards nhanh hơn, dễ dàng hơn nhưng có thể ít tùy chỉnh hơn, hãy xem thêm về **flextable** trong chương ([Dashboards với R Markdown]).  
 
 
-### Load packages {.unnumbered}  
 
-In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+## Chuẩn bị  
 
-We begin by installing the **shiny** R package:  
+
+### Gọi packages {.unnumbered}  
+
+Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm `p_load()` từ package **pacman**, giúp cài đặt các package cần thiết *và* gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` của **base** R. Xem thêm chương [R cơ bản] để có thêm thông tin về các packages trong R. 
+
+Chúng ta bắt đầu bằng cách cài đặt package **shiny**:  
 
 ```{r, eval = FALSE}
 pacman::p_load("shiny")
 ```
 
 
-### Import data {.unnumbered}  
+### Nhập dữ liệu {.unnumbered}  
 
-If you would like to follow-along with this page, see this section of the [Download handbook and data](#data_shiny). There are links to download the R scripts and data files that produce the final Shiny app.  
+Nếu bạn muốn theo dõi chương này, hãy xem phần này trong chương [Tải sách và dữ liệu](#data_shiny). Có các liên kết để tải xuống scripts R và các tệp dữ liệu tạo ra ứng dụng Shiny cuối cùng.  
 
-If you try to re-construct the app using these files, please be aware of the R project folder structure that is created over the course of the demonstration (e.g. folders for "data" and for "funcs").  
+Nếu bạn cố gắng xây dựng lại app bằng các tệp này, hãy lưu ý về cấu trúc thư mục dự án R được tạo trong quá trình thực hiện (ví dụ: thư mục cho "data" và "funcs").  
 
 
 
 <!-- ======================================================= -->
-## The structure of a shiny app {  }
+## Cấu trúc của một ứng dụng shiny {  }
 
-### Basic file structures {.unnumbered}  
+### Cấu trúc tệp cơ bản {.unnumbered}  
 
-To understand `shiny`, we first need to understand how the file structure of an app works! We should make a brand new directory before we start. This can actually be made easier by choosing _New project_ in _Rstudio_, and choosing _Shiny Web Application_. This will create the basic structure of a shiny app for you.
+Để hiểu về `shiny`, trước tiên chúng ta cần hiểu cấu trúc tệp của một ứng dụng hoạt động như thế nào! Chúng ta nên tạo một thư mục hoàn toàn mới trước khi bắt đầu. Điều này thực sự có thể được thực hiện dễ dàng hơn bằng cách chọn _New project_ trong _Rstudio_ và chọn _Shiny Web Application_. Điều này sẽ giúp tạo ra cấu trúc cơ bản của một ứng dụng shiny cho bạn.  
 
-When opening this project, you'll notice there is a `.R` file already present called _app.R_. It is *essential* that we have one of two basic file structures:
+Khi mở dự án này, bạn sẽ nhận thấy có một tệp `.R` có tên là _app.R_. *Điều cần thiết* là chúng ta có một trong hai cấu trúc tệp cơ bản:  
 
-1. One file called _app.R_, *or*  
-2. Two files, one called _ui.R_ and the other _server.R_  
+1. Một tệp có tên là _app.R_, *hoặc*  
+2. Hai tệp, một tệp có tên là _ui.R_ và tệp còn lại là _server.R_    
 
-In this page, we will use the first approach of having one file called *app.R*. Here is an example script:  
+Trong chương này, chúng tôi sẽ sử dụng cách tiếp cận đầu tiên là có một tệp có tên là *app.R*. Đây là một script ví dụ:  
 
 ```{r, eval = FALSE}
 # an example of app.R
@@ -93,63 +93,63 @@ shinyApp(ui = ui, server = server)
 ```
 
 
-If you open this file, you'll notice that two objects are defined - one called `ui` and another called `server`. These objects *must* be defined in *every* shiny app and are central to the structure of the app itself! In fact, the only difference between the two file structures described above is that in structure 1, both `ui` and `server` are defined in one file, whereas in structure 2 they are defined in separate files. Note: we can also (and we should if we have a larger app) have other .R files in our structure that we can `source()` into our app.
+Nếu bạn mở tệp này, bạn sẽ nhận thấy rằng hai đối tượng được xác định - một đối tượng được gọi là `ui` và đối tượng khác được gọi là `server`. Các đối tượng này *phải* được xác định trong *mọi* ứng dụng shiny và là trung tâm cấu trúc của chính ứng dụng đó! Trên thực tế, sự khác biệt duy nhất giữa hai cấu trúc tệp được mô tả ở trên là trong cấu trúc 1, cả `ui` và `server` đều được xác định trong một tệp, trong khi ở cấu trúc 2, chúng được định nghĩa trong các tệp riêng biệt. Lưu ý: chúng ta cũng có thể (và nên có nếu chúng ta có một ứng dụng lớn hơn) có các tệp .R khác trong cấu trúc để chúng ta có thể nhúng `source()` vào ứng dụng của mình.  
+
+
+### Máy chủ và giao diện người dùng {.unnumbered}
+
+Tiếp theo, chúng ta cần hiểu các đối tượng `server` và `ui` thực sự _làm gì_. *Nói một cách đơn giản, đây là hai đối tượng tương tác với nhau bất cứ khi nào người dùng tương tác với ứng dụng shiny.*  
+
+Phần tử UI (giao diện người dùng) của một ứng dụng shiny, ở cấp độ cơ bản, là code R tạo ra giao diện HTML. Điều này có nghĩa là mọi thứ *được hiển thị* trong giao diện người dùng của một ứng dụng. Điều này thường bao gồm:  
+
+* "Widgets (thành phần điều khiển)" - menu thả xuống, hộp kiểm, thanh trượt, v.v. mà người dùng có thể tương tác
+* Đồ thị, bảng, v.v. - kết quả đầu ra được tạo bằng code R
+* Các khía cạnh điều hướng của một ứng dụng - tab, cửa sổ, v.v.
+* Văn bản chung, đường liên kết, v.v.
+* Các phần tử HTML và CSS  
+
+Điều quan trọng nhất cần hiểu về UI là nó *nhận đầu vào* từ người dùng và *hiển thị đầu ra* từ máy chủ. Không có code *hoạt động* chạy trong ui *tại bất kỳ thời điểm nào* - tất cả các thay đổi được nhìn thấy trong UI đều được chuyển qua máy chủ (nhiều hơn hoặc ít hơn). Vì vậy, chúng ta phải tạo các đồ thị, tải xuống, v.v. trong máy chủ  
+
+Máy chủ của ứng dụng shiny là nơi tất cả code đang được chạy khi ứng dụng khởi động. Cách nó hoạt động hơi khó hiểu một chút. Chức năng máy chủ sẽ _phản hồi_ một cách hiệu quả đối theo những gì người dùng giao tiếp với UI và chạy các đoạn code phản hồi tương ứng. Nếu mọi thứ thay đổi trong máy chủ, những thứ này sẽ được chuyển trở lại ui, nơi có thể nhìn thấy những thay đổi. Quan trọng là code trong máy chủ sẽ được thực thi *không liên tiếp* (hoặc tốt nhất là bạn nên nghĩ theo cách này). Về cơ bản, bất cứ khi nào đầu vào ui ảnh hưởng đến một đoạn code trong máy chủ, nó sẽ tự động chạy và đầu ra đó sẽ được tạo ra và hiển thị.  
+
+
+Tất cả điều này bây giờ có vẻ rất trừu tượng, vì vậy chúng ta sẽ phải đi sâu vào một số ví dụ để có một ý tưởng rõ ràng về cách nó thực sự hoạt động.  
+
+
+### Trước khi bạn bắt đầu tạo một ứng dụng {.unnumbered}
+
+Trước khi bạn bắt đầu xây dựng một ứng dụng, việc biết *những gì* bạn muốn tạo sẽ vô cùng hữu ích. Vì UI của bạn sẽ được viết bằng code, bạn không thể thực sự hình dung những gì bạn đang tạo trừ khi bạn đang nhắm đến một cái gì đó cụ thể. Vì lý do này, sẽ vô cùng hữu ích khi xem xét rất nhiều ví dụ về các ứng dụng shiny để biết được những gì bạn có thể tạo ra - thậm chí còn tốt hơn nếu bạn có thể xem code gốc đằng sau các ứng dụng này! Một số tài nguyên tuyệt vời cho việc này là:  
+
+* [Thư viện ứng dụng của Rstudio](https://shiny.rstudio.com/gallery/)  
+
+Khi bạn có ý tưởng về những gì có thể thực hiện, sẽ rất hữu ích nếu bạn phác thảo ra diện mạo sản phẩm - bạn có thể thực hiện việc này trên giấy hoặc trong bất kỳ phần mềm vẽ nào (PowerPoint, MS paint, v.v.). Sẽ hữu ích khi bắt đầu đơn giản cho ứng dụng đầu tiên của bạn! Cũng không có gì phải xấu hổ nếu bạn sử dụng code có sẵn trên mạng của một ứng dụng mẫu phục vụ cho công việc của bạn - việc này dễ dàng hơn nhiều so với việc xây dựng thứ gì đó từ đầu!  
 
 
 
-### The server and the ui {.unnumbered}
+## Tạo một UI 
 
-We next need to understand what the `server` and `ui` objects actually _do_. *Put simply, these are two objects that are interacting with each other whenever the user interacts with the shiny app.*
+Khi xây dựng ứng dụng, trước tiên, bạn nên làm việc trên UI để chúng ta có thể thấy những gì đang làm và không có nguy cơ ứng dụng bị lỗi do bất kỳ lỗi máy chủ nào. Như đã đề cập trước đây, bạn nên sử dụng một mẫu có sẵn khi tạo UI. Bạn có thể tìm thấy một số bố cục tiêu chuẩn có sẵn trong package shiny, ngoài ra là ở các package mở rộng khác, chằng hạn như `shinydashboard`. Chúng tôi sẽ sử dụng một ví dụ từ package shiny cơ sở để bắt đầu.  
 
-The UI element of a shiny app is, on a basic level, R code that creates an HTML interface. This means everything that is *displayed* in the UI of an app. This generally includes:
+Một shiny UI thường được định nghĩa là một loạt các hàm lồng nhau, theo thứ tự sau  
 
-* "Widgets" - dropdown menus, check boxes, sliders, etc that can be interacted with by the user
-* Plots, tables, etc - outputs that are generated with R code
-* Navigation aspects of an app - tabs, panes, etc. 
-* Generic text, hyperlinks, etc
-* HTML and CSS elements (addressed later)
+1. Một hàm xác định bố cục chung (cơ bản nhất là `fluidPage()`, nhưng có nhiều hàm khác)  
+2. Các ô điều khiển trong bố cục như:
+     - một thanh bên (`sidebarPanel()`)
+     - một bảng điều khiển "chính" (`mainPanel()`)
+     - một tab (`tabPanel()`)
+     - một "cột" chung (`column()`)
+3. Các widget và đầu ra - những thứ này có thể đưa đầu vào cho máy chủ (tiện ích) hoặc đưa ra từ máy chủ (đầu ra)  
+     - Các widget thường được thiết kế kiểu như `xxxInput()`, ví dụ: `selectInput()`   
+     - Kết quả đầu ra thường được thiết kế kiểu như `xxxOutput()`, ví dụ: `plotOutput()`  
 
-The most important thing to understand about the UI is that it *receives inputs* from the user and *displays outputs* from the server. There is no *active* code running in the ui *at any time* - all changes seen in the UI are passed through the server (more or less). So we have to make our plots, downloads, etc in the server
+Cần phải nói lại rằng những thứ này không thể được hình dung một cách dễ dàng theo cách trừu tượng, vì vậy tốt nhất hãy xem một ví dụ! Hãy xem xét tạo một ứng dụng cơ bản hiển thị dữ liệu số lượng cơ sở sốt rét theo quận. Dữ liệu này có rất nhiều tham số khác nhau, vì vậy sẽ thật tuyệt nếu cuối cùng người dùng có thể áp dụng một số bộ lọc để xem dữ liệu theo nhóm tuổi/quận khi họ thấy phù hợp! Chúng ta có thể sử dụng một bố cục shiny rất đơn giản để bắt đầu - bố cục thanh bên. Đây là một bố cục trong đó các widget được đặt trong một thanh bên ở bên trái và đồ thị được đặt ở bên phải.  
 
-The server of the shiny app is where all code is being run once the app starts up. The way this works is a little confusing. The server function will effectively _react_ to the user interfacing with the UI, and run chunks of code in response. If things change in the server, these will be passed back up to the ui, where the changes can be seen. Importantly, the code in the server will be executed *non-consecutively* (or it's best to think of it this way). Basically, whenever a ui input affects a chunk of code in the server, it will run automatically, and that output will be produced and displayed.
+Hãy lập kế hoạch cho ứng dụng của chúng ta - chúng ta có thể bắt đầu với một bộ chọn cho phép chúng ta chọn quận nơi chúng ta muốn trực quan hóa dữ liệu và một bộ chọn khác để biểu diễn nhóm tuổi quan tâm. Chúng ta sẽ sử dụng các bộ lọc này để hiển thị một đường cong dịch bệnh phản ánh các tham số này. Vì vậy, chúng ta cần:  
 
-This all probably sounds very abstract for now, so we'll have to dive into some examples to get a clear idea of how this actually works. 
+1. Hai menu thả xuống cho phép chúng ta chọn quận chúng ta muốn và nhóm tuổi quan tâm.  
+2. Một khu vực mà chúng ta có thể hiển thị đường cong dịch bệnh kết quả.  
 
-
-### Before you start to build an app {.unnumbered}
-
-Before you begin to build an app, its immensely helpful to know *what* you want to build. Since your UI will be written in code, you can't really visualise what you're building unless you are aiming for something specific. For this reason, it is immensely helpful to look at lots of examples of shiny apps to get an idea of what you can make - even better if you can look at the source code behind these apps! Some great resources for this are:
-
-* The [Rstudio app gallery](https://shiny.rstudio.com/gallery/)  
-
-Once you get an idea for what is possible, it's also helpful to map out what you want yours to look like - you can do this on paper or in any drawing software (PowerPoint, MS paint, etc.). It's helpful to start simple for your first app! There's also no shame in using code you find online of a nice app as a template for your work - its much easier than building something from scratch!
-
-
-
-## Building a UI 
-
-When building our app, its easier to work on the UI first so we can see what we're making, and not risk the app failing because of any server errors. As mentioned previously, its often good to use a template when working on the UI. There are a number of standard layouts that can be used with shiny that are available from the base shiny package, but it's worth noting that there are also a number of package extensions such as `shinydashboard`. We'll use an example from base shiny to start with. 
-
-A shiny UI is generally defined as a series of nested functions, in the following order
-
-1. A function defining the general layout (the most basic is `fluidPage()`, but more are available)
-2. Panels within the layout such as:
-     - a sidebar (`sidebarPanel()`)
-     - a "main" panel (`mainPanel()`)
-     - a tab (`tabPanel()`)
-     - a generic "column" (`column()`)
-3. Widgets and outputs - these can confer inputs to the server (widgets) or outputs from the server (outputs)
-     - Widgets generally are styled as `xxxInput()` e.g. `selectInput()`
-     - Outputs are generally styled as `xxxOutput()` e.g. `plotOutput()`
-
-It's worth stating again that these can't be visualised easily in an abstract way, so it's best to look at an example! Lets consider making a basic app that visualises our malaria facility count data by district. This data has a lot of differnet parameters, so it would be great if the end user could apply some filters to see the data by age group/district as they see fit! We can use a very simple shiny layout to start - the sidebar layout. This is a layout where widgets are placed in a sidebar on the left, and the plot is placed on the right.
-
-Lets plan our app - we can start with a selector that lets us choose the district where we want to visualise data, and another to let us visualise the age group we are interested in. We'll aim to use these filters to show an epicurve that reflects these parameters. So for this we need:
-
-1. Two dropdown menus that let us choose the district we want, and the age group we're interested in. 
-2. An area where we can show our resulting epicurve.
-
-This might look something like this:
+Code minh họa có thể trông giống như sau:  
 
 ```{r, eval = FALSE}
 
@@ -204,48 +204,48 @@ ui <- fluidPage(
 ```
 
 
-When app.R is run with the above UI code (with no active code in the `server` portion of app.R) the layout appears looking like this - note that there will be no plot if there is no server to render it, but our inputs are working!
+Khi app.R được chạy với code UI ở trên (không có code đang hoạt động trong phần `server` của app.R), bố cục sẽ xuất hiện như thế này - lưu ý rằng sẽ không có đồ thị nếu không có máy chủ để hiển thị nó, nhưng đầu vào của chúng ta đang hoạt động!  
 
 ```{r, out.width = c('100%'), out.height = c('100%'), echo=F}
 knitr::include_graphics(here::here("images", "shiny", "simple_UI_view.png"))
 ```
 
-This is a good opportunity to discuss how widgets work - note that each widget is accepting an `inputId`, a `label`, and a series of other options that are specific to the widget type. This `inputId` is extremely important - these are the IDs that are used to pass information from the UI to the server. For this reason, they *must be unique*. You should make an effort to name them something sensible, and specific to what they are interacting with in cases of larger apps.
+Đây là cơ hội tốt để thảo luận về cách mà các widget hoạt động - lưu ý rằng mỗi widget đang chấp nhận một `inputId`, một `label` và một loạt các tùy chọn khác dành riêng cho loại widget. `InputId` này cực kỳ quan trọng - đây là những ID được sử dụng để truyền thông tin từ UI đến máy chủ. Vì lý do này, chúng *phải là duy nhất*. Bạn nên cố gắng đặt cho chúng một cái tên gì đó hợp lý và cụ thể theo chức năng của chúng trong các trường hợp thiết kế một ứng dụng lớn.  
 
-You should read documentation carefully for full details on what each of these widgets do. Widgets will pass specific types of data to the server depending on the widget type, and this needs to be fully understood. For example, `selectInput()` will pass a character type to the server:
+Bạn nên đọc kỹ tài liệu để biết chi tiết đầy đủ về chức năng của mỗi widget này. Các widget sẽ chuyển các loại dữ liệu cụ thể đến máy chủ tùy thuộc vào loại widget và điều này cần được hiểu đầy đủ. Ví dụ: `selectInput()` sẽ chuyển dữ liệu dạng ký tự cho máy chủ:  
 
-- If we select _Spring_ for the first widget here, it will pass the character object `"Spring"` to the server. 
-- If we select two items from the dropdown menu, they will come through as a character vector (e.g. `c("Spring", "Bolo")`).
+- Nếu chúng ta chọn _Spring_ cho widget đầu tiên ở đây, nó sẽ chuyển đối tượng ký tự `"Spring"` đến máy chủ.  
+- Nếu chúng ta chọn hai mục từ menu thả xuống, chúng sẽ đi qua dưới dạng vectơ ký tự (ví dụ: `c("Spring", "Bolo")`).  
 
-Other widgets will pass different types of object to the server! For example:
+Các widget khác sẽ chuyển các loại đối tượng khác nhau đến máy chủ! Ví dụ:  
 
-- `numericInput()` will pass a numeric type object to the server
-- `checkboxInput()` will pass a logical type object to the server (`TRUE` or `FALSE`)
+- `numericInput()` sẽ chuyển một đối tượng dạng số đến máy chủ  
+- `checkboxInput()` sẽ chuyển một đối tượng kiểu logic đến máy chủ (`TRUE` hoặc `FALSE`)
 
-It's also worth noting the *named vector* we used for the age data here. For many widgets, using a named vector as the choices will display the *names* of the vector as the display choices, but pass the selected *value* from the vector to the server. I.e. here someone can select "15+" from the drop-down menu, and the UI will pass `"malaria_rdt_15"` to the server - which happens to be the name of the column we're interested in!
+Cũng cần lưu ý *vectơ được đặt tên* mà chúng ta đã sử dụng cho dữ liệu độ tuổi ở đây. Đối với nhiều widget, việc sử dụng vectơ được đặt tên làm các lựa chọn sẽ hiển thị *tên* của vectơ dưới dạng các lựa chọn hiển thị, nhưng chuyển *giá trị* thực của lựa chọn từ vectơ đến máy chủ. Ví dụng chúng ta chọn "15+" từ menu thả xuống và UI sẽ chuyển `"malaria_rdt_15"` đến máy chủ - đây chính là tên của cột mà chúng ta quan tâm!  
 
 
-There are loads of widgets that you can use to do lots of things with your app. Widgets also allow you to upload files into your app, and download outputs. There are also some excellent shiny extensions that give you access to more widgets than base shiny - the **shinyWidgets** package is a great example of this. To look at some examples you can look at the following links:
+Có rất nhiều widget mà bạn có thể sử dụng để làm nhiều việc với ứng dụng của mình. Các widget cũng cho phép bạn tải tệp lên ứng dụng của mình và tải xuống kết quả đầu ra. Ngoài ra còn có một số gói shiny mở rộng tuyệt vời cho phép bạn truy cập vào nhiều widget hơn so với shiny cơ bản - package **shinyWidgets** là một ví dụ tuyệt vời về điều này. Để xem một số ví dụ, bạn có thể xem các liên kết sau:  
 
 - [base shiny widget gallery](https://shiny.rstudio.com/gallery/widget-gallery.html)
 - [shinyWidgets gallery](https://github.com/dreamRs/shinyWidgets)
 
 
 
-## Loading data into our app
+## Tải dữ liệu vào ứng dụng  
 
-The next step in our app development is getting the server up and running. To do this however, we need to get some data into our app, and figure out all the calculations we're going to do. A shiny app is not straightforward to debug, as it's often not clear where errors are coming from, so it's ideal to get all our data processing and visualisation code working before we start making the server itself.
+Bước tiếp theo trong quá trình phát triển ứng dụng là thiết lập và chạy máy chủ. Tuy nhiên, để làm điều này, chúng ta cần đưa một số dữ liệu vào ứng dụng của mình và tìm ra tất cả các phép tính mà chúng ta sẽ thực hiện. Một ứng dụng shiny không dễ để gỡ lỗi, vì thường không rõ lỗi đến từ đâu, do đó, lý tưởng nhất là hãy chắc chắn tất cả code dùng để trực quan và xử lý dữ liệu của chúng ta hoạt động tốt trước khi chúng ta bắt đầu tự tạo máy chủ.  
 
-So given we want to make an app that shows epi curves that change based on user input, we should think about what code we would need to run this in a normal R script. We'll need to:
+Bây giờ chúng ta muốn tạo một ứng dụng hiển thị các đường cong dịch bệnh thay đổi dựa trên đầu vào của người dùng, chúng ta nên nghĩ về code chúng ta sẽ cần để chạy chúng trong một R script bình thường. Chúng ta sẽ cần:  
 
-1. Load our packages
-2. Load our data
-3. Transform our data
-4. Develop a _function_ to visualise our data based on user inputs
+1. Gọi các packages 
+2. Tải dữ liệu 
+3. Chuyển đổi dữ liệu 
+4. Phát triển một _hàm_ để trực quan hóa dữ liệu của chúng ta dựa trên đầu vào của người dùng  
 
-This list is pretty straightforward, and shouldn't be too hard to do. It's now important to think about which parts of this process need to *be done only once* and which parts need to *run in response to user inputs*. This is because shiny apps generally run some code before running, which is only performed once. It will help our app's performance if as much of our code can be moved to this section. For this example, we only need to load our data/packages and do basic transformations once, so we can put that code *outside the server*. This means the only thing we'll need in the server is the code to visualise our data. Lets develop all of these componenets in a script first. However, since we're visualising our data with a function, we can also put the code _for the function_ outside the server so our function is in the environment when the app runs!
+Danh sách này khá đơn giản và không quá khó để thực hiện. Bây giờ, điều quan trọng là phải nghĩ về những phần nào của quy trình này *chỉ được thực hiện một lần* và những phần nào cần *chạy dựa theo các đầu vào của người dùng*. Điều này là do các ứng dụng shiny thường chạy một số code trước khi chạy, code này chỉ được thực hiện một lần. Nó sẽ giúp cải thiện hiệu suất ứng dụng của chúng ta nếu có thể chuyển nhiều code đến phần này. Đối với ví dụ này, chúng ta chỉ cần tải dữ liệu/packages của mình và thực hiện các phép biến đổi cơ bản một lần, vì vậy chúng ta có thể đặt code đó *bên ngoài máy chủ*. Điều này có nghĩa là thứ duy nhất chúng ta cần trong máy chủ là code để trực quan hóa dữ liệu của chúng ta. Trước tiên, hãy phát triển tất cả các thành phần này trong một script. Tuy nhiên, vì chúng ta đang trực quan hóa dữ liệu của mình bằng một hàm, chúng ta cũng có thể đặt code _cho hàm_ bên ngoài máy chủ để hàm của chúng ta ở trong môi trường khi ứng dụng chạy!  
 
-First lets load our data. Since we're working with a new project, and we want to make it clean, we can create a new directory called data, and add our malaria data in there. We can run this code below in a testing script we will eventually delete when we clean up the structure of our app.
+Đầu tiên, hãy tải dữ liệu của chúng ta. Vì chúng ta đang làm việc với một dự án mới và chúng ta cần làm sạch số liệu, chúng ta có thể tạo một thư mục mới có tên là data và thêm bộ dữ liệu sốt rét vào đó. Chúng ta có thể chạy code bên dưới trong một script thử nghiệm mà cuối cùng chúng ta sẽ xóa khi chúng ta dọn cấu trúc ứng dụng của mình.  
 
 ```{r, echo = TRUE}
 pacman::p_load("tidyverse", "lubridate")
@@ -260,7 +260,7 @@ print(malaria_data)
 ```
 
 
-It will be easier to work with this data if we use tidy data standards, so we should also transform into a longer data format, where age group is a column, and cases is another column. We can do this easily using what we've learned in the [Pivoting data] page.  
+Sẽ dễ dàng hơn để làm việc với dữ liệu này nếu chúng ta sử dụng các tiêu chuẩn dữ liệu tidy, vì vậy chúng ta cũng nên chuyển đổi dữ liệu sang định dạng dài hơn, trong đó nhóm tuổi là một cột và các trường hợp là một cột khác. Chúng ta có thể thực hiện việc này một cách dễ dàng bằng cách sử dụng những gì chúng ta đã học được trong chương [Xoay trục dữ liệu].  
 
 
 ```{r, echo = TRUE}
@@ -273,13 +273,13 @@ print(malaria_data)
 
 ```
 
-And with that we've finished preparing our data! This crosses items 1, 2, and 3 off our list of things to develop for our "testing R script". The last, and most difficult task will be building a function to produce an epicurve based on user defined parameters. As mentioned previously, it's *highly recommended* that anyone learning shiny first look at the section on functional programming ([Writing functions]) to understand how this works!
+Và cùng với đó, chúng ta đã chuẩn bị xong dữ liệu của mình! Chúng ta đã hoàn thành các mục 1, 2 và 3 trong danh sách những thứ cần phát triển cho một "script R thử nghiệm". Nhiệm vụ cuối cùng và khó khăn nhất sẽ là xây dựng một hàm để tạo ra một đường cong dịch bệnh dựa trên các thông số do người dùng xác định. Như đã đề cập trước đây, chúng tôi *rất khuyến khích* bất kỳ ai học shiny trước tiên hãy xem phần về lập trình hướng chức năng ([Viết hàm]) để hiểu cách thức hoạt động của nó!    
 
-When defining our function, it might be hard to think about what parameters we want to include. For functional programming with shiny, every relevent parameter will generally have a widget associated with it, so thinking about this is usually quite easy! For example in our current app, we want to be able to filter by district, and have a widget for this, so we can add a district parameter to reflect this. We *don't* have any app functionality to filter by facility (for now), so we don't need to add this as a parameter. Lets start by making a function with three parameters:
+Khi định nghĩa một hàm, có thể khó khăn khi nghĩ về những tham số chúng ta muốn đưa vào. Đối với lập trình hướng chức năng với shiny, mọi tham số liên quan thường sẽ có một widget liên kết với nó, vì vậy việc suy nghĩ về điều này thường khá dễ dàng! Ví dụ: trong ứng dụng hiện tại, chúng ta muốn có thể lọc theo quận và có một widget cho việc này, vì vậy chúng ta có thể thêm thông số quận để phản ánh điều này. Chúng ta (hiện tại) *không* có bất kỳ chức năng ứng dụng nào để lọc theo cơ sở, vì vậy chúng ta không cần thêm thông số này làm tham số. Hãy bắt đầu bằng cách tạo một hàm với ba tham số:  
 
-1. The core dataset
-2. The district of choice
-3. The age group of choice
+1. Bộ dữ liệu cốt lõi  
+2. Quận được lựa chọn  
+3. Nhóm tuổi được lựa chọn  
 
 ```{r}
 
@@ -337,11 +337,11 @@ plot_epicurve <- function(data, district = "All", agegroup = "malaria_tot") {
 ```
 
 
-We won't go into great detail about this function, as it's relatively simple in how it works. One thing to note however, is we handle errors by returning `NULL` when it would otherwise give an error. This is because when a shiny server produces a `NULL` object instead of a plot object, nothing will be shown in the ui! This is important, as otherwise errors will often cause your app to stop working.  
+Chúng ta sẽ không đi sâu vào chi tiết về hàm này, vì nó tương đối đơn giản về cách hoạt động. Tuy nhiên, một điều cần lưu ý là chúng ta xử lý lỗi bằng cách trả về `NULL` khi nó sẽ xuất hiện lỗi. Lý do là khi một máy chủ shiny tạo ra một đối tượng `NULL` thay vì một đối tượng đồ thị, sẽ không có gì được hiển thị trong ui! Điều này rất quan trọng, vì nếu không, các lỗi thường sẽ khiến ứng dụng của bạn ngừng hoạt động.  
 
-Another thing to note is the use of the `%in%` operator when evaluating the `district` input. As mentioned above, this could arrive as a character vector with multiple values, so using `%in%` is more flexible than say, `==`.  
+Một điều khác cần lưu ý là việc sử dụng toán tử `%in%` khi đánh giá đầu vào `district`. Như đã đề cập ở trên, toán tử này có thể đến dưới dạng một vectơ ký tự có nhiều giá trị, vì vậy việc sử dụng `%in%` sẽ linh hoạt hơn so với nói,`==`.  
 
-Let's test our function!
+Hãy kiểm tra hàm này!  
 
 ```{r, echo = TRUE, warning = FALSE}
 
@@ -349,12 +349,12 @@ plot_epicurve(malaria_data, district = "Bolo", agegroup = "malaria_rdt_0-4")
 
 ```
 
-With our function working, we now have to understand how this all is going to fit into our shiny app. We mentioned the concept of _startup code_ before, but lets look at how we can actually incorporate this into the structure of our app. There are two ways we can do this!
+Với một hàm hoạt động được, bây giờ chúng ta phải hiểu cách mà tất cả những thứ này sẽ được fit vào một ứng dụng shiny như thế nào. Chúng ta đã đề cập đến khái niệm _code khởi động (startup code)_ trước đây, nhưng hãy xem cách chúng ta thực sự có thể kết hợp nó vào cấu trúc ứng dụng của chúng ta. Có hai cách chúng ta có thể làm điều này!  
 
-1. Put this code in your _app.R_ file at the start of the script (above the UI), or  
-2. Create a new file in your app's directory called _global.R_, and put the startup code in this file.
+1. Đặt code này vào tệp _app.R_ của bạn ở phần đầu script (phía trên UI) hoặc
+2. Tạo một tệp mới trong thư mục của ứng dụng có tên _global.R_ và đặt code khởi động vào tệp này.  
 
-It's worth noting at this point that it's generally easier, especially with bigger apps, to use the second file structure, as it lets you separate your file structure in a simple way. Lets fully develop a this global.R script now. Here is what it could look like:
+Có một lưu ý ở điểm này đó là nó sẽ thường dễ dàng hơn, đặc biệt là với các ứng dụng lớn, khi bạn sử dụng cấu trúc tệp thứ hai, vì nó cho phép bạn tách cấu trúc tệp của mình theo cách đơn giản. Hãy phát triển đầy đủ script global.R này ngay bây giờ. Đây là những gì nó có thể hiển thị:  
 
 
 ```{r, eval = F}
@@ -431,9 +431,9 @@ plot_epicurve <- function(data, district = "All", agegroup = "malaria_tot") {
 ```
 
 
-Easy! One great feature of shiny is that it will understand what files named _app.R_, _server.R_, _ui.R_, and _global.R_ are for, so there is no need to connect them to each other via any code. So just by having this code in _global.R_ in the directory it will run before we start our app!.  
+Thật đơn giản! Một tính năng tuyệt vời của shiny là nó sẽ hiểu các tệp có tên _app.R_, _server.R_, _ui.R_ và _global.R_ dùng để làm gì, vì vậy không cần phải kết nối chúng với nhau thông qua bất kỳ code nào. Vì vậy, chỉ cần có code này trong _global.R_ trong thư mục, nó sẽ chạy trước khi chúng ta khởi động ứng dụng của mình!  
 
-We should also note that it would improve our app's organisation if we moved the plotting function to its own file - this will be especially helpful as apps become larger. To do this, we could make another directory called _funcs_, and put this function in as a file called _plot_epicurve.R_. We could then read this function in via the following command in _global.R_
+Chúng ta cũng nên lưu ý rằng có thể cải thiện tổ chức ứng dụng nếu chúng ta chuyển hàm vẽ biểu đồ sang tệp riêng của nó - điều này sẽ đặc biệt hữu ích khi các ứng dụng trở nên lớn hơn. Để làm điều này, chúng ta có thể tạo một thư mục khác có tên _funcs_ và đặt hàm này dưới một tệp có tên _plot_epicurve.R_. Sau đó, chúng ta có thể đọc hàm này thông qua lệnh sau trong _global.R_  
 
 ```{r, eval = F}
 
@@ -441,19 +441,19 @@ source(here("funcs", "plot_epicurve.R"), local = TRUE)
 
 ```
 
-Note that you should *always* specify `local = TRUE` in shiny apps, since it will affect sourcing when/if the app is published on a server. 
+Lưu ý rằng bạn nên *luôn* chỉ định `local = TRUE` trong các ứng dụng shiny, vì nó sẽ ảnh hưởng đến việc tìm nguồn khi/nếu ứng dụng được xuất bản trên máy chủ.  
 
-## Developing an app server
+## Phát triển một máy chủ ứng dụng  
 
-Now that we have most of our code, we just have to develop our server. This is the final piece of our app, and is probably the hardest to understand. The server is a large R function, but its helpful to think of it as a series of smaller functions, or tasks that the app can perform. It's important to understand that these functions are not executed in a linear order. There is an order to them, but it's not fully necessary to understand when starting out with shiny. At a very basic level, these tasks or functions will activate when there is a change in user inputs that affects them, *unless the developer has set them up so they behave differently*. Again, this is all quite abstract, but lets first go through the three basic types of shiny _objects_
+Bây giờ chúng ta đã có hầu hết code cần thiết, chúng ta chỉ cần phát triển thêm máy chủ. Đây là phần cuối cùng của ứng dụng và có lẽ là phần khó hiểu nhất. Máy chủ là một hàm R lớn, nhưng sẽ hữu ích nếu coi nó như một chuỗi các hàm hoặc nhiệm vụ nhỏ hơn mà ứng dụng có thể thực hiện. Điều quan trọng là phải hiểu rằng các hàm này không được thực thi theo thứ tự tuyến tính. Nghĩa là có một thứ tự cho chúng, nhưng không cần phải hiểu đầy đủ khi bắt đầu với shiny. Ở cấp độ rất cơ bản, các tác vụ hoặc chức năng này sẽ kích hoạt khi có thay đổi về đầu vào của người dùng ảnh hưởng đến chúng, *trừ khi nhà phát triển đã thiết lập chúng để chúng hoạt động khác biệt*. Một lần nữa, nó khá trừu tượng, nhưng trước tiên hãy xem qua ba loại cơ bản của _đối tượng_ shiny  
 
-1. Reactive sources - this is another term for user inputs. The shiny server has access to the outputs from the UI through the widgets we've programmed. Every time the values for these are changed, this is passed down to the server.
+1. Nguồn phản hồi (Reactive sources) - đây là một thuật ngữ khác của đầu vào người dùng. Máy chủ shiny có quyền truy cập vào các đầu ra từ UI thông qua các widget mà chúng ta đã lập trình. Mỗi khi các giá trị được thay đổi, chúng được chuyển đến máy chủ.  
 
-2. Reactive conductors - these are objects that exist *only* inside the shiny server. We don't actually need these for simple apps, but they produce objects that can only be seen inside the server, and used in other operations. They generally depend on reactive sources.
+2. Vật dẫn phản hồi (Reactive conductors) - đây là những đối tượng tồn tại *chỉ* bên trong máy chủ shiny. Chúng ta không thực sự cần những thứ này cho các ứng dụng đơn giản, nhưng chúng tạo ra các đối tượng chỉ có thể được nhìn thấy bên trong máy chủ và được sử dụng trong các hoạt động khác. Chúng thường phụ thuộc vào các nguồn phản ứng.  
 
-3. Endpoints - these are outputs that are passed from the server to the UI. In our example, this would be the epi curve we are producing. 
+3. Điểm cuối (Endpoints) - đây là các đầu ra được chuyển từ máy chủ đến UI. Trong ví dụ của chúng ta, đây sẽ là đường cong dịch bệnh mà chúng ta đang tạo.    
 
-With this in mind lets construct our server step-by-step. We'll show our UI code again here just for reference:
+Với các khái niệm này, chúng ta hãy xây dựng máy chủ theo từng bước. Chúng tôi hiển thị lại code UI một lần nữa ở đây để bạn tham khảo:  
 
 ```{r, eval = FALSE}
 
@@ -505,15 +505,15 @@ ui <- fluidPage(
 
 ```
 
-From this code UI we have:
+Từ UI code này, chúng ta có:  
 
-- Two inputs:
-  - District selector (with an inputId of `select_district`)
-  - Age group selector (with an inputId of `select_agegroup`)
-- One output:
-  - The epicurve (with an outputId of `malaria_epicurve`)
+- Hai đầu vào:  
+  - Bộ chọn quận (với inputId là `select_district`)  
+  - Bộ chọn nhóm tuổi (với inputId là `select_agegroup`)  
+- Một đầu ra:
+  - Đường cong dịch bệnh (với outputId là `malaria_epicurve`)  
 
-As stated previously, these unique names we have assigned to our inputs and outputs are crucial. They *must be unique* and are used to pass information between the ui and server. In our server, we access our inputs via the syntax `input$inputID` and outputs and passed to the ui through the syntax `output$output_name` Lets have a look at an example, because again this is hard to understand otherwise!
+Như đã nói ở trên, những tên riêng mà chúng ta đã gán cho các đầu vào và đầu ra là rất quan trọng. Chúng *phải là duy nhất* và được sử dụng để chuyển thông tin giữa ui và máy chủ. Trong máy chủ, chúng ta truy cập tới các đầu vào thông qua cú pháp `input$inputID` và các đầu ra, và chuyển đến ui thông qua cú pháp `output$output_name` Hãy cùng xem xét một ví dụ, bởi vì điều này rất khó hiểu!
 
 ```{r, eval = FALSE}
 
@@ -529,16 +529,16 @@ server <- function(input, output, session) {
 ```
 
 
-The server for a simple app like this is actually quite straightforward! You'll notice that the server is a function with three parameters - `input`, `output`, and `session` - this isn't that important to understand for now, but its important to stick to this setup! In our server we only have one task - this renders a plot based on our function we made earlier, and the inputs from the server. Notice how the names of the input and output objects correspond exactly to those in the ui.
+Máy chủ cho một ứng dụng đơn giản như thế này thực sự khá dễ dàng! Bạn sẽ nhận thấy rằng máy chủ là một hàm có ba tham số - `input`, `output` và `session` - điều này không quan trọng để hiểu ngay bây giờ, nhưng điều quan trọng là phải tuân theo thiết lập này! Trong máy chủ bên trên, chúng ta chỉ có một nhiệm vụ - đó là kết xuất một biểu đồ dựa trên hàm mà chúng ta đã thực hiện trước đó và các đầu vào từ máy chủ. Lưu ý cách tên của các đối tượng đầu vào và đầu ra tương ứng chính xác với các đối tượng trong ui.  
 
-To understand the basics of how the server reacts to user inputs, you should note that the output will know (through the underlying package) when inputs change, and rerun this function to create a plot every time they change. Note that we also use the `renderPlot()` function here - this is one of a family of class-specific functions that pass those objects to a ui output. There are a number of functions that behave similarly, but you need to ensure the function used matches the class of object you're passing to the ui! For example:
+Để hiểu những điều cơ bản về cách máy chủ phản hồi với thông tin đầu vào của người dùng, bạn cần lưu ý rằng đầu ra sẽ biết (thông qua package nhầm) khi đầu vào thay đổi và chạy lại hàm này để tạo biểu đồ mỗi khi chúng thay đổi. Lưu ý rằng chúng tôi cũng sử dụng hàm `renderPlot()` ở đây - đây là một trong số họ các hàm dành riêng cho lớp truyền các đối tượng đó đến đầu ra ui. Có một số hàm hoạt động tương tự, nhưng bạn cần đảm bảo hàm được sử dụng khớp với lớp đối tượng mà bạn đang chuyển tới ui! Ví dụ:  
 
-- `renderText()` - send text to the ui
-- `renderDataTable` - send an interactive table to the ui.
+- `renderText()` - gửi văn bản tới ui  
+- `renderDataTable` - gửi bảng tương tác tới ui.  
 
-Remember that these also need to match the output *function* used in the ui - so `renderPlot()` is paired with `plotOutput()`, and `renderText()` is matched with `textOutput()`. 
+Hãy nhớ rằng chúng cũng cần phải khớp với *hàm* đầu ra được sử dụng trong ui - vì vậy `renderPlot()` được ghép cặp với `plotOutput()` và `renderText()` được kết hợp với `textOutput()`.    
 
-So we've finally made a functioning app! We can run this by pressing the Run App button on the top right of the script window in Rstudio. You should note that you can choose to run your app in your default browser (rather than Rstudio) which will more accurately reflect what the app will look like for other users.  
+Cuối cùng chúng ta đã tạo ra một ứng dụng hoạt động! Chúng ta có thể chạy ứng dùng bằng cách nhấn nút Run App ở trên cùng bên phải của cửa sổ script trong Rstudio. Bạn nên lưu ý rằng bạn có thể chọn chạy ứng dụng của mình trong trình duyệt mặc định (thay vì Rstudio), điều này sẽ phản ánh chính xác hơn giao diện của ứng dụng đối với những người dùng khác.  
 
 
 ```{r, out.width = c('100%'), out.height = c('100%'), echo=F}
@@ -546,7 +546,7 @@ knitr::include_graphics(here::here("images", "shiny", "app_simple_view.gif"))
 ```
 
 
-It is fun to note that in the R console, the app is "listening"! Talk about reactivity!  
+Lưu ý vui rằng trong R console, ứng dụng đang "lắng nghe"! Hãy nói về sự phản hồi!
 
 ```{r, echo=F}
 knitr::include_graphics(here::here("images", "shiny", "listening.png"))
@@ -557,35 +557,34 @@ knitr::include_graphics(here::here("images", "shiny", "listening.png"))
 
 
 
-## Adding more functionality
+## Thêm nhiều chức năng hơn  
 
-At this point we've finally got a running app, but we have very little functionality. We also haven't really scratched the surface of what shiny can do, so there's a lot more to learn about! Lets continue to build our existing app by adding some extra features. Some things that could be nice to add could be: 
+Tại thời điểm này, cuối cùng chúng ta đã có một ứng dụng đang chạy, nhưng chúng ta có rất ít chức năng. Chúng ta cũng không thực sự khai thác hết những gì shiny có thể làm, vì vậy có nhiều thứ để tìm hiểu thêm! Hãy tiếp tục xây dựng ứng dụng hiện có của chúng ta bằng cách thêm một số tính năng bổ sung. Một số thứ hay bạn có thể thêm vào là:  
 
-1. Some explanatory text 
-2. A download button for our plot - this would provide the user with a high quality version of the image that they're generating in the app
-3. A selector for specific facilities
-4. Another dashboard page - this could show a table of our data.
+1. Một văn bản giải thích
+2. Nút tải đồ thị xuống - Cung cấp cho người dùng phiên bản chất lượng cao của hình ảnh mà họ đang tạo trong ứng dụng
+3. Một bộ chọn cho các cơ sở cụ thể
+4. Một trang dashboard khác - Có thể hiển thị một bảng cho dữ liệu của chúng ta.  
 
-This is a lot to add, but we can use it to learn about a bunch of different shiny featues on the way. There is so much to learn about shiny (it can get *very* advanced, but its hopefully the case that once users have a better idea of how to use it they can become more comfortable using external learning sources as well).
+Có rất nhiều thứ để thêm, nhưng chúng ta có thể sử dụng nó để tìm hiểu về một loạt các tính năng shiny khác nhau sau này. Có rất nhiều thứ để tìm hiểu về Shiny (nó có thể trở nên *rất* nâng cao, nhưng hy vọng nó là trường hợp một khi người dùng có ý tưởng tốt hơn về cách sử dụng nó, họ có thể trở nên thoải mái hơn khi sử dụng các nguồn học tập bên ngoài).  
 
 
+### Thêm văn bản tĩnh {.unnumbered}  
 
-### Adding static text {.unnumbered}  
+Trước tiên hãy thảo luận về việc thêm văn bản tĩnh vào ứng dụng shiny. Thêm văn bản vào ứng dụng của chúng ta cực kỳ dễ dàng khi bạn có kiến thức cơ bản về nó. Vì văn bản tĩnh không thay đổi trong ứng dụng shiny (nếu bạn muốn thay đổi, bạn có thể sử dụng hàm *kết xuất văn bản (text rendering)* trong máy chủ!), Tất cả văn bản tĩnh của Shiny thường được thêm vào UI của ứng dụng. Chúng tôi sẽ không đi vào chi tiết cho điều này, nhưng bạn có thể thêm nhiều yếu tố khác nhau vào giao diện UI (và thậm chí cả tùy chỉnh) bằng cách giao tiếp R với *HTML* và *css*.  
 
-Lets first discuss adding static text to our shiny app. Adding text to our app is extremely easy, once you have a basic grasp of it. Since static text doesn't change in the shiny app (If you'd like it to change, you can use *text rendering* functions in the server!), all of shiny's static text is generally added in the ui of the app. We wont go through this in great detail, but you can add a number of different elements to your ui (and even custom ones) by interfacing R with *HTML* and *css*.
+HTML và css là các ngôn ngữ có liên quan mật thiết trong thiết kế giao diện người dùng. Chúng ta không cần phải hiểu quá rõ những thứ này, nhưng *HTML* tạo các đối tượng trong UI (như hộp văn bản hoặc bảng) và *css* thường được sử dụng để thay đổi kiểu và tính thẩm mỹ của các đối tượng đó. Shiny có quyền truy cập vào một mảng lớn của _các thẻ HTML_ - các thẻ này trình bày các đối tượng hoạt động theo một cách cụ thể, chẳng hạn như các tiêu đề, đoạn văn bản, ngắt dòng, bảng, v.v. Chúng ta có thể sử dụng một số ví dụ này như sau:    
 
-HTML and css are languages that are explicitly involved in user interface design. We don't need to understand these too well, but *HTML* creates objects in UI (like a text box, or a table), and *css* is generally used to change the style and aesthetics of those objects. Shiny has access to a large array of _HTML tags_ - these are present for objects that behave in a specific way, such as headers, paragraphs of text, line breaks, tables, etc. We can use some of these examples like this:
-
-- `h1()` - this a a *header* tag, which will make enclosed text automatically larger, and change defaults as they pertain to the font face, colour etc (depending on the overall theme of your app). You can access _smaller and smaller_ sub-heading with `h2()` down to `h6()` as well. Usage looks like:
+- `h1()` - đây là một thẻ *đầu mục*, sẽ tự động tạo văn bản lớn hơn và thay đổi mặc định khi chúng liên quan đến mặt phông chữ, màu v.v (tùy thuộc vào theme tổng thể ứng dụng của bạn). Bạn có thể truy cập tiêu đề phụ _nhỏ hơn và nhỏ hơn_ với `h2()` xuống tới cả `h6()`. Cách sử dụng sẽ trông như sau:  
   * `h1("my header - section 1")`
 
-- `p()` - this is a *paragraph* tag, which will make enclosed text similar to text in a body of text. This text will automatically wrap, and be of a relatively small size (footers could be smaller for example.) Think of it as the text body of a word document. Usage looks like:  
+- `p()` - đây là thẻ *đoạn*, sẽ khiến văn bản được chọn tương tự như văn bản trong một thân văn bản. Văn bản này sẽ tự động bao quanh, và có kích thước tương đối nhỏ (footers có thể còn nhỏ hơn). Hãy nghĩ về nó như phần thân văn bản của tài liệu Word. Cách sử dụng trông như sau  
 
   * `p("This is a larger body of text where I am explaining the function of my app")`
   
-- `tags$b()` and `tags$i()` - these are used to create bold `tags$b()` and italicised `tags$i()` with whichever text is enclosed!
+- `tags$b()` và `tags$i()` - chúng được sử dụng để tạo in đậm `tags$b()` và in nghiêng `tags$i()` với bất kỳ văn bản nào được chọn!  
 
-- `tags$ul()`, `tags$ol()` and `tags$li()` - these are tags used in creating *lists*. These are all used within the syntax below, and allow the user to create either an ordered list (`tags$ol()`; i.e. numbered) or unordered list (`tags$ul()`, i.e. bullet points). `tags$li()` is used to denote items in the list, regardless of which type of list is used. e.g.:
+- `tags$ul()`, `tags$ol()` và `tags$li()` - đây là các thẻ được sử dụng trong việc tạo *danh sách*. Tất cả đều được sử dụng trong cú pháp bên dưới và cho phép người dùng tạo một danh sách theo thứ tự (`tags$ol()`; nghĩa là được đánh số) hoặc danh sách không có thứ tự (`tags$ul()`, nghĩa là tạo gạch đầu dòng). `tags$li()` được sử dụng để biểu thị các mục trong danh sách, bất kể loại danh sách nào được sử dụng. ví dụ:  
 
 ```{r, eval = F}
 
@@ -601,17 +600,17 @@ tags$ol(
 
 ```
 
-- `br()` and `hr()` - these tags create *linebreaks* and *horizontal lines* (with a linebreak) respectively. Use them to separate out the sections of your app and text! There is no need to pass any items to these tags (parentheses can remain empty).
+- `br()` và `hr()` - các thẻ này tương ứng tạo *ngắt dòng* và *dòng ngang* (với một ngắt dòng). Sử dụng chúng để tách riêng các phần của ứng dụng và văn bản của bạn! Không cần phải chuyền bất kỳ đối tượng nào vào các thẻ này (dấu ngoặc đơn có thể vẫn trống).  
 
 
-- `div()` - this is a *generic* tag that can *contain anything*, and can be *named anything*. Once you progress with ui design, you can use these to compartmentalize your ui, give specific sections specific styles, and create interactions between the server and UI elements. We won't go into these in detail, but they're worth being aware of!
+- `div()` - Đây là thẻ *chung* có thể *chứa bất cứ thứ gì* và có thể *có bất cứ tên gì*. Khi bạn tiến bộ với thiết kế UI, bạn có thể sử dụng chúng để phân các UI ra từng loại, cung cấp các style cho từng phần cụ thể và tạo các tương tác giữa các phần tử máy chủ và UI. Chúng tôi sẽ không đi sâu vào những chi tiết này, nhưng quan trọng để biết qua về chúng!  
 
-Note that every one of these objects can be accessed through `tags$...` or for some, just the function. These are effectively synonymous, but it may help to use the `tags$...` style if you'd rather be more explicit and not overwrite the functions accidentally. This is also by no means an exhaustive list of tags available. There is a full list of all tags available in shiny  [here](https://shiny.rstudio.com/articles/tag-glossary.html) and even more can be used by inserting HTML directly into your ui!
+Lưu ý rằng mỗi đối tượng này có thể được truy cập thông qua các thẻ `tags$...` hoặc chỉ qua hàm với một số khác. Chúng có hiệu quả như nhau, nhưng nó có thể giúp sử dụng kiểu `tags$...` nếu bạn thích rõ ràng hơn và không vô tình ghi đè các hàm. Điều này cũng không có nghĩa là có sẵn một danh sách thẻ đầy đủ. Có một danh sách khá đầy đủ tất cả các thẻ có sẵn trong shiny [ở đây](https://shiny.rstudio.com/articles/tag-glossary.html) và thậm chí nhiều thẻ có thể được sử dụng hơn nếu bạn biết cách chèn HTML trực tiếp vào UI của bạn!  
 
 
-If you're feeling confident, you can also add any *css styling elements* to your HTML tags with the `style` argument in any of them. We won't go into how this works in detail, but one tip for testing aesthetic changes to a UI is using the HTML inspector mode in chrome (of your shiny app you are running in browser), and editing the style of objects yourself!
+Nếu bạn cảm thấy tự tin, bạn cũng có thể thêm bất kỳ *phần tử tạo kiểu css* nào vào các thẻ HTML của mình với đối số `style` trong bất kỳ phần tử nào. Chúng ta sẽ không đi vào chi tiết cách thức hoạt động, nhưng một mẹo để thử nghiệm các thay đổi thẩm mỹ đối với UI đang sử dụng chế độ HTML inspector trong Chrome (bên trong ứng dụng shiny của bạn khi bạn đang chạy trong trình duyệt) và tự chỉnh sửa style của các đối tượng!  
 
-Lets add some text to our app
+Hãy thêm một số văn bản vào ứng dụng của chúng ta  
 
 ```{r, eval = F}
 
@@ -681,9 +680,9 @@ knitr::include_graphics(here::here("images", "shiny", "app_text_view.png"))
 ```
 
 
-### Adding a link {.unnumbered}
+### Thêm liên kết {.unnumbered}
 
-To add a link to a website, use `tags$a()` with the link and display text as shown below. To have as a standalone paragraph, put it within `p()`. To have only a few words of a sentence linked, break the sentence into parts and use `tags$a()` for the hyperlinked part. To ensure the link opens in a *new* browser window, add `target = "_blank"` as an argument.  
+Để thêm một liên kết đến một trang web, hãy sử dụng `tags$a()` với liên kết và  văn bản hiển thị như bên dưới. Để có một đoạn độc lập, hãy đặt nó trong `p()`. Để chỉ có một vài từ của một câu được gắn liên kết, hãy chia câu thành các phần và sử dụng `tags$a()` cho thành phần gắn hyperlink. Để đảm bảo liên kết được mở trong một cửa sổ trình duyệt *mới*, hãy thêm `target = "_blank"` dưới dạng một đối số.  
 
 ```{r, eval=F}
 tags$a(href = "www.epiRhandbook.com", "Visit our website!")
@@ -691,12 +690,12 @@ tags$a(href = "www.epiRhandbook.com", "Visit our website!")
 
 
 
-### Adding a download button {.unnumbered}
+### Thêm nút tải về {.unnumbered}
 
-Lets move on to the second of the three features. A download button is a fairly common thing to add to an app and is fairly easy to make. We need to add another Widget to our ui, and we need to add another output to our server to attach to it. We can also introduce *reactive conductors* in this example!
+Hãy cùng chuyển sang tính năng thứ hai. Nút tải xuống là một điều khá phổ biến để thêm vào một ứng dụng và khá dễ thực hiện. Chúng ta cần thêm một Widget khác vào giao diện người dùng và thêm một đầu ra khác tới máy chủ của chúng ta để đính kèm vào Widget đó. Chúng tôi cũng có thể giới thiệu về *vật dẫn phản hồi* trong ví dụ này!   
 
 
-Lets update our ui first - this is easy as shiny comes with a widget called `downloadButton()` - lets give it an inputId and a label.
+Hãy cập nhật giao diện người dùng của chúng ta trước - Điều này dễ dàng khi Shiny đi kèm với một widget có tên là `downloadButton()` - cho phép đặt inputId và nhãn.  
 
 ```{r, eval = FALSE}
 
@@ -767,9 +766,9 @@ ui <- fluidPage(
 
 ```
  
-Note that we've also added in a `hr()` tag - this adds a horizontal line separating our control widgets from our download widgets. This is another one of the HTML tags that we discussed previously.
+Lưu ý rằng chúng ta cũng đã thêm vào thẻ `hr()` - Điều này thêm một đường ngang ngăn cách các widget điều khiển với các widget tải xuống của chúng ta. Đây là một trong những thẻ HTML khác mà chúng ta đã thảo luận trước đây.  
 
-Now that we have our ui ready, we need to add the server component. Downloads are done in the server with the `downloadHandler()` function. Similar to our plot, we need to attach it to an output that has the same inputId as the download button. This function takes two arguments - `filename` and `content` - these are both functions. As you might be able to guess, `filename` is used to specify the name of the downloaded file, and `content` is used to specify what should be downloaded. `content` contain a function that you would use to save data locally - so if you were downloading a csv file you could use `rio::export()`. Since we're downloading a plot, we'll use `ggplot2::ggsave()`. Lets look at how we would program this (we won't add it to the server yet). 
+Bây giờ khi giao diện người dùng của chúng ta đã sẵn sàng, chúng ta cần thêm thành phần máy chủ. Việc thiết kế tải xuống đã được hoàn thành trong máy chủ với hàm `downloadHandler()`. Tương tự như đồ thị, chúng ta cần đính kèm nó vào một đầu ra có cùng inputId như là nút tải xuống. Hàm này có hai đối số - `filename` và `content` - cả hai đều là các hàm. Như bạn có thể đoán, `fileName` được sử dụng để chỉ định tên của tệp đã tải xuống và `content` được sử dụng để chỉ định những gì nên tải xuống. `content` chứa một hàm mà bạn sẽ sử dụng để lưu dữ liệu cục bộ - vì vậy nếu bạn đang tải xuống tệp CSV, bạn có thể sử dụng hàm `rio::export()`. Bởi vì chúng ta đang tải xuống một đồ thị, chúng ta sẽ sử dụng hàm `ggplot2::ggsave()`. Hãy xem cách chúng ta sẽ lập trình nó như sau (chúng ta sẽ không thêm nó vào máy chủ).  
 
 ```{r, eval = FALSE}
 
@@ -798,14 +797,14 @@ server <- function(input, output, session) {
 ```
 
 
-Note that the `content` function always takes a `file` argument, which we put where the output file name is specified. You might also notice that we're repeating code here - we are using our `plot_epicurve()` function twice in this server, once for the download and once for the image displayed in the app. While this wont massively affect performance, this means that the code to generate this plot will have to be run when the user changes the widgets specifying the district and age group, *and* again when you want to download the plot. In larger apps, suboptimal decisions like this one will slow things down more and more, so it's good to learn how to make our app more efficient in this sense. What would make more sense is if we had a way to run the epicurve code when the districts/age groups are changes, *and let that be used by* the renderPlot() and downloadHandler() functions. This is where reactive conductors come in! 
+Lưu ý rằng hàm `content` luôn có đối số `file`, đối số giúp chúng ta chỉ định tên tệp đầu ra. Bạn cũng có thể nhận thấy rằng chúng ta đang lặp lại code tại đây - chúng ta đang sử dụng hàm `plot_epicurve()` hai lần trong máy chủ, một lần để tải xuống và một lần cho hình ảnh được hiển thị trong ứng dụng. Trong khi điều này sẽ không ảnh hưởng lớn đến hiệu suất, nghĩa là code để tạo ra đồ thị này sẽ phải chạy khi người dùng thay đổi các widget xác định nhóm quận và tuổi, *và* một lần nữa khi bạn muốn tải xuống đồ thị. Trong các ứng dụng lớn hơn, các quyết định làm giảm hiệu quả tối ưu như thế này sẽ càng ngày càng làm chậm mọi thứ, vì vậy sẽ tốt khi bạn học cách làm cho ứng dụng của chúng ta hiệu quả hơn theo nghĩa này. Sẽ hợp lý hơn nếu chúng ta có cách chạy code epicurve khi các nhóm quận/tuổi thay đổi, *và để chúng được sử dụng bởi* các hàm renderPlot() và downloadHandler(). Đây là khi mà các vật dẫn phản hồi có tác dụng!  
 
-Reactive conductors are objects that are created in the shiny server in a *reactive* way, but are not outputted - they can just be used by other parts of the server. There are a number of different kinds of *reactive conductors*, but we'll go through the basic two.
+Vật dẫn phản hồi là các đối tượng được tạo trong máy chủ shiny theo cơ chế *tương tác*, nhưng không xuất hiện - chúng chỉ có thể được sử dụng bởi các phần khác của máy chủ. Có một số loại *vật dẫn phản hồi* khác nhau, nhưng chúng ta sẽ đi qua hai loại cơ bản.  
 
-1.`reactive()` - this is the most basic reactive conductor - it will react whenever any inputs used inside of it change (so our district/age group widgets)  
-2. `eventReactive()`- this rective conductor works the same as `reactive()`, except that the user can specify which inputs cause it to rerun. This is useful if your reactive conductor takes a long time to process, but this will be explained more later.  
+1.`reactive()` - đây là vật dẫn phản hồi cơ bản nhất - nó sẽ phản hồi bất cứ khi nào bất kỳ đầu vào nào được sử dụng bên trong bởi nó thay đổi (các widget nhóm/nhóm tuổi)  
+2. `eventReactive()` - vật dẫn phản hồi này hoạt động giống với `reactive()`, ngoại trừ người dùng có thể quy định các đầu vào nào khiến nó tiến hành chạy lại. Cách này rất hữu ích nếu vật dẫn phản hồi của bạn mất nhiều thời gian để xử lý, nhưng chúng tôi sẽ giải thích rõ hơn ở phần sau  
 
-Lets look at the two examples:
+Hãy xem hai ví dụ:  
 
 ```{r, eval = FALSE}
 
@@ -827,9 +826,9 @@ malaria_plot_er <- eventReactive(input$select_district, {
 
 ```
 
-When we use the `eventReactive()` setup, we can specify which inputs cause this chunk of code to run - this isn't very useful to us at the moment, so we can leave it for now. Note that you can include multiple inputs with `c()`
+Khi chúng ta sử dụng thiết lập `eventReactive()`, chúng ta có thể chỉ định các đầu vào nào chạy đoạn code này - điều này không hữu ích với chúng ta vào lúc này, nên chúng ta có thể bỏ qua nó. Lưu ý rằng bạn có thể bao gồm nhiều đầu vào với `c()`  
 
-Lets look at how we can integrate this into our server code:
+Hãy xem cách chúng ta có thể tích hợp vào code máy chủ:  
 
 
 ```{r, eval = FALSE}
@@ -865,7 +864,7 @@ server <- function(input, output, session) {
 
 ```
 
-You can see we're just calling on the output of our reactive we've defined in both our download and plot rendering functions. One thing to note that often trips people up is you have to use the outputs of reactives as if they were functions - so you *must add empty brackets at the end of them* (i.e. `malaria_plot()` is correct, and `malaria_plot` is not). Now that we've added this solution our app is a little tidyer, faster, and easier to change since all our code that runs the epicurve function is in one place.
+Bạn có thể thấy chúng ta chỉ cần gọi đầu ra của phản hồi mà chúng ta đã xác định trong cả hai hàm tải xuống và tạo biểu đồ. Một điều cần lưu ý là bạn phải sử dụng các đầu ra của các phản hồi như thể chúng là các hàm - vì vậy bạn *phải thêm dấu đơn ngoặc trống ở cuối chúng* (tức là `malaria_plot()` là chính xác, còn `malaria_plot` thì không). Bây giờ khi chúng ta đã thêm giải pháp này, ứng dụng của chúng ta trở nên gọn gẽ hơn, nhanh hơn và dễ thay đổi hơn vì tất cả các code chạy hàm epicurve đều ở một nơi.  
 
 
 ```{r, echo=F}
@@ -873,9 +872,9 @@ knitr::include_graphics(here::here("images", "shiny", "download_button_view.png"
 ```
 
 
-### Adding a facility selector {.unnumbered}  
+### Thêm bộ chọn cơ sở y tế {.unnumbered}  
 
-Lets move on to our next feature - a selector for specific facilities. We'll implement another parameter into our function so we can pass this as an argument from our code. Lets look at doing this first - it just operates off the same principles as the other parameters we've set up. Lets update and test our function.
+Hãy chuyển sang tính năng tiếp theo của chúng ta - một bộ chọn cho các cơ sở cụ thể. Chúng ta sẽ thêm một tham số khác vào hàm của mình để có thể biến nó thành đối số từ code của chúng ta. Trước tiên, hãy xem việc thực hiện điều này - nó chỉ hoạt động theo các nguyên tắc tương tự như các tham số khác mà chúng ta đã thiết lập. Hãy cập nhật và kiểm tra hàm của chúng ta.  
 
 
 ```{r, echo = TRUE}
@@ -951,7 +950,7 @@ plot_epicurve <- function(data, district = "All", agegroup = "malaria_tot", faci
 }
 ```
 
-Let's test it:  
+Hãy kiểm tra nó:  
 
 ```{r, warning=F, message=F}
 
@@ -960,7 +959,7 @@ plot_epicurve(malaria_data, district = "Spring", agegroup = "malaria_rdt_0-4", f
 ```
 
 
-With all the facilites in our data, it isn't very clear which facilities correspond to which districts - and the end user won't know either. This might make using the app quite unintuitive. For this reason, we should make the facility options in the UI change dynamically as the user changes the district - so one filters the other! Since we have so many variables that we're using in the options, we might also want to generate some of our options for the ui in our _global.R_ file _from the data_. For example, we can add this code chunk to _global.R_ after we've read our data in:
+Với tất cả các cơ sở trong dữ liệu của chúng ta, sẽ khó để biết cơ sở nào tương ứng với các quận nào - và người dùng cuối cũng sẽ không biết. Điều này có thể làm cho việc sử dụng ứng dụng trở nên không trực quan. Vì lý do này, chúng ta nên làm cho các tùy chọn cơ sở trong UI thay đổi động khi người dùng thay đổi khu vực - để cái này lọc cái kia! Vì chúng ta có rất nhiều biến đang sử dụng trong các tùy chọn, chúng ta cũng có thể muốn tạo một số tùy chọn cho ui trong tệp _global.R_ _từ số liệu_. Ví dụ: chúng ta có thể thêm đoạn code này vào _global.R_ sau khi đọc dữ liệu của mình:  
 
 
 
@@ -976,7 +975,7 @@ facility_list <- malaria_data %>%
 
 ```
 
-Let's look at them:  
+Hãy xem chúng:  
 
 ```{r}
 all_districts
@@ -988,7 +987,7 @@ facility_list
 ```
 
 
-We can pass these new variables to the ui without any issue, since they are globally visible by both the server and the ui! Lets update our UI:
+Chúng ta có thể chuyển các biến mới này tới giao diện người dùng mà không gặp bất kỳ vấn đề gì, vì chúng được hiển thị trên toàn bộ cả server và ui! Hãy cập nhật UI của chúng ta:  
 
 
 ```{r, eval = FALSE}
@@ -1064,21 +1063,21 @@ ui <- fluidPage(
 ```
 
 
-Notice how we're now passing variables for our choices instead of hard coding them in the ui! This might make our code more compact as well! Lastly, we'll have to update the server. It will be easy to update our function to incorporate our new input (we just have to pass it as an argument to our new parameter), but we should remember we also want the ui to update dynamically when the user changes the selected district. It is important to understand here that we *can change the parameters and behaviour of widgets* while the app is running, but this needs to be done *in the server*. We need to understand a new way to output to the server to learn how to do this.
+Lưu ý cách chúng ta hiện đang chuyển các biến cho các lựa chọn thay vì mã hóa cứng chúng trong ui! Điều này cũng có thể làm cho code của chúng ta nhỏ gọn hơn! Cuối cùng, chúng ta sẽ phải cập nhật máy chủ. Sẽ dễ dàng cập nhật hàm của chúng ta để kết hợp với đầu vào mới (chúng ta chỉ cần chuyển nó làm đối số cho tham số mới), nhưng nên nhớ rằng chúng ta cũng muốn ui cập nhật khi người dùng thay đổi khu vực đã chọn. Điều quan trọng cần hiểu ở đây là chúng ta *có thể thay đổi các tham số và đặc tính của widget* trong khi ứng dụng đang chạy, nhưng điều này cần được thực hiện *trên máy chủ*. Chúng ta cần tìm hiểu một cách mới để xuất ra máy chủ.  
 
-The functions we need to understand how to do this are known as *observer* functions, and are similar to *reactive* functions in how they behave. They have one key difference though:
+Các hàm chúng ta cần hiểu cách thực hiện điều này được gọi là các hàm *observer (trình quan sát)* và tương tự như các hàm *reactive (phản ứng)* về cách chúng hoạt động. Tuy nhiên, chúng có một điểm khác biệt chính:  
 
-- Reactive functions do not directly affect outputs, and produce objects that can be seen in other locations in the server
-- Observer functions *can* affect server outputs, but do so via side effects of other functions. (They can also do other things, but this is their main function in practice)
+- Các hàm phản ứng không ảnh hưởng trực tiếp đến kết quả đầu ra và tạo ra các đối tượng có thể được nhìn thấy ở các vị trí khác trong máy chủ  
+- Các hàm quan sát *có thể* ảnh hưởng đến kết quả đầu ra của máy chủ, nhưng làm như vậy thông qua các hiệu ứng bên ngoài của các hàm khác. (Chúng cũng có thể làm những việc khác, nhưng đây là chức năng chính của chúng trong thực tế)  
 
-Similar to reactive functions, there are two flavours of observer functions, and they are divided by the same logic that divides reactive functions:
+Tương tự như các hàm phản ứng, có hai loại của các hàm quan sát và chúng được phân chia theo cùng một logic phân chia các hàm phản ứng:  
 
-1. `observe()` - this function runs whenever any inputs used inside of it change
-2. `observeEvent()` - this function runs when a *user-specified* input changes
+1. `observe()` - hàm này chạy bất cứ khi nào bất kỳ đầu vào nào được sử dụng bên trong nó thay đổi  
+2. `observeEvent()` - hàm này chạy khi đầu vào *do người dùng chỉ định* thay đổi  
 
-We also need to understand the shiny-provided functions that update widgets. These are fairly straightforward to run - they first take the `session` object from the server function (this doesn't need to be understood for now), and then the `inputId` of the function to be changed. We then pass new versions of all parameters that are already taken by `selectInput()` - these will be automatically updated in the widget. 
+Chúng ta cũng cần hiểu các hàm được shiny cung cấp giúp cập nhật các widget. Chúng khá đơn giản để chạy - trước tiên chúng lấy đối tượng `session` từ hàm máy chủ (tại thời điểm này bạn chưa cần phải hiểu), và sau đó thay đổi `inputId` của hàm. Sau đó, chúng ta chuyển các phiên bản mới của tất cả các tham số đã được lấy bởi `selectInput()` - những tham số này sẽ được cập nhật tự động trong widget.  
 
-Lets look at an isolated example of how we could use this in our server. When the user changes the district, we want to filter our tibble of facilities by district, and update the choices to *only reflect those that are available in that district* (and an option for all facilities)
+Hãy xem một ví dụ riêng lẻ về cách chúng ta có thể sử dụng điều này trong máy chủ của mình. Khi người dùng thay đổi quận, chúng ta muốn lọc các cơ sở theo quận và cập nhật các lựa chọn để *chỉ hiển thị những cơ sở có sẵn trong quận đó* (và một tùy chọn cho tất cả các cơ sở)  
 
 ```{r, eval = FALSE}
 
@@ -1102,7 +1101,7 @@ observe({
 
 ```
 
-And that's it! we can add it into our server, and that behaviour will now work. Here's what our new server should look like:
+Vậy đó! Chúng ta có thể thêm nó vào máy chủ và đặc tính đó bây giờ sẽ hoạt động. Đây là giao diện máy chủ mới của chúng ta:  
 
 ```{r, eval = FALSE}
 server <- function(input, output, session) {
@@ -1166,9 +1165,9 @@ knitr::include_graphics(here::here("images", "shiny", "app_menu_view.gif"))
 
 
 
-### Adding another tab with a table {.unnumbered}
+### Thêm một bảng vào một tab khác {.unnumbered}
 
-Now we'll move on to the last component we want to add to our app. We'll want to separate our ui into two tabs, one of which will have an interactive table where the user can see the data they are making the epidemic curve with. To do this, we can use the packaged ui elements that come with shiny relevant to tabs. On a basic level, we can enclose most of our main panel in this general structure:
+Bây giờ chúng ta sẽ chuyển sang thành phần cuối cùng mà chúng ta muốn thêm vào ứng dụng của mình. Chúng ta sẽ muốn tách giao diện thành hai tab, trong đó 1 tab sẽ hiện thị một bảng tương tác nơi người dùng có thể xem dữ liệu mà họ đang tạo đường cong dịch bệnh. Để làm điều này, chúng ta có thể sử dụng các phần tử giao diện được đóng gói sẵn đi kèm với các tab shiny có liên quan. Ở cấp độ cơ bản, chúng ta có thể bao gồm hầu hết cửa sổ chính trong cấu trúc chung này:  
 
 ```{r, eval = FALSE}
 
@@ -1193,7 +1192,7 @@ mainPanel(
 
 ```
 
-Lets apply this to our ui. We also will want to use the **DT** package here - this is a great package for making interactive tables from pre-existing data. We can see it being used for `DT::datatableOutput()` in this example.
+Bây giờ hãy áp dụng nó vào giao diện. Chúng ta sẽ sử dụng package **DT** ở đây - đây là một package tuyệt vời để tạo bảng tương tác từ dữ liệu có sẵn. Chúng ta có thể thấy nó được sử dụng cho `DT::datatableOutput()` trong ví dụ này.  
 
 ```{r, echo = FALSE}
 library(DT)
@@ -1279,7 +1278,7 @@ ui <- fluidPage(
 ```
 
 
-Now our app is arranged into tabs! Lets make the necessary edits to the server as well. Since we dont need to manipulate our dataset at all before we render it this is actually very simple - we just render the malaria_data dataset via DT::renderDT() to the ui!
+Bây giờ ứng dụng của chúng ta được sắp xếp thành các tab! Hãy thực hiện các chỉnh sửa cần thiết đối với máy chủ. Vì chúng ta không cần phải thao tác với dữ liệu trước khi kết xuất nên điều này thực sự rất đơn giản - chúng ta chỉ cần kết xuất bộ dữ liệu malaria_data qua DT::renderDT() tới ui!  
 
 
 ```{r, eval = FALSE}
@@ -1344,58 +1343,58 @@ knitr::include_graphics(here::here("images", "shiny", "app_table_view.gif"))
 ```
 
 
-## Sharing shiny apps
+## Chia sẻ các ứng dụng shiny
 
-Now that you've developed your app, you probably want to share it with others - this is the main advantage of shiny after all! We can do this by sharing the code directly, or we could publish on a server. If we share the code, others will be able to see what you've done and build on it, but this will negate one of the main advantages of shiny - *it can eliminate the need for end-users to maintain an R installation*. For this reason, if you're sharing your app with users who are not comfortable with R, it is much easier to share an app that has been published on a server. 
+Sau khi bạn đã phát triển ứng dụng của riêng mình, bạn có thể muốn chia sẻ nó với những người khác - đây là lợi thế lớn nhất của shiny! Chúng ta có thể làm điều này bằng cách chia sẻ trực tiếp code hoặc chúng ta có thể xuất bản nó trên một máy chủ. Nếu chúng ta chia sẻ code, những người khác sẽ có thể thấy những gì bạn đã làm và xây dựng trên nó, nhưng điều này sẽ làm mất đi một trong những lợi thế chính của shiny - *loại bỏ nhu cầu của người dùng cuối việc phải duy trì cài đặt R* . Vì lý do này, nếu bạn đang chia sẻ ứng dụng của mình với những người dùng không cảm thấy thoải mái với R, thì việc chia sẻ ứng dụng đã được xuất bản trên máy chủ sẽ dễ dàng hơn nhiều.  
 
-If you'd rather share the code, you could make a .zip file of the app, or better yet, *publish your app on github and add collaborators.* You can refer to the section on github for further information here.
+Nếu muốn chia sẻ code, bạn có thể tạo tệp .zip của ứng dụng hoặc tốt hơn, *xuất bản ứng dụng của bạn trên github và thêm cộng tác viên.* Bạn có thể tham khảo thêm cách thực hiện trên github tại đây.  
 
-However, if we're publishing the app online, we need to do a little more work. Ultimately, we want your app to be able to be accessed via a web URL so others can get quick and easy access to it. Unfortunately, to publish you app on a server, you need to have access to a server to publish it on! There are a number of hosting options when it comes to this:
+Tuy nhiên, nếu chúng ta xuất bản ứng dụng trực tuyến, chúng ta cần phải làm thêm một số bước nữa. Mục đích cuối cùng là bạn muốn ứng dụng của bạn có thể được truy cập qua URL web để những người khác có thể truy cập nhanh chóng và dễ dàng. Thật không may, để xuất bản ứng dụng của bạn trên một máy chủ, bạn cần có quyền truy cập vào một máy chủ để xuất bản nó! Có một số tùy chọn lưu trữ khi nói đến điều này:  
 
-- _shinyapps.io_: this is the easiest place to publish shiny apps, as it has the smallest amount of configuration work needed, and has some free, but limited licenses.
+- _shinyapps.io_: đây là nơi dễ dàng nhất để xuất bản các ứng dụng shiny, vì bạn không cần thực hiện nhiều các tinh chỉnh cấu hình cần thiết và có một số giấy phép miễn phí nhưng có giới hạn.  
 
-- _RStudio Connect_: this is a far more powerful version of an R server, that can perform many operations, including publishing shiny apps. It is however, harder to use, and less recommended for first-time users.
+- _RStudio Connect_: đây là phiên bản mạnh hơn nhiều của máy chủ R, có thể thực hiện nhiều hoạt động, bao gồm cả xuất bản các ứng dụng shiny. Tuy nhiên, nó khó sử dụng hơn và ít được khuyến khích cho người dùng lần đầu. 
 
-For the purposes of this document, we will use _shinyapps.io_, since it is easier for first time users. You can make a free account here to start - there are also different price plans for server licesnses if needed. The more users you expect to have, the more expensive your price plan may have to be, so keep this under consideration. If you're looking to create something for a small set of individuals to use, a free license may be perfectly suitable, but a public facing app may need more licenses.
+Đối với mục đích của tài liệu này, chúng tôi sẽ sử dụng _shinyapps.io_, vì nó dễ dàng hơn cho người dùng mới. Bạn có thể tạo một tài khoản miễn phí tại đây để bắt đầu - cũng có các gói giá khác nhau cho giấy phép máy chủ nếu cần. Nếu bạn mong đợi có nhiều người sử dụng ứng dụng của bạn, gói giá sẽ đắt hơn, vì vậy hãy cân nhắc kỹ điều này. Nếu bạn đang muốn tạo thứ gì đó cho một nhóm nhỏ cá nhân sử dụng, một giấy phép miễn phí có thể hoàn toàn phù hợp, nhưng một ứng dụng công khai có thể cần nhiều giấy phép hơn.  
 
-First we should make sure our app is suitable for publishing on a server. In your app, you should restart your R session, and ensure that it runs without running any extra code. This is important, as an app that requires package loading, or data reading not defined in your app code won't run on a server. Also note that you can't have any *explicit* file paths in your app - these will be invalid in the server setting - using the `here` package solves this issue very well. Finally, if you're reading data from a source that requires user-authentication, such as your organisation's servers, this will not generally work on a server. You will need to liase with your IT department to figure out how to whitelist the shiny server here.
+Trước hết nên đảm bảo rằng ứng dụng của chúng ta phù hợp để xuất bản trên máy chủ. Bên trong ứng dụng, bạn nên khởi động lại phiên R và đảm bảo rằng nó chạy tốt mà không cần chạy thêm bất kỳ code nào. Điều này rất quan trọng vì một ứng dụng yêu cầu tải package hoặc đọc dữ liệu không được xác định sẽ không chạy được trên máy chủ. Bạn cũng cần lưu ý rằng bạn không thể sử dụng các đường dẫn tệp *đặc trưng* trong ứng dụng của mình - những đường dẫn này sẽ không hợp lệ trong cài đặt máy chủ - sử dụng package `here` sẽ giải quyết vấn đề này một cách triệt để. Cuối cùng, nếu bạn đang đọc dữ liệu từ một nguồn yêu cầu xác thực người dùng, chẳng hạn như máy chủ của tổ chức của bạn, thông thường nó sẽ không hoạt động trên máy chủ. Bạn sẽ cần phải làm việc với bộ phận IT (Công nghệ Thông tin) của mình để tìm ra cách đưa máy chủ shiny vào whitelist tại đây.  
 
-*signing up for account*
+*đăng ký tài khoản*
 
-Once you have your account, you can navigate to the tokens page under _Accounts_. Here you will want to add a new token - this will be used to deploy your app. 
+Sau khi có tài khoản của mình, bạn có thể điều hướng đến trang mã đăng nhập (tokens) trong _Accounts_. Tại đây, bạn sẽ thêm mã đăng nhập mới - mã này sẽ được sử dụng để triển khai ứng dụng của bạn.  
 
-From here, you should note that the url of your account will reflect the name of your app - so if your app is called _my_app_, the url will be appended as _xxx.io/my_app/_. Choose your app name wisely! Now that you are all ready, click deploy - if successful this will run your app on the web url you chose!
+Từ đây, bạn nên lưu ý rằng url của tài khoản sẽ hiển thị tên ứng dụng của bạn - vì vậy nếu ứng dụng của bạn có tên là _my_app_, url sẽ được thêm vào là _xxx.io/my_app/_. Hãy chọn tên ứng dụng của bạn một cách khôn ngoan! Khi bạn đã sẵn sàng, hãy nhấp vào triển khai (deploy) - nếu thành công, điều này sẽ chạy ứng dụng của bạn trên url web bạn đã chọn!  
 
 *something on making apps in documents?*
 
-## Further reading
+## Đọc thêm
 
-So far, we've covered a lot of aspects of shiny, and have barely scratched the surface of what is on offer for shiny. While this guide serves as an introduction, there is loads more to learn to fully understand shiny. You should start making apps and gradually add more and more functionality
-
-
-## Recommended extension packages
-
-The following represents a selection of high quality shiny extensions that can help you get a lot more out of shiny. In no particular order:
-
-- **shinyWidgets** - this package gives you many many more widgets that can be used in your app. Run `shinyWidgets::shinyWidgetsGallery()` to see a selection of available widgets with this package. See examples [here](https://github.com/dreamRs/shinyWidgets)  
-
-- **shinyjs** - this is an excellent package that gives the user the ability to greatly extend shiny's utility via a series of javascript. The applications of this package range from very simple to highly advanced, but you might want to first use it to manipulate the ui in simple ways, like hiding/showing elements, or enabling/disabling buttons. Find out more [here](https://deanattali.com/shinyjs/basic)
-
-- **shinydashboard** - this package massively expands the available ui that can be used in shiny, specifically letting the user create a complex dashboard with a variety of complex layouts. See more [here](https://rstudio.github.io/shinydashboard/)
-
-- **shinydashboardPlus** - get even more features out of the **shinydashboard** framework! See more [here](https://rinterface.github.io/shinydashboardPlus/articles/shinydashboardPlus.html)
-
-- **shinythemes** - change the default css theme for your shiny app with a wide range of preset templates! See more [here](https://rstudio.github.io/shinythemes/)
+Cho tới đây, chúng tôi đã đề cập rất nhiều khía cạnh của shiny, và hầu như không đi sâu vào những gì được cung cấp bởi shiny. Hướng dẫn này có chức năng như một phần giới thiệu, còn rất nhiều thứ nữa bạn phải học để hiểu đầy đủ về shiny. Bạn nên bắt đầu bằng cách tạo một ứng dụng cơ bản và dần dần thêm các chức năng cho nó.  
 
 
-There are also a number of packages that can be used to create interactive outputs that are shiny compatible. 
+## Các packages mở rộng được đề xuất  
 
-- **DT** is semi-incorporated into base-shiny, but provides a great set of functions to create interactive tables.
+Những đề xuất dưới đây đại diện cho một số shiny extension chất lượng cao. Chúng tôi không sắp xếp chúng theo thứ tự đặc biệt nào cả:  
 
-- **plotly** is a package for creating interactive plots that the user can manipulate in app. You can also convert your plot to interactive versions via `plotly::ggplotly()`! As alternatives, **dygraphs** and **highcharter** are also excellent.
+- **shinyWidgets** - package này cung cấp cho bạn rất nhiều widget có thể được sử dụng trong ứng dụng của bạn. Chạy `shinyWidgets::shinyWidgetsGallery()` để xem một số lựa chọn các tiện ích có sẵn với package này. Xem các ví dụ [ở đây](https://github.com/dreamrs/shinywidgets)  
+
+- **shinyjs** - Đây là một package tuyệt vời mang đến cho người dùng khả năng mở rộng tiện ích của Shiny thông qua JavaScript. Các ứng dụng của package này từ rất đơn giản đến cực kỳ chuyên sâu, nhưng trước hết bạn sẽ muốn sử dụng nó để thao tác với giao diện người dùng theo những cách đơn giản, như ẩn/hiển thị các yếu tố hoặc bật/tắt các nút. Tìm hiểu thêm [ở đây](https://deanattali.com/shinyjs/basic)  
+
+- **shinydashboard** - package này mở rộng UI có sẵn có thể được sử dụng trong shiny, đặc biệt để người dùng tạo dashboard phức tạp với nhiều bố cục phức tạp. Xem thêm [ở đây](https://rstudio.github.io/shinydashboard/)  
+
+- **shinydashboardPlus** - Nhận nhiều tính năng hơn nữa so với **shinydashboard**! Xem thêm [ở đây](https://rinterface.github.io/shinydashboardplus/articles/shinydashboardplus.html)  
+
+- **shinythemes** - Thay đổi chủ đề css mặc định cho ứng dụng shiny của bạn với một loạt các mẫu có sẵn! Xem thêm [ở đây](https://rstudio.github.io/shinytheme/)  
 
 
-## Recommended resources
+Ngoài ra còn có một số packages có thể được sử dụng để tạo các đầu ra tương tác tương thích với shiny.  
+
+- **DT** được bán liên kết hóa vào bản shiny cơ sở, cung cấp một tập hợp các hàm tuyệt vời để tạo các bảng tương tác.  
+
+- **plotly** là một package để tạo các đồ thị tương tác mà người dùng có thể thao tác trong ứng dụng. Bạn cũng có thể chuyển đổi đồ thị của mình sang các phiên bản tương tác thông qua `plotly::ggplotly()`! Các lựa chọn thay thế như **dygraphs** và **highcharter** cũng rất tuyệt vời.  
+
+
+## Tài nguyên đề xuất  
 
 
 

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>21 Tỷ lệ chuẩn hóa | Cẩm nang dịch tễ học với R</title>
+<title>21 Tỷ suất chuẩn hóa | Cẩm nang dịch tễ học với R</title>
 <meta name="author" content="the handbook team">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.2"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.6.4/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -72,7 +72,7 @@
 <li><a class="" href="stat-tests.html"><span class="header-section-number">18</span> Các kiểm định thống kê cơ bản</a></li>
 <li><a class="" href="regression.html"><span class="header-section-number">19</span> Hồi quy đơn và đa biến</a></li>
 <li><a class="" href="missing-data.html"><span class="header-section-number">20</span> Dữ liệu Missing</a></li>
-<li><a class="active" href="standardization.html"><span class="header-section-number">21</span> Tỷ lệ chuẩn hóa</a></li>
+<li><a class="active" href="standardization.html"><span class="header-section-number">21</span> Tỷ suất chuẩn hóa</a></li>
 <li><a class="" href="moving-average.html"><span class="header-section-number">22</span> Đường trung bình động</a></li>
 <li><a class="" href="time-series.html"><span class="header-section-number">23</span> Chuỗi thời gian và phát hiện ổ dịch</a></li>
 <li><a class="" href="epidemic-models.html"><span class="header-section-number">24</span> Mô hình hóa dịch bệnh</a></li>
@@ -114,49 +114,50 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="standardization" class="section level1" number="21">
 <h1>
-<span class="header-section-number">21</span> Tỷ lệ chuẩn hóa<a class="anchor" aria-label="anchor" href="#standardization"><i class="fas fa-link"></i></a>
+<span class="header-section-number">21</span> Tỷ suất chuẩn hóa<a class="anchor" aria-label="anchor" href="#standardization"><i class="fas fa-link"></i></a>
 </h1>
-<p>This page will show you two ways to standardize an outcome, such as hospitalizations or mortality, by characteristics such as age and sex.</p>
+<p>Chương này sẽ hướng dẫn hai cách để chuẩn hóa một kết quả như là tỷ suất tử vong hoặc nhập viện theo các đặc điểm của tuổi và giới.</p>
 <ul>
-<li>Using <strong>dsr</strong> package</li>
-<li>Using <strong>PHEindicatormethods</strong> package</li>
-</ul>
-<p>We begin by extensively demonstrating the processes of data preparation/cleaning/joining, as this is common when combining population data from multiple countries, standard population data, deaths, etc.</p>
-<div id="overview-1" class="section level2" number="21.1">
-<h2>
-<span class="header-section-number">21.1</span> Overview<a class="anchor" aria-label="anchor" href="#overview-1"><i class="fas fa-link"></i></a>
-</h2>
-<p>There are two main ways to standardize: direct and indirect standardization.
-Let’s say we would like to the standardize mortality rate by age and sex for country A and country B, and compare the standardized rates between these countries.</p>
-<ul>
-<li>For direct standardization, you will have to know the number of the at-risk population and the number of deaths for each stratum of age and sex, for country A and country B. One stratum in our example could be females between ages 15-44.<br>
+<li>Sử dụng package <strong>dsr</strong>
 </li>
-<li>For indirect standardization, you only need to know the total number of deaths and the age- and sex structure of each country. This option is therefore feasible if age- and sex-specific mortality rates or population numbers are not available. Indirect standardization is furthermore preferable in case of small numbers per stratum, as estimates in direct standardization would be influenced by substantial sampling variation.</li>
+<li>Sử dụng package <strong>PHEindicatormethods</strong>
+</li>
+</ul>
+<p>Chúng ta bắt đầu bằng cách làm rõ quá trình chuẩn bị/làm sạch/kết nối số liệu, vì việc này thường được thực hiện khi kết nối số liệu dân số từ nhiều quốc gia, số liệu dân số chuẩn, tử vong,.v.v.</p>
+<div id="tổng-quan-1" class="section level2" number="21.1">
+<h2>
+<span class="header-section-number">21.1</span> Tổng quan<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-quan-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Có hai cách để chuẩn hóa: trực tiếp và gián tiếp. Giả sử chúng ta muốn chuẩn hóa tỷ suất tử vong theo tuổi và giới của quốc gia A và quốc gia B, và so sánh tỷ suất chuẩn hóa giữa hai quốc gia này</p>
+<ul>
+<li>Đối với chuẩn hóa trực tiếp, chúng ta phải biết dân số nguy cơ và số tử vong theo từng tầng của tuổi và giới của quốc gia A và B. Một tầng trong ví dụ của chúng ta là phụ nữ trong nhóm tuổi từ 15-44.<br>
+</li>
+<li>Đối với chuẩn hóa gián tiếp, chúng ta chỉ cần biết tổng số tử vong và cấu trúc tuổi và giới của mỗi quốc gia. Vì thế, phương án này là khả khi tỷ suất tử vong hoặc dân số theo tuổi và giới không có sẵn. Hơn nữa, chuẩn hóa gián tiếp được ưa chuộng hơn khi có số lượng nhỏ trong các tầng, vì các ước tính trong chuẩn hóa trực tiếp sẽ bị ảnh hưởng bởi các thay đổi quan trọng khi lấy mẫu.</li>
 </ul>
 <!-- ======================================================= -->
 </div>
-<div id="preparation-11" class="section level2" number="21.2">
+<div id="chuẩn-bị-10" class="section level2" number="21.2">
 <h2>
-<span class="header-section-number">21.2</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-11"><i class="fas fa-link"></i></a>
+<span class="header-section-number">21.2</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-10"><i class="fas fa-link"></i></a>
 </h2>
-<p>To show how standardization is done, we will use fictitious population counts and death counts from country A and country B, by age (in 5 year categories) and sex (female, male). To make the datasets ready for use, we will perform the following preparation steps:</p>
+<p>Để chỉ dẫn cách thực hiện chuẩn hóa, chúng ta tạo ra dân số và số tử vong của quốc gia A và B theo tuổi (trong các nhóm tuổi của mỗi 5 tuổi) và giới (nữ, nam). Để các bộ số liệu có thể sử dụng được, chúng ta sẽ thực hiện các bước chuẩn bị như sau:</p>
 <ol style="list-style-type: decimal">
-<li>Load packages<br>
+<li>Gọi các packages<br>
 </li>
-<li>Load datasets<br>
+<li>Tải các bộ số liệu<br>
 </li>
-<li>Join the population and death data from the two countries</li>
-<li>Pivot longer so there is one row per age-sex stratum</li>
-<li>Clean the reference population (world standard population) and join it to the country data</li>
+<li>Nối số liệu dân số và tử vong của hai quốc gia</li>
+<li>Xoay trục bộ số liệu dọc/dài hơn để có một hàng là một tầng theo tuổi-giới</li>
+<li>Làm sạch quần thể tham chiếu (dân số thế giới chuẩn) và kết nối nó với số liệu của quốc gia</li>
 </ol>
-<p>In your scenario, your data may come in a different format. Perhaps your data are by province, city, or other catchment area. You may have one row for each death and information on age and sex for each (or a significant proportion) of these deaths. In this case, see the pages on [Grouping data], [Pivoting data], and [Descriptive tables] to create a dataset with event and population counts per age-sex stratum.</p>
-<p>We also need a reference population, the standard population. For the purposes of this exercise we will use the <code>world_standard_population_by_sex</code>. The World standard population is based on the populations of 46 countries and was developed in 1960. There are many “standard” populations - as one example, the website of <a href="https://www.opendata.nhs.scot/dataset/standard-populations">NHS Scotland</a> is quite informative on the European Standard Population, World Standard Population and Scotland Standard Population.</p>
+<p>Trong trường hợp này, số liệu của chúng ta có thể có các định dạng khác nhau. Có lẽ số liệu của chúng ta theo tỉnh, thành phố, hoặc khu vực dịch vụ khác. Chúng ta có thể có một hàng cho mỗi ca tử vong và các thông tin về tuổi và giới cho mỗi trường hợp (hoặc một tỷ lệ có ý nghĩa) của các ca tử vong này. Trong trường hợp này, hãy xem các chương về <a href="grouping.html#grouping">Nhóm dữ liệu</a>, <a href="pivoting.html#pivoting">Xoay trục dữ liệu</a>, và <a href="tables-descriptive.html#tables-descriptive">Bảng mô tả</a> để tạo một bộ số liệu với số lượng tử vong và dân số theo tầng của tuổi-giới tính.</p>
+<p>Chúng ta cũng cần một quần thể tham chiếu, dân số chuẩn. Với mục đích của thực hành này, chúng ta sẽ sử dụng bộ số liệu <code>world_standard_population_by_sex</code>. Dân số chuẩn này dựa trên dân số của 46 quốc gia và được tạo ra vào năm 1960. Có rất nhiều dân số “chuẩn” – ví dụ, trang web của <a href="https://www.opendata.nhs.scot/dataset/standard-populations">NHS Scotland</a> cung cấp khá nhiều thông tin về Dân số Chuẩn của châu u, Dân số Chuẩn Thế giới, Dân số Chuẩn của Scotland.</p>
 <!-- ======================================================= -->
-<div id="load-packages-13" class="section level3 unnumbered">
-<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-13"><i class="fas fa-link"></i></a>
+<div id="gọi-packages-4" class="section level3 unnumbered">
+<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-4"><i class="fas fa-link"></i></a>
 </h3>
-<p>This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> from <strong>pacman</strong>, which installs the package if necessary <em>and</em> loads it for use. You can also load installed packages with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> from <strong>base</strong> R. See the page on [R basics] for more information on R packages.</p>
-<div class="sourceCode" id="cb1070"><pre class="downlit sourceCode r">
+<p>Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> từ package <strong>pacman</strong>, giúp cài đặt các package cần thiết <em>và</em> gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> của <strong>base</strong> R. Xem thêm chương <a href="basics.html#basics">R cơ bản</a> để có thêm thông tin về các packages trong R.</p>
+<div class="sourceCode" id="cb1071"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span>
      <span class="va">rio</span>,                 <span class="co"># import/export data</span>
      <span class="va">here</span>,                <span class="co"># locate files</span>
@@ -165,73 +166,73 @@ Let’s say we would like to the standardize mortality rate by age and sex for c
      <span class="va">frailtypack</span>,         <span class="co"># needed for dsr, for frailty models</span>
      <span class="va">dsr</span>,                 <span class="co"># standardise rates</span>
      <span class="va">PHEindicatormethods</span><span class="op">)</span> <span class="co"># alternative for rate standardisation</span></code></pre></div>
-<p><span style="color: orange;"><strong><em>CAUTION:</em></strong> If you have a newer version of R, the <strong>dsr</strong> package cannot be directly downloaded from CRAN. However, it is still available from the CRAN archive. You can install and use this one. </span></p>
-<p>For non-Mac users:</p>
-<div class="sourceCode" id="cb1071"><pre class="downlit sourceCode r">
+<p><span style="color: orange;"><strong><em>CẨN TRỌNG:</em></strong> Nếu đang sử dụng một phiên bản mới hơn của R, chúng ta không thể tải gói lệnh <strong>dsr</strong> trực tiếp từ CRAN. Tuy nhiên, nó vẫn còn trong mục lưu trữ của CRAN. Chúng ta có thể cài đặt và sử dụng nó. </span></p>
+<p>Đối với người không sử dụng hệ điều hành Mac:</p>
+<div class="sourceCode" id="cb1072"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">packageurl</span> <span class="op">&lt;-</span> <span class="st">"https://cran.r-project.org/src/contrib/Archive/dsr/dsr_0.2.2.tar.gz"</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">packageurl</span>, repos<span class="op">=</span><span class="cn">NULL</span>, type<span class="op">=</span><span class="st">"source"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb1072"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1073"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Other solution that may work</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_version</a></span><span class="op">(</span><span class="st">"dsr"</span>, version<span class="op">=</span><span class="st">"0.2.2"</span>, repos<span class="op">=</span><span class="st">"http:/cran.us.r.project.org"</span><span class="op">)</span></code></pre></div>
-<p>For Mac users:</p>
-<div class="sourceCode" id="cb1073"><pre class="downlit sourceCode r">
+<p>Đối với người sử dụng hệ điều hành Mac:</p>
+<div class="sourceCode" id="cb1074"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_version</a></span><span class="op">(</span><span class="st">"dsr"</span>, version<span class="op">=</span><span class="st">"0.2.2"</span>, repos<span class="op">=</span><span class="st">"https://mac.R-project.org"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="load-population-data" class="section level3 unnumbered">
-<h3>Load population data<a class="anchor" aria-label="anchor" href="#load-population-data"><i class="fas fa-link"></i></a>
+<div id="tải-số-liệu-dân-số" class="section level3 unnumbered">
+<h3>Tải số liệu dân số<a class="anchor" aria-label="anchor" href="#t%E1%BA%A3i-s%E1%BB%91-li%E1%BB%87u-d%C3%A2n-s%E1%BB%91"><i class="fas fa-link"></i></a>
 </h3>
-<p>See the [Download handbook and data] page for instructions on how to download all the example data in the handbook. You can import the Standardisation page data directly into R from our Github repository by running the following <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> commands:</p>
-<div class="sourceCode" id="cb1074"><pre class="downlit sourceCode r">
+<p>Xem chương <a href="data-used.html#data-used">Tải sách và dữ liệu</a> để biết các hướng dẫn về cách tải tất cả các bộ số liệu mẫu trong cuốn số tay này. Chúng ta có thể nhập trực tiếp dữ liệu trong chương Chuẩn hóa này tới R thông qua kho lưu trữ Github của chúng tôi bằng cách thực hiện lệnh sau <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code>:</p>
+<div class="sourceCode" id="cb1075"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import demographics for country A directly from Github</span>
-<span class="va">A_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/country_demographics.csv"</span><span class="op">)</span>
+<span class="va">A_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/country_demographics.csv"</span><span class="op">)</span>
 
 <span class="co"># import deaths for country A directly from Github</span>
-<span class="va">A_deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/deaths_countryA.csv"</span><span class="op">)</span>
+<span class="va">A_deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/deaths_countryA.csv"</span><span class="op">)</span>
 
 <span class="co"># import demographics for country B directly from Github</span>
-<span class="va">B_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/country_demographics_2.csv"</span><span class="op">)</span>
+<span class="va">B_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/appliedepi/epirhandbook_eng/raw/master/data/standardization/country_demographics_2.csv"</span><span class="op">)</span>
 
 <span class="co"># import deaths for country B directly from Github</span>
 <span class="va">B_deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/deaths_countryB.csv"</span><span class="op">)</span>
 
 <span class="co"># import demographics for country B directly from Github</span>
 <span class="va">standard_pop_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/standardization/world_standard_population_by_sex.csv"</span><span class="op">)</span></code></pre></div>
-<p>First we load the demographic data (counts of males and females by 5-year age category) for the two countries that we will be comparing, “Country A” and “Country B”.</p>
-<div class="sourceCode" id="cb1075"><pre class="downlit sourceCode r">
+<p>Trước tiên, chúng ta tải số liệu nhân khẩu (số lượng nam và nữ theo nhóm mỗi 5 tuổi) của hai quốc gia mà chúng ta sẽ so sánh, “Quốc gia A” và “Quốc gia B”.</p>
+<div class="sourceCode" id="cb1076"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Country A</span>
 <span class="va">A_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"country_demographics.csv"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-70e65aad55de9e9f86c9" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-70e65aad55de9e9f86c9">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[7828087,6705882,5601230,4576430,3734111,3111651,2571215,2121247,1735468,1418749,1145345,900239,685141,500248,347093,202240,94325,40402],[7674675,6592449,5522555,4533885,3726537,3118040,2592416,2150490,1771213,1459439,1193903,956070,745682,563894,416543,258538,130479,64656]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>m<\/th>\n      <th>f<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb1076"><pre class="downlit sourceCode r">
+<div id="htmlwidget-2b581055081108b1dbcc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2b581055081108b1dbcc">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[7828087,6705882,5601230,4576430,3734111,3111651,2571215,2121247,1735468,1418749,1145345,900239,685141,500248,347093,202240,94325,40402],[7674675,6592449,5522555,4533885,3726537,3118040,2592416,2150490,1771213,1459439,1193903,956070,745682,563894,416543,258538,130479,64656]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>m<\/th>\n      <th>f<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb1077"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Country B</span>
 <span class="va">B_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"country_demographics_2.csv"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-2d4a02370c0a4987f090" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2d4a02370c0a4987f090">{"x":{"filter":"none","data":[["B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[513458,508728,673522,844532,965423,1243552,1400065,1428773,1546221,1562880,2355220,2324555,2988200,2527110,1552200,1466902,876251,1073611],[503262,559249,652455,145453,965237,1238640,1392676,1505040,1671213,1459439,2218733,3528103,3204770,2500130,1683925,1683828,987362,1147563]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>m<\/th>\n      <th>f<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-33a230ac538474e612b3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-33a230ac538474e612b3">{"x":{"filter":"none","data":[["B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[513458,508728,673522,844532,965423,1243552,1400065,1428773,1546221,1562880,2355220,2324555,2988200,2527110,1552200,1466902,876251,1073611],[503262,559249,652455,145453,965237,1238640,1392676,1505040,1671213,1459439,2218733,3528103,3204770,2500130,1683925,1683828,987362,1147563]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>m<\/th>\n      <th>f<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="load-death-counts" class="section level3 unnumbered">
-<h3>Load death counts<a class="anchor" aria-label="anchor" href="#load-death-counts"><i class="fas fa-link"></i></a>
+<div id="tải-số-liệu-tử-vong" class="section level3 unnumbered">
+<h3>Tải số liệu tử vong<a class="anchor" aria-label="anchor" href="#t%E1%BA%A3i-s%E1%BB%91-li%E1%BB%87u-t%E1%BB%AD-vong"><i class="fas fa-link"></i></a>
 </h3>
-<p>Conveniently, we also have the counts of deaths during the time period of interest, by age and sex. Each country’s counts are in a separate file, shown below.</p>
-<p>Deaths in Country A</p>
-<div id="htmlwidget-5507fa8397a0f33ee47f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5507fa8397a0f33ee47f">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[224,257,251,245,334,245,154,189,334,342,565,432,543,432,245,543,234,354],[194,254,232,214,316,224,163,167,354,354,463,574,493,295,175,380,177,392]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>AgeCat<\/th>\n      <th>Male<\/th>\n      <th>Female<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Deaths in Country B</p>
-<div id="htmlwidget-156969744296a342545a" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-156969744296a342545a">{"x":{"filter":"none","data":[["B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[34,37,51,145,434,120,100,143,307,354,463,639,706,232,275,543,234,274],[54,24,32,154,276,254,123,164,254,354,453,654,435,354,165,432,287,395]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>AgeCat<\/th>\n      <th>Male<\/th>\n      <th>Female<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<p>Để thuận tiện cho việc thực hành, chúng ta cũng có số lượng tử vong theo tuổi và giới trong khoảng thời gian quan tâm. Số lượng tử vong của mỗi quốc gia nằm trong một tập tin riêng, được hiện thị bên dưới.</p>
+<p>Số tử vong ở Quốc gia A</p>
+<div id="htmlwidget-82a01e2012769a953d35" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-82a01e2012769a953d35">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[224,257,251,245,334,245,154,189,334,342,565,432,543,432,245,543,234,354],[194,254,232,214,316,224,163,167,354,354,463,574,493,295,175,380,177,392]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>AgeCat<\/th>\n      <th>Male<\/th>\n      <th>Female<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Số tử vong ở Quốc gia B</p>
+<div id="htmlwidget-15b522f8b8db69a53a24" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-15b522f8b8db69a53a24">{"x":{"filter":"none","data":[["B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","5-9","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85"],[34,37,51,145,434,120,100,143,307,354,463,639,706,232,275,543,234,274],[54,24,32,154,276,254,123,164,254,354,453,654,435,354,165,432,287,395]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>AgeCat<\/th>\n      <th>Male<\/th>\n      <th>Female<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="clean-populations-and-deaths" class="section level3 unnumbered">
-<h3>Clean populations and deaths<a class="anchor" aria-label="anchor" href="#clean-populations-and-deaths"><i class="fas fa-link"></i></a>
+<div id="làm-sạch-số-liệu-dân-số-và-tử-vong" class="section level3 unnumbered">
+<h3>Làm sạch số liệu dân số và tử vong<a class="anchor" aria-label="anchor" href="#l%C3%A0m-s%E1%BA%A1ch-s%E1%BB%91-li%E1%BB%87u-d%C3%A2n-s%E1%BB%91-v%C3%A0-t%E1%BB%AD-vong"><i class="fas fa-link"></i></a>
 </h3>
-<p>We need to join and transform these data in the following ways:</p>
+<p>Chúng ta cần kết nối và chuyển đổi các số liệu này theo những cách sau:</p>
 <ul>
-<li>Combine country populations into one dataset and pivot “long” so that each age-sex stratum is one row<br>
+<li>Liên kết dân số của các quốc gia vào một bộ số liệu và xoay trục thành bộ số liệu dạng “dọc/dài” để mỗi tầng tuổi-giới là một hàng<br>
 </li>
-<li>Combine country death counts into one dataset and pivot “long” so each age-sex stratum is one row<br>
+<li>Liên kết số liệu tử vong của các quốc gia vào một bộ số liệu và xoay trục thành bộ số liệu dạng “dọc/dài” để mỗi tầng tuổi-giới là một hàng<br>
 </li>
-<li>Join the deaths to the populations</li>
+<li>Nối số liệu tử vong với số liệu dân số</li>
 </ul>
-<p>First, we combine the country populations datasets, pivot longer, and do minor cleaning. See the page on [Pivoting data] for more detail.</p>
-<div class="sourceCode" id="cb1077"><pre class="downlit sourceCode r">
+<p>Đầu tiên, chúng ta liên kết các bộ số liệu dân số quốc gia, chuyển đổi thành số liệu dạng dọc/dài hơn, và làm sạch số liệu. Xem chương <a href="pivoting.html#pivoting">Xoay trục dữ liệu</a> để biết thêm chi tiết.</p>
+<div class="sourceCode" id="cb1078"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pop_countries</span> <span class="op">&lt;-</span> <span class="va">A_demo</span> <span class="op">%&gt;%</span>  <span class="co"># begin with country A dataset</span>
      <span class="fu">bind_rows</span><span class="op">(</span><span class="va">B_demo</span><span class="op">)</span> <span class="op">%&gt;%</span>        <span class="co"># bind rows, because cols are identically named</span>
      <span class="fu">pivot_longer</span><span class="op">(</span>                       <span class="co"># pivot longer</span>
@@ -241,10 +242,10 @@ Let’s say we would like to the standardize mortality rate by age and sex for c
      <span class="fu">mutate</span><span class="op">(</span>Sex <span class="op">=</span> <span class="fu">recode</span><span class="op">(</span><span class="va">Sex</span>,            <span class="co"># re-code values for clarity</span>
           <span class="st">"m"</span> <span class="op">=</span> <span class="st">"Male"</span>,
           <span class="st">"f"</span> <span class="op">=</span> <span class="st">"Female"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The combined population data now look like this (click through to see countries A and B):</p>
-<div id="htmlwidget-9a3c1bda8f8a84f3092b" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9a3c1bda8f8a84f3092b">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[7828087,7674675,6705882,6592449,5601230,5522555,4576430,4533885,3734111,3726537,3111651,3118040,2571215,2592416,2121247,2150490,1735468,1771213,1418749,1459439,1145345,1193903,900239,956070,685141,745682,500248,563894,347093,416543,202240,258538,94325,130479,40402,64656,513458,503262,508728,559249,673522,652455,844532,145453,965423,965237,1243552,1238640,1400065,1392676,1428773,1505040,1546221,1671213,1562880,1459439,2355220,2218733,2324555,3528103,2988200,3204770,2527110,2500130,1552200,1683925,1466902,1683828,876251,987362,1073611,1147563]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Population<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>And now we perform similar operations on the two deaths datasets.</p>
-<div class="sourceCode" id="cb1078"><pre class="downlit sourceCode r">
+<p>Số liệu dân số đã liên kết bây giờ trông giống như sau (nhấp qua để xem cột quốc gia A và B):</p>
+<div id="htmlwidget-0c4a043da00be77cf501" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0c4a043da00be77cf501">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[7828087,7674675,6705882,6592449,5601230,5522555,4576430,4533885,3734111,3726537,3111651,3118040,2571215,2592416,2121247,2150490,1735468,1771213,1418749,1459439,1145345,1193903,900239,956070,685141,745682,500248,563894,347093,416543,202240,258538,94325,130479,40402,64656,513458,503262,508728,559249,673522,652455,844532,145453,965423,965237,1243552,1238640,1400065,1392676,1428773,1505040,1546221,1671213,1562880,1459439,2355220,2218733,2324555,3528103,2988200,3204770,2527110,2500130,1552200,1683925,1466902,1683828,876251,987362,1073611,1147563]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Population<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Và bây giờ, chúng ta thực hiện các thao tác tương tự trên hai bộ số liệu tử vong.</p>
+<div class="sourceCode" id="cb1079"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">deaths_countries</span> <span class="op">&lt;-</span> <span class="va">A_deaths</span> <span class="op">%&gt;%</span>    <span class="co"># begin with country A deaths dataset</span>
      <span class="fu">bind_rows</span><span class="op">(</span><span class="va">B_deaths</span><span class="op">)</span> <span class="op">%&gt;%</span>        <span class="co"># bind rows with B dataset, because cols are identically named</span>
      <span class="fu">pivot_longer</span><span class="op">(</span>                  <span class="co"># pivot longer</span>
@@ -252,14 +253,14 @@ Let’s say we would like to the standardize mortality rate by age and sex for c
           names_to <span class="op">=</span> <span class="st">"Sex"</span>,              <span class="co"># name for new column containing the category ("m" or "f") </span>
           values_to <span class="op">=</span> <span class="st">"Deaths"</span><span class="op">)</span> <span class="op">%&gt;%</span>      <span class="co"># name for new column containing the numeric values pivoted</span>
      <span class="fu">rename</span><span class="op">(</span>age_cat5 <span class="op">=</span> <span class="va">AgeCat</span><span class="op">)</span>      <span class="co"># rename for clarity</span></code></pre></div>
-<p>The deaths data now look like this, and contain data from both countries:</p>
-<div id="htmlwidget-fb586f1ae400f9b53997" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fb586f1ae400f9b53997">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[224,194,257,254,251,232,245,214,334,316,245,224,154,163,189,167,334,354,342,354,565,463,432,574,543,493,432,295,245,175,543,380,234,177,354,392,34,54,37,24,51,32,145,154,434,276,120,254,100,123,143,164,307,254,354,354,463,453,639,654,706,435,232,354,275,165,543,432,234,287,274,395]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Deaths<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>We now join the deaths and population data based on common columns <code>Country</code>, <code>age_cat5</code>, and <code>Sex</code>. This adds the column <code>Deaths</code>.</p>
-<div class="sourceCode" id="cb1079"><pre class="downlit sourceCode r">
+<p>Số liệu tử vong bây giờ trông giống như sau và chứa số liệu của cả hai quốc gia:</p>
+<div id="htmlwidget-058079ab49426705738a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-058079ab49426705738a">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[224,194,257,254,251,232,245,214,334,316,245,224,154,163,189,167,334,354,342,354,565,463,432,574,543,493,432,295,245,175,543,380,234,177,354,392,34,54,37,24,51,32,145,154,434,276,120,254,100,123,143,164,307,254,354,354,463,453,639,654,706,435,232,354,275,165,543,432,234,287,274,395]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Deaths<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Bây giờ, chúng ta nối số liệu tử vong và số liệu dân số dựa trên các cột chung <code>Country</code>, <code>age_cat5</code>, và <code>Sex</code>. Thao tác này sẽ thêm cột <code>Deaths</code>.</p>
+<div class="sourceCode" id="cb1080"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">country_data</span> <span class="op">&lt;-</span> <span class="va">pop_countries</span> <span class="op">%&gt;%</span> 
      <span class="fu">left_join</span><span class="op">(</span><span class="va">deaths_countries</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Country"</span>, <span class="st">"age_cat5"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>We can now classify <code>Sex</code>, <code>age_cat5</code>, and <code>Country</code> as factors and set the level order using <code>fct_relevel()</code> function from the <strong>forcats</strong> package, as described in the page on <a href="factors.html#factors">Factors</a>. Note, classifying the factor levels doesn’t visibly change the data, but the <code>arrange()</code> command does sort it by Country, age category, and sex.</p>
-<div class="sourceCode" id="cb1080"><pre class="downlit sourceCode r">
+<p>Bây giờ, chúng ta có thể phân loại các biến số <code>Sex</code>, <code>age_cat5</code>, và <code>Country</code> thành dạng factors và đặt thứ tự các giá trị của biến số bằng cách sử dụng hàm <code>fct_relevel()</code> từ package <strong>forcats</strong>, như được mô tả trong chương <a href="factors.html#factors">Factors</a>. Lưu ý rằng việc phân loại giá trị biến không thay đổi số liệu một cách rõ ràng, nhưng lệnh <code>arrange()</code> sẽ sắp xếp nó theo Quốc gia, nhóm tuổi và giới tính.</p>
+<div class="sourceCode" id="cb1081"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">country_data</span> <span class="op">&lt;-</span> <span class="va">country_data</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>
     Country <span class="op">=</span> <span class="fu">fct_relevel</span><span class="op">(</span><span class="va">Country</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,
@@ -275,26 +276,26 @@ Let’s say we would like to the standardize mortality rate by age and sex for c
       <span class="st">"75-79"</span>, <span class="st">"80-84"</span>, <span class="st">"85"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
           
   <span class="fu">arrange</span><span class="op">(</span><span class="va">Country</span>, <span class="va">age_cat5</span>, <span class="va">Sex</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-532422c1adb0f8545274" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-532422c1adb0f8545274">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[7828087,7674675,6705882,6592449,5601230,5522555,4576430,4533885,3734111,3726537,3111651,3118040,2571215,2592416,2121247,2150490,1735468,1771213,1418749,1459439,1145345,1193903,900239,956070,685141,745682,500248,563894,347093,416543,202240,258538,94325,130479,40402,64656,513458,503262,508728,559249,673522,652455,844532,145453,965423,965237,1243552,1238640,1400065,1392676,1428773,1505040,1546221,1671213,1562880,1459439,2355220,2218733,2324555,3528103,2988200,3204770,2527110,2500130,1552200,1683925,1466902,1683828,876251,987362,1073611,1147563],[224,194,257,254,251,232,245,214,334,316,245,224,154,163,189,167,334,354,342,354,565,463,432,574,543,493,432,295,245,175,543,380,234,177,354,392,34,54,37,24,51,32,145,154,434,276,120,254,100,123,143,164,307,254,354,354,463,453,639,654,706,435,232,354,275,165,543,432,234,287,274,395]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Population<\/th>\n      <th>Deaths<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p><span style="color: orange;"><strong><em>CAUTION:</em></strong> If you have few deaths per stratum, consider using 10-, or 15-year categories, instead of 5-year categories for age.</span></p>
+<div id="htmlwidget-eb15d4d5d9f5e821f4a3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eb15d4d5d9f5e821f4a3">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[7828087,7674675,6705882,6592449,5601230,5522555,4576430,4533885,3734111,3726537,3111651,3118040,2571215,2592416,2121247,2150490,1735468,1771213,1418749,1459439,1145345,1193903,900239,956070,685141,745682,500248,563894,347093,416543,202240,258538,94325,130479,40402,64656,513458,503262,508728,559249,673522,652455,844532,145453,965423,965237,1243552,1238640,1400065,1392676,1428773,1505040,1546221,1671213,1562880,1459439,2355220,2218733,2324555,3528103,2988200,3204770,2527110,2500130,1552200,1683925,1466902,1683828,876251,987362,1073611,1147563],[224,194,257,254,251,232,245,214,334,316,245,224,154,163,189,167,334,354,342,354,565,463,432,574,543,493,432,295,245,175,543,380,234,177,354,392,34,54,37,24,51,32,145,154,434,276,120,254,100,123,143,164,307,254,354,354,463,453,639,654,706,435,232,354,275,165,543,432,234,287,274,395]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Population<\/th>\n      <th>Deaths<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p><span style="color: orange;"><strong><em>CẨN TRỌNG:</em></strong> Nếu số trường hợp tử vong mỗi tầng là nhỏ, hãy cân nhắc chia nhóm tuổi mỗi 10-15 năm thay vì mỗi 5 năm cho các nhóm.</span></p>
 </div>
-<div id="load-reference-population" class="section level3 unnumbered">
-<h3>Load reference population<a class="anchor" aria-label="anchor" href="#load-reference-population"><i class="fas fa-link"></i></a>
+<div id="tải-dân-số-tham-chiếu" class="section level3 unnumbered">
+<h3>Tải dân số tham chiếu<a class="anchor" aria-label="anchor" href="#t%E1%BA%A3i-d%C3%A2n-s%E1%BB%91-tham-chi%E1%BA%BFu"><i class="fas fa-link"></i></a>
 </h3>
-<p>Lastly, for the direct standardisation, we import the reference population (world “standard population” by sex)</p>
-<div class="sourceCode" id="cb1081"><pre class="downlit sourceCode r">
+<p>Cuối cùng, để chuẩn hóa trực tiếp, chúng ta nhập dân số tham chiếu (“dân số chuẩn” thế giới theo giới tính)</p>
+<div class="sourceCode" id="cb1082"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Reference population</span>
 <span class="va">standard_pop_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"world_standard_population_by_sex.csv"</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-9e4ce08544b9cb070bd9" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9e4ce08544b9cb070bd9">{"x":{"filter":"none","data":[["0-4 years","0-4 years","5-9 years","5-9 years","10-14 years","10-14 years","15-19 years","15-19 years","20-24 years","20-24 years","25-29 years","25-29 years","30-34 years","30-34 years","35-39 years","35-39 years","40-44 years","40-44 years","45-49 years","45-49 years","50-54 years","50-54 years","55-59 years","55-59 years","60-64 years","60-64 years","65-69 years","65-69 years","70-74 years","70-74 years","75-79 years","75-79 years","80-84 years","80-84 years","85plus years","85plus years"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[12000,12000,10000,10000,9000,9000,9000,9000,8000,8000,8000,8000,6000,6000,6000,6000,6000,6000,6000,6000,5000,5000,4000,4000,4000,4000,3000,3000,2000,2000,1000,1000,500,500,500,500]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>WorldStandardPopulation<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<div id="htmlwidget-5940fe9142f9f5f74900" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5940fe9142f9f5f74900">{"x":{"filter":"none","data":[["0-4 years","0-4 years","5-9 years","5-9 years","10-14 years","10-14 years","15-19 years","15-19 years","20-24 years","20-24 years","25-29 years","25-29 years","30-34 years","30-34 years","35-39 years","35-39 years","40-44 years","40-44 years","45-49 years","45-49 years","50-54 years","50-54 years","55-59 years","55-59 years","60-64 years","60-64 years","65-69 years","65-69 years","70-74 years","70-74 years","75-79 years","75-79 years","80-84 years","80-84 years","85plus years","85plus years"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[12000,12000,10000,10000,9000,9000,9000,9000,8000,8000,8000,8000,6000,6000,6000,6000,6000,6000,6000,6000,5000,5000,4000,4000,4000,4000,3000,3000,2000,2000,1000,1000,500,500,500,500]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>WorldStandardPopulation<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
-<div id="clean-reference-population" class="section level3 unnumbered">
-<h3>Clean reference population<a class="anchor" aria-label="anchor" href="#clean-reference-population"><i class="fas fa-link"></i></a>
+<div id="làm-sach-dân-số-tham-chiếu" class="section level3 unnumbered">
+<h3>Làm sach dân số tham chiếu<a class="anchor" aria-label="anchor" href="#l%C3%A0m-sach-d%C3%A2n-s%E1%BB%91-tham-chi%E1%BA%BFu"><i class="fas fa-link"></i></a>
 </h3>
-<p>The age category values in the <code>country_data</code> and <code>standard_pop_data</code> data frames will need to be aligned.</p>
-<p>Currently, the values of the column <code>age_cat5</code> from the <code>standard_pop_data</code> data frame contain the word “years” and “plus”, while those of the <code>country_data</code> data frame do not. We will have to make the age category values match. We use <code>str_replace_all()</code> from the <strong>stringr</strong> package, as described in the page on [Characters and strings], to replace these patterns with no space <code>""</code>.</p>
-<p>Furthermore, the package <strong>dsr</strong> expects that in the standard population, the column containing counts will be called <code>"pop"</code>. So we rename that column accordingly.</p>
-<div class="sourceCode" id="cb1082"><pre class="downlit sourceCode r">
+<p>Các giá trị của biến tuổi trong bộ số liệu <code>country_data</code> và <code>standard_pop_data</code> cần phải được căn chỉnh.</p>
+<p>Hiện tại, các giá trị của cột biến phân loại <code>age_cat5</code> trong bộ số liệu <code>standard_pop_data</code> có chứa từ “years” và “plus”, trong khi không có các từ này trong trong bộ số liệu <code>country_data</code>. Chúng ta cần phải chuyển đổi các giá trị này giống nhau. Chúng ta sẽ sử dụng hàm <code>str_replace_all()</code> từ package <strong>stringr</strong>, như được mô tả trong chương <a href="characters-strings.html#characters-strings">Ký tự và chuỗi</a>, để thay thế thành những kiểu mẫu không có khoảng trắng <code>""</code>.</p>
+<p>Hơn nữa, package <strong>dsr</strong> đòi hỏi cột chứa số lượng trong bộ số liệu dân số chuẩn phải được gọi là <code>"pop"</code>. Vì vậy, chúng ta đổi tên cột này cho phù hợp.</p>
+<div class="sourceCode" id="cb1083"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Remove specific string from column values</span>
 <span class="va">standard_pop_clean</span> <span class="op">&lt;-</span> <span class="va">standard_pop_data</span> <span class="op">%&gt;%</span>
      <span class="fu">mutate</span><span class="op">(</span>
@@ -303,39 +304,39 @@ Let’s say we would like to the standardize mortality rate by age and sex for c
           age_cat5 <span class="op">=</span> <span class="fu">str_replace_all</span><span class="op">(</span><span class="va">age_cat5</span>, <span class="st">" "</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>   <span class="co"># remove " " space</span>
      
      <span class="fu">rename</span><span class="op">(</span>pop <span class="op">=</span> <span class="va">WorldStandardPopulation</span><span class="op">)</span>   <span class="co"># change col name to "pop", as this is expected by dsr package</span></code></pre></div>
-<p><span style="color: orange;"><strong><em>CAUTION:</em></strong> If you try to use <code>str_replace_all()</code> to remove a plus <em>symbol</em>, it won’t work because it is a special symbol. “Escape” the specialnes by putting two back slashes in front, as in <code>str_replace_call(column, "\\+", "")</code>. </span></p>
+<p><span style="color: orange;"><strong><em>CẨN TRỌNG:</em></strong> Nếu chúng ta cố gắng sử dụng hàm <code>str_replace_all()</code> để loại bỏ <em>biểu tượng</em> dấu cộng, hàm này sẽ không thực hiện bởi vì nó là một biểu tượng đặc biệt. “Xử lý” các biểu tượng này bằng cách đặt hai dấu gạch chéo phía trước như trong lệnh <code>str_replace_call(column, "\\+", "")</code>. </span></p>
 </div>
 <div id="standard_all" class="section level3 unnumbered">
-<h3>Create dataset with standard population<a class="anchor" aria-label="anchor" href="#standard_all"><i class="fas fa-link"></i></a>
+<h3>Tạo bộ số liệu với dân số chuẩn<a class="anchor" aria-label="anchor" href="#standard_all"><i class="fas fa-link"></i></a>
 </h3>
-<p>Finally, the package <strong>PHEindicatormethods</strong>, detailed <a href="standardization.html#standard_phe">below</a>, expects the standard populations joined to the country event and population counts. So, we will create a dataset <code>all_data</code> for that purpose.</p>
-<div class="sourceCode" id="cb1083"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">country_data</span>, <span class="va">standard_pop_clean</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"age_cat5"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>This complete dataset looks like this:</p>
-<div id="htmlwidget-67eb51108090323fba0e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-67eb51108090323fba0e">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[7828087,7674675,6705882,6592449,5601230,5522555,4576430,4533885,3734111,3726537,3111651,3118040,2571215,2592416,2121247,2150490,1735468,1771213,1418749,1459439,1145345,1193903,900239,956070,685141,745682,500248,563894,347093,416543,202240,258538,94325,130479,40402,64656,513458,503262,508728,559249,673522,652455,844532,145453,965423,965237,1243552,1238640,1400065,1392676,1428773,1505040,1546221,1671213,1562880,1459439,2355220,2218733,2324555,3528103,2988200,3204770,2527110,2500130,1552200,1683925,1466902,1683828,876251,987362,1073611,1147563],[224,194,257,254,251,232,245,214,334,316,245,224,154,163,189,167,334,354,342,354,565,463,432,574,543,493,432,295,245,175,543,380,234,177,354,392,34,54,37,24,51,32,145,154,434,276,120,254,100,123,143,164,307,254,354,354,463,453,639,654,706,435,232,354,275,165,543,432,234,287,274,395],[12000,12000,10000,10000,9000,9000,9000,9000,8000,8000,8000,8000,6000,6000,6000,6000,6000,6000,6000,6000,5000,5000,4000,4000,4000,4000,3000,3000,2000,2000,1000,1000,500,500,500,500,12000,12000,10000,10000,9000,9000,9000,9000,8000,8000,8000,8000,6000,6000,6000,6000,6000,6000,6000,6000,5000,5000,4000,4000,4000,4000,3000,3000,2000,2000,1000,1000,500,500,500,500]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Population<\/th>\n      <th>Deaths<\/th>\n      <th>pop<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
-</div>
-</div>
-<div id="dsr-package" class="section level2" number="21.3">
-<h2>
-<span class="header-section-number">21.3</span> <strong>dsr</strong> package<a class="anchor" aria-label="anchor" href="#dsr-package"><i class="fas fa-link"></i></a>
-</h2>
-<p>Below we demonstrate calculating and comparing directly standardized rates using the <strong>dsr</strong> package. The <strong>dsr</strong> package allows you to calculate and compare directly standardized rates (no indirectly standardized rates!).</p>
-<p>In the data Preparation section, we made separate datasets for country counts and standard population:</p>
-<ol style="list-style-type: decimal">
-<li>the <code>country_data</code> object, which is a population table with the number of population and number of deaths per stratum per country<br>
-</li>
-<li>the <code>standard_pop_clean</code> object, containing the number of population per stratum for our reference population, the World Standard Population</li>
-</ol>
-<p>We will use these separate datasets for the <strong>dsr</strong> approach.</p>
-<!-- ======================================================= -->
-<div id="standardized-rates" class="section level3 unnumbered">
-<h3>Standardized rates<a class="anchor" aria-label="anchor" href="#standardized-rates"><i class="fas fa-link"></i></a>
-</h3>
-<p>Below, we calculate rates per country directly standardized for age and sex. We use the <code>dsr()</code> function.</p>
-<p>Of note - <code>dsr()</code> expects one data frame for the country populations and event counts (deaths), <em>and a <strong>separate</strong> data frame with the reference population</em>. It also expects that in this reference population dataset the unit-time column name is “pop” (we assured this in the data Preparation section).</p>
-<p>There are many arguments, as annotated in the code below. Notably, <code>event =</code> is set to the column <code>Deaths</code>, and the <code>fu =</code> (“follow-up”) is set to the <code>Population</code> column. We set the subgroups of comparison as the column <code>Country</code> and we standardize based on <code>age_cat5</code> and <code>Sex</code>. These last two columns are not assigned a particular named argument. See <code>?dsr</code> for details.</p>
+<p>Cuối cùng, sử dụng package <strong>PHEindicatormethods</strong>, được trình bày chi tiết <a href="standardization.html#standard_phe">bên dưới</a>, để nối dân số chuẩn vào biến tử vong và dân số của các quốc gia. Vì vậy, chúng ta sẽ tạo một bộ số liệu với tên <code>all_data</code> cho mục đích đó.</p>
 <div class="sourceCode" id="cb1084"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">country_data</span>, <span class="va">standard_pop_clean</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"age_cat5"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Bộ số liệu hoàn chỉnh trông sẽ như thế này:</p>
+<div id="htmlwidget-98218236296befc124c1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-98218236296befc124c1">{"x":{"filter":"none","data":[["A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B"],["0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85","0-4","0-4","5-9","5-9","10-14","10-14","15-19","15-19","20-24","20-24","25-29","25-29","30-34","30-34","35-39","35-39","40-44","40-44","45-49","45-49","50-54","50-54","55-59","55-59","60-64","60-64","65-69","65-69","70-74","70-74","75-79","75-79","80-84","80-84","85","85"],["Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female"],[7828087,7674675,6705882,6592449,5601230,5522555,4576430,4533885,3734111,3726537,3111651,3118040,2571215,2592416,2121247,2150490,1735468,1771213,1418749,1459439,1145345,1193903,900239,956070,685141,745682,500248,563894,347093,416543,202240,258538,94325,130479,40402,64656,513458,503262,508728,559249,673522,652455,844532,145453,965423,965237,1243552,1238640,1400065,1392676,1428773,1505040,1546221,1671213,1562880,1459439,2355220,2218733,2324555,3528103,2988200,3204770,2527110,2500130,1552200,1683925,1466902,1683828,876251,987362,1073611,1147563],[224,194,257,254,251,232,245,214,334,316,245,224,154,163,189,167,334,354,342,354,565,463,432,574,543,493,432,295,245,175,543,380,234,177,354,392,34,54,37,24,51,32,145,154,434,276,120,254,100,123,143,164,307,254,354,354,463,453,639,654,706,435,232,354,275,165,543,432,234,287,274,395],[12000,12000,10000,10000,9000,9000,9000,9000,8000,8000,8000,8000,6000,6000,6000,6000,6000,6000,6000,6000,5000,5000,4000,4000,4000,4000,3000,3000,2000,2000,1000,1000,500,500,500,500,12000,12000,10000,10000,9000,9000,9000,9000,8000,8000,8000,8000,6000,6000,6000,6000,6000,6000,6000,6000,5000,5000,4000,4000,4000,4000,3000,3000,2000,2000,1000,1000,500,500,500,500]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>age_cat5<\/th>\n      <th>Sex<\/th>\n      <th>Population<\/th>\n      <th>Deaths<\/th>\n      <th>pop<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+</div>
+</div>
+<div id="package-dsr" class="section level2" number="21.3">
+<h2>
+<span class="header-section-number">21.3</span> Package <strong>dsr</strong><a class="anchor" aria-label="anchor" href="#package-dsr"><i class="fas fa-link"></i></a>
+</h2>
+<p>Bên dưới, chúng tôi trình bày việc tính toán và so sánh các tỷ suất được chuẩn hóa trực tiếp bằng cách sử dụng package <strong>dsr</strong>. Package <strong>dsr</strong> cho phép chúng ta tính toán và so sánh các tỷ suất được chuẩn hóa trực tiếp (không phải các tỷ suất được chuẩn hóa gián tiếp!).</p>
+<p>Trong phần Chuẩn bị số liệu, chúng ta đã tạo các bộ số liệu riêng biệt cho các quốc gia và dân số chuẩn:</p>
+<ol style="list-style-type: decimal">
+<li>đối tượng <code>country_data</code> mà là một bảng dân số với số lượng dân số và số tử vong theo tầng cho mỗi quốc gia<br>
+</li>
+<li>đối tượng <code>standard_pop_clean</code>, bao gồm số lượng dân số theo tầng cho dân số tham chiếu, Dân số Chuẩn Thế giới</li>
+</ol>
+<p>Chúng ta sẽ sử dụng các bộ số liệu riêng rẽ này cho cách tiếp cận sử dụng package <strong>dsr</strong>.</p>
+<!-- ======================================================= -->
+<div id="tỷ-suất-chuẩn-hóa" class="section level3 unnumbered">
+<h3>Tỷ suất chuẩn hóa<a class="anchor" aria-label="anchor" href="#t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a"><i class="fas fa-link"></i></a>
+</h3>
+<p>Bên dưới, chúng ta tính toán các tỷ suất theo quốc gia được chuẩn hóa trực tiếp theo tuổi và giới. Chúng ta sử dụng hàm <code>dsr()</code>.</p>
+<p>Lưu ý - <code>dsr()</code> đòi hỏi một bộ số liệu dân số của các quốc gia và số lượng sự kiện (tử vong), <em>và một bộ số liệu</em> <strong>riêng rẽ</strong> <em>với dân số tham chiếu</em>. Nó cũng đòi hỏi trong bộ số liệu của dân số tham chiếu này tên cột đơn vị-thời gian là “pop” (chúng ta đã đảm bảo điều này trong phần Chuẩn bị số liệu).</p>
+<p>Có nhiều đối số, như được chú thích bên dưới. Đáng chú ý, đối số <code>event =</code> được đặt thành cột <code>Deaths</code>, và đối số <code>fu =</code> (“follow-up”) được đặt thành cột <code>Population</code>. Chúng ta đặt các nhóm so sánh là cột <code>Country</code> và chuẩn hóa dựa trên cột <code>age_cat5</code> và <code>Sex</code>. Hai cột cuối cùng này không được gán với một đối số có tên cụ thể. Gõ <code>?dsr</code> để biết thêm chi tiết.</p>
+<div class="sourceCode" id="cb1085"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate rates per country directly standardized for age and sex</span>
 <span class="va">mortality_rate</span> <span class="op">&lt;-</span> <span class="fu">dsr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dsr/man/dsr.html">dsr</a></span><span class="op">(</span>
      data <span class="op">=</span> <span class="va">country_data</span>,  <span class="co"># specify object containing number of deaths per stratum</span>
@@ -444,13 +445,13 @@ B
 </tr>
 </tbody>
 </table></div>
-<p>Above, we see that while country A had a lower crude mortality rate than country B, it has a higher standardized rate after direct age and sex standardization.</p>
+<p>Bên trên, chúng ta thấy rằng tỷ suất tử vong thô của quốc gia A thấp hơn quốc gia B, nhưng tỷ suất được chuẩn hóa trực tiếp theo tuổi và giới thì cao hơn.</p>
 <!-- ======================================================= -->
 </div>
-<div id="standardized-rate-ratios" class="section level3 unnumbered">
-<h3>Standardized rate ratios<a class="anchor" aria-label="anchor" href="#standardized-rate-ratios"><i class="fas fa-link"></i></a>
+<div id="tỷ-số-của-các-tỷ-suất-chuẩn-hóa" class="section level3 unnumbered">
+<h3>Tỷ số của các tỷ suất chuẩn hóa<a class="anchor" aria-label="anchor" href="#t%E1%BB%B7-s%E1%BB%91-c%E1%BB%A7a-c%C3%A1c-t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb1085"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1086"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate RR</span>
 <span class="va">mortality_rr</span> <span class="op">&lt;-</span> <span class="fu">dsr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dsr/man/dsrr.html">dsrr</a></span><span class="op">(</span>
      data <span class="op">=</span> <span class="va">country_data</span>, <span class="co"># specify object containing number of deaths per stratum</span>
@@ -532,13 +533,13 @@ B
 </tr>
 </tbody>
 </table></div>
-<p>The standardized mortality rate is 1.22 times higher in country A compared to country B (95% CI 1.17-1.27).</p>
+<p>Tỷ suất tử vong chuẩn hóa của quốc gia A cao gấp 1.22 lần so với quốc gia B (95% CI 1.17-1.27).</p>
 <!-- ======================================================= -->
 </div>
-<div id="standardized-rate-difference" class="section level3 unnumbered">
-<h3>Standardized rate difference<a class="anchor" aria-label="anchor" href="#standardized-rate-difference"><i class="fas fa-link"></i></a>
+<div id="khác-biệt-của-các-tỷ-suất-chuẩn-hóa" class="section level3 unnumbered">
+<h3>Khác biệt của các tỷ suất chuẩn hóa<a class="anchor" aria-label="anchor" href="#kh%C3%A1c-bi%E1%BB%87t-c%E1%BB%A7a-c%C3%A1c-t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb1086"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1087"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate RD</span>
 <span class="va">mortality_rd</span> <span class="op">&lt;-</span> <span class="fu">dsr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/dsr/man/dsrr.html">dsrr</a></span><span class="op">(</span>
      data <span class="op">=</span> <span class="va">country_data</span>,       <span class="co"># specify object containing number of deaths per stratum</span>
@@ -620,24 +621,24 @@ B
 </tr>
 </tbody>
 </table></div>
-<p>Country A has 4.24 additional deaths per 100.000 population (95% CI 3.24-5.24) compared to country A.</p>
+<p>Quốc gia A có hơn 4,24 ca tử vong trên 100,000 dân (95% CI 3.24-5.24) so với quốc gia B.</p>
 <!-- ======================================================= -->
 </div>
 </div>
 <div id="standard_phe" class="section level2" number="21.4">
 <h2>
-<span class="header-section-number">21.4</span> <strong>PHEindicatormethods</strong> package<a class="anchor" aria-label="anchor" href="#standard_phe"><i class="fas fa-link"></i></a>
+<span class="header-section-number">21.4</span> Package <strong>PHEindicatormethods</strong><a class="anchor" aria-label="anchor" href="#standard_phe"><i class="fas fa-link"></i></a>
 </h2>
-<p>Another way of calculating standardized rates is with the <strong>PHEindicatormethods</strong> package. This package allows you to calculate directly as well as indirectly standardized rates. We will show both.</p>
-<p>This section will use the <code>all_data</code> data frame created at the end of the Preparation section. This data frame includes the country populations, death events, and the world standard reference population. You can view it <a href="standardization.html#standard_all">here</a>.</p>
+<p>Một cách khác để tính tỷ suất chuẩn hóa là dùng package <strong>PHEindicatormethods</strong>. Package này cho phép chúng ta tính toán tỷ suất chuẩn hóa trực tiếp cũng như gián tiếp. Chúng tôi sẽ hướng dẫn cả hai.</p>
+<p>Phần này chúng ta sẽ sử dụng bộ số liệu <code>all_data</code> được tạo ở cuối phần Chuẩn bị. Bộ số liệu này bao gồm dân số quốc gia, số tử vong và dân số tham chiếu. Bạn có thể xem nó ở <a href="standardization.html#standard_all">đây</a>.</p>
 <!-- ======================================================= -->
-<div id="directly-standardized-rates" class="section level3 unnumbered">
-<h3>Directly standardized rates<a class="anchor" aria-label="anchor" href="#directly-standardized-rates"><i class="fas fa-link"></i></a>
+<div id="tỷ-suất-chuẩn-hóa-trực-tiếp" class="section level3 unnumbered">
+<h3>Tỷ suất chuẩn hóa trực tiếp<a class="anchor" aria-label="anchor" href="#t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a-tr%E1%BB%B1c-ti%E1%BA%BFp"><i class="fas fa-link"></i></a>
 </h3>
-<p>Below, we first group the data by Country and then pass it to the function <code>phe_dsr()</code> to get directly standardized rates per country.</p>
-<p>Of note - the reference (standard) population can be provided as a <strong>column within the country-specific data frame</strong> or as a <strong>separate vector</strong>. If provided within the country-specific data frame, you have to set <code>stdpoptype = "field"</code>. If provided as a vector, set <code>stdpoptype = "vector"</code>. In the latter case, you have to make sure the ordering of rows by strata is similar in both the country-specific data frame and the reference population, as records will be matched by position. In our example below, we provided the reference population as a column within the country-specific data frame.</p>
-<p>See the help with <code>?phr_dsr</code> or the links in the References section for more information.</p>
-<div class="sourceCode" id="cb1087"><pre class="downlit sourceCode r">
+<p>Đầu tiên, chúng ta nhóm số liệu theo Quốc gia như bên dưới và sau đó chuyển số liệu vào hàm <code>phe_dsr()</code> để có được tỷ suất chuẩn hóa trực tiếp theo quốc gia.</p>
+<p>Lưu ý, dân số tham chiếu (chuẩn) có thể được cung cấp dưới dạng một <strong>cột bên trong số liệu của một quốc gia cụ thể</strong> hoặc dưới dạng một <strong>véctơ riêng biệt</strong>. Nếu được cung cấp bên trong số liệu của một quốc gia cụ thể, bạn phải đặt <code>stdpoptype = "field"</code>. Nếu được cung cấp như một véc tơ, đặt <code>stdpoptype = "vector"</code>. Trong trường hợp thứ hai, chúng ta phải đảm bảo thứ tự của các hàng theo tầng tương tự nhau trong cả khung số liệu quốc gia và dân số tham chiếu, vì vị trí các bản ghi/các hàng phải khớp với nhau. Trong ví dụ bên dưới, chúng tôi đã cung cấp dân số tham chiếu dưới dạng một cột bên trong khung số liệu của một quốc gia cụ thể.</p>
+<p>Xem trợ giúp bằng cách gõ <code>?phr_dsr</code> hoặc các liên kết trong phần Tài nguyên học liệu để biết thêm thông tin.</p>
+<div class="sourceCode" id="cb1088"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate rates per country directly standardized for age and sex</span>
 <span class="va">mortality_ds_rate_phe</span> <span class="op">&lt;-</span> <span class="va">all_data</span> <span class="op">%&gt;%</span>
      <span class="fu">group_by</span><span class="op">(</span><span class="va">Country</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -743,13 +744,13 @@ Dobson
 <!-- ======================================================= -->
 </div>
 <div id="standard_indirect" class="section level3 unnumbered">
-<h3>Indirectly standardized rates<a class="anchor" aria-label="anchor" href="#standard_indirect"><i class="fas fa-link"></i></a>
+<h3>Tỷ suất chuẩn hóa gián tiếp<a class="anchor" aria-label="anchor" href="#standard_indirect"><i class="fas fa-link"></i></a>
 </h3>
-<p>For indirect standardization, you need a reference population with the number of deaths and number of population per stratum. In this example, we will be calculating rates for country A <em>using country B as the reference population</em>, as the <code>standard_pop_clean</code> reference population does not include number of deaths per stratum.</p>
-<p>Below, we first create the reference population from country B. Then, we pass mortality and population data for country A, combine it with the reference population, and pass it to the function <code>phe_isr()</code>, to get indirectly standardized rates. Of course, you can do it also vice versa.</p>
-<p>Of note - in our example below, the reference population is provided as a separate data frame. In this case, we make sure that <code>x =</code>, <code>n =</code>, <code>x_ref =</code> and <code>n_ref =</code> vectors are all ordered by the same standardization category (stratum) values as that in our country-specific data frame, as records will be matched by position.</p>
-<p>See the help with <code>?phr_isr</code> or the links in the References section for more information.</p>
-<div class="sourceCode" id="cb1088"><pre class="downlit sourceCode r">
+<p>Để chuẩn hóa gián tiếp, chúng ta cần dân số tham chiếu có số lượng tử vong và dân số theo tầng. Trong ví dụ này, chúng ta sẽ tính tỷ suất của quốc gia A bằng cách <em>sử dụng quốc gia B làm dân số tham chiếu</em>, vì dân số tham chiếu trong bộ số liệu <code>standard_pop_clean</code> không có số lượng tử vong theo tầng.</p>
+<p>Trước tiên, chúng ta tạo dân số tham chiếu từ quốc gia B như bên dưới. Sau đó, chúng ta chuyển số liệu tử vong và dân số của quốc gia A, kết nối nó với dân số tham chiếu và chuyển nó vào hàm <code>phe_isr()</code>, để có được tỷ suất chuẩn hóa gián tiếp. Dĩ nhiên, chúng ta cũng có thể làm ngược lại.</p>
+<p>Lưu ý - trong ví dụ bên dưới, dân số tham chiếu được cung cấp dưới dạng một data frame riêng rẽ. Trong trường hợp này, chúng ta cần đảm bảo rằng các véctơ <code>x =</code>, <code>n =</code>, <code>x_ref =</code> và <code>n_ref =</code> tất cả được sắp đặt cùng giá trị với loại chuẩn hóa (theo đúng tầng) như được sắp đặt trong data frame quốc gia, vì vị trí các bản ghi/các hàng phải khớp với nhau.</p>
+<p>Xem trợ giúp bằng cách gõ <code>?phr_isr</code> hoặc các liên kết trong phần Tài nguyên học liệu để biết thêm thông tin.</p>
+<div class="sourceCode" id="cb1089"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create reference population</span>
 <span class="va">refpopCountryB</span> <span class="op">&lt;-</span> <span class="va">country_data</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Country</span> <span class="op">==</span> <span class="st">"B"</span><span class="op">)</span> 
@@ -828,13 +829,13 @@ Byars
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="resources-12" class="section level2" number="21.5">
+<div id="tài-nguyên-học-liệu-5" class="section level2" number="21.5">
 <h2>
-<span class="header-section-number">21.5</span> Resources<a class="anchor" aria-label="anchor" href="#resources-12"><i class="fas fa-link"></i></a>
+<span class="header-section-number">21.5</span> Tài nguyên học liệu<a class="anchor" aria-label="anchor" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u-5"><i class="fas fa-link"></i></a>
 </h2>
-<p>If you would like to see another reproducible example using <strong>dsr</strong> please see <a href="https://mran.microsoft.com/snapshot/2020-02-12/web/packages/dsr/vignettes/dsr.html">this vignette</a></p>
-<p>For another example using <strong>PHEindicatormethods</strong>, please go to <a href="https://mran.microsoft.com/snapshot/2018-10-22/web/packages/PHEindicatormethods/vignettes/IntroductiontoPHEindicatormethods.html">this website</a></p>
-<p>See the <strong>PHEindicatormethods</strong> <a href="https://cran.r-project.org/web/packages/PHEindicatormethods/PHEindicatormethods.pdf">reference pdf file</a></p>
+<p>Nếu bạn muốn tìm thêm các ví dụ có thể tái lập được sử dụng package <strong>dsr</strong>, vui lòng xem <a href="https://mran.microsoft.com/snapshot/2020-02-12/web/packages/dsr/vignettes/dsr.html">hướng dẫn này</a></p>
+<p>Với các ví dụ khác sử dụng package <strong>PHEindicatormethods</strong>, vui lòng xem tại <a href="https://mran.microsoft.com/snapshot/2018-10-22/web/packages/PHEindicatormethods/vignettes/IntroductiontoPHEindicatormethods.html">website này</a></p>
+<p>Xem thêm <strong>PHEindicatormethods</strong> <a href="https://cran.r-project.org/web/packages/PHEindicatormethods/PHEindicatormethods.pdf">tài liệu dưới dạng tệp pdf</a></p>
 
 </div>
 </div>
@@ -844,33 +845,33 @@ Byars
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#standardization"><span class="header-section-number">21</span> Tỷ lệ chuẩn hóa</a></li>
-<li><a class="nav-link" href="#overview-1"><span class="header-section-number">21.1</span> Overview</a></li>
+<li><a class="nav-link" href="#standardization"><span class="header-section-number">21</span> Tỷ suất chuẩn hóa</a></li>
+<li><a class="nav-link" href="#t%E1%BB%95ng-quan-1"><span class="header-section-number">21.1</span> Tổng quan</a></li>
 <li>
-<a class="nav-link" href="#preparation-11"><span class="header-section-number">21.2</span> Preparation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load-packages-13">Load packages</a></li>
-<li><a class="nav-link" href="#load-population-data">Load population data</a></li>
-<li><a class="nav-link" href="#load-death-counts">Load death counts</a></li>
-<li><a class="nav-link" href="#clean-populations-and-deaths">Clean populations and deaths</a></li>
-<li><a class="nav-link" href="#load-reference-population">Load reference population</a></li>
-<li><a class="nav-link" href="#clean-reference-population">Clean reference population</a></li>
-<li><a class="nav-link" href="#standard_all">Create dataset with standard population</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-10"><span class="header-section-number">21.2</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#g%E1%BB%8Di-packages-4">Gọi packages</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A3i-s%E1%BB%91-li%E1%BB%87u-d%C3%A2n-s%E1%BB%91">Tải số liệu dân số</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A3i-s%E1%BB%91-li%E1%BB%87u-t%E1%BB%AD-vong">Tải số liệu tử vong</a></li>
+<li><a class="nav-link" href="#l%C3%A0m-s%E1%BA%A1ch-s%E1%BB%91-li%E1%BB%87u-d%C3%A2n-s%E1%BB%91-v%C3%A0-t%E1%BB%AD-vong">Làm sạch số liệu dân số và tử vong</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A3i-d%C3%A2n-s%E1%BB%91-tham-chi%E1%BA%BFu">Tải dân số tham chiếu</a></li>
+<li><a class="nav-link" href="#l%C3%A0m-sach-d%C3%A2n-s%E1%BB%91-tham-chi%E1%BA%BFu">Làm sach dân số tham chiếu</a></li>
+<li><a class="nav-link" href="#standard_all">Tạo bộ số liệu với dân số chuẩn</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#dsr-package"><span class="header-section-number">21.3</span> dsr package</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#standardized-rates">Standardized rates</a></li>
-<li><a class="nav-link" href="#standardized-rate-ratios">Standardized rate ratios</a></li>
-<li><a class="nav-link" href="#standardized-rate-difference">Standardized rate difference</a></li>
+<a class="nav-link" href="#package-dsr"><span class="header-section-number">21.3</span> Package dsr</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a">Tỷ suất chuẩn hóa</a></li>
+<li><a class="nav-link" href="#t%E1%BB%B7-s%E1%BB%91-c%E1%BB%A7a-c%C3%A1c-t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a">Tỷ số của các tỷ suất chuẩn hóa</a></li>
+<li><a class="nav-link" href="#kh%C3%A1c-bi%E1%BB%87t-c%E1%BB%A7a-c%C3%A1c-t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a">Khác biệt của các tỷ suất chuẩn hóa</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#standard_phe"><span class="header-section-number">21.4</span> PHEindicatormethods package</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#directly-standardized-rates">Directly standardized rates</a></li>
-<li><a class="nav-link" href="#standard_indirect">Indirectly standardized rates</a></li>
+<a class="nav-link" href="#standard_phe"><span class="header-section-number">21.4</span> Package PHEindicatormethods</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#t%E1%BB%B7-su%E1%BA%A5t-chu%E1%BA%A9n-h%C3%B3a-tr%E1%BB%B1c-ti%E1%BA%BFp">Tỷ suất chuẩn hóa trực tiếp</a></li>
+<li><a class="nav-link" href="#standard_indirect">Tỷ suất chuẩn hóa gián tiếp</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#resources-12"><span class="header-section-number">21.5</span> Resources</a></li>
+<li><a class="nav-link" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u-5"><span class="header-section-number">21.5</span> Tài nguyên học liệu</a></li>
 </ul>
 
       <div class="book-extra">
@@ -887,7 +888,7 @@ Byars
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-18.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

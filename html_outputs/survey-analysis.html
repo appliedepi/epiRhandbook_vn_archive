@@ -72,7 +72,7 @@
 <li><a class="" href="stat-tests.html"><span class="header-section-number">18</span> Các kiểm định thống kê cơ bản</a></li>
 <li><a class="" href="regression.html"><span class="header-section-number">19</span> Hồi quy đơn và đa biến</a></li>
 <li><a class="" href="missing-data.html"><span class="header-section-number">20</span> Dữ liệu Missing</a></li>
-<li><a class="" href="standardization.html"><span class="header-section-number">21</span> Tỷ lệ chuẩn hóa</a></li>
+<li><a class="" href="standardization.html"><span class="header-section-number">21</span> Tỷ suất chuẩn hóa</a></li>
 <li><a class="" href="moving-average.html"><span class="header-section-number">22</span> Đường trung bình động</a></li>
 <li><a class="" href="time-series.html"><span class="header-section-number">23</span> Chuỗi thời gian và phát hiện ổ dịch</a></li>
 <li><a class="" href="epidemic-models.html"><span class="header-section-number">24</span> Mô hình hóa dịch bệnh</a></li>
@@ -117,53 +117,34 @@
 <span class="header-section-number">26</span> Phân tích khảo sát<a class="anchor" aria-label="anchor" href="#survey-analysis"><i class="fas fa-link"></i></a>
 </h1>
 <!-- ======================================================= -->
-<div id="overview-4" class="section level2" number="26.1">
+<div id="tổng-quan-3" class="section level2" number="26.1">
 <h2>
-<span class="header-section-number">26.1</span> Overview<a class="anchor" aria-label="anchor" href="#overview-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.1</span> Tổng quan<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-quan-3"><i class="fas fa-link"></i></a>
 </h2>
-<p>This page demonstrates the use of several packages for survey analysis.</p>
-<p>Most survey R packages rely on the <a href="https://cran.r-project.org/web/packages/survey/index.html"><strong>survey</strong> package</a>
-for doing weighted analysis.
-We will use <strong>survey</strong> as well as <a href="https://cran.r-project.org/web/packages/srvyr/index.html"><strong>srvyr</strong></a>
-(a wrapper for <strong>survey</strong> allowing for tidyverse-style coding) and
-<a href="https://cran.r-project.org/web/packages/gtsummary/index.html"><strong>gtsummary</strong></a>
-(a wrapper for <strong>survey</strong> allowing for publication ready tables).
-While the original <strong>survey</strong> package does not allow for tidyverse-style coding,
-it does have the added benefit of allowing for survey-weighted generalised linear
-models (which will be added to this page at a later date).
-We will also demonstrate using a function from the <a href="https://github.com/R4EPI/sitrep"><strong>sitrep</strong></a>
-package to create sampling weights (<em>n.b</em> this package is currently not yet on CRAN,
-but can be installed from github).</p>
-<p>Most of this page is based off work done for the <a href="https://r4epis.netlify.app/">“R4Epis” project</a>;
-for detailed code and R-markdown templates see the <a href="https://github.com/R4EPI/sitrep">“R4Epis” github page</a>.
-Some of the <strong>survey</strong> package based code is based off early versions of
-<a href="https://github.com/EPIET/RapidAssessmentSurveys">EPIET case studies</a>.</p>
-<p>At current this page does not address sample size calculations or sampling.
-For a simple to use sample size calculator see <a href="https://www.openepi.com/Menu/OE_Menu.htm">OpenEpi</a>.
-The <a href="https://epirhandbook.com/gis-basics.html">GIS basics</a> page of the handbook
-will eventually have a section on spatial random sampling, and this page will
-eventually have a section on sampling frames as well as sample size calculations.</p>
+<p>Chương này trình bày việc sử dụng một số packages để phân tích khảo sát.</p>
+<p>Hầu hết các packages R dùng để phân tích khảo sát đều dựa trên <a href="https://cran.r-project.org/web/packages/survey/index.html"><strong>survey</strong> package</a> cho phân tích có trọng số. Chúng tôi sẽ sử dụng <strong>survey</strong> cũng như <a href="https://cran.r-project.org/web/packages/srvyr/index.html"><strong>srvyr</strong></a> (cho phép <strong>survey</strong> mã hóa theo kiểu tidyverse) và <a href="https://cran.r-project.org/web/packages/gtsummary/index.html"><strong>gtsummary</strong></a> (cho phép <strong>survey</strong> tạo các bảng sẵn sàng cho xuất bản). Trong khi package <strong>survey</strong> ban đầu không cho phép mã hóa theo kiểu tidyverse, nhưng nó có điểm cộng là cho phép khảo sát được trọng số hóa mô hình tuyến tính tổng quát (sẽ được thêm vào chương này sau). Chúng tôi cũng sẽ minh họa bằng cách sử dụng một hàm từ package <a href="https://github.com/R4EPI/sitrep"><strong>sitrep</strong></a> để tạo mẫu trọng số (<em>lưu ý</em> package này hiện chưa có trên CRAN, nhưng có thể được cài đặt từ github).</p>
+<p>Hầu hết chương này dựa trên công việc đã hoàn thành của <a href="https://r4epis.netlify.app/">dự án “R4Epis”</a>; để biết code chi tiết và mẫu R-markdown xem <a href="https://github.com/R4EPI/sitrep">trang github của “R4Epis”</a>. Một số package <strong>survey</strong> dựa trên các phiên bản đầu tiên của <a href="https://github.com/EPIET/RapidAssessmentSurveys">các nghiên cứuu trường hợp EPIET</a>.</p>
+<p>Hiện tại, chương này không đề cập đến các phép tính cỡ mẫu hoặc lấy mẫu. Để tính cỡ mẫu đơn giản, hãy xem <a href="https://www.openepi.com/Menu/OE_Menu.htm">OpenEpi</a>. Chương <a href="data-used.html#gis">GIS cơ bản</a> trong sổ tay này sẽ có một phần về lấy mẫu ngẫu nhiên theo không gian và chương này cũng sẽ đề cập một phần về khung lấy mẫu cũng như tính toán cỡ mẫu.</p>
 <ol style="list-style-type: decimal">
-<li>Survey data</li>
-<li>Observation time</li>
-<li>Weighting</li>
-<li>Survey design objects</li>
-<li>Descriptive analysis</li>
-<li>Weighted proportions</li>
-<li>Weighted rates</li>
+<li>Dữ liệu khảo sát</li>
+<li>Thời gian quan sát</li>
+<li>Áp dụng trọng số</li>
+<li>Đối tượng thiết kế nghiên cứu</li>
+<li>Phân tích mô tả</li>
+<li>Tỷ lệ được áp dụng trọng số</li>
+<li>Tỷ suất được áp dụng trọng số</li>
 </ol>
 <!-- ======================================================= -->
 </div>
-<div id="preparation-16" class="section level2" number="26.2">
+<div id="chuẩn-bị-14" class="section level2" number="26.2">
 <h2>
-<span class="header-section-number">26.2</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-16"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.2</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-14"><i class="fas fa-link"></i></a>
 </h2>
-<div id="packages-3" class="section level3 unnumbered">
-<h3>Packages<a class="anchor" aria-label="anchor" href="#packages-3"><i class="fas fa-link"></i></a>
+<div id="packages-2" class="section level3 unnumbered">
+<h3>Packages<a class="anchor" aria-label="anchor" href="#packages-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> from <strong>pacman</strong>, which installs the package if necessary <em>and</em> loads it for use. You can also load packages with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> from <strong>base</strong> R. See the page on [R basics] for more information on R packages.<br>
-Here we also demonstrate using the <code><a href="https://rdrr.io/pkg/pacman/man/p_load_gh.html">p_load_gh()</a></code> function from <strong>pacman</strong> to install a load a package from github which has not yet been published on CRAN.</p>
-<div class="sourceCode" id="cb1233"><pre class="downlit sourceCode r">
+<p>Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> từ package <strong>pacman</strong>, giúp cài đặt các package cần thiết <em>và</em> gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> của <strong>base</strong> R. Xem thêm chương <a href="basics.html#basics">R cơ bản</a> để có thêm thông tin về các packages trong R. Ở đây chúng tôi cũng minh họa việc sử dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load_gh.html">p_load_gh()</a></code> từ <strong>pacman</strong> để cài đặt một package tải từ github mà chưa được công bố trên CRAN.</p>
+<div class="sourceCode" id="cb1234"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## load packages from CRAN</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">rio</span>,          <span class="co"># File import</span>
                <span class="va">here</span>,         <span class="co"># File locator</span>
@@ -182,57 +163,36 @@ Here we also demonstrate using the <code><a href="https://rdrr.io/pkg/pacman/man
      <span class="st">"R4EPI/sitrep"</span>          <span class="co"># for observation time / weighting functions</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="load-data-1" class="section level3 unnumbered">
-<h3>Load data<a class="anchor" aria-label="anchor" href="#load-data-1"><i class="fas fa-link"></i></a>
+<div id="nạp-dữ-liệu" class="section level3 unnumbered">
+<h3>Nạp dữ liệu<a class="anchor" aria-label="anchor" href="#n%E1%BA%A1p-d%E1%BB%AF-li%E1%BB%87u"><i class="fas fa-link"></i></a>
 </h3>
-<p>The example dataset used in this section:</p>
+<p>Bộ dữ liệu ví dụ được sử dụng trong phần này:</p>
 <ul>
-<li>fictional mortality survey data.</li>
-<li>fictional population counts for the survey area.</li>
-<li>data dictionary for the fictional mortality survey data.</li>
+<li>dữ liệu điều tra tỷ lệ tử vong mô phỏng.</li>
+<li>số lượng dân cư mô phỏng cho khu vực khảo sát.</li>
+<li>từ điển dữ liệu cho dữ liệu khảo sát tử vong mô phỏng.</li>
 </ul>
-<p>This is based off the MSF OCA ethical review board pre-approved survey. The
-fictional dataset was produced as part of the <a href="https://r4epis.netlify.app/">“R4Epis” project</a>.
-This is all based off data collected using <a href="https://www.kobotoolbox.org/">KoboToolbox</a>,
-which is a data collection software based off <a href="https://opendatakit.org/">Open Data Kit</a>.</p>
-<p>Kobo allows you to export both the collected data, as well as the data dictionary
-for that dataset. We strongly recommend doing this as it simplifies data cleaning
-and is useful for looking up variables/questions.</p>
-<p><span style="color: darkgreen;"><strong><em>TIP:</em></strong> The Kobo data dictionary has variable
-names in the “name” column of the survey sheet.
-Possible values for each variable are specified in choices sheet.
-In the choices tab, “name” has the shortened value and the “label::english” and
-“label::french” columns have the appropriate long versions.
-Using the <strong>epidict</strong> package <code>msf_dict_survey()</code> function to import a Kobo
-dictionary excel file will re-format this for you so it can be used easily to recode. </span></p>
-<p><span style="color: orange;"><strong><em>CAUTION:</em></strong> The example dataset is not the same
-as an export (as in Kobo you export different questionnaire levels individually)
-- see the survey data section below to merge the different levels.</span></p>
-<p>The dataset is imported using the <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> function from the <strong>rio</strong> package. See the page on <a href="https://epirhandbook.com/import-and-export.html">Import and export</a> for various ways to import data.</p>
-<div class="sourceCode" id="cb1234"><pre class="downlit sourceCode r">
+<p>Bộ này dựa trên khảo sát đã được phê duyệt trước của hội đồng đạo đức MSF OCA. Các tập dữ liệu mô phỏng được tạo như một phần của <a href="https://r4epis.netlify.app/">Dự án “R4Epis”</a>. Tất cả đều dựa trên dữ liệu được thu thập bằng <a href="https://www.kobotoolbox.org/">KoboToolbox</a>, đây là một phần mềm thu thập dữ liệu dựa trên <a href="https://opendatakit.org/">Open Data Kit</a>.</p>
+<p>Kobo cho phép bạn xuất cả dữ liệu đã thu thập, cũng như từ điển dữ liệu cho tập dữ liệu đó. Chúng tôi thực sự khuyên bạn nên làm điều này vì nó đơn giản hóa việc làm sạch dữ liệu và hữu ích cho việc tra cứu các biến/câu hỏi.</p>
+<p><span style="color: darkgreen;"><strong><em>MẸO:</em></strong> Từ điển dữ liệu Kobo có tên biến trong cột “name” của sheet “survey” (khảo sát). Các giá trị có thể có cho mỗi biến được chỉ định trong sheet “choices” (lựa chọn). Trong tab lựa chọn, “name” có giá trị rút gọn và các cột “label::english” và “label::french” chứa các nhãn mô tả đầy đủ. Sử dụng hàm <code>msf_dict_survey()</code> của package <strong>epidict</strong> để nhập tệp excel từ điển Kobo sẽ định dạng lại tệp này cho bạn để bạn có thể dễ dàng sử dụng để code lại.</span></p>
+<p><span style="color: orange;"><strong><em>THẬN TRỌNG:</em></strong> Bộ dữ liệu ví dụ không giống nhau dưới dạng xuất (như trong Kobo, bạn xuất từng cấp bảng câu hỏi khác nhau) - xem phần dữ liệu khảo sát bên dưới để hợp nhất các cấp độ khác nhau.</span></p>
+<p>Bộ dữ liệu được nhập bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong>. Xem chương về <a href="importing.html#importing">Nhập xuất dữ liệu</a> để biết các cách nhập dữ liệu khác nhau.</p>
+<div class="sourceCode" id="cb1235"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the survey data</span>
 <span class="va">survey_data</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"survey_data.xlsx"</span><span class="op">)</span>
 
 <span class="co"># import the dictionary into R</span>
 <span class="va">survey_dict</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"survey_dict.xlsx"</span><span class="op">)</span> </code></pre></div>
-<p>The first 10 rows of the survey are displayed below.</p>
-<div id="htmlwidget-275c8acced7b4fbff90c" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-275c8acced7b4fbff90c">{"x":{"filter":"none","data":[[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["2018-04-15T00:00:00Z","2018-03-04T00:00:00Z","2018-04-16T00:00:00Z","2018-01-23T00:00:00Z","2018-01-09T00:00:00Z","2018-03-07T00:00:00Z","2018-02-18T00:00:00Z","2018-04-12T00:00:00Z","2018-04-17T00:00:00Z","2018-01-05T00:00:00Z"],[null,null,null,null,null,null,null,null,null,null],["village_1","village_1","village_10","village_5","village_3","village_8","other","village_7","village_4","village_2"],[null,null,null,null,null,null,null,null,null,null],[1,1,10,5,3,8,11,7,4,2],[9,1,15,6,18,14,17,16,13,14],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["yes","no","no","yes","no","yes","no","yes","yes","yes"],[null,"no_benefit","neg_experience",null,"other",null,"no_benefit",null,null,null],[null,null,null,null,null,null,null,null,null,null],[6,null,null,8,null,5,null,6,5,5],["female",null,null,"female",null,"male",null,"male","male","female"],[26,null,null,3,null,22,null,33,96,18],[null,null,null,36,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["no",null,null,"no",null,"yes",null,"yes","yes","yes"],["yes",null,null,null,null,"yes",null,"no","no","no"],["secondary",null,null,null,null,"secondary",null,null,null,null],["no",null,null,"no",null,"yes",null,"no","yes","yes"],[null,null,null,null,null,"yes",null,null,"no","no"],["yes",null,null,null,null,null,null,null,null,"yes"],["no",null,null,"no",null,"yes",null,"yes","no","yes"],["yes",null,null,"no",null,"no",null,"no","yes","yes"],["no",null,null,null,null,null,null,null,"no","no"],[null,null,null,null,null,null,null,null,null,null],["yes",null,null,"no",null,"no",null,"yes","no","no"],["no",null,null,null,null,null,null,"no",null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["no","no","no","no","no","no","no","no","yes","no"],[null,null,null,null,null,null,null,null,"no",null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,"dont_know",null],[null,null,null,null,null,null,null,null,null,null],["yes",null,null,"yes",null,"no",null,"yes","no","no"],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["sexual",null,null,"sexual",null,null,null,"shot",null,null],["0",null,null,"0",null,null,null,"0",null,null],["1",null,null,"1",null,null,null,"0",null,null],["0",null,null,"0",null,null,null,"1",null,null],["0",null,null,"0",null,null,null,"0",null,null],["0",null,null,"0",null,null,null,"0",null,null],["0",null,null,"0",null,null,null,"0",null,null],[9,1,183,83,58,146,205,130,72,33],[1,1,1,1,1,1,1,1,1,1],["9_1","1_1","183_1","83_1","58_1","146_1","205_1","130_1","72_1","33_1"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>start<\/th>\n      <th>end<\/th>\n      <th>today<\/th>\n      <th>deviceid<\/th>\n      <th>date<\/th>\n      <th>team_number<\/th>\n      <th>village_name<\/th>\n      <th>village_other<\/th>\n      <th>cluster_number<\/th>\n      <th>household_number<\/th>\n      <th>households_building<\/th>\n      <th>random_hh<\/th>\n      <th>random_hh_note<\/th>\n      <th>consent<\/th>\n      <th>no_consent_reason<\/th>\n      <th>no_consent_other<\/th>\n      <th>member_number<\/th>\n      <th>sex<\/th>\n      <th>age_years<\/th>\n      <th>age_months_calc<\/th>\n      <th>age_months<\/th>\n      <th>bednet<\/th>\n      <th>read_write<\/th>\n      <th>education_level<\/th>\n      <th>measles_vaccination<\/th>\n      <th>vaccination_card<\/th>\n      <th>pregnant<\/th>\n      <th>malaria_treatment<\/th>\n      <th>arrived<\/th>\n      <th>remember_arrival<\/th>\n      <th>arrived_date<\/th>\n      <th>left<\/th>\n      <th>remember_departure<\/th>\n      <th>left_date<\/th>\n      <th>born<\/th>\n      <th>remember_dob<\/th>\n      <th>birthday_date<\/th>\n      <th>died<\/th>\n      <th>remember_death<\/th>\n      <th>death_date<\/th>\n      <th>cause<\/th>\n      <th>cause_other<\/th>\n      <th>violent_episode<\/th>\n      <th>violent_episodes_number<\/th>\n      <th>violence_nature_other<\/th>\n      <th>violence_nature<\/th>\n      <th>violence_nature/beaten<\/th>\n      <th>violence_nature/sexual<\/th>\n      <th>violence_nature/shot<\/th>\n      <th>violence_nature/detained_kidnapped<\/th>\n      <th>violence_nature/other<\/th>\n      <th>violence_nature/no_response<\/th>\n      <th>index<\/th>\n      <th>index_y<\/th>\n      <th>uid<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[8,9,16,18,19,20,52,53]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>We also want to import the data on sampling population so that we can produce
-appropriate weights. This data can be in different formats, however we would
-suggest to have it as seen below (this can just be typed in to an excel).</p>
-<div class="sourceCode" id="cb1235"><pre class="downlit sourceCode r">
+<p>10 hàng đầu tiên của khảo sát được hiển thị bên dưới.</p>
+<div id="htmlwidget-d263c500931e41525735" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d263c500931e41525735">{"x":{"filter":"none","data":[[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["2018-04-15T00:00:00Z","2018-03-04T00:00:00Z","2018-04-16T00:00:00Z","2018-01-23T00:00:00Z","2018-01-09T00:00:00Z","2018-03-07T00:00:00Z","2018-02-18T00:00:00Z","2018-04-12T00:00:00Z","2018-04-17T00:00:00Z","2018-01-05T00:00:00Z"],[null,null,null,null,null,null,null,null,null,null],["village_1","village_1","village_10","village_5","village_3","village_8","other","village_7","village_4","village_2"],[null,null,null,null,null,null,null,null,null,null],[1,1,10,5,3,8,11,7,4,2],[9,1,15,6,18,14,17,16,13,14],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["yes","no","no","yes","no","yes","no","yes","yes","yes"],[null,"no_benefit","neg_experience",null,"other",null,"no_benefit",null,null,null],[null,null,null,null,null,null,null,null,null,null],[6,null,null,8,null,5,null,6,5,5],["female",null,null,"female",null,"male",null,"male","male","female"],[26,null,null,3,null,22,null,33,96,18],[null,null,null,36,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["no",null,null,"no",null,"yes",null,"yes","yes","yes"],["yes",null,null,null,null,"yes",null,"no","no","no"],["secondary",null,null,null,null,"secondary",null,null,null,null],["no",null,null,"no",null,"yes",null,"no","yes","yes"],[null,null,null,null,null,"yes",null,null,"no","no"],["yes",null,null,null,null,null,null,null,null,"yes"],["no",null,null,"no",null,"yes",null,"yes","no","yes"],["yes",null,null,"no",null,"no",null,"no","yes","yes"],["no",null,null,null,null,null,null,null,"no","no"],[null,null,null,null,null,null,null,null,null,null],["yes",null,null,"no",null,"no",null,"yes","no","no"],["no",null,null,null,null,null,null,"no",null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["no","no","no","no","no","no","no","no","yes","no"],[null,null,null,null,null,null,null,null,"no",null],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,"dont_know",null],[null,null,null,null,null,null,null,null,null,null],["yes",null,null,"yes",null,"no",null,"yes","no","no"],[null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null],["sexual",null,null,"sexual",null,null,null,"shot",null,null],["0",null,null,"0",null,null,null,"0",null,null],["1",null,null,"1",null,null,null,"0",null,null],["0",null,null,"0",null,null,null,"1",null,null],["0",null,null,"0",null,null,null,"0",null,null],["0",null,null,"0",null,null,null,"0",null,null],["0",null,null,"0",null,null,null,"0",null,null],[9,1,183,83,58,146,205,130,72,33],[1,1,1,1,1,1,1,1,1,1],["9_1","1_1","183_1","83_1","58_1","146_1","205_1","130_1","72_1","33_1"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>start<\/th>\n      <th>end<\/th>\n      <th>today<\/th>\n      <th>deviceid<\/th>\n      <th>date<\/th>\n      <th>team_number<\/th>\n      <th>village_name<\/th>\n      <th>village_other<\/th>\n      <th>cluster_number<\/th>\n      <th>household_number<\/th>\n      <th>households_building<\/th>\n      <th>random_hh<\/th>\n      <th>random_hh_note<\/th>\n      <th>consent<\/th>\n      <th>no_consent_reason<\/th>\n      <th>no_consent_other<\/th>\n      <th>member_number<\/th>\n      <th>sex<\/th>\n      <th>age_years<\/th>\n      <th>age_months_calc<\/th>\n      <th>age_months<\/th>\n      <th>bednet<\/th>\n      <th>read_write<\/th>\n      <th>education_level<\/th>\n      <th>measles_vaccination<\/th>\n      <th>vaccination_card<\/th>\n      <th>pregnant<\/th>\n      <th>malaria_treatment<\/th>\n      <th>arrived<\/th>\n      <th>remember_arrival<\/th>\n      <th>arrived_date<\/th>\n      <th>left<\/th>\n      <th>remember_departure<\/th>\n      <th>left_date<\/th>\n      <th>born<\/th>\n      <th>remember_dob<\/th>\n      <th>birthday_date<\/th>\n      <th>died<\/th>\n      <th>remember_death<\/th>\n      <th>death_date<\/th>\n      <th>cause<\/th>\n      <th>cause_other<\/th>\n      <th>violent_episode<\/th>\n      <th>violent_episodes_number<\/th>\n      <th>violence_nature_other<\/th>\n      <th>violence_nature<\/th>\n      <th>violence_nature/beaten<\/th>\n      <th>violence_nature/sexual<\/th>\n      <th>violence_nature/shot<\/th>\n      <th>violence_nature/detained_kidnapped<\/th>\n      <th>violence_nature/other<\/th>\n      <th>violence_nature/no_response<\/th>\n      <th>index<\/th>\n      <th>index_y<\/th>\n      <th>uid<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[8,9,16,18,19,20,52,53]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Chúng ta cũng muốn nhập dữ liệu về quần thể lấy mẫu để có thể tạo ra các trọng số thích hợp. Dữ liệu này có thể ở các định dạng khác nhau, tuy nhiên chúng tôi khuyên bạn nên định dạng như hình bên dưới (dữ liệu này có thể chỉ cần nhập vào excel).</p>
+<div class="sourceCode" id="cb1236"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import the population data</span>
 <span class="va">population</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"population.xlsx"</span><span class="op">)</span></code></pre></div>
-<p>The first 10 rows of the survey are displayed below.</p>
-<div id="htmlwidget-fbe47b7970541325ad91" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fbe47b7970541325ad91">{"x":{"filter":"none","data":[["0-2","3-14","15-29","30-44","45+","0-2","3-14","15-29","30-44","45+"],["male","male","male","male","male","female","female","female","female","female"],[0.034,0.1811,0.138,0.0808,0.0661,0.034,0.1811,0.138,0.0808,0.0661],[340,1811,1380,808,661,340,1811,1380,808,661],["district_a","district_a","district_a","district_a","district_a","district_a","district_a","district_a","district_a","district_a"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_group<\/th>\n      <th>sex<\/th>\n      <th>proportions<\/th>\n      <th>population<\/th>\n      <th>health_district<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>For cluster surveys you may want to add survey weights at the cluster level.
-You could read this data in as above.
-Alternatively if there are only a few counts, these could be entered as below
-in to a tibble.
-In any case you will need to have one column with a cluster identifier which
-matches your survey data, and another column with the number of households in
-each cluster.</p>
-<div class="sourceCode" id="cb1236"><pre class="downlit sourceCode r">
+<p>10 hàng đầu tiên của khảo sát được hiển thị bên dưới.</p>
+<div id="htmlwidget-f1bab7593fb64fe6e737" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f1bab7593fb64fe6e737">{"x":{"filter":"none","data":[["0-2","3-14","15-29","30-44","45+","0-2","3-14","15-29","30-44","45+"],["male","male","male","male","male","female","female","female","female","female"],[0.034,0.1811,0.138,0.0808,0.0661,0.034,0.1811,0.138,0.0808,0.0661],[340,1811,1380,808,661,340,1811,1380,808,661],["district_a","district_a","district_a","district_a","district_a","district_a","district_a","district_a","district_a","district_a"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>age_group<\/th>\n      <th>sex<\/th>\n      <th>proportions<\/th>\n      <th>population<\/th>\n      <th>health_district<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Đối với khảo sát theo cụm, bạn có thể muốn thêm trọng số khảo sát ở cấp cụm. Bạn có thể đọc dữ liệu này như trên. Ngoài ra, nếu số lượng ít, chúng có thể được nhập như dưới đây dưới dạng một tibble. Trong mọi trường hợp, bạn sẽ cần có một cột với mã định danh cụm khớp với dữ liệu khảo sát của bạn và một cột khác với số lượng hộ gia đình ở từng cụm.</p>
+<div class="sourceCode" id="cb1237"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## define the number of households in each cluster</span>
 <span class="va">cluster_counts</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"village_1"</span>, <span class="st">"village_2"</span>, <span class="st">"village_3"</span>, <span class="st">"village_4"</span>, 
                                      <span class="st">"village_5"</span>, <span class="st">"village_6"</span>, <span class="st">"village_7"</span>, <span class="st">"village_8"</span>,
@@ -240,20 +200,13 @@ each cluster.</p>
                          households <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">700</span>, <span class="fl">400</span>, <span class="fl">600</span>, <span class="fl">500</span>, <span class="fl">300</span>, 
                                         <span class="fl">800</span>, <span class="fl">700</span>, <span class="fl">400</span>, <span class="fl">500</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="clean-data-2" class="section level3 unnumbered">
-<h3>Clean data<a class="anchor" aria-label="anchor" href="#clean-data-2"><i class="fas fa-link"></i></a>
+<div id="làm-sạch-dữ-liệu-1" class="section level3 unnumbered">
+<h3>Làm sạch dữ liệu<a class="anchor" aria-label="anchor" href="#l%C3%A0m-s%E1%BA%A1ch-d%E1%BB%AF-li%E1%BB%87u-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>The below makes sure that the date column is in the appropriate format.
-There are several other ways of doing this (see the <a href="https://epirhandbook.com/working-with-dates.html">Working with dates</a>
-page for details), however using the dictionary to define dates is quick and easy.</p>
-<p>We also create an age group variable using the <code>age_categories()</code> function from
-<strong>epikit</strong> - see <a href="https://epirhandbook.com/cleaning-data-and-core-functions.html#num_cats">cleaning data</a>
-handbook section for details.
-In addition, we create a character variable defining which district the various clusters
-are in.</p>
-<p>Finally, we recode all of the yes/no variables to TRUE/FALSE variables - otherwise
-these cant be used by the <strong>survey</strong> proportion functions.</p>
-<div class="sourceCode" id="cb1237"><pre class="downlit sourceCode r">
+<p>Dưới đây đảm bảo rằng cột ngày ở định dạng thích hợp. Có một số cách khác để thực hiện việc này (xem chương <a href="dates.html#dates">Làm việc với ngày tháng</a> để biết chi tiết), tuy nhiên sử dụng từ điển để xác định ngày sẽ nhanh chóng và dễ dàng.</p>
+<p>Chúng tôi cũng tạo một biến nhóm tuổi bằng cách sử dụng hàm <code>age_categories()</code> từ <strong>epikit</strong> - xem phần <a href="cleaning.html#cleaning">Làm sạch dữ liệu</a> của sổ tay để biết chi tiết. Ngoài ra, chúng tôi tạo một biến ký tự xác định các cụm khác nhau nằm trong khu vực nào.</p>
+<p>Cuối cùng, chúng tôi mã hóa lại tất cả các biến yes/no thành các biến TRUE/FALSE - nếu không, các biến này không thể được sử dụng bởi các hàm tính tỷ lệ trong package <strong>survey</strong>.</p>
+<div class="sourceCode" id="cb1238"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## select the date variable names from the dictionary </span>
 <span class="va">DATEVARS</span> <span class="op">&lt;-</span> <span class="va">survey_dict</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"date"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -302,25 +255,14 @@ these cant be used by the <strong>survey</strong> proportion functions.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="survey-data" class="section level2" number="26.3">
+<div id="dữ-liệu-khảo-sát" class="section level2" number="26.3">
 <h2>
-<span class="header-section-number">26.3</span> Survey data<a class="anchor" aria-label="anchor" href="#survey-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.3</span> Dữ liệu khảo sát<a class="anchor" aria-label="anchor" href="#d%E1%BB%AF-li%E1%BB%87u-kh%E1%BA%A3o-s%C3%A1t"><i class="fas fa-link"></i></a>
 </h2>
-<p>There numerous different sampling designs that can be used for surveys. Here
-we will demonstrate code for:
-- Stratified
-- Cluster
-- Stratified and cluster</p>
-<p>As described above (depending on how you design your questionnaire) the data for
-each level would be exported as a separate dataset from Kobo. In our example there
-is one level for households and one level for individuals within those households.</p>
-<p>These two levels are linked by a unique identifier.
-For a Kobo dataset this variable is "_index" at the household level, which
-matches the "_parent_index" at the individual level.
-This will create new rows for household with each matching individual,
-see the handbook section on <a href="https://epirhandbook.com/joining-data.html">joining</a>
-for details.</p>
-<div class="sourceCode" id="cb1238"><pre class="downlit sourceCode r">
+<p>Có rất nhiều thiết kế lấy mẫu khác nhau có thể được sử dụng cho các khảo sát. Ở đây chúng tôi sẽ trình bày code cho: - Phân tầng - Cụm - Cụm phân tầng</p>
+<p>Như đã mô tả ở trên (tùy thuộc vào cách bạn thiết kế bảng câu hỏi của mình), dữ liệu cho mỗi cấp độ sẽ được xuất dưới dạng bộ dữ liệu riêng biệt từ Kobo. Trong ví dụ của chúng tôi, có một cấp cho các hộ gia đình và một cấp cho các cá nhân trong các hộ gia đình đó.</p>
+<p>Hai cấp độ này được liên kết bởi một mã định danh duy nhất. Đối với bộ dữ liệu Kobo, biến này là “_index” ở cấp hộ gia đình, khớp với “_parent_index” ở cấp cá nhân. Thao tác này sẽ tạo các hàng mới cho hộ gia đình với mỗi cá nhân phù hợp, hãy xem chương <a href="joining-matching.html#joining-matching">Nối dữ liệu</a> để biết chi tiết.</p>
+<div class="sourceCode" id="cb1239"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## join the individual and household data to form a complete data set</span>
 <span class="va">survey_data</span> <span class="op">&lt;-</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">survey_data_hh</span>, 
                          <span class="va">survey_data_indiv</span>,
@@ -332,21 +274,13 @@ for details.</p>
      <span class="fu">mutate</span><span class="op">(</span>uid <span class="op">=</span> <span class="fu">str_glue</span><span class="op">(</span><span class="st">"{index}_{index_y}"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
-<div id="observation-time" class="section level2" number="26.4">
+<div id="thời-gian-quan-sát" class="section level2" number="26.4">
 <h2>
-<span class="header-section-number">26.4</span> Observation time<a class="anchor" aria-label="anchor" href="#observation-time"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.4</span> Thời gian quan sát<a class="anchor" aria-label="anchor" href="#th%E1%BB%9Di-gian-quan-s%C3%A1t"><i class="fas fa-link"></i></a>
 </h2>
-<p>For mortality surveys we want to now how long each individual was present for in
-the location to be able to calculate an appropriate mortality rate for our period
-of interest. This is not relevant to all surveys, but particularly for mortality
-surveys this is important as they are conducted frequently among mobile or displaced
-populations.</p>
-<p>To do this we first define our time period of interest, also known as a recall
-period (i.e. the time that participants are asked to report on when answering
-questions).
-We can then use this period to set inappropriate dates to missing, i.e. if deaths
-are reported from outside the period of interest.</p>
-<div class="sourceCode" id="cb1239"><pre class="downlit sourceCode r">
+<p>Đối với các cuộc khảo sát về tỷ lệ tử vong, chúng ta muốn biết mỗi cá nhân đã có mặt tại địa điểm trong bao lâu để có thể tính toán tỷ lệ tử vong thích hợp trong khoảng thời gian nghiên cứu. Điều này không áp dụng đối với tất cả các cuộc điều tra, nhưng đặc biệt rất quan trọng đối với các cuộc điều tra tử vong vì chúng thường được khảo sát ở các quần thể di động hoặc di cư.</p>
+<p>Để làm điều này, trước tiên chúng ta xác định khoảng thời gian quan tâm, còn được gọi là khoảng thời gian hồi cứu (tức là thời gian mà những người tham gia được yêu cầu báo cáo khi trả lời câu hỏi). Sau đó, chúng ta có thể sử dụng khoảng thời gian này để đặt các ngày không thích hợp thành giá trị missing, vd: các trường hợp tử vong được báo cáo ngoài khoảng thời gian quan tâm.</p>
+<div class="sourceCode" id="cb1240"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## set the start/end of recall period</span>
 <span class="co">## can be changed to date variables from dataset </span>
 <span class="co">## (e.g. arrival date &amp; date questionnaire)</span>
@@ -373,18 +307,10 @@ are reported from outside the period of interest.</p>
                                <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span>,
                                <span class="va">death_date</span><span class="op">)</span>
            <span class="op">)</span></code></pre></div>
-<p>We can then use our date variables to define start and end dates for each individual.
-We can use the <code>find_start_date()</code> function from <strong>sitrep</strong> to fine the causes for
-the dates and then use that to calculate the difference between days (person-time).</p>
-<p>start date:
-Earliest appropriate arrival event within your recall period
-Either the beginning of your recall period (which you define in advance), or a
-date after the start of recall if applicable (e.g. arrivals or births)</p>
-<p>end date:
-Earliest appropriate departure event within your recall period
-Either the end of your recall period, or a date before the end of recall
-if applicable (e.g. departures, deaths)</p>
-<div class="sourceCode" id="cb1240"><pre class="downlit sourceCode r">
+<p>Sau đó, chúng ta có thể sử dụng các biến ngày của mình để xác định ngày bắt đầu và ngày kết thúc cho từng cá nhân. Chúng ta có thể sử dụng hàm <code>find_start_date()</code> từ <strong>sitrep</strong> để xác định ngày bắt đầu và sau đó sử dụng hàm đó để tính toán sự khác biệt giữa các ngày (người-thời gian).</p>
+<p>Ngày bắt đầu: Sự kiện phù hợp tới sớm nhất trong khoảng thời gian hồi cứu của bạn. Hoặc là ngày bắt đầu thời gian hồi cứu của bạn (mà bạn xác định trước) hoặc ngày sau khi bắt đầu hồi cứu nếu có (ví dụ: đi đến hoặc sinh ra)</p>
+<p>Ngày kết thúc: Sự kiện dừng lại thích hợp sớm nhất trong thời gian hồi cứu của bạn. Hoặc là ngày kết thúc thời gian hồi cứu hoặc ngày trước khi kết thúc hồi cứu nếu có (ví dụ: rời đi, tử vong)</p>
+<div class="sourceCode" id="cb1241"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## create new variables for start and end dates/causes</span>
 <span class="va">survey_data</span> <span class="op">&lt;-</span> <span class="va">survey_data</span> <span class="op">%&gt;%</span> 
      <span class="co">## choose earliest date entered in survey</span>
@@ -429,24 +355,14 @@ if applicable (e.g. departures, deaths)</p>
   <span class="fu">mutate</span><span class="op">(</span>obstime <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">enddate</span> <span class="op">-</span> <span class="va">startdate</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
-<div id="weighting" class="section level2" number="26.5">
+<div id="áp-dụng-trọng-số" class="section level2" number="26.5">
 <h2>
-<span class="header-section-number">26.5</span> Weighting<a class="anchor" aria-label="anchor" href="#weighting"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.5</span> Áp dụng trọng số<a class="anchor" aria-label="anchor" href="#%C3%A1p-d%E1%BB%A5ng-tr%E1%BB%8Dng-s%E1%BB%91"><i class="fas fa-link"></i></a>
 </h2>
-<p>It is important that you drop erroneous observations before adding survey weights.
-For example if you have observations with negative observation time, you will need
-to check those (you can do this with the <code>assert_positive_timespan()</code> function
-from <strong>sitrep</strong>.
-Another thing is if you want to drop empty rows (e.g. with <code>drop_na(uid)</code>)
-or remove duplicates (see handbook section on [De-duplication]
-for details).
-Those without consent need to be dropped too.</p>
-<p>In this example we filter for the cases we want to drop and store them in a separate
-data frame - this way we can describe those that were excluded from the survey.
-We then use the <code>anti_join()</code> function from <strong>dplyr</strong> to remove these dropped cases
-from our survey data.</p>
-<p><span style="color: red;"><strong><em>DANGER:</em></strong> You cant have missing values in your weight variable, or any of the variables relevant to your survey design (e.g. age, sex, strata or cluster variables).</span></p>
-<div class="sourceCode" id="cb1241"><pre class="downlit sourceCode r">
+<p>Điều quan trọng là bạn phải loại bỏ các đối tượng có lỗi trước khi thêm trọng số khảo sát. Ví dụ: nếu bạn có các quan sát với thời gian theo dõi âm, bạn sẽ cần kiểm tra các đối tượng đó (bạn có thể thực hiện việc này với hàm <code>assert_positive_timespan()</code> từ <strong>sitrep</strong>. Một điều khác là nếu bạn muốn bỏ các hàng trống (ví dụ: với <code>drop_na(uid)</code>) hoặc xóa các bản ghi trùng lặp (xem chương <a href="deduplication.html#lo%E1%BA%A1i-b%E1%BB%8F-tr%C3%B9ng-l%E1%BA%B7p-1">Loại bỏ trùng lặp</a> trong sổ tay này để biết thêm chi tiết). Những đối tượng không có sự đồng ý tham gia nghiên cứu cũng cần phải bị xóa.</p>
+<p>Trong ví dụ này, chúng ta lọc các trường hợp muốn loại bỏ và lưu trữ chúng trong một dataframe riêng - theo cách này, chúng ta có thể mô tả những trường hợp đã bị loại khỏi khảo sát. Sau đó, chúng ta sử dụng hàm <code>anti_join()</code> từ <strong>dplyr</strong> để xóa những trường hợp bị loại bỏ này khỏi dữ liệu khảo sát của chúng ta.</p>
+<p><span style="color: red;"><strong><em>NGUY HIỂM:</em></strong> Bạn không thể có giá trị missing trong biến trọng số của mình hoặc bất kỳ biến nào có liên quan đến thiết kế khảo sát của bạn (ví dụ: tuổi, giới tính, biến phân tầng hoặc cụm).</span></p>
+<div class="sourceCode" id="cb1242"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## store the cases that you drop so you can describe them (e.g. non-consenting </span>
 <span class="co">## or wrong village/cluster)</span>
 <span class="va">dropped</span> <span class="op">&lt;-</span> <span class="va">survey_data</span> <span class="op">%&gt;%</span> 
@@ -454,12 +370,8 @@ from our survey data.</p>
 
 <span class="co">## use the dropped cases to remove the unused rows from the survey data set  </span>
 <span class="va">survey_data</span> <span class="op">&lt;-</span> <span class="fu">anti_join</span><span class="op">(</span><span class="va">survey_data</span>, <span class="va">dropped</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dropped</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>As mentioned above we demonstrate how to add weights for three different study
-designs (stratified, cluster and stratified cluster). These require information
-on the source population and/or the clusters surveyed.
-We will use the stratified cluster code for this example, but use whichever is
-most appropriate for your study design.</p>
-<div class="sourceCode" id="cb1242"><pre class="downlit sourceCode r">
+<p>Như đã đề cập ở trên, chúng tôi trình bày cách thêm trọng số cho ba thiết kế nghiên cứu khác nhau (phân tầng, phân cụm và cụm phân tầng). Chúng yêu cầu thông tin về dân số gốc và/hoặc các cụm được khảo sát. Chúng tôi sẽ sử dụng code cụm phân tầng cho ví dụ này, nhưng hãy sử dụng code nào thích hợp nhất cho thiết kế nghiên cứu của bạn.</p>
+<div class="sourceCode" id="cb1243"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># stratified ------------------------------------------------------------------</span>
 <span class="co"># create a variable called "surv_weight_strata"</span>
 <span class="co"># contains weights for each individual - by age group, sex and health district</span>
@@ -498,36 +410,21 @@ most appropriate for your study design.</p>
   <span class="fu">mutate</span><span class="op">(</span>surv_weight_cluster_strata <span class="op">=</span> <span class="va">surv_weight_strata</span> <span class="op">*</span> <span class="va">surv_weight_cluster</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
-<div id="survey-design-objects" class="section level2" number="26.6">
+<div id="đối-tượng-theo-thiết-kế-nghiên-cứu" class="section level2" number="26.6">
 <h2>
-<span class="header-section-number">26.6</span> Survey design objects<a class="anchor" aria-label="anchor" href="#survey-design-objects"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.6</span> Đối tượng theo thiết kế nghiên cứu<a class="anchor" aria-label="anchor" href="#%C4%91%E1%BB%91i-t%C6%B0%E1%BB%A3ng-theo-thi%E1%BA%BFt-k%E1%BA%BF-nghi%C3%AAn-c%E1%BB%A9u"><i class="fas fa-link"></i></a>
 </h2>
-<p>Create survey object according to your study design.
-Used the same way as data frames to calculate weight proportions etc.
-Make sure that all necessary variables are created before this.</p>
-<p>There are four options, comment out those you do not use:
-- Simple random
-- Stratified
-- Cluster
-- Stratified cluster</p>
-<p>For this template - we will pretend that we cluster surveys in two separate
-strata (health districts A and B).
-So to get overall estimates we need have combined cluster and strata weights.</p>
-<p>As mentioned previously, there are two packages available for doing this. The
-classic one is <strong>survey</strong> and then there is a wrapper package called <strong>srvyr</strong>
-that makes tidyverse-friendly objects and functions. We will demonstrate both,
-but note that most of the code in this chapter will use <strong>srvyr</strong> based objects.
-The one exception is that the <strong>gtsummary</strong> package only accepts <strong>survey</strong> objects.</p>
-<div id="survey-package" class="section level3" number="26.6.1">
+<p>Tạo đối tượng khảo sát theo thiết kế nghiên cứu của bạn. Sử dụng theo cách tương tự như dataframe để tính toán trọng số cho tỷ lệ, v.v. Đảm bảo rằng tất cả các biến cần thiết đã được tạo trước bước này.</p>
+<p>Có bốn tùy chọn, hãy đánh dấu thành bình luận những tùy chọn bạn không sử dụng: - Ngẫu nhiên đơn - Phân tầng - Cụm - Cụm phân tầng</p>
+<p>Đối với mẫu này - chúng ta sẽ giả vờ rằng chúng ta nhóm cụm các cuộc khảo sát theo hai tầng riêng biệt (khu vực A và B). Vì vậy, để có được ước tính tổng thể, chúng ta cần có trọng số kết hợp của cụm và tầng.</p>
+<p>Như đã đề cập trước đây, có hai packages có sẵn để thực hiện việc này. Package cổ điển là <strong>survey</strong> và một package gọn hơn được gọi là <strong>srvyr</strong> giúp tạo các đối tượng và hàm theo phong cách tidyverse. Chúng tôi sẽ trình bày cả hai, nhưng lưu ý rằng hầu hết code trong chương này sẽ sử dụng các đối tượng dựa trên <strong>srvyr</strong>. Một ngoại lệ là package <strong>gtsummary</strong> chỉ chấp nhận các đối tượng từ package <strong>survey</strong>.</p>
+<div id="package-survey" class="section level3" number="26.6.1">
 <h3>
-<span class="header-section-number">26.6.1</span> <strong>Survey</strong> package<a class="anchor" aria-label="anchor" href="#survey-package"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.6.1</span> Package <strong>Survey</strong><a class="anchor" aria-label="anchor" href="#package-survey"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>survey</strong> package effectively uses <strong>base</strong> <em>R</em> coding, and so it is not
-possible to use pipes (<code>%&gt;%</code>) or other <strong>dplyr</strong> syntax.
-With the <strong>survey</strong> package we use the <code>svydesign()</code> function to define a survey
-object with appropriate clusters, weights and strata.</p>
-<p><span style="color: black;"><strong><em>NOTE:</em></strong> we need to use the tilde (<code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>) in front of variables, this is because the package uses the <strong>base</strong> <em>R</em> syntax of assigning variables based on formulae. </span></p>
-<div class="sourceCode" id="cb1243"><pre class="downlit sourceCode r">
+<p>Package <strong>survey</strong> sử dụng hiệu quả code <strong>base</strong> <em>R</em> nên không thể sử dụng các pipes (<code>%&gt;%</code>) hoặc các cú pháp <strong>dplyr</strong> khác. Với package <strong>survey</strong>, chúng tôi sử dụng hàm <code>svydesign()</code> để xác định đối tượng khảo sát với các cụm, trọng số và tầng thích hợp.</p>
+<p><span style="color: black;"><strong><em>LƯU Ý:</em></strong> chúng ta cần sử dụng dấu ngã (<code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>) trước các biến, điều này là do package sử dụng cú pháp <strong>base</strong> <em>R</em> để gán các biến dựa trên công thức.</span></p>
+<div class="sourceCode" id="cb1244"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># simple random ---------------------------------------------------------------</span>
 <span class="va">base_survey_design_simple</span> <span class="op">&lt;-</span> <span class="fu">svydesign</span><span class="op">(</span>ids <span class="op">=</span> <span class="op">~</span><span class="fl">1</span>, <span class="co"># 1 for no cluster ids</span>
                    weights <span class="op">=</span> <span class="cn">NULL</span>,               <span class="co"># No weight added</span>
@@ -556,14 +453,12 @@ object with appropriate clusters, weights and strata.</p>
                    data <span class="op">=</span> <span class="va">survey_data</span>                     <span class="co"># have to specify the dataset</span>
                   <span class="op">)</span></code></pre></div>
 </div>
-<div id="srvyr-package" class="section level3" number="26.6.2">
+<div id="package-srvyr" class="section level3" number="26.6.2">
 <h3>
-<span class="header-section-number">26.6.2</span> <strong>Srvyr</strong> package<a class="anchor" aria-label="anchor" href="#srvyr-package"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.6.2</span> Package <strong>Srvyr</strong><a class="anchor" aria-label="anchor" href="#package-srvyr"><i class="fas fa-link"></i></a>
 </h3>
-<p>With the <strong>srvyr</strong> package we can use the <code>as_survey_design()</code> function, which
-has all the same arguments as above but allows pipes (<code>%&gt;%</code>), and so we do not
-need to use the tilde (<code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>).</p>
-<div class="sourceCode" id="cb1244"><pre class="downlit sourceCode r">
+<p>Với package <strong>srvyr</strong>, chúng ta có thể sử dụng hàm <code>as_survey_design()</code>, nó có tất cả các đối số tương tự như trên nhưng cho phép dùng các pipes (<code>%&gt;%</code>), và vì vậy chúng ta không cần sử dụng dấu ngã (<code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>).</p>
+<div class="sourceCode" id="cb1245"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## simple random ---------------------------------------------------------------</span>
 <span class="va">survey_design_simple</span> <span class="op">&lt;-</span> <span class="va">survey_data</span> <span class="op">%&gt;%</span> 
   <span class="fu">as_survey_design</span><span class="op">(</span>ids <span class="op">=</span> <span class="fl">1</span>, <span class="co"># 1 for no cluster ids </span>
@@ -592,41 +487,25 @@ need to use the tilde (<code><a href="https://rdrr.io/r/base/tilde.html">~</a></
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="descriptive-analysis-2" class="section level2" number="26.7">
+<div id="phân-tích-mô-tả-1" class="section level2" number="26.7">
 <h2>
-<span class="header-section-number">26.7</span> Descriptive analysis<a class="anchor" aria-label="anchor" href="#descriptive-analysis-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.7</span> Phân tích mô tả<a class="anchor" aria-label="anchor" href="#ph%C3%A2n-t%C3%ADch-m%C3%B4-t%E1%BA%A3-1"><i class="fas fa-link"></i></a>
 </h2>
-<p>Basic descriptive analysis and visualisation is covered extensively in other
-chapters of the handbook, so we will not dwell on it here.
-For details see the chapters on <a href="https://epirhandbook.com/descriptive-tables.html">descriptive tables</a>,
-<a href="https://epirhandbook.com/simple-statistical-tests.html">statistical tests</a>,
-<a href="https://epirhandbook.com/tables-for-presentation.html">tables for presentation</a>,
-<a href="https://epirhandbook.com/ggplot-basics.html">ggplot basics</a> and
-<a href="https://epirhandbook.com/r-markdown-reports.html">R markdown reports</a>.</p>
-<p>In this section we will focus on how to investigate bias in your sample and visualise this.
-We will also look at visualising population flow in a survey setting using
-alluvial/sankey diagrams.</p>
-<p>In general, you should consider including the following descriptive analyses:</p>
+<p>Phân tích mô tả và trực quan hóa cơ bản được đề cập nhiều trong các chương khác của cuốn sổ tay, vì vậy chúng tôi sẽ không đi sâu vào nó ở đây. Để biết chi tiết, hãy xem các chương về <a href="tables-descriptive.html#tables-descriptive">Bảng mô tả</a>, <a href="stat-tests.html#stat-tests">Các kiểm định thống kê cơ bản</a>, <a href="tables-presentation.html#tables-presentation">Trình bày bảng</a>, <a href="ggplot-basics.html#ggplot-basics">ggplot cơ bản</a> và <a href="rmarkdown.html#rmarkdown">Báo cáo với R Markdown</a>.</p>
+<p>Trong phần này, chúng ta sẽ tập trung vào cách điều tra sai số trong mẫu của bạn và trực quan hóa chúng. Chúng ta cũng sẽ xem xét việc trực quan hóa dòng dân cư trong bối cảnh khảo sát bằng cách sử dụng sơ đồ luồng alluvial/sankey.</p>
+<p>Nhìn chung, bạn nên xem xét đưa vào các phân tích mô tả sau:</p>
 <ul>
-<li>Final number of clusters, households and individuals included<br>
-</li>
-<li>Number of excluded individuals and the reasons for exclusion</li>
-<li>Median (range) number of households per cluster and individuals per household</li>
+<li>Số cụm, hộ gia đình và cá nhân cuối cùng được đưa vào</li>
+<li>Số lượng cá nhân bị loại trừ và lý do loại trừ</li>
+<li>Trung vị (biên độ) số hộ gia đình trên một cụm và số cá thể trên một hộ gia đình</li>
 </ul>
-<div id="sampling-bias" class="section level3" number="26.7.1">
+<div id="sai-số-chọn-mẫu" class="section level3" number="26.7.1">
 <h3>
-<span class="header-section-number">26.7.1</span> Sampling bias<a class="anchor" aria-label="anchor" href="#sampling-bias"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.7.1</span> Sai số chọn mẫu<a class="anchor" aria-label="anchor" href="#sai-s%E1%BB%91-ch%E1%BB%8Dn-m%E1%BA%ABu"><i class="fas fa-link"></i></a>
 </h3>
-<p>Compare the proportions in each age group between your sample and
-the source population.
-This is important to be able to highlight potential sampling bias.
-You could similarly repeat this looking at distributions by sex.</p>
-<p>Note that these p-values are just indicative, and a descriptive discussion (or
-visualisation with age-pyramids below) of the distributions in your study sample
-compared to the source population is more important than the binomial test itself.
-This is because increasing sample size will more often than not lead to
-differences that may be irrelevant after weighting your data.</p>
-<div class="sourceCode" id="cb1245"><pre class="downlit sourceCode r">
+<p>So sánh tỷ lệ trong từng nhóm tuổi giữa mẫu của bạn và quần thể gốc. Điều này rất quan trọng để có thể làm nổi bật sai số chọn mẫu tiềm ẩn. Tương tự, bạn có thể lặp lại điều này khi xem xét sự phân bố theo giới tính.</p>
+<p>Lưu ý rằng các giá trị p từ phép kiểm định hai nhóm chỉ mang tính chất chỉ dẫn và phần thảo luận mang tính mô tả (hoặc trực quan với tháp tuổi bên dưới) về các phân bố trong mẫu nghiên cứu của bạn so với quần thể gốc là quan trọng. Đó là bởi vì việc tăng cỡ mẫu sẽ hay dẫn đến những khác biệt có thể không liên quan sau khi áp dụng trọng số vào dữ liệu của bạn.</p>
+<div class="sourceCode" id="cb1246"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## counts and props of the study population</span>
 <span class="va">ag</span> <span class="op">&lt;-</span> <span class="va">survey_data</span> <span class="op">%&gt;%</span> 
   <span class="fu">group_by</span><span class="op">(</span><span class="va">age_group</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -683,34 +562,14 @@ differences that may be irrelevant after weighting your data.</p>
 ## 4 30-44                           52                 0.111                     3232                    16.2 0.002    
 ## 5 45+                            299                 0.638                     2644                    13.2 &lt;0.001</code></pre>
 </div>
-<div id="demographic-pyramids" class="section level3" number="26.7.2">
+<div id="tháp-dân-số" class="section level3" number="26.7.2">
 <h3>
-<span class="header-section-number">26.7.2</span> Demographic pyramids<a class="anchor" aria-label="anchor" href="#demographic-pyramids"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.7.2</span> Tháp dân số<a class="anchor" aria-label="anchor" href="#th%C3%A1p-d%C3%A2n-s%E1%BB%91"><i class="fas fa-link"></i></a>
 </h3>
-<p>Demographic (or age-sex) pyramids are an easy way of visualising the distribution
-in your survey population. It is also worth considering creating
-<a href="https://epirhandbook.com/descriptive-tables.html">descriptive tables</a> of age
-and sex by survey strata.
-We will demonstrate using the <strong>apyramid</strong> package as it allows for weighted
-proportions using our survey design object created above. Other options for creating
-<a href="https://epirhandbook.com/demographic-pyramids-and-likert-scales.html">demographic pyramids</a>
-are covered extensively in that chapter of the handbook. We will also use a
-wrapper function from <strong>sitrep</strong> called <code>plot_age_pyramid()</code> which saves a few lines
-of coding for producing a plot with proportions.</p>
-<p>As with the formal binomial test of difference, seen above in the sampling bias
-section, we are interested here in visualising whether our sampled population
-is substantially different from the source population and whether weighting corrects
-this difference. To do this we will use the <strong>patchwork</strong> package to show our
-<strong>ggplot</strong> visualisations side-by-side; for details see the section on
-combining plots in <a href="https://epirhandbook.com/ggplot-tips.html?q=patch#combine-plots">ggplot tips</a>
-chapter of the handbook.
-We will visualise our source population, our un-weighted survey population and
-our weighted survey population.
-You may also consider visualising by each strata of your survey - in our example
-here that would be by using the argument <code>stack_by  = "health_district"</code>
-(see <code>?plot_age_pyramid</code> for details).</p>
-<p><span style="color: black;"><strong><em>NOTE:</em></strong> The x and y axes are flipped in pyramids </span></p>
-<div class="sourceCode" id="cb1247"><pre class="downlit sourceCode r">
+<p>Tháp dân số (hoặc tháp tuổi-giới) là một cách dễ dàng để trực quan hóa sự phân bố trong quần thể khảo sát của bạn. Cũng nên xem xét việc tạo <a href="tables-descriptive.html#tables-descriptive">Bảng mô tả</a> về độ tuổi và giới tính theo tầng khảo sát. Chúng ta sẽ minh họa bằng package <strong>apyramid</strong> vì nó cho phép các tỷ lệ được áp dụng trọng số sử dụng đối tượng theo thiết kế nghiên cứu mà chúng ta đã tạo ở trên. Các tùy chọn khác để tạo <a href="age-pyramid.html#age-pyramid">Tháp dân số</a> được đề cập nhiều hơn trong chương đó của sổ tay. Chúng ta cũng sẽ sử dụng một hàm gọn hơn từ <strong>sitrep</strong> được gọi là <code>plot_age_pyramid()</code> để lưu một vài dòng code để tạo ra một biểu đồ theo tỷ lệ.</p>
+<p>Giống như với phép kiểm định sự khác biệt giữa hai nhóm chuẩn được thảo luận ở trên trong phần sai số chọn mẫu, ở đây chúng ta quan tâm đến việc trực quan hóa liệu quần thể mẫu của chúng ta có khác biệt đáng kể so với quần thể gốc hay không, và liệu trọng số có sửa chữa được sự khác biệt này hay không. Để làm điều này, chúng ta sẽ sử dụng package <strong>patchwork</strong> để hiển thị các biểu đồ tạo bởi <strong>ggplot</strong> song song với nhau; chi tiết xem phần kết hợp các đồ thị trong chương <a href="ggplot-tips.html#ggplot-tips">Các tips với ggplot</a> của sổ tay này. Chúng ta sẽ trực quan hóa quần thể gốc, quần thể khảo sát không trọng số và quần thể khảo sát có trọng số. Bạn cũng có thể xem xét trực quan theo từng tầng của khảo sát - bằng cách sử dụng đối số <code>stack_by  = "health_district"</code> trong ví dụ của chúng tôi ở đây (xem <code>?plot_age_pyramid</code> để biết chi tiết).</p>
+<p><span style="color: black;"><strong><em>Lưu ý:</em></strong> Trục x và y được lật ngược trong tháp</span></p>
+<div class="sourceCode" id="cb1248"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## define x-axis limits and labels ---------------------------------------------</span>
 <span class="co">## (update these numbers to be the values for your graph)</span>
 <span class="va">max_prop</span> <span class="op">&lt;-</span> <span class="fl">35</span>      <span class="co"># choose the highest proportion you want to show </span>
@@ -815,17 +674,12 @@ here that would be by using the argument <code>stack_by  = "health_district"</co
        <span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/weighted_age_pyramid-1.png" width="1440"></div>
 </div>
-<div id="alluvialsankey-diagram" class="section level3" number="26.7.3">
+<div id="sơ-đồ-alluvialsankey" class="section level3" number="26.7.3">
 <h3>
-<span class="header-section-number">26.7.3</span> Alluvial/sankey diagram<a class="anchor" aria-label="anchor" href="#alluvialsankey-diagram"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.7.3</span> Sơ đồ alluvial/sankey<a class="anchor" aria-label="anchor" href="#s%C6%A1-%C4%91%E1%BB%93-alluvialsankey"><i class="fas fa-link"></i></a>
 </h3>
-<p>Visualising starting points and outcomes for individuals can be very helpful to
-get an overview. There is quite an obvious application for mobile populations,
-however there are numerous other applications such as cohorts or any other situation
-where there are transitions in states for individuals. These diagrams have several
-different names including alluvial, sankey and parallel sets - the details are
-in the handbook chapter on <a href="https://epirhandbook.com/diagrams-and-charts.html#alluvialsankey-diagrams">diagrams and charts</a>.</p>
-<div class="sourceCode" id="cb1248"><pre class="downlit sourceCode r">
+<p>Trực quan điểm bắt đầu và kết quả của từng cá nhân có thể rất hữu ích để có được cái nhìn tổng quan. Có một ứng dụng khá rõ ràng cho quần thể di động, tuy nhiên có rất nhiều ứng dụng khác như nhóm thuần tập hoặc bất kỳ tình huống nào khác trong đó có sự chuyển đổi ở các trạng thái của các cá nhân. Các sơ đồ này có một số tên khác nhau bao gồm các tập hợp alluvial, sankey và parallel - chi tiết có trong chương sổ tay về <a href="diagrams.html#diagrams">Sơ đồ và biểu đồ</a>.</p>
+<div class="sourceCode" id="cb1249"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## summarize data</span>
 <span class="va">flow_table</span> <span class="op">&lt;-</span> <span class="va">survey_data</span> <span class="op">%&gt;%</span>
   <span class="fu">count</span><span class="op">(</span><span class="va">startcause</span>, <span class="va">endcause</span>, <span class="va">sex</span><span class="op">)</span> <span class="op">%&gt;%</span>  <span class="co"># get counts </span>
@@ -866,54 +720,36 @@ in the handbook chapter on <a href="https://epirhandbook.com/diagrams-and-charts
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="weighted-proportions" class="section level2" number="26.8">
+<div id="tỷ-lệ-được-áp-dụng-trọng-số" class="section level2" number="26.8">
 <h2>
-<span class="header-section-number">26.8</span> Weighted proportions<a class="anchor" aria-label="anchor" href="#weighted-proportions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.8</span> Tỷ lệ được áp dụng trọng số<a class="anchor" aria-label="anchor" href="#t%E1%BB%B7-l%E1%BB%87-%C4%91%C6%B0%E1%BB%A3c-%C3%A1p-d%E1%BB%A5ng-tr%E1%BB%8Dng-s%E1%BB%91"><i class="fas fa-link"></i></a>
 </h2>
-<p>This section will detail how to produce tables for weighted counts and proportions,
-with associated confidence intervals and design effect.
-There are four different options using functions from the following packages:
-<strong>survey</strong>, <strong>srvyr</strong>, <strong>sitrep</strong> and <strong>gtsummary</strong>.
-For minimal coding to produce a standard epidemiology style table, we would
-recommend the <strong>sitrep</strong> function - which is a wrapper for <strong>srvyr</strong> code; note
-however that this is not yet on CRAN and may change in the future.
-Otherwise, the <strong>survey</strong> code is likely to be the most stable long-term, whereas
-<strong>srvyr</strong> will fit most nicely within tidyverse work-flows. While <strong>gtsummary</strong>
-functions hold a lot of potential, they appear to be experimental and incomplete
-at the time of writing.</p>
-<div id="survey-package-1" class="section level3" number="26.8.1">
+<p>Phần này sẽ trình bày chi tiết cách tạo bảng cho số lượng và tỷ lệ được áp dụng trọng số, với khoảng tin cậy và hệ số thiết kế liên quan. Có bốn tùy chọn khác nhau sử dụng các hàm từ các packages sau: <strong>survey</strong>, <strong>srvyr</strong>, <strong>sitrep</strong> và <strong>gtsummary</strong>. Để tạo ra một bảng dịch tễ học tiêu chuẩn với code tối giản, chúng tôi khuyên bạn nên dùng hàm <strong>sitrep</strong> - là một hàm có code gọn hơn của <strong>srvyr</strong>; Tuy nhiên, lưu ý rằng hàm này chưa có trên CRAN và có thể thay đổi trong tương lai. Mặt khác, code của <strong>survey</strong> có thể là code ổn định nhất trong thời gian dài, trong khi <strong>srvyr</strong> sẽ phù hợp nhất đối với các luồng công việc sử dụng tidyverse. Mặc dù các hàm <strong>gtsummary</strong> có rất nhiều tiềm năng, nhưng chúng vẫn đang được thử nghiệm và chưa hoàn thiện tại thời điểm viết chương này.</p>
+<div id="package-survey-1" class="section level3" number="26.8.1">
 <h3>
-<span class="header-section-number">26.8.1</span> <strong>Survey</strong> package<a class="anchor" aria-label="anchor" href="#survey-package-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.8.1</span> Package <strong>survey</strong><a class="anchor" aria-label="anchor" href="#package-survey-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>We can use the <code>svyciprop()</code> function from <strong>survey</strong> to get weighted proportions
-and accompanying 95% confidence intervals. An appropriate design effect can be
-extracted using the <code>svymean()</code> rather than <code>svyprop()</code> function.
-It is worth noting that <code>svyprop()</code> only appears to accept variables between 0 and
-1 (or TRUE/FALSE), so categorical variables will not work.</p>
-<p><span style="color: black;"><strong><em>NOTE:</em></strong> Functions from <strong>survey</strong> also accept <strong>srvyr</strong> design objects, but here we have used the <strong>survey</strong> design object just for consistency </span></p>
-<div class="sourceCode" id="cb1249"><pre class="downlit sourceCode r">
+<p>Chúng ta có thể sử dụng hàm <code>svyciprop()</code> từ <strong>survey</strong> để lấy tỷ lệ có trọng số và khoảng tin cậy 95% đi kèm. Một hệ số thiết kế thích hợp có thể được trích xuất bằng cách sử dụng hàm <code>svymean()</code> chứ không phải hàm <code>svyprop()</code>. Cần lưu ý rằng <code>svyprop()</code> dường như chỉ chấp nhận các biến có giá trị từ 0 đến 1 (hoặc TRUE/FALSE), vì vậy các biến phân loại sẽ không hoạt động.</p>
+<p><span style="color: black;"><strong><em>LƯU Ý:</em></strong> Các hàm từ <strong>survey</strong> cũng chấp nhận các đối tượng thiết kế từ <strong>srvyr</strong>, nhưng ở đây chúng tôi đã sử dụng đối tượng thiết kế từ package <strong>survey</strong> với mục đích tạo sự nhất quán</span></p>
+<div class="sourceCode" id="cb1250"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## produce weighted counts </span>
 <span class="fu">svytable</span><span class="op">(</span><span class="op">~</span><span class="va">died</span>, <span class="va">base_survey_design</span><span class="op">)</span></code></pre></div>
 <pre><code>## died
 ##      FALSE       TRUE 
 ## 1406244.43   76213.01</code></pre>
-<div class="sourceCode" id="cb1251"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1252"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## produce weighted proportions</span>
 <span class="fu">svyciprop</span><span class="op">(</span><span class="op">~</span><span class="va">died</span>, <span class="va">base_survey_design</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <pre><code>##               2.5% 97.5%
 ## died 0.0514 0.0208  0.12</code></pre>
-<div class="sourceCode" id="cb1253"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1254"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## get the design effect </span>
 <span class="fu">svymean</span><span class="op">(</span><span class="op">~</span><span class="va">died</span>, <span class="va">base_survey_design</span>, na.rm <span class="op">=</span> <span class="cn">T</span>, deff <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">deff</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## diedFALSE  diedTRUE 
 ##  3.755508  3.755508</code></pre>
-<p>We can combine the functions from <strong>survey</strong> shown above in to a function which
-we define ourselves below, called <code>svy_prop</code>; and we can then use that function
-together with <code>map()</code> from the purrr package to iterate over several variables
-and create a table. See the handbook <a href="https://epirhandbook.com/iteration-loops-and-lists.html">iteration</a>
-chapter for details on <strong>purrr</strong>.</p>
-<div class="sourceCode" id="cb1255"><pre class="downlit sourceCode r">
+<p>Chúng ta có thể kết hợp các hàm từ <strong>survey</strong> được hiển thị ở trên với một hàm mà chúng ta tự định nghĩa như bên dưới, được gọi là <code>svy_prop</code>; và sau đó chúng ta có thể sử dụng hàm đó cùng với hàm <code>map()</code> từ package <strong>purrr</strong> để lặp qua một số biến và tạo một bảng. Xem chương <a href="iteration.html#iteration">Lặp, vòng lặp, và danh sách</a> để biết chi tiết về <strong>purrr</strong>.</p>
+<div class="sourceCode" id="cb1256"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Define function to calculate weighted counts, proportions, CI and design effect</span>
 <span class="co"># x is the variable in quotation marks </span>
 <span class="co"># design is your survey design object</span>
@@ -967,17 +803,13 @@ chapter for details on <strong>purrr</strong>.</p>
 ## 2     died  76213.0        5.1   2.1   12.1           3.8
 ## 3  arrived 761799.0       51.4  40.9   61.7           3.9</code></pre>
 </div>
-<div id="srvyr-package-1" class="section level3" number="26.8.2">
+<div id="package-srvyr-1" class="section level3" number="26.8.2">
 <h3>
-<span class="header-section-number">26.8.2</span> <strong>Srvyr</strong> package<a class="anchor" aria-label="anchor" href="#srvyr-package-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.8.2</span> Package <strong>srvyr</strong><a class="anchor" aria-label="anchor" href="#package-srvyr-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>With <strong>srvyr</strong> we can use <strong>dplyr</strong> syntax to create a table. Note that the
-<code>survey_mean()</code> function is used and the proportion argument is specified, and
-also that the same function is used to calculate design effect. This is because
-<strong>srvyr</strong> wraps around both of the <strong>survey</strong> package functions <code>svyciprop()</code> and
-<code>svymean()</code>, which are used in the above section.</p>
-<p><span style="color: black;"><strong><em>NOTE:</em></strong> It does not seem to be possible to get proportions from categorical variables using <strong>srvyr</strong> either, if you need this then check out the section below using <strong>sitrep</strong> </span></p>
-<div class="sourceCode" id="cb1257"><pre class="downlit sourceCode r">
+<p>Với <strong>srvyr</strong> chúng ta có thể sử dụng cú pháp của package <strong>dplyr</strong> để tạo một bảng. Lưu ý rằng hàm <code>survey_mean()</code> được sử dụng, đối số tỷ lệ được chỉ định và hàm tương tự cũng được sử dụng để tính toán hệ số thiết kế. Điều này là do <strong>srvyr</strong> bao gồm cả hai hàm <code>svyciprop()</code> và <code>svymean()</code> của package <strong>survey</strong> được sử dụng trong phần trên.</p>
+<p><span style="color: black;"><strong><em>LƯU Ý:</em></strong> Có vẻ như không thể lấy tỷ lệ từ các biến phân loại bằng <strong>srvyr</strong>, nếu bạn cần điều này, hãy xem phần bên dưới sử dụng <strong>sitrep</strong></span></p>
+<div class="sourceCode" id="cb1258"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## use the srvyr design object</span>
 <span class="va">survey_design</span> <span class="op">%&gt;%</span> 
   <span class="fu">summarise</span><span class="op">(</span>
@@ -995,11 +827,8 @@ also that the same function is used to calculate design effect. This is because
   <span class="fu">select</span><span class="op">(</span><span class="va">counts</span>, <span class="va">props</span>, <span class="va">props_low</span>, <span class="va">props_upp</span>, <span class="va">deff_deff</span><span class="op">)</span></code></pre></div>
 <pre><code>##     counts    props props_low props_upp deff_deff
 ## 1 76213.01 5.140991  2.082773  12.13328  3.755508</code></pre>
-<p>Here too we could write a function to then iterate over multiple variables using
-the <strong>purrr</strong> package.
-See the handbook <a href="https://epirhandbook.com/iteration-loops-and-lists.html">iteration</a>
-chapter for details on <strong>purrr</strong>.</p>
-<div class="sourceCode" id="cb1259"><pre class="downlit sourceCode r">
+<p>Ở đây, chúng ta cũng có thể viết một hàm để sau đó lặp qua nhiều biến bằng cách sử dụng package <strong>purrr</strong>. Xem chương <a href="iteration.html#iteration">Lặp, vòng lặp, và danh sách</a> trong sổ tay này để biết chi tiết về <strong>purrr</strong>.</p>
+<div class="sourceCode" id="cb1260"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Define function to calculate weighted counts, proportions, CI and design effect</span>
 <span class="co"># design is your survey design object</span>
 <span class="co"># x is the variable in quotation marks </span>
@@ -1041,14 +870,12 @@ chapter for details on <strong>purrr</strong>.</p>
 ## 2     died  76213.01  5.140991  2.082773  12.13328  3.755508
 ## 3  arrived 761799.05 51.387583 40.927349  61.72766  3.925504</code></pre>
 </div>
-<div id="sitrep-package" class="section level3" number="26.8.3">
+<div id="package-sitrep" class="section level3" number="26.8.3">
 <h3>
-<span class="header-section-number">26.8.3</span> <strong>Sitrep</strong> package<a class="anchor" aria-label="anchor" href="#sitrep-package"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.8.3</span> Package <strong>sitrep</strong><a class="anchor" aria-label="anchor" href="#package-sitrep"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <code>tab_survey()</code> function from <strong>sitrep</strong> is a wrapper for <strong>srvyr</strong>, allowing
-you to create weighted tables with minimal coding. It also allows you to calculate
-weighted proportions for categorical variables.</p>
-<div class="sourceCode" id="cb1261"><pre class="downlit sourceCode r">
+<p>Hàm <code>tab_survey()</code> từ <strong>sitrep</strong> là một hàm gọn hơn cho <strong>srvyr</strong>, cho phép bạn tạo các bảng có trọng số với code tối giản. Nó cũng cho phép bạn tính toán tỷ lệ có trọng số cho các biến phân loại.</p>
+<div class="sourceCode" id="cb1262"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## using the survey design object</span>
 <span class="va">survey_design</span> <span class="op">%&gt;%</span> 
   <span class="co">## pass the names of variables of interest unquoted</span>
@@ -1070,16 +897,12 @@ weighted proportions for categorical variables.</p>
 ## 8 education_level primary    102609.  2.37 25.4% (16.2--37.3)
 ## 9 education_level secondary  130201.  6.68 32.2% (16.5--53.3)</code></pre>
 </div>
-<div id="gtsummary-package" class="section level3" number="26.8.4">
+<div id="package-gtsummary" class="section level3" number="26.8.4">
 <h3>
-<span class="header-section-number">26.8.4</span> <strong>Gtsummary</strong> package<a class="anchor" aria-label="anchor" href="#gtsummary-package"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.8.4</span> Package <strong>gtsummary</strong><a class="anchor" aria-label="anchor" href="#package-gtsummary"><i class="fas fa-link"></i></a>
 </h3>
-<p>With <strong>gtsummary</strong> there does not seem to be inbuilt functions yet to add confidence
-intervals or design effect.
-Here we show how to define a function for adding confidence intervals and then
-add confidence intervals to a <strong>gtsummary</strong> table created using the <code>tbl_svysummary()</code>
-function.</p>
-<div class="sourceCode" id="cb1264"><pre class="downlit sourceCode r">
+<p>Với <strong>gtsummary</strong>, dường như vẫn chưa có hàm sẵn có để thêm khoảng tin cậy hoặc hệ số thiết kế. Ở đây chúng tôi trình bày cách định nghĩa một hàm để thêm khoảng tin cậy và sau đó thêm khoảng tin cậy vào bảng được tạo bằng <strong>gtsummary</strong> với hàm <code>tbl_svysummary()</code>.</p>
+<div class="sourceCode" id="cb1265"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">confidence_intervals</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">variable</span>, <span class="va">by</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   
   <span class="co">## extract the confidence intervals and multiply to get percentages</span>
@@ -1111,7 +934,7 @@ function.</p>
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lkkddyhzck .gt_table {
+#elwarlrfjv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1136,7 +959,7 @@ function.</p>
   border-left-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_heading {
+#elwarlrfjv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1148,7 +971,7 @@ function.</p>
   border-right-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_title {
+#elwarlrfjv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1158,7 +981,7 @@ function.</p>
   border-bottom-width: 0;
 }
 
-#lkkddyhzck .gt_subtitle {
+#elwarlrfjv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1168,13 +991,13 @@ function.</p>
   border-top-width: 0;
 }
 
-#lkkddyhzck .gt_bottom_border {
+#elwarlrfjv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_col_headings {
+#elwarlrfjv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1189,7 +1012,7 @@ function.</p>
   border-right-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_col_heading {
+#elwarlrfjv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1209,7 +1032,7 @@ function.</p>
   overflow-x: hidden;
 }
 
-#lkkddyhzck .gt_column_spanner_outer {
+#elwarlrfjv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1221,15 +1044,15 @@ function.</p>
   padding-right: 4px;
 }
 
-#lkkddyhzck .gt_column_spanner_outer:first-child {
+#elwarlrfjv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lkkddyhzck .gt_column_spanner_outer:last-child {
+#elwarlrfjv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lkkddyhzck .gt_column_spanner {
+#elwarlrfjv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1241,7 +1064,7 @@ function.</p>
   width: 100%;
 }
 
-#lkkddyhzck .gt_group_heading {
+#elwarlrfjv .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1263,7 +1086,7 @@ function.</p>
   vertical-align: middle;
 }
 
-#lkkddyhzck .gt_empty_group_heading {
+#elwarlrfjv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1278,15 +1101,15 @@ function.</p>
   vertical-align: middle;
 }
 
-#lkkddyhzck .gt_from_md > :first-child {
+#elwarlrfjv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lkkddyhzck .gt_from_md > :last-child {
+#elwarlrfjv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lkkddyhzck .gt_row {
+#elwarlrfjv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1305,7 +1128,7 @@ function.</p>
   overflow-x: hidden;
 }
 
-#lkkddyhzck .gt_stub {
+#elwarlrfjv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1317,7 +1140,7 @@ function.</p>
   padding-left: 12px;
 }
 
-#lkkddyhzck .gt_summary_row {
+#elwarlrfjv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1327,7 +1150,7 @@ function.</p>
   padding-right: 5px;
 }
 
-#lkkddyhzck .gt_first_summary_row {
+#elwarlrfjv .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1337,7 +1160,7 @@ function.</p>
   border-top-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_grand_summary_row {
+#elwarlrfjv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1347,7 +1170,7 @@ function.</p>
   padding-right: 5px;
 }
 
-#lkkddyhzck .gt_first_grand_summary_row {
+#elwarlrfjv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1357,11 +1180,11 @@ function.</p>
   border-top-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_striped {
+#elwarlrfjv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lkkddyhzck .gt_table_body {
+#elwarlrfjv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1370,7 +1193,7 @@ function.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_footnotes {
+#elwarlrfjv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1384,13 +1207,13 @@ function.</p>
   border-right-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_footnote {
+#elwarlrfjv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#lkkddyhzck .gt_sourcenotes {
+#elwarlrfjv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1404,46 +1227,46 @@ function.</p>
   border-right-color: #D3D3D3;
 }
 
-#lkkddyhzck .gt_sourcenote {
+#elwarlrfjv .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#lkkddyhzck .gt_left {
+#elwarlrfjv .gt_left {
   text-align: left;
 }
 
-#lkkddyhzck .gt_center {
+#elwarlrfjv .gt_center {
   text-align: center;
 }
 
-#lkkddyhzck .gt_right {
+#elwarlrfjv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lkkddyhzck .gt_font_normal {
+#elwarlrfjv .gt_font_normal {
   font-weight: normal;
 }
 
-#lkkddyhzck .gt_font_bold {
+#elwarlrfjv .gt_font_bold {
   font-weight: bold;
 }
 
-#lkkddyhzck .gt_font_italic {
+#elwarlrfjv .gt_font_italic {
   font-style: italic;
 }
 
-#lkkddyhzck .gt_super {
+#elwarlrfjv .gt_super {
   font-size: 65%;
 }
 
-#lkkddyhzck .gt_footnote_marks {
+#elwarlrfjv .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="lkkddyhzck" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
+<div id="elwarlrfjv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><div class="inline-table"><table class="gt_table">
 <thead class="gt_col_headings"><tr>
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Weighted total (N)</strong></th>
@@ -1486,20 +1309,16 @@ function.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="weighted-ratios" class="section level2" number="26.9">
+<div id="tỷ-suất-được-áp-dụng-trọng-số" class="section level2" number="26.9">
 <h2>
-<span class="header-section-number">26.9</span> Weighted ratios<a class="anchor" aria-label="anchor" href="#weighted-ratios"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.9</span> Tỷ suất được áp dụng trọng số<a class="anchor" aria-label="anchor" href="#t%E1%BB%B7-su%E1%BA%A5t-%C4%91%C6%B0%E1%BB%A3c-%C3%A1p-d%E1%BB%A5ng-tr%E1%BB%8Dng-s%E1%BB%91"><i class="fas fa-link"></i></a>
 </h2>
-<p>Similarly for weighted ratios (such as for mortality ratios) you can use the
-<strong>survey</strong> or the <strong>srvyr</strong> package.
-You could similarly write functions (similar to those above) to iterate over
-several variables. You could also create a function for <strong>gtsummary</strong> as above
-but currently it does not have inbuilt functionality.</p>
-<div id="survey-package-2" class="section level3" number="26.9.1">
+<p>Tương tự đối với các tỷ lệ được áp dụng trọng số (chẳng hạn như tỷ lệ tử vong), bạn có thể sử dụng package <strong>survey</strong> hoặc <strong>srvyr</strong>. Tương tự, bạn có thể viết các hàm (tương tự như ở trên) để lặp qua một số biến. Bạn cũng có thể tạo một hàm cho <strong>gtsummary</strong> như trên nhưng hiện tại nó không có chức năng sẵn có.</p>
+<div id="package-survey-2" class="section level3" number="26.9.1">
 <h3>
-<span class="header-section-number">26.9.1</span> <strong>Survey</strong> package<a class="anchor" aria-label="anchor" href="#survey-package-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.9.1</span> Package <strong>survey</strong><a class="anchor" aria-label="anchor" href="#package-survey-2"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb1265"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1266"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ratio</span> <span class="op">&lt;-</span> <span class="fu">svyratio</span><span class="op">(</span><span class="op">~</span><span class="va">died</span>, 
          denominator <span class="op">=</span> <span class="op">~</span><span class="va">obstime</span>, 
          design <span class="op">=</span> <span class="va">base_survey_design</span><span class="op">)</span>
@@ -1513,11 +1332,11 @@ but currently it does not have inbuilt functionality.</p>
 <pre><code>##       obstime    2.5 %   97.5 %
 ## died 5.981922 1.194294 10.76955</code></pre>
 </div>
-<div id="srvyr-package-2" class="section level3" number="26.9.2">
+<div id="package-srvyr-2" class="section level3" number="26.9.2">
 <h3>
-<span class="header-section-number">26.9.2</span> <strong>Srvyr</strong> package<a class="anchor" aria-label="anchor" href="#srvyr-package-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.9.2</span> Package <strong>srvyr</strong><a class="anchor" aria-label="anchor" href="#package-srvyr-2"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb1267"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1268"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">survey_design</span> <span class="op">%&gt;%</span> 
   <span class="co">## survey ratio used to account for observation time </span>
   <span class="fu">summarise</span><span class="op">(</span>
@@ -1531,9 +1350,9 @@ but currently it does not have inbuilt functionality.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="resources-17" class="section level2" number="26.10">
+<div id="tài-nguyên-học-liệu-8" class="section level2" number="26.10">
 <h2>
-<span class="header-section-number">26.10</span> Resources<a class="anchor" aria-label="anchor" href="#resources-17"><i class="fas fa-link"></i></a>
+<span class="header-section-number">26.10</span> Tài nguyên học liệu<a class="anchor" aria-label="anchor" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u-8"><i class="fas fa-link"></i></a>
 </h2>
 <p><a href="https://stats.idre.ucla.edu/r/seminars/survey-data-analysis-with-r/">UCLA stats page</a></p>
 <p><a href="http://asdfree.com/">Analyze survey data free</a></p>
@@ -1553,45 +1372,45 @@ but currently it does not have inbuilt functionality.</p>
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#survey-analysis"><span class="header-section-number">26</span> Phân tích khảo sát</a></li>
-<li><a class="nav-link" href="#overview-4"><span class="header-section-number">26.1</span> Overview</a></li>
+<li><a class="nav-link" href="#t%E1%BB%95ng-quan-3"><span class="header-section-number">26.1</span> Tổng quan</a></li>
 <li>
-<a class="nav-link" href="#preparation-16"><span class="header-section-number">26.2</span> Preparation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#packages-3">Packages</a></li>
-<li><a class="nav-link" href="#load-data-1">Load data</a></li>
-<li><a class="nav-link" href="#clean-data-2">Clean data</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-14"><span class="header-section-number">26.2</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#packages-2">Packages</a></li>
+<li><a class="nav-link" href="#n%E1%BA%A1p-d%E1%BB%AF-li%E1%BB%87u">Nạp dữ liệu</a></li>
+<li><a class="nav-link" href="#l%C3%A0m-s%E1%BA%A1ch-d%E1%BB%AF-li%E1%BB%87u-1">Làm sạch dữ liệu</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#survey-data"><span class="header-section-number">26.3</span> Survey data</a></li>
-<li><a class="nav-link" href="#observation-time"><span class="header-section-number">26.4</span> Observation time</a></li>
-<li><a class="nav-link" href="#weighting"><span class="header-section-number">26.5</span> Weighting</a></li>
+<li><a class="nav-link" href="#d%E1%BB%AF-li%E1%BB%87u-kh%E1%BA%A3o-s%C3%A1t"><span class="header-section-number">26.3</span> Dữ liệu khảo sát</a></li>
+<li><a class="nav-link" href="#th%E1%BB%9Di-gian-quan-s%C3%A1t"><span class="header-section-number">26.4</span> Thời gian quan sát</a></li>
+<li><a class="nav-link" href="#%C3%A1p-d%E1%BB%A5ng-tr%E1%BB%8Dng-s%E1%BB%91"><span class="header-section-number">26.5</span> Áp dụng trọng số</a></li>
 <li>
-<a class="nav-link" href="#survey-design-objects"><span class="header-section-number">26.6</span> Survey design objects</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#survey-package"><span class="header-section-number">26.6.1</span> Survey package</a></li>
-<li><a class="nav-link" href="#srvyr-package"><span class="header-section-number">26.6.2</span> Srvyr package</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#descriptive-analysis-2"><span class="header-section-number">26.7</span> Descriptive analysis</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#sampling-bias"><span class="header-section-number">26.7.1</span> Sampling bias</a></li>
-<li><a class="nav-link" href="#demographic-pyramids"><span class="header-section-number">26.7.2</span> Demographic pyramids</a></li>
-<li><a class="nav-link" href="#alluvialsankey-diagram"><span class="header-section-number">26.7.3</span> Alluvial/sankey diagram</a></li>
+<a class="nav-link" href="#%C4%91%E1%BB%91i-t%C6%B0%E1%BB%A3ng-theo-thi%E1%BA%BFt-k%E1%BA%BF-nghi%C3%AAn-c%E1%BB%A9u"><span class="header-section-number">26.6</span> Đối tượng theo thiết kế nghiên cứu</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#package-survey"><span class="header-section-number">26.6.1</span> Package Survey</a></li>
+<li><a class="nav-link" href="#package-srvyr"><span class="header-section-number">26.6.2</span> Package Srvyr</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#weighted-proportions"><span class="header-section-number">26.8</span> Weighted proportions</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#survey-package-1"><span class="header-section-number">26.8.1</span> Survey package</a></li>
-<li><a class="nav-link" href="#srvyr-package-1"><span class="header-section-number">26.8.2</span> Srvyr package</a></li>
-<li><a class="nav-link" href="#sitrep-package"><span class="header-section-number">26.8.3</span> Sitrep package</a></li>
-<li><a class="nav-link" href="#gtsummary-package"><span class="header-section-number">26.8.4</span> Gtsummary package</a></li>
+<a class="nav-link" href="#ph%C3%A2n-t%C3%ADch-m%C3%B4-t%E1%BA%A3-1"><span class="header-section-number">26.7</span> Phân tích mô tả</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#sai-s%E1%BB%91-ch%E1%BB%8Dn-m%E1%BA%ABu"><span class="header-section-number">26.7.1</span> Sai số chọn mẫu</a></li>
+<li><a class="nav-link" href="#th%C3%A1p-d%C3%A2n-s%E1%BB%91"><span class="header-section-number">26.7.2</span> Tháp dân số</a></li>
+<li><a class="nav-link" href="#s%C6%A1-%C4%91%E1%BB%93-alluvialsankey"><span class="header-section-number">26.7.3</span> Sơ đồ alluvial/sankey</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#weighted-ratios"><span class="header-section-number">26.9</span> Weighted ratios</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#survey-package-2"><span class="header-section-number">26.9.1</span> Survey package</a></li>
-<li><a class="nav-link" href="#srvyr-package-2"><span class="header-section-number">26.9.2</span> Srvyr package</a></li>
+<a class="nav-link" href="#t%E1%BB%B7-l%E1%BB%87-%C4%91%C6%B0%E1%BB%A3c-%C3%A1p-d%E1%BB%A5ng-tr%E1%BB%8Dng-s%E1%BB%91"><span class="header-section-number">26.8</span> Tỷ lệ được áp dụng trọng số</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#package-survey-1"><span class="header-section-number">26.8.1</span> Package survey</a></li>
+<li><a class="nav-link" href="#package-srvyr-1"><span class="header-section-number">26.8.2</span> Package srvyr</a></li>
+<li><a class="nav-link" href="#package-sitrep"><span class="header-section-number">26.8.3</span> Package sitrep</a></li>
+<li><a class="nav-link" href="#package-gtsummary"><span class="header-section-number">26.8.4</span> Package gtsummary</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#resources-17"><span class="header-section-number">26.10</span> Resources</a></li>
+<li>
+<a class="nav-link" href="#t%E1%BB%B7-su%E1%BA%A5t-%C4%91%C6%B0%E1%BB%A3c-%C3%A1p-d%E1%BB%A5ng-tr%E1%BB%8Dng-s%E1%BB%91"><span class="header-section-number">26.9</span> Tỷ suất được áp dụng trọng số</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#package-survey-2"><span class="header-section-number">26.9.1</span> Package survey</a></li>
+<li><a class="nav-link" href="#package-srvyr-2"><span class="header-section-number">26.9.2</span> Package srvyr</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#t%C3%A0i-nguy%C3%AAn-h%E1%BB%8Dc-li%E1%BB%87u-8"><span class="header-section-number">26.10</span> Tài nguyên học liệu</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1608,7 +1427,7 @@ but currently it does not have inbuilt functionality.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-06-18.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -1,25 +1,21 @@
-
-# Đường trung bình động {#moving-average}  
+# Đường trung bình động {#moving-average}
 
 ```{r, out.width=c("100%"), echo=F}
 knitr::include_graphics(here::here("images", "moving_avg_epicurve.png"))
 ```
 
+Chương này bao gồm hai phương pháp tính toán và biểu diễn đường trung bình động:
 
-This page will cover two methods to calculate and visualize moving averages:  
-
-1) Calculate with the **slider** package  
-2) Calculate *within* a `ggplot()` command with the **tidyquant** package  
-
-
+1)  Tính toán với package **slider**\
+2)  Tính toán *bên trong* lệnh `ggplot()` với package **tidyquant**
 
 <!-- ======================================================= -->
-## Preparation {  }
 
-### Load packages {.unnumbered}
+## Chuẩn bị
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages. 
+### Gọi package {.unnumbered}
 
+Đoạn code này hiển thị những package cần tải cho các phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến hàm `p_load()` từ **pacman**, hàm sẽ cài đặt package nếu cần *và* gọi nó ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với `library()` từ **base** R. Xem chương [R cơ bản] để có thêm thông tin về các R package.
 
 ```{r}
 pacman::p_load(
@@ -29,11 +25,9 @@ pacman::p_load(
 )
 ```
 
+### Nhập dữ liệu {.unnumbered}
 
-### Import data {.unnumbered}
-
-We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import data with the `import()` function from the **rio** package (it handles many file types like .xlsx, .csv, .rds - see the [Import and export] page for details).  
-
+Chúng ta nhập các trường hợp trong linelist đã được làm sạch từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn theo dõi, [bấm để tải xuống linelist "đã được làm sạch"](https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds) (tệp .rds). Nhập dữ liệu với hàm `import()` từ package **rio** (hàm này xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -45,78 +39,77 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.xlsx")
 ```
 
-The first 50 rows of the linelist are displayed below.
+50 hàng đầu tiên của linelist được hiển thị dưới đây.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-
 <!-- ======================================================= -->
-## Calculate with **slider** {  }
 
-**Use this approach to calculate a moving average in a data frame prior to plotting.**  
+## Tính toán với **slider**
 
-The **slider** package provides several "sliding window" functions to compute rolling averages, cumulative sums, rolling regressions, etc. It treats a data frame as a vector of rows, allowing iteration row-wise over a data frame.   
+**Sử dụng cách tiếp cận này để tính toán đường trung bình động trong một data frame trước khi vẽ biểu đồ.**
 
-Here are some of the common functions:  
+Package **slider** cung cấp một số hàm tạo "cửa sổ trượt" giúp tính toán trung bình động, tổng tích lũy, hồi quy động (rolling regression), v.v. Nó coi data frame như một vectơ của các hàng, cho phép lặp lại hàng qua một data frame.
 
-* `slide_dbl()` - iterates through a *numeric* (hence "_dbl") column performing an operation using a sliding window  
-  * `slide_sum()` - rolling sum shortcut function for `slide_dbl()`  
-  * `slide_mean()` - rolling average shortcut function for `slide_dbl()` 
-* `slide_index_dbl()` - applies the rolling window on a numeric column using a separate column to *index* the window progression (useful if rolling by date with some dates absent)  
-  * `slide_index_sum()` - rolling sum shortcut function with indexing  
-  * `slide_index_mean()` - rolling mean shortcut function with indexing  
-  
-The **slider** package has many other functions that are covered in the Resources section of this page. We briefly touch upon the most common.  
+Dưới đây là một số hàm phổ biến:
 
-**Core arguments**  
+-   `slide_dbl()` - lặp qua một cột dạng *số* (từ "\_dbl") để thực hiện thao tác sử dụng cửa sổ trượt
 
-* `.x`, the first argument by default, is the vector to iterate over and to apply the function to  
-* `.i = ` for the "index" versions of the **slider** functions - provide a column to "index" the roll on (see section [below](#roll_index))  
-* `.f = `, the second argument by default, either:  
-  * A function, written without parentheses, like `mean`, or  
-  * A formula, which will be converted into a function. For example `~ .x - mean(.x)` will return the result of the current value minus the mean of the window's value  
-  
-* For more details see this [reference material](https://davisvaughan.github.io/slider/reference/slide.html)
+    -   `slide_sum()` - hàm tắt tính tổng động (rolling sum) cho `slide_dbl()`\
+    -   `slide_mean()` - hàm tắt tính trung bình động (rolling average) cho `slide_dbl()`
 
+-   `slide_index_dbl()` - áp dụng cửa sổ cuộn trên một cột dạng số bằng cách sử dụng một cột riêng biệt để *lập chỉ mục* cửa sổ tiến trình (hữu ích nếu cuộn theo ngày mà một số ngày bị thiếu)
 
+    -   `slide_index_sum()` - hàm tắt tính tổng động với chỉ mục\
+    -   `slide_index_mean()` - hàm tắt tính trung bình động với chỉ mục
 
-**Window size**  
+Package **slider** có nhiều hàm khác được đề cập đến trong phần Tài nguyên học liệu của chương này. Ở đây, chúng tôi sẽ đề cập ngắn gọn đến những điểm thông dụng nhất.
 
-Specify the size of the window by using either `.before`, `.after`, or both arguments:   
+**Những đối số chính**
 
-* `.before = ` - Provide an integer  
-* `.after = ` - Provide an integer  
-* `.complete = ` - Set this to `TRUE` if you only want calculation performed on complete windows  
+-   `.x`, đối số đầu tiên theo mặc định, là vectơ để lặp lại và để áp dụng hàm\
 
-For example, to achieve a 7-day window including the current value and the six previous, use `.before = 6`. To achieve a "centered" window provide the same number to both `.before = ` and `.after = `.    
+-   `.i =` cho các phiên bản "chỉ mục (index)" của hàm **slider** - cung cấp một cột để "lập chỉ mục" khi cuộn (xem phần [dưới đây](#roll_index))\
 
-By default, `.complete = ` will be FALSE so if the full window of rows does not exist, the functions will use available rows to perform the calculation. Setting to TRUE restricts so calculations are only performed on complete windows.  
+-   `.f =`, đối số thứ hai theo mặc định, có thể dùng theo một trong hai cách:
 
-**Expanding window**  
+    -   Một hàm, được viết không có dấu ngoặc đơn, như `mean` hoặc\
+    -   Một công thức, mà sẽ được chuyển đổi thành một hàm. Ví dụ `~ .x - mean(.x)` sẽ trả về kết quả của giá trị hiện tại trừ đi giá trị trung bình của cửa sổ giá trị
 
-To achieve *cumulative* operations, set the `.before = ` argument to `Inf`. This will conduct the operation on the current value and all coming before.  
+-   Để biết thêm chi tiết xem [tài liệu tham khảo](https://davisvaughan.github.io/slider/reference/slide.html) này
 
+**Kích thước cửa sổ**
 
+Xác định kích thước của cửa sổ bằng cách sử dụng một trong hai đối số `.before`, `.after`, hoặc cả hai đối số:
 
+-   `.before =` - Cung cấp một số nguyên\
+-   `.after =` - Cung cấp một số nguyên\
+-   `.complete =` - Đặt giá trị này thành `TRUE` nếu bạn chỉ muốn tính toán được thực hiện trên các cửa sổ hoàn chỉnh
 
+Ví dụ: Để có cửa sổ 7 ngày liên tục bao gồm giá trị hiện tại và sáu giá trị trước đó, hãy sử dụng `.before = 6`. Để có cửa sổ "trung tâm", hãy cung cấp cùng một giá trị số cho cả `.before =` và `.after =`.
 
-### Rolling by date  {#roll_index .unnumbered}  
+Theo mặc định, `.complete =` sẽ nhận giá trị FALSE nên nếu cửa sổ hoàn chỉnh của các hàng không tồn tại, các hàm sẽ sử dụng các hàng sẵn có để thực hiện phép tính. Thiết lập giá trị thành TRUE giúp hạn chế việc các phép tính chỉ được thực hiện trên các cửa sổ hoàn chỉnh.
 
-The most likely use-case of a rolling calculation in applied epidemiology is to examine a metric *over time*. For example, a rolling measurement of case incidence, based on daily case counts. 
+**Mở rộng cửa sổ**
 
-If you have clean time series data with values for every date, you may be OK to use `slide_dbl()`, as demonstrated here in the [Time series and outbreak detection](#timeseries_moving) page.  
+Để có các tính toán *tích lũy*, hãy thiết lập đối số `.before =` thành `Inf`. Điều này giúp tiến hành tính toán cả trên giá trị hiện tại và tất cả các giá trị trước đó.
 
-However, in many applied epidemiology circumstances you may have dates absent from your data, where there are no events recorded. In these cases, it is best to use the "index" versions of the **slider** functions.  
+### Cuộn theo ngày {#roll_index .unnumbered}
 
+Trường hợp sử dụng có khả năng xảy ra nhất của tính toán biến động trong dịch tễ học ứng dụng là kiểm tra một số liệu *theo thời gian*. Ví dụ: đo lường động các ca mới mắc, dựa trên số lượng trường hợp hàng ngày.
 
-### Indexed data {.unnumbered}  
+Nếu bạn có dữ liệu chuỗi thời gian đã được làm sạch với đủ giá trị cho tất cả các ngày, bạn có thể sử dụng hàm `slide_dbl()`, như đã được trình bày trong chương [Chuỗi thời gian và phát hiện ổ dịch](#timeseries_moving).
 
-Below, we show an example using `slide_index_dbl()` on the case linelist. Let us say that our objective is to calculate a rolling 7-day incidence - the sum of cases using a rolling 7-day window. If you are looking for an example of rolling average, see the section below on [grouped rolling](#roll_slider_group).    
+Tuy nhiên, trong nhiều trường hợp dịch tễ học ứng dụng, bạn có thể gặp những ngày trống trong dữ liệu của mình, những ngày mà không có sự kiện nào được ghi lại. Trong những trường hợp này, tốt nhất là sử dụng các phiên bản "chỉ mục" của các hàm **slider**.
 
-To begin, the dataset `daily_counts` is created to reflect the daily case counts from the `linelist`, as calculated with `count()` from **dplyr**.  
+### Dữ liệu được lập chỉ mục {.unnumbered}
+
+Dưới đây, chúng tôi trình bày một ví dụ sử dụng `slide_index_dbl()` đối với các trường hợp của bộ dữ liệu linelist. Giả sử rằng mục tiêu của chúng ta là tính toán tỷ lệ mới mắc liên tục trong 7 ngày - tính tổng các trường hợp bằng cách sử dụng cửa sổ 7 ngày luân phiên. Nếu bạn đang tìm kiếm ví dụ về trung bình động, hãy xem phần bên dưới về [cuộn theo nhóm](#roll_slider_group).
+
+Để bắt đầu, bộ dữ liệu `daily_counts` được tạo ra để phản ánh số lượng ca mắc hàng ngày từ `linelist`, như đã được tính toán với hàm `count()` trong **dplyr**.
 
 ```{r}
 # make dataset of daily counts
@@ -124,24 +117,19 @@ daily_counts <- linelist %>%
   count(date_hospitalisation, name = "new_cases")
 ```
 
-
-Here is the `daily_counts` data frame - there are ` nrow(daily_counts)` rows, each day is represented by one row, but especially early in the epidemic *some days are not present (there were no cases admitted on those days)*.  
-
+Dưới đây là data frame `daily_counts` - bao gồm `nrow(daily_counts)` hàng, mỗi hàng đại diện cho một ngày, nhưng đặc biệt trong giai đoạn đầu của dịch, *có một số ngày không xuất hiện (không có ca mắc nào được tiếp nhận vào những ngày đó)*.
 
 ```{r, echo=F}
 DT::datatable(daily_counts, rownames = FALSE, options = list(pageLength = 6, scrollX=T) )
 ```
 
+Điều quan trọng là phải nhận ra rằng một hàm cuộn tiêu chuẩn (như `slide_dbl()` sẽ sử dụng cửa sổ của 7 *hàng*, không phải 7 *ngày*. Vì vậy, nếu có bất kỳ ngày nào trống, một số cửa sổ sẽ thực sự kéo dài hơn 7 ngày theo lịch!
 
+Một cửa sổ động "thông minh" có thể được tạo với hàm `slide_index_dbl()`. "Chỉ mục" có nghĩa là hàm sử dụng một *cột riêng biệt* làm "chỉ mục" cho cửa sổ động. Cửa sổ đó không chỉ đơn giản dựa trên các hàng của data frame.
 
-It is crucial to recognize that a standard rolling function (like `slide_dbl()` would use a window of 7 *rows*, not 7 *days*. So, if there are any absent dates, some windows will actually extend more than 7 calendar days!  
+Nếu cột chỉ mục là ngày, bạn có thêm khả năng xác định phạm vi cửa sổ cho `.before =` và/hoặc `.after =` theo đơn vị `days()` và `months()` của **lubridate**. Nếu bạn thực hiện những điều này, hàm sẽ bao gồm những ngày trống trong cửa sổ như thể chúng ở đó (dưới dạng giá trị `NA`).
 
-A "smart" rolling window can be achieved with `slide_index_dbl()`. The "index" means that the function uses a *separate column* as an "index" for the rolling window. The window is not simply based on the rows of the data frame.  
-
-If the index column is a date, you have the added ability to specify the window extent to `.before = ` and/or `.after = ` in units of **lubridate** `days()` or `months()`. If you do these things, the function will include absent days in the windows as if they were there (as `NA` values).  
-
-Let's show a comparison. Below, we calculate rolling 7-day case incidence with regular and indexed windows.  
-
+Hãy đưa ra một so sánh. Dưới đây, chúng tôi tính toán số trường hợp mới mắc biến động trong 7 ngày với các cửa sổ thông thường và được lập chỉ mục.
 
 ```{r}
 rolling <- daily_counts %>% 
@@ -164,93 +152,80 @@ rolling <- daily_counts %>%
 
 ```
 
-Observe how in the regular column for the first 7 rows the count steadily increases *despite the rows not being within 7 days of each other*! The adjacent "indexed" column accounts for these absent calendar days, so its 7-day sums are much lower, at least in this period of the epidemic when the cases a farther between.  
+Quan sát trong cột thông thường cho 7 hàng đầu tiên, cách số lượng ca mắc tăng đều đặn *mặc dù các hàng không cách nhau 7 ngày*! Cột "được lập chỉ mục" liền kề tính cho những ngày lịch trống này, vì vậy tổng 7 ngày của nó thấp hơn nhiều, ít nhất là khi khoảng thời gian các ca mắc cách nhau xa hơn trong thời kỳ dịch bệnh này.
 
 ```{r, echo=F}
 DT::datatable(rolling, rownames = FALSE, options = list(pageLength = 12, scrollX=T) )
 ```
 
-
-
-Now you can plot these data using `ggplot()`:  
+Bây giờ bạn có thể vẽ biểu đồ những dữ liệu này bằng cách sử dụng `ggplot()`:
 
 ```{r}
 ggplot(data = rolling)+
   geom_line(mapping = aes(x = date_hospitalisation, y = indexed_7day), size = 1)
 ```
 
+<!-- ### Biến động theo tháng {.unnumbered} -->
 
+<!-- Nếu bạn muốn tính toán thống kê theo tháng (ví dụ: tổng, trung bình, max), bạn có thể thực hiện điều này với **dplyr** như đã được mô tả trong chương [Nhóm dữ liệu]. Chỉ cần tạo cột "tháng", nhóm dữ liệu và chạy các phép tính của bạn với `summarise()`. -->
 
-
-<!-- ### Rolling by month {.unnumbered}   -->
-
-<!-- If you want to calculate statistics by month (e.g. sum, mean, max) you can do this with **dplyr** as described in the [Grouping data] page. Simply create a "month" column, group the data, and run your calculations with `summarise()`.   -->
-
-<!-- If however, you want to calculate rolling statistics over several months (e.g a 2-month rolling window), you can use the `slide_period()` function from **slider**.   -->
+<!-- Tuy nhiên, nếu bạn muốn tính toán thống kê động trong vài tháng (ví dụ: cửa sổ động 2 tháng), bạn có thể sử dụng hàm `slide_period()` từ **slider**. -->
 
 <!-- ```{r} -->
 <!-- monthly_mean = function(data){ -->
 <!--   summarise(data, mean = mean(new_cases, na.rm=T)) -->
 <!-- } -->
-
-<!-- linelist %>%  -->
-<!--   count(date_hospitalisation, name = "new_cases") %>%  -->
+<!-- linelist %>% -->
+<!--   count(date_hospitalisation, name = "new_cases") %>% -->
 <!--   mutate( -->
 <!--     slide_period_dfr( -->
 <!--       new_cases,  -->
 <!--       .i = date_hospitalisation, -->
 <!--       .period = "month", -->
 <!--       .f = monthly_mean))  #~mean(.x, na.rm=T))) -->
-
-<!--       #values_col = new_cases, -->
+<!--      #values_col = new_cases, -->
 <!--       #index_col = date_hospitalisation -->
 <!--     )) -->
 
-
-
 <!-- ``` -->
 
+### Biến động theo nhóm {.unnumbered}
 
-### Rolling by group {#roll_slider_group .unnumbered}  
+Nếu bạn nhóm dữ liệu của mình trước khi sử dụng hàm **slider**, các cửa sổ trượt sẽ được áp dụng theo nhóm. Hãy cẩn thận để sắp xếp các hàng của bạn với thứ tự mong muốn *theo nhóm*.
 
-If you group your data prior to using a **slider** function, the sliding windows will be applied by group. Be careful to arrange your rows in the desired order *by group*.  
+Mỗi khi một nhóm mới được tạo, cửa sổ trượt sẽ bắt đầu lại. Do đó, một điều cần lưu ý là nếu dữ liệu của bạn được nhóm lại và bạn đã thiết lập `.complete = TRUE`, bạn sẽ có các giá trị trống ở mỗi lần dịch chuyển giữa các nhóm. Khi hàm di chuyển xuống dưới qua các hàng, mọi dịch chuyển trong cột được nhóm sẽ bắt đầu lại việc cộng dồn kích thước cửa sổ tối thiểu để cho phép tính toán.
 
-Each time a new group begins, the sliding window will re-start. Therefore, one nuance to be aware of is that if your data are grouped *and* you have set `.complete = TRUE`, you will have empty values at each transition between groups. As the function moved downward through the rows, every transition in the grouping column will re-start the accrual of the minimum window size to allow a calculation.  
+Xem chương [Nhóm dữ liệu] trong sổ tay này để biết thêm chi tiết về nhóm dữ liệu.
 
-See handbook page on [Grouping data] for details on grouping data.
-
-Below, we count linelist cases by date *and* by hospital. Then we arrange the rows in ascending order, first ordering by hospital and then within that by date. Next we set `group_by()`. Then we can create our new rolling average. 
-
+Dưới đây, chúng tôi đếm các ca mắc trong linelist theo ngày *và* theo bệnh viện. Sau đó, chúng tôi sắp xếp các hàng theo thứ tự tăng dần, thứ tự đầu tiên theo bệnh viện và sau đó là theo ngày. Tiếp theo, chúng tôi đặt `group_by()`. Cuối cùng, chúng tôi có thể tạo trung bình động mới của mình.
 
 ```{r}
 grouped_roll <- linelist %>%
-
+     
   count(hospital, date_hospitalisation, name = "new_cases") %>% 
-
+     
   arrange(hospital, date_hospitalisation) %>%   # arrange rows by hospital and then by date
-  
+     
   group_by(hospital) %>%              # group by hospital 
-    
+     
   mutate(                             # rolling average  
     mean_7day_hosp = slide_index_dbl(
       .x = new_cases,                 # the count of cases per hospital-day
       .i = date_hospitalisation,      # index on date of admission
-      .f = mean,                      # use mean()                   
+      .f = mean,                      # use mean()                  
       .before = days(6)               # use the day and the 6 days prior
       )
   )
 
 ```
 
-Here is the new dataset:  
+Đây là bộ dữ liệu mới:
 
 ```{r, echo=F}
 DT::datatable(grouped_roll, rownames = FALSE, options = list(pageLength = 12, scrollX=T) )
 ```
 
-
-We can now plot the moving averages, displaying the data by group by specifying `~ hospital` to `facet_wrap()` in `ggplot()`. For fun, we plot two geometries - a `geom_col()` showing the daily case counts and a `geom_line()` showing the 7-day moving average.  
-
+Bây giờ chúng ta có thể vẽ các đường trung bình động, hiển thị dữ liệu theo nhóm bằng cách chỉ định `~ hospital` tới `facet_wrap()` trong `ggplot()`. Để giải trí, chúng tôi vẽ hai biểu đồ - một biểu đồ cột `geom_col()` thể hiện số lượng ca mắc hàng ngày và một biểu đồ đường `geom_line()` thể hiện đường trung bình động của 7 ngày.
 
 ```{r, warning=F, message=F}
 ggplot(data = grouped_roll)+
@@ -275,36 +250,34 @@ ggplot(data = grouped_roll)+
     y = "Case incidence")
 ```
 
+[***NGUY HIỂM:*** Nếu bạn gặp lỗi cho biết *"slide() was deprecated in tsibble 0.9.0 and is now defunct. Please use slider::slide() instead."*, điều đó có nghĩa là hàm `slide()` từ package **tsibble** đang đè lên hàm `slide()` từ package **slider**. Khắc phục lỗi này bằng cách cụ thể tên package trong lệnh, ví dụ `slider::slide_dbl()`.]{style="color: red;"}
 
-<span style="color: red;">**_DANGER:_** If you get an error saying *"slide() was deprecated in tsibble 0.9.0 and is now defunct. Please use slider::slide() instead."*, it means that the `slide()` function from the **tsibble** package is masking the `slide()` function from **slider** package. Fix this by specifying the package in the command, such as `slider::slide_dbl()`.</span>
+<!-- Bạn có thể nhóm dữ liệu trước khi sử dụng hàm **slider**. Ví dụ: nếu bạn muốn tính tổng động trong 7 ngày tương tự như trên, nhưng theo bệnh viện, trên trung bình động thời gian chậm trễ từ khi bắt đầu có triệu chứng cho đến khi nhập viện (cột `days_onset_hosp`). -->
 
+<!-- Bạn có thể nhóm dữ liệu theo tháng khởi phát triệu chứng bằng cách sử dụng `floor_date()` của **lubridate** như đã được mô tả trong chương [Nhóm dữ liệu]. Sau đó, sử dụng `slide_index_dbl()` như trên nhưng thiết lập phạm vi cửa sổ của bạn bằng cách sử dụng `months()` (cũng từ **lubridate**). -->
 
-
-
-<!-- You can group the data prior to using a **slider** function. For example, if you want to calculate the same 7-day rolling sum as above, but by hospital. above rolling mean delay from symptom onset to hospital admission (column `days_onset_hosp`).   -->
-
-<!-- You can group the data by the month of symptom onset using **lubridate**'s `floor_date()` as described in the [Grouping data] page. Then, use `slide_index_dbl()` as before but set your window extent using `months()` (also from **lubridate**).  -->
-
-<!-- f you want a rolling average by *months*, you can use **lubridate** to group the data by month, and then apply `slide_index_dbl()` as below shown for a three-month rolling average:   -->
+<!-- Nếu bạn muốn tính trung bình động theo *tháng*, bạn có thể sử dụng **lubridate** để nhóm dữ liệu theo tháng và sau đó áp dụng `slide_index_dbl()` như được trình bày dưới đây cho giá trị trung bình động trong ba tháng: -->
 
 <!-- ```{r} -->
 <!-- months_delay <- linelist %>% -->
 <!--   arrange(date_onset) %>%    # drop rows missing date of onset -->
+
 <!--   group_by(hospital) %>%  -->
-<!--   #group_by(month_onset = floor_date(date_onset, "month")) %>% # create and group by month of onset  -->
+
+<!--   #group_by(month_onset = floor_date(date_onset, "month")) %>% # create and group by month of onset -->
+
 <!--   mutate( -->
-<!--     delay_7d = slide_index_dbl( -->
+<!--      delay_7d = slide_index_dbl( -->
 <!--       days_onset_hosp,                  # calculate avg based on value in new_cases column -->
-<!--       .i = date_onset,                 # index column is date_onset, so non-present dates are included in 7day window  -->
+<!--       .i = date_onset,                 # index column is date_onset, so non-present dates are included in 7day window -->
 <!--       .f = ~mean(.x, na.rm = TRUE),     # function is mean() with missing values removed -->
 <!--       .before = days(7)), -->
 
-<!--     delay_month = slide_index_dbl( -->
+<!--      delay_month = slide_index_dbl( -->
 <!--       days_onset_hosp,                  # calculate avg based on value in new_cases column -->
 <!--       .i = date_onset,                 # index column is date_onset, so non-present dates are included in 7day window  -->
 <!--       .f = ~mean(.x, na.rm = TRUE),     # function is mean() with missing values removed -->
 <!--       .before = months(1)))               # window is the month and the prior month -->
-
 
 <!-- # window is the month and the prior month -->
 
@@ -313,26 +286,21 @@ ggplot(data = grouped_roll)+
 <!-- ```{r} -->
 <!-- ggplot(data = months_delay, mapping = aes(x = month_onset))+ -->
 <!--   geom_line(mapping = aes(y = )) -->
-
 <!-- ``` -->
 
-
-
-
-
-
 <!-- ======================================================= -->
-## Calculate with **tidyquant** within `ggplot()` {  }
 
-The package **tidyquant** offers another approach to calculating moving averages - this time from *within* a `ggplot()` command itself.  
+## Tính toán với **tidyquant** trong `ggplot()`
 
-Below the `linelist` data are counted by date of onset, and this is plotted as a faded line (`alpha` < 1). Overlaid on top is a line created with `geom_ma()` from the package **tidyquant**, with a set window of 7 days (`n = 7`) with specified color and thickness.  
+Package **tidyquant** cung cấp một cách tiếp cận khác để tính toán đường trung bình động - lần này chính là từ *bên trong* lệnh `ggplot()`.
 
-By default `geom_ma()` uses a simple moving average (`ma_fun = "SMA"`), but other types can be specified, such as:  
+Dữ liệu `linelist` dưới đây được đếm theo ngày khởi phát và được vẽ dưới dạng một đường mờ (`alpha` \<1). Được phủ lên trên là một đường được tạo bằng hàm `geom_ma()` từ package **tidyquant**, với cửa sổ được thiết lập là 7 ngày (`n = 7`) với màu sắc và độ dày được chỉ định.
 
-* "EMA" - exponential moving average (more weight to recent observations)  
-* "WMA" - weighted moving average (`wts` are used to weight observations in the moving average)  
-* Others can be found in the function documentation  
+Theo mặc định, `geom_ma()` sử dụng một đường trung bình động đơn giản (`ma_fun = "SMA"`), tuy nhiên, hàm này cũng có thể sử dụng các loại đường trung bình khác, chẳng hạn như:
+
+-   "EMA" - đường trung bình động lũy thừa (exponential moving average) (thêm trọng số cho các quan sát gần đây)\
+-   "WMA" - đường trung bình động có trọng số (weighted moving average) (`wts` được sử dụng để đánh trọng số các quan sát trong đường trung bình động)\
+-   Các loại đường trung bình động khác có thể được tìm thấy trong tài liệu về hàm
 
 ```{r}
 linelist %>% 
@@ -350,16 +318,18 @@ linelist %>%
   theme_minimal()                       # simple background
 ```
 
-See this [vignette](https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ04-charting-with-tidyquant.html) for more details on the options available within **tidyquant**.  
+Xem [tài liệu](https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ04-charting-with-tidyquant.html) này để biết thêm chi tiết về các tùy chọn sẵn có trong **tidyquant**.
 
-
-<!-- ## Rolling regression  -->
+<!-- ## Hồi quy động -->
 
 <!-- ```{r} -->
-<!-- a <- linelist %>% -->
+<!-- a <- linelist %>%  -->
 <!--   separate(time_admission, into = c("hour", "minute"), sep = ":") %>%  -->
+
 <!--   count(days_onset_hosp, hour) %>%  -->
+
 <!--   mutate(reg_admit_hour = slide(., ~lm(days_onset_hosp ~ hour), .before = 3, .complete = T)) %>%  -->
+
 <!--   mutate(coeff = reg_admit_hour[[1]]) -->
 
 <!-- ggplot()+ -->
@@ -368,27 +338,21 @@ See this [vignette](https://cran.r-project.org/web/packages/tidyquant/vignettes/
 <!-- ``` -->
 
 <!-- ```{r} -->
-<!-- linelist %>%  -->
+<!-- linelist %>% -->
 <!--   mutate( -->
-
 <!--   ) -->
-
 <!-- ``` -->
 
-
 <!-- ======================================================= -->
-## Resources {  }
 
+## Tài nguyên học liệu
 
-See the helpful online [vignette for the **slider** package](https://cran.r-project.org/web/packages/slider/vignettes/slider.html)  
+Xem thông tin trực tuyến hữu ích về [vignette for the **slider** package](https://cran.r-project.org/web/packages/slider/vignettes/slider.html)
 
-The **slider** [github page](https://github.com/DavisVaughan/slider)
+[Trang github](https://github.com/DavisVaughan/slider) về **Slider**
 
-A **slider** [vignette](https://davisvaughan.github.io/slider/articles/slider.html)  
+Một [vignette](https://davisvaughan.github.io/slider/articles/slider.html) **slider**
 
 [tidyquant vignette](https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ04-charting-with-tidyquant.html)
 
-If your use case requires that you “skip over” weekends and even holidays, you might like **almanac** package.
-
-
-
+Nếu tình huống sử dụng của bạn yêu cầu "bỏ qua" các ngày cuối tuần và thậm chí là những ngày lễ, bạn có thể quan tâm đến package **almanac**.

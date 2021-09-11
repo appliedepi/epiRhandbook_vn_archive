@@ -1,11 +1,11 @@
 
 # Biểu đồ tương tác {#interactive-plots}  
 
-Data visualisation is increasingly required to be interrogable by the audience. Consequently, is is becoming common to create interactive plots. There are several ways to include these but the two most common are **plotly** and **shiny**. 
+Trực quan hóa dữ liệu ngày càng đòi hỏi có khả năng truy vấn được bởi người đọc. Hệ quả là, các biểu đồ tương tác ngày càng được tạo ra nhiều hơn. Có nhiều cách để tạo biểu đồ tương tác, nhưng hai cách phổ biến nhất là sử dụng package **plotly** và **shiny**. 
 
-In this page we will focus on converting an existing `ggplot()` plot into an interactive plot with **plotly**. You can read more about **shiny** in the [Dashboards with Shiny] page. What is worth mentioning is that interactive plots are only useable in HTML format R markdown documents, not PDF or Word documents.
+Trong chương này chúng ta sẽ tập trung vào việc chuyển đổi một biểu đồ có sẵn được tạo bởi `ggplot()` thành một biểu đồ tương tác với **plotly**. Bạn có thể đọc thêm về **shiny** trong chương [Dashboards với Shiny]. Cũng cần nhấn mạnh là biểu đồ tương tác chỉ sử dụng được ở định dạng HTML trong tệp R markdown và không dùng được với tệp PDF hoặc Word.
 
-Below is a basic epicurve that has been transformed to be interactive using the integration of **ggplot2** and **plotly** (hover your mouse over the plot, zoom in, or click items in the legend). 
+Dưới đây là một đường cong dịch bệnh đơn giản đã được biến đổi thành thành biểu đồ tương tác với sự kết hợp của **ggplot2** và **plotly** (hover trỏ chuột phía trên biểu đồ, phóng to, hoặc nhấp vào một item trong chú thích). 
 
 ```{r plotly_demo, out.width=c('75%'), out.height=c('500px'), echo=F, warning=F, message=F}
 pacman::p_load(plotly, rio, here, ggplot2, dplyr, lubridate)
@@ -34,11 +34,11 @@ p %>%
 ```
 
 <!-- ======================================================= -->
-## Preparation {  }
+## Chuẩn bị {  }
 
-### Load packages {.unnumbered}  
+### Gọi packages {.unnumbered}  
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm `p_load()` từ package **pacman**, giúp cài đặt các package cần thiết *và* gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` của **base** R. Xem thêm chương [R cơ bản] để có thêm thông tin về các packages trong R.
 
 
 ```{r}
@@ -52,14 +52,14 @@ pacman::p_load(
   ) 
 ```
 
-### Start with a `ggplot()` {.unnumbered}  
+### Bắt đầu với `ggplot()` {.unnumbered}  
 
-In this page we assume that you are beginning with a `ggplot()` plot that you want to convert to be interactive. We will build several of these plots in this page, using the case `linelist` used in many pages of this handbook.  
+Trong chương này chúng ta giả định rằng bạn đang bắt đầu với một biểu đồ tạo bởi `ggplot()` và muốn chuyển đổi nó thành biểu đồ tương tác. Chúng ta sẽ xây dựng một số biểu đồ như vậy trong chương này, sử dụng bộ dữ liệu `linelist` đã được đề cập ở rất nhiều chương trong cuốn sổ tay này.  
 
 
-### Import data {.unnumbered}
+### Nhập dữ liệu {.unnumbered}
 
-To begin, we import the cleaned linelist of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import data with the `import()` function from the **rio** package (it handles many file types like .xlsx, .csv, .rds - see the [Import and export] page for details).  
+Để bắt đầu, chúng ta nhập bộ dữ liệu có tên linelist đã làm sạch bao gồm các trường hợp từ vụ dịch Ebola mô phỏng. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải dữ liệu linelist "đã được làm sạch" </a> (dưới dạng tệp .rds). Nhập dữ liệu bằng hàm `import()` từ package **rio** (nó xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem thêm chương [Nhập xuất dữ liệu] để biết thêm chi tiết).  
 
 ```{r, echo=F}
 # import the linelist into R
@@ -71,7 +71,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-The first 50 rows of the linelist are displayed below.
+50 hàng đầu tiên của bộ dữ liệu được hiển thị như bên dưới.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
@@ -85,14 +85,14 @@ DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list
 
   
 <!-- ======================================================= -->
-## Plot with `ggplotly()` {  }
+## Vẽ biểu đồ với `ggplotly()` {  }
 
-The function `ggplotly()` from the **plotly** package makes it easy to convert a `ggplot()` to be interactive. Simply save your `ggplot()` and then pipe it to the `ggplotly()` function.  
+Hàm `ggplotly()` thuộc package **plotly** hỗ trợ chuyển đổi dễ dàng một biểu đồ `ggplot()` thành có tính tương tác. Đơn giản chỉ cần lưu biểu đồ `ggplot()` và sau đó pipe nó tới hàm `ggplotly()`.  
 
 
-Below, we plot a simple line representing the proportion of cases who died in a given week:  
+Dưới đây, chúng ta biểu diễn một đường đơn giản đại diện cho tỷ lệ các trường hợp tử vong trong một tuần xác định:  
 
-We begin by creating a summary dataset of each epidemiological week, and the percent of cases with a known outcome that died.  
+Chúng ta bắt đầu bằng cách tạo một bộ dữ liệu tổng hợp cho từng tuần dịch tễ học, và phần trăm các trường hợp có outcome là tử vong.  
 
 ```{r}
 weekly_deaths <- linelist %>%
@@ -103,12 +103,12 @@ weekly_deaths <- linelist %>%
     pct_death = 100*(n_death / n_known_outcome)           # percent of cases with known outcome who died
   )
 ```
-Here is the first 50 rows of the `weekly_deaths` dataset.  
+Đây là 50 hàng đầu tiên của bộ dữ liệu `weekly_deaths`.  
 
 ```{r message=FALSE, echo=F}
 DT::datatable(head(weekly_deaths, 50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
-Then we create the plot with **ggplot2**, using `geom_line()`.  
+Sau đó chúng ta vẽ biểu đồ với hàm `geom_line()` thuộc **ggplot2**.  
 
 ```{r, warning=F, message=F}
 deaths_plot <- ggplot(data = weekly_deaths)+            # begin with weekly deaths data
@@ -118,22 +118,22 @@ deaths_plot   # print
 ```
 
 
-We can make this interactive by simply passing this plot to `ggplotly()`, as below. Hover your mouse over the line to show the x and y values. You can zoom in on the plot, and drag it around. You can also see icons in the upper-right of the plot. In order, they allow you to:  
+Chúng ta có thể tạo tính tương tác cho biểu đồ bằng cách chuyển nó tới hàm `ggplotly()` như dưới đây. Di chuyển trỏ chuột của bạn tới vị trí các đường để hiện thị giá trị x và y. Bạn có thể phóng to và kéo thả trong biểu đồ. Bạn cũng sẽ thấy các biểu tượng ở góc phải trên của biểu đồ. Theo thứ tự, chúng cho phép bạn:  
 
-* Download the current view as a PNG image  
-* Zoom in with a select box  
-* "Pan", or move across the plot by clicking and dragging the plot  
-* Zoom in, zoom out, or return to default zoom  
-* Reset axes to defaults  
-* Toggle on/off "spike lines" which are dotted lines from the interactive point extending to the x and y axes  
-* Adjustments to whether data show when you are not hovering on the line  
+* Tải xuống trạng thái hiện tại của biểu đồ dưới dạng ảnh PNG  
+* Phóng to với hộp thoại lựa chọn  
+* "Pan", hay còn gọi là di chuyển biểu đồ bằng cách nhấp và kéo thả biểu đồ  
+* Phóng to, thu nhỏ, hoặc quay trở về mặc định  
+* Reset trục về mặc định  
+* Bật/tắt "spike lines - đường vnah đai", là các đường chấm chấm mở rộng theo trục x và y từ các điểm tương tác  
+* Điều chỉnh hiển thị dữ liệu ngay cả khi bạn không rê chuột tới đường thẳng  
 
 
 ```{r}
 deaths_plot %>% plotly::ggplotly()
 ```
 
-Grouped data work with `ggplotly()` as well. Below, a weekly epicurve is made, grouped by outcome. The stacked bars are interactive. Try clicking on the different items in the legend (they will appear/disappear).  
+Dữ liệu được nhóm cũng hoạt động với hàm `ggplotly()`. Dưới đây đường cong dịch tễ theo tuần được tạo, nhóm theo outcome. Các cột chồng có tính tương tác. Hãy thử nhấp vào các items khác nhau trong phần chú giải (chúng sẽ xuất hiện/biến mất).  
 
 
 ```{r plot_show, eval=F}
@@ -157,11 +157,11 @@ p %>%
 ```
   
 <!-- ======================================================= -->
-## Modifications {  }
+## Điều chỉnh {  }
 
-### File size {.unnumbered}  
+### Kích thước tệp {.unnumbered}  
 
-When exporting in an R Markdown generated HTML (like this book!) you want to make the plot as small data size as possible (with no negative side effects in most cases). For this, just pipe the interactive plot to `partial_bundle()`, also from **plotly**.  
+Khi xuất một tệp HTML sinh ra bởi một tệp R Markdown (như cuốn sách này!), bạn sẽ muốn dung lượng của biểu đồ nhỏ nhất có thể (mà không có các tác dụng phụ tiêu cực trong phần lớn trường hợp). Để làm điều này, chỉ cần pipe biểu đồ tương tác tới hàm `partial_bundle()`, cũng thuộc **plotly**.  
 
 ```{r plot_tidyshow, eval=F}
 p <- p %>% 
@@ -169,9 +169,9 @@ p <- p %>%
   plotly::partial_bundle()
 ```
 
-### Buttons {.unnumbered}  
+### Nút bấm {.unnumbered}  
 
-Some of the buttons on a standard plotly are superfluous and can be distracting, so you can remove them. You can do this simply by piping the output into `config()` from **plotly** and specifying which buttons to remove. In the below example we specify in advance the names of the buttons to remove, and provide them to the argument `modeBarButtonsToRemove = `. We also set `displaylogo = FALSE` to remove the plotly logo.  
+Một số nút bẩm trong biểu đồ plotly khá thừa thải vã gây mất tập trung, vì vậy bạn có thể loại bỏ chúng. Đơn giản bạn chỉ cần piping đầu ra tới hàm `config()` thuộc **plotly** và cụ thể tên của nút bấm muốn loại bỏ. Trong ví dụ dưới đây, chúng ta cụ thể trước tên của nút bấm muốn loại bỏ vào một danh sách, sau đó cung cấp chúng tới đối số `modeBarButtonsToRemove = `. Chúng ta cũng thiết lập `displaylogo = FALSE` để loại bỏ logo của plotly.  
 
 ```{r plot_tidyshow2, eval=F}
 ## these buttons are distracting and we want to remove them
@@ -186,11 +186,11 @@ p <- p %>%          # re-define interactive plot without these buttons
 
 
 <!-- ======================================================= -->
-## Heat tiles {  }
+## Biểu đồ nhiệt {  }
 
-You can make almost any `ggplot()` plot interactive, including heat tiles. In the page on [Heat plots] you can read about how to make the below plot, which displays the proportion of days per week that certain facilities reported data to their province.  
+Bạn có thể khiến bất kỳ loại biểu đồ nào tạo bởi `ggplot()` có khả năng tương tác, bao gồm biểu đồ nhiệt. Trong chương [Biểu đò nhiệt], bạn có thể đọc thêm về cách tạo biểu đồ dưới đây để hiển thị tỷ lệ số ngày trong tuần mà các cơ sở y tế báo cáo dữ liệu lên tuyến tỉnh.  
 
-Here is the code, although we will not describe it in depth here.  
+Sau đây là code, mặc dù chúng tôi sẽ không giải thích chi tiết tại đây.  
 
 ```{r  message=F, warning=F}
 # import data
@@ -248,7 +248,7 @@ metrics_plot <- ggplot(agg_weeks,
 metrics_plot # print
 ```
 
-Below, we make it interactive and modify it for simple buttons and file size.  
+Sau đó, chúng tôi biến nó trở thành biểu đồ tương tác và điều chỉnh các nút bấm và dung lượng tệp.  
 
 ```{r,  out.width=c('95%'), out.height=c('500px')}
 metrics_plot %>% 
@@ -327,8 +327,8 @@ metrics_plot %>%
 <!-- ``` -->
 
 <!-- ======================================================= -->
-## Resources {  }
+## Tài nguyên học liệu {  }
 
-Plotly is not just for R, but also works well with Python (and really any data science language as it's built in JavaScript). You can read more about it on the [plotly website](https://plotly.com/r/)
+Plotly không chỉ dành riêng cho R mà còn hoạt động tốt với Python (và bất cứ ngôn ngữ khoa học dữ liệu nào khác bởi vì nó được xây dựng trên JavaScript). Bạn có thể tìm hiểu thêm về nở ở [website của plotly](https://plotly.com/r/)
 
 
