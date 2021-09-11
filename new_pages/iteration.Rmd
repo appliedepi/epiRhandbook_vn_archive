@@ -1,29 +1,29 @@
 
 # Lặp, vòng lặp, và danh sách {#iteration}  
 
-Epidemiologists often are faced with repeating analyses on subgroups such as countries, districts, or age groups. These are but a few of the many situations involving *iteration*. Coding your iterative operations using the approaches below will help you perform such repetitive tasks faster, reduce the chance of error, and reduce code length.  
+Các nhà dịch tễ học thường phải phân tích lặp lại trên các phân nhóm như quốc gia, quận hoặc nhóm tuổi. Đây chỉ là một vài trong số rất nhiều tình huống liên quan đến *lặp lại*. Mã hóa các thao tác lặp lại của bạn bằng cách sử dụng các phương pháp bên dưới sẽ giúp bạn thực hiện các tác vụ lặp đi lặp lại như vậy nhanh hơn, giảm khả năng xảy ra lỗi và giảm độ dài code.  
 
-This page will introduce two approaches to iterative operations - using *for loops* and using the package **purrr**.  
+Chương này sẽ giới thiệu hai cách tiếp cận đối với các thao tác lặp lại - sử dụng các *vòng lặp for* và package **purrr**.  
 
-1) *for loops* iterate code across a series of inputs, but are less common in R than in other programming languages. Nevertheless, we introduce them here as a learning tool and reference  
-2) The **purrr** package is the **tidyverse** approach to iterative operations - it works by "mapping" a function across many inputs (values, columns, datasets, etc.)  
+1) *vòng lặp for* lặp lại code trên một loạt đầu vào, nhưng ít phổ biến hơn trong R so với các ngôn ngữ lập trình khác. Tuy nhiên, chúng tôi giới thiệu chúng ở đây như một công cụ học tập và tham khảo  
+2) Package **purrr** là phương pháp tiếp cận **tidyverse** đối với các thao tác lặp lại - nó hoạt động bằng cách "maps" (áp dụng) một hàm trên nhiều đầu vào (giá trị, cột, datasets, v.v.)  
 
-Along the way, we'll show examples like:  
+Trong chương này, chúng tôi sẽ lấy một số ví dụ như:  
 
-* Importing and exporting multiple files  
-* Creating epicurves for multiple jurisdictions  
-* Running T-tests for several columns in a data frame  
+* Nhập và xuất nhiều tệp  
+* Tạo các đường cong dịch bệnh cho nhiều phạm vi quyền hạn  
+* Chạy T-tests cho nhiều cột trong dataframe  
 
-In the **purrr** [section](#iter_purrr) we will also provide several examples of creating and handling `lists`.  
+Trong [phần](#iter_purrr) **purrr**, chúng tôi cũng sẽ cung cấp một số ví dụ về cách tạo và xử lý `lists`.    
 
 
 
 ## Chuẩn bị {  }
      
      
-### Load packages {.unnumbered}  
+### Tải packages {.unnumbered}  
 
-This code chunk shows the loading of packages required for the analyses. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị cách tải các packages cần thiết cho phần phân tích. Trong sổ tay này, chúng tôi nhấn mạnh `p_load()` từ **pacman**, cài đặt package nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các package đã cài đặt với `library()` từ **base** R. Xem chương trên [R cơ bản] để biết thêm thông tin về packages R.    
 
 ```{r}
 pacman::p_load(
@@ -35,9 +35,9 @@ pacman::p_load(
 ```
 
 
-### Import data {.unnumbered}  
+### Nhập dữ liệu {.unnumbered}  
 
-We import the dataset of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import data with the `import()` function from the **rio** package (it handles many file types like .xlsx, .csv, .rds - see the [Import and export] page for details).  
+Chúng tôi nhập dataset về các trường hợp từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn làm theo, hãy <a href='https://github.com/epirhandbook/Epi_R_handbook/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>nhấp để tải xuống linelist "sạch"</a> (dưới dạng tệp .rds). Nhập dữ liệu bằng hàm `import()` từ package **rio** (nó xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem chương [Nhập xuất dữ liệu] để biết chi tiết).  
 
 ```{r, echo=F}
 # import the linelist into R
@@ -49,8 +49,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-The first 50 rows of the linelist are displayed below.
-
+50 hàng đầu tiên của linelist được hiển thị bên dưới.  
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
@@ -61,26 +60,26 @@ DT::datatable(head(linelist, 50), rownames = FALSE, options = list(pageLength = 
 
 <!-- ======================================================= -->
 
-## *for loops* {  }
+## *vòng lặp for* {  }
 
-### *for loops* in R {#iter_loops .unnumbered}  
+### *vòng lặp for* trong R {#iter_loops .unnumbered}  
 
-*for loops* are not emphasized in R, but are common in other programming languages. As a beginner, they can be helpful to learn and practice with because they are easier to "explore", "de-bug", and otherwise grasp exactly what is happening for each iteration, especially when you are not yet comfortable writing your own functions.  
+*Vòng lặp for* không được nhấn mạnh trong R, nhưng phổ biến trong các ngôn ngữ lập trình khác. Khi mới bắt đầu, chúng có thể hữu ích để học và thực hành vì chúng dễ "khám phá", "gỡ lỗi" hơn và nắm bắt chính xác những gì đang xảy ra cho mỗi lần lặp, đặc biệt là khi bạn chưa cảm thấy thoải mái khi viết các hàm của riêng mình.  
 
-You may move quickly through *for loops* to iterating with mapped functions with **purrr** (see [section below](#iter_purrr)).  
+Bạn có thể chuyển nhanh qua phần *vòng lặp for* tới phần lặp với các hàm được tạo với **purrr** (xem [phần bên dưới](#iter_purrr)).  
 
 
-### Core components {.unnumbered}   
+### Cấu phần cốt lõi {.unnumbered}   
 
-A *for loop* has three core parts:  
+Một *vòng lặp for* có ba phần cốt lõi: 
      
-1) The **sequence** of items to iterate through  
-2) The **operations** to conduct per item in the sequence  
-3) The **container** for the results (optional)  
+1) **Chuỗi** các phần tử cần lặp lại
+2) Các **thao tác** để tiến hành cho mỗi phần tử trong chuỗi  
+3) **Vùng chứa** cho kết quả (tùy chọn)  
 
-The basic syntax is: `for (item in sequence) {do operations using item}`. Note the parentheses and the curly brackets. The results could be printed to console, or stored in a container R object.   
+Cú pháp cơ bản là: `for (phần tử trong chuỗi) {các thao tác thực hiện với phần tử}`. Lưu ý dấu ngoặc đơn và dấu ngoặc nhọn. Kết quả có thể được in ra console hoặc được lưu trữ trong một đối tượng vùng chứa R.  
 
-A simple *for loop* example is below.   
+Dưới đây là một ví dụ đơn giản về *vòng lặp for*.   
 
 ```{r}
 for (num in c(1,2,3,4,5)) {  # the SEQUENCE is defined (numbers 1 to 5) and loop is opened with "{"
@@ -91,18 +90,18 @@ for (num in c(1,2,3,4,5)) {  # the SEQUENCE is defined (numbers 1 to 5) and loop
 
 
 
-### Sequence {.unnumbered}  
+### Chuỗi {.unnumbered}  
 
-This is the "for" part of a *for loop* - the operations will run "for" each item in the sequence. The sequence can be a series of values (e.g. names of jurisdictions, diseases, column names, list elements, etc), or it can be a series of consecutive numbers (e.g. 1,2,3,4,5). Each approach has their own utilities, described below.  
+Đây là phần "for" của *vòng lặp for* - các thao tác sẽ chạy "for" qua từng phần tử trong chuỗi. Chuỗi có thể là một loạt các giá trị (ví dụ: tên của khu vực pháp lý, bệnh, tên cột, phần tử danh sách, v.v.) hoặc nó có thể là một chuỗi các số liên tiếp (ví dụ: 1,2,3,4,5). Mỗi cách tiếp cận được mô tả dưới đây có các tiện ích riêng của chúng.  
 
-The basic structure of a sequence statement is `item in vector`.  
+Cấu trúc cơ bản của câu lệnh chuỗi là `item in vector`.  
 
-* You can write any character or word in place of "item" (e.g. "i", "num", "hosp", "district", etc.). The value of this "item" changes with each iteration of the loop, proceeding through each value in the vector.  
-* The *vector* could be of character values, column names, or perhaps a sequence of numbers - these are the values that will change with each iteration. You can use them within the *for loop* operations using the "item" term.  
+* Bạn có thể viết bất kỳ ký tự hoặc từ nào thay cho "item" (ví dụ: "i", "num", "hosp", "district", v.v.). Giá trị của "item" này thay đổi theo từng lần lặp lại của vòng lặp, tiếp tục qua từng giá trị trong vector.  
+* *Vector* có thể là các giá trị ký tự, tên cột hoặc có thể là một chuỗi số - đây là những giá trị sẽ thay đổi theo mỗi lần lặp. Bạn có thể sử dụng chúng trong các thao tác *vòng lặp for* bằng cách sử dụng thuật ngữ "item".  
 
-**Example: sequence of character values**  
+**Ví dụ: chuỗi giá trị ký tự**
 
-In this example, a loop is performed for each value in a pre-defined character vector of hospital names.  
+Trong ví dụ này, một vòng lặp được thực hiện cho mỗi giá trị được xác định trước trong một vector ký tự của tên bệnh viện.  
 
 ```{r}
 # make vector of the hospital names
@@ -110,7 +109,7 @@ hospital_names <- unique(linelist$hospital)
 hospital_names # print
 ```
 
-We have chosen the term `hosp` to represent values from the vector `hospital_names`. For the first iteration of the loop, the value of `hosp` will be ` hospital_names[[1]]`. For the second loop it will be ` hospital_names[[2]]`. And so on...  
+Chúng tôi đã chọn thuật ngữ `hosp` để đại diện cho các giá trị từ vector `hospital_names`. Đối với lần lặp đầu tiên của vòng lặp, giá trị của `hosp` sẽ là `hospital_names[[1]]`. Đối với vòng lặp thứ hai, nó sẽ là `hospital_names[[2]]`. Và cứ như thế...  
 
 ```{r, eval=F}
 # a 'for loop' with character sequence
@@ -121,15 +120,15 @@ for (hosp in hospital_names){       # sequence
   }
 ```
 
-**Example: sequence of column names**  
+**Ví dụ: chuỗi tên cột**  
      
-This is a variation on the character sequence above, in which the names of an existing R object are extracted and become the vector. For example, the column names of a data frame. Conveniently, in the operations code of the *for loop*, the column names can be used to *index* (subset) their original data frame  
+Đây là một biến thể của chuỗi ký tự ở trên, trong đó tên của một đối tượng R hiện có được trích xuất và trở thành vector. Ví dụ, tên cột của dataframe. Trong code hoạt động của *vòng lặp for*, tên cột có thể được sử dụng để *lập chỉ mục* (tập hợp con) dataframe ban đầu của chúng.  
 
-Below, the sequence is the `names()` (column names) of the `linelist` data frame. Our "item" name is `col`, which will represent each column name as the loops proceeds.  
+Dưới đây, chuỗi là `names()` (tên cột) của dataframe `linelist`. Tên "item" của chúng ta là `col`, sẽ đại diện cho từng tên cột khi các vòng lặp diễn ra.  
 
-For purposes of example, we include operations code inside the *for loop*, which is run for every value in the sequence. In this code, the sequence values (column names) are used to *index* (subset) `linelist`, one-at-a-time. As taught in the [R basics] page, double branckets `[[ ]]` are used to subset. The resulting column is passed to `is.na()`, then to `sum()` to produce the number of values in the column that are missing. The result is printed to the console - one number for each column.  
+Với ví dụ này, chúng tôi bao gồm code thao tác bên trong *vòng lặp for*, được chạy cho mọi giá trị trong chuỗi. Trong code này, các giá trị trình tự (tên cột) được sử dụng để *chỉ mục* (tập hợp con) từng phần tử một trong `linelist`. Như đã dạy trong chương [R cơ bản], dấu ngoặc vuông kép `[[]]` được sử dụng cho tập hợp con. Cột kết quả được chuyển đến `is.na()`, sau đó đến `sum()` để tạo ra số giá trị trong cột bị thiếu. Kết quả được in ra console - một số cho mỗi cột.  
 
-A note on indexing with column names - whenever referencing the column itself *do not just write "col"!* `col` represents just the character column name! To refer to the entire column you must use the column name as an *index* on `linelist` via `linelist[[col]]`.  
+Một lưu ý về lập chỉ mục với tên cột - bất cứ khi nào tham chiếu đến chính cột đó, *đừng chỉ viết "col"!* `col` chỉ đại diện cho tên cột ký tự! Để tham chiếu đến toàn bộ cột, bạn phải sử dụng tên cột dưới dạng *chỉ mục* trên `linelist` thông qua `linelist[[col]]`.  
 
 ```{r}
 for (col in names(linelist)){        # loop runs for each column in linelist; column name represented by "col" 
@@ -142,15 +141,15 @@ for (col in names(linelist)){        # loop runs for each column in linelist; co
 
 
 
-**Sequence of numbers**  
+**Dãy số**  
      
-In this approach, the sequence is a series of consecutive numbers. Thus, the value of the "item" is not a character value (e.g. "Central Hospital" or "date_onset") but is a number. This is useful for looping through data frames, as you can use the "item" number inside the *for loop* to index the data frame by *row number*.  
+Theo cách tiếp cận này, dãy số là một chuỗi các số liên tiếp. Do đó, giá trị của "item" không phải là giá trị ký tự (ví dụ: "Central Hospital" hoặc "date_onset") mà là một số. Điều này rất hữu ích cho việc lặp qua các dataframes, vì bạn có thể sử dụng số "item" bên trong *vòng lặp for* để lập chỉ mục dataframe theo *số hàng*.  
 
-For example, let's say that you want to loop through every row in your data frame and extract certain information. Your "items" would be numeric row numbers. Often, "items" in this case are written as `i`.  
+Ví dụ: giả sử bạn muốn lặp qua mọi hàng trong dataframe của mình và trích xuất thông tin nhất định. "Item" của bạn sẽ là số hàng số. Thông thường, "item" trong trường hợp này được viết là `i`.  
 
-The *for loop* process could be explained in words as "for every item in a sequence of numbers from 1 to the total number of rows in my data frame, do X". For the first iteration of the loop, the value of "item" `i` would be 1. For the second iteration, `i` would be 2, etc.  
+Quá trình *vòng lặp for* có thể được giải thích bằng lời là "đối với mọi mục trong chuỗi số từ 1 đến tổng số hàng trong dataframe của tôi, hãy thực hiện X". Đối với lần lặp đầu tiên của vòng lặp, giá trị của "item" `i` sẽ là 1. Đối với lần lặp thứ hai,` i` sẽ là 2, v.v.  
 
-Here is what the sequence looks like in code: `for (i in 1:nrow(linelist)) {OPERATIONS CODE}` where `i` represents the "item" and `1:nrow(linelist)` produces a sequence of consecutive numbers from 1 through the number of rows in `linelist`.  
+Đây là hình thức của chuỗi trong code: `for (i in 1:nrow(linelist)) {OPERATIONS CODE}` trong đó `i` đại diện cho "item"và `1:nrow(linelist)` tạo ra một chuỗi liên tiếp số từ 1 đến số hàng trong `linelist`.  
 
 
 ```{r, eval=F}
@@ -159,21 +158,21 @@ for (i in 1:nrow(linelist)) {  # use on a data frame
 }  
 ```
 
-If you want the sequence to be numbers, but you are starting from a vector (not a data frame), use the shortcut `seq_along()` to return a sequence of numbers for each element in the vector. For example, `for (i in seq_along(hospital_names) {OPERATIONS CODE}`.  
+Nếu bạn muốn chuỗi là số, nhưng bạn đang bắt đầu từ một vector (không phải dataframe), hãy sử dụng hàm tắt `seq_along()` để trả về một dãy số cho mỗi phần tử trong vector. Ví dụ: `for (i in seq_along(hospital_names) {OPERATIONS CODE}`.  
 
-The below code actually returns numbers, which would become the value of `i` in their respective loop.     
+Đoạn code dưới đây thực sự trả về các số, sẽ trở thành giá trị của `i` trong vòng lặp tương ứng của chúng.    
 
 ```{r}
 seq_along(hospital_names)  # use on a named vector
 ```
 
-One advantage of using numbers in the sequence is that is easy to also use the `i` number to index a *container* that stores the loop outputs. There is an example of this in the Operations section below.  
+Một lợi thế của việc sử dụng các số trong chuỗi là cũng dễ dàng sử dụng số `i` để lập chỉ mục *vùng chứa* lưu trữ các kết quả đầu ra của vòng lặp. Có một ví dụ về điều này trong phần Thao tác bên dưới.  
 
-### Operations  {.unnumbered}  
+### Các thao tác  {.unnumbered}  
 
-This is code within the curly brackets `{ }` of the *for loop*. You want this code to run for each "item" in the *sequence*. Therefore, be careful that every part of your code that changes by the "item" is correctly coded such that it actually changes! E.g. remember to use `[[ ]]` for indexing.  
+Đây là code trong dấu ngoặc nhọn `{}` của *vòng lặp for*. Bạn muốn code này chạy cho từng "item" trong *chuỗi*. Do đó, hãy thận trọng với mọi phần code của bạn thay đổi bởi "item" đều được mã hóa chính xác để nó thực sự thay đổi! Ví dụ. nhớ sử dụng `[[ ]]` để lập chỉ mục.  
 
-In the example below, we iterate through each row in the `linelist`. The `gender` and `age` values of each row are pasted together and stored in the container character vector `cases_demographics`. Note how we also use indexing `[[i]]` to save the loop output to the correct position in the "container" vector.  
+Trong ví dụ dưới đây, chúng tôi lặp lại từng hàng trong `linelist`. Giá trị `gender` và `age` của mỗi hàng được dán lại với nhau và được lưu trữ trong vector ký tự vùng chứa `cases_demographics`. Lưu ý cách chúng tôi cũng sử dụng lập chỉ mục `[[i]]` để lưu đầu ra của vòng lặp vào vị trí chính xác trong vector "container".  
 
 ```{r}
 # create container to store results - a character vector
@@ -198,17 +197,17 @@ head(cases_demographics, 10)
 ```
 
 
-### Container {.unnumbered}
+### Vùng chứa {.unnumbered}
 
-Sometimes the results of your *for loop* will be printed to the console or RStudio Plots pane. Other times, you will want to store the outputs in a "container" for later use. Such a container could be a vector, a data frame, or even a list.  
+Đôi khi kết quả của *vòng lặp for* của bạn sẽ được in ra console hoặc cửa sổ RStudio Plots. Lần khác, bạn sẽ muốn lưu trữ các kết quả đầu ra trong một "vùng chứa" để sử dụng sau này. Một vùng chứa như vậy có thể là một vector, một data frame hoặc thậm chí là một danh sách.  
 
-It is most efficient to create the container for the results *before* even beginning the *for loop*. In practice, this means creating an empty vector, data frame, or list. These can be created with the functions `vector()` for vectors or lists, or with `matrix()` and `data.frame()` for a data frame. 
+Hiệu quả nhất là tạo vùng chứa cho các kết quả thậm chí *trước* khi bắt đầu *vòng lặp for*. Trong thực tế, điều này có nghĩa là tạo một vector, data frame hoặc danh sách trống. Chúng có thể được tạo bằng các hàm `vector()` cho vectors hoặc danh sách, hoặc với `matrix()` và `data.frame()` cho một data frame.  
 
-**Empty vector**  
+**Vector trống**  
 
-Use `vector()` and specify the `mode = ` based on the expected class of the objects you will insert - either "double" (to hold numbers), "character", or "logical". You should also set the `length = ` in advance. This should be the length of your *for loop* sequence.  
+Sử dụng `vector()` và chỉ định `mode =` dựa trên lớp phân loại dự kiến của các đối tượng mà bạn sẽ chèn - "double" (để giữ số), "ký tự" hoặc "logic". Bạn cũng nên đặt trước `length = `. Đây phải là độ dài chuỗi *vòng lặp for* của bạn.  
 
-Say you want to store the median delay-to-admission for each hospital. You would use "double" and set the length to be the number of expected outputs (the number of unique hospitals in the data set).  
+Giả sử bạn muốn lưu trữ thời gian nhập viện trễ trung bình cho mỗi bệnh viện. Bạn sẽ sử dụng "double" và đặt độ dài là số đầu ra dự kiến (số bệnh viện duy nhất trong data set).  
 
 ```{r}
 delays <- vector(
@@ -216,20 +215,20 @@ delays <- vector(
   length = length(unique(linelist$hospital))) # the number of unique hospitals in the dataset
 ```
 
-**Empty data frame**  
+**Data frame trống**  
      
-You can make an empty data frame by specifying the number of rows and columns like this:  
+Bạn có thể tạo một data frame trống bằng cách chỉ định số hàng và cột như sau:  
      
 ```{r, eval=F}
 delays <- data.frame(matrix(ncol = 2, nrow = 3))
 ```
 
 
-**Empty list**  
+**Danh sách trống**  
      
-You may want store some plots created by a *for loop* in a list. A list is like vector, but holds other R objects within it that can be of different classes. Items in a list could be a single number, a dataframe, a vector, and even another list.  
+Bạn có thể muốn lưu trữ một số biểu đồ được tạo bởi *vòng lặp for* trong danh sách. Một danh sách giống như vector, nhưng chứa các đối tượng R khác bên trong nó có thể thuộc các lớp khác nhau. Các phần tử trong danh sách có thể là một số, một dataframe, một vector và thậm chí là một danh sách khác.  
 
-You actually initialize an empty list using the same `vector()` command as above, but with `mode = "list"`. Specify the length however you wish.  
+Bạn thực sự khởi tạo một danh sách trống bằng cách sử dụng cùng một lệnh `vector()` như trên, nhưng với `mode = "list"`. Chỉ định độ dài như bạn muốn.  
 
 ```{r, eval=F}
 plots <- vector(mode = "list", length = 16)
@@ -238,11 +237,11 @@ plots <- vector(mode = "list", length = 16)
 
 
 
-### Printing {.unnumbered}  
+### In {.unnumbered}  
 
-Note that to print from within a *for loop* you will likely need to explicitly wrap with the function `print()`.  
+Lưu ý rằng để in từ bên trong *vòng lặp for*, bạn có thể sẽ cần phải đưa hàm `print()` vào.  
 
-In this example below, the sequence is an explicit character vector, which is used to subset the linelist by hospital. The results are not stored in a container, but rather are printed to console with the `print()` function.    
+Trong ví dụ dưới đây, chuỗi là một vector ký tự rõ ràng, được sử dụng để đặt linelist con theo bệnh viện. Kết quả không được lưu trữ trong vùng chứa mà được in ra console với hàm `print()`.  
 
 ```{r}
 for (hosp in hospital_names){ 
@@ -252,18 +251,18 @@ for (hosp in hospital_names){
 ```
 
 
-### Testing your for loop {.unnumbered}
+### Kiểm tra  vòng lặp for {.unnumbered}
 
-To test your loop, you can run a command to make a temporary assignment of the "item", such as `i <- 10` or `hosp <- "Central Hospital"`. Do this *outside the loop* and then run your operations code only (the code within the curly brackets) to see if the expected results are produced.  
-
-
+Để kiểm tra vòng lặp của mình, bạn có thể chạy lệnh để gán tạm thời "item", chẳng hạn như `i <- 10` hoặc `hosp <- "Central Hospital"`. Thực hiện việc này *bên ngoài vòng lặp* và sau đó chỉ chạy code thao tác của bạn (code trong dấu ngoặc nhọn) để xem liệu kết quả mong đợi có được tạo ra hay không.  
 
 
-### Looping plots {.unnumbered}
 
-To put all three components together (container, sequence, and operations) let's try to plot an epicurve for each hospital (see page on [Epidemic curves]).  
 
-We can make a nice epicurve of *all* the cases by gender using the **incidence2** package as below:  
+### Lặp lại biểu đồ {.unnumbered}
+
+Để đặt tất cả ba thành phần lại với nhau (vùng chứa, trình tự và thao tác), chúng ta hãy cố gắng vẽ biểu đồ đường cong dịch bệnh cho mỗi bệnh viện (xem chương [Đường cong dịch bệnh]).  
+
+Chúng tôi có thể tạo ra một đường cong dịch bệnh đẹp về *tất cả* các trường hợp theo giới tính bằng cách sử dụng package **incidence2** như bên dưới:  
 
 ```{r, warning=F, message=F}
 # create 'incidence' object
@@ -282,17 +281,18 @@ plot(outbreak,                       # name of incidence object
      )
 ```
 
-To produce a separate plot for each hospital's cases, we can put this epicurve code within a *for loop*. 
+Để tạo ra một biểu đồ riêng cho từng trường hợp của bệnh viện, chúng ta có thể đặt code đường cong dịch bệnh này trong *vòng lặp for*.   
 
-First, we save a named vector of the unique hospital names, `hospital_names`. The *for loop* will run once for each of these names: `for (hosp in hospital_names)`. Each iteration of the *for loop*, the current hospital name from the vector will be represented as `hosp` for use within the loop.  
 
-Within the loop operations, you can write R code as normal, but use the "item" (`hosp` in this case) knowing that its value will be changing. Within this loop:  
+Đầu tiên, chúng tôi lưu một vector được đặt tên duy nhất của các tên bệnh viện, `hospital_names`. *Vòng lặp for* sẽ chạy một lần cho mỗi tên sau: `for (hosp in hospital_names)`. Mỗi lần lặp lại của *vòng lặp for*, tên bệnh viện hiện tại từ vector sẽ được biểu diễn dưới dạng `hosp` để sử dụng trong vòng lặp. 
+
+Trong các thao tác vòng lặp, bạn có thể viết code R như bình thường, nhưng cần biết rằng giá trị của "item" (`hosp` trong trường hợp này) sẽ thay đổi. Trong vòng lặp này:  
      
-* A `filter()` is applied to `linelist`, such that column `hospital` must equal the current value of `hosp`  
-* The incidence object is created on the filtered linelist  
-* The plot for the current hospital is created, with an auto-adjusting title that uses `hosp`  
-* The plot for the current hospital is temporarily saved and then printed  
-* The loop then moves onward to repeat with the next hospital in `hospital_names`  
+* Một `filter()` được áp dụng cho `linelist`, sao cho cột `hospital` phải bằng giá trị hiện tại của `hosp`  
+* Đối tượng tỷ lệ mắc được tạo trên linelist đã lọc  
+* Biểu đồ cho bệnh viện hiện tại được tạo, với tiêu đề tự động điều chỉnh sử dụng `hosp`  
+* Biểu đồ cho bệnh viện hiện tại được lưu tạm thời và sau đó được in  
+* Sau đó, vòng lặp di chuyển tiếp để lặp lại với bệnh viện tiếp theo trong `hospital_names`  
 
 ```{r, out.width='50%', message = F}
 # make vector of the hospital names
@@ -326,9 +326,9 @@ for (hosp in hospital_names) {
 
 
 
-### Tracking progress of a loop {.unnumbered} 
+### Theo dõi tiến trình của một vòng lặp {.unnumbered} 
 
-A loop with many iterations can run for many minutes or even hours. Thus, it can be helpful to print the progress to the R console. The `if` statement below can be placed *within* the loop operations to print every 100th number. Just adjust it so that `i` is the "item" in your loop.  
+Một vòng lặp có nhiều lần lặp có thể chạy trong nhiều phút hoặc thậm chí hàng giờ. Do đó, có thể hữu ích khi in tiến trình ra R console. Câu lệnh `if` dưới đây có thể được đặt *trong* các thao tác vòng lặp để in mỗi số thứ 100. Chỉ cần điều chỉnh nó để `i` là "item" trong vòng lặp của bạn.  
 
 ```{r, eval=F}
 # loop with code to print progress every 100 iterations
@@ -346,21 +346,21 @@ for (i in seq_len(nrow(linelist))){
 
 
 <!-- ======================================================= -->
-## **purrr** and lists {#iter_purrr}
+## **purrr** và các danh sách {#iter_purrr}
      
-Another approach to iterative operations is the **purrr** package - it is the **tidyverse** approach to iteration.  
+Một cách tiếp cận khác đối với các thao tác lặp là package **purrr** - nó là phương pháp **tidyverse** để lặp lại.  
 
-If you are faced with performing the same task several times, it is probably worth creating a generalised solution that you can use across many inputs. For example, producing plots for multiple jurisdictions, or importing and combining many files.  
+Nếu bạn phải thực hiện cùng một tác vụ nhiều lần, có lẽ bạn nên tạo một giải pháp tổng thể có thể sử dụng trên nhiều đầu vào. Ví dụ: tạo các biểu đồ cho nhiều khu vực pháp lý, hoặc nhập và kết hợp nhiều tệp.  
 
-There are also a few other advantages to **purrr** - you can use it with pipes `%>%`, it handles errors better than normal *for loops*, and the syntax is quite clean and simple! If you are using a *for loop*, you can probably do it more clearly and succinctly with **purrr**! 
+Ngoài ra còn có một số lợi thế khác đối với **purrr** - bạn có thể sử dụng nó với các pipes `%>%`, nó xử lý lỗi tốt hơn *vòng lặp for* bình thường, và có cú pháp khá rõ ràng và đơn giản! Nếu bạn đang sử dụng *vòng lặp for*, bạn có thể tạo vòng lặp rõ ràng và ngắn gọn hơn với **purrr**!  
    
-Keep in mind that **purrr** is a *functional programming tool*. That is, the operations that are to be iteratively applied are wrapped up into *functions*. See the [Writing functions] page to learn how to write your own functions.  
+Hãy nhớ rằng **purrr** là một *công cụ lập trình theo hàm*. Có nghĩa là, các thao tác lặp đi lặp lại được gói gọn trong *các hàm*. Xem chương [Viết hàm] để tìm hiểu cách viết hàm của riêng bạn.  
 
-**purrr** is also almost entirely based around *lists* and *vectors* - so think about it as applying a function to each element of that list/vector!
+**purrr** cũng gần như hoàn toàn dựa trên *danh sách* và *vectors* - vì vậy hãy nghĩ về nó như là áp dụng một hàm cho mỗi phần tử của danh sách/vector đó!  
      
-### Load packages {.unnumbered}  
+### Tải packages {.unnumbered}  
      
-**purrr** is part of the **tidyverse**, so there is no need to install/load a separate package.  
+**purrr** là một phần của **tidyverse**, vì vậy không cần cài đặt/tải một package riêng biệt.  
 
 ```{r}
 pacman::p_load(
@@ -375,39 +375,38 @@ pacman::p_load(
 
 ### `map()` {.unnumbered}  
 
-One core **purrr** function is `map()`, which "maps" (applies) a function to each input element of a list/vector you provide.  
+Một hàm cốt lõi của **purrr** là `map()`, hàm này "maps" (áp dụng) một hàm cho từng phần tử đầu vào của danh sách/vector bạn cung cấp.  
 
-The basic syntax is `map(.x = SEQUENCE, .f = FUNCTION, OTHER ARGUMENTS)`. In a bit more detail:  
+Cú pháp cơ bản là `map(.x = SEQUENCE, .f = HÀM, CÁC ĐỐI SỐ KHÁC)`. Chi tiết hơn như sau:  
      
-* `.x = ` are the *inputs* upon which the `.f` function will be iteratively applied - e.g. a vector of jurisdiction names, columns in a data frame, or a list of data frames  
-* `.f = ` is the *function* to apply to each element of the `.x` input - it could be a function like `print()` that already exists, or a custom function that you define. The function is often written after a tilde `~` (details below). 
+* `.x = ` là các *đầu vào* mà hàm `.f` sẽ được áp dụng lặp đi lặp lại - ví dụ: vector của tên các khu vực pháp lý, các cột trong data frame hoặc danh sách các data frame  
+* `.f = ` là *hàm* áp dụng cho từng phần tử của đầu vào `.x` - nó có thể là một hàm như `print()` đã tồn tại hoặc một hàm tùy chỉnh mà bạn xác định. Hàm thường được viết sau dấu ngã `~` (chi tiết bên dưới).  
 
-A few more notes on syntax:  
+Thêm một số lưu ý về cú pháp:  
      
-* If the function needs no further arguments specified, it can be written with no parentheses and no tilde (e.g. `.f = mean`). To provide arguments that will be the same value for each iteration, provide them within `map()` but outside the `.f = ` argument, such as the `na.rm = T` in `map(.x = my_list, .f = mean, na.rm=T)`.  
-* You can use `.x` (or simply `.`) *within* the `.f = ` function as a placeholder for the `.x` value of that iteration  
-* Use tilde syntax (`~`) to have greater control over the function - write the function as normal with parentheses, such as: `map(.x = my_list, .f = ~mean(., na.rm = T))`. Use this syntax particularly if the value of an argument will change each iteration, or if it is the value `.x` itself (see examples below)  
+* Nếu hàm không cần chỉ định thêm đối số, nó có thể được viết không có dấu ngoặc đơn và không có dấu ngã (ví dụ: `.f = mean`). Để cung cấp các đối số sẽ có cùng giá trị cho mỗi lần lặp, hãy cung cấp chúng trong `map()` nhưng bên ngoài đối số `.f =`, chẳng hạn như `na.rm = T` trong `map(.x = my_list, .f = mean, na.rm=T)`.  
+* Bạn có thể sử dụng `.x` (hoặc đơn giản là `.`) *bên trong* hàm `.f =` làm trình giữ chỗ cho giá trị `.x` của lần lặp đó  
+* Sử dụng cú pháp dấu ngã (`~`) để kiểm soát hàm nhiều hơn - viết hàm như bình thường với dấu ngoặc đơn, chẳng hạn như: `map(.x = my_list, .f = ~mean(., na.rm = T))`. Sử dụng cú pháp này đặc biệt nếu giá trị của một đối số sẽ thay đổi mỗi lần lặp lại hoặc nếu nó là chính giá trị `.x` (xem ví dụ bên dưới)  
 
+** Đầu ra của việc sử dụng `map()` là một *danh sách*** - một danh sách là một lớp đối tượng giống như một vector nhưng các phần tử của nó có thể thuộc các lớp khác nhau. Vì vậy, một danh sách được tạo bởi `map()` có thể chứa nhiều data frames, hoặc nhiều vector, nhiều giá trị đơn lẻ, hoặc thậm chí nhiều danh sách! Có các phiên bản thay thế của `map()` được giải thích bên dưới, tạo ra các loại kết quả khác (ví dụ: `map_dfr()` để tạo data frame, `map_chr()` để tạo vectors ký tự và `map_dbl()` để tạo vectors số).  
 
-**The output of using `map()` is a *list*** - a list is an object class like a vector but whose elements can be of different classes. So, a list produced by `map()` could contain many data frames, or many vectors, many single values, or even many lists! There are alternative versions of `map()` explained below that produce other types of outputs (e.g. `map_dfr()` to produce a data frame, `map_chr()` to produce character vectors, and `map_dbl()` to produce numeric vectors).  
+#### Ví dụ - nhập và kết hợp các trang tính Excel {#iter_combined .unnumbered}  
 
-#### Example - import and combine Excel sheets {#iter_combined .unnumbered}  
+**Hãy biểu diễn với một công việc thường gặp của nhà dịch tễ học:** - *Bạn muốn nhập một Excel workbook với dữ liệu trường hợp bệnh, nhưng dữ liệu được chia thành các trang tính có tên khác nhau trong workbook. Làm cách nào để bạn nhập và kết hợp các trang tính vào một data frame một cách hiệu quả?*  
 
-**Let's demonstrate with a common epidemiologist task:** - *You want to import an Excel workbook with case data, but the data are split across different named sheets in the workbook. How do you efficiently import and combine the sheets into one data frame?*  
-
-Let's say we are sent the below Excel workbook. Each sheet contains cases from a given hospital.  
+Giả sử chúng tôi được gửi Excel workbook bên dưới. Mỗi trang tính chứa các trường hợp từ một bệnh viện nhất định.  
 
 ```{r, fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "hospital_linelists_excel_sheets.png"))
 ```
 
-Here is one approach that uses `map()`:  
+Đây là một cách tiếp cận sử dụng `map()`:  
      
-1) `map()` the function `import()` so that it runs for each Excel sheet  
-2) Combine the imported data frames into one using `bind_rows()`  
-3) Along the way, preserve the original sheet name for each row, storing this information in a new column in the final data frame  
+1) `map()` hàm `import()` để nó chạy qua mỗi trang tính Excel  
+2) Kết hợp các data frames đã nhập thành một bằng cách sử dụng `bind_rows()`  
+3) Trong khi đó, hãy giữ nguyên tên trang tính ban đầu cho mỗi hàng, lưu trữ thông tin này trong một cột mới trong data frame cuối cùng  
 
-First, we need to extract the sheet names and save them. We provide the Excel workbook's file path to the function `excel_sheets()` from the package **readxl**, which extracts the sheet names. We store them in a character vector called `sheet_names`.  
+Đầu tiên, chúng ta cần trích xuất tên trang tính và lưu chúng. Chúng tôi cung cấp đường dẫn tệp của Excel workbook tới hàm `excel_sheets()` từ package **readxl**, sẽ trích xuất tên trang tính. Chúng tôi lưu trữ chúng trong một vector ký tự được gọi là `sheet_names`.  
 
 ```{r, echo=F}
 sheet_names <- readxl::excel_sheets(here::here("data", "example", "hospital_linelists.xlsx"))
@@ -418,19 +417,19 @@ sheet_names <- readxl::excel_sheets(here::here("data", "example", "hospital_line
 sheet_names <- readxl::excel_sheets("hospital_linelists.xlsx")
 ```
 
-Here are the names:  
+Đây là các tên trang tính:  
 
 ```{r}
 sheet_names
 ```
 
-Now that we have this vector of names, `map()` can provide them one-by-one to the function `import()`. In this example, the `sheet_names` are `.x` and `import()` is the function `.f`.  
+Bây giờ chúng ta có tên của vector này, `map()` có thể cung cấp từng cái một cho hàm `import()`. Trong ví dụ này, `sheet_names` là `.x` và `import()` là hàm `.f`.  
 
-Recall from the [Import and export] page that when used on Excel workbooks, `import()` can accept the argument `which = ` specifying the sheet to import. Within the `.f` function `import()`, we provide `which = .x`, whose value will change with each iteration through the vector `sheet_names` - first "Central Hospital", then "Military Hospital", etc.  
+Nhớ lại từ chương [Nhập và xuất dữ liệu], khi sử dụng trên Excel workbooks, `import()` có thể chấp nhận đối số `which = ` để chỉ định trang tính để nhập. Trong hàm `import()` của `.f`, chúng tôi cung cấp `which = .x`, giá trị của nó sẽ thay đổi theo mỗi lần lặp thông qua vector `sheet_names` - đầu tiên là "Central Hospital", sau đó là "Military Hospital", v.v.  
 
-Of note - because we have used `map()`, the data in each Excel sheet will be saved as a separate data frame within a list. We want each of these list elements (data frames) to have a *name*, so before we pass `sheet_names` to `map()` we pass it through `set_names()` from **purrr**, which ensures that each list element gets the appropriate name.  
+Lưu ý - bởi vì chúng tôi đã sử dụng `map()`, dữ liệu trong mỗi trang tính Excel sẽ được lưu thành một data frame riêng biệt trong danh sách. Chúng tôi muốn mỗi phần tử danh sách này (data frames) có một *tên*, vì vậy trước khi chuyển `sheet_names` đến `map()`, chúng tôi chuyển nó qua `set_names()` từ **purrr**, điều này đảm bảo rằng mỗi phần tử danh sách nhận được tên thích hợp.  
 
-We save the output list as `combined`.  
+Chúng tôi lưu danh sách đầu ra dưới dạng `combined`.  
 
 ```{r, echo=F}
 combined <- sheet_names %>% 
@@ -444,16 +443,16 @@ combined <- sheet_names %>%
   map(.f = ~import("hospital_linelists.xlsx", which = .x))
 ```
 
-When we inspect output, we see that the data from each Excel sheet is saved in the list with a name. This is good, but we are not quite finished.  
+Khi kiểm tra đầu ra, chúng ta thấy rằng dữ liệu từ mỗi trang tính Excel được lưu trong danh sách với một tên. Điều này là tốt, nhưng chúng ta chưa kết thúc ở đây.  
 
 
 ```{r, fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "sheets_as_list.png"))
 ```
 
-Lastly, we use the function `bind_rows()` (from **dplyr**) which accepts the list of similarly-structured data frames and combines them into one data frame. To create a new column from the list element *names*, we use the argument `.id = ` and provide it with the desired name for the new column.  
+Cuối cùng, chúng tôi sử dụng hàm `bind_rows()` (từ **dplyr**) chấp nhận danh sách các data frames có cấu trúc tương tự và kết hợp chúng thành một data frame. Để tạo một cột mới từ phần tử danh sách *tên*, chúng tôi sử dụng đối số `.id = ` và cung cấp cho nó tên mong muốn cho cột mới.  
 
-Below is the whole sequence of commands:  
+Dưới đây là toàn bộ chuỗi lệnh:  
 
 ```{r, echo=F}
 sheet_names <- readxl::excel_sheets(here::here("data", "example", "hospital_linelists.xlsx"))
@@ -474,19 +473,19 @@ combined <- sheet_names %>%                                     # begin with she
   bind_rows(.id = "origin_sheet") # combine list of data frames, preserving origin in new column  
 ```
 
-And now we have one data frame with a column containing the sheet of origin!  
+Và bây giờ chúng ta có một data frame với một cột chứa trang tính ban đầu!  
 
 ```{r, fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "sheets_as_df.png"))
 ```
 
-There are variations of `map()` that you should be aware of. For example, `map_dfr()` returns a data frame, not a list. Thus, we could have used it for the task above and not have had to bind rows. But then we would not have been able to capture which sheet (hospital) each case came from.  
+Có những biến thể của `map()` mà bạn nên biết. Ví dụ: `map_dfr()` trả về data frame, không phải danh sách. Vì vậy, chúng ta có thể đã sử dụng nó cho tác vụ ở trên và không cần phải ràng buộc các hàng. Nhưng sau đó chúng ta sẽ không thể nắm bắt được trường hợp nào đến từ trang tính nào (bệnh viện).  
 
-Other variations include `map_chr()`, `map_dbl()`. These are very useful functions for two reasons. Firstly. they automatically convert the output of an iterative function into a vector (not a list). Secondly, they can explicitly control the class that the data comes back in - you ensure that your data comes back as a character vector with `map_chr()`, or numeric vector with `map_dbl()`. Lets return to these later in the section!
+Các biến thể khác bao gồm `map_chr()`, `map_dbl()`. Đây là những hàm rất hữu ích vì hai lý do. Trước hết, chúng tự động chuyển đổi đầu ra của một hàm lặp thành một vector (không phải danh sách). Thứ hai, chúng có thể kiểm soát rõ ràng lớp mà dữ liệu quay trở lại - bạn đảm bảo rằng dữ liệu của bạn quay trở lại dưới dạng vector ký tự với `map_chr()`, hoặc vector số với `map_dbl()`. Hãy quay lại những hàm này sau trong phần sau!  
 
-The functions `map_at()` and `map_if()` are also very useful for iteration - they allow you to specify which elements of a list you should iterate at! These work by simply applying a vector of indexes/names (in the case of `map_at()`) or a logical test (in the case of `map_if()`).  
+Các hàm `map_at()` và `map_if()` cũng rất hữu ích để lặp lại - chúng cho phép bạn chỉ định phần tử nào của danh sách nên lặp lại! Chúng hoạt động đơn giản bằng cách áp dụng một vector gồm các chỉ mục/tên (với `map_at()`) hoặc một phép kiểm tra logic (với `map_if()`).  
 
-Lets use an example where we didn't want to read the first sheet of hospital data. We use `map_at()` instead of `map()`, and specify the `.at = ` argument to `c(-1)` which means to *not* use the first element of `.x`. Alternatively, you can provide a vector of positive numbers, or names, to `.at = ` to specify which elements to use.  
+Ví dụ, chúng tôi không muốn đọc trang tính đầu tiên chứa dữ liệu của bệnh viện. Chúng tôi sử dụng `map_at()` thay vì `map()` và chỉ định đối số `.at = ` thành `c(-1)` có nghĩa là *không* sử dụng phần tử đầu tiên của `.x`. Ngoài ra, bạn có thể cung cấp một vector gồm các số dương hoặc tên cho `.at = ` để chỉ định phần tử nào sẽ sử dụng.  
 
 ```{r, echo=F}
 sheet_names <- readxl::excel_sheets(here::here("data", "example", "hospital_linelists.xlsx"))
@@ -509,33 +508,32 @@ combined <- sheet_names %>%
             .at = c(-1))
 ```
 
-Note that the first sheet name will still appear as an element of the output list - but it is only a single character name (not a data frame). You would need to remove this element before binding rows. We will cover how to remove and modify list elements in a later section.  
+Lưu ý rằng tên trang tính đầu tiên sẽ vẫn xuất hiện như một phần tử của danh sách đầu ra - nhưng nó chỉ là một tên ký tự đơn lẻ (không phải là một data frame). Bạn sẽ cần phải loại bỏ phần tử này trước khi liên kết các hàng. Chúng tôi sẽ trình bày cách xóa và sửa đổi các phần tử danh sách trong phần sau.  
 
+### Tách và xuất bộ dữ liệu {.unnumbered}  
 
-### Split dataset and export {.unnumbered}  
+Dưới đây, chúng tôi đưa ra một ví dụ về cách tách bộ dữ liệu thành các phần và sau đó sử dụng phép lặp `map()` để xuất từng phần dưới dạng trang tính Excel riêng biệt hoặc dưới dạng tệp CSV riêng biệt.  
 
-Below, we give an example of how to split a dataset into parts and then use `map()` iteration to export each part as a separate Excel sheet, or as a separate CSV file.  
+#### Tách bộ dữ liệu {.unnumbered}  
 
-#### Split dataset {.unnumbered}  
-
-Let's say we have the complete case `linelist` as a data frame, and we now want to create a separate linelist for each hospital and export each as a separate CSV file. Below, we do the following steps:  
+Giả sử chúng ta có toàn bộ trường hợp `linelist` làm data frame và bây giờ chúng ta muốn tạo một linelist riêng biệt cho từng bệnh viện và xuất từng trường hợp dưới dạng tệp CSV riêng biệt. Dưới đây, chúng tôi thực hiện các bước sau:  
      
-Use `group_split()` (from **dplyr**) to split the `linelist` data frame by unique values in column `hospital`. The output is a list containing one data frame per hospital subset.  
+Sử dụng `group_split()` (từ **dplyr**) để tách data frame `linelist` theo các giá trị duy nhất trong cột `hospital`. Đầu ra là một danh sách chứa một data frame cho mỗi tập hợp con của bệnh viện.   
 
 ```{r}
 linelist_split <- linelist %>% 
      group_split(hospital)
 ```
 
-We can run `View(linelist_split)` and see that this list contains 6 data frames ("tibbles"), each representing the cases from one hospital. 
+Chúng ta có thể chạy `View(linelist_split)` và thấy rằng danh sách này chứa 6 data frames ("tibbles"), mỗi khung đại diện cho các trường hợp từ một bệnh viện.  
 
 ```{r, fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "purrr_linelist_split.png"))
 ```
 
-However, note that the data frames in the list do not have names by default! We want each to have a name, and then to use that name when saving the CSV file.  
+Tuy nhiên, lưu ý rằng các data frames trong danh sách không có tên theo mặc định! Chúng tôi muốn mỗi người có một tên và sau đó sử dụng tên đó khi lưu tệp CSV.  
 
-One approach to extracting the names is to use `pull()` (from **dplyr**) to extract the `hospital` column from each data frame in the list. Then, to be safe, we convert the values to character and then use `unique()` to get the name for that particular data frame. All of these steps are applied to each data frame via `map()`.  
+Một cách tiếp cận để trích xuất các tên là sử dụng `pull()` (từ **dplyr**) để trích xuất cột `hospital` từ mỗi data frame trong danh sách. Sau đó, để an toàn, chúng tôi chuyển đổi các giá trị thành ký tự và sau đó sử dụng `unique()` để lấy tên cho data frame cụ thể đó. Tất cả các bước này được áp dụng cho từng data frame thông qua `map()`.  
 
 ```{r}
 names(linelist_split) <- linelist_split %>%   # Assign to names of listed data frames 
@@ -545,7 +543,7 @@ names(linelist_split) <- linelist_split %>%   # Assign to names of listed data f
      map(.f = ~unique(.x))                    # Take the unique hospital name
 ```
 
-We can now see that each of the list elements has a name. These names can be accessed via `names(linelist_split)`.  
+Bây giờ chúng ta có thể thấy rằng mỗi phần tử trong danh sách đều có một tên. Những tên này có thể được truy cập thông qua `names(linelist_split)`.  
 
 ```{r, fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "purrr_linelist_split_named.png"))
@@ -556,9 +554,9 @@ names(linelist_split)
 ```
 
 
-##### More than one `group_split()` column {.unnumbered}  
+##### Nhiều hơn một cột `group_split()` {.unnumbered}  
 
-If you wanted to split the linelist by *more than one grouping column*, such as to produce subset linelist by intersection of hospital AND gender, you will need a different approach to naming the list elements. This involves collecting the unique "group keys" using `group_keys()` from **dplyr** - they are returned as a data frame. Then you can combine the group keys into values with `unite()` as shown below, and assign these conglomerate names to `linelist_split`.  
+Nếu bạn muốn chia linelist theo *nhiều hơn một nhóm cột*, chẳng hạn như để tạo tập hợp con linelist theo giao điểm của bệnh viện VÀ giới tính, bạn sẽ cần một cách tiếp cận khác để đặt tên cho các phần tử danh sách. Điều này liên quan đến việc thu thập các "nhóm chính (group keys)" duy nhất bằng cách sử dụng `group_keys()` từ **dplyr** - chúng được trả về dưới dạng một data frame. Sau đó, bạn có thể kết hợp các nhóm chính thành các giá trị với `unite()` như được hiển thị bên dưới và gán các tên tập nhóm này cho `linelist_split`.  
 
 ```{r}
 # split linelist by unique hospital-gender combinations
@@ -573,7 +571,7 @@ groupings <- linelist %>%
 groupings      # show unique groupings 
 ```
 
-Now we combine the groupings together, separated by dashes, and assign them as the names of list elements in `linelist_split`. This takes some extra lines as we replace `NA` with "Missing", use `unite()` from **dplyr** to combine the column values together (separated by dashes), and then convert into an un-named vector so it can be used as names of `linelist_split`.  
+Bây giờ chúng ta kết hợp các nhóm với nhau, được phân tách bằng dấu gạch ngang và gán chúng làm tên của các phần tử danh sách trong `linelist_split`. Thao tác này sẽ mất thêm vài dòng khi chúng ta thay thế `NA` bằng "Missing", sử dụng `unite()` từ **dplyr** để kết hợp các giá trị cột với nhau (phân tách bằng dấu gạch ngang), sau đó chuyển đổi thành vector không tên để nó có thể được dùng làm tên của `linelist_split`.  
 
 ```{r, eval=F}
 # Combine into one name value 
@@ -587,41 +585,41 @@ names(linelist_split) <- groupings %>%
 
 
 
-#### Export as Excel sheets {.unnumbered}  
+#### Xuất dưới dạng trang tính Excel {.unnumbered}  
 
-To export the hospital linelists as *an Excel workbook with one linelist per sheet*, we can just provide the named list `linelist_split` to the `write_xlsx()` function from the **writexl** package. This has the ability to save one Excel workbook with multiple sheets. The list element names are automatically applied as the sheet names.  
+Để xuất linelists bệnh viện dưới dạng *Excel workbook với một linelist trên mỗi trang tính*, chúng tôi chỉ có thể cung cấp danh sách có tên `linelist_split` cho hàm `write_xlsx()` từ package **writexl**. Điều này có khả năng lưu một Excel workbook với nhiều trang tính. Tên phần tử danh sách được tự động áp dụng làm tên trang tính.  
 
 ```{r, eval=F}
 linelist_split %>% 
      writexl::write_xlsx(path = here("data", "hospital_linelists.xlsx"))
 ```
 
-You can now open the Excel file and see that each hospital has its own sheet.  
+Bây giờ bạn có thể mở tệp Excel và thấy rằng mỗi bệnh viện có một trang tính riêng.  
 
 ```{r, fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "purrr_export_sheets.png"))
 ```
 
-#### Export as CSV files {.unnumbered}  
+#### Xuất dưới dạng tệp CSV {.unnumbered}  
 
-It is a bit more complex command, but you can also export each hospital-specific linelist as a separate CSV file, with a file name specific to the hospital.  
+Đây là lệnh phức tạp hơn một chút, nhưng bạn cũng có thể xuất từng linelist dành riêng cho bệnh viện dưới dạng tệp CSV riêng biệt, với tên tệp dành riêng cho bệnh viện.  
 
-Again we use `map()`: we take the vector of list element names (shown above) and use `map()` to iterate through them, applying `export()` (from the **rio** package, see [Import and export] page) on the data frame in the list `linelist_split` that has that name. We also use the name to create a unique file name. Here is how it works:  
+Một lần nữa, chúng tôi sử dụng `map()`: chúng tôi lấy vector của tên phần tử danh sách (được hiển thị ở trên) và sử dụng `map()` để lặp lại chúng, áp dụng `export()` (từ package **rio**, xem chương [Nhập và xuất dữ liệu]) trên data frame với danh sách `linelist_split` có tên đó. Chúng tôi cũng sử dụng tên để tạo một tên tệp duy nhất. Đây là các bước thực hiện:  
      
-* We begin with the vector of character names, passed to `map()` as `.x`  
-* The `.f` function is `export()` , which requires a data frame and a file path to write to  
-* The input `.x` (the hospital name) is used *within* `.f` to extract/index that specific element of `linelist_split` list. This results in only one data frame at a time being provided to `export()`.  
-* For example, when `map()` iterates for "Military Hospital", then `linelist_split[[.x]]` is actually `linelist_split[["Military Hospital"]]`, thus returning the second element of `linelist_split` - which is all the cases from Military Hospital.  
-* The file path provided to `export()` is dynamic via use of `str_glue()` (see [Characters and strings] page):  
-     * `here()` is used to get the base of the file path and specify the "data" folder (note single quotes to not interrupt the `str_glue()` double quotes)  
-* Then a slash `/`, and then again the `.x` which prints the current hospital name to make the file identifiable  
-* Finally the extension ".csv" which `export()` uses to create a CSV file  
+* Chúng ta bắt đầu với vector tên kí tự, được chuyển tới `map()` dưới dạng `.x`  
+* Hàm `.f` là `export()`, hàm này yêu cầu một data frame và một đường dẫn tệp để ghi vào  
+* Đầu vào `.x` (tên bệnh viện) được sử dụng *trong* `.f` để trích xuất/lập chỉ mục phần tử cụ thể đó của danh sách `linelist_split`. Điều này làm cho mỗi lần chỉ một data frame được cung cấp cho `export()`.    
+* Ví dụ: khi `map()` lặp lại cho "Military Hospital", thì `linelist_split[[.x]]` sẽ là `linelist_split[["Military Hospital"]]`, do đó trả về phần tử thứ hai của `linelist_split` - đó là tất cả các trường hợp từ Military Hospital.  
+* Đường dẫn tệp được cung cấp cho `export()` là động thông qua việc sử dụng `str_glue()` (xem chương [Ký tự và chuỗi]):  
+     * `here()` được sử dụng để lấy cơ sở của đường dẫn tệp và chỉ định thư mục "data" (lưu ý dấu nháy đơn để không làm gián đoạn dấu ngoặc kép `str_glue()`)  
+* Sau đó là dấu gạch chéo `/`, rồi lại `.x` in tên bệnh viện hiện tại để làm cho tệp có thể nhận dạng được  
+* Cuối cùng là phần mở rộng ".csv" mà `export()` sử dụng để tạo tệp CSV  
 
 ```{r, eval=F, message = F, warning=F}
 names(linelist_split) %>%
      map(.f = ~export(linelist_split[[.x]], file = str_glue("{here('data')}/{.x}.csv")))
 ```
-Now you can see that each file is saved in the "data" folder of the R Project "Epi_R_handbook"!  
+Bây giờ bạn có thể thấy rằng mỗi tệp được lưu trong thư mục "data" của Dự án R "Epi_R_handbook"!  
      
 ```{r, fig.align = "center", echo=F}
 knitr::include_graphics(here::here("images", "purrr_export_csv.png"))
@@ -629,11 +627,11 @@ knitr::include_graphics(here::here("images", "purrr_export_csv.png"))
 
 
 
-### Custom functions {.unnumbered}  
+### Hàm tùy chỉnh {.unnumbered}  
 
-You may want to create your own function to provide to `map()`.  
+Bạn có thể muốn tạo một hàm của riêng mình để đưa vào `map()`.  
 
-Let's say we want to create epidemic curves for each hospital's cases. To do this using **purrr**, our `.f` function can be `ggplot()` and extensions with `+` as usual. As the output of `map()` is always a list, the plots are stored in a list. Because they are plots, they can be extracted and plotted with the `ggarrange()` function from the **ggpubr** package ([documentation](https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html)).  
+Giả sử chúng ta muốn tạo đường cong dịch bệnh cho từng trường hợp của bệnh viện. Để thực hiện việc này với **purrr**, hàm `.f` của chúng ta có thể là `ggplot()` và các phần mở rộng bằng `+` như bình thường. Vì đầu ra của `map()` luôn là một danh sách nên các biểu đồ được lưu trữ trong một danh sách. Bởi vì chúng là các biểu đồ, chúng có thể được trích xuất và vẽ bằng hàm `ggarrange()` từ package **ggpubr**  ([documentation](https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html)).  
 
 
 ```{r, message = F, warning=F}
@@ -658,7 +656,7 @@ my_plots <- map(
 ggarrange(plotlist = my_plots, ncol = 2, nrow = 3)
 ```
 
-If this `map()` code looks too messy, you can achieve the same result by saving your specific `ggplot()` command as a custom user-defined function, for example we can name it `make_epicurve())`. This function is then used within the `map()`. `.x` will be iteratively replaced by the hospital name, and used as `hosp_name` in the `make_epicurve()` function. See the page on [Writing functions].
+Nếu code `map()` này trông quá lộn xộn, bạn có thể đạt được kết quả tương tự bằng cách lưu lệnh `ggplot()` cụ thể của mình dưới dạng một hàm tùy chỉnh do người dùng xác định, ví dụ, chúng ta có thể đặt tên nó là `make_epicurve()`. Hàm này sau đó được sử dụng trong `map()`. `.x` sẽ được thay thế lặp lại bằng tên bệnh viện và được sử dụng làm `hosp_name` trong hàm `make_epicurve()`. Xem chương về [Viết hàm].  
 
 ```{r, eval=F}
 # Create function
@@ -683,21 +681,21 @@ ggarrange(plotlist = my_plots, ncol = 2, nrow = 3)
 
 
 
-### Mapping a function across columns {.unnumbered}  
+### Áp dụng một hàm qua nhiều cột {.unnumbered}  
 
-Another common use-case is to map a function across many columns. Below, we `map()` the function `t.test()` across numeric columns in the data frame `linelist`, comparing the numeric values by gender.  
+Một trường hợp sử dụng phổ biến khác là áp dụng một hàm trên nhiều cột. Dưới đây, chúng tôi `map()` hàm `t.test()` qua các cột số trong data frame `linelist`, so sánh các giá trị số theo giới tính.  
 
-Recall from the page on [Simple statistical tests] that `t.test()` can take inputs in a formula format, such as `t.test(numeric column ~ binary column)`. In this example, we do the following:    
+Nhớ lại từ chương về [Các kiểm định thống kê cơ bản] rằng `t.test()` có thể nhận đầu vào ở định dạng công thức, chẳng hạn như `t.test(numeric column ~ binary column)`. Trong ví dụ này, chúng tôi làm như sau:  
      
-* The numeric columns of interest are selected from `linelist` - these become the `.x` inputs to `map()`  
-* The function `t.test()` is supplied as the `.f` function, which is applied to each numeric column  
-* Within the parentheses of `t.test()`:  
-  * the first `~` precedes the `.f` that `map()` will iterate over `.x`  
-  * the `.x` represents the current column being supplied to the function `t.test()`  
-  * the second `~` is part of the t-test equation described above  
-  * the `t.test()` function expects a binary column on the right-hand side of the equation. We supply the vector `linelist$gender` independently and statically (note that it is not included in `select()`).  
+* Các cột số được chọn từ `linelist` - những cột này trở thành đầu vào `.x` cho `map()`  
+* Hàm `t.test()` được cung cấp dưới dạng hàm `.f`, được áp dụng cho mỗi cột số  
+* Trong dấu ngoặc đơn của `t.test()`:  
+  * dấu `~` đầu tiên đứng trước `.f` mà `map()` sẽ lặp qua` .x`  
+  * `.x` đại diện cho cột hiện tại được cung cấp cho hàm `t.test()`  
+  * dấu `~` thứ hai là một phần của phương trình t-test được mô tả ở trên  
+  * hàm `t.test()` yêu cầu một cột nhị phân ở phía bên phải của phương trình. Chúng tôi đưa vector `linelist$gender` một cách độc lập và có ý nghĩa thống kê (lưu ý rằng nó không được bao gồm trong `select()`).  
 
-`map()` returns a list, so the output is a list of t-test results - one list element for each numeric column analysed.  
+`map()` trả về một danh sách, vì vậy đầu ra là một danh sách các kết quả t-test - một danh sách phần tử cho mỗi cột số được phân tích.  
 
 ```{r}
 # Results are saved as a list
@@ -706,17 +704,17 @@ t.test_results <- linelist %>%
   map(.f = ~t.test(.x ~ linelist$gender))        # t.test function, with equation NUMERIC ~ CATEGORICAL
 ```
 
-Here is what the list `t.test_results` looks like when opened (Viewed) in RStudio. We have highlighted parts that are important for the examples in this page.  
+Đây là danh sách `t.test_results` trông như thế nào khi được mở (Cửa sổ Viewer) trong RStudio. Chúng tôi đã đánh dấu các phần quan trọng đối với các ví dụ trong trang này.  
 
-* You can see at the top that the whole list is named `t.test_results` and has five elements. Those five elements are named `age`, `wt_km`, `ht_cm`, `ct_blood`, `temp` after each variable that was used in a t-test with `gender` from the `linelist`.  
-* Each of those five elements are themselves lists, with elements within them such as `p.value` and `conf.int`. Some of these elements like `p.value` are single numbers, whereas some such as `estimate` consist of two or more elements (`mean in group f` and `mean in group m`).  
+* Ở trên cùng, bạn có thể thấy toàn bộ danh sách được đặt tên là `t.test_results` và có năm phần tử. Năm phần tử đó được đặt tên là `age`, `wt_km`, `ht_cm`, `ct_blood`, `temp` theo mỗi biến được sử dụng trong t-test với `gender` từ `linelist`.  
+* Mỗi phần tử trong số năm phần tử đó đều là danh sách, với các phần tử bên trong chúng, chẳng hạn như `p.value` và `conf.int`. Một số phần tử như `p.value` là các số đơn lẻ, trong khi một số phần tử như `estimate` bao gồm hai hoặc nhiều phần tử (`mean in group f` và `mean in group m`).  
 
 ```{r, out.height="150%", echo=F}
 knitr::include_graphics(here::here("images", "purrr_ttest.png"))
 ```
 
 
-Note: Remember that if you want to apply a function to only certain columns in a data frame, you can also simply use `mutate()` and `across()`, as explained in the [Cleaning data and core functions] page. Below is an example of applying `as.character()` to only the "age" columns. Note the placement of the parentheses and commas.  
+Lưu ý: Hãy nhớ rằng nếu bạn chỉ muốn áp dụng một hàm cho một số cột nhất định trong data frame, bạn cũng có thể chỉ cần sử dụng `mutate()` và `across()`, như được giải thích trong chương [Làm sạch số liệu và các hàm quan trọng]. Dưới đây là một ví dụ về việc áp dụng `as.character()` cho chỉ các cột "age". Lưu ý vị trí của dấu ngoặc đơn và dấu phẩy.  
 
 ```{r, eval=F}
 # convert columns with column name containing "age" to class Character
@@ -725,75 +723,75 @@ linelist <- linelist %>%
 ```
 
 
-### Extract from lists {.unnumbered}  
+### Trích xuất từ danh sách {.unnumbered}  
 
-As `map()` produces an output of class List, we will spend some time discussing how to extract data from lists using accompanying **purrr** functions. To demonstrate this, we will use the list `t.test_results` from the previous section. This is a list of 5 lists - each of the 5 lists contains the results of a t-test between a column from `linelist` data frame and its binary column `gender`. See the image in the section above for a visual of the list structure.  
+Khi `map()` tạo ra một đầu ra của lớp danh sách, chúng ta sẽ dành một chút thời gian thảo luận về cách trích xuất dữ liệu từ danh sách bằng cách sử dụng các hàm **purrr** đi kèm. Để minh họa điều này, chúng tôi sẽ sử dụng danh sách `t.test_results` từ phần trước. Đây là danh sách gồm 5 danh sách - mỗi danh sách trong số 5 danh sách chứa kết quả của t-test giữa một cột từ data frame `linelist` và cột nhị phân `gender` của nó. Xem hình ảnh trong phần trên để có hình ảnh về cấu trúc danh sách.  
 
-#### Names of elements {.unnumbered}  
+#### Tên của các phần tử {.unnumbered}  
 
-To extract the names of the elements themselves, simply use `names()` from **base** R. In this case, we use `names()` on `t.test_results` to return the names of each sub-list, which are the names of the 5 variables that had t-tests performed.  
+Để trích xuất tên của chính các phần tử, chỉ cần sử dụng `names()` từ **base** R. Trong trường hợp này, chúng tôi sử dụng `names()` trên `t.test_results` để trả về tên của mỗi danh sách con, là tên của 5 biến đã thực hiện t-tests.  
 
 ```{r}
 names(t.test_results)
 ```
 
-#### Elements by name or position {.unnumbered}  
+#### Các phần tử theo tên hoặc vị trí {.unnumbered}  
 
-To extract list elements by name or by position you can use brackets `[[ ]]` as described in the [R basics] page. Below we use double brackets to index the list `t.tests_results` and display the first element which is the results of the t-test on `age`.  
+Để trích xuất các phần tử danh sách theo tên hoặc theo vị trí, bạn có thể sử dụng dấu ngoặc `[[ ]]` như được mô tả trong chương [R cơ bản]. Dưới đây chúng tôi sử dụng dấu ngoặc kép để lập chỉ mục danh sách `t.tests_results` và hiển thị phần tử đầu tiên là kết quả của t-test trên `age`.  
 
 ```{r}
 t.test_results[[1]] # first element by position
 t.test_results[[1]]["p.value"] # return element named "p.value" from first element  
 ```
 
-However, below we will demonstrate use of the simple and flexible **purrr** functions `map()` and `pluck()` to achieve the same outcomes.  
+Tuy nhiên, dưới đây chúng tôi sẽ trình bày việc sử dụng các hàm `map()` và `pluck()` của **purrr** đơn giản và linh hoạt để đạt được kết quả tương tự.  
 
 #### `pluck()` {.unnumbered}  
 
-`pluck()` pulls out elements by name or by position. For example - to extract the t-test results for age, you can use `pluck()` like this:  
+`pluck()` kéo ra các phần tử theo tên hoặc theo vị trí. Ví dụ - để trích xuất kết quả t-test cho độ tuổi, bạn có thể sử dụng `pluck()` như thế này:  
 
 ```{r}
 t.test_results %>% 
   pluck("age")        # alternatively, use pluck(1)
 ```
 
-Index deeper levels by specifying the further levels with commas. The below extracts the element named "p.value" from the list `age` within the list `t.test_results`. You can also use numbers instead of character names.    
+Lập chỉ mục các cấp độ sâu hơn bằng cách chỉ định các cấp độ cao hơn bằng dấu phẩy. Dưới đây trích xuất phần tử có tên "p.value" từ danh sách `age` trong danh sách `t.test_results`. Bạn cũng có thể sử dụng số thay vì tên ký tự.  
 
 ```{r}
 t.test_results %>% 
   pluck("age", "p.value")
 ```
 
-You can extract such inner elements from *all* first-level elements by using `map()` to run the `pluck()` function across each first-level element. For example, the below code extracts the "p.value" elements from all lists within `t.test_results`. The list of t-test results is the `.x` iterated across, `pluck()` is the `.f` function being iterated, and the value "p-value" is provided to the function.     
+Bạn có thể trích xuất các phần tử bên trong như vậy từ *tất cả* các phần tử cấp một bằng cách sử dụng `map()` để chạy hàm `pluck()` trên từng phần tử cấp một. Ví dụ, đoạn mã dưới đây trích xuất các phần tử "p.value" từ tất cả các danh sách trong `t.test_results`. Danh sách các kết quả t-test là `.x` được lặp qua,` pluck()` là hàm `.f` đang được lặp và giá trị "p-value" được cung cấp cho hàm.  
 
 ```{r}
 t.test_results %>%
   map(pluck, "p.value")   # return every p-value
 ```
 
-As another alternative, `map()` offers a shorthand where you can write the element name in quotes, and it will pluck it out. If you use `map()` the output will be a list, whereas if you use `map_chr()` it will be a named character vector and if you use `map_dbl()` it will be a named numeric vector.  
+Một cách thay thế khác là `map()` viết tắt tên phần tử trong dấu ngoặc kép và nó sẽ ngắt nó ra. Nếu bạn sử dụng `map()`, đầu ra sẽ là một danh sách, trong khi nếu bạn sử dụng `map_chr()` thì nó sẽ là một vectơ ký tự được đặt tên và nếu bạn sử dụng `map_dbl()` nó sẽ là một vector số được đặt tên.  
 
 ```{r}
 t.test_results %>% 
   map_dbl("p.value")   # return p-values as a named numeric vector
 ```
 
-You can read more about `pluck()` in it's **purrr** [documentation](https://purrr.tidyverse.org/reference/pluck.html). It has a sibling function `chuck()` that will return an error instead of NULL if an element does not exist.  
+Bạn có thể đọc thêm về `pluck()` trong [tài liệu](https://purrr.tidyverse.org/reference/pluck.html) về **purrr**. Nó có một hàm tương tự là `chuck()` sẽ trả về lỗi thay vì NULL nếu một phần tử không tồn tại.  
 
 
 
-### Convert list to data frame {.unnumbered}  
+### Chuyển đổi danh sách thành data frame {.unnumbered}  
 
-This is a complex topic - see the Resources section for more complete tutorials. Nevertheless, we will demonstrate converting the list of t-test results into a data frame. We will create a data frame with columns for the variable, its p-value, and the means from the two groups (male and female).  
+Đây là một nội dung phức tạp - hãy xem phần Tài nguyên học liệu để có các hướng dẫn đầy đủ hơn. Tuy nhiên, chúng tôi sẽ minh họa việc chuyển đổi danh sách các kết quả t-test thành một data frame. Chúng tôi sẽ tạo một data frame với các cột cho biến, p-value của nó và giá trị trung bình từ hai nhóm (nam và nữ).  
 
-Here are some of the new approaches and functions that will be used:  
+Dưới đây là một số phương pháp và hàm mới sẽ được sử dụng:  
 
-* The function `tibble()` will be used to create a tibble (like a data frame)  
-  * We surround the `tibble()` function with curly brackets `{ }` to prevent the entire `t.test_results` from being stored as the first tibble column  
-* Within `tibble()`, each column is created explicitly, similar to the syntax of `mutate()`:  
-  * The `.` represents `t.test_results`
-  * To create a column with the t-test variable names (the names of each list element) we use `names()` as described above  
-  * To create a column with the p-values we use `map_dbl()` as described above to pull the `p.value` elements and convert them to a numeric vector  
+* Hàm `tibble()` sẽ được sử dụng để tạo một tibble (giống như một data frame)  
+  * Chúng tôi bao quanh hàm `tibble()` bằng dấu ngoặc nhọn `{ }` để ngăn toàn bộ `t.test_results` được lưu trữ dưới dạng cột nhỏ đầu tiên  
+* Trong `tibble()`, mỗi cột được tạo một cách rõ ràng, tương tự như cú pháp của `mutate()`:  
+  * Dấu `.` đại diện cho `t.test_results`   
+  * Để tạo một cột với các tên biến t-test (tên của mỗi phần tử danh sách), chúng tôi sử dụng `names()` như đã mô tả ở trên  
+  * Để tạo một cột với các p-values, chúng tôi sử dụng `map_dbl()` như được mô tả ở trên để kéo các phần tử `p.value` và chuyển đổi chúng thành một vector số  
 
 ```{r}
 t.test_results %>% {
@@ -803,9 +801,9 @@ t.test_results %>% {
   }
 ```
 
-But now let's add columns containing the means for each group (males and females).  
+Nhưng bây giờ hãy thêm các cột chứa trung bình cho mỗi nhóm (nam và nữ).  
 
-We would need to extract the element `estimate`, but this actually contains *two* elements within it (`mean in group f` and `mean in group m`). So, it cannot be simplified into a vector with `map_chr()` or `map_dbl()`. Instead, we use `map()`, which used within `tibble()` will create *a column of class list within the tibble*! Yes, this is possible!  
+Chúng tôi sẽ cần trích xuất phần tử `estimate`, nhưng điều này thực sự chứa *hai* phần tử bên trong nó (`mean in group f` và `mean in group m`). Vì vậy, nó không thể được đơn giản hóa thành một vector với `map_chr()` hoặc `map_dbl()`. Thay vào đó, chúng tôi sử dụng `map()`, được sử dụng trong `tibble()`, sẽ tạo *một cột lớp danh sách trong tibble*! Vâng, điều này là có thể!  
 
 ```{r}
 t.test_results %>% 
@@ -815,13 +813,13 @@ t.test_results %>%
     means = map(., "estimate"))}
 ```
 
-Once you have this list column, there are several **tidyr** functions (part of **tidyverse**) that help you "rectangle" or "un-nest" these "nested list" columns. Read more about them [here](), or by running `vignette("rectangle")`. In brief:  
+Sau khi bạn có cột danh sách này, có một số hàm **tidyr** (một phần của **tidyverse**) giúp bạn "gỡ rối" hoặc "gỡ bỏ" các cột "danh sách lồng nhau" này. Đọc thêm về chúng [tại đây]() hoặc bằng cách chạy `vignette("rectangle")`. Tóm lại:  
 
-* `unnest_wider()` - gives each element of a list-column its own column  
-* `unnest_longer()` - gives each element of a list-column its own row
-* `hoist()` - acts like `unnest_wider()` but you specify which elements to unnest  
+* `unnest_wider()` - đưa mỗi phần tử của mỗi danh sách cột một cột riêng của nó  
+* `unnest_longer()` - đưa mỗi phần tử của mỗi danh sách cột một hàng riêng của nó  
+* `hoist()` - hoạt động giống như `unnest_wider()` nhưng bạn chỉ định phần tử nào cần gỡ bỏ  
 
-Below, we pass the tibble to `unnest_wider()` specifying the tibble's `means` column (which is a nested list). The result is that `means` is replaced by two new columns, each reflecting the two elements that were previously in each `means` cell.  
+Dưới đây, chúng tôi chuyển tibble sang `unnest_wider()` để chỉ định cột `means` của tibble (là một danh sách lồng nhau). Kết quả là `means` được thay thế bằng hai cột mới, mỗi cột phản ánh hai phần tử trước đó trong mỗi ô `means`.  
 
 ```{r}
 t.test_results %>% 
@@ -835,25 +833,25 @@ t.test_results %>%
 
 
 
-### Discard, keep, and compact lists {.unnumbered}  
+### Loại bỏ, giữ lại và thu gọn danh sách {.unnumbered}  
 
-Because working with **purrr** so often involves lists, we will briefly explore some **purrr** functions to modify lists. See the Resources section for more complete tutorials on **purrr** functions.    
+Vì làm việc với **purrr** nên thường liên quan đến danh sách, chúng ta sẽ khám phá ngắn gọn một số hàm **purrr** để sửa đổi danh sách. Xem phần Tài nguyên học liệu để có hướng dẫn đầy đủ hơn về các hàm **purrr**.  
 
-* `list_modify()` has many uses, one of which can be to remove a list element  
-* `keep()` retains the elements specified to `.p = `, or where a function supplied to `.p = ` evaluates to TRUE  
-* `discard()` removes the elements specified to `.p`, or where a function supplied to `.p = ` evaluates to TRUE  
-* `compact()` removes all empty elements  
+* `list_modify()` có nhiều cách sử dụng, một trong số đó có thể là xóa một phần tử danh sách  
+* `keep()` giữ lại các phần tử được chỉ định cho `.p = ` hoặc trong đó một hàm được cung cấp cho `.p = ` đánh giá là TRUE  
+* `discard()` loại bỏ các phần tử được chỉ định cho `.p` hoặc trong đó một hàm được cung cấp cho `.p = ` đánh giá là TRUE  
+* `compact()` loại bỏ tất cả các phần tử trống  
 
-Here are some examples using the `combined` list created in the section above on [using map() to import and combine multiple files](#iter_combined) (it contains 6 case linelist data frames):    
+Dưới đây là một số ví dụ sử dụng danh sách `combined` được tạo trong phần trên về [sử dụng map() để nhập và kết hợp nhiều tệp](# iter_combined) (nó chứa 6 trường hợp linelist thuộc data frames):  
 
-Elements can be removed by name with `list_modify()` and setting the name equal to `NULL`.  
+Các phần tử có thể được xóa bằng tên với `list_modify()` và đặt tên bằng `NULL`.  
 
 ```{r, eval=F}
 combined %>% 
   list_modify("Central Hospital" = NULL)   # remove list element by name
 ```
 
-You can also remove elements by criteria, by providing a "predicate" equation to `.p = ` (an equation that evaluates to either TRUE or FALSE). Place a tilde `~` before the function and use `.x` to represent the list element. Using `keep()` the list elements that evaluate to TRUE will be kept. Inversely, if using `discard()` the list elements that evaluate to TRUE will be removed.  
+Bạn cũng có thể loại bỏ các phần tử theo tiêu chí, bằng cách cung cấp phương trình "định trước" cho `.p = ` (một phương trình đánh giá là TRUE hoặc FALSE). Đặt dấu ngã `~` trước hàm và sử dụng `.x` để đại diện cho phần tử danh sách. Sử dụng `keep()`, các phần tử danh sách đánh giá là TRUE sẽ được giữ lại. Ngược lại, nếu sử dụng `discard()`, các phần tử danh sách đánh giá là TRUE sẽ bị loại bỏ.  
 
 ```{r, eval=F}
 # keep only list elements with more than 500 rows
@@ -861,7 +859,7 @@ combined %>%
   keep(.p = ~nrow(.x) > 500)  
 ```
 
-In the below example, list elements are discarded if their class are not data frames.  
+Trong ví dụ dưới đây, các phần tử danh sách bị loại bỏ nếu lớp của chúng không phải là data frames.  
 
 ```{r, eval=F}
 # Discard list elements that are not data frames
@@ -869,7 +867,7 @@ combined %>%
   discard(.p = ~class(.x) != "data.frame")
 ```
 
-Your predicate function can also reference elements/columns within each list item. For example, below, list elements where the mean of column `ct_blood` is over 25 are discarded.  
+Hàm định trước của bạn cũng có thể tham chiếu các phần tử/cột trong mỗi mục danh sách. Ví dụ, bên dưới, liệt kê các phần tử có giá trị trung bình của cột `ct_blood` trên 25 sẽ bị loại bỏ.  
 
 ```{r, eval=F}
 # keep only list elements where ct_blood column mean is over 25
@@ -877,7 +875,7 @@ combined %>%
   discard(.p = ~mean(.x$ct_blood) > 25)  
 ```
 
-This command would remove all empty list elements:  
+Lệnh này sẽ xóa tất cả các phần tử danh sách trống:    
 
 ```{r, eval=F}
 # Remove all empty list elements
@@ -889,21 +887,20 @@ combined %>%
 
 ### `pmap()` {.unnumbered}
 
-THIS SECTION IS UNDER CONSTRUCTION  
+PHẦN NÀY ĐANG ĐƯỢC XÂY DỰNG  
 
 
 
-## Apply functions  
+## Các hàm apply   
 
-The "apply" family of functions is a **base** R alternative to **purrr** for iterative operations. You can read more about them [here](https://www.datacamp.com/community/tutorials/r-tutorial-apply-family).  
-
+Nhóm hàm "apply" là một hàm R **base** thay thế cho **purrr** với các thao tác lặp lại. Bạn có thể đọc thêm về chúng [tại đây](https://www.datacamp.com/community/tutorials/r-tutorial-apply-family).  
 
 
 
 
 
 <!-- ======================================================= -->
-## Resources { }
+## Tài nguyên học liệu { }
 
 [for loops with Data Carpentry](https://datacarpentry.org/semester-biology/materials/for-loops-R/)  
 
