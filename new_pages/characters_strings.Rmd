@@ -4,35 +4,35 @@
 knitr::include_graphics(here::here("images", "Characters_Strings_1500x500.png"))
 ```
 
+Trang này trình bày việc sử dụng package **stringr** để đánh giá và xử lý các giá trị ký tự ("chuỗi").
 
-Trang này trình bày việc sử dụng package **stringr** để đánh giá và xử lý các giá trị ký tự (“chuỗi”).
+1.  Các hàm kết hợp, thiết lập thứ tự, phân tách, sắp xếp - `str_c()`, `str_glue()`, `str_order()`, `str_split()`
 
-1. Các hàm kết hợp, sắp xếp, phân tách, sắp xếp - `str_c()`, `str_glue()`, `str_order()`, `str_split()`  
+2.  Làm sạch và chuẩn hóa
 
-2. Làm sạch và chuẩn hóa
-    * Các hàm điều chỉnh độ dài ký tự - `str_pad()`, `str_trunc()`, `str_wrap()`  
-    * Các hàm thay đổi - `str_to_upper()`, `str_to_title()`, `str_to_lower()`, `str_to_sentence()`  
-    
-3. Các hàm đánh giá phân giải bới vị trí - `str_length()`, `str_sub()`, `word()`  
+    -   Các hàm điều chỉnh độ dài ký tự - `str_pad()`, `str_trunc()`, `str_wrap()`\
+    -   Các hàm thay đổi chữ hoa/chữ thường - `str_to_upper()`, `str_to_title()`, `str_to_lower()`, `str_to_sentence()`
 
-4. Các hàm làm việc với patterns  
-    * Detect and locate - `str_detect()`, `str_subset()`, `str_match()`, `str_extract()`  
-    * Modify and replace - `str_sub()`, `str_replace_all()`  
+3.  Các hàm đánh giá và trích xuất vị trí - `str_length()`, `str_sub()`, `word()`
 
-5.  Regular expressions ("regex")
+4.  Các hàm làm việc với patterns
 
-Để dễ hiển thị, hầu hết các ví dụ đều mô phỏng trên một vectơ ngắn dạng ký tự đã được xác định, tuy nhiên chúng có thể dễ dàng được điều chỉnh cho phù hợp với một cột trong bộ dữ liệu.  
+    -   Phát hiện và định vị - `str_detect()`, `str_subset()`, `str_match()`, `str_extract()`\
+    -   Sửa đổi và thay thế - `str_sub()`, `str_replace_all()`
 
-Package [stringr vignette](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html) này đã cung cấp nhiều cảm hứng cho chương này. 
+5.  Biểu thức chính quy ("regex")
 
+Để dễ hiển thị, hầu hết các code ví dụ đều mô phỏng trên một vectơ ngắn dạng ký tự đã được xác định, tuy nhiên chúng có thể dễ dàng áp dụng trên một cột trong bộ dữ liệu.
+
+Package [stringr vignette](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html) đã cung cấp nhiều ý tưởng cho chương này.
 
 <!-- ======================================================= -->
 
-## Chuẩn bị { }
+## Chuẩn bị
 
-### Gọi packages {.unnumbered}  
+### Gọi packages {.unnumbered}
 
-Cài đặt hoặc gọi package **stringr** và các packages **tidyverse** khác.  
+Cài đặt hoặc gọi package **stringr** và các packages **tidyverse** khác.
 
 ```{r}
 # install/load packages
@@ -57,7 +57,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-50 hàng đầu tiên của bộ dữ liệu linelist được hiển thị bên dưới. 
+50 hàng đầu tiên của bộ dữ liệu linelist được hiển thị bên dưới.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
@@ -66,36 +66,34 @@ DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list
 
 <!-- ======================================================= -->
 
-## Unite, split, và arrange
+## Hợp nhất, tách, và sắp xếp
 
-Chương này bao gồm:  
+Chương này bao gồm:
 
-* Sử dụng hàm `str_c()`, `str_glue()`, và `unite()` để ghép nối ký tự 
-* Sử dụng hàm `str_order()` để sắp xếp ký tự  
-* Sử dụng hàm `str_split()` và `separate()` để phân tách ký tự
-
+-   Sử dụng hàm `str_c()`, `str_glue()`, và `unite()` để ghép nối ký tự
+-   Sử dụng hàm `str_order()` để sắp xếp ký tự
+-   Sử dụng hàm `str_split()` và `separate()` để phân tách ký tự
 
 ### Kết hợp các chuỗi ký tự {.unnumbered}
 
-Để kết hợp hoặc nối nhiều chuỗi ký tự thành một chuỗi ký tự, chúng tôi khuyên bạn nên sử dụng hàm `str_c` từ **stringr**. Nếu bạn có các giá trị ký tự đặc biệt để kết hợp, chỉ cần chỉ rõ chúng dưới dạng arguments, được phân tách bằng dấu phẩy.     
+Để kết hợp hoặc nối nhiều chuỗi ký tự thành một chuỗi ký tự, chúng tôi khuyên bạn nên sử dụng hàm `str_c` từ **stringr**. Nếu bạn có các giá trị ký tự riêng biệt để kết hợp, đơn giản chỉ cần cung cấp chúng dưới dạng đối số, được phân tách bằng dấu phẩy.
 
 ```{r}
 str_c("String1", "String2", "String3")
 ```
 
-Đối số `sep = ` chèn một giá dạng trị ký tự vào giữa mỗi argument (ví dụ: chèn dấu phẩy, dấu cách hoặc dòng mới `"\n"`)  
+Đối số `sep =` chèn một giá dạng trị ký tự vào giữa mỗi đối số ký tự bạn cung cấp (ví dụ: chèn dấu phẩy, dấu cách hoặc dòng mới `"\n"`)
 
 ```{r}
 str_c("String1", "String2", "String3", sep = ", ")
 ```
 
-Argument `collapse = ` có liên quan nếu bạn đang nhập nhiều *vectơ* làm đối số cho hàm `str_c()`. Nó được sử dụng để tách các phần tử của một vectơ *kết quả*, sao cho vectơ kết quả chỉ là một phần tử chứa ký tự dài. 
+Đối số `collapse =` có liên quan nếu bạn đang nhập nhiều *vectơ* làm đối số cho hàm `str_c()`. Nó được sử dụng để tách các phần tử của một vectơ *kết quả*, sao cho vectơ kết quả chỉ là một phần tử chứa ký tự dài.
 
+Ví dụ dưới đây cho thấy sự kết hợp của hai vectơ thành một (tên và họ). Một ví dụ tương tự khác có thể là các phạm vi địa chính và số lượng trường hợp. Trong ví dụ này:
 
-Ví dụ dưới đây cho thấy sự kết hợp của hai vectơ thành một (tên và họ). Một ví dụ tương tự khác có thể là các phạm vi hạn chế và số lượng trường hợp. Trong ví dụ này: 
-
-* Giá trị `sep = ` xuất hiện giữa từng tên đầu và tên cuối
-* Giá trị `collapse = ` xuất hiện giữa tên từng người
+-   Giá trị `sep =` xuất hiện giữa từng họ và tên
+-   Giá trị `collapse =` xuất hiện giữa tên từng người
 
 ```{r}
 first_names <- c("abdul", "fahruk", "janice") 
@@ -105,31 +103,30 @@ last_names  <- c("hussein", "akinleye", "okeke")
 str_c(first_names, last_names, sep = " ", collapse = ";  ")
 ```
 
-Lưu ý: Tùy thuộc vào bối cảnh hiển thị mong muốn, khi xử lý một chuỗi kết hợp như vậy với các dòng mới, bạn có thể cần phải đặt toàn bộ cụm từ trong hàm `cat()` để các dòng mới được xử lý đúng cách: 
+Lưu ý: Tùy thuộc vào trường hợp hiển thị mong muốn, khi in một chuỗi kết hợp như vậy với các dòng mới, bạn có thể cần phải đặt toàn bộ cụm từ trong hàm `cat()` để các dòng mới được in đúng cách:
 
 ```{r}
 # For newlines to print correctly, the phrase may need to be wrapped in cat()
 cat(str_c(first_names, last_names, sep = " ", collapse = ";\n"))
 ```
 
-
 ### Chuỗi động {.unnumbered}
 
-Sử dụng hàm `str_glue()` để chèn đoạn code động của R vào chuỗi ký tự. Đây là một hàm hữu dụng để tạo tiêu đề biểu đồ động, như mô tả bên dưới:
+Sử dụng hàm `str_glue()` để chèn đoạn code động của R vào chuỗi ký tự. Đây là một hàm hữu dụng để tạo tiêu đề biểu đồ động, như được mô tả dưới đây:
 
-* Tất cả nội dung nằm giữa dấu ngoặc kép `str_glue("")`  
-* Bất kỳ đoạn code động hoặc tham chiếu nào đến các giá trị được xác định trước đều được đặt trong dấu ngoặc nhọn `{}` trong dấu ngoặc kép. Có thể có nhiều dấu ngoặc nhọn trong cùng một câu lệnh `str_glue()`.  
-* Để hiển thị  dấu ngoặc kép '', hãy sử dụng dấu ngoặc *đơn* trong dấu ngoặc kép xung quanh (ví dụ: khi cung cấp định dạng ngày - xem ví dụ bên dưới) 
-* Mẹo: Bạn có thể sử dụng `\n` để bắt buộc xuống một dòng mới   
-* Mẹo: Bạn có thể sử dụng `format()` để điều chỉnh hiển thị ngày và sử dụng hàm `Sys.Date()` để hiển thị ngày hiện tại. 
+-   Tất cả nội dung nằm giữa dấu ngoặc kép `str_glue("")`\
+-   Bất kỳ đoạn code động hoặc tham chiếu nào đến các giá trị được xác định trước đều được đặt trong dấu ngoặc nhọn `{}`, bên trong dấu ngoặc kép. Có thể có nhiều dấu ngoặc nhọn trong cùng một câu lệnh `str_glue()`.\
+-   Để hiển thị dấu ngoặc kép ", hãy sử dụng dấu ngoặc *đơn* bên trong dấu ngoặc kép (ví dụ: khi cung cấp định dạng ngày - xem ví dụ bên dưới)
+-   Mẹo: Bạn có thể sử dụng `\n` để bắt buộc xuống một dòng mới\
+-   Mẹo: Bạn có thể sử dụng `format()` để điều chỉnh hiển thị ngày và sử dụng hàm `Sys.Date()` để hiển thị ngày hiện tại.
 
-Một ví dụ đơn giản về tiêu đề biểu đồ động: 
+Một ví dụ đơn giản về tiêu đề biểu đồ động:
 
 ```{r}
 str_glue("Data include {nrow(linelist)} cases and are current to {format(Sys.Date(), '%d %b %Y')}.")
 ```
 
-Một định dạng thay thế để xác định rõ từng vị trí trong dấu ngoặc và xác định code trong từng argument ở cuối hàm `str_glue()` như bên dưới. Điều này có thể cải thiện khả năng giải mã code nếu văn bản dài. 
+Một định dạng thay thế là sử dụng trình giữ chỗ (placeholder) bên trong dấu ngoặc kép và chỉ định chúng trong các đối số ở phía sau trong hàm `str_glue()` như bên dưới. Việc này sẽ làm tăng tính tường minh cho code nếu văn bản dài.
 
 ```{r}
 str_glue("Linelist as of {current_date}.\nLast case hospitalized on {last_hospital}.\n{n_missing_onset} cases are missing date of onset and not shown",
@@ -140,10 +137,9 @@ str_glue("Linelist as of {current_date}.\nLast case hospitalized on {last_hospit
 
 ```
 
+**Kéo từ bộ dữ liệu**
 
-**Kéo từ bộ dữ liệu**  
-
-Đôi khi, sẽ rất hữu ích khi lấy dữ liệu từ một bộ dữ liệu và gán lại với nhau theo trình tự. Dưới đây là một ví dụ về bộ dữ liệu. Chúng tôi sẽ sử dụng cách này để tóm tắt nhanh về các sự hạn chế, cũng như số ca mới và tổng số ca. 
+Đôi khi, sẽ rất hữu ích khi lấy dữ liệu từ một bộ dữ liệu và dán chúng lại với nhau theo trình tự. Dưới đây là một ví dụ về bộ dữ liệu. Chúng ta sẽ sử dụng cách này để có một phát biểu tóm tắt về các khu vực pháp lý, cũng như số ca mắc mới và tổng số ca.
 
 ```{r}
 # make case data frame
@@ -158,44 +154,42 @@ case_table <- data.frame(
 DT::datatable(case_table, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Sử dụng hàm `str_glue_data()`,  được tạo ra để lấy dữ liệu từ các quan sát của bộ dữ liệu: 
+Sử dụng hàm `str_glue_data()`, được thiết kế để lấy dữ liệu từ các quan sát của bộ dữ liệu:
 
 ```{r}
 case_table %>% 
   str_glue_data("{zone}: {new_cases} ({total_cases} total cases)")
 ```
 
+**Kết hợp các chuỗi ký tự trên các dòng**
 
-**Kết hợp các chuỗi ký tự trên các dòng**  
+Nếu bạn đang cố gắng để "gộp" các giá trị trong một cột của bộ dữ liệu, ví dụ: kết hợp các giá trị từ nhiều hàng thành một hàng bằng cách gắn chúng với nhau cùng ký tự phân cách, hãy xem thêm ở chương [Loại bỏ trùng lặp] mục ["gộp" các giá trị](#str_rollup).
 
-Nếu bạn đang cố gắng các giá trị "roll-up" trong một cột trong bộ dữ liệu, ví dụ: kết hợp các giá trị từ nhiều hàng thành một hàng bằng cách gán chúng cùng với ký tự phân cách, hãy xem thêm ở chương [De-duplication] về ["rolling-up" values](#str_rollup).  
+**Một bộ dữ liệu thành một dòng**
 
-**Một bộ dữ liệu thành một dòng**  
-
-Bạn có thể tạo ra dãy thông tin chỉ trong một dòng bằng cách sử dụng lệnh `str_c()`  (làm rõ bộ dữ liệu và tên cột), đồng thời cung cấp các argument `sep = ` và `collapse = `.   
+Bạn có thể tạo ra dãy thông tin chỉ trong một dòng bằng cách sử dụng lệnh `str_c()` (cụ thể tên bộ dữ liệu và tên cột), đồng thời cung cấp các đối số `sep =` và `collapse =`.
 
 ```{r}
 str_c(case_table$zone, case_table$new_cases, sep = " = ", collapse = ";  ")
 ```
 
-Bạn có thể thêm đoạn tiền tố “New Cases:” vào đầu dòng thông tin bằng cách đặt trong hàm `str_c()` (nếu “New Cases:” nằm trong hàm `str_c()` ban đầu thì nó sẽ xuất hiện nhiều lần). 
+Bạn có thể thêm đoạn tiền tố "New Cases:" vào đầu dòng thông tin bằng cách đặt trong hàm `str_c()` (nếu "New Cases:" nằm trong hàm `str_c()` ban đầu thì nó sẽ xuất hiện nhiều lần).
 
 ```{r}
 str_c("New Cases: ", str_c(case_table$zone, case_table$new_cases, sep = " = ", collapse = ";  "))
 ```
 
-
 ### Hợp nhất các cột {#str_unite .unnumbered}
 
-Trong bộ dữ liệu, việc tập hợp các giá trị dạng ký tự từ nhiều cột lại với nhau có thể thực hiện bằng cách dùng hàm `unite()` từ package **tidyr**. Tính năng này ngược lại với hàm `separate()`.  
+Trong bộ dữ liệu, việc tập hợp các giá trị dạng ký tự từ nhiều cột lại với nhau có thể thực hiện bằng cách dùng hàm `unite()` từ package **tidyr**. Tính năng này ngược lại với hàm `separate()`.
 
-Đầu tiên, cần tên của cột mới. Sau đó, cần tên của các cột mà bạn muốn hợp nhất.  
+Đầu tiên, cần tên của cột mới. Sau đó, cần tên của các cột mà bạn muốn hợp nhất.
 
-* Mặc định, dấu ngăn cách được sử dụng trong cột hợp nhất là dấu gạch dưới _, nhưng có thể được thay đổi bằng argument `sep = `.   
-* `remove = ` loại bỏ các cột ban đầu ra khỏi bộ dữ liệu (mặc định là TRUE)   
-* `na.rm = ` loại bỏ các giá trị bị thiếu trong khi hợp nhất (mặc định là FALSE)   
+-   Mặc định, dấu ngăn cách được sử dụng trong cột hợp nhất là dấu gạch dưới \_, nhưng có thể được thay đổi bằng đối số `sep =`.\
+-   `remove =` loại bỏ các cột ban đầu ra khỏi bộ dữ liệu (mặc định là TRUE)\
+-   `na.rm =` loại bỏ các giá trị bị thiếu trong khi hợp nhất (mặc định là FALSE)
 
-Dưới đây, chúng tôi xác định một bộ dữ liệu ngắn để minh họa:  
+Dưới đây, chúng tôi xác định một bộ dữ liệu ngắn để minh họa:
 
 ```{r, message = F, warning=F}
 df <- data.frame(
@@ -219,7 +213,7 @@ df_split <- separate(df, symptoms, into = c("sym_1", "sym_2", "sym_3"), extra = 
 DT::datatable(df_split, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Dưới đây, chúng tôi hợp nhất ba cột triệu chứng: 
+Dưới đây, chúng tôi hợp nhất ba cột triệu chứng:
 
 ```{r}
 df_split %>% 
@@ -234,20 +228,20 @@ df_split %>%
 
 <!-- ======================================================= -->
 
-### Phân tách  {.unnumbered}  
+### Tách chuỗi {.unnumbered}
 
-Để phân tách một chuỗi ký tự dựa trên một pattern, hãy sử dụng hàm `str_split()`.Hàm này đánh giá (các) chuỗi ký tự và trả về `list` các vectơ ký tự chứa các giá trị mới được tách. 
+Để tách một chuỗi ký tự dựa trên một quy luật, hãy sử dụng hàm `str_split()`. Hàm này đánh giá (các) chuỗi ký tự và trả về danh sách `list` các vectơ ký tự chứa các giá trị mới được tách.
 
-Ví dụ đơn giản dưới đây đánh giá một chuỗi ký tự và chia thành ba phần. Mặc định, hàm trả về một đối tượng của phân lớp `list`  với một phần tử (một vectơ ký tự) cho mỗi chuỗi được sử dụng ban đầu. Nếu `simplify = TRUE` nó trả về một ma trận ký tự. 
+Ví dụ đơn giản dưới đây đánh giá một chuỗi ký tự và chia nó thành ba phần. Mặc định, hàm trả về một đối tượng kiểu danh sách `list` với một phần tử (một vectơ ký tự) cho mỗi chuỗi được cung cấp ban đầu. Nếu `simplify = TRUE` nó trả về một ma trận ký tự.
 
-Trong ví dụ này, một chuỗi ký tự được cung cấp và hàm trả về danh sách có một phần tử - một vectơ ký tự chứa ba giá trị. 
+Trong ví dụ này, một chuỗi ký tự được cung cấp và hàm trả về một danh sách có một phần tử - một vectơ ký tự chứa ba giá trị.
 
 ```{r}
 str_split(string = "jaundice, fever, chills",
           pattern = ",")
 ```
 
-Nếu kết quả được lưu, thì bạn có thể truy cập giá trị phân chia thứ n bằng cú pháp dấu ngoặc. Để truy cập vào một giá trị cụ thể, bạn có thể sử dụng cú pháp như sau:  `the_returned_object[[1]][2]`, sẽ truy cập giá trị thứ hai từ chuỗi ký tự được đánh giá ban đầu (“fever”). Xem thêm ở chương [R Cơ bản] để biết thêm chi tiết về cách truy vấn các phần tử. 
+Nếu kết quả được lưu, thì bạn có thể truy cập giá trị phân chia thứ n bằng cú pháp dấu ngoặc vuông. Để truy cập vào một giá trị cụ thể, bạn có thể sử dụng cú pháp như sau: `the_returned_object[[1]][2]`, sẽ truy cập giá trị thứ hai từ chuỗi ký tự được đánh giá thứ nhất ("fever"). Xem thêm ở chương [R Cơ bản] để biết thêm chi tiết về cách truy vấn các phần tử.
 
 ```{r}
 pt1_symptoms <- str_split("jaundice, fever, chills", ",")
@@ -255,7 +249,7 @@ pt1_symptoms <- str_split("jaundice, fever, chills", ",")
 pt1_symptoms[[1]][2]  # extracts 2nd value from 1st (and only) element of the list
 ```
 
-Nếu nhiều chuỗi ký tự được sử dụng trong hàm `str_split()`, sẽ có nhiều hơn một phần tử trong danh sách trả về. 
+Nếu nhiều chuỗi ký tự được sử dụng trong hàm `str_split()`, sẽ có nhiều hơn một phần tử trong danh sách trả về.
 
 ```{r}
 symptoms <- c("jaundice, fever, chills",     # patient 1
@@ -268,45 +262,49 @@ symptoms <- c("jaundice, fever, chills",     # patient 1
 str_split(symptoms, ",")                     # split each patient's symptoms
 ```
 
-Thay vào đó, để trả về “ma trận chuỗi ký tự”, có thể hữu ích nếu tạo cột trong bộ dữ liệu, đặt đối số `simplify = TRUE` như hình dưới đây:  
+Thay vào đó, để trả về "ma trận chuỗi ký tự", có thể sẽ hữu ích nếu tạo cột trong bộ dữ liệu, đặt đối số `simplify = TRUE` như trình bày dưới đây:
 
 ```{r}
 str_split(symptoms, ",", simplify = TRUE)
 ```
 
-Bạn cũng có thể điều chỉnh số phần tách ra với argument `n = `. Ví dụ: điều này hạn chế số phần  tách ra chỉ có 2 phần. Bất kỳ dấu phẩy nào khác vẫn sẽ nằm trong giá trị thứ hai. 
+Bạn cũng có thể điều chỉnh số phần tách ra với đối số `n =`. Ví dụ dưới đây giới hạn số phần tách ra là 2. Bất kỳ dấu phẩy nào khác vẫn sẽ nằm trong giá trị thứ hai.
 
 ```{r}
 str_split(symptoms, ",", simplify = TRUE, n = 2)
 ```
 
-*Lưu ý - các kết quả tương tự có thể thực hiện thành công với hàm `str_split_fixed()`, trong đó bạn không đưa ra argument `simplify` mà thay vào đó phải chỉ định số cột (`n`).* 
+*Lưu ý - các kết quả tương tự có thể đạt được với hàm `str_split_fixed()`, trong đó bạn không dùng đối số `simplify` mà thay vào đó phải chỉ định số cột (`n`).*
 
 ```{r, eval=F}
 str_split_fixed(symptoms, ",", n = 2)
 ```
 
-### Tách cột {.unnumbered}  
+### Tách cột {.unnumbered}
 
-Nếu bạn đang cố gắng chia tách cột trong bộ dữ liệu, cách tốt nhất là sử dụng hàm `separate()` từ package **dplyr**. Nó được sử dụng để chia một cột ký tự thành các cột khác nhau. 
+Nếu bạn đang cố gắng chia tách cột trong bộ dữ liệu, cách tốt nhất là sử dụng hàm `separate()` từ package **dplyr**. Nó được sử dụng để chia một cột ký tự thành các cột khác nhau.
 
-Giả sử chúng ta có một bộ dữ liệu đơn giản `df` (được định nghĩa và thống nhất trong [unite section](#str_unite)) chứa một cột `case_ID` , một cột dạng ký tự có nhiều triệu chứng và một cột kết quả. Mục tiêu của chúng tôi là tách cột `symptoms` thành nhiều cột - mỗi cột chứa một triệu chứng. 
+Giả sử chúng ta có một bộ dữ liệu đơn giản `df` (được xác định và hợp nhất trong [unite section](#str_unite)) chứa một cột `case_ID` , một cột dạng ký tự có nhiều triệu chứng và một cột outcome. Mục tiêu của chúng ta là tách cột `symptoms` thành nhiều cột - mỗi cột chứa một triệu chứng.
 
 ```{r, echo=F}
 DT::datatable(df, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Giả sử dữ liệu được đưa vào hàm `separate()`, trước tiên hãy chọn ra cột sẽ được phân tách. TSau đó, điền thông tin vào `into = `  dưới dạng vectơ `c( )` có chứa tên cột *mới* như hình dưới đây. 
+Giả sử dữ liệu được đưa vào hàm `separate()`, trước tiên hãy chọn ra cột sẽ được phân tách. Sau đó, cung cấp thông tin tới đối số `into =` dưới dạng vectơ `c( )` có chứa tên các cột *mới*, như được trình bày dưới đây.
 
-* Dấu phân cách trong `sep = ` có thể là một ký tự hoặc một số (được hiểu là vị trí ký tự cần tách) 
-* Mặc định là `remove = ` FALSE, xóa cột đầu vào ban ban đầu
-* Mặc định là `convert = ` FALSE, các ký tự “NA” sẽ thành `NA`  
-* `extra = ` kiểm soát điều gì sẽ xảy ra nếu có nhiều giá trị được tạo bởi sự phân tách nhiều hơn các cột mới được đặt tên. 
-     * `extra = "warn"` m có nghĩa là bạn sẽ thấy một cảnh báo nhưng nó sẽ loại bỏ các giá trị thừa (**mặc định là vậy**)  
-     * `extra = "drop"` có nghĩa là các giá trị thừa sẽ bị loại bỏ mà không có cảnh báo 
-     * **`extra = "merge"` sẽ chỉ phân tách thành số cột mới được liệt kê trong `into` - *điều này sẽ bảo toàn tất cả dữ liệu của bạn**
+-   Dấu phân cách trong `sep =` có thể là một ký tự hoặc một số (được hiểu là vị trí ký tự cần tách)
 
-Dưới đây là một ví dụ về `extra = "merge"` i- không có dữ liệu nào bị mất. Hai cột mới được xác định nhưng bất kỳ triệu chứng thứ ba nào sẽ quy về trong cột mới thứ hai: 
+-   Mặc định là `remove =` FALSE, xóa cột đầu vào ban ban đầu
+
+-   Mặc định là `convert =` FALSE, các ký tự "NA" sẽ thành `NA`\
+
+-   `extra =` kiểm soát điều gì sẽ xảy ra nếu có nhiều giá trị được tạo bởi sự phân tách nhiều hơn các cột mới được đặt tên.
+
+    -   `extra = "warn"` có nghĩa là bạn sẽ thấy một cảnh báo nhưng nó sẽ loại bỏ các giá trị thừa (**mặc định là vậy**)\
+    -   `extra = "drop"` có nghĩa là các giá trị thừa sẽ bị loại bỏ mà không có cảnh báo
+    -   \*\*`extra = "merge"` sẽ chỉ phân tách thành số cột mới được liệt kê trong `into` - \*thiết lập này sẽ bảo toàn tất cả dữ liệu của bạn\*\*
+
+Dưới đây là một ví dụ về `extra = "merge"` - không có dữ liệu nào bị mất. Hai cột mới được xác định nhưng bất kỳ triệu chứng thứ ba nào sẽ quy về trong cột mới thứ hai:
 
 ```{r}
 # third symptoms combined into second new column
@@ -314,7 +312,7 @@ df %>%
   separate(symptoms, into = c("sym_1", "sym_2"), sep=",", extra = "merge")
 ```
 
-Khi sử dụng lệnh `extra = "drop"` mặc định như bên dưới, một cảnh báo sẽ được đưa ra nhưng triệu chứng thứ ba bị mất: 
+Khi sử dụng lệnh `extra = "drop"` mặc định như bên dưới, một cảnh báo sẽ được đưa ra nhưng triệu chứng thứ ba bị mất:
 
 ```{r}
 # third symptoms are lost
@@ -322,13 +320,11 @@ df %>%
   separate(symptoms, into = c("sym_1", "sym_2"), sep=",")
 ```
 
+[**CẨN TRỌNG:** Nếu bạn không cung cấp đủ giá trị `into` cho các cột mới, dữ liệu của bạn có thể bị cắt bớt .]{style="color: orange;"}
 
-<span style="color: orange;">**CẨN TRỌNG:** Nếu bạn không cung cấp đủ giá trị `cho`các cột mới, dữ liệu của bạn có thể bị cắt bớt .</span>  
+### Sắp xếp theo thứ tự bảng chữ cái {.unnumbered}
 
-
-### Sắp xếp theo thứ tự bảng chữ cái {.unnumbered} 
-
-Một số chuỗi ký tự có thể được sắp xếp theo thứ tự bảng chữ cái. Hàm `str_order()` trả về thứ tự đã được sắp xếp, trong khi hàm `str_sort()` trả về các chuỗi theo thứ tự đó. 
+Một số chuỗi ký tự có thể được sắp xếp theo thứ tự bảng chữ cái. Hàm `str_order()` trả về thứ tự của các phần tử, trong khi hàm `str_sort()` trả về các chuỗi theo thứ tự đó.
 
 ```{r}
 # strings
@@ -341,12 +337,11 @@ str_order(health_zones)
 str_sort(health_zones)
 ```
 
-Để sử dụng một bảng chữ cái khác, hãy thêm argument `locale = `. See the full list of locales by entering `stringi::stri_locale_list()` in the R console.  
+Để sử dụng một bảng chữ cái khác, hãy thêm đối số `locale =`. Xem danh sách đầy đủ các locales bằng cách gõ `stringi::stri_locale_list()` trong cửa sổ R console.
 
+### Các hàm base R {.unnumbered}
 
-### base R functions {.unnumbered}
-
-It is common to see **base** R functions `paste()` and `paste0()`, which concatenate vectors after converting all parts to character. They act similarly to `str_c()` but the syntax is arguably more complicated - in the parentheses each part is separated by a comma. The parts are either character text (in quotes) or pre-defined code objects (no quotes). For example:
+Các hàm phổ biến của **base** R là `paste()` và `paste0()` nối các vectơ sau khi chuyển đổi tất cả các cấu phần thành ký tự. Chúng hoạt động tương tự như `str_c()` nhưng cú pháp được cho là phức tạp hơn - đó là trong ngoặc thì mỗi phần được phân tách bằng một dấu phẩy. Các cấu phần là ký tự dạng văn bản (trong dấu ngoặc kép) hoặc các đối tượng được xác định trước (không có dấu ngoặc kép). Ví dụ:
 
 ```{r}
 n_beds <- 10
@@ -357,13 +352,13 @@ paste0("Regional hospital needs ", n_beds, " beds and ", n_masks, " masks.")
 
 `sep =` and `collapse =` arguments can be specified. `paste()` is simply `paste0()` with a default `sep = " "` (one space).
 
-## Clean and standardise
+## Làm sạch và chuẩn hóa
 
 <!-- ======================================================= -->
 
-### Change case {.unnumbered}
+### Thay đổi chữ hoa/chữ thường {.unnumbered}
 
-Often one must alter the case/capitalization of a string value, for example names of jursidictions. Use `str_to_upper()`, `str_to_lower()`, and `str_to_title()`, from **stringr**, as shown below:
+Thông thường thì người ta cần phải thay đổi cách viết thường/viết hoa của một giá trị dạng chuỗi ký tự, ví dụ như tên địa danh. Hãy sử dụng hàm `str_to_upper()`, `str_to_lower()`, và `str_to_title()` từ **stringr**, như dưới đây:
 
 ```{r}
 str_to_upper("California")
@@ -371,31 +366,31 @@ str_to_upper("California")
 str_to_lower("California")
 ```
 
-Using \*base\*\* R, the above can also be achieved with `toupper()`, `tolower()`.
+Sử dụng \*base\*\* R, bạn cũng có thể thực hiện điều trên với hàm `toupper()`, `tolower()`.
 
-**Title case**
+**Định dạng tiêu đề**
 
-Transforming the string so each word is capitalized can be achieved with `str_to_title()`:
+Biến đổi chuỗi ký tự sao cho mỗi từ được viết hoa có thể thực hiện được với hàm `str_to_title()`:
 
 ```{r}
 str_to_title("go to the US state of california ")
 ```
 
-Use `toTitleCase()` from the **tools** package to achieve more nuanced capitalization (words like "to", "the", and "of" are not capitalized).
+Sử dụng hàm `toTitleCase()` từ package **tools** để chuyển đổi nhiều kiểu viết in hoa hơn (các từ như "to", "the" và "of" không cần viết hoa).
 
 ```{r}
 tools::toTitleCase("This is the US state of california")
 ```
 
-You can also use `str_to_sentence()`, which capitalizes only the first letter of the string.
+Bạn cũng có thể sử dụng hàm `str_to_sentence()`, chỉ viết hoa chữ cái đầu tiên của chuỗi ký tự.
 
 ```{r}
 str_to_sentence("the patient must be transported")
 ```
 
-### Pad length {#str_pad .unnumbered}
+### Độ dài chuỗi ký tự {#str_pad .unnumbered}
 
-Use `str_pad()` to add characters to a string, to a minimum length. By default spaces are added, but you can also pad with other characters using the `pad =` argument.
+Sử dụng hàm `str_pad()` để thêm các ký tự vào một chuỗi, với độ dài tối thiểu. Mặc định, khoảng trắng sẽ được thêm vào, nhưng bạn cũng có thể chèn các ký tự khác bằng cách sử dụng đối số `pad =`.
 
 ```{r}
 # ICD codes of differing length
@@ -410,7 +405,7 @@ str_pad(ICD_codes, 7, "right")
 str_pad(ICD_codes, 7, "right", pad = ".")
 ```
 
-For example, to pad numbers with leading zeros (such as for hours or minutes), you can pad the number to minimum length of 2 with `pad = "0"`.
+Ví dụ: để chèn thêm số bằng các số 0 ở đầu (chẳng hạn như giờ hoặc phút), bạn có thể chèn số có độ dài tối thiểu là 2 với `pad = "0"`.
 
 ```{r}
 # Add leading zeros to two digits (e.g. for times minutes/hours)
@@ -420,18 +415,18 @@ str_pad("4", 2, pad = "0")
 # hours <- str_pad(hours, 2, pad = "0")
 ```
 
-### Truncate {.unnumbered}
+### Cắt chuỗi ký tự {.unnumbered}
 
-`str_trunc()` sets a maximum length for each string. If a string exceeds this length, it is truncated (shortened) and an ellipsis (...) is included to indicate that the string was previously longer. Note that the ellipsis *is* counted in the length. The ellipsis characters can be changed with the argument `ellipsis =`. The optional `side =` argument specifies which where the ellipsis will appear within the truncated string ("left", "right", or "center").
+Hàm `str_trunc()` thiết lập độ dài tối đa cho mỗi chuỗi ký tự. Nếu một chuỗi vượt quá độ dài này, nó sẽ bị xén (rút ngắn) và kết thúc bằng một dấu ba chấm (...) ám chỉ rằng chuỗi đó chưa hiển thị hết các ký tự. Lưu ý rằng dấu ba chấm *được* tính toán phụ thuộc vào độ dài. Các ký tự dấu ba chấm có thể được thay đổi bằng đối số `ellipsis =`. Đối số tùy chọn `side =` làm rõ vị trí mà dấu ba chấm sẽ xuất hiện trong chuỗi bị cắt ngắn (bên "trái", "phải" hoặc "giữa").
 
 ```{r}
 original <- "Symptom onset on 4/3/2020 with vomiting"
 str_trunc(original, 10, "center")
 ```
 
-### Standardize length {.unnumbered}
+### Chuẩn hóa độ dài {.unnumbered}
 
-Use `str_trunc()` to set a maximum length, and then use `str_pad()` to expand the very short strings to that truncated length. In the example below, 6 is set as the maximum length (one value is truncated), and then one very short value is padded to achieve length of 6.
+Sử dụng hàm `str_trunc()` để thiết lập độ dài tối đa, sau đó sử dụng hàm `str_pad()` để tăng thêm độ dài cho các chuỗi rất ngắn sao cho bằng độ dài tiêu chuẩn. Trong ví dụ dưới đây, độ dài tối đa là 6 (một ký tự bị cắt giảm), và sau đó một giá trị rất ngắn được đệm thêm để đạt được độ dài chuỗi là 6.
 
 ```{r}
 # ICD codes of differing length
@@ -448,9 +443,9 @@ ICD_codes_3 <- str_pad(ICD_codes_2, 6, "right")
 ICD_codes_3
 ```
 
-### Remove leading/trailing whitespace {.unnumbered}
+### Xóa khoảng trắng đầu/cuối {.unnumbered}
 
-Use `str_trim()` to remove spaces, newlines (`\n`) or tabs (`\t`) on sides of a string input. Add `"right"` `"left"`, or `"both"` to the command to specify which side to trim (e.g. `str_trim(x, "right")`.
+Sử dụng hàm `str_trim()` để xóa khoảng trắng, dòng mới (`\n`) hoặc tabs (`\t`) ở các phía của chuỗi đầu vào. Thêm `"right"` `"left"`, hoặc `"both"` vào lệnh để xác định phía nào cần cắt (ví dụ: `str_trim(x, "right")`.
 
 ```{r}
 # ID numbers with excess spaces on right
@@ -462,20 +457,20 @@ IDs <- c("provA_1852  ", # two excess spaces
 str_trim(IDs)
 ```
 
-### Remove repeated whitespace within {.unnumbered}
+### Xóa khoảng trắng lặp lại phía trong {.unnumbered}
 
-Use `str_squish()` to remove repeated spaces that appear *inside* a string. For example, to convert double spaces into single spaces. It also removes spaces, newlines, or tabs on the outside of the string like `str_trim()`.
+Sử dụng hàm `str_squish()` để loại bỏ các khoảng trắng lặp lại *bên trong* một chuỗi. Ví dụ, để chuyển đổi khoảng trắng lặp thành khoảng trắng đơn. Điều này cũng sẽ loại bỏ dấu cách, dòng mới hoặc tab ở phía bên ngoài chuỗi như giống như hàm `str_trim()`.
 
 ```{r}
 # original contains excess spaces within string
 str_squish("  Pt requires   IV saline\n") 
 ```
 
-Enter `?str_trim`, `?str_pad` in your R console to see further details.
+Gõ `?str_trim`, `?str_pad` vào cửa sổ R console để biết thêm chi tiết.
 
-### Wrap into paragraphs {.unnumbered}
+### Gói lại thành đoạn văn bản {.unnumbered}
 
-Use `str_wrap()` to wrap a long unstructured text into a structured paragraph with fixed line length. Provide the ideal character length for each line, and it applies an algorithm to insert newlines (`\n`) within the paragraph, as seen in the example below.
+Sử dụng hàm `str_wrap()` để gói một đoạn văn bản dài không có cấu trúc thành một đoạn văn có cấu trúc với độ dài các dòng là cố định. Cần xác định độ dài lý tưởng cho mỗi dòng và áp dụng một thuật toán để chèn thêm dòng mới (`\n`) vào trong đoạn văn bản, như ví dụ bên dưới.
 
 ```{r}
 pt_course <- "Symptom onset 1/4/2020 vomiting chills fever. Pt saw traditional healer in home village on 2/4/2020. On 5/4/2020 pt symptoms worsened and was admitted to Lumta clinic. Sample was taken and pt was transported to regional hospital on 6/4/2020. Pt died at regional hospital on 7/4/2020."
@@ -483,7 +478,7 @@ pt_course <- "Symptom onset 1/4/2020 vomiting chills fever. Pt saw traditional h
 str_wrap(pt_course, 40)
 ```
 
-The **base** function `cat()` can be wrapped around the above command in order to print the output, displaying the new lines added.
+Hàm `cat()` trong **base** R có thể xử lý toàn bộ câu lệnh trên để trả kết quả, hiển thị các dòng mới được thêm vào.
 
 ```{r}
 cat(str_wrap(pt_course, 40))
@@ -491,24 +486,24 @@ cat(str_wrap(pt_course, 40))
 
 <!-- ======================================================= -->
 
-## Handle by position
+## Xử lý theo vị trí
 
-### Extract by character position {.unnumbered}
+### Tách chuỗi theo vị trí ký tự {.unnumbered}
 
-Use `str_sub()` to return only a part of a string. The function takes three main arguments:
+Sử dụng hàm `str_sub()` để trả về một phần của chuỗi. Hàm chứa 3 đối số chính là:
 
-1)  the character vector(s)\
-2)  start position\
-3)  end position
+1)  các vector ký tự\
+2)  vị trí bắt đầu\
+3)  vị trí kết thúc
 
-A few notes on position numbers:
+Một vài lưu ý về số thứ tự vị trí:
 
--   If a position number is positive, the position is counted starting from the left end of the string.\
--   If a position number is negative, it is counted starting from the right end of the string.\
--   Position numbers are inclusive.\
--   Positions extending beyond the string will be truncated (removed).
+-   Nếu số thứ tự vị trí là số dương, vị trí được xử lý bắt đầu từ vị trí cuối cùng bên trái của chuỗi.\
+-   Nếu số thứ tự vị trí là số âm, vị trí được xử lý bắt đầu từ vị trí cuối cùng bên phải của chuỗi.\
+-   Số thứ tự vị trí được bao gồm.\
+-   Các vị trí vượt quá chuỗi sẽ bị cắt bớt (loại bỏ).
 
-Below are some examples applied to the string "pneumonia":
+Dưới đây là một số ví dụ được áp dụng cho chuỗi ký tự "pneumonia":
 
 ```{r}
 # start and end third from left (3rd letter from left)
@@ -527,11 +522,11 @@ str_sub("pneumonia", -5, -2)
 str_sub("pneumonia", 4, 15)
 ```
 
-### Extract by word position {.unnumbered}
+### Tách theo vị trí từ {.unnumbered}
 
-To extract the nth 'word', use `word()`, also from **stringr**. Provide the string(s), then the first word position to extract, and the last word position to extract.
+Để tách 'từ' thứ n, hãy sử dụng hàm `word()` cũng thuộc package **stringr**. Đầu tiên, xác định (các) chuỗi ký tự, sau đó là vị trí từ đầu tiên cần trích xuất và vị trí từ cuối cùng để trích xuất.
 
-By default, the separator between 'words' is assumed to be a space, unless otherwise indicated with `sep =` (e.g. `sep = "_"` when words are separated by underscores.
+Mặc định, dấu phân cách giữa các 'từ' được giả định là khoảng trắng, trừ khi được chỉ định các khác bằng đối số `sep =` (ví dụ: `sep = "_"` khi các từ được phân tách bằng dấu gạch dưới)
 
 ```{r}
 # strings to evaluate
@@ -543,9 +538,9 @@ chief_complaints <- c("I just got out of the hospital 2 days ago, but still can 
 word(chief_complaints, start = 1, end = 3, sep = " ")
 ```
 
-### Replace by character position {.unnumbered}
+### Thay thế theo vị trí ký tự {.unnumbered}
 
-`str_sub()` paired with the assignment operator (`<-`) can be used to modify a part of a string:
+Hàm `str_sub()` được ghép nối với toán tử gán (`<-`) có thể được sử dụng để sửa đổi một phần của chuỗi ký tự:
 
 ```{r}
 word <- "pneumonia"
@@ -557,7 +552,7 @@ str_sub(word, 3, 4) <- "XX"
 word
 ```
 
-An example applied to multiple strings (e.g. a column). Note the expansion in length of "HIV".
+Một ví dụ áp dụng cho nhiều chuỗi (ví dụ: một cột). Lưu ý sự mở rộng chiều dài của từ "HIV".
 
 ```{r}
 words <- c("pneumonia", "tubercolosis", "HIV")
@@ -568,43 +563,43 @@ str_sub(words, 3, 4) <- "XX"
 words
 ```
 
-### Evaluate length {.unnumbered}
+### Đánh giá độ dài chuỗi {.unnumbered}
 
 ```{r}
 str_length("abc")
 ```
 
-Alternatively, use `nchar()` from **base** R
+Ngoài ra, có thể sử dụng hàm `nchar()` từ **base** R
 
 <!-- ======================================================= -->
 
-## Patterns
+## Quy luật chuỗi
 
-Many **stringr** functions work to detect, locate, extract, match, replace, and split based on a specified *pattern*.
+Nhiều hàm **stringr** được sử dụng để nhận diện, định vị, trích xuất, khớp, thay thế và phân tách dựa trên một *pattern - quy luật* được chỉ định. .
 
 <!-- ======================================================= -->
 
-### Detect a pattern {.unnumbered}
+### Nhận diện quy luật {.unnumbered}
 
-Use `str_detect()` as below to detect presence/absence of a pattern within a string. First provide the string or vector to search in (`string =`), and then the pattern to look for (`pattern =`). Note that by default the search *is case sensitive*!
+Sử dụng hàm `str_detect()` như bên dưới để phát hiện sự hiện diện/sự vắng mặt của một quy luật trong chuỗi. Đầu tiên, hãy cung cấp cho chuỗi hoặc vectơ cần tìm tới hàm (`string =`), sau đó là quy luật tìm kiếm (`pattern =`). Lưu ý rằng theo mặc định thì tìm kiếm phân biệt *chữ hoa chữ thường*!
 
 ```{r}
 str_detect(string = "primary school teacher", pattern = "teach")
 ```
 
-The argument `negate =` can be included and set to `TRUE` if you want to know if the pattern is NOT present.
+Đối số `negate =` có thể được bao gồm và đặt thành `TRUE` nếu bạn muốn tìm một quy luật KHÔNG xuất hiện.
 
 ```{r}
 str_detect(string = "primary school teacher", pattern = "teach", negate = TRUE)
 ```
 
-To ignore case/capitalization, wrap the pattern within `regex()`, and *within* `regex()` add the argument `ignore_case = TRUE` (or `T` as shorthand).
+Để bỏ qua chữ hoa / chữ thường, hãy đặt pattern trong hàm `regex()`, và *bên trong* hàm `regex()` hãy thêm đối số `ignore_case = TRUE` (hoặc viết tắt là `T`).
 
 ```{r}
 str_detect(string = "Teacher", pattern = regex("teach", ignore_case = T))
 ```
 
-When `str_detect()` is applied to a character vector or a data frame column, it will return TRUE or FALSE for each of the values.
+Khi hàm `str_detect()` được áp dụng cho một vectơ ký tự hoặc một cột trong bộ dữ liệu, nó sẽ trả về giá trị TRUE hoặc FALSE cho mỗi giá trị.
 
 ```{r}
 # a vector/column of occupations 
@@ -623,19 +618,19 @@ occupations <- c("field laborer",
 str_detect(occupations, "teach")
 ```
 
-If you need to count the `TRUE`s, simply `sum()` the output. This counts the number `TRUE`.
+Nếu bạn cần đếm giá trị `TRUE`, chỉ cần đơn giản tính tổng bằng hàm `sum()` kết quả đầu ra. Nó sẽ đếm số lượng giá trị `TRUE`.
 
 ```{r}
 sum(str_detect(occupations, "teach"))
 ```
 
-To search inclusive of multiple terms, include them separated by OR bars (`|`) within the `pattern =` argument, as shown below:
+Để tìm kiếm bao gồm nhiều cụm từ, hãy nhóm chúng bằng ký tự OR (`|`) bên trong đối số `pattern =` như được trình bày dưới đây:
 
 ```{r}
 sum(str_detect(string = occupations, pattern = "teach|professor|tutor"))
 ```
 
-If you need to build a long list of search terms, you can combine them using `str_c()` and `sep = |`, then define this is a character object, and then reference the vector later more succinctly. The example below includes possible occupation search terms for front-line medical providers.
+Nếu bạn cần xây dựng một danh sách dài gồm các cụm từ cần tìm kiếm, bạn có thể kết hợp chúng bằng cách sử dụng hàm `str_c()` và `sep = |`, sau đó chỉ định nó là một đối tượng dạng ký tự, và sau đó tham chiếu vector một cách ngắn gọn hơn. Ví dụ dưới đây bao gồm các cụm từ tìm kiếm bao gồm các nghề nghiệp có thể sử dụng cho các nhà cung cấp dịch vụ y tế tuyến đầu.
 
 ```{r}
 # search terms
@@ -652,23 +647,23 @@ occupation_med_frontline <- str_c("medical", "medicine", "hcw", "healthcare", "h
 occupation_med_frontline
 ```
 
-This command returns the number of occupations which contain any one of the search terms for front-line medical providers (`occupation_med_frontline`):
+Lệnh này trả về số lượng nghề nghiệp mà chứa bất kỳ một trong các cụm từ tìm kiếm dành cho nhà cung cấp dịch vụ y tế tuyến đầu (`occupation_med_frontline`):
 
 ```{r}
 sum(str_detect(string = occupations, pattern = occupation_med_frontline))
 ```
 
-**Base R string search functions**
+**Các hàm tìm kiếm chuỗi trong Base R**
 
-The **base** function `grepl()` works similarly to `str_detect()`, in that it searches for matches to a pattern and returns a logical vector. The basic syntax is `grepl(pattern, strings_to_search, ignore.case = FALSE, ...)`. One advantage is that the `ignore.case` argument is easier to write (there is no need to involve the `regex()` function).
+Hàm `grepl()` trong **base** R hoạt động tương tự như hàm `str_detect()`, trong đó nó tìm kiếm các kết quả phù hợp với một quy luật và trả về một vectơ logic. Cú pháp cơ bản đó là `grepl(pattern, strings_to_search, ignore.case = FALSE, ...)`. Một ưu điểm đó là đối số `ignore.case` dễ viết hơn (không cần có sự tham gia của hàm `regex()`).
 
-Likewise, the **base** functions `sub()` and `gsub()` act similarly to `str_replace()`. Their basic syntax is: `gsub(pattern, replacement, strings_to_search, ignore.case = FALSE)`. `sub()` will replace the first instance of the pattern, whereas `gsub()` will replace all instances of the pattern.
+Tương tự như vậy, các hàm `sub()` và `gsub()` của **base** R hoạt động tương tự như hàm `str_replace()`. Cú pháp cơ bản đó là: `gsub(pattern, replacement, strings_to_search, ignore.case = FALSE)`. `sub()` sẽ thay thế trường hợp đầu tiên của pattern, trong khi `gsub()` sẽ thay thế tất cả các trường hợp của pattern.
 
-#### Convert commas to periods {.unnumbered}
+#### Chuyển đổi dấu phẩy thành dấu chấm {.unnumbered}
 
-Here is an example of using `gsub()` to convert commas to periods in a vector of numbers. This could be useful if your data come from parts of the world other than the United States or Great Britain.
+Sau đây là một ví dụ về việc sử dụng hàm `gsub()` để chuyển đổi dấu phẩy thành dấu chấm trong một vectơ dạng số. Điều này có thể hữu ích nếu dữ liệu của bạn bắt nguồn từ nhiều nơi trên thế giới ngoài Hoa Kỳ hoặc Vương quốc Anh.
 
-The inner `gsub()` which acts first on `lengths` is converting any periods to no space "". The period character "." has to be "escaped" with two slashes to actually signify a period, because "." in regex means "any character". Then, the result (with only commas) is passed to the outer `gsub()` in which commas are replaced by periods.
+Hàm `gsub()` bên trong đầu tiên hoạt động trên đối tượng `lengths` để chuyển đổi bất kỳ dấu chấm nào thành không có khoảng trắng "". Ký tự dấu chấm "." phải được "đi liền" với hai dấu gạch chéo để biểu thị một dấu chấm, bởi vì "." trong biểu thức chính quy có nghĩa là "bất kỳ ký tự nào". Sau đó, kết quả (chỉ có dấu phẩy) được chuyển tiếp đến hàm `gsub()` bên ngoài trong đó dấu phẩy được thay thế bằng dấu chấm.
 
 ```{r, eval=F}
 lengths <- c("2.454,56", "1,2", "6.096,5")
@@ -680,9 +675,9 @@ as.numeric(gsub(pattern = ",",                # find commas
            )                                  # convert outcome to numeric
 ```
 
-### Replace all {.unnumbered}
+### Thay thế toàn bộ {.unnumbered}
 
-Use `str_replace_all()` as a "find and replace" tool. First, provide the strings to be evaluated to `string =`, then the pattern to be replaced to `pattern =`, and then the replacement value to `replacement =`. The example below replaces all instances of "dead" with "deceased". Note, this IS case sensitive.
+Sử dụng hàm `str_replace_all()` như là một công cụ "find and replace (tìm kiếm và thay thế)". Đầu tiên, cung cấp các chuối ký tự sẽ được đánh giá tới đối số `string =`, sau đó là quy luật sẽ được thay thế vào đối số `pattern =`, và sau đó là giá trị thay thế vào `replacement =`. Ví dụ dưới đây thay thế tất cả các trường hợp "dead" bằng "deceased". Lưu ý, phân biệt chữ hoa chữ thường.
 
 ```{r}
 outcome <- c("Karl: dead",
@@ -692,18 +687,18 @@ outcome <- c("Karl: dead",
 str_replace_all(string = outcome, pattern = "dead", replacement = "deceased")
 ```
 
-Notes:
+Lưu ý:
 
--   To replace a pattern with `NA`, use `str_replace_na()`.\
--   The function `str_replace()` replaces only the first instance of the pattern within each evaluated string.
+-   Để thay thế một pattern cho `NA`, sử dụng hàm `str_replace_na()`.\
+-   Hàm `str_replace()` thay thế duy nhất trường hợp đầu tiên của pattern trong mỗi chuỗi ký tự.
 
 <!-- ======================================================= -->
 
-### Detect within logic {.unnumbered}
+### Nhận diện logic {.unnumbered}
 
-**Within `case_when()`**
+**Bên trong hàm `case_when()`**
 
-`str_detect()` is often used within `case_when()` (from **dplyr**). Let's say `occupations` is a column in the linelist. The `mutate()` below creates a new column called `is_educator` by using conditional logic via `case_when()`. See the page on data cleaning to learn more about `case_when()`.
+`str_detect()` thường được sử dụng trong hàm `case_when()` (từ **dplyr**). Hãy coi `occupations` là một cột trong bộ linelist. Hàm `mutate()` dưới đây tạo một cột mới gọi là `is_educator` bằng cách sử dụng logic có điều kiện bởi `case_when()`. Xem thêm ở chương về làm sạch dữ liệu để hiểu hơn về hàm `case_when()`.
 
 ```{r, eval=F}
 df <- df %>% 
@@ -716,7 +711,7 @@ df <- df %>%
     TRUE                                               ~ "Not an educator"))
 ```
 
-As a reminder, it may be important to add exclusion criteria to the conditional logic (`negate = F`):
+Xin nhắc lại, điều quan trọng là phải thêm tiêu chí loại trừ vào điều kiện logic (`negate = F`):
 
 ```{r, eval=F}
 df <- df %>% 
@@ -741,15 +736,15 @@ df <- df %>%
 
 <!-- ======================================================= -->
 
-### Locate pattern position {.unnumbered}
+### Định vị vị trí pattern {.unnumbered}
 
-To locate the *first* position of a pattern, use `str_locate()`. It outputs a start and end position.
+Để xác định vị trí *đầu tiên* của một pattern, hãy sử dụng hàm `str_locate()`. Nó xuất ra vị trí bắt đầu và kết thúc.
 
 ```{r}
 str_locate("I wish", "sh")
 ```
 
-Like other `str` functions, there is an "\_all" version (`str_locate_all()`) which will return the positions of *all* instances of the pattern within each string. This outputs as a `list`.
+Giống như các hàm `str` khác, có một phiên bản "\_all" (`str_locate_all()`) sẽ trả về vị trí của *tất cả* các phiên bản của pattern trong mỗi chuỗi. Kết quả này xuất ra dưới dạng danh sách `list`.
 
 ```{r}
 phrases <- c("I wish", "I hope", "he hopes", "He hopes")
@@ -760,17 +755,17 @@ str_locate_all(phrases, "h" ) # position of *every* instance of the pattern
 
 <!-- ======================================================= -->
 
-### Extract a match {.unnumbered}
+### Trích xuất kết quả ghép cặp {.unnumbered}
 
-`str_extract_all()` returns the matching patterns themselves, which is most useful when you have offered several patterns via "OR" conditions. For example, looking in the string vector of occupations (see previous tab) for *either* "teach", "prof", or "tutor".
+`str_extract_all()` trả về các patterns được matching, sẽ hữu dụng nhất khi bạn cung cấp một vài patterns thông qua điều kiện "OR". Ví dụ: tìm trong vectơ chuỗi nghề nghiệp (xem tab trước) các từ "teach", "prof" hoặc "tutor".
 
-`str_extract_all()` returns a `list` which contains *all matches* for each evaluated string. See below how occupation 3 has two pattern matches within it.
+`str_extract_all()` trả về một danh sách `list` chứa *tất cả các kết quả ghép cặp* cho mỗi chuỗi được đánh giá. Xem dưới đây ta thấy occupation 3 có hai pattern được tìm thấy.
 
 ```{r}
 str_extract_all(occupations, "teach|prof|tutor")
 ```
 
-`str_extract()` extracts *only the first match* in each evaluated string, producing a character vector with one element for each evaluated string. It returns `NA` where there was no match. The `NA`s can be removed by wrapping the returned vector with `na.exclude()`. Note how the second of occupation 3's matches is not shown.
+`str_extract()` chỉ trích xuất *kết quả ghép cặp đầu tiên* trong mỗi chuỗi được xem xét, tạo ra một vectơ ký tự với một phần tử cho mỗi chuỗi được xem xét. Nó trả về giá trị `NA` khi không có giá trị nào được tìm thấy. Các giá trị `NA` có thể được loại bỏ bằng cách đặt vectơ trả về trong hàm `na.exclude()`. Lưu ý đoạn khớp nối thứ hai của occupation 3 không được hiển thị.
 
 ```{r}
 str_extract(occupations, "teach|prof|tutor")
@@ -778,17 +773,17 @@ str_extract(occupations, "teach|prof|tutor")
 
 <!-- ======================================================= -->
 
-### Subset and count {.unnumbered}
+### Tập hợp con và số lượng {.unnumbered}
 
-Aligned functions include `str_subset()` and `str_count()`.
+Bao gồm hàm `str_subset()` và `str_count()`.
 
-`str_subset()` returns the actual values which contained the pattern:
+`str_subset()` trả về các giá trị thực có chứa pattern:
 
 ```{r}
 str_subset(occupations, "teach|prof|tutor")
 ```
 
-`str_count()` returns a vector of numbers: the **number of times** a search term appears in each evaluated value.
+`str_count()` trả về một vectơ số: **số lần** một cụm từ tìm kiếm xuất hiện trong mỗi giá trị được xem xét.
 
 ```{r}
 str_count(occupations, regex("teach|prof|tutor", ignore_case = TRUE))
@@ -796,79 +791,79 @@ str_count(occupations, regex("teach|prof|tutor", ignore_case = TRUE))
 
 <!-- ======================================================= -->
 
-### Regex groups {.unnumbered}
+### Nhóm Regex {.unnumbered}
 
-UNDER CONSTRUCTION
+ĐANG ĐƯỢC XÂY DỰNG
 
 <!-- ======================================================= -->
 
-## Special characters
+## Các ký tự đặc biệt
 
-**Backslash `\` as escape**
+**Dấu gạch chéo ngược `\` để bỏ qua**
 
-The backslash `\` is used to "escape" the meaning of the next character. This way, a backslash can be used to have a quote mark display *within* other quote marks (`\"`) - the middle quote mark will not "break" the surrounding quote marks.
+Dấu gạch chéo ngược `\` được sử dụng "để bỏ qua" nghĩa của ký tự tiếp theo. Bằng cách này, dấu gạch chéo ngược có thể được sử dụng để hiển thị dấu ngoặc kép *bên trong* các dấu ngoặc kép khác (`\"`) - dấu ngoặc kép ở giữa sẽ không "phá vỡ" các dấu ngoặc kép xung quanh.
 
-Note - thus, if you want to *display* a backslash, you must escape it's meaning with *another* backslash. So you must write two backslashes `\\` to display one.
+Lưu ý - do đó, nếu bạn muốn *hiển thị* một dấu gạch chéo ngược, bạn phải ngắt nghĩa của nó bằng một dấu gạch chéo ngược khác. Vì vậy, bạn phải viết hai dấu gạch chéo ngược `\\` để chỉ hiển thị một.
 
-**Special characters**
+**Các ký tự đặc biệt**
 
-| Special character                                                                 | Represents                          |
+| Ký tự đặc biệt                                                                    | Ý nghĩa                             |
 |-----------------------------------------------------------------------------------|-------------------------------------|
-| `"\\"`                                                                            | backslash                           |
-| `"\n"`                                                                            | a new line (newline)                |
-| `"\""`                                                                            | double-quote *within* double quotes |
-| `'\''`                                                                            | single-quote *within* single quotes |
+| `"\\"`                                                                            | Dấu gạch chéo ngược                 |
+| `"\n"`                                                                            | một dòng mới                        |
+| `"\""`                                                                            | dấu ngoặc kép *trong* dấu ngoặc kép |
+| `'\''`                                                                            | dấu ngoặc đơn *trong* dấu ngoặc đơn |
 | `"\`"`| grave accent`"\r"`| carriage return`"\t"`| tab`"\v"`| vertical tab`"\b"\` | backspace                           |
 
-Run `?"'"` in the R Console to display a complete list of these special characters (it will appear in the RStudio Help pane).
+Gõ `?"'"` trong cửa sổ R Console để hiển thị danh sách đầy đủ các ký tự đặc biệt (nó sẽ xuất hiện trong cửa sổ Help của RStudio).
 
 <!-- ======================================================= -->
 
-## Regular expressions (regex)
+## Biểu thức chính quy (regex)
 
 <!-- ======================================================= -->
 
-## Regex and special characters
+## Regex và các ký tự đặc biệt
 
-Regular expressions, or "regex", is a concise language for describing patterns in strings. If you are not familiar with it, a regular expression can look like an alien language. Here we try to de-mystify this language a little bit.
+Biểu thức chính quy, hoặc “regex”, là một ngôn ngữ ngắn gọn để mô tả các patterns trong chuỗi ký tự. Nếu bạn không quen với nó, một biểu thức chính quy có thể trông giống như một ngôn ngữ ngoài hành tinh. Ở đây chúng tôi cố lột tả ngôn ngữ này dễ hiểu hơn
 
-*Much of this section is adapted from [this tutorial](https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432) and [this cheatsheet](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)*. We selectively adapt here knowing that this handbook might be viewed by people without internet access to view the other tutorials.
+*Phần lớn nội dung mục này được tham khảo từ [hướng dẫn này](https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432) và [cheatsheet này](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)*.  Chúng tôi tóm tắt một cách chọn lọc ở đây khi biết rằng cuốn ebook này có thể được xem bởi những người không có quyền truy cập internet để có thể xem các hướng dẫn khác.
 
-A regular expression is often applied to extract specific patterns from "unstructured" text - for example medical notes, chief complaints, patient history, or other free text columns in a data frame
+Một biểu thức chính quy thường được áp dụng để trích xuất các pattern cụ thể từ văn bản "không có cấu trúc" - ví dụ: ghi chú y tế, khiếu nại, tiền sử bệnh tật hoặc các cột văn bản khác trong bộ dữ liệu.
 
-There are four basic tools one can use to create a basic regular expression:
+Có bốn công cụ cơ bản mà người ta có thể sử dụng để tạo một biểu thức chính quy cơ bản:
 
-1)  Character sets\
-2)  Meta characters\
-3)  Quantifiers\
-4)  Groups
+1)  Bộ ký tự\
+2)  Siêu ký tự\
+3)  Bộ định lượng\
+4)  Nhóm
 
-**Character sets**
+**Bộ ký tự**
 
-Character sets, are a way of expressing listing options for a character match, within brackets. So any a match will be triggered if any of the characters within the brackets are found in the string. For example, to look for vowels one could use this character set: "[aeiou]". Some other common character sets are:
+Bộ ký tự, là một cách thể hiện các tùy chọn liệt kê phù hợp với ký tự gốc, trong dấu ngoặc. Vì vậy, mọi kết quả khớp sẽ được đánh dấu nếu tìm thấy bất kỳ ký tự nào trong dấu ngoặc trong chuỗi. Ví dụ, để tìm các nguyên âm, người ta có thể sử dụng bộ ký tự này: “[aeiou]”. Một số bộ ký tự phổ biến khác là: 
 
-| Character set | Matches for                     |
-|---------------|---------------------------------|
-| `"[A-Z]"`     | any single capital letter       |
-| `"[a-z]"`     | any single lowercase letter     |
-| `"[0-9]"`     | any digit                       |
-| `[:alnum:]`   | any alphanumeric character      |
-| `[:digit:]`   | any numeric digit               |
-| `[:alpha:]`   | any letter (upper or lowercase) |
-| `[:upper:]`   | any uppercase letter            |
-| `[:lower:]`   | any lowercase letter            |
+| Bộ ký tự    | Ghép cặp                                     |
+|-------------|----------------------------------------------|
+| `"[A-Z]"`   | bất kỳ ký tự viết hoa đơn lẻ nào             |
+| `"[a-z]"`   | bất kỳ ký tự viết thường đơn lẻ nào          |
+| `"[0-9]"`   | bất kỳ số nào                                |
+| `[:alnum:]` | bất kỳ ký tự chữ và số nào                   |
+| `[:digit:]` | bất kỳ chữ số nào                            |
+| `[:alpha:]` | bất kỳ ký tự nào (viết hoa hoặc viết thường) |
+| `[:upper:]` | bất kỳ ký tự viết hoa nào                    |
+| `[:lower:]` | bất kỳ ký tự viết thường nào                 |
 
-Character sets can be combined within one bracket (no spaces!), such as `"[A-Za-z]"` (any upper or lowercase letter), or another example `"[t-z0-5]"` (lowercase t through z OR number 0 through 5).
+Các bộ ký tự có thể được kết hợp trong một dấu ngoặc vuông (không có khoảng trắng!), chẳng hạn như `"[A-Za-z]"` (bất kỳ chữ cái viết hoa hoặc viết thường nào), hoặc một ví dụ khác `"[t-z0-5]"` (từ t viết thường đến z HOẶC số 0 đến 5).
 
-**Meta characters**
+**Siêu ký tự**
 
-Meta characters are shorthand for character sets. Some of the important ones are listed below:
+Các siêu ký tự tố là cách viết tắt của các bộ ký tự. Một số điều quan trọng được liệt kê dưới đây:
 
-| Meta character | Represents                                           |
-|----------------|------------------------------------------------------|
-| `"\\s"`        | a single space                                       |
-| `"\\w"`        | any single alphanumeric character (A-Z, a-z, or 0-9) |
-| `"\\d"`        | any single numeric digit (0-9)                       |
+| Siêu ký tự | Ý nghĩa                                                |
+|------------|--------------------------------------------------------|
+| `"\\s"`    | khoảng trắng đơn                                       |
+| `"\\w"`    | bất kỳ ký tự chữ hoặc số đơn lẻ nào (A-Z, a-z, or 0-9) |
+| `"\\d"`    | bất kỳ chữ số đơn lẻ nào (0-9)                         |
 
 **Bộ định lượng**
 
