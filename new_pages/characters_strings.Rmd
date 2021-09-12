@@ -4,35 +4,35 @@
 knitr::include_graphics(here::here("images", "Characters_Strings_1500x500.png"))
 ```
 
-This page demonstrates use of the **stringr** package to evaluate and handle character values ("strings").
 
-1.  Combine, order, split, arrange - `str_c()`, `str_glue()`, `str_order()`, `str_split()`\
+Trang này trình bày việc sử dụng package **stringr** để đánh giá và xử lý các giá trị ký tự (“chuỗi”).
 
-2.  Clean and standardise
+1. Các hàm kết hợp, sắp xếp, phân tách, sắp xếp - `str_c()`, `str_glue()`, `str_order()`, `str_split()`  
 
-    -   Adjust length - `str_pad()`, `str_trunc()`, `str_wrap()`\
-    -   Change case - `str_to_upper()`, `str_to_title()`, `str_to_lower()`, `str_to_sentence()`\
+2. Làm sạch và chuẩn hóa
+    * Các hàm điều chỉnh độ dài ký tự - `str_pad()`, `str_trunc()`, `str_wrap()`  
+    * Các hàm thay đổi - `str_to_upper()`, `str_to_title()`, `str_to_lower()`, `str_to_sentence()`  
+    
+3. Các hàm đánh giá phân giải bới vị trí - `str_length()`, `str_sub()`, `word()`  
 
-3.  Evaluate and extract by position - `str_length()`, `str_sub()`, `word()`\
-
-4.  Patterns
-
-    -   Detect and locate - `str_detect()`, `str_subset()`, `str_match()`, `str_extract()`\
-    -   Modify and replace - `str_sub()`, `str_replace_all()`\
+4. Các hàm làm việc với patterns  
+    * Detect and locate - `str_detect()`, `str_subset()`, `str_match()`, `str_extract()`  
+    * Modify and replace - `str_sub()`, `str_replace_all()`  
 
 5.  Regular expressions ("regex")
 
-For ease of display most examples are shown acting on a short defined character vector, however they can easily be adapted to a column within a data frame.
+Để dễ hiển thị, hầu hết các ví dụ đều mô phỏng trên một vectơ ngắn dạng ký tự đã được xác định, tuy nhiên chúng có thể dễ dàng được điều chỉnh cho phù hợp với một cột trong bộ dữ liệu.  
 
-This [stringr vignette](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html) provided much of the inspiration for this page.
+Package [stringr vignette](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html) này đã cung cấp nhiều cảm hứng cho chương này. 
+
 
 <!-- ======================================================= -->
 
-## Preparation
+## Chuẩn bị { }
 
-### Load packages {.unnumbered}
+### Gọi packages {.unnumbered}  
 
-Install or load the **stringr** and other **tidyverse** packages.
+Cài đặt hoặc gọi package **stringr** và các packages **tidyverse** khác.  
 
 ```{r}
 # install/load packages
@@ -43,9 +43,9 @@ pacman::p_load(
 
 ```
 
-### Import data {.unnumbered}
+### Nhập dữ liệu {.unnumbered}
 
-In this page we will occassionally reference the cleaned `linelist` of cases from a simulated Ebola epidemic. If you want to follow along, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>click to download the "clean" linelist</a> (as .rds file). Import data with the `import()` function from the **rio** package (it handles many file types like .xlsx, .csv, .rds - see the [Import and export] page for details).
+Để bắt đầu, chúng ta nhập bộ dữ liệu có tên linelist đã làm sạch bao gồm các trường hợp từ vụ dịch Ebola mô phỏng. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải dữ liệu linelist "đã được làm sạch" </a> (dưới dạng tệp .rds). Nhập dữ liệu bằng hàm `import()` từ package **rio** (nó xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem thêm chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -57,7 +57,7 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.rds")
 ```
 
-The first 50 rows of the linelist are displayed below.
+50 hàng đầu tiên của bộ dữ liệu linelist được hiển thị bên dưới. 
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
@@ -66,36 +66,36 @@ DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list
 
 <!-- ======================================================= -->
 
-## Unite, split, and arrange
+## Unite, split, và arrange
 
-This section covers:
+Chương này bao gồm:  
 
--   Using `str_c()`, `str_glue()`, and `unite()` to combine strings\
--   Using `str_order()` to arrange strings\
--   Using `str_split()` and `separate()` to split strings
+* Sử dụng hàm `str_c()`, `str_glue()`, và `unite()` để ghép nối ký tự 
+* Sử dụng hàm `str_order()` để sắp xếp ký tự  
+* Sử dụng hàm `str_split()` và `separate()` để phân tách ký tự
 
-<!-- ======================================================= -->
 
-### Combine strings {.unnumbered}
+### Kết hợp các chuỗi ký tự {.unnumbered}
 
-To combine or concatenate multiple strings into one string, we suggest using `str_c` from **stringr**. If you have distinct character values to combine, simply provide them as unique arguments, separated by commas.
+Để kết hợp hoặc nối nhiều chuỗi ký tự thành một chuỗi ký tự, chúng tôi khuyên bạn nên sử dụng hàm `str_c` từ **stringr**. Nếu bạn có các giá trị ký tự đặc biệt để kết hợp, chỉ cần chỉ rõ chúng dưới dạng arguments, được phân tách bằng dấu phẩy.     
 
 ```{r}
 str_c("String1", "String2", "String3")
 ```
 
-The argument `sep =` inserts a character value between each of the arguments you provided (e.g. inserting a comma, space, or newline `"\n"`)
+Đối số `sep = ` chèn một giá dạng trị ký tự vào giữa mỗi argument (ví dụ: chèn dấu phẩy, dấu cách hoặc dòng mới `"\n"`)  
 
 ```{r}
 str_c("String1", "String2", "String3", sep = ", ")
 ```
 
-The argument `collapse =` is relevant if you are inputting multiple *vectors* as arguments to `str_c()`. It is used to separate the elements of what would be an *output* vector, such that the output vector only has one long character element.
+Argument `collapse = ` có liên quan nếu bạn đang nhập nhiều *vectơ* làm đối số cho hàm `str_c()`. Nó được sử dụng để tách các phần tử của một vectơ *kết quả*, sao cho vectơ kết quả chỉ là một phần tử chứa ký tự dài. 
 
-The example below shows the combination of two vectors into one (first names and last names). Another similar example might be jurisdictions and their case counts. In this example:
 
--   The `sep =` value appears between each first and last name\
--   The `collapse =` value appears between each person
+Ví dụ dưới đây cho thấy sự kết hợp của hai vectơ thành một (tên và họ). Một ví dụ tương tự khác có thể là các phạm vi hạn chế và số lượng trường hợp. Trong ví dụ này: 
+
+* Giá trị `sep = ` xuất hiện giữa từng tên đầu và tên cuối
+* Giá trị `collapse = ` xuất hiện giữa tên từng người
 
 ```{r}
 first_names <- c("abdul", "fahruk", "janice") 
@@ -105,32 +105,31 @@ last_names  <- c("hussein", "akinleye", "okeke")
 str_c(first_names, last_names, sep = " ", collapse = ";  ")
 ```
 
-Note: Depending on your desired display context, when printing such a combined string with newlines, you may need to wrap the whole phrase in `cat()` for the newlines to print properly:
+Lưu ý: Tùy thuộc vào bối cảnh hiển thị mong muốn, khi xử lý một chuỗi kết hợp như vậy với các dòng mới, bạn có thể cần phải đặt toàn bộ cụm từ trong hàm `cat()` để các dòng mới được xử lý đúng cách: 
 
 ```{r}
 # For newlines to print correctly, the phrase may need to be wrapped in cat()
 cat(str_c(first_names, last_names, sep = " ", collapse = ";\n"))
 ```
 
-<!-- ======================================================= -->
 
-### Dynamic strings {.unnumbered}
+### Chuỗi động {.unnumbered}
 
-Use `str_glue()` to insert dynamic R code into a string. This is a very useful function for creating dynamic plot captions, as demonstrated below.
+Sử dụng hàm `str_glue()` để chèn đoạn code động của R vào chuỗi ký tự. Đây là một hàm hữu dụng để tạo tiêu đề biểu đồ động, như mô tả bên dưới:
 
--   All content goes between double quotation marks `str_glue("")`\
--   Any dynamic code or references to pre-defined values are placed within curly brackets `{}` within the double quotation marks. There can be many curly brackets in the same `str_glue()` command.\
--   To display character quotes '', use *single* quotes within the surrounding double quotes (e.g. when providing date format - see example below)\
--   Tip: You can use `\n` to force a new line\
--   Tip: You use `format()` to adjust date display, and use `Sys.Date()` to display the current date
+* Tất cả nội dung nằm giữa dấu ngoặc kép `str_glue("")`  
+* Bất kỳ đoạn code động hoặc tham chiếu nào đến các giá trị được xác định trước đều được đặt trong dấu ngoặc nhọn `{}` trong dấu ngoặc kép. Có thể có nhiều dấu ngoặc nhọn trong cùng một câu lệnh `str_glue()`.  
+* Để hiển thị  dấu ngoặc kép '', hãy sử dụng dấu ngoặc *đơn* trong dấu ngoặc kép xung quanh (ví dụ: khi cung cấp định dạng ngày - xem ví dụ bên dưới) 
+* Mẹo: Bạn có thể sử dụng `\n` để bắt buộc xuống một dòng mới   
+* Mẹo: Bạn có thể sử dụng `format()` để điều chỉnh hiển thị ngày và sử dụng hàm `Sys.Date()` để hiển thị ngày hiện tại. 
 
-A simple example, of a dynamic plot caption:
+Một ví dụ đơn giản về tiêu đề biểu đồ động: 
 
 ```{r}
 str_glue("Data include {nrow(linelist)} cases and are current to {format(Sys.Date(), '%d %b %Y')}.")
 ```
 
-An alternative format is to use placeholders within the brackets and define the code in separate arguments at the end of the `str_glue()` function, as below. This can improve code readability if the text is long.
+Một định dạng thay thế để xác định rõ từng vị trí trong dấu ngoặc và xác định code trong từng argument ở cuối hàm `str_glue()` như bên dưới. Điều này có thể cải thiện khả năng giải mã code nếu văn bản dài. 
 
 ```{r}
 str_glue("Linelist as of {current_date}.\nLast case hospitalized on {last_hospital}.\n{n_missing_onset} cases are missing date of onset and not shown",
@@ -141,9 +140,10 @@ str_glue("Linelist as of {current_date}.\nLast case hospitalized on {last_hospit
 
 ```
 
-**Pulling from a data frame**
 
-Sometimes, it is useful to pull data from a data frame and have it pasted together in sequence. Below is an example data frame. We will use it to to make a summary statement about the jurisdictions and the new and total case counts.
+**Kéo từ bộ dữ liệu**  
+
+Đôi khi, sẽ rất hữu ích khi lấy dữ liệu từ một bộ dữ liệu và gán lại với nhau theo trình tự. Dưới đây là một ví dụ về bộ dữ liệu. Chúng tôi sẽ sử dụng cách này để tóm tắt nhanh về các sự hạn chế, cũng như số ca mới và tổng số ca. 
 
 ```{r}
 # make case data frame
@@ -158,42 +158,44 @@ case_table <- data.frame(
 DT::datatable(case_table, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Use `str_glue_data()`, which is specially made for taking data from data frame rows:
+Sử dụng hàm `str_glue_data()`,  được tạo ra để lấy dữ liệu từ các quan sát của bộ dữ liệu: 
 
 ```{r}
 case_table %>% 
   str_glue_data("{zone}: {new_cases} ({total_cases} total cases)")
 ```
 
-**Combine strings across rows**
 
-If you are trying to "roll-up" values in a data frame column, e.g. combine values from multiple rows into just one row by pasting them together with a separator, see the section of the [De-duplication] page on ["rolling-up" values](#str_rollup).
+**Kết hợp các chuỗi ký tự trên các dòng**  
 
-**Data frame to one line**
+Nếu bạn đang cố gắng các giá trị "roll-up" trong một cột trong bộ dữ liệu, ví dụ: kết hợp các giá trị từ nhiều hàng thành một hàng bằng cách gán chúng cùng với ký tự phân cách, hãy xem thêm ở chương [De-duplication] về ["rolling-up" values](#str_rollup).  
 
-You can make the statement appear in one line using `str_c()` (specifying the data frame and column names), and providing `sep =` and `collapse =` arguments.
+**Một bộ dữ liệu thành một dòng**  
+
+Bạn có thể tạo ra dãy thông tin chỉ trong một dòng bằng cách sử dụng lệnh `str_c()`  (làm rõ bộ dữ liệu và tên cột), đồng thời cung cấp các argument `sep = ` và `collapse = `.   
 
 ```{r}
 str_c(case_table$zone, case_table$new_cases, sep = " = ", collapse = ";  ")
 ```
 
-You could add the pre-fix text "New Cases:" to the beginning of the statement by wrapping with a separate `str_c()` (if "New Cases:" was within the original `str_c()` it would appear multiple times).
+Bạn có thể thêm đoạn tiền tố “New Cases:” vào đầu dòng thông tin bằng cách đặt trong hàm `str_c()` (nếu “New Cases:” nằm trong hàm `str_c()` ban đầu thì nó sẽ xuất hiện nhiều lần). 
 
 ```{r}
 str_c("New Cases: ", str_c(case_table$zone, case_table$new_cases, sep = " = ", collapse = ";  "))
 ```
 
-### Unite columns {#str_unite .unnumbered}
 
-Within a data frame, bringing together character values from multiple columns can be achieved with `unite()` from **tidyr**. This is the opposite of `separate()`.
+### Hợp nhất các cột {#str_unite .unnumbered}
 
-Provide the name of the new united column. Then provide the names of the columns you wish to unite.
+Trong bộ dữ liệu, việc tập hợp các giá trị dạng ký tự từ nhiều cột lại với nhau có thể thực hiện bằng cách dùng hàm `unite()` từ package **tidyr**. Tính năng này ngược lại với hàm `separate()`.  
 
--   By default, the separator used in the united column is underscore `_`, but this can be changed with the `sep =` argument.\
--   `remove =` removes the input columns from the data frame (TRUE by default)\
--   `na.rm =` removes missing values while uniting (FALSE by default)
+Đầu tiên, cần tên của cột mới. Sau đó, cần tên của các cột mà bạn muốn hợp nhất.  
 
-Below, we define a mini-data frame to demonstrate with:
+* Mặc định, dấu ngăn cách được sử dụng trong cột hợp nhất là dấu gạch dưới _, nhưng có thể được thay đổi bằng argument `sep = `.   
+* `remove = ` loại bỏ các cột ban đầu ra khỏi bộ dữ liệu (mặc định là TRUE)   
+* `na.rm = ` loại bỏ các giá trị bị thiếu trong khi hợp nhất (mặc định là FALSE)   
+
+Dưới đây, chúng tôi xác định một bộ dữ liệu ngắn để minh họa:  
 
 ```{r, message = F, warning=F}
 df <- data.frame(
@@ -211,13 +213,13 @@ df <- data.frame(
 df_split <- separate(df, symptoms, into = c("sym_1", "sym_2", "sym_3"), extra = "merge")
 ```
 
-Here is the example data frame:
+Đây là bộ dữ liệu mẫu:
 
 ```{r, echo=F}
 DT::datatable(df_split, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Below, we unite the three symptom columns:
+Dưới đây, chúng tôi hợp nhất ba cột triệu chứng: 
 
 ```{r}
 df_split %>% 
@@ -232,20 +234,20 @@ df_split %>%
 
 <!-- ======================================================= -->
 
-### Split {.unnumbered}
+### Phân tách  {.unnumbered}  
 
-To split a string based on a pattern, use `str_split()`. It evaluates the string(s) and returns a `list` of character vectors consisting of the newly-split values.
+Để phân tách một chuỗi ký tự dựa trên một pattern, hãy sử dụng hàm `str_split()`.Hàm này đánh giá (các) chuỗi ký tự và trả về `list` các vectơ ký tự chứa các giá trị mới được tách. 
 
-The simple example below evaluates one string and splits it into three. By default it returns an object of class `list` with one element (a character vector) for each string initially provided. If `simplify = TRUE` it returns a character matrix.
+Ví dụ đơn giản dưới đây đánh giá một chuỗi ký tự và chia thành ba phần. Mặc định, hàm trả về một đối tượng của phân lớp `list`  với một phần tử (một vectơ ký tự) cho mỗi chuỗi được sử dụng ban đầu. Nếu `simplify = TRUE` nó trả về một ma trận ký tự. 
 
-In this example, one string is provided, and the function returns a list with one element - a character vector with three values.
+Trong ví dụ này, một chuỗi ký tự được cung cấp và hàm trả về danh sách có một phần tử - một vectơ ký tự chứa ba giá trị. 
 
 ```{r}
 str_split(string = "jaundice, fever, chills",
           pattern = ",")
 ```
 
-If the output is saved, you can then access the nth split value with bracket syntax. To access a specific value you can use syntax like this: `the_returned_object[[1]][2]`, which would access the second value from the first evaluated string ("fever"). See the [R basics] page for more detail on accessing elements.
+Nếu kết quả được lưu, thì bạn có thể truy cập giá trị phân chia thứ n bằng cú pháp dấu ngoặc. Để truy cập vào một giá trị cụ thể, bạn có thể sử dụng cú pháp như sau:  `the_returned_object[[1]][2]`, sẽ truy cập giá trị thứ hai từ chuỗi ký tự được đánh giá ban đầu (“fever”). Xem thêm ở chương [R Cơ bản] để biết thêm chi tiết về cách truy vấn các phần tử. 
 
 ```{r}
 pt1_symptoms <- str_split("jaundice, fever, chills", ",")
@@ -253,7 +255,7 @@ pt1_symptoms <- str_split("jaundice, fever, chills", ",")
 pt1_symptoms[[1]][2]  # extracts 2nd value from 1st (and only) element of the list
 ```
 
-If multiple strings are provided by `str_split()`, there will be more than one element in the returned list.
+Nếu nhiều chuỗi ký tự được sử dụng trong hàm `str_split()`, sẽ có nhiều hơn một phần tử trong danh sách trả về. 
 
 ```{r}
 symptoms <- c("jaundice, fever, chills",     # patient 1
@@ -266,49 +268,45 @@ symptoms <- c("jaundice, fever, chills",     # patient 1
 str_split(symptoms, ",")                     # split each patient's symptoms
 ```
 
-To return a "character matrix" instead, which may be useful if creating data frame columns, set the argument `simplify = TRUE` as shown below:
+Thay vào đó, để trả về “ma trận chuỗi ký tự”, có thể hữu ích nếu tạo cột trong bộ dữ liệu, đặt đối số `simplify = TRUE` như hình dưới đây:  
 
 ```{r}
 str_split(symptoms, ",", simplify = TRUE)
 ```
 
-You can also adjust the number of splits to create with the `n =` argument. For example, this restricts the number of splits to 2. Any further commas remain within the second values.
+Bạn cũng có thể điều chỉnh số phần tách ra với argument `n = `. Ví dụ: điều này hạn chế số phần  tách ra chỉ có 2 phần. Bất kỳ dấu phẩy nào khác vẫn sẽ nằm trong giá trị thứ hai. 
 
 ```{r}
 str_split(symptoms, ",", simplify = TRUE, n = 2)
 ```
 
-*Note - the same outputs can be achieved with `str_split_fixed()`, in which you do not give the `simplify` argument, but must instead designate the number of columns (`n`).*
+*Lưu ý - các kết quả tương tự có thể thực hiện thành công với hàm `str_split_fixed()`, trong đó bạn không đưa ra argument `simplify` mà thay vào đó phải chỉ định số cột (`n`).* 
 
 ```{r, eval=F}
 str_split_fixed(symptoms, ",", n = 2)
 ```
 
-### Split columns {.unnumbered}
+### Tách cột {.unnumbered}  
 
-If you are trying to split data frame column, it is best to use the `separate()` function from **dplyr**. It is used to split one character column into other columns.
+Nếu bạn đang cố gắng chia tách cột trong bộ dữ liệu, cách tốt nhất là sử dụng hàm `separate()` từ package **dplyr**. Nó được sử dụng để chia một cột ký tự thành các cột khác nhau. 
 
-Let's say we have a simple data frame `df` (defined and united in the [unite section](#str_unite)) containing a `case_ID` column, one character column with many symptoms, and one outcome column. Our goal is to separate the `symptoms` column into many columns - each one containing one symptom.
+Giả sử chúng ta có một bộ dữ liệu đơn giản `df` (được định nghĩa và thống nhất trong [unite section](#str_unite)) chứa một cột `case_ID` , một cột dạng ký tự có nhiều triệu chứng và một cột kết quả. Mục tiêu của chúng tôi là tách cột `symptoms` thành nhiều cột - mỗi cột chứa một triệu chứng. 
 
 ```{r, echo=F}
 DT::datatable(df, rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-Assuming the data are piped into `separate()`, first provide the column to be separated. Then provide `into =` as a vector `c( )` containing the *new* columns names, as shown below.
+Giả sử dữ liệu được đưa vào hàm `separate()`, trước tiên hãy chọn ra cột sẽ được phân tách. TSau đó, điền thông tin vào `into = `  dưới dạng vectơ `c( )` có chứa tên cột *mới* như hình dưới đây. 
 
--   `sep =` the separator, can be a character, or a number (interpreted as the character position to split at)
+* Dấu phân cách trong `sep = ` có thể là một ký tự hoặc một số (được hiểu là vị trí ký tự cần tách) 
+* Mặc định là `remove = ` FALSE, xóa cột đầu vào ban ban đầu
+* Mặc định là `convert = ` FALSE, các ký tự “NA” sẽ thành `NA`  
+* `extra = ` kiểm soát điều gì sẽ xảy ra nếu có nhiều giá trị được tạo bởi sự phân tách nhiều hơn các cột mới được đặt tên. 
+     * `extra = "warn"` m có nghĩa là bạn sẽ thấy một cảnh báo nhưng nó sẽ loại bỏ các giá trị thừa (**mặc định là vậy**)  
+     * `extra = "drop"` có nghĩa là các giá trị thừa sẽ bị loại bỏ mà không có cảnh báo 
+     * **`extra = "merge"` sẽ chỉ phân tách thành số cột mới được liệt kê trong `into` - *điều này sẽ bảo toàn tất cả dữ liệu của bạn**
 
--   `remove =` FALSE by default, removes the input column\
-
--   `convert =` FALSE by default, will cause string "NA"s to become `NA`\
-
--   `extra =` this controls what happens if there are more values created by the separation than new columns named.
-
-    -   `extra = "warn"` means you will see a warning but it will drop excess values (**the default**)\
-    -   `extra = "drop"` means the excess values will be dropped with no warning\
-    -   **`extra = "merge"` will only split to the number of new columns listed in `into` - *this setting will preserve all your data***
-
-An example with `extra = "merge"` is below - no data is lost. Two new columns are defined but any third symptoms are left in the second new column:
+Dưới đây là một ví dụ về `extra = "merge"` i- không có dữ liệu nào bị mất. Hai cột mới được xác định nhưng bất kỳ triệu chứng thứ ba nào sẽ quy về trong cột mới thứ hai: 
 
 ```{r}
 # third symptoms combined into second new column
@@ -316,7 +314,7 @@ df %>%
   separate(symptoms, into = c("sym_1", "sym_2"), sep=",", extra = "merge")
 ```
 
-When the default `extra = "drop"` is used below, a warning is given but the third symptoms are lost:
+Khi sử dụng lệnh `extra = "drop"` mặc định như bên dưới, một cảnh báo sẽ được đưa ra nhưng triệu chứng thứ ba bị mất: 
 
 ```{r}
 # third symptoms are lost
@@ -324,13 +322,13 @@ df %>%
   separate(symptoms, into = c("sym_1", "sym_2"), sep=",")
 ```
 
-[***CAUTION:*** If you do not provide enough `into` values for the new columns, your data may be truncated.]{style="color: orange;"}
 
-<!-- ======================================================= -->
+<span style="color: orange;">**CẨN TRỌNG:** Nếu bạn không cung cấp đủ giá trị `cho`các cột mới, dữ liệu của bạn có thể bị cắt bớt .</span>  
 
-### Arrange alphabetically {.unnumbered}
 
-Several strings can be sorted by alphabetical order. `str_order()` returns the order, while `str_sort()` returns the strings in that order.
+### Sắp xếp theo thứ tự bảng chữ cái {.unnumbered} 
+
+Một số chuỗi ký tự có thể được sắp xếp theo thứ tự bảng chữ cái. Hàm `str_order()` trả về thứ tự đã được sắp xếp, trong khi hàm `str_sort()` trả về các chuỗi theo thứ tự đó. 
 
 ```{r}
 # strings
@@ -343,9 +341,8 @@ str_order(health_zones)
 str_sort(health_zones)
 ```
 
-To use a different alphabet, add the argument `locale =`. See the full list of locales by entering `stringi::stri_locale_list()` in the R console.
+Để sử dụng một bảng chữ cái khác, hãy thêm argument `locale = `. See the full list of locales by entering `stringi::stri_locale_list()` in the R console.  
 
-<!-- ======================================================= -->
 
 ### base R functions {.unnumbered}
 
