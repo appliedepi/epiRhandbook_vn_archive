@@ -4,14 +4,14 @@
 
 <!-- ======================================================= -->
 
-## Overview {}
+## Tổng quan {}
 
 
-**Phylogenetic trees** are used to visualize and describe the relatedness and evolution of organisms based on the sequence of their genetic code.  
+**Cây phả hệ** được sử dụng để trực quan hóa và mô tả mối liên hệ cũng như sự tiến hóa của các sinh vật dựa trên trình tự mã di truyền của chúng.  
 
-They can be constructed from genetic sequences using distance-based methods (such as neighbor-joining method) or character-based methods (such as maximum likelihood and Bayesian Markov Chain Monte Carlo method). Next-generation sequencing (NGS) has become more affordable and is becoming more widely used in public health to describe pathogens causing infectious diseases. Portable sequencing devices decrease the turn around time and hold promises to make data available for the support of outbreak investigation in real-time. NGS data can be used to identify the origin or source of an outbreak strain and its propagation, as well as determine presence of antimicrobial resistance genes. To visualize the genetic relatedness between samples a phylogenetic tree is constructed.  
+Chúng có thể được xây dựng từ trình tự di truyền bằng các phương pháp dựa trên khoảng cách (distance-based methods) (chẳng hạn như phương pháp neighbor-joining) hoặc các phương pháp dựa trên ký tự (character-based methods) (chẳng hạn như phương pháp maximum likelihood và Bayesian Markov Chain Monte Carlo). Công nghệ giải trình tự gen thế hệ mới (Next Generation Sequencing - NGS) có giá thành ngày càng hợp lý và ngày càng được sử dụng rộng rãi hơn trong y tế công cộng để mô tả các mầm bệnh gây ra các bệnh truyền nhiễm. Các thiết bị giải trình tự di động giúp giảm thời gian quay vòng và hứa hẹn cung cấp dữ liệu để hỗ trợ điều tra ổ dịch trong thời gian thực. Dữ liệu NGS có thể được sử dụng để xác định nguồn gốc hoặc nguồn gốc của một chủng bùng phát và sự lan truyền của nó, cũng như xác định sự hiện diện của các gen kháng thuốc kháng sinh. Để trực quan hóa mối quan hệ di truyền giữa các mẫu, một cây phát sinh loài được xây dựng.  
 
-In this page we will learn how to use the **ggtree** package, which allows for combined visualization of phylogenetic trees with additional sample data in form of a dataframe. This will enable us to observe patterns and improve understanding of the outbreak dynamic.
+Trong chương này chúng ta sẽ học cách sử dụng package **ggtree**, cho phép kết hợp cây phả hệ với dữ liệu bổ sung dưới dạng một dataframe. Điều này sẽ cho phép chúng ta quan sát các xu hướng và nâng cao hiểu biết về động học của dịch bệnh.
 
 ```{r, phylogenetic_trees_overview_graph, out.width=c('80%'), fig.align='center', fig.show='hold', echo = FALSE}
 
@@ -40,11 +40,11 @@ scale_color_brewer(name = "Continent",  # name of your color scheme (will show u
 
 <!-- ======================================================= -->
 
-## Preparation {}
+## Chuẩn bị
 
-### Load packages {.unnumbered}  
+### Gọi packages {.unnumbered}
 
-This code chunk shows the loading of required packages. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load installed packages with  `library()` from **base** R. See the page on [R basics] for more information on R packages.  
+Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm `p_load()` từ package **pacman**, giúp cài đặt các package cần thiết *và* gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm `library()` của **base** R. Xem thêm chương [R cơ bản] để có thêm thông tin về các packages trong R.  
 
 ```{r, phylogenetic_trees_loading_packages}
 pacman::p_load(
@@ -58,17 +58,17 @@ pacman::p_load(
 
 ```
 
-### Import data {.unnumbered}  
+### Nhập dữ liệu {.unnumbered}  
 
-The data for this page can be downloaded with the instructions on the [Download handbook and data] page.  
+Dữ liệu sử dụng trong chương này có thể tải xuống với hướng dẫn từ chương [Tải sách và dữ liệu].  
 
-There are several different formats in which a phylogenetic tree can be stored (eg. Newick, NEXUS, Phylip). A common one is the Newick file format (.nwk), which is the standard for representing trees in computer-readable form. This means an entire tree can be expressed in a string format such as  "((t2:0.04,t1:0.34):0.89,(t5:0.37,(t4:0.03,t3:0.67):0.9):0.59); ", listing all nodes and tips and their relationship (branch length) to each other.  
+Có một số định dạng khác nhau mà cây phát sinh loài có thể được lưu trữ (vd: Newick, NEXUS, Phylip). Định dạng phổ biến là ở dạng tệp Newick (.nwk), là tiêu chuẩn để biểu diễn cây ở dạng máy tính có thể đọc được. Điều này có nghĩa là toàn bộ cây có thể được biểu diễn ở định dạng chuỗi chẳng hạn như  "((t2:0.04,t1:0.34):0.89,(t5:0.37,(t4:0.03,t3:0.67):0.9):0.59); ", liệt kê toàn bộ các nút và tips cũng như mối quan hệ của chúng (độ dài nhánh) với nhau.  
 
-Note: It is important to understand that the phylogenetic tree file in itself does not contain sequencing data, but is merely the result of the genetic distances between the sequences. We therefore cannot extract sequencing data from a tree file.
+Lưu ý: Điều quan trọng là phải hiểu rằng bản thân tệp cây phát sinh loài không chứa dữ liệu trình tự, mà chỉ đơn thuần là kết quả của khoảng cách gen giữa các trình tự. Do đó, chúng ta không thể trích xuất dữ liệu trình tự từ tệp cây.
 
-First, we use the `read.tree()` function from **ape** package to import a Newick phylogenetic tree file in .txt format, and store it in a list object of class "phylo". If necessary, use the  `here()` function from the **here** package to specify the relative file path.
+Đầu tiên, chúng ta sử dụng hàm `read.tree()` từ package **ape** để nhập một tệp cây phát sinh loài Newick ở định dạng .txt, và lưu nó dưới dạng một đối tượng danh sách với kiểu dữ liệu (class) "phylo". Nếu cần, hãy sử dụng hàm  `here()` từ package **here** để chỉ định đường dẫn tệp tương đối.
 
-Note: In this case the newick tree is saved as a .txt file for easier handling and downloading from Github.
+Lưu ý: Trong trường hợp này, newick tree được lưu dưới dạng tệp .txt để dễ dàng xử lý và tải xuống từ Github.
 
 ```{r, echo=F}
 tree <- ape::read.tree(here::here("data", "phylo", "Shigella_tree.txt"))
@@ -79,13 +79,13 @@ tree <- ape::read.tree(here::here("data", "phylo", "Shigella_tree.txt"))
 tree <- ape::read.tree("Shigella_tree.txt")
 ```
 
-We inspect our tree object and see it contains 299 tips (or samples) and 236 nodes.  
+Chúng ta khảo sát đối tượng cây của chúng ta và thấy nó chứa 299 tips (hoặc mẫu) và 236 nút (nodes).  
 
 ```{r}
 tree
 ```
 
-Second, we import a table stored as a .csv file with additional information for each sequenced sample, such as gender, country of origin and attributes for antimicrobial resistance, using the `import()` function from the **rio** package:
+Thứ hai, chúng ta nhập một bảng được lưu trữ dưới dạng tệp .csv với thông tin bổ sung cho từng mẫu được giải trình tự, chẳng hạn như giới tính, quốc gia xuất xứ và các thuộc tính kháng kháng sinh, bằng cách sử dụng hàm `import()` từ package **rio**:
 
 ```{r, echo=F}
 sample_data <- import(here("data", "phylo", "sample_data_Shigella_tree.csv"))
@@ -95,34 +95,34 @@ sample_data <- import(here("data", "phylo", "sample_data_Shigella_tree.csv"))
 sample_data <- import("sample_data_Shigella_tree.csv")
 ```
 
-Below are the first 50 rows of the data:  
+Dưới đây là 50 dòng đầu tiên của bộ dữ liệu:  
 
 ```{r message=FALSE, echo=F}
 DT::datatable(head(sample_data,50), rownames = FALSE, options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
-### Clean and inspect {.unnumbered}  
+### Làm sạch và khảo sát dữ liệu {.unnumbered}  
 
-We clean and inspect our data: In order to assign the correct sample data to the phylogenetic tree, the values in the column `Sample_ID` in the `sample_data` data frame need to match the `tip.labels` values in the `tree` file: 
+Chúng ta làm sạch và khảo sát dữ liệu để gán dữ liệu mẫu chính xác cho cây phát sinh loài, các giá trị trong cột `Sample_ID` của data frame `sample_data` cần phải khớp với giá trị `tip.labels` ở trong tệp `tree`: 
 
-We check the formatting of the `tip.labels` in the `tree` file by looking at the first 6 entries using with `head()` from **base** R.
+Chúng ta kiểm tra định dạng của `tip.labels` trong tệp `tree` bằng cách xem xét 6 hàng đầu tiên với hàm `head()` của **base** R.
 ```{r, phylogenetic_trees_inspect_sampledata}
 head(tree$tip.label) 
 ```
 
-We also make sure the first column in our `sample_data` data frame is `Sample_ID`. We look at the column names of our dataframe using  `colnames()` from **base** R.
+Chúng ta cũng cần chắc chắn rằng cột đầu tiên trong data frame `sample_data` là cột `Sample_ID`. Chúng ta xem tên các cột của dataframe bằng cách sử dụng hàm `colnames()` từ **base** R.
 
 ```{r}
 colnames(sample_data)   
 ```
 
-We look at the `Sample_IDs` in the data frame to make sure the formatting is the same than in the `tip.label` (eg. letters are all capitals, no extra underscores `_` between letters and numbers, etc.)
+Chúng ta hãy để ý cột `Sample_IDs` trong data frame để chắc chắn rằng các định dạng là tương tự với `tip.label` (vd: các chữ cái đều viết hoa, không có dấu gạch dưới thừa `_` giữa ký tự và số, v.v.)
 
 ```{r}
 head(sample_data$Sample_ID) # we again inspect only the first 6 using head()
 ```
 
-We can also compare if all samples are present in the `tree` file and vice versa by generating a logical vector of TRUE or FALSE where they do or do not match. These are not printed here, for simplicity.  
+Chúng ta cũng có thể so sánh nếu tất cả các mẫu có trong tệp `tree` và ngược lại bằng cách tạo một vectơ logic TRUE hoặc FALSE khi chúng khớp hoặc không khớp. Chúng không được in ở đây để cho đơn giản.  
 
 ```{r, eval=F}
 sample_data$Sample_ID %in% tree$tip.label
@@ -130,29 +130,29 @@ sample_data$Sample_ID %in% tree$tip.label
 tree$tip.label %in% sample_data$Sample_ID
 ```
 
-We can use these vectors to show any sample IDs that are not on the tree (there are none).  
+Chúng ta có thể sử dụng các vectơ này để hiển thị bất kỳ ID mẫu nào không có trên cây (không có ID nào).  
 
 ```{r}
 sample_data$Sample_ID[!tree$tip.label %in% sample_data$Sample_ID]
 ```
 
-Upon inspection we can see that the format of `Sample_ID` in the dataframe corresponds to the format of sample names at the `tip.labels`. These do not have to be sorted in the same order to be matched.
+Sau khi khảo sát, chúng ta có thể thấy định dạng của cột `Sample_ID` trong dataframe tương ứng với định dạng của tên mẫu tại `tip.labels`. Chúng không cần phải được sắp xếp theo cùng một thứ tự để có thể khớp.
 
-We are ready to go!
+Bây giờ chúng ta đã sẵn sàng!
 
 
 
 
 <!-- ======================================================= -->
 
-## Simple tree visualization {}
+## Trực quan hóa cây đơn giản {}
 
 
-### Different tree layouts {.unnumbered}  
+### Các bố cục cây khác nhau {.unnumbered}  
 
-**ggtree** offers many different layout formats and some may be more suitable for your specific purpose than others. Below are a few demonstrations. For other options see this [online book](http://yulab-smu.top/treedata-book/chapter4.html).  
+**ggtree** cung cấp nhiều định dạng bố cục khác nhau và một số có thể phù hợp với mục đích cụ thể của bạn hơn những định dạng khác. Dưới đây là một vài minh hoạt. Đối với các tùy chọn khác, hãy xem [cuốn sách trực tuyến này](http://yulab-smu.top/treedata-book/chapter4.html).  
 
-Here are some example tree layouts:
+Dưới đây là một số bố cục cây mẫu:
 ```{r, phylogenetic_trees_example_formats, out.width=c('50%'), fig.show='hold'}
 
 ggtree(tree)                                            # simple linear tree
@@ -162,10 +162,10 @@ ggtree(tree, layout="circular", branch.length = "none") # simple circular tree w
 
 ```
 
-### Simple tree plus sample data {.unnumbered}  
+### Cây đơn giản cộng với dữ liệu mẫu {.unnumbered}  
 
-The **%<+%** operator is used to connect the `sample_data` data frame to the `tree` file.
-The most easy annotation of your tree is the addition of the sample names at the tips, as well as coloring of tip points and if desired the branches:
+Toán tử **%<+%** được sử dụng để kết nối data frame `sample_data` tới tệp `tree`.
+Cách chú thích dễ dàng nhất cho cây của bạn là thêm tên mẫu ở các ngọn, cũng như tô màu các điểm ngọn và các nhánh nếu muốn :
 
 Here is an example of a circular tree: 
 ```{r, phylogenetic_trees_adding_sampledata, fig.align='center', warning=F, message=F}
@@ -210,7 +210,8 @@ ggtree(tree, layout = "circular", branch.length = 'none') %<+% sample_data + # %
     legend.margin = margin())   
 ```
 
-You can export your tree plot with `ggsave()` as you would any other ggplot object. Written this way, `ggsave()` saves the last image produced to the file path you specify. Remember that you can use `here()` and relative file paths to easily save in subfolders, etc.  
+Bạn có thể xuất biểu đồ cây với hàm `ggsave()` như cách bạn làm với bất kỳ đối tượng ggplot nào khác. Được viết theo cách này,
+`ggsave()` lưu hình ảnh cuối cùng được tạo vào đường dẫn tệp bạn chỉ định. Hãy nhớ rằng bạn có thể sử dụng hàm `here()` và các đường dẫn tệp tương đối để dễ dàng lưu trong các thư mục con, v.v.  
 
 ```{r, eval=F}
 ggsave("example_tree_circular_1.png", width = 12, height = 14)
@@ -220,17 +221,17 @@ ggsave("example_tree_circular_1.png", width = 12, height = 14)
 
 <!-- ======================================================= -->
 
-## Tree manipulation {}
+## Thao tác với cây {}
 
-Sometimes you may have a very large phylogenetic tree and you are only interested in one part of the tree. For example, if you produced a tree including historical or international samples to get a large overview of where your dataset might fit in the bigger picture. But then to look closer at your data you want to inspect only that portion of the bigger tree.
+Đôi khi bạn có thể có một cây phát sinh loài rất lớn và bạn chỉ quan tâm đến một phần của cây. Ví dụ, bạn muốn tạo ra một cây bao gồm các mẫu lịch sử hoặc quốc tế để có cái nhìn tổng quan về vị trí mà tập dữ liệu của bạn có thể phù hợp trong bức tranh lớn hơn. Nhưng sau đó để xem xét kỹ hơn dữ liệu của bạn, bạn chỉ muốn kiểm tra phần đó của cây lớn hơn.
 
-Since the phylogenetic tree file is just the output of sequencing data analysis, we can not manipulate the order of the nodes and branches in the file itself. These have already been determined in previous analysis from the raw NGS data. We are able though to zoom into parts, hide parts and even subset part of the tree. 
+Vì tệp cây phát sinh loài chỉ là sản phẩm đầu ra của phân tích dữ liệu trình tự, chúng ta không thể thao tác trên thứ tự của các nút và nhánh trên chính tệ đó. Chúng đã được xác định trong phân tích trước đó từ dữ liệu NGS thô. Mặc dù vậy, chúng ta có thể phóng to các thành phần, ẩn các thành phần và thậm chí tạo tập con một phần của cây. 
 
-### Zoom in {.unnumbered}  
+### Phóng to {.unnumbered}  
 
-If you don't want to "cut" your tree, but only inspect part of it more closely you can zoom in to view a specific part.
+Nếu bạn không muốn "chặt" cây của mình mà chỉ kiểm tra kỹ hơn một phần của nó, bạn có thể phóng to để xem một phần cụ thể.
 
-First, we plot the entire tree in linear format and add numeric labels to each node in the tree.
+Đầu tiên, chúng ta vẽ toàn bộ cây ở định dạng tuyến tính và thêm các nhãn số cho mỗi nút trong cây.
 ```{r, phylogenetic_trees_zoom_in, out.width=c('50%'), fig.show='hold', fig.align='center'}
 
 p <- ggtree(tree,) %<+% sample_data +
@@ -247,16 +248,16 @@ p  # print
 
 ```
 
-To zoom in to one particular branch (sticking out to the right), use `viewClade()` on the ggtree object `p` and provide the node number to get a closer look:
+Để phóng to vào một nhánh cụ thể (nhô ra bên phải), hãy sử dụng hàm `viewClade()` trên đối tượng ggtree có tên `p` và cung cấp số nút để xem gần hơn:
 ```{r phylogenetic_trees_zoom_in_452, out.width=c('50%'), fig.show='hold', fig.align='center'}
 
 viewClade(p, node = 452)
 
 ```
 
-### Collapsing branches {.unnumbered} 
+### Thu gọn nhánh {.unnumbered} 
 
-However, we may want to ignore this branch and can collapse it at that same node (node nr. 452) using `collapse()`. This tree is defined as `p_collapsed`. 
+Tuy nhiên, chúng ta có thể muốn bỏ qua nhánh này và có thể thu gọn nó tại cùng một nút đó (nút nr. 452) bằng cách sử dụng hàm `collapse()`. Cây này sẽ được gán cho đối tượng mới có tên `p_collapsed`. 
 
 ```{r phylogenetic_trees_collapse_452, out.width=c('50%'), fig.show='hold', fig.align='center'}
 
@@ -264,7 +265,7 @@ p_collapsed <- collapse(p, node = 452)
 p_collapsed
 ```
 
-For clarity, when we print `p_collapsed`, we add a `geom_point2()` (a blue diamond) at the node of the collapsed branch.  
+Để rõ ràng, khi chúng ta in `p_collapsed`, chúng ta thêm một điểm (viên kim cương màu xanh) với hàm `geom_point2()` tại nút của nhánh được thu gọn.  
 ```{r}
 p_collapsed + 
 geom_point2(aes(subset = (node == 452)),  # we assign a symbol to the collapsed node
@@ -273,11 +274,11 @@ geom_point2(aes(subset = (node == 452)),  # we assign a symbol to the collapsed 
             fill = "steelblue")           # define the color of the symbol
 ```
 
-### Subsetting a tree {.unnumbered} 
+### Tạo tập con một cây {.unnumbered} 
 
-If we want to make a more permanent change and create a new, reduced tree to work with we can subset part of it with `tree_subset()`. Then you can save it as new newick tree file or .txt file. 
+Nếu chúng ta muốn thực hiện một thay đổi lâu dài hơn và tạo một cây mới, gọn hơn để làm việc, chúng ta có thể subset một phần của nó với hàm `tree_subset()`. Sau đó, bạn có thể lưu nó dưới dạng tệp newick tree hoặc tệp .txt mới. 
 
-First, we inspect the tree nodes and tip labels in order to decide what to subset.  
+Đầu tiên, chúng ta kiểm tra các nút cây và các nhãn của tips để quyết định cái gì sẽ được subset.  
 
 ```{r, phylogenetic_trees_subsetting, out.width=c('50%'), fig.show='hold', fig.align='center'}
 ggtree(
@@ -296,7 +297,7 @@ ggtree(
    plot.title = element_text(size = 12, face="bold"))
 ```
 
-Now, say we have decided to subset the tree at node 528 (keep only tips within this branch after node 528) and we save it as a new `sub_tree1` object:
+Bây giờ, giả sử chúng ta đã quyết định subset cây tại nút số 528 (chỉ giữ lại các tips bên trong nhánh sau nút 528) và lưu nó vào một đối tượng mới `sub_tree1`:
 
 ```{r}
 sub_tree1 <- tree_subset(
@@ -304,7 +305,7 @@ sub_tree1 <- tree_subset(
   node = 528)                                            # we subset the tree at node 528
 ```
 
-Lets have a look at the subset tree 1:
+Hãy cùng xem cây con 1:
 
 ```{r}
 ggtree(sub_tree1) +
@@ -312,7 +313,7 @@ ggtree(sub_tree1) +
   ggtitle("Subset tree 1")
 ```
 
-You can also subset based on one particular sample, specifying how many nodes "backwards" you want to include. Let's subset the same part of the tree based on a sample, in this case S17BD07692, going back 9 nodes and we save it as a new `sub_tree2` object:
+Bạn cũng có thể subset dựa trên một mẫu cụ thể, bằng cách chỉ định số lượng nút "backwards" bạn muốn đưa vào. Hãy subset chính phần đó của cây dựa trên một mẫu, trong trường hợp này là S17BD07692, quay lại 9 nút và chúng ta lưu nó dưới dạng đối tượng `sub_tree2` mớit:
 
 ```{r}
 sub_tree2 <- tree_subset(
@@ -321,7 +322,7 @@ sub_tree2 <- tree_subset(
   levels_back = 9) # levels back defines how many nodes backwards from the sample tip you want to go
 ```
 
-Lets have a look at the subset tree 2:
+Giờ hãy cùng xem cây con 2:
 
 ```{r}
 ggtree(sub_tree2) +
@@ -330,7 +331,7 @@ ggtree(sub_tree2) +
 
 ```
 
-You can also save your new tree either as a Newick type or even a text file using the `write.tree()` function from **ape** package:
+Bạn cũng có thể lưu cây mới của mình dưới dạng kiểu Newick hoặc thậm chí là tệp văn bản bằng cách sử dụng hàm `write.tree()` từ package **ape**:
 
 ```{r, eval=F, phylogenetic_trees_write_tree}
 # to save in .nwk format
@@ -341,12 +342,12 @@ ape::write.tree(sub_tree2, file='data/phylo/Shigella_subtree_2.txt')
 
 ```
 
-### Rotating nodes in a tree {.unnumbered} 
+### Xoay các nút trong một cây {.unnumbered} 
 
 
-As mentioned before we cannot change the order of tips or nodes in the tree, as this is based on their genetic relatedness and is not subject to visual manipulation. But we can rote branches around nodes if that eases our visualization.
+Như đã đề cập bên trên, chúng ta không thể thay đổi thứ tự của các tips hoặc nút trong cây, vì điều này dựa trên mối liên hệ di truyền của chúng và không phải là đối tượng cho các điều chỉnh thị giác. Nhưng chúng ta có thể xoay các nhánh xung quanh nút nếu điều đó giúp chúng ta dễ nhìn hơn.
 
-First, we plot our new subset tree 2 with node labels to choose the node we want to manipulate and store it an a ggtree plot object `p`.
+Đầu tiên, chúng ta hãy vẽ subset tree 2 với nhãn nút để chọn nút mà chúng ta muốn thao tác và lưu nó vào một đối tượng biểu đồ ggtree có tên `p`.
 
 ```{r, phylogenetic_trees_rotating_1, out.width=c('50%'), fig.show='hold', fig.align='center'}
 
@@ -360,8 +361,8 @@ p <- ggtree(sub_tree2) +
 p
 ```
 
-We can then manipulate nodes by applying **ggtree::rotate()** or **ggtree::flip()**: 
-Note: to illustrate which nodes we are manipulating we first apply the **geom_hilight()** function from **ggtree** to highlight the samples in the nodes we are interested in and store that ggtree plot object in a new object `p1`.
+Sau đó chúng ta có thể thao tác với các nút bằng cách áp dụng hàm **ggtree::rotate()** hoặc **ggtree::flip()**: 
+Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trước tiên chúng ta áp dụng hàm **geom_hilight()** từ package **ggtree** để đánh dấu các mẫu trong các nút mà chúng ta quan tâm và lưu trữ sang một đối tượng biểu đồ mới có tên `p1`.
 
 ```{r, phylogenetic_trees_rotating_2, out.width=c('50%'), fig.show='hold', fig.align='center'}
 
@@ -379,7 +380,7 @@ ggtitle("Original tree")
 p1 # print
 ```
 
-Now we can rotate node 37 in object `p1` so that the samples on node 38 move to the top. We store the rotated tree in a new object `p2`.
+Bây giờ chúng ta có thể xoay nút 37 trong đối tượng `p1` để các mẫu trên nút 38 di chuyển lên đỉnh. Chúng ta lưu trữ cây đã xoay trong một đối tượng mới có tên `p2`.
 ```{r}
 p2 <- rotate(p1, 37) + 
       ggtitle("Rotated Node 37")
@@ -388,7 +389,7 @@ p2 <- rotate(p1, 37) +
 p2   # print
 ```
 
-Or we can use the flip command to rotate node 36 in object `p1` and switch node 37 to the top and node 39 to the bottom. We store the flipped tree in a new object `p3`.
+Hoặc chúng ta có thể sử dụng lệnh `flip` để xoay nút 36 trong đối tượng `p1` và đổi nút 37 lên đỉnh và nút 39 xuống dưới đáy. Chúng ta lưu cây đã được lật lại vào một đối tượng mới có tên `p3`.
 ```{r}
 
 p3 <-  flip(p1, 39, 37) +
@@ -398,9 +399,9 @@ p3 <-  flip(p1, 39, 37) +
 p3   # print
 ```
 
-### Example subtree with sample data annotation {.unnumbered} 
+### Ví dụ về cây con với chú thích dữ liệu mẫu {.unnumbered} 
 
-Lets say we are investigating the cluster of cases with clonal expansion which occurred in 2017 and 2018 at node 39 in our sub-tree. We add the year of strain isolation as well as travel history and color by country to see origin of other closely related strains:
+Giả sử chúng tôi đang điều tra cụm các trường hợp với nhân bản vô tính xảy ra vào năm 2017 và 2018 tại nút 39 trong cây con của chúng ta. Chúng ta thêm năm phân lập chủng cũng như lịch sử di chuyển và màu sắc theo quốc gia để xem nguồn gốc của các chủng có liên quan gần khác:
 
 ```{r, phylogenetic_trees_inspect_subset_example, out.width=c('80%'), fig.show='hold', fig.align='center', warning=F, message=F}
 
@@ -444,16 +445,16 @@ ggtree(sub_tree2) %<+% sample_data +     # we use th %<+% operator to link to th
 
 ```
 
-Our observation points towards an import event of strains from Asia, which then circulated in Belgium over the years and seem to have caused our latest outbreak.
+Quan sát của chúng ta hướng tới một sự kiện nhập khẩu các chủng từ châu Á, sau đó lưu hành ở Bỉ trong nhiều năm và dường như đã gây ra đợt bùng phát mới nhất của chúng ta.
 
 <!-- ======================================================= -->
 
-## More complex trees: adding heatmaps of sample data {.unnumbered}
+## Các cây phức tạp hơn: thêm bản đồ nhiệt của dữ liệu mẫu {.unnumbered}
 
 
-We can add more complex information, such as categorical presence of antimicrobial resistance genes and numeric values for actually measured resistance to antimicrobials in form of a heatmap using the **ggtree::gheatmap()** function.
+Chúng tôi có thể thêm thông tin phức tạp hơn, chẳng hạn như sự phân loại của các gen kháng thuốc và các giá trị đo lường về khả năng kháng thuốc dưới dạng bản đồ nhiệt bằng cách sử dụng hàm **ggtree::gheatmap()**.
 
-First we need to plot our tree (this can be either linear or circular) and store it in a new ggtree plot object `p`: We will use the sub_tree from part 3.)
+Trước tiên, chúng ta cần vẽ cây của mình (có thể là tuyến tính hoặc hình tròn) và lưu trữ nó trong một đối tượng biểu đồ ggtree mới có tên `p`: Chúng ta sẽ sử dụng sub_tree từ phần 3.)
 ```{r, phylogenetic_trees_sampledata_heatmap, out.width=c('60%'), fig.align='center', fig.show='hold'}
 
 p <- ggtree(sub_tree2, branch.length='none', layout='circular') %<+% sample_data +
@@ -471,29 +472,29 @@ p
 
 ```
 
-Second, we prepare our data. To visualize different variables with new color schemes, we subset our dataframe to the desired variable. It is important to add the `Sample_ID` as rownames otherwise it cannot match the data to the tree `tip.labels`:
+Thứ hai, chúng ta chuẩn bị dữ liệu của mình. Để trực quan hóa các biến khác nhau bằng các phối màu mới, chúng ta subset dataframe thành các biến mong muốn. Điều quan trọng là phải thêm `Sample_ID` làm tên hàng nếu không nó không thể khớp dữ liệu với cây `tip.labels`:
 
-In our example we want to look at gender and mutations that could confer resistance to Ciprofloxacin, an important first line antibiotic used to treat Shigella infections.
+Trong ví dụ của này, chúng ta muốn xem xét giới tính và các đột biến có thể dẫn đến kháng Ciprofloxacin, một loại kháng sinh hàng đầu quan trọng được sử dụng để điều trị nhiễm trùng Shigella.
 
-We create a dataframe for gender: 
+Chúng ta tạo một dataframe cho biến giới tính: 
 ```{r, phylogenetic_trees_sampledata_heatmap_data}
 gender <- data.frame("gender" = sample_data[,c("Gender")])
 rownames(gender) <- sample_data$Sample_ID
 ```
 
-We create a dataframe for mutations in the gyrA gene, which confer Ciprofloxacin resistance:
+Chúng ta tạo một dataframe cho đột biến ở gen gyrA, gen này tạo ra khả năng kháng Ciprofloxacin:
 ```{r}
 cipR <- data.frame("cipR" = sample_data[,c("gyrA_mutations")])
 rownames(cipR) <- sample_data$Sample_ID
 
 ```
-We create a dataframe for the measured minimum inhibitory concentration (MIC) for Ciprofloxacin from the laboratory:
+Chúng ta tạo một dataframe đối với nồng độ ức chế tối thiểu đo được (MIC) đối với Ciprofloxacin trong phòng thí nghiệm:
 ```{r}
 MIC_Cip <- data.frame("mic_cip" = sample_data[,c("MIC_CIP")])
 rownames(MIC_Cip) <- sample_data$Sample_ID
 ```
 
-We create a first plot adding a binary heatmap for gender to the phylogenetic tree and storing it in a new ggtree plot object `h1`:
+Chúng ta tạo một biểu đồ đầu tiên và thêm bản đồ nhiệt nhị phân cho giới tính vào cây phát sinh loài và lưu trữ nó trong một đối tượng biểu đồ ggtree mới `h1`:
 ```{r, phylogenetic_trees_sampledata_heatmap_gender, out.width=c('70%'), fig.show='hold', fig.align='center'}
 
 h1 <-  gheatmap(p, gender,                                 # we add a heatmap layer of the gender dataframe to our tree plot
@@ -513,16 +514,16 @@ h1
 
 ```
 
-Then we add information on mutations in the gyrA gene, which confer resistance to Ciprofloxacin:
+Sau đó, chúng ta thêm thông tin về các đột biến trong gen gyrA, gen này tạo ra khả năng kháng Ciprofloxacin:
 
-Note: The presence of chromosomal point mutations in WGS data was prior determined using the PointFinder tool developed by Zankari et al. (see reference in the additional references section)
+Lưu ý: Sự hiện diện của đột biến điểm nhiễm sắc thể trong dữ liệu WGS đã được xác định trước bằng cách sử dụng công cụ PointFinder do Zankari et al phát triển. (xem tham khảo trong phần tài liệu tham khảo bổ sung)
 
-First, we assign a new color scheme to our existing plot object `h1` and store it in a now object `h2`. This enables us to define and change the colors for our second variable in the heatmap.
+Đầu tiên, chúng ta gán một bảng màu mới cho đối tượng biểu đồ `h1` có sẵn và lưu nó thành một đối tượng mới có tên `h2`. Điều này cho phép chúng ta xác định và thay đổi màu sắc cho biến thứ hai của chúng tôi trong bản đồ nhiệt.
 ```{r}
 h2 <- h1 + new_scale_fill() 
 ```
 
-Then we add the second heatmap layer to `h2` and store the combined plots in a new object `h3`:
+Sau đó, chúng ta thêm lớp bản đồ nhiệt thứ hai vào `h2` và lưu biểu đồ thành đối tượng mới có tên `h3`:
 
 ```{r, phylogenetic_trees_sampledata_heatmap_cip_genes, out.width=c('80%'), fig.show='hold', fig.align='center'}
 
@@ -542,7 +543,7 @@ h3 <- gheatmap(h2, cipR,         # adds the second row of heatmap describing Cip
 h3
 ```
 
-We repeat the above process, by first adding a new color scale layer to our existing object `h3`, and then adding the continuous data on the minimum inhibitory concentration (MIC) of Ciprofloxacin for each strain to the resulting object `h4` to produce the final object `h5`:
+Chúng tôi lặp lại quy trình trên, trước tiên bằng cách thêm một lớp thang màu mới vào đối tượng hiện có `h3`, sau đó thêm dữ liệu liên tục về nồng độ ức chế tối thiểu (MIC) của Ciprofloxacin cho mỗi chủng vào đối tượng kết quả `h4` để tạo ra đối tượng cuối cùng `h5`:
 ```{r, phylogenetic_trees_sampledata_heatmap_cip_MIC, out.width=c('90%'), fig.show='hold', fig.align='center'}
 # First we add the new coloring scheme:
 h4 <- h3 + new_scale_fill()
@@ -565,7 +566,7 @@ h5
 
 ```
 
-We can do the same exercise for a linear tree:
+Chúng ta có thể thực hiện tương tự đối với cây tuyến tính:
 ```{r, phylogenetic_trees_sampledata_heatmap_linear_1, out.width=c('80%'), fig.show='hold', fig.align='center'}
 
 p <- ggtree(sub_tree2) %<+% sample_data +
@@ -582,7 +583,7 @@ p <- ggtree(sub_tree2) %<+% sample_data +
 p
 ```
 
-First we add gender:  
+Đầu tiên chúng ta thêm giới:  
 
 ```{r, phylogenetic_trees_sampledata_heatmap_linear_2, out.width=c('80%'), fig.show='hold', fig.align='center'}
 
@@ -603,7 +604,7 @@ h1
 ```
 
 
-Then we add Ciprofloxacin resistance mutations after adding another color scheme layer:
+Sau đó, chúng ta thêm các đột biến kháng Ciprofloxacin sau khi thêm một lớp phối màu khác:
 
 
 ```{r, phylogenetic_trees_sampledata_heatmap_linear_3, out.width=c('80%'), fig.show='hold', fig.align='center'}
@@ -626,7 +627,7 @@ h3 <- gheatmap(h2, cipR,
  h3
 ```
 
-Then we add the minimum inhibitory concentration determined by the laboratory (MIC):
+Sau đó, chúng ta thêm nồng độ ức chế tối thiểu được xác định bởi phòng thí nghiệm (MIC):
 
 ```{r, phylogenetic_trees_sampledata_heatmap_linear_4, out.width=c('80%'), fig.show='hold', fig.align='center'}
 
@@ -652,7 +653,7 @@ h5
 
 
 <!-- ======================================================= -->
-## Resources {}
+## Nguồn {}
 
 http://hydrodictyon.eeb.uconn.edu/eebedia/index.php/Ggtree# Clade_Colors
 https://bioconductor.riken.jp/packages/3.2/bioc/vignettes/ggtree/inst/doc/treeManipulation.html
