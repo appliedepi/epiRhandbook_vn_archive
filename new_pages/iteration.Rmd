@@ -1,7 +1,7 @@
 
 # Lặp, vòng lặp, và danh sách {#iteration}  
 
-Các nhà dịch tễ học thường phải phân tích lặp lại trên các phân nhóm như quốc gia, quận hoặc nhóm tuổi. Đây chỉ là một vài trong số rất nhiều tình huống liên quan đến *lặp lại*. Mã hóa các thao tác lặp lại của bạn bằng cách sử dụng các phương pháp bên dưới sẽ giúp bạn thực hiện các tác vụ lặp đi lặp lại như vậy nhanh hơn, giảm khả năng xảy ra lỗi và giảm độ dài code.  
+Các nhà dịch tễ học thường phải phân tích lặp lại trên các phân nhóm như quốc gia, quận hoặc nhóm tuổi. Đây chỉ là một vài trong số rất nhiều tình huống yêu cầu việc *lặp lại*. Mã hóa các thao tác lặp lại của bạn bằng cách sử dụng các phương pháp bên dưới sẽ giúp bạn thực hiện các tác vụ lặp đi lặp lại như vậy nhanh hơn, giảm khả năng xảy ra lỗi và giảm độ dài code.  
 
 Chương này sẽ giới thiệu hai cách tiếp cận đối với các thao tác lặp lại - sử dụng các *vòng lặp for* và package **purrr**.  
 
@@ -11,19 +11,19 @@ Chương này sẽ giới thiệu hai cách tiếp cận đối với các thao 
 Trong chương này, chúng tôi sẽ lấy một số ví dụ như:  
 
 * Nhập và xuất nhiều tệp  
-* Tạo các đường cong dịch bệnh cho nhiều phạm vi quyền hạn  
+* Tạo các đường cong dịch bệnh cho nhiều tỉnh  
 * Chạy T-tests cho nhiều cột trong dataframe  
 
-Trong [phần](#iter_purrr) **purrr**, chúng tôi cũng sẽ cung cấp một số ví dụ về cách tạo và xử lý `lists`.    
+Trong [phần](#iter_purrr) **purrr**, chúng tôi cũng sẽ cung cấp một số ví dụ về cách tạo và xử lý danh sách `lists`.    
 
 
 
 ## Chuẩn bị {  }
      
      
-### Tải packages {.unnumbered}  
+### Gọi packages {.unnumbered}  
 
-Đoạn code này hiển thị cách tải các packages cần thiết cho phần phân tích. Trong sổ tay này, chúng tôi nhấn mạnh `p_load()` từ **pacman**, cài đặt package nếu cần *và* tải nó để sử dụng. Bạn cũng có thể tải các package đã cài đặt với `library()` từ **base** R. Xem chương trên [R cơ bản] để biết thêm thông tin về packages R.    
+Đoạn code này hiển thị cách gọi các packages cần thiết cho phần phân tích. Trong sổ tay này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt package nếu cần *và* gọi nó ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về packages R.    
 
 ```{r}
 pacman::p_load(
@@ -77,7 +77,7 @@ Một *vòng lặp for* có ba phần cốt lõi:
 2) Các **thao tác** để tiến hành cho mỗi phần tử trong chuỗi  
 3) **Vùng chứa** cho kết quả (tùy chọn)  
 
-Cú pháp cơ bản là: `for (phần tử trong chuỗi) {các thao tác thực hiện với phần tử}`. Lưu ý dấu ngoặc đơn và dấu ngoặc nhọn. Kết quả có thể được in ra console hoặc được lưu trữ trong một đối tượng vùng chứa R.  
+Cú pháp cơ bản là: `for (phần tử trong chuỗi) {các thao tác thực hiện với phần tử}`. Lưu ý dấu ngoặc đơn và dấu ngoặc nhọn. Kết quả có thể được in ra console hoặc được lưu trữ trong một đối tượng vùng chứa.  
 
 Dưới đây là một ví dụ đơn giản về *vòng lặp for*.   
 
@@ -92,9 +92,9 @@ for (num in c(1,2,3,4,5)) {  # the SEQUENCE is defined (numbers 1 to 5) and loop
 
 ### Chuỗi {.unnumbered}  
 
-Đây là phần "for" của *vòng lặp for* - các thao tác sẽ chạy "for" qua từng phần tử trong chuỗi. Chuỗi có thể là một loạt các giá trị (ví dụ: tên của khu vực pháp lý, bệnh, tên cột, phần tử danh sách, v.v.) hoặc nó có thể là một chuỗi các số liên tiếp (ví dụ: 1,2,3,4,5). Mỗi cách tiếp cận được mô tả dưới đây có các tiện ích riêng của chúng.  
+Đây là phần "for" của *vòng lặp for* - các thao tác sẽ chạy "cho (for)" từng phần tử trong chuỗi. Chuỗi có thể là một loạt các giá trị (ví dụ: tên của khu vực pháp lý, bệnh, tên cột, phần tử danh sách, v.v.) hoặc nó có thể là một chuỗi các số liên tiếp (ví dụ: 1,2,3,4,5). Mỗi cách tiếp cận được mô tả dưới đây có các tiện ích riêng của chúng.  
 
-Cấu trúc cơ bản của câu lệnh chuỗi là `item in vector`.  
+Cấu trúc cơ bản của biểu thức chuỗi là `item in vector`.  
 
 * Bạn có thể viết bất kỳ ký tự hoặc từ nào thay cho "item" (ví dụ: "i", "num", "hosp", "district", v.v.). Giá trị của "item" này thay đổi theo từng lần lặp lại của vòng lặp, tiếp tục qua từng giá trị trong vector.  
 * *Vector* có thể là các giá trị ký tự, tên cột hoặc có thể là một chuỗi số - đây là những giá trị sẽ thay đổi theo mỗi lần lặp. Bạn có thể sử dụng chúng trong các thao tác *vòng lặp for* bằng cách sử dụng thuật ngữ "item".  
@@ -251,7 +251,7 @@ for (hosp in hospital_names){
 ```
 
 
-### Kiểm tra  vòng lặp for {.unnumbered}
+### Kiểm tra vòng lặp for {.unnumbered}
 
 Để kiểm tra vòng lặp của mình, bạn có thể chạy lệnh để gán tạm thời "item", chẳng hạn như `i <- 10` hoặc `hosp <- "Central Hospital"`. Thực hiện việc này *bên ngoài vòng lặp* và sau đó chỉ chạy code thao tác của bạn (code trong dấu ngoặc nhọn) để xem liệu kết quả mong đợi có được tạo ra hay không.  
 
