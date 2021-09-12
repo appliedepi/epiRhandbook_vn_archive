@@ -300,7 +300,7 @@ Truy cập <a href="https://yihui.org/tinytex/" class="uri">https://yihui.org/ti
 </h3>
 <p><strong>Đầu tiên, mở RStudio.</strong> Biểu tượng của chúng có sự tương đồng, hãy chắc chắn bạn đang mở <em>RStudio</em> chứ không phải R.</p>
 <p>Để RStudio hoạt động bạn cũng cần phải cài đặt R trên máy tính (xem hướng dẫn cài đặt ở bên trên).</p>
-<p><strong>RStudio</strong> là một giao diện người dùng (GUI) giúp sử dụng <strong>R</strong> dễ dàng hơn. YBạn có thể coi R như một động cơ đang đảm đương công việc chính của một phương tiện và RStudio là phần thân của phương tiện (với ghế ngồi, các phụ kiện,…) giúp bạn sử dụng động cơ tiến về phía trước. Bạn có thể xem toàn bộ cheatsheet giao diện người dùng của RStudio (PDF) tại <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">đây</a></p>
+<p><strong>RStudio</strong> là một giao diện người dùng (GUI) giúp sử dụng <strong>R</strong> dễ dàng hơn. Bạn có thể coi R như một động cơ đang đảm đương công việc chính của một phương tiện và RStudio là phần thân của phương tiện (với ghế ngồi, các phụ kiện,…) giúp bạn sử dụng động cơ tiến về phía trước. Bạn có thể xem toàn bộ cheatsheet giao diện người dùng của RStudio (PDF) tại <a href="https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf">đây</a></p>
 <p>RStudio mặc định hiển thị bốn cửa sổ hình chữ nhật.</p>
 <div class="inline-figure"><img src="images/RStudio_overview.PNG" width="100%" style="display: block; margin: auto;"></div>
 <p><span style="color: black;"><strong><em>MẸO:</em></strong> Nếu RStudio của bạn chỉ hiển thị một cửa sổ bên trái thì đó là do bạn chưa mở scripts nào.</span></p>
@@ -814,20 +814,20 @@ Cửa sổ phía dưới bên phải bao gồm một số tab quan trọng. Các
 <h3>Gợi ý cách tiếp cận<a class="anchor" aria-label="anchor" href="#g%E1%BB%A3i-%C3%BD-c%C3%A1ch-ti%E1%BA%BFp-c%E1%BA%ADn"><i class="fas fa-link"></i></a>
 </h3>
 <p><strong>Xem thêm tại chương <a href="r-projects.html#r-projects">Dự án R</a> để biết chi tiết về gợi ý các cách tiếp cận của chúng tôi trong việc quản lý thư mục làm việc của bạn.</strong><br>
-Một cách phổ biến, hiệu quả và không gặp sự cố khi quản lý thư mục làm việc và đường dẫn tệp là kết hợp 3 yếu tố này trong một quy trình làm việc với [Dự án R][R projects] có định hướng :</p>
+Một cách phổ biến, hiệu quả và không gặp sự cố khi quản lý thư mục làm việc và đường dẫn tệp là kết hợp 3 yếu tố này trong một quy trình làm việc với <a href="r-projects.html#r-projects">Dự án R</a> có định hướng :</p>
 <ol style="list-style-type: decimal">
-<li>Một dự án R để lưu trữ tất cả tệp của bạn (xem tại chương <a href="r-projects.html#r-projects">Dự án R</a>)<br>
+<li>Một dự án R để lưu trữ tất cả tệp của bạn (xem chương <a href="r-projects.html#r-projects">Dự án R</a>)<br>
 </li>
-<li>Package <strong>here</strong> để định vị tệp (xem tại [Import and export])<br>
+<li>Package <strong>here</strong> để định vị tệp (xem chương <a href="importing.html#importing">Nhập xuất dữ liệu</a>)<br>
 </li>
-<li>The <strong>rio</strong> package to import/export files (see page on <a href="importing.html#importing">Nhập xuất dữ liệu</a>)</li>
+<li>Packge <strong>rio</strong> để nhập/xuất tệp (xem chương <a href="importing.html#importing">Nhập xuất dữ liệu</a>)</li>
 </ol>
 <!-- ======================================================= -->
 </div>
 <div id="thiết-lập-bằng-lệnh" class="section level3 unnumbered">
 <h3>Thiết lập bằng lệnh<a class="anchor" aria-label="anchor" href="#thi%E1%BA%BFt-l%E1%BA%ADp-b%E1%BA%B1ng-l%E1%BB%87nh"><i class="fas fa-link"></i></a>
 </h3>
-<p>Cho tới gần đây, nhiều người học R đã được dạy để bắt đầu script của họ bằng lệnh <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code>. Hãy thay đổi thói quen đó bằng cách sử dụng [Dự án R][R projects] và đọc thêm tài liệu sau để hiểu <a href="https://www.tidyverse.org/blog/2017/12/workflow-vs-script/">lý do không nên sử dụng <code>setwd()</code></a>. Một cách ngắn gọn là, công việc của bạn chỉ thực hiện được trên máy tính của bạn, các đường dẫn tệp được sử dụng để nhập và xuất tệp trở nên “dễ lỗi” và điều này cản trở nghiêm trọng đến việc cộng tác và sử dụng code của bạn trên bất kỳ máy tính nào khác. Bạn có những lựa chọn khác dễ dàng hơn!</p>
+<p>Cho tới gần đây, nhiều người học R đã được dạy để bắt đầu script của họ bằng lệnh <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code>. Hãy thay đổi thói quen đó bằng cách sử dụng <a href="r-projects.html#r-projects">Dự án R</a> và đọc thêm tài liệu sau để hiểu <a href="https://www.tidyverse.org/blog/2017/12/workflow-vs-script/">lý do không nên sử dụng <code>setwd()</code></a>. Một cách ngắn gọn là, công việc của bạn chỉ thực hiện được trên máy tính của bạn, các đường dẫn tệp được sử dụng để nhập và xuất tệp trở nên “dễ lỗi” và điều này cản trở nghiêm trọng đến việc cộng tác và sử dụng code của bạn trên bất kỳ máy tính nào khác. Bạn có những lựa chọn khác dễ dàng hơn!</p>
 <p>Như đã nói ở trên, mặc dù chúng tôi không khuyến nghị phương pháp này trong hầu hết các trường hợp, bạn vẫn có thể sử dụng lệnh <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code> với đường dẫn tệp thư mục mong muốn trong dấu ngoặc kép, ví dụ:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"C:/Documents/R Files/My analysis"</span><span class="op">)</span></code></pre></div>
@@ -980,13 +980,13 @@ Bạn có thể nghĩ về toán tử gán <code><a href="https://rdrr.io/r/base
 <div class="inline-table"><table class="table table-sm">
 <colgroup>
 <col width="11%">
-<col width="52%">
+<col width="51%">
 <col width="36%">
 </colgroup>
 <thead><tr class="header">
-<th>Cấu trúc thường gặ</th>
-<th>p | Giái thích</th>
-<th>| Ví dụ</th>
+<th>Cấu trúc thường gặp</th>
+<th>Giái thích</th>
+<th>Ví dụ</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -997,8 +997,8 @@ Bạn có thể nghĩ về toán tử gán <code><a href="https://rdrr.io/r/base
 </tr>
 <tr class="even">
 <td>Data Frames</td>
-<td>Vectors (ví dụ: các cột) được liên kết với nhau mà tất cả đều có cùng số hàng. | `linel</td>
-<td>ist` là một data frame.</td>
+<td>Vectors (ví dụ: các cột) được liên kết với nhau mà tất cả đều có cùng số hàng.</td>
+<td>`linelist` là một data frame.</td>
 </tr>
 </tbody>
 </table></div>
@@ -1584,11 +1584,9 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <p>Đọc thêm về missing, vô hạn, <code>NULL</code>, và các giá trị không thể trong chương <a href="missing-data.html#missing-data">Dữ liệu Missing</a>. Tìm hiểu thêm cách chuyển đổi các giá trị bị missing khi nhập dữ liệu trong chương <a href="importing.html#importing">Nhập xuất dữ liệu</a>.</p>
 <!-- ======================================================= -->
 </div>
-<div id="toán-học-và-thống-kê" class="section level3" number="3.12.1">
-<h3>
-<span class="header-section-number">3.12.1</span> Toán học và thống kê<a class="anchor" aria-label="anchor" href="#to%C3%A1n-h%E1%BB%8Dc-v%C3%A0-th%E1%BB%91ng-k%C3%AA"><i class="fas fa-link"></i></a>
+<div id="toán-học-và-thống-kê" class="section level3 unnumbered">
+<h3>Toán học và thống kê<a class="anchor" aria-label="anchor" href="#to%C3%A1n-h%E1%BB%8Dc-v%C3%A0-th%E1%BB%91ng-k%C3%AA"><i class="fas fa-link"></i></a>
 </h3>
-<p>{.unnumbered}</p>
 <p>Tất cả các toán tử và hàm trong chương này đều có sẵn bằng cách sử dụng <strong>base</strong> R.</p>
 <div id="toán-tử-toán-học" class="section level4 unnumbered">
 <h4>Toán tử toán học<a class="anchor" aria-label="anchor" href="#to%C3%A1n-t%E1%BB%AD-to%C3%A1n-h%E1%BB%8Dc"><i class="fas fa-link"></i></a>
@@ -2002,7 +2000,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <li><a class="nav-link" href="#to%C3%A1n-t%E1%BB%AD-g%C3%A1n">Toán tử gán</a></li>
 <li><a class="nav-link" href="#to%C3%A1n-t%E1%BB%AD-quan-h%E1%BB%87-v%C3%A0-logic">Toán tử quan hệ và logic</a></li>
 <li><a class="nav-link" href="#gi%C3%A1-tr%E1%BB%8B-missing">Giá trị Missing</a></li>
-<li><a class="nav-link" href="#to%C3%A1n-h%E1%BB%8Dc-v%C3%A0-th%E1%BB%91ng-k%C3%AA"><span class="header-section-number">3.12.1</span> Toán học và thống kê</a></li>
+<li><a class="nav-link" href="#to%C3%A1n-h%E1%BB%8Dc-v%C3%A0-th%E1%BB%91ng-k%C3%AA">Toán học và thống kê</a></li>
 <li><a class="nav-link" href="#in">%in%</a></li>
 </ul>
 </li>
@@ -2029,7 +2027,7 @@ Bạn nên sử dụng dấu cách trong khi viết code với toán tử gán �
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

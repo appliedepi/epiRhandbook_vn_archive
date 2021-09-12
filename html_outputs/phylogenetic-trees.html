@@ -117,24 +117,24 @@
 <span class="header-section-number">38</span> Cây phả hệ<a class="anchor" aria-label="anchor" href="#phylogenetic-trees"><i class="fas fa-link"></i></a>
 </h1>
 <!-- ======================================================= -->
-<div id="overview-2" class="section level2" number="38.1">
+<div id="tổng-quan-7" class="section level2" number="38.1">
 <h2>
-<span class="header-section-number">38.1</span> Overview<a class="anchor" aria-label="anchor" href="#overview-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">38.1</span> Tổng quan<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-quan-7"><i class="fas fa-link"></i></a>
 </h2>
-<p><strong>Phylogenetic trees</strong> are used to visualize and describe the relatedness and evolution of organisms based on the sequence of their genetic code.</p>
-<p>They can be constructed from genetic sequences using distance-based methods (such as neighbor-joining method) or character-based methods (such as maximum likelihood and Bayesian Markov Chain Monte Carlo method). Next-generation sequencing (NGS) has become more affordable and is becoming more widely used in public health to describe pathogens causing infectious diseases. Portable sequencing devices decrease the turn around time and hold promises to make data available for the support of outbreak investigation in real-time. NGS data can be used to identify the origin or source of an outbreak strain and its propagation, as well as determine presence of antimicrobial resistance genes. To visualize the genetic relatedness between samples a phylogenetic tree is constructed.</p>
-<p>In this page we will learn how to use the <strong>ggtree</strong> package, which allows for combined visualization of phylogenetic trees with additional sample data in form of a dataframe. This will enable us to observe patterns and improve understanding of the outbreak dynamic.</p>
+<p><strong>Cây phả hệ</strong> được sử dụng để trực quan hóa và mô tả mối liên hệ cũng như sự tiến hóa của các sinh vật dựa trên trình tự mã di truyền của chúng.</p>
+<p>Chúng có thể được xây dựng từ trình tự di truyền bằng các phương pháp dựa trên khoảng cách (distance-based methods) (chẳng hạn như phương pháp neighbor-joining) hoặc các phương pháp dựa trên ký tự (character-based methods) (chẳng hạn như phương pháp maximum likelihood và Bayesian Markov Chain Monte Carlo). Công nghệ giải trình tự gen thế hệ mới (Next Generation Sequencing - NGS) có giá thành ngày càng hợp lý và ngày càng được sử dụng rộng rãi hơn trong y tế công cộng để mô tả các mầm bệnh gây ra các bệnh truyền nhiễm. Các thiết bị giải trình tự di động giúp giảm thời gian quay vòng và hứa hẹn cung cấp dữ liệu để hỗ trợ điều tra ổ dịch trong thời gian thực. Dữ liệu NGS có thể được sử dụng để xác định nguồn gốc hoặc nguồn gốc của một chủng bùng phát và sự lan truyền của nó, cũng như xác định sự hiện diện của các gen kháng thuốc kháng sinh. Để trực quan hóa mối quan hệ di truyền giữa các mẫu, một cây phát sinh loài được xây dựng.</p>
+<p>Trong chương này chúng ta sẽ học cách sử dụng package <strong>ggtree</strong>, cho phép kết hợp cây phả hệ với dữ liệu bổ sung dưới dạng một dataframe. Điều này sẽ cho phép chúng ta quan sát các xu hướng và nâng cao hiểu biết về động học của dịch bệnh.</p>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_overview_graph-1.png" width="80%" style="display: block; margin: auto;"></div>
 <!-- ======================================================= -->
 </div>
-<div id="preparation-3" class="section level2" number="38.2">
+<div id="chuẩn-bị-29" class="section level2" number="38.2">
 <h2>
-<span class="header-section-number">38.2</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">38.2</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-29"><i class="fas fa-link"></i></a>
 </h2>
-<div id="load-packages-4" class="section level3 unnumbered">
-<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages-4"><i class="fas fa-link"></i></a>
+<div id="gọi-packages-14" class="section level3 unnumbered">
+<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-14"><i class="fas fa-link"></i></a>
 </h3>
-<p>This code chunk shows the loading of required packages. In this handbook we emphasize <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> from <strong>pacman</strong>, which installs the package if necessary <em>and</em> loads it for use. You can also load installed packages with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> from <strong>base</strong> R. See the page on [R basics] for more information on R packages.</p>
+<p>Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> từ package <strong>pacman</strong>, giúp cài đặt các package cần thiết <em>và</em> gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> của <strong>base</strong> R. Xem thêm chương <a href="basics.html#basics">R cơ bản</a> để có thêm thông tin về các packages trong R.</p>
 <div class="sourceCode" id="cb1727"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span>
   <span class="va">rio</span>,             <span class="co"># import/export</span>
@@ -145,17 +145,17 @@
   <span class="va">treeio</span>,          <span class="co"># to visualize phylogenetic files</span>
   <span class="va">ggnewscale</span><span class="op">)</span>      <span class="co"># to add additional layers of color schemes</span></code></pre></div>
 </div>
-<div id="import-data-3" class="section level3 unnumbered">
-<h3>Import data<a class="anchor" aria-label="anchor" href="#import-data-3"><i class="fas fa-link"></i></a>
+<div id="nhập-dữ-liệu-21" class="section level3 unnumbered">
+<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-21"><i class="fas fa-link"></i></a>
 </h3>
-<p>The data for this page can be downloaded with the instructions on the [Download handbook and data] page.</p>
-<p>There are several different formats in which a phylogenetic tree can be stored (eg. Newick, NEXUS, Phylip). A common one is the Newick file format (.nwk), which is the standard for representing trees in computer-readable form. This means an entire tree can be expressed in a string format such as “((t2:0.04,t1:0.34):0.89,(t5:0.37,(t4:0.03,t3:0.67):0.9):0.59);”, listing all nodes and tips and their relationship (branch length) to each other.</p>
-<p>Note: It is important to understand that the phylogenetic tree file in itself does not contain sequencing data, but is merely the result of the genetic distances between the sequences. We therefore cannot extract sequencing data from a tree file.</p>
-<p>First, we use the <code>read.tree()</code> function from <strong>ape</strong> package to import a Newick phylogenetic tree file in .txt format, and store it in a list object of class “phylo”. If necessary, use the <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> function from the <strong>here</strong> package to specify the relative file path.</p>
-<p>Note: In this case the newick tree is saved as a .txt file for easier handling and downloading from Github.</p>
+<p>Dữ liệu sử dụng trong chương này có thể tải xuống với hướng dẫn từ chương <a href="data-used.html#data-used">Tải sách và dữ liệu</a>.</p>
+<p>Có một số định dạng khác nhau mà cây phát sinh loài có thể được lưu trữ (vd: Newick, NEXUS, Phylip). Định dạng phổ biến là ở dạng tệp Newick (.nwk), là tiêu chuẩn để biểu diễn cây ở dạng máy tính có thể đọc được. Điều này có nghĩa là toàn bộ cây có thể được biểu diễn ở định dạng chuỗi chẳng hạn như “((t2:0.04,t1:0.34):0.89,(t5:0.37,(t4:0.03,t3:0.67):0.9):0.59);”, liệt kê toàn bộ các nút và tips cũng như mối quan hệ của chúng (độ dài nhánh) với nhau.</p>
+<p>Lưu ý: Điều quan trọng là phải hiểu rằng bản thân tệp cây phát sinh loài không chứa dữ liệu trình tự, mà chỉ đơn thuần là kết quả của khoảng cách gen giữa các trình tự. Do đó, chúng ta không thể trích xuất dữ liệu trình tự từ tệp cây.</p>
+<p>Đầu tiên, chúng ta sử dụng hàm <code>read.tree()</code> từ package <strong>ape</strong> để nhập một tệp cây phát sinh loài Newick ở định dạng .txt, và lưu nó dưới dạng một đối tượng danh sách với kiểu dữ liệu (class) “phylo”. Nếu cần, hãy sử dụng hàm <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> từ package <strong>here</strong> để chỉ định đường dẫn tệp tương đối.</p>
+<p>Lưu ý: Trong trường hợp này, newick tree được lưu dưới dạng tệp .txt để dễ dàng xử lý và tải xuống từ Github.</p>
 <div class="sourceCode" id="cb1728"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/read.tree.html">read.tree</a></span><span class="op">(</span><span class="st">"Shigella_tree.txt"</span><span class="op">)</span></code></pre></div>
-<p>We inspect our tree object and see it contains 299 tips (or samples) and 236 nodes.</p>
+<p>Chúng ta khảo sát đối tượng cây của chúng ta và thấy nó chứa 299 tips (hoặc mẫu) và 236 nút (nodes).</p>
 <div class="sourceCode" id="cb1729"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree</span></code></pre></div>
 <pre><code>## 
@@ -167,54 +167,60 @@
 ##   17, 29, 100, 67, 100, 100, ...
 ## 
 ## Rooted; includes branch lengths.</code></pre>
-<p>Second, we import a table stored as a .csv file with additional information for each sequenced sample, such as gender, country of origin and attributes for antimicrobial resistance, using the <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> function from the <strong>rio</strong> package:</p>
+<p>Thứ hai, chúng ta nhập một bảng được lưu trữ dưới dạng tệp .csv với thông tin bổ sung cho từng mẫu được giải trình tự, chẳng hạn như giới tính, quốc gia xuất xứ và các thuộc tính kháng kháng sinh, bằng cách sử dụng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong>:</p>
 <div class="sourceCode" id="cb1731"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"sample_data_Shigella_tree.csv"</span><span class="op">)</span></code></pre></div>
-<p>Below are the first 50 rows of the data:</p>
-<div id="htmlwidget-52dd33e124e3807a789d" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-52dd33e124e3807a789d">{"x":{"filter":"none","data":[["S17BD05944","S15BD07413","S18BD07247","S19BD07384","S18BD07338","S18BD02657","S19BD06884","S16BD02574","S16BD04069","S17BD08170","S15BD07250","S17BD07935","S17BD00384","S19BD06034","S17BD08948","S17BD04542","S17BD07399","S17BD08233","S19BD07381","S17BD07961","S18BD09176","S19BD07393","S18BD02580","S17BD02526","S17BD06833","S18BD01024","S18BD03411","S18BD09515","S17BD07332","S18BD06598","S17BD02164","S19BD06386","S19BD06283","S19BD06285","S19BD05221","S18BD06749","S17BD02088","S17BD07692","S14BD03573","S17BD01135","S19BD06689","S15BD06969","S18BD01106","S17BD00525","S19BD07036","S18BD06401","S18BD06486","S17BD06426","S17BD05916","S18BD07708"],["Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei"],["Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium"],["Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe"],[null,"Georgia",null,"Morocco",null,null,null,"Thailand",null,null,null,null,null,null,null,"Iran",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Morocco","France","Turkey","Egypt","Tunisia","Congo",null,null,null,null,null,null,null,null,null,null,"Egypt",null,null],["2017","2015","2018","2019","2018","2018","2019","2016","2016","2017","2015","2017","2017","2019","2017","2017","2017","2017","2019","2017","2018","2019","2018","2017","2017","2018","2018","2018","2017","2018","2017","2019","2019","2019","2019","2018","2017","2017","2014","2017","2019","2015","2018","2017","2019","2018","2018","2017","2017","2018"],["Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"],["NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL"],[null,"Male","Female","Female","Male","Male","Male","Male","Male","Male","Female",null,"Male","Male","Female","Male","Male","Female","Female","Male","Male","Male","Male","Female","Male","Female","Female","Male","Female","Male","Female","Female","Female","Female","Female","Female","Male","Male",null,"female","Male","Female","Male","Male","Male","Male","Male","Male","Male","Female"],[null,null,null,null,null,"gyrA D87Y","gyrA D87Y","gyrA D87Y","gyrA D87Y",null,null,"gyrA D87Y",null,null,"gyrA D87Y",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA S83L",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA D87Y",null,null,null,"gyrA D87Y",null,null,null,null,null,null,null],[null,null,null,null,null,"mphA","mphA",null,null,null,null,"mphA",null,null,"mphA",null,null,null,null,null,null,null,null,null,null,"mphA","mphA",null,null,null,null,null,null,null,"mphA/ermB",null,null,"mphA",null,null,null,null,"mphA",null,null,null,null,null,null,null],[8,0,16,8,8,64,64,0,0,64,0,64,8,8,64,8,8,8,8,8,8,16,8,8,8,64,64,8,8,8,8,8,8,2,64,8,8,64,0,8,8,0,64,8,4,8,8,8,8,8],[0.25,0,0.03,0.02,0.02,0.5,0.5,0,0,8,0,0.5,0.02,0.02,0.5,0.25,0.02,0.02,0.02,0.02,0.02,0.12,0.02,0.02,0.02,0.5,0.25,0.03,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,1,0,0.02,0.02,0,0.5,0.02,0.02,4,0.02,0.02,0.25,0.02]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Sample_ID<\/th>\n      <th>serotype<\/th>\n      <th>Country<\/th>\n      <th>Continent<\/th>\n      <th>Travel_history<\/th>\n      <th>Year<\/th>\n      <th>Belgium<\/th>\n      <th>Source<\/th>\n      <th>Gender<\/th>\n      <th>gyrA_mutations<\/th>\n      <th>macrolide_resistance_genes<\/th>\n      <th>MIC_AZM<\/th>\n      <th>MIC_CIP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[11,12]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<p>Dưới đây là 50 dòng đầu tiên của bộ dữ liệu:</p>
+<div id="htmlwidget-5f31747678b7e0245737" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5f31747678b7e0245737">{"x":{"filter":"none","data":[["S17BD05944","S15BD07413","S18BD07247","S19BD07384","S18BD07338","S18BD02657","S19BD06884","S16BD02574","S16BD04069","S17BD08170","S15BD07250","S17BD07935","S17BD00384","S19BD06034","S17BD08948","S17BD04542","S17BD07399","S17BD08233","S19BD07381","S17BD07961","S18BD09176","S19BD07393","S18BD02580","S17BD02526","S17BD06833","S18BD01024","S18BD03411","S18BD09515","S17BD07332","S18BD06598","S17BD02164","S19BD06386","S19BD06283","S19BD06285","S19BD05221","S18BD06749","S17BD02088","S17BD07692","S14BD03573","S17BD01135","S19BD06689","S15BD06969","S18BD01106","S17BD00525","S19BD07036","S18BD06401","S18BD06486","S17BD06426","S17BD05916","S18BD07708"],["Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei"],["Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium"],["Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe"],[null,"Georgia",null,"Morocco",null,null,null,"Thailand",null,null,null,null,null,null,null,"Iran",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Morocco","France","Turkey","Egypt","Tunisia","Congo",null,null,null,null,null,null,null,null,null,null,"Egypt",null,null],["2017","2015","2018","2019","2018","2018","2019","2016","2016","2017","2015","2017","2017","2019","2017","2017","2017","2017","2019","2017","2018","2019","2018","2017","2017","2018","2018","2018","2017","2018","2017","2019","2019","2019","2019","2018","2017","2017","2014","2017","2019","2015","2018","2017","2019","2018","2018","2017","2017","2018"],["Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"],["NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL"],[null,"Male","Female","Female","Male","Male","Male","Male","Male","Male","Female",null,"Male","Male","Female","Male","Male","Female","Female","Male","Male","Male","Male","Female","Male","Female","Female","Male","Female","Male","Female","Female","Female","Female","Female","Female","Male","Male",null,"female","Male","Female","Male","Male","Male","Male","Male","Male","Male","Female"],[null,null,null,null,null,"gyrA D87Y","gyrA D87Y","gyrA D87Y","gyrA D87Y",null,null,"gyrA D87Y",null,null,"gyrA D87Y",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA S83L",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA D87Y",null,null,null,"gyrA D87Y",null,null,null,null,null,null,null],[null,null,null,null,null,"mphA","mphA",null,null,null,null,"mphA",null,null,"mphA",null,null,null,null,null,null,null,null,null,null,"mphA","mphA",null,null,null,null,null,null,null,"mphA/ermB",null,null,"mphA",null,null,null,null,"mphA",null,null,null,null,null,null,null],[8,0,16,8,8,64,64,0,0,64,0,64,8,8,64,8,8,8,8,8,8,16,8,8,8,64,64,8,8,8,8,8,8,2,64,8,8,64,0,8,8,0,64,8,4,8,8,8,8,8],[0.25,0,0.03,0.02,0.02,0.5,0.5,0,0,8,0,0.5,0.02,0.02,0.5,0.25,0.02,0.02,0.02,0.02,0.02,0.12,0.02,0.02,0.02,0.5,0.25,0.03,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,1,0,0.02,0.02,0,0.5,0.02,0.02,4,0.02,0.02,0.25,0.02]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Sample_ID<\/th>\n      <th>serotype<\/th>\n      <th>Country<\/th>\n      <th>Continent<\/th>\n      <th>Travel_history<\/th>\n      <th>Year<\/th>\n      <th>Belgium<\/th>\n      <th>Source<\/th>\n      <th>Gender<\/th>\n      <th>gyrA_mutations<\/th>\n      <th>macrolide_resistance_genes<\/th>\n      <th>MIC_AZM<\/th>\n      <th>MIC_CIP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[11,12]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="clean-and-inspect" class="section level3 unnumbered">
-<h3>Clean and inspect<a class="anchor" aria-label="anchor" href="#clean-and-inspect"><i class="fas fa-link"></i></a>
+<div id="làm-sạch-và-khảo-sát-dữ-liệu" class="section level3 unnumbered">
+<h3>Làm sạch và khảo sát dữ liệu<a class="anchor" aria-label="anchor" href="#l%C3%A0m-s%E1%BA%A1ch-v%C3%A0-kh%E1%BA%A3o-s%C3%A1t-d%E1%BB%AF-li%E1%BB%87u"><i class="fas fa-link"></i></a>
 </h3>
-<p>We clean and inspect our data: In order to assign the correct sample data to the phylogenetic tree, the values in the column <code>Sample_ID</code> in the <code>sample_data</code> data frame need to match the <code>tip.labels</code> values in the <code>tree</code> file:</p>
-<p>We check the formatting of the <code>tip.labels</code> in the <code>tree</code> file by looking at the first 6 entries using with <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> from <strong>base</strong> R.</p>
+<p>Chúng ta làm sạch và khảo sát dữ liệu để gán dữ liệu mẫu chính xác cho cây phát sinh loài, các giá trị trong cột <code>Sample_ID</code> của data frame <code>sample_data</code> cần phải khớp với giá trị <code>tip.labels</code> ở trong tệp <code>tree</code>:</p>
+<p>Chúng ta kiểm tra định dạng của <code>tip.labels</code> trong tệp <code>tree</code> bằng cách xem xét 6 hàng đầu tiên với hàm <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> của <strong>base</strong> R.</p>
 <div class="sourceCode" id="cb1732"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span> </code></pre></div>
-<pre><code>## [1] "SRR5006072" "SRR4192106" "S18BD07865" "S18BD00489" "S17BD08906" "S17BD05939"</code></pre>
-<p>We also make sure the first column in our <code>sample_data</code> data frame is <code>Sample_ID</code>. We look at the column names of our dataframe using <code><a href="https://rdrr.io/r/base/colnames.html">colnames()</a></code> from <strong>base</strong> R.</p>
+<pre><code>## [1] "SRR5006072" "SRR4192106" "S18BD07865" "S18BD00489" "S17BD08906"
+## [6] "S17BD05939"</code></pre>
+<p>Chúng ta cũng cần chắc chắn rằng cột đầu tiên trong data frame <code>sample_data</code> là cột <code>Sample_ID</code>. Chúng ta xem tên các cột của dataframe bằng cách sử dụng hàm <code><a href="https://rdrr.io/r/base/colnames.html">colnames()</a></code> từ <strong>base</strong> R.</p>
 <div class="sourceCode" id="cb1734"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">)</span>   </code></pre></div>
-<pre><code>##  [1] "Sample_ID"                  "serotype"                   "Country"                    "Continent"                  "Travel_history"             "Year"                      
-##  [7] "Belgium"                    "Source"                     "Gender"                     "gyrA_mutations"             "macrolide_resistance_genes" "MIC_AZM"                   
+<pre><code>##  [1] "Sample_ID"                  "serotype"                  
+##  [3] "Country"                    "Continent"                 
+##  [5] "Travel_history"             "Year"                      
+##  [7] "Belgium"                    "Source"                    
+##  [9] "Gender"                     "gyrA_mutations"            
+## [11] "macrolide_resistance_genes" "MIC_AZM"                   
 ## [13] "MIC_CIP"</code></pre>
-<p>We look at the <code>Sample_IDs</code> in the data frame to make sure the formatting is the same than in the <code>tip.label</code> (eg. letters are all capitals, no extra underscores <code>_</code> between letters and numbers, etc.)</p>
+<p>Chúng ta hãy để ý cột <code>Sample_IDs</code> trong data frame để chắc chắn rằng các định dạng là tương tự với <code>tip.label</code> (vd: các chữ cái đều viết hoa, không có dấu gạch dưới thừa <code>_</code> giữa ký tự và số, v.v.)</p>
 <div class="sourceCode" id="cb1736"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span><span class="op">)</span> <span class="co"># we again inspect only the first 6 using head()</span></code></pre></div>
-<pre><code>## [1] "S17BD05944" "S15BD07413" "S18BD07247" "S19BD07384" "S18BD07338" "S18BD02657"</code></pre>
-<p>We can also compare if all samples are present in the <code>tree</code> file and vice versa by generating a logical vector of TRUE or FALSE where they do or do not match. These are not printed here, for simplicity.</p>
+<pre><code>## [1] "S17BD05944" "S15BD07413" "S18BD07247" "S19BD07384" "S18BD07338"
+## [6] "S18BD02657"</code></pre>
+<p>Chúng ta cũng có thể so sánh nếu tất cả các mẫu có trong tệp <code>tree</code> và ngược lại bằng cách tạo một vectơ logic TRUE hoặc FALSE khi chúng khớp hoặc không khớp. Chúng không được in ở đây để cho đơn giản.</p>
 <div class="sourceCode" id="cb1738"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span> <span class="op">%in%</span> <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>
 
 <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span> <span class="op">%in%</span> <span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span></code></pre></div>
-<p>We can use these vectors to show any sample IDs that are not on the tree (there are none).</p>
+<p>Chúng ta có thể sử dụng các vectơ này để hiển thị bất kỳ ID mẫu nào không có trên cây (không có ID nào).</p>
 <div class="sourceCode" id="cb1739"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span><span class="op">[</span><span class="op">!</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span> <span class="op">%in%</span> <span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span><span class="op">]</span></code></pre></div>
 <pre><code>## character(0)</code></pre>
-<p>Upon inspection we can see that the format of <code>Sample_ID</code> in the dataframe corresponds to the format of sample names at the <code>tip.labels</code>. These do not have to be sorted in the same order to be matched.</p>
-<p>We are ready to go!</p>
+<p>Sau khi khảo sát, chúng ta có thể thấy định dạng của cột <code>Sample_ID</code> trong dataframe tương ứng với định dạng của tên mẫu tại <code>tip.labels</code>. Chúng không cần phải được sắp xếp theo cùng một thứ tự để có thể khớp.</p>
+<p>Bây giờ chúng ta đã sẵn sàng!</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="simple-tree-visualization" class="section level2" number="38.3">
+<div id="trực-quan-hóa-cây-đơn-giản" class="section level2" number="38.3">
 <h2>
-<span class="header-section-number">38.3</span> Simple tree visualization<a class="anchor" aria-label="anchor" href="#simple-tree-visualization"><i class="fas fa-link"></i></a>
+<span class="header-section-number">38.3</span> Trực quan hóa cây đơn giản<a class="anchor" aria-label="anchor" href="#tr%E1%BB%B1c-quan-h%C3%B3a-c%C3%A2y-%C4%91%C6%A1n-gi%E1%BA%A3n"><i class="fas fa-link"></i></a>
 </h2>
-<div id="different-tree-layouts" class="section level3 unnumbered">
-<h3>Different tree layouts<a class="anchor" aria-label="anchor" href="#different-tree-layouts"><i class="fas fa-link"></i></a>
+<div id="các-bố-cục-cây-khác-nhau" class="section level3 unnumbered">
+<h3>Các bố cục cây khác nhau<a class="anchor" aria-label="anchor" href="#c%C3%A1c-b%E1%BB%91-c%E1%BB%A5c-c%C3%A2y-kh%C3%A1c-nhau"><i class="fas fa-link"></i></a>
 </h3>
-<p><strong>ggtree</strong> offers many different layout formats and some may be more suitable for your specific purpose than others. Below are a few demonstrations. For other options see this <a href="http://yulab-smu.top/treedata-book/chapter4.html">online book</a>.</p>
-<p>Here are some example tree layouts:</p>
+<p><strong>ggtree</strong> cung cấp nhiều định dạng bố cục khác nhau và một số có thể phù hợp với mục đích cụ thể của bạn hơn những định dạng khác. Dưới đây là một vài minh hoạt. Đối với các tùy chọn khác, hãy xem <a href="http://yulab-smu.top/treedata-book/chapter4.html">cuốn sách trực tuyến này</a>.</p>
+<p>Dưới đây là một số bố cục cây mẫu:</p>
 <div class="sourceCode" id="cb1741"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggtree</span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>                                            <span class="co"># simple linear tree</span>
 <span class="fu">ggtree</span><span class="op">(</span><span class="va">tree</span>,  branch.length <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>                   <span class="co"># simple linear tree with all tips aligned</span>
@@ -222,11 +228,11 @@
 <span class="fu">ggtree</span><span class="op">(</span><span class="va">tree</span>, layout<span class="op">=</span><span class="st">"circular"</span>, branch.length <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="co"># simple circular tree with all tips aligned</span></code></pre></div>
 <p><img src="_main_files/figure-html/phylogenetic_trees_example_formats-1.png" width="50%"><img src="_main_files/figure-html/phylogenetic_trees_example_formats-2.png" width="50%"><img src="_main_files/figure-html/phylogenetic_trees_example_formats-3.png" width="50%"><img src="_main_files/figure-html/phylogenetic_trees_example_formats-4.png" width="50%"></p>
 </div>
-<div id="simple-tree-plus-sample-data" class="section level3 unnumbered">
-<h3>Simple tree plus sample data<a class="anchor" aria-label="anchor" href="#simple-tree-plus-sample-data"><i class="fas fa-link"></i></a>
+<div id="cây-đơn-giản-cộng-với-dữ-liệu-mẫu" class="section level3 unnumbered">
+<h3>Cây đơn giản cộng với dữ liệu mẫu<a class="anchor" aria-label="anchor" href="#c%C3%A2y-%C4%91%C6%A1n-gi%E1%BA%A3n-c%E1%BB%99ng-v%E1%BB%9Bi-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu"><i class="fas fa-link"></i></a>
 </h3>
-<p>The <strong>%&lt;+%</strong> operator is used to connect the <code>sample_data</code> data frame to the <code>tree</code> file.
-The most easy annotation of your tree is the addition of the sample names at the tips, as well as coloring of tip points and if desired the branches:</p>
+<p>Toán tử <strong>%&lt;+%</strong> được sử dụng để kết nối data frame <code>sample_data</code> tới tệp <code>tree</code>.
+Cách chú thích dễ dàng nhất cho cây của bạn là thêm tên mẫu ở các ngọn, cũng như tô màu các điểm ngọn và các nhánh nếu muốn :</p>
 <p>Here is an example of a circular tree:</p>
 <div class="sourceCode" id="cb1742"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggtree</span><span class="op">(</span><span class="va">tree</span>, layout <span class="op">=</span> <span class="st">"circular"</span>, branch.length <span class="op">=</span> <span class="st">'none'</span><span class="op">)</span> <span class="op">%&lt;+%</span> <span class="va">sample_data</span> <span class="op">+</span> <span class="co"># %&lt;+% adds dataframe with sample data to tree</span>
@@ -268,23 +274,24 @@ The most easy annotation of your tree is the addition of the sample names at the
     legend.box <span class="op">=</span> <span class="st">"vertical"</span>,        <span class="co"># defines placement of the legend</span>
     legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>   </code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_adding_sampledata-1.png" width="672" style="display: block; margin: auto;"></div>
-<p>You can export your tree plot with <code>ggsave()</code> as you would any other ggplot object. Written this way, <code>ggsave()</code> saves the last image produced to the file path you specify. Remember that you can use <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> and relative file paths to easily save in subfolders, etc.</p>
+<p>Bạn có thể xuất biểu đồ cây với hàm <code>ggsave()</code> như cách bạn làm với bất kỳ đối tượng ggplot nào khác. Được viết theo cách này,
+<code>ggsave()</code> lưu hình ảnh cuối cùng được tạo vào đường dẫn tệp bạn chỉ định. Hãy nhớ rằng bạn có thể sử dụng hàm <code><a href="https://here.r-lib.org//reference/here.html">here()</a></code> và các đường dẫn tệp tương đối để dễ dàng lưu trong các thư mục con, v.v.</p>
 <div class="sourceCode" id="cb1743"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggsave</span><span class="op">(</span><span class="st">"example_tree_circular_1.png"</span>, width <span class="op">=</span> <span class="fl">12</span>, height <span class="op">=</span> <span class="fl">14</span><span class="op">)</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="tree-manipulation" class="section level2" number="38.4">
+<div id="thao-tác-với-cây" class="section level2" number="38.4">
 <h2>
-<span class="header-section-number">38.4</span> Tree manipulation<a class="anchor" aria-label="anchor" href="#tree-manipulation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">38.4</span> Thao tác với cây<a class="anchor" aria-label="anchor" href="#thao-t%C3%A1c-v%E1%BB%9Bi-c%C3%A2y"><i class="fas fa-link"></i></a>
 </h2>
-<p>Sometimes you may have a very large phylogenetic tree and you are only interested in one part of the tree. For example, if you produced a tree including historical or international samples to get a large overview of where your dataset might fit in the bigger picture. But then to look closer at your data you want to inspect only that portion of the bigger tree.</p>
-<p>Since the phylogenetic tree file is just the output of sequencing data analysis, we can not manipulate the order of the nodes and branches in the file itself. These have already been determined in previous analysis from the raw NGS data. We are able though to zoom into parts, hide parts and even subset part of the tree.</p>
-<div id="zoom-in" class="section level3 unnumbered">
-<h3>Zoom in<a class="anchor" aria-label="anchor" href="#zoom-in"><i class="fas fa-link"></i></a>
+<p>Đôi khi bạn có thể có một cây phát sinh loài rất lớn và bạn chỉ quan tâm đến một phần của cây. Ví dụ, bạn muốn tạo ra một cây bao gồm các mẫu lịch sử hoặc quốc tế để có cái nhìn tổng quan về vị trí mà tập dữ liệu của bạn có thể phù hợp trong bức tranh lớn hơn. Nhưng sau đó để xem xét kỹ hơn dữ liệu của bạn, bạn chỉ muốn kiểm tra phần đó của cây lớn hơn.</p>
+<p>Vì tệp cây phát sinh loài chỉ là sản phẩm đầu ra của phân tích dữ liệu trình tự, chúng ta không thể thao tác trên thứ tự của các nút và nhánh trên chính tệ đó. Chúng đã được xác định trong phân tích trước đó từ dữ liệu NGS thô. Mặc dù vậy, chúng ta có thể phóng to các thành phần, ẩn các thành phần và thậm chí tạo tập con một phần của cây.</p>
+<div id="phóng-to" class="section level3 unnumbered">
+<h3>Phóng to<a class="anchor" aria-label="anchor" href="#ph%C3%B3ng-to"><i class="fas fa-link"></i></a>
 </h3>
-<p>If you don’t want to “cut” your tree, but only inspect part of it more closely you can zoom in to view a specific part.</p>
-<p>First, we plot the entire tree in linear format and add numeric labels to each node in the tree.</p>
+<p>Nếu bạn không muốn “chặt” cây của mình mà chỉ kiểm tra kỹ hơn một phần của nó, bạn có thể phóng to để xem một phần cụ thể.</p>
+<p>Đầu tiên, chúng ta vẽ toàn bộ cây ở định dạng tuyến tính và thêm các nhãn số cho mỗi nút trong cây.</p>
 <div class="sourceCode" id="cb1744"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">tree</span>,<span class="op">)</span> <span class="op">%&lt;+%</span> <span class="va">sample_data</span> <span class="op">+</span>
   <span class="fu">geom_tiplab</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span>                <span class="co"># labels the tips of all branches with the sample name in the tree file</span>
@@ -298,20 +305,20 @@ The most easy annotation of your tree is the addition of the sample names at the
 
 <span class="va">p</span>  <span class="co"># print</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_zoom_in-1.png" width="50%" style="display: block; margin: auto;"></div>
-<p>To zoom in to one particular branch (sticking out to the right), use <code>viewClade()</code> on the ggtree object <code>p</code> and provide the node number to get a closer look:</p>
+<p>Để phóng to vào một nhánh cụ thể (nhô ra bên phải), hãy sử dụng hàm <code>viewClade()</code> trên đối tượng ggtree có tên <code>p</code> và cung cấp số nút để xem gần hơn:</p>
 <div class="sourceCode" id="cb1745"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">viewClade</span><span class="op">(</span><span class="va">p</span>, node <span class="op">=</span> <span class="fl">452</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_zoom_in_452-1.png" width="50%" style="display: block; margin: auto;"></div>
 </div>
-<div id="collapsing-branches" class="section level3 unnumbered">
-<h3>Collapsing branches<a class="anchor" aria-label="anchor" href="#collapsing-branches"><i class="fas fa-link"></i></a>
+<div id="thu-gọn-nhánh" class="section level3 unnumbered">
+<h3>Thu gọn nhánh<a class="anchor" aria-label="anchor" href="#thu-g%E1%BB%8Dn-nh%C3%A1nh"><i class="fas fa-link"></i></a>
 </h3>
-<p>However, we may want to ignore this branch and can collapse it at that same node (node nr. 452) using <code>collapse()</code>. This tree is defined as <code>p_collapsed</code>.</p>
+<p>Tuy nhiên, chúng ta có thể muốn bỏ qua nhánh này và có thể thu gọn nó tại cùng một nút đó (nút nr. 452) bằng cách sử dụng hàm <code>collapse()</code>. Cây này sẽ được gán cho đối tượng mới có tên <code>p_collapsed</code>.</p>
 <div class="sourceCode" id="cb1746"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_collapsed</span> <span class="op">&lt;-</span> <span class="fu">collapse</span><span class="op">(</span><span class="va">p</span>, node <span class="op">=</span> <span class="fl">452</span><span class="op">)</span>
 <span class="va">p_collapsed</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_collapse_452-1.png" width="50%" style="display: block; margin: auto;"></div>
-<p>For clarity, when we print <code>p_collapsed</code>, we add a <code>geom_point2()</code> (a blue diamond) at the node of the collapsed branch.</p>
+<p>Để rõ ràng, khi chúng ta in <code>p_collapsed</code>, chúng ta thêm một điểm (viên kim cương màu xanh) với hàm <code>geom_point2()</code> tại nút của nhánh được thu gọn.</p>
 <div class="sourceCode" id="cb1747"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_collapsed</span> <span class="op">+</span> 
 <span class="fu">geom_point2</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>subset <span class="op">=</span> <span class="op">(</span><span class="va">node</span> <span class="op">==</span> <span class="fl">452</span><span class="op">)</span><span class="op">)</span>,  <span class="co"># we assign a symbol to the collapsed node</span>
@@ -320,11 +327,11 @@ The most easy annotation of your tree is the addition of the sample names at the
             fill <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span>           <span class="co"># define the color of the symbol</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1322-1.png" width="672"></div>
 </div>
-<div id="subsetting-a-tree" class="section level3 unnumbered">
-<h3>Subsetting a tree<a class="anchor" aria-label="anchor" href="#subsetting-a-tree"><i class="fas fa-link"></i></a>
+<div id="tạo-tập-con-một-cây" class="section level3 unnumbered">
+<h3>Tạo tập con một cây<a class="anchor" aria-label="anchor" href="#t%E1%BA%A1o-t%E1%BA%ADp-con-m%E1%BB%99t-c%C3%A2y"><i class="fas fa-link"></i></a>
 </h3>
-<p>If we want to make a more permanent change and create a new, reduced tree to work with we can subset part of it with <code>tree_subset()</code>. Then you can save it as new newick tree file or .txt file.</p>
-<p>First, we inspect the tree nodes and tip labels in order to decide what to subset.</p>
+<p>Nếu chúng ta muốn thực hiện một thay đổi lâu dài hơn và tạo một cây mới, gọn hơn để làm việc, chúng ta có thể subset một phần của nó với hàm <code>tree_subset()</code>. Sau đó, bạn có thể lưu nó dưới dạng tệp newick tree hoặc tệp .txt mới.</p>
+<p>Đầu tiên, chúng ta kiểm tra các nút cây và các nhãn của tips để quyết định cái gì sẽ được subset.</p>
 <div class="sourceCode" id="cb1748"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggtree</span><span class="op">(</span>
   <span class="va">tree</span>,
@@ -341,30 +348,30 @@ The most easy annotation of your tree is the addition of the sample names at the
    axis.title.y <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,
    plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span>, face<span class="op">=</span><span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_subsetting-1.png" width="50%" style="display: block; margin: auto;"></div>
-<p>Now, say we have decided to subset the tree at node 528 (keep only tips within this branch after node 528) and we save it as a new <code>sub_tree1</code> object:</p>
+<p>Bây giờ, giả sử chúng ta đã quyết định subset cây tại nút số 528 (chỉ giữ lại các tips bên trong nhánh sau nút 528) và lưu nó vào một đối tượng mới <code>sub_tree1</code>:</p>
 <div class="sourceCode" id="cb1749"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sub_tree1</span> <span class="op">&lt;-</span> <span class="fu">tree_subset</span><span class="op">(</span>
   <span class="va">tree</span>,
   node <span class="op">=</span> <span class="fl">528</span><span class="op">)</span>                                            <span class="co"># we subset the tree at node 528</span></code></pre></div>
-<p>Lets have a look at the subset tree 1:</p>
+<p>Hãy cùng xem cây con 1:</p>
 <div class="sourceCode" id="cb1750"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggtree</span><span class="op">(</span><span class="va">sub_tree1</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_tiplab</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Subset tree 1"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1324-1.png" width="672"></div>
-<p>You can also subset based on one particular sample, specifying how many nodes “backwards” you want to include. Let’s subset the same part of the tree based on a sample, in this case S17BD07692, going back 9 nodes and we save it as a new <code>sub_tree2</code> object:</p>
+<p>Bạn cũng có thể subset dựa trên một mẫu cụ thể, bằng cách chỉ định số lượng nút “backwards” bạn muốn đưa vào. Hãy subset chính phần đó của cây dựa trên một mẫu, trong trường hợp này là S17BD07692, quay lại 9 nút và chúng ta lưu nó dưới dạng đối tượng <code>sub_tree2</code> mớit:</p>
 <div class="sourceCode" id="cb1751"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sub_tree2</span> <span class="op">&lt;-</span> <span class="fu">tree_subset</span><span class="op">(</span>
   <span class="va">tree</span>,
   <span class="st">"S17BD07692"</span>,
   levels_back <span class="op">=</span> <span class="fl">9</span><span class="op">)</span> <span class="co"># levels back defines how many nodes backwards from the sample tip you want to go</span></code></pre></div>
-<p>Lets have a look at the subset tree 2:</p>
+<p>Giờ hãy cùng xem cây con 2:</p>
 <div class="sourceCode" id="cb1752"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggtree</span><span class="op">(</span><span class="va">sub_tree2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_tiplab</span><span class="op">(</span>size <span class="op">=</span><span class="fl">3</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Subset tree 2"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1326-1.png" width="672"></div>
-<p>You can also save your new tree either as a Newick type or even a text file using the <code>write.tree()</code> function from <strong>ape</strong> package:</p>
+<p>Bạn cũng có thể lưu cây mới của mình dưới dạng kiểu Newick hoặc thậm chí là tệp văn bản bằng cách sử dụng hàm <code>write.tree()</code> từ package <strong>ape</strong>:</p>
 <div class="sourceCode" id="cb1753"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># to save in .nwk format</span>
 <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/write.tree.html">write.tree</a></span><span class="op">(</span><span class="va">sub_tree2</span>, file<span class="op">=</span><span class="st">'data/phylo/Shigella_subtree_2.nwk'</span><span class="op">)</span>
@@ -372,11 +379,11 @@ The most easy annotation of your tree is the addition of the sample names at the
 <span class="co"># to save in .txt format</span>
 <span class="fu">ape</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/write.tree.html">write.tree</a></span><span class="op">(</span><span class="va">sub_tree2</span>, file<span class="op">=</span><span class="st">'data/phylo/Shigella_subtree_2.txt'</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="rotating-nodes-in-a-tree" class="section level3 unnumbered">
-<h3>Rotating nodes in a tree<a class="anchor" aria-label="anchor" href="#rotating-nodes-in-a-tree"><i class="fas fa-link"></i></a>
+<div id="xoay-các-nút-trong-một-cây" class="section level3 unnumbered">
+<h3>Xoay các nút trong một cây<a class="anchor" aria-label="anchor" href="#xoay-c%C3%A1c-n%C3%BAt-trong-m%E1%BB%99t-c%C3%A2y"><i class="fas fa-link"></i></a>
 </h3>
-<p>As mentioned before we cannot change the order of tips or nodes in the tree, as this is based on their genetic relatedness and is not subject to visual manipulation. But we can rote branches around nodes if that eases our visualization.</p>
-<p>First, we plot our new subset tree 2 with node labels to choose the node we want to manipulate and store it an a ggtree plot object <code>p</code>.</p>
+<p>Như đã đề cập bên trên, chúng ta không thể thay đổi thứ tự của các tips hoặc nút trong cây, vì điều này dựa trên mối liên hệ di truyền của chúng và không phải là đối tượng cho các điều chỉnh thị giác. Nhưng chúng ta có thể xoay các nhánh xung quanh nút nếu điều đó giúp chúng ta dễ nhìn hơn.</p>
+<p>Đầu tiên, chúng ta hãy vẽ subset tree 2 với nhãn nút để chọn nút mà chúng ta muốn thao tác và lưu nó vào một đối tượng biểu đồ ggtree có tên <code>p</code>.</p>
 <div class="sourceCode" id="cb1754"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">sub_tree2</span><span class="op">)</span> <span class="op">+</span>  
   <span class="fu">geom_tiplab</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span>
@@ -387,8 +394,8 @@ The most easy annotation of your tree is the addition of the sample names at the
              vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> 
 <span class="va">p</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_rotating_1-1.png" width="50%" style="display: block; margin: auto;"></div>
-<p>We can then manipulate nodes by applying <strong>ggtree::rotate()</strong> or <strong>ggtree::flip()</strong>:
-Note: to illustrate which nodes we are manipulating we first apply the <strong>geom_hilight()</strong> function from <strong>ggtree</strong> to highlight the samples in the nodes we are interested in and store that ggtree plot object in a new object <code>p1</code>.</p>
+<p>Sau đó chúng ta có thể thao tác với các nút bằng cách áp dụng hàm <strong>ggtree::rotate()</strong> hoặc <strong>ggtree::flip()</strong>:
+Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trước tiên chúng ta áp dụng hàm <strong>geom_hilight()</strong> từ package <strong>ggtree</strong> để đánh dấu các mẫu trong các nút mà chúng ta quan tâm và lưu trữ sang một đối tượng biểu đồ mới có tên <code>p1</code>.</p>
 <div class="sourceCode" id="cb1755"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu">geom_hilight</span><span class="op">(</span>  <span class="co"># highlights node 39 in blue, "extend =" allows us to define the length of the color block</span>
   node <span class="op">=</span> <span class="fl">39</span>,
@@ -403,7 +410,7 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
 
 <span class="va">p1</span> <span class="co"># print</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_rotating_2-1.png" width="50%" style="display: block; margin: auto;"></div>
-<p>Now we can rotate node 37 in object <code>p1</code> so that the samples on node 38 move to the top. We store the rotated tree in a new object <code>p2</code>.</p>
+<p>Bây giờ chúng ta có thể xoay nút 37 trong đối tượng <code>p1</code> để các mẫu trên nút 38 di chuyển lên đỉnh. Chúng ta lưu trữ cây đã xoay trong một đối tượng mới có tên <code>p2</code>.</p>
 <div class="sourceCode" id="cb1756"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">rotate</span><span class="op">(</span><span class="va">p1</span>, <span class="fl">37</span><span class="op">)</span> <span class="op">+</span> 
       <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Rotated Node 37"</span><span class="op">)</span>
@@ -411,7 +418,7 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
 
 <span class="va">p2</span>   <span class="co"># print</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1327-1.png" width="672"></div>
-<p>Or we can use the flip command to rotate node 36 in object <code>p1</code> and switch node 37 to the top and node 39 to the bottom. We store the flipped tree in a new object <code>p3</code>.</p>
+<p>Hoặc chúng ta có thể sử dụng lệnh <code>flip</code> để xoay nút 36 trong đối tượng <code>p1</code> và đổi nút 37 lên đỉnh và nút 39 xuống dưới đáy. Chúng ta lưu cây đã được lật lại vào một đối tượng mới có tên <code>p3</code>.</p>
 <div class="sourceCode" id="cb1757"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p3</span> <span class="op">&lt;-</span>  <span class="fu">flip</span><span class="op">(</span><span class="va">p1</span>, <span class="fl">39</span>, <span class="fl">37</span><span class="op">)</span> <span class="op">+</span>
       <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Rotated Node 36"</span><span class="op">)</span>
@@ -420,10 +427,10 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
 <span class="va">p3</span>   <span class="co"># print</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/unnamed-chunk-1328-1.png" width="672"></div>
 </div>
-<div id="example-subtree-with-sample-data-annotation" class="section level3 unnumbered">
-<h3>Example subtree with sample data annotation<a class="anchor" aria-label="anchor" href="#example-subtree-with-sample-data-annotation"><i class="fas fa-link"></i></a>
+<div id="ví-dụ-về-cây-con-với-chú-thích-dữ-liệu-mẫu" class="section level3 unnumbered">
+<h3>Ví dụ về cây con với chú thích dữ liệu mẫu<a class="anchor" aria-label="anchor" href="#v%C3%AD-d%E1%BB%A5-v%E1%BB%81-c%C3%A2y-con-v%E1%BB%9Bi-ch%C3%BA-th%C3%ADch-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu"><i class="fas fa-link"></i></a>
 </h3>
-<p>Lets say we are investigating the cluster of cases with clonal expansion which occurred in 2017 and 2018 at node 39 in our sub-tree. We add the year of strain isolation as well as travel history and color by country to see origin of other closely related strains:</p>
+<p>Giả sử chúng tôi đang điều tra cụm các trường hợp với nhân bản vô tính xảy ra vào năm 2017 và 2018 tại nút 39 trong cây con của chúng ta. Chúng ta thêm năm phân lập chủng cũng như lịch sử di chuyển và màu sắc theo quốc gia để xem nguồn gốc của các chủng có liên quan gần khác:</p>
 <div class="sourceCode" id="cb1758"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggtree</span><span class="op">(</span><span class="va">sub_tree2</span><span class="op">)</span> <span class="op">%&lt;+%</span> <span class="va">sample_data</span> <span class="op">+</span>     <span class="co"># we use th %&lt;+% operator to link to the sample_data</span>
   <span class="fu">geom_tiplab</span><span class="op">(</span>                          <span class="co"># labels the tips of all branches with the sample name in the tree file</span>
@@ -463,15 +470,15 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
     legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
     plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_inspect_subset_example-1.png" width="80%" style="display: block; margin: auto;"></div>
-<p>Our observation points towards an import event of strains from Asia, which then circulated in Belgium over the years and seem to have caused our latest outbreak.</p>
+<p>Quan sát của chúng ta hướng tới một sự kiện nhập khẩu các chủng từ châu Á, sau đó lưu hành ở Bỉ trong nhiều năm và dường như đã gây ra đợt bùng phát mới nhất của chúng ta.</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="more-complex-trees-adding-heatmaps-of-sample-data" class="section level2 unnumbered">
-<h2>More complex trees: adding heatmaps of sample data<a class="anchor" aria-label="anchor" href="#more-complex-trees-adding-heatmaps-of-sample-data"><i class="fas fa-link"></i></a>
+<div id="các-cây-phức-tạp-hơn-thêm-bản-đồ-nhiệt-của-dữ-liệu-mẫu" class="section level2 unnumbered">
+<h2>Các cây phức tạp hơn: thêm bản đồ nhiệt của dữ liệu mẫu<a class="anchor" aria-label="anchor" href="#c%C3%A1c-c%C3%A2y-ph%E1%BB%A9c-t%E1%BA%A1p-h%C6%A1n-th%C3%AAm-b%E1%BA%A3n-%C4%91%E1%BB%93-nhi%E1%BB%87t-c%E1%BB%A7a-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu"><i class="fas fa-link"></i></a>
 </h2>
-<p>We can add more complex information, such as categorical presence of antimicrobial resistance genes and numeric values for actually measured resistance to antimicrobials in form of a heatmap using the <strong>ggtree::gheatmap()</strong> function.</p>
-<p>First we need to plot our tree (this can be either linear or circular) and store it in a new ggtree plot object <code>p</code>: We will use the sub_tree from part 3.)</p>
+<p>Chúng tôi có thể thêm thông tin phức tạp hơn, chẳng hạn như sự phân loại của các gen kháng thuốc và các giá trị đo lường về khả năng kháng thuốc dưới dạng bản đồ nhiệt bằng cách sử dụng hàm <strong>ggtree::gheatmap()</strong>.</p>
+<p>Trước tiên, chúng ta cần vẽ cây của mình (có thể là tuyến tính hoặc hình tròn) và lưu trữ nó trong một đối tượng biểu đồ ggtree mới có tên <code>p</code>: Chúng ta sẽ sử dụng sub_tree từ phần 3.)</p>
 <div class="sourceCode" id="cb1759"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">sub_tree2</span>, branch.length<span class="op">=</span><span class="st">'none'</span>, layout<span class="op">=</span><span class="st">'circular'</span><span class="op">)</span> <span class="op">%&lt;+%</span> <span class="va">sample_data</span> <span class="op">+</span>
   <span class="fu">geom_tiplab</span><span class="op">(</span>size <span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">+</span> 
@@ -486,21 +493,21 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
       vjust <span class="op">=</span> <span class="op">-</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span>
 <span class="va">p</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap-1.png" width="60%" style="display: block; margin: auto;"></div>
-<p>Second, we prepare our data. To visualize different variables with new color schemes, we subset our dataframe to the desired variable. It is important to add the <code>Sample_ID</code> as rownames otherwise it cannot match the data to the tree <code>tip.labels</code>:</p>
-<p>In our example we want to look at gender and mutations that could confer resistance to Ciprofloxacin, an important first line antibiotic used to treat Shigella infections.</p>
-<p>We create a dataframe for gender:</p>
+<p>Thứ hai, chúng ta chuẩn bị dữ liệu của mình. Để trực quan hóa các biến khác nhau bằng các phối màu mới, chúng ta subset dataframe thành các biến mong muốn. Điều quan trọng là phải thêm <code>Sample_ID</code> làm tên hàng nếu không nó không thể khớp dữ liệu với cây <code>tip.labels</code>:</p>
+<p>Trong ví dụ của này, chúng ta muốn xem xét giới tính và các đột biến có thể dẫn đến kháng Ciprofloxacin, một loại kháng sinh hàng đầu quan trọng được sử dụng để điều trị nhiễm trùng Shigella.</p>
+<p>Chúng ta tạo một dataframe cho biến giới tính:</p>
 <div class="sourceCode" id="cb1760"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="st">"gender"</span> <span class="op">=</span> <span class="va">sample_data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Gender"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span></code></pre></div>
-<p>We create a dataframe for mutations in the gyrA gene, which confer Ciprofloxacin resistance:</p>
+<p>Chúng ta tạo một dataframe cho đột biến ở gen gyrA, gen này tạo ra khả năng kháng Ciprofloxacin:</p>
 <div class="sourceCode" id="cb1761"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cipR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="st">"cipR"</span> <span class="op">=</span> <span class="va">sample_data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gyrA_mutations"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">cipR</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span></code></pre></div>
-<p>We create a dataframe for the measured minimum inhibitory concentration (MIC) for Ciprofloxacin from the laboratory:</p>
+<p>Chúng ta tạo một dataframe đối với nồng độ ức chế tối thiểu đo được (MIC) đối với Ciprofloxacin trong phòng thí nghiệm:</p>
 <div class="sourceCode" id="cb1762"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">MIC_Cip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="st">"mic_cip"</span> <span class="op">=</span> <span class="va">sample_data</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"MIC_CIP"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">MIC_Cip</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span></code></pre></div>
-<p>We create a first plot adding a binary heatmap for gender to the phylogenetic tree and storing it in a new ggtree plot object <code>h1</code>:</p>
+<p>Chúng ta tạo một biểu đồ đầu tiên và thêm bản đồ nhiệt nhị phân cho giới tính vào cây phát sinh loài và lưu trữ nó trong một đối tượng biểu đồ ggtree mới <code>h1</code>:</p>
 <div class="sourceCode" id="cb1763"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h1</span> <span class="op">&lt;-</span>  <span class="fu">gheatmap</span><span class="op">(</span><span class="va">p</span>, <span class="va">gender</span>,                                 <span class="co"># we add a heatmap layer of the gender dataframe to our tree plot</span>
                 offset <span class="op">=</span> <span class="fl">10</span>,                               <span class="co"># offset shifts the heatmap to the right,</span>
@@ -515,17 +522,19 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
         legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
+## replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
+## will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1766"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h1</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_gender-1.png" width="70%" style="display: block; margin: auto;"></div>
-<p>Then we add information on mutations in the gyrA gene, which confer resistance to Ciprofloxacin:</p>
-<p>Note: The presence of chromosomal point mutations in WGS data was prior determined using the PointFinder tool developed by Zankari et al. (see reference in the additional references section)</p>
-<p>First, we assign a new color scheme to our existing plot object <code>h1</code> and store it in a now object <code>h2</code>. This enables us to define and change the colors for our second variable in the heatmap.</p>
+<p>Sau đó, chúng ta thêm thông tin về các đột biến trong gen gyrA, gen này tạo ra khả năng kháng Ciprofloxacin:</p>
+<p>Lưu ý: Sự hiện diện của đột biến điểm nhiễm sắc thể trong dữ liệu WGS đã được xác định trước bằng cách sử dụng công cụ PointFinder do Zankari et al phát triển. (xem tham khảo trong phần tài liệu tham khảo bổ sung)</p>
+<p>Đầu tiên, chúng ta gán một bảng màu mới cho đối tượng biểu đồ <code>h1</code> có sẵn và lưu nó thành một đối tượng mới có tên <code>h2</code>. Điều này cho phép chúng ta xác định và thay đổi màu sắc cho biến thứ hai của chúng tôi trong bản đồ nhiệt.</p>
 <div class="sourceCode" id="cb1767"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h2</span> <span class="op">&lt;-</span> <span class="va">h1</span> <span class="op">+</span> <span class="fu">new_scale_fill</span><span class="op">(</span><span class="op">)</span> </code></pre></div>
-<p>Then we add the second heatmap layer to <code>h2</code> and store the combined plots in a new object <code>h3</code>:</p>
+<p>Sau đó, chúng ta thêm lớp bản đồ nhiệt thứ hai vào <code>h2</code> và lưu biểu đồ thành đối tượng mới có tên <code>h3</code>:</p>
 <div class="sourceCode" id="cb1768"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h3</span> <span class="op">&lt;-</span> <span class="fu">gheatmap</span><span class="op">(</span><span class="va">h2</span>, <span class="va">cipR</span>,         <span class="co"># adds the second row of heatmap describing Ciprofloxacin resistance mutations</span>
                offset <span class="op">=</span> <span class="fl">12</span>, 
@@ -540,12 +549,14 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">guides</span><span class="op">(</span>fill <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>,byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
+## replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
+## will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1771"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h3</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_cip_genes-1.png" width="80%" style="display: block; margin: auto;"></div>
-<p>We repeat the above process, by first adding a new color scale layer to our existing object <code>h3</code>, and then adding the continuous data on the minimum inhibitory concentration (MIC) of Ciprofloxacin for each strain to the resulting object <code>h4</code> to produce the final object <code>h5</code>:</p>
+<p>Chúng tôi lặp lại quy trình trên, trước tiên bằng cách thêm một lớp thang màu mới vào đối tượng hiện có <code>h3</code>, sau đó thêm dữ liệu liên tục về nồng độ ức chế tối thiểu (MIC) của Ciprofloxacin cho mỗi chủng vào đối tượng kết quả <code>h4</code> để tạo ra đối tượng cuối cùng <code>h5</code>:</p>
 <div class="sourceCode" id="cb1772"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># First we add the new coloring scheme:</span>
 <span class="va">h4</span> <span class="op">&lt;-</span> <span class="va">h3</span> <span class="op">+</span> <span class="fu">new_scale_fill</span><span class="op">(</span><span class="op">)</span>
@@ -564,12 +575,14 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
         legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
+## replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
+## will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1775"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h5</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_cip_MIC-1.png" width="90%" style="display: block; margin: auto;"></div>
-<p>We can do the same exercise for a linear tree:</p>
+<p>Chúng ta có thể thực hiện tương tự đối với cây tuyến tính:</p>
 <div class="sourceCode" id="cb1776"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggtree</span><span class="op">(</span><span class="va">sub_tree2</span><span class="op">)</span> <span class="op">%&lt;+%</span> <span class="va">sample_data</span> <span class="op">+</span>
   <span class="fu">geom_tiplab</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="co"># labels the tips</span>
@@ -584,7 +597,7 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
                                 vjust <span class="op">=</span> <span class="op">-</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span>
 <span class="va">p</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_linear_1-1.png" width="80%" style="display: block; margin: auto;"></div>
-<p>First we add gender:</p>
+<p>Đầu tiên chúng ta thêm giới:</p>
 <div class="sourceCode" id="cb1777"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h1</span> <span class="op">&lt;-</span>  <span class="fu">gheatmap</span><span class="op">(</span><span class="va">p</span>, <span class="va">gender</span>, 
                 offset <span class="op">=</span> <span class="fl">0.003</span>,
@@ -599,12 +612,14 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
         legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
+## replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
+## will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1780"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h1</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_linear_2-1.png" width="80%" style="display: block; margin: auto;"></div>
-<p>Then we add Ciprofloxacin resistance mutations after adding another color scheme layer:</p>
+<p>Sau đó, chúng ta thêm các đột biến kháng Ciprofloxacin sau khi thêm một lớp phối màu khác:</p>
 <div class="sourceCode" id="cb1781"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h2</span> <span class="op">&lt;-</span> <span class="va">h1</span> <span class="op">+</span> <span class="fu">new_scale_fill</span><span class="op">(</span><span class="op">)</span>
 <span class="va">h3</span> <span class="op">&lt;-</span> <span class="fu">gheatmap</span><span class="op">(</span><span class="va">h2</span>, <span class="va">cipR</span>,   
@@ -621,12 +636,14 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">guides</span><span class="op">(</span>fill <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>,byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
+## replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
+## will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1784"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="va">h3</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_linear_3-1.png" width="80%" style="display: block; margin: auto;"></div>
-<p>Then we add the minimum inhibitory concentration determined by the laboratory (MIC):</p>
+<p>Sau đó, chúng ta thêm nồng độ ức chế tối thiểu được xác định bởi phòng thí nghiệm (MIC):</p>
 <div class="sourceCode" id="cb1785"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h4</span> <span class="op">&lt;-</span> <span class="va">h3</span> <span class="op">+</span> <span class="fu">new_scale_fill</span><span class="op">(</span><span class="op">)</span>
 <span class="va">h5</span> <span class="op">&lt;-</span> <span class="fu">gheatmap</span><span class="op">(</span><span class="va">h4</span>, <span class="va">MIC_Cip</span>, 
@@ -644,16 +661,18 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"horizontal"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">guides</span><span class="op">(</span>shape <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>override.aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
+## replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
+## will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1788"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h5</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_linear_4-1.png" width="80%" style="display: block; margin: auto;"></div>
 <!-- ======================================================= -->
 </div>
-<div id="resources-4" class="section level2" number="38.5">
+<div id="nguồn-11" class="section level2" number="38.5">
 <h2>
-<span class="header-section-number">38.5</span> Resources<a class="anchor" aria-label="anchor" href="#resources-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">38.5</span> Nguồn<a class="anchor" aria-label="anchor" href="#ngu%E1%BB%93n-11"><i class="fas fa-link"></i></a>
 </h2>
 <p><a href="http://hydrodictyon.eeb.uconn.edu/eebedia/index.php/Ggtree#" class="uri">http://hydrodictyon.eeb.uconn.edu/eebedia/index.php/Ggtree#</a> Clade_Colors
 <a href="https://bioconductor.riken.jp/packages/3.2/bioc/vignettes/ggtree/inst/doc/treeManipulation.html" class="uri">https://bioconductor.riken.jp/packages/3.2/bioc/vignettes/ggtree/inst/doc/treeManipulation.html</a>
@@ -670,31 +689,31 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#phylogenetic-trees"><span class="header-section-number">38</span> Cây phả hệ</a></li>
-<li><a class="nav-link" href="#overview-2"><span class="header-section-number">38.1</span> Overview</a></li>
+<li><a class="nav-link" href="#t%E1%BB%95ng-quan-7"><span class="header-section-number">38.1</span> Tổng quan</a></li>
 <li>
-<a class="nav-link" href="#preparation-3"><span class="header-section-number">38.2</span> Preparation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load-packages-4">Load packages</a></li>
-<li><a class="nav-link" href="#import-data-3">Import data</a></li>
-<li><a class="nav-link" href="#clean-and-inspect">Clean and inspect</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-29"><span class="header-section-number">38.2</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#g%E1%BB%8Di-packages-14">Gọi packages</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-21">Nhập dữ liệu</a></li>
+<li><a class="nav-link" href="#l%C3%A0m-s%E1%BA%A1ch-v%C3%A0-kh%E1%BA%A3o-s%C3%A1t-d%E1%BB%AF-li%E1%BB%87u">Làm sạch và khảo sát dữ liệu</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#simple-tree-visualization"><span class="header-section-number">38.3</span> Simple tree visualization</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#different-tree-layouts">Different tree layouts</a></li>
-<li><a class="nav-link" href="#simple-tree-plus-sample-data">Simple tree plus sample data</a></li>
+<a class="nav-link" href="#tr%E1%BB%B1c-quan-h%C3%B3a-c%C3%A2y-%C4%91%C6%A1n-gi%E1%BA%A3n"><span class="header-section-number">38.3</span> Trực quan hóa cây đơn giản</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#c%C3%A1c-b%E1%BB%91-c%E1%BB%A5c-c%C3%A2y-kh%C3%A1c-nhau">Các bố cục cây khác nhau</a></li>
+<li><a class="nav-link" href="#c%C3%A2y-%C4%91%C6%A1n-gi%E1%BA%A3n-c%E1%BB%99ng-v%E1%BB%9Bi-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu">Cây đơn giản cộng với dữ liệu mẫu</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#tree-manipulation"><span class="header-section-number">38.4</span> Tree manipulation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#zoom-in">Zoom in</a></li>
-<li><a class="nav-link" href="#collapsing-branches">Collapsing branches</a></li>
-<li><a class="nav-link" href="#subsetting-a-tree">Subsetting a tree</a></li>
-<li><a class="nav-link" href="#rotating-nodes-in-a-tree">Rotating nodes in a tree</a></li>
-<li><a class="nav-link" href="#example-subtree-with-sample-data-annotation">Example subtree with sample data annotation</a></li>
+<a class="nav-link" href="#thao-t%C3%A1c-v%E1%BB%9Bi-c%C3%A2y"><span class="header-section-number">38.4</span> Thao tác với cây</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ph%C3%B3ng-to">Phóng to</a></li>
+<li><a class="nav-link" href="#thu-g%E1%BB%8Dn-nh%C3%A1nh">Thu gọn nhánh</a></li>
+<li><a class="nav-link" href="#t%E1%BA%A1o-t%E1%BA%ADp-con-m%E1%BB%99t-c%C3%A2y">Tạo tập con một cây</a></li>
+<li><a class="nav-link" href="#xoay-c%C3%A1c-n%C3%BAt-trong-m%E1%BB%99t-c%C3%A2y">Xoay các nút trong một cây</a></li>
+<li><a class="nav-link" href="#v%C3%AD-d%E1%BB%A5-v%E1%BB%81-c%C3%A2y-con-v%E1%BB%9Bi-ch%C3%BA-th%C3%ADch-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu">Ví dụ về cây con với chú thích dữ liệu mẫu</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#more-complex-trees-adding-heatmaps-of-sample-data">More complex trees: adding heatmaps of sample data</a></li>
-<li><a class="nav-link" href="#resources-4"><span class="header-section-number">38.5</span> Resources</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-c%C3%A2y-ph%E1%BB%A9c-t%E1%BA%A1p-h%C6%A1n-th%C3%AAm-b%E1%BA%A3n-%C4%91%E1%BB%93-nhi%E1%BB%87t-c%E1%BB%A7a-d%E1%BB%AF-li%E1%BB%87u-m%E1%BA%ABu">Các cây phức tạp hơn: thêm bản đồ nhiệt của dữ liệu mẫu</a></li>
+<li><a class="nav-link" href="#ngu%E1%BB%93n-11"><span class="header-section-number">38.5</span> Nguồn</a></li>
 </ul>
 
       <div class="book-extra">
@@ -711,7 +730,7 @@ Note: to illustrate which nodes we are manipulating we first apply the <strong>g
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -117,41 +117,41 @@
 <span class="header-section-number">10</span> Ký tự và chuỗi<a class="anchor" aria-label="anchor" href="#characters-strings"><i class="fas fa-link"></i></a>
 </h1>
 <div class="inline-figure"><img src="images/Characters_Strings_1500x500.png" width="100%"></div>
-<p>This page demonstrates use of the <strong>stringr</strong> package to evaluate and handle character values (“strings”).</p>
+<p>Trang này trình bày việc sử dụng package <strong>stringr</strong> để đánh giá và xử lý các giá trị ký tự (“chuỗi”).</p>
 <ol style="list-style-type: decimal">
-<li>Combine, order, split, arrange - <code>str_c()</code>, <code>str_glue()</code>, <code>str_order()</code>, <code>str_split()</code><br>
-</li>
-<li>Clean and standardise
+<li><p>Các hàm kết hợp, thiết lập thứ tự, phân tách, sắp xếp - <code>str_c()</code>, <code>str_glue()</code>, <code>str_order()</code>, <code>str_split()</code></p></li>
+<li>
+<p>Làm sạch và chuẩn hóa</p>
 <ul>
-<li>Adjust length - <code>str_pad()</code>, <code>str_trunc()</code>, <code>str_wrap()</code><br>
+<li>Các hàm điều chỉnh độ dài ký tự - <code>str_pad()</code>, <code>str_trunc()</code>, <code>str_wrap()</code><br>
 </li>
-<li>Change case - <code>str_to_upper()</code>, <code>str_to_title()</code>, <code>str_to_lower()</code>, <code>str_to_sentence()</code><br>
+<li>Các hàm thay đổi chữ hoa/chữ thường - <code>str_to_upper()</code>, <code>str_to_title()</code>, <code>str_to_lower()</code>, <code>str_to_sentence()</code>
 </li>
 </ul>
 </li>
-<li>Evaluate and extract by position - <code>str_length()</code>, <code>str_sub()</code>, <code>word()</code><br>
-</li>
-<li>Patterns
+<li><p>Các hàm đánh giá và trích xuất vị trí - <code>str_length()</code>, <code>str_sub()</code>, <code>word()</code></p></li>
+<li>
+<p>Các hàm làm việc với patterns</p>
 <ul>
-<li>Detect and locate - <code>str_detect()</code>, <code>str_subset()</code>, <code>str_match()</code>, <code>str_extract()</code><br>
+<li>Phát hiện và định vị - <code>str_detect()</code>, <code>str_subset()</code>, <code>str_match()</code>, <code>str_extract()</code><br>
 </li>
-<li>Modify and replace - <code>str_sub()</code>, <code>str_replace_all()</code><br>
+<li>Sửa đổi và thay thế - <code>str_sub()</code>, <code>str_replace_all()</code>
 </li>
 </ul>
 </li>
-<li>Regular expressions (“regex”)</li>
+<li><p>Biểu thức chính quy (“regex”)</p></li>
 </ol>
-<p>For ease of display most examples are shown acting on a short defined character vector, however they can easily be adapted to a column within a data frame.</p>
-<p>This <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">stringr vignette</a> provided much of the inspiration for this page.</p>
+<p>Để dễ hiển thị, hầu hết các code ví dụ đều mô phỏng trên một vectơ ngắn dạng ký tự đã được xác định, tuy nhiên chúng có thể dễ dàng áp dụng trên một cột trong bộ dữ liệu.</p>
+<p>Package <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">stringr vignette</a> đã cung cấp nhiều ý tưởng cho chương này.</p>
 <!-- ======================================================= -->
-<div id="preparation" class="section level2" number="10.1">
+<div id="chuẩn-bị-1" class="section level2" number="10.1">
 <h2>
-<span class="header-section-number">10.1</span> Preparation<a class="anchor" aria-label="anchor" href="#preparation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.1</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-1"><i class="fas fa-link"></i></a>
 </h2>
-<div id="load-packages" class="section level3 unnumbered">
-<h3>Load packages<a class="anchor" aria-label="anchor" href="#load-packages"><i class="fas fa-link"></i></a>
+<div id="gọi-packages-1" class="section level3 unnumbered">
+<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Install or load the <strong>stringr</strong> and other <strong>tidyverse</strong> packages.</p>
+<p>Cài đặt hoặc gọi package <strong>stringr</strong> và các packages <strong>tidyverse</strong> khác.</p>
 <div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install/load packages</span>
 <span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span>
@@ -159,47 +159,44 @@
   <span class="va">tidyverse</span>,  <span class="co"># for optional data manipulation</span>
   <span class="va">tools</span><span class="op">)</span>      <span class="co"># alternative for converting to title case</span></code></pre></div>
 </div>
-<div id="import-data" class="section level3 unnumbered">
-<h3>Import data<a class="anchor" aria-label="anchor" href="#import-data"><i class="fas fa-link"></i></a>
+<div id="nhập-dữ-liệu-3" class="section level3 unnumbered">
+<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-3"><i class="fas fa-link"></i></a>
 </h3>
-<p>In this page we will occassionally reference the cleaned <code>linelist</code> of cases from a simulated Ebola epidemic. If you want to follow along, <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">click to download the “clean” linelist</a> (as .rds file). Import data with the <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> function from the <strong>rio</strong> package (it handles many file types like .xlsx, .csv, .rds - see the [Import and export] page for details).</p>
+<p>Để bắt đầu, chúng ta nhập bộ dữ liệu có tên linelist đã làm sạch bao gồm các trường hợp từ vụ dịch Ebola mô phỏng. Để tiện theo dõi, <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">bấm để tải dữ liệu linelist “đã được làm sạch” </a> (dưới dạng tệp .rds). Nhập dữ liệu bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong> (nó xử lý nhiều loại tệp như .xlsx, .csv, .rds - xem thêm chương <a href="importing.html#importing">Nhập xuất dữ liệu</a> để biết thêm chi tiết).</p>
 <div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import case linelist </span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
-<p>The first 50 rows of the linelist are displayed below.</p>
-<div id="htmlwidget-b1938f775b0e004942f8" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b1938f775b0e004942f8">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
+<p>50 hàng đầu tiên của bộ dữ liệu linelist được hiển thị bên dưới.</p>
+<div id="htmlwidget-75e11ba287de993f4fdd" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75e11ba287de993f4fdd">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399075200000\" data-max=\"1406419200000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1399939200000\" data-max=\"1407024000000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400025600000\" data-max=\"1407110400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"date\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1400371200000\" data-max=\"1410566400000\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"disabled\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"67\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-29&quot;,&quot;30-49&quot;,&quot;50-69&quot;,&quot;70+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;,&quot;40-44&quot;,&quot;45-49&quot;,&quot;50-54&quot;,&quot;55-59&quot;,&quot;60-64&quot;,&quot;65-69&quot;,&quot;70-74&quot;,&quot;75-79&quot;,&quot;80-84&quot;,&quot;85+&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"-13.2697246824573\" data-max=\"-13.209391925612\" data-scale=\"13\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"8.45171855856465\" data-max=\"8.48802917129884\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"100\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"11\" data-max=\"241\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"20\" data-max=\"24\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"35.9\" data-max=\"38\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"428.994082840237\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["5fe599","8689b7","11f8ea","b8812a","893f25","be99c8","07e3e8","369449","f393b4","1389ca","2978ac","57a565","fc15ef","2eaa9a","bbfa93","c97dd9","f50e8a","3a7673","7f5a01","ddddee","99e8fa","567136","9371a9","bc2adf","403057","8bd1e8","f327be","42e1a9","90e5fe","959170","8ebf6e","e56412","6d788e","a47529","67be4e","da8ecb","148f18","2cb9a5","f5c142","70a9fe","3ad520","062638","c76676","baacc1","497372","23e499","38cc4a","3789ee","c71dcd","6b70f0"],[4,4,2,3,3,3,4,4,4,4,4,4,6,5,6,9,10,8,7,6,7,6,8,6,10,8,6,12,5,8,7,9,11,5,8,5,6,11,7,9,7,8,9,12,13,9,8,10,8,7],["2014-05-08",null,null,"2014-05-04","2014-05-18","2014-05-03","2014-05-22","2014-05-28",null,null,"2014-05-30","2014-05-28","2014-06-14","2014-06-07","2014-06-09",null,null,null,"2014-06-23","2014-06-18","2014-06-24",null,null,"2014-07-03",null,"2014-07-10","2014-06-14",null,"2014-06-18","2014-06-29","2014-07-02","2014-07-12","2014-07-12","2014-06-13","2014-07-15","2014-06-20",null,null,"2014-07-20",null,"2014-07-12","2014-07-19","2014-07-18","2014-07-18","2014-07-27",null,"2014-07-19","2014-07-26","2014-07-24",null],["2014-05-13","2014-05-13","2014-05-16","2014-05-18","2014-05-21","2014-05-22","2014-05-27","2014-06-02","2014-06-05","2014-06-05","2014-06-06","2014-06-13","2014-06-16","2014-06-17","2014-06-18","2014-06-19","2014-06-22","2014-06-23","2014-06-25","2014-06-26","2014-06-28","2014-07-02","2014-07-08","2014-07-09","2014-07-09","2014-07-10","2014-07-12","2014-07-12","2014-07-13","2014-07-13","2014-07-14","2014-07-15","2014-07-16","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-22","2014-07-22","2014-07-24","2014-07-24","2014-07-25","2014-07-25","2014-07-27","2014-07-29","2014-07-30",null,"2014-08-01","2014-08-02","2014-08-03"],["2014-05-15","2014-05-14","2014-05-18","2014-05-20","2014-05-22","2014-05-23","2014-05-29","2014-06-03","2014-06-06","2014-06-07","2014-06-08","2014-06-15","2014-06-17","2014-06-17","2014-06-20","2014-06-19","2014-06-23","2014-06-24","2014-06-27","2014-06-28","2014-06-29","2014-07-03","2014-07-09","2014-07-09","2014-07-11","2014-07-11","2014-07-13","2014-07-14","2014-07-14","2014-07-13","2014-07-14","2014-07-17","2014-07-17","2014-07-18","2014-07-19","2014-07-20","2014-07-20","2014-07-22","2014-07-24","2014-07-26","2014-07-24","2014-07-27","2014-07-25","2014-07-27","2014-07-31","2014-08-01","2014-08-03","2014-08-02","2014-08-02","2014-08-04"],[null,"2014-05-18","2014-05-30",null,"2014-05-29","2014-05-24","2014-06-01","2014-06-07","2014-06-18","2014-06-09","2014-06-15",null,"2014-07-09",null,"2014-06-30","2014-07-11","2014-07-01","2014-06-25","2014-07-06","2014-07-02","2014-07-09","2014-07-07","2014-07-20",null,"2014-07-22","2014-07-16","2014-07-14","2014-07-20","2014-07-16","2014-07-19","2014-07-27","2014-07-19",null,"2014-07-26","2014-08-14","2014-08-01","2014-07-23","2014-08-28","2014-07-28","2014-07-19",null,"2014-08-03",null,null,null,"2014-08-06","2014-08-21","2014-09-13","2014-08-04",null],[null,"Recover","Recover",null,"Recover","Recover","Recover","Death","Recover","Death","Death","Death","Recover","Recover",null,"Recover",null,null,"Death","Death","Recover",null,null,null,"Death",null,"Death","Death",null,"Death","Recover","Death","Recover","Death","Recover",null,"Death","Recover","Recover","Death",null,null,"Death","Death","Death","Death","Recover",null,"Death","Death"],["m","f","m","f","m","f","f","f","m","f","m","m","m","f","f","m","f","f","f","f","m","m","f","m","f","m","m","f","m","f","f","f","m","m","f","m","f","f","f","m","f","m","f","m","m","f","m","f","m","m"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years","years"],[2,3,56,18,3,16,16,0,61,27,12,42,19,7,7,13,35,17,11,11,19,54,14,28,6,3,31,6,67,14,10,21,20,45,1,12,3,15,20,36,7,13,14,3,10,1,0,20,26,14],["0-4","0-4","50-69","15-19","0-4","15-19","15-19","0-4","50-69","20-29","10-14","30-49","15-19","5-9","5-9","10-14","30-49","15-19","10-14","10-14","15-19","50-69","10-14","20-29","5-9","0-4","30-49","5-9","50-69","10-14","10-14","20-29","20-29","30-49","0-4","10-14","0-4","15-19","20-29","30-49","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-29","20-29","10-14"],["0-4","0-4","55-59","15-19","0-4","15-19","15-19","0-4","60-64","25-29","10-14","40-44","15-19","5-9","5-9","10-14","35-39","15-19","10-14","10-14","15-19","50-54","10-14","25-29","5-9","0-4","30-34","5-9","65-69","10-14","10-14","20-24","20-24","45-49","0-4","10-14","0-4","15-19","20-24","35-39","5-9","10-14","10-14","0-4","10-14","0-4","0-4","20-24","25-29","10-14"],["Other","Missing","St. Mark's Maternity Hospital (SMMH)","Port Hospital","Military Hospital","Port Hospital","Missing","Missing","Missing","Missing","Port Hospital","Military Hospital","Missing","Missing","Other","Port Hospital","Port Hospital","Port Hospital","Missing","Other","Port Hospital","Port Hospital","St. Mark's Maternity Hospital (SMMH)","Missing","Other","Missing","St. Mark's Maternity Hospital (SMMH)","Military Hospital","Port Hospital","Central Hospital","Military Hospital","Central Hospital","Missing","Military Hospital","Other","Missing","Missing","Port Hospital","Port Hospital","Port Hospital","Missing","Central Hospital","Military Hospital","Other","Other","Other","Missing","St. Mark's Maternity Hospital (SMMH)","St. Mark's Maternity Hospital (SMMH)","Missing"],[-13.2157351064963,-13.2152339775486,-13.212910703914,-13.2363711169728,-13.2228638912441,-13.222625321098,-13.2331547837254,-13.2320975453153,-13.2225511595637,-13.2572163655863,-13.2206286746001,-13.253989309478,-13.2385127873491,-13.209391925612,-13.2157278814899,-13.2243437095992,-13.2336087079551,-13.21422143145,-13.2339681355349,-13.2535640411465,-13.2250089377786,-13.2160657166043,-13.2680671272333,-13.2266742923612,-13.2160179088168,-13.2482584611565,-13.2156319199566,-13.2142410663192,-13.2614879104088,-13.2452992638476,-13.2630592726116,-13.2343341712241,-13.2199077448676,-13.2227293309912,-13.2343062806506,-13.218781651651,-13.2483677722899,-13.2097478342339,-13.2680867723786,-13.2587535457526,-13.262635786914,-13.2697246824573,-13.2209026809759,-13.2330734719715,-13.2680923666905,-13.2547212675054,-13.2573683214693,-13.2137356012883,-13.2175973322257,-13.2486407324245],[8.46897295100924,8.45171855856465,8.46481700596819,8.4754761613651,8.46082377490923,8.46183062600728,8.46272931462646,8.46144367534271,8.46191259217774,8.47292327643506,8.48401630165138,8.45837125340844,8.47761705512509,8.47570184950483,8.47779946878972,8.47145134147474,8.47804840685363,8.48528034195779,8.46957530395867,8.45957352078114,8.47404889511544,8.48802917129884,8.473437335922,8.48408263734462,8.46242233645879,8.47026822126572,8.46398447480533,8.4641347894342,8.45623094629607,8.48334624336805,8.47493999153642,8.47832062438022,8.4693933891765,8.48480589906514,8.47121232619015,8.48438437371817,8.48466158574339,8.47714159984428,8.46238127010609,8.45568597813113,8.4632880274758,8.47940722413856,8.46353857052336,8.46178968158864,8.47508713872833,8.45825808128071,8.4532568143863,8.4732571907655,8.47911586641933,8.48480340615605],["f547d6",null,null,"f90f5f","11f8ea","aec8ec","893f25","133ee7",null,null,"996f3a","133ee7","37a6f6","9f6884","4802b1",null,null,null,"a75c7f","8e104d","ab634e",null,null,"b799eb",null,"5d9e4d","a15e13",null,"ea3740","beb26e","567136","894024","36e2e7","a2086d","7baf73","eb2277",null,null,"d6584f",null,"312ecf","52ea64","cfd79c","d145b7","174288",null,"53608c","3b096b","f5c142",null],["other",null,null,"other","other","other","other","other",null,null,"other","other","other","other","other",null,null,null,"other","other","other",null,null,"other",null,"other","other",null,"other","funeral","other","funeral","other","other","other","funeral",null,null,"other",null,"other","other","other","other","other",null,"funeral","other","other",null],[27,25,91,41,36,56,47,0,86,69,67,84,68,44,34,66,78,47,53,47,71,86,53,69,38,46,68,37,100,56,50,57,65,72,29,69,37,48,54,71,47,61,47,35,53,16,13,59,69,67],[48,59,238,135,71,116,87,11,226,174,112,186,174,90,91,152,214,137,117,131,150,241,131,161,80,69,188,66,233,142,110,182,164,214,26,157,39,154,133,168,100,125,123,67,134,31,36,125,183,169],[22,22,21,23,23,21,21,22,22,22,22,22,22,21,23,22,23,21,22,23,21,23,21,24,23,22,24,23,20,24,24,20,24,21,22,21,23,22,23,23,23,22,23,22,22,22,23,22,22,22],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","no","no","no","no","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","no","yes","no",null,"no","no","no","yes","no",null,"no","no","yes",null,null,"no","no",null,"no","no",null,null,"no","no",null,"no","no",null,"no","yes","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes",null,"yes","yes","yes","yes","yes",null,"yes","yes","yes",null,null,"yes","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","yes","yes","yes","no",null],["no",null,null,"no","no","no",null,"no","no","no","no","no","no","no","no","yes","no","no",null,"no","no","no","no","no",null,"no","no","no",null,null,"no","no",null,"no","no",null,null,"yes","yes",null,"no","no",null,"no","no","no","no","no","no",null],["yes",null,null,"no","yes","yes",null,"yes","yes","no","yes","no","no","no","yes","no","no","no",null,"no","yes","no","no","no",null,"no","no","no",null,null,"no","yes",null,"yes","yes",null,null,"yes","yes",null,"yes","yes",null,"yes","yes","no","yes","yes","yes",null],[36.8,36.9,36.9,36.8,36.9,37.6,37.3,37,36.4,35.9,36.5,36.9,36.5,37.1,36.5,37.3,37,38,38,36,37,36.7,36.9,36.5,37,36.5,37.6,36.6,36.6,36.2,36.4,37.1,37.5,37.5,37.4,36.9,36.4,37.3,37,37.8,36.5,37.5,36.7,37,37.3,36.6,36.5,36.6,37.6,36.8],[null,"09:36","16:48","11:22","12:60","14:13","14:33","09:25","11:16","10:55","16:03","11:14","12:42","11:06","09:10","08:45",null,"15:41","13:34","18:58","12:43","16:33","14:29","07:18","08:11","16:32","16:17","07:32","17:45",null,"13:24","14:43","02:33","11:36","17:28","16:27",null,"20:49",null,"11:38","14:25","13:42","21:22","13:33","19:06","17:14","20:09",null,"10:23","09:09"],[117.1875,71.8184429761563,16.0652496292635,22.4965706447188,71.4144019043841,41.6171224732461,62.0953890870657,0,16.8376536925366,22.7903289734443,53.4119897959184,24.2802636142907,22.4600343506408,54.320987654321,41.0578432556455,28.5664819944598,17.0320552013276,25.0412914912888,38.7172182043977,27.3876813705495,31.5555555555556,14.8069075945662,30.8839811199813,26.6193433895297,59.375,96.6183574879227,19.2394748755093,84.9403122130395,18.4199377406104,27.7722674072605,41.3223140495868,17.2080666586161,24.1671624033314,15.7218971089178,428.994082840237,27.9930220292912,243.261012491782,20.2395007589813,30.527446435638,25.15589569161,47,39.04,31.0661643201798,77.9683671196257,29.5165961238583,166.493236212279,100.308641975309,37.76,20.6037803457852,23.458562375267],[2,1,2,2,1,1,2,1,1,2,2,2,1,0,2,0,1,1,2,2,1,1,1,0,2,1,1,2,1,0,0,2,1,1,2,2,1,0,2,2,0,2,0,0,2,2,null,1,0,1]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_id<\/th>\n      <th>generation<\/th>\n      <th>date_infection<\/th>\n      <th>date_onset<\/th>\n      <th>date_hospitalisation<\/th>\n      <th>date_outcome<\/th>\n      <th>outcome<\/th>\n      <th>gender<\/th>\n      <th>age<\/th>\n      <th>age_unit<\/th>\n      <th>age_years<\/th>\n      <th>age_cat<\/th>\n      <th>age_cat5<\/th>\n      <th>hospital<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n      <th>infector<\/th>\n      <th>source<\/th>\n      <th>wt_kg<\/th>\n      <th>ht_cm<\/th>\n      <th>ct_blood<\/th>\n      <th>fever<\/th>\n      <th>chills<\/th>\n      <th>cough<\/th>\n      <th>aches<\/th>\n      <th>vomit<\/th>\n      <th>temp<\/th>\n      <th>time_admission<\/th>\n      <th>bmi<\/th>\n      <th>days_onset_hosp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,8,10,14,15,18,19,20,26,28,29]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!-- ======================================================= -->
 </div>
 </div>
-<div id="unite-split-and-arrange" class="section level2" number="10.2">
+<div id="hợp-nhất-tách-và-sắp-xếp" class="section level2" number="10.2">
 <h2>
-<span class="header-section-number">10.2</span> Unite, split, and arrange<a class="anchor" aria-label="anchor" href="#unite-split-and-arrange"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.2</span> Hợp nhất, tách, và sắp xếp<a class="anchor" aria-label="anchor" href="#h%E1%BB%A3p-nh%E1%BA%A5t-t%C3%A1ch-v%C3%A0-s%E1%BA%AFp-x%E1%BA%BFp"><i class="fas fa-link"></i></a>
 </h2>
-<p>This section covers:</p>
+<p>Chương này bao gồm:</p>
 <ul>
-<li>Using <code>str_c()</code>, <code>str_glue()</code>, and <code>unite()</code> to combine strings<br>
-</li>
-<li>Using <code>str_order()</code> to arrange strings<br>
-</li>
-<li>Using <code>str_split()</code> and <code>separate()</code> to split strings</li>
+<li>Sử dụng hàm <code>str_c()</code>, <code>str_glue()</code>, và <code>unite()</code> để ghép nối ký tự</li>
+<li>Sử dụng hàm <code>str_order()</code> để sắp xếp ký tự</li>
+<li>Sử dụng hàm <code>str_split()</code> và <code>separate()</code> để phân tách ký tự</li>
 </ul>
-<!-- ======================================================= --><div id="combine-strings" class="section level3 unnumbered">
-<h3>Combine strings<a class="anchor" aria-label="anchor" href="#combine-strings"><i class="fas fa-link"></i></a>
+<div id="kết-hợp-các-chuỗi-ký-tự" class="section level3 unnumbered">
+<h3>Kết hợp các chuỗi ký tự<a class="anchor" aria-label="anchor" href="#k%E1%BA%BFt-h%E1%BB%A3p-c%C3%A1c-chu%E1%BB%97i-k%C3%BD-t%E1%BB%B1"><i class="fas fa-link"></i></a>
 </h3>
-<p>To combine or concatenate multiple strings into one string, we suggest using <code>str_c</code> from <strong>stringr</strong>. If you have distinct character values to combine, simply provide them as unique arguments, separated by commas.</p>
+<p>Để kết hợp hoặc nối nhiều chuỗi ký tự thành một chuỗi ký tự, chúng tôi khuyên bạn nên sử dụng hàm <code>str_c</code> từ <strong>stringr</strong>. Nếu bạn có các giá trị ký tự riêng biệt để kết hợp, đơn giản chỉ cần cung cấp chúng dưới dạng đối số, được phân tách bằng dấu phẩy.</p>
 <div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_c</span><span class="op">(</span><span class="st">"String1"</span>, <span class="st">"String2"</span>, <span class="st">"String3"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "String1String2String3"</code></pre>
-<p>The argument <code>sep =</code> inserts a character value between each of the arguments you provided (e.g. inserting a comma, space, or newline <code>"\n"</code>)</p>
+<p>Đối số <code>sep =</code> chèn một giá dạng trị ký tự vào giữa mỗi đối số ký tự bạn cung cấp (ví dụ: chèn dấu phẩy, dấu cách hoặc dòng mới <code>"\n"</code>)</p>
 <div class="sourceCode" id="cb397"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_c</span><span class="op">(</span><span class="st">"String1"</span>, <span class="st">"String2"</span>, <span class="st">"String3"</span>, sep <span class="op">=</span> <span class="st">", "</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "String1, String2, String3"</code></pre>
-<p>The argument <code>collapse =</code> is relevant if you are inputting multiple <em>vectors</em> as arguments to <code>str_c()</code>. It is used to separate the elements of what would be an <em>output</em> vector, such that the output vector only has one long character element.</p>
-<p>The example below shows the combination of two vectors into one (first names and last names). Another similar example might be jurisdictions and their case counts. In this example:</p>
+<p>Đối số <code>collapse =</code> có liên quan nếu bạn đang nhập nhiều <em>vectơ</em> làm đối số cho hàm <code>str_c()</code>. Nó được sử dụng để tách các phần tử của một vectơ <em>kết quả</em>, sao cho vectơ kết quả chỉ là một phần tử chứa ký tự dài.</p>
+<p>Ví dụ dưới đây cho thấy sự kết hợp của hai vectơ thành một (tên và họ). Một ví dụ tương tự khác có thể là các phạm vi địa chính và số lượng trường hợp. Trong ví dụ này:</p>
 <ul>
-<li>The <code>sep =</code> value appears between each first and last name<br>
-</li>
-<li>The <code>collapse =</code> value appears between each person</li>
+<li>Giá trị <code>sep =</code> xuất hiện giữa từng họ và tên</li>
+<li>Giá trị <code>collapse =</code> xuất hiện giữa tên từng người</li>
 </ul>
 <div class="sourceCode" id="cb399"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">first_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"abdul"</span>, <span class="st">"fahruk"</span>, <span class="st">"janice"</span><span class="op">)</span> 
@@ -208,46 +205,44 @@
 <span class="co"># sep displays between the respective input strings, while collapse displays between the elements produced</span>
 <span class="fu">str_c</span><span class="op">(</span><span class="va">first_names</span>, <span class="va">last_names</span>, sep <span class="op">=</span> <span class="st">" "</span>, collapse <span class="op">=</span> <span class="st">";  "</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "abdul hussein;  fahruk akinleye;  janice okeke"</code></pre>
-<p>Note: Depending on your desired display context, when printing such a combined string with newlines, you may need to wrap the whole phrase in <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> for the newlines to print properly:</p>
+<p>Lưu ý: Tùy thuộc vào trường hợp hiển thị mong muốn, khi in một chuỗi kết hợp như vậy với các dòng mới, bạn có thể cần phải đặt toàn bộ cụm từ trong hàm <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> để các dòng mới được in đúng cách:</p>
 <div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For newlines to print correctly, the phrase may need to be wrapped in cat()</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu">str_c</span><span class="op">(</span><span class="va">first_names</span>, <span class="va">last_names</span>, sep <span class="op">=</span> <span class="st">" "</span>, collapse <span class="op">=</span> <span class="st">";\n"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## abdul hussein;
 ## fahruk akinleye;
 ## janice okeke</code></pre>
-<!-- ======================================================= -->
 </div>
-<div id="dynamic-strings" class="section level3 unnumbered">
-<h3>Dynamic strings<a class="anchor" aria-label="anchor" href="#dynamic-strings"><i class="fas fa-link"></i></a>
+<div id="chuỗi-động" class="section level3 unnumbered">
+<h3>Chuỗi động<a class="anchor" aria-label="anchor" href="#chu%E1%BB%97i-%C4%91%E1%BB%99ng"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_glue()</code> to insert dynamic R code into a string. This is a very useful function for creating dynamic plot captions, as demonstrated below.</p>
+<p>Sử dụng hàm <code>str_glue()</code> để chèn đoạn code động của R vào chuỗi ký tự. Đây là một hàm hữu dụng để tạo tiêu đề biểu đồ động, như được mô tả dưới đây:</p>
 <ul>
-<li>All content goes between double quotation marks <code>str_glue("")</code><br>
+<li>Tất cả nội dung nằm giữa dấu ngoặc kép <code>str_glue("")</code><br>
 </li>
-<li>Any dynamic code or references to pre-defined values are placed within curly brackets <code>{}</code> within the double quotation marks. There can be many curly brackets in the same <code>str_glue()</code> command.<br>
+<li>Bất kỳ đoạn code động hoặc tham chiếu nào đến các giá trị được xác định trước đều được đặt trong dấu ngoặc nhọn <code>{}</code>, bên trong dấu ngoặc kép. Có thể có nhiều dấu ngoặc nhọn trong cùng một câu lệnh <code>str_glue()</code>.<br>
 </li>
-<li>To display character quotes ’’, use <em>single</em> quotes within the surrounding double quotes (e.g. when providing date format - see example below)<br>
+<li>Để hiển thị dấu ngoặc kép ", hãy sử dụng dấu ngoặc <em>đơn</em> bên trong dấu ngoặc kép (ví dụ: khi cung cấp định dạng ngày - xem ví dụ bên dưới)</li>
+<li>Mẹo: Bạn có thể sử dụng <code>\n</code> để bắt buộc xuống một dòng mới<br>
 </li>
-<li>Tip: You can use <code>\n</code> to force a new line<br>
-</li>
-<li>Tip: You use <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> to adjust date display, and use <code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date()</a></code> to display the current date</li>
+<li>Mẹo: Bạn có thể sử dụng <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> để điều chỉnh hiển thị ngày và sử dụng hàm <code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date()</a></code> để hiển thị ngày hiện tại.</li>
 </ul>
-<p>A simple example, of a dynamic plot caption:</p>
+<p>Một ví dụ đơn giản về tiêu đề biểu đồ động:</p>
 <div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_glue</span><span class="op">(</span><span class="st">"Data include {nrow(linelist)} cases and are current to {format(Sys.Date(), '%d %b %Y')}."</span><span class="op">)</span></code></pre></div>
-<pre><code>## Data include 5888 cases and are current to 02 Sep 2021.</code></pre>
-<p>An alternative format is to use placeholders within the brackets and define the code in separate arguments at the end of the <code>str_glue()</code> function, as below. This can improve code readability if the text is long.</p>
+<pre><code>## Data include 5888 cases and are current to 12 Sep 2021.</code></pre>
+<p>Một định dạng thay thế là sử dụng trình giữ chỗ (placeholder) bên trong dấu ngoặc kép và chỉ định chúng trong các đối số ở phía sau trong hàm <code>str_glue()</code> như bên dưới. Việc này sẽ làm tăng tính tường minh cho code nếu văn bản dài.</p>
 <div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_glue</span><span class="op">(</span><span class="st">"Linelist as of {current_date}.\nLast case hospitalized on {last_hospital}.\n{n_missing_onset} cases are missing date of onset and not shown"</span>,
          current_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">'%d %b %Y'</span><span class="op">)</span>,
          last_hospital <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">date_hospitalisation</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span>, <span class="st">'%d %b %Y'</span><span class="op">)</span>,
          n_missing_onset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">linelist</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">date_onset</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
          <span class="op">)</span></code></pre></div>
-<pre><code>## Linelist as of 02 Sep 2021.
+<pre><code>## Linelist as of 12 Sep 2021.
 ## Last case hospitalized on 30 Apr 2015.
 ## 256 cases are missing date of onset and not shown</code></pre>
-<p><strong>Pulling from a data frame</strong></p>
-<p>Sometimes, it is useful to pull data from a data frame and have it pasted together in sequence. Below is an example data frame. We will use it to to make a summary statement about the jurisdictions and the new and total case counts.</p>
+<p><strong>Kéo từ bộ dữ liệu</strong></p>
+<p>Đôi khi, sẽ rất hữu ích khi lấy dữ liệu từ một bộ dữ liệu và dán chúng lại với nhau theo trình tự. Dưới đây là một ví dụ về bộ dữ liệu. Chúng ta sẽ sử dụng cách này để có một phát biểu tóm tắt về các khu vực pháp lý, cũng như số ca mắc mới và tổng số ca.</p>
 <div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># make case data frame</span>
 <span class="va">case_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -255,8 +250,8 @@
   new_cases   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">7</span>, <span class="fl">0</span>, <span class="fl">15</span><span class="op">)</span>,
   total_cases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">40</span>, <span class="fl">4</span>, <span class="fl">25</span>, <span class="fl">10</span>, <span class="fl">103</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
-<div id="htmlwidget-31cfd1343faf01655d9c" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-31cfd1343faf01655d9c">{"x":{"filter":"none","data":[["Zone 1","Zone 2","Zone 3","Zone 4","Zone 5"],[3,0,7,0,15],[40,4,25,10,103]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>zone<\/th>\n      <th>new_cases<\/th>\n      <th>total_cases<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Use <code>str_glue_data()</code>, which is specially made for taking data from data frame rows:</p>
+<div id="htmlwidget-41c6b319e54bda0768e5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-41c6b319e54bda0768e5">{"x":{"filter":"none","data":[["Zone 1","Zone 2","Zone 3","Zone 4","Zone 5"],[3,0,7,0,15],[40,4,25,10,103]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>zone<\/th>\n      <th>new_cases<\/th>\n      <th>total_cases<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Sử dụng hàm <code>str_glue_data()</code>, được thiết kế để lấy dữ liệu từ các quan sát của bộ dữ liệu:</p>
 <div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">case_table</span> <span class="op">%&gt;%</span> 
   <span class="fu">str_glue_data</span><span class="op">(</span><span class="st">"{zone}: {new_cases} ({total_cases} total cases)"</span><span class="op">)</span></code></pre></div>
@@ -265,33 +260,33 @@
 ## Zone 3: 7 (25 total cases)
 ## Zone 4: 0 (10 total cases)
 ## Zone 5: 15 (103 total cases)</code></pre>
-<p><strong>Combine strings across rows</strong></p>
-<p>If you are trying to “roll-up” values in a data frame column, e.g. combine values from multiple rows into just one row by pasting them together with a separator, see the section of the [De-duplication] page on <a href="deduplication.html#str_rollup">“rolling-up” values</a>.</p>
-<p><strong>Data frame to one line</strong></p>
-<p>You can make the statement appear in one line using <code>str_c()</code> (specifying the data frame and column names), and providing <code>sep =</code> and <code>collapse =</code> arguments.</p>
+<p><strong>Kết hợp các chuỗi ký tự trên các dòng</strong></p>
+<p>Nếu bạn đang cố gắng để “gộp” các giá trị trong một cột của bộ dữ liệu, ví dụ: kết hợp các giá trị từ nhiều hàng thành một hàng bằng cách gắn chúng với nhau cùng ký tự phân cách, hãy xem thêm ở chương <a href="deduplication.html#lo%E1%BA%A1i-b%E1%BB%8F-tr%C3%B9ng-l%E1%BA%B7p-1">Loại bỏ trùng lặp</a> mục <a href="deduplication.html#str_rollup">“gộp” các giá trị</a>.</p>
+<p><strong>Một bộ dữ liệu thành một dòng</strong></p>
+<p>Bạn có thể tạo ra dãy thông tin chỉ trong một dòng bằng cách sử dụng lệnh <code>str_c()</code> (cụ thể tên bộ dữ liệu và tên cột), đồng thời cung cấp các đối số <code>sep =</code> và <code>collapse =</code>.</p>
 <div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_c</span><span class="op">(</span><span class="va">case_table</span><span class="op">$</span><span class="va">zone</span>, <span class="va">case_table</span><span class="op">$</span><span class="va">new_cases</span>, sep <span class="op">=</span> <span class="st">" = "</span>, collapse <span class="op">=</span> <span class="st">";  "</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Zone 1 = 3;  Zone 2 = 0;  Zone 3 = 7;  Zone 4 = 0;  Zone 5 = 15"</code></pre>
-<p>You could add the pre-fix text “New Cases:” to the beginning of the statement by wrapping with a separate <code>str_c()</code> (if “New Cases:” was within the original <code>str_c()</code> it would appear multiple times).</p>
+<p>Bạn có thể thêm đoạn tiền tố “New Cases:” vào đầu dòng thông tin bằng cách đặt trong hàm <code>str_c()</code> (nếu “New Cases:” nằm trong hàm <code>str_c()</code> ban đầu thì nó sẽ xuất hiện nhiều lần).</p>
 <div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_c</span><span class="op">(</span><span class="st">"New Cases: "</span>, <span class="fu">str_c</span><span class="op">(</span><span class="va">case_table</span><span class="op">$</span><span class="va">zone</span>, <span class="va">case_table</span><span class="op">$</span><span class="va">new_cases</span>, sep <span class="op">=</span> <span class="st">" = "</span>, collapse <span class="op">=</span> <span class="st">";  "</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "New Cases: Zone 1 = 3;  Zone 2 = 0;  Zone 3 = 7;  Zone 4 = 0;  Zone 5 = 15"</code></pre>
 </div>
 <div id="str_unite" class="section level3 unnumbered">
-<h3>Unite columns<a class="anchor" aria-label="anchor" href="#str_unite"><i class="fas fa-link"></i></a>
+<h3>Hợp nhất các cột<a class="anchor" aria-label="anchor" href="#str_unite"><i class="fas fa-link"></i></a>
 </h3>
-<p>Within a data frame, bringing together character values from multiple columns can be achieved with <code>unite()</code> from <strong>tidyr</strong>. This is the opposite of <code>separate()</code>.</p>
-<p>Provide the name of the new united column. Then provide the names of the columns you wish to unite.</p>
+<p>Trong bộ dữ liệu, việc tập hợp các giá trị dạng ký tự từ nhiều cột lại với nhau có thể thực hiện bằng cách dùng hàm <code>unite()</code> từ package <strong>tidyr</strong>. Tính năng này ngược lại với hàm <code>separate()</code>.</p>
+<p>Đầu tiên, cần tên của cột mới. Sau đó, cần tên của các cột mà bạn muốn hợp nhất.</p>
 <ul>
-<li>By default, the separator used in the united column is underscore <code>_</code>, but this can be changed with the <code>sep =</code> argument.<br>
+<li>Mặc định, dấu ngăn cách được sử dụng trong cột hợp nhất là dấu gạch dưới _, nhưng có thể được thay đổi bằng đối số <code>sep =</code>.<br>
 </li>
 <li>
-<code>remove =</code> removes the input columns from the data frame (TRUE by default)<br>
+<code>remove =</code> loại bỏ các cột ban đầu ra khỏi bộ dữ liệu (mặc định là TRUE)<br>
 </li>
 <li>
-<code>na.rm =</code> removes missing values while uniting (FALSE by default)</li>
+<code>na.rm =</code> loại bỏ các giá trị bị thiếu trong khi hợp nhất (mặc định là FALSE)</li>
 </ul>
-<p>Below, we define a mini-data frame to demonstrate with:</p>
+<p>Dưới đây, chúng tôi xác định một bộ dữ liệu ngắn để minh họa:</p>
 <div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   case_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,
@@ -305,9 +300,9 @@
 <div class="sourceCode" id="cb415"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df_split</span> <span class="op">&lt;-</span> <span class="fu">separate</span><span class="op">(</span><span class="va">df</span>, <span class="va">symptoms</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sym_1"</span>, <span class="st">"sym_2"</span>, <span class="st">"sym_3"</span><span class="op">)</span>, extra <span class="op">=</span> <span class="st">"merge"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 2 rows [3, 4].</code></pre>
-<p>Here is the example data frame:</p>
-<div id="htmlwidget-fb9c38081b8c8579e655" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fb9c38081b8c8579e655">{"x":{"filter":"none","data":[[1,2,3,4,5,6],["jaundice","chills","fever","vomiting","bleeding","rapid"],["fever","aches",null,"diarrhoea","from","pulse"],["chills","pains",null,null,"gums, fever","headache"],["Recover","Death","Death","Recover","Recover","Recover"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_ID<\/th>\n      <th>sym_1<\/th>\n      <th>sym_2<\/th>\n      <th>sym_3<\/th>\n      <th>outcome<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Below, we unite the three symptom columns:</p>
+<p>Đây là bộ dữ liệu mẫu:</p>
+<div id="htmlwidget-f5143766e78d68c7639e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f5143766e78d68c7639e">{"x":{"filter":"none","data":[[1,2,3,4,5,6],["jaundice","chills","fever","vomiting","bleeding","rapid"],["fever","aches",null,"diarrhoea","from","pulse"],["chills","pains",null,null,"gums, fever","headache"],["Recover","Death","Death","Recover","Recover","Recover"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_ID<\/th>\n      <th>sym_1<\/th>\n      <th>sym_2<\/th>\n      <th>sym_3<\/th>\n      <th>outcome<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Dưới đây, chúng tôi hợp nhất ba cột triệu chứng:</p>
 <div class="sourceCode" id="cb417"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df_split</span> <span class="op">%&gt;%</span> 
   <span class="fu">unite</span><span class="op">(</span>
@@ -326,24 +321,24 @@
 ## 6       6      rapid, pulse, headache Recover</code></pre>
 <!-- ======================================================= -->
 </div>
-<div id="split" class="section level3 unnumbered">
-<h3>Split<a class="anchor" aria-label="anchor" href="#split"><i class="fas fa-link"></i></a>
+<div id="tách-chuỗi" class="section level3 unnumbered">
+<h3>Tách chuỗi<a class="anchor" aria-label="anchor" href="#t%C3%A1ch-chu%E1%BB%97i"><i class="fas fa-link"></i></a>
 </h3>
-<p>To split a string based on a pattern, use <code>str_split()</code>. It evaluates the string(s) and returns a <code>list</code> of character vectors consisting of the newly-split values.</p>
-<p>The simple example below evaluates one string and splits it into three. By default it returns an object of class <code>list</code> with one element (a character vector) for each string initially provided. If <code>simplify = TRUE</code> it returns a character matrix.</p>
-<p>In this example, one string is provided, and the function returns a list with one element - a character vector with three values.</p>
+<p>Để tách một chuỗi ký tự dựa trên một quy luật, hãy sử dụng hàm <code>str_split()</code>. Hàm này đánh giá (các) chuỗi ký tự và trả về danh sách <code>list</code> các vectơ ký tự chứa các giá trị mới được tách.</p>
+<p>Ví dụ đơn giản dưới đây đánh giá một chuỗi ký tự và chia nó thành ba phần. Mặc định, hàm trả về một đối tượng kiểu danh sách <code>list</code> với một phần tử (một vectơ ký tự) cho mỗi chuỗi được cung cấp ban đầu. Nếu <code>simplify = TRUE</code> nó trả về một ma trận ký tự.</p>
+<p>Trong ví dụ này, một chuỗi ký tự được cung cấp và hàm trả về một danh sách có một phần tử - một vectơ ký tự chứa ba giá trị.</p>
 <div class="sourceCode" id="cb419"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_split</span><span class="op">(</span>string <span class="op">=</span> <span class="st">"jaundice, fever, chills"</span>,
           pattern <span class="op">=</span> <span class="st">","</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] "jaundice" " fever"   " chills"</code></pre>
-<p>If the output is saved, you can then access the nth split value with bracket syntax. To access a specific value you can use syntax like this: <code>the_returned_object[[1]][2]</code>, which would access the second value from the first evaluated string (“fever”). See the [R basics] page for more detail on accessing elements.</p>
+<p>Nếu kết quả được lưu, thì bạn có thể truy cập giá trị phân chia thứ n bằng cú pháp dấu ngoặc vuông. Để truy cập vào một giá trị cụ thể, bạn có thể sử dụng cú pháp như sau: <code>the_returned_object[[1]][2]</code>, sẽ truy cập giá trị thứ hai từ chuỗi ký tự được đánh giá thứ nhất (“fever”). Xem thêm ở chương <a href="basics.html#basics">R Cơ bản</a> để biết thêm chi tiết về cách truy vấn các phần tử.</p>
 <div class="sourceCode" id="cb421"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pt1_symptoms</span> <span class="op">&lt;-</span> <span class="fu">str_split</span><span class="op">(</span><span class="st">"jaundice, fever, chills"</span>, <span class="st">","</span><span class="op">)</span>
 
 <span class="va">pt1_symptoms</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>  <span class="co"># extracts 2nd value from 1st (and only) element of the list</span></code></pre></div>
 <pre><code>## [1] " fever"</code></pre>
-<p>If multiple strings are provided by <code>str_split()</code>, there will be more than one element in the returned list.</p>
+<p>Nếu nhiều chuỗi ký tự được sử dụng trong hàm <code>str_split()</code>, sẽ có nhiều hơn một phần tử trong danh sách trả về.</p>
 <div class="sourceCode" id="cb423"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">symptoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"jaundice, fever, chills"</span>,     <span class="co"># patient 1</span>
               <span class="st">"chills, aches, pains"</span>,        <span class="co"># patient 2 </span>
@@ -370,7 +365,7 @@
 ## 
 ## [[6]]
 ## [1] "rapid pulse" " headache"</code></pre>
-<p>To return a “character matrix” instead, which may be useful if creating data frame columns, set the argument <code>simplify = TRUE</code> as shown below:</p>
+<p>Thay vào đó, để trả về “ma trận chuỗi ký tự”, có thể sẽ hữu ích nếu tạo cột trong bộ dữ liệu, đặt đối số <code>simplify = TRUE</code> như trình bày dưới đây:</p>
 <div class="sourceCode" id="cb425"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_split</span><span class="op">(</span><span class="va">symptoms</span>, <span class="st">","</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>##      [,1]                 [,2]         [,3]     
@@ -380,7 +375,7 @@
 ## [4,] "vomiting"           " diarrhoea" ""       
 ## [5,] "bleeding from gums" " fever"     ""       
 ## [6,] "rapid pulse"        " headache"  ""</code></pre>
-<p>You can also adjust the number of splits to create with the <code>n =</code> argument. For example, this restricts the number of splits to 2. Any further commas remain within the second values.</p>
+<p>Bạn cũng có thể điều chỉnh số phần tách ra với đối số <code>n =</code>. Ví dụ dưới đây giới hạn số phần tách ra là 2. Bất kỳ dấu phẩy nào khác vẫn sẽ nằm trong giá trị thứ hai.</p>
 <div class="sourceCode" id="cb427"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_split</span><span class="op">(</span><span class="va">symptoms</span>, <span class="st">","</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>##      [,1]                 [,2]            
@@ -390,40 +385,34 @@
 ## [4,] "vomiting"           " diarrhoea"    
 ## [5,] "bleeding from gums" " fever"        
 ## [6,] "rapid pulse"        " headache"</code></pre>
-<p><em>Note - the same outputs can be achieved with <code>str_split_fixed()</code>, in which you do not give the <code>simplify</code> argument, but must instead designate the number of columns (<code>n</code>).</em></p>
+<p><em>Lưu ý - các kết quả tương tự có thể đạt được với hàm <code>str_split_fixed()</code>, trong đó bạn không dùng đối số <code>simplify</code> mà thay vào đó phải chỉ định số cột (<code>n</code>).</em></p>
 <div class="sourceCode" id="cb429"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_split_fixed</span><span class="op">(</span><span class="va">symptoms</span>, <span class="st">","</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="split-columns" class="section level3 unnumbered">
-<h3>Split columns<a class="anchor" aria-label="anchor" href="#split-columns"><i class="fas fa-link"></i></a>
+<div id="tách-cột" class="section level3 unnumbered">
+<h3>Tách cột<a class="anchor" aria-label="anchor" href="#t%C3%A1ch-c%E1%BB%99t"><i class="fas fa-link"></i></a>
 </h3>
-<p>If you are trying to split data frame column, it is best to use the <code>separate()</code> function from <strong>dplyr</strong>. It is used to split one character column into other columns.</p>
-<p>Let’s say we have a simple data frame <code>df</code> (defined and united in the <a href="characters-strings.html#str_unite">unite section</a>) containing a <code>case_ID</code> column, one character column with many symptoms, and one outcome column. Our goal is to separate the <code>symptoms</code> column into many columns - each one containing one symptom.</p>
-<div id="htmlwidget-3993de727b0e6a376ca2" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3993de727b0e6a376ca2">{"x":{"filter":"none","data":[[1,2,3,4,5,6],["jaundice, fever, chills","chills, aches, pains","fever","vomiting, diarrhoea","bleeding from gums, fever","rapid pulse, headache"],["Recover","Death","Death","Recover","Recover","Recover"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_ID<\/th>\n      <th>symptoms<\/th>\n      <th>outcome<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Assuming the data are piped into <code>separate()</code>, first provide the column to be separated. Then provide <code>into =</code> as a vector <code><a href="https://rdrr.io/r/base/c.html">c( )</a></code> containing the <em>new</em> columns names, as shown below.</p>
+<p>Nếu bạn đang cố gắng chia tách cột trong bộ dữ liệu, cách tốt nhất là sử dụng hàm <code>separate()</code> từ package <strong>dplyr</strong>. Nó được sử dụng để chia một cột ký tự thành các cột khác nhau.</p>
+<p>Giả sử chúng ta có một bộ dữ liệu đơn giản <code>df</code> (được xác định và hợp nhất trong <a href="characters-strings.html#str_unite">unite section</a>) chứa một cột <code>case_ID</code> , một cột dạng ký tự có nhiều triệu chứng và một cột outcome. Mục tiêu của chúng ta là tách cột <code>symptoms</code> thành nhiều cột - mỗi cột chứa một triệu chứng.</p>
+<div id="htmlwidget-b6b222989b187453160e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b6b222989b187453160e">{"x":{"filter":"none","data":[[1,2,3,4,5,6],["jaundice, fever, chills","chills, aches, pains","fever","vomiting, diarrhoea","bleeding from gums, fever","rapid pulse, headache"],["Recover","Death","Death","Recover","Recover","Recover"]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>case_ID<\/th>\n      <th>symptoms<\/th>\n      <th>outcome<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><p>Giả sử dữ liệu được đưa vào hàm <code>separate()</code>, trước tiên hãy chọn ra cột sẽ được phân tách. Sau đó, cung cấp thông tin tới đối số <code>into =</code> dưới dạng vectơ <code><a href="https://rdrr.io/r/base/c.html">c( )</a></code> có chứa tên các cột <em>mới</em>, như được trình bày dưới đây.</p>
+<ul>
+<li><p>Dấu phân cách trong <code>sep =</code> có thể là một ký tự hoặc một số (được hiểu là vị trí ký tự cần tách)</p></li>
+<li><p>Mặc định là <code>remove =</code> FALSE, xóa cột đầu vào ban ban đầu</p></li>
+<li><p>Mặc định là <code>convert =</code> FALSE, các ký tự “NA” sẽ thành <code>NA</code><br></p></li>
+<li>
+<p><code>extra =</code> kiểm soát điều gì sẽ xảy ra nếu có nhiều giá trị được tạo bởi sự phân tách nhiều hơn các cột mới được đặt tên.</p>
 <ul>
 <li>
-<code>sep =</code> the separator, can be a character, or a number (interpreted as the character position to split at)</li>
-<li>
-<code>remove =</code> FALSE by default, removes the input column<br>
+<code>extra = "warn"</code> có nghĩa là bạn sẽ thấy một cảnh báo nhưng nó sẽ loại bỏ các giá trị thừa (<strong>mặc định là vậy</strong>)<br>
 </li>
 <li>
-<code>convert =</code> FALSE by default, will cause string “NA”s to become <code>NA</code><br>
-</li>
-<li>
-<code>extra =</code> this controls what happens if there are more values created by the separation than new columns named.
-<ul>
-<li>
-<code>extra = "warn"</code> means you will see a warning but it will drop excess values (<strong>the default</strong>)<br>
-</li>
-<li>
-<code>extra = "drop"</code> means the excess values will be dropped with no warning<br>
-</li>
-<li><strong><code>extra = "merge"</code> will only split to the number of new columns listed in <code>into</code> - <em>this setting will preserve all your data</em></strong></li>
+<code>extra = "drop"</code> có nghĩa là các giá trị thừa sẽ bị loại bỏ mà không có cảnh báo</li>
+<li>**<code>extra = "merge"</code> sẽ chỉ phân tách thành số cột mới được liệt kê trong <code>into</code> - *thiết lập này sẽ bảo toàn tất cả dữ liệu của bạn**</li>
 </ul>
 </li>
 </ul>
-<p>An example with <code>extra = "merge"</code> is below - no data is lost. Two new columns are defined but any third symptoms are left in the second new column:</p>
+<p>Dưới đây là một ví dụ về <code>extra = "merge"</code> - không có dữ liệu nào bị mất. Hai cột mới được xác định nhưng bất kỳ triệu chứng thứ ba nào sẽ quy về trong cột mới thứ hai:</p>
 <div class="sourceCode" id="cb430"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># third symptoms combined into second new column</span>
 <span class="va">df</span> <span class="op">%&gt;%</span> 
@@ -436,7 +425,7 @@
 ## 4       4           vomiting      diarrhoea Recover
 ## 5       5 bleeding from gums          fever Recover
 ## 6       6        rapid pulse       headache Recover</code></pre>
-<p>When the default <code>extra = "drop"</code> is used below, a warning is given but the third symptoms are lost:</p>
+<p>Khi sử dụng lệnh <code>extra = "drop"</code> mặc định như bên dưới, một cảnh báo sẽ được đưa ra nhưng triệu chứng thứ ba bị mất:</p>
 <div class="sourceCode" id="cb433"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># third symptoms are lost</span>
 <span class="va">df</span> <span class="op">%&gt;%</span> 
@@ -450,13 +439,12 @@
 ## 4       4           vomiting  diarrhoea Recover
 ## 5       5 bleeding from gums      fever Recover
 ## 6       6        rapid pulse   headache Recover</code></pre>
-<p><span style="color: orange;"><strong><em>CAUTION:</em></strong> If you do not provide enough <code>into</code> values for the new columns, your data may be truncated.</span></p>
-<!-- ======================================================= -->
+<p><span style="color: orange;"><strong>CẨN TRỌNG:</strong> Nếu bạn không cung cấp đủ giá trị <code>into</code> cho các cột mới, dữ liệu của bạn có thể bị cắt bớt .</span></p>
 </div>
-<div id="arrange-alphabetically" class="section level3 unnumbered">
-<h3>Arrange alphabetically<a class="anchor" aria-label="anchor" href="#arrange-alphabetically"><i class="fas fa-link"></i></a>
+<div id="sắp-xếp-theo-thứ-tự-bảng-chữ-cái" class="section level3 unnumbered">
+<h3>Sắp xếp theo thứ tự bảng chữ cái<a class="anchor" aria-label="anchor" href="#s%E1%BA%AFp-x%E1%BA%BFp-theo-th%E1%BB%A9-t%E1%BB%B1-b%E1%BA%A3ng-ch%E1%BB%AF-c%C3%A1i"><i class="fas fa-link"></i></a>
 </h3>
-<p>Several strings can be sorted by alphabetical order. <code>str_order()</code> returns the order, while <code>str_sort()</code> returns the strings in that order.</p>
+<p>Một số chuỗi ký tự có thể được sắp xếp theo thứ tự bảng chữ cái. Hàm <code>str_order()</code> trả về thứ tự của các phần tử, trong khi hàm <code>str_sort()</code> trả về các chuỗi theo thứ tự đó.</p>
 <div class="sourceCode" id="cb437"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># strings</span>
 <span class="va">health_zones</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Alba"</span>, <span class="st">"Takota"</span>, <span class="st">"Delta"</span><span class="op">)</span>
@@ -468,13 +456,12 @@
 <code class="sourceCode R"><span class="co"># return the strings in alphabetical order</span>
 <span class="fu">str_sort</span><span class="op">(</span><span class="va">health_zones</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Alba"   "Delta"  "Takota"</code></pre>
-<p>To use a different alphabet, add the argument <code>locale =</code>. See the full list of locales by entering <code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html">stringi::stri_locale_list()</a></code> in the R console.</p>
-<!-- ======================================================= -->
+<p>Để sử dụng một bảng chữ cái khác, hãy thêm đối số <code>locale =</code>. Xem danh sách đầy đủ các locales bằng cách gõ <code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html">stringi::stri_locale_list()</a></code> trong cửa sổ R console.</p>
 </div>
-<div id="base-r-functions" class="section level3 unnumbered">
-<h3>base R functions<a class="anchor" aria-label="anchor" href="#base-r-functions"><i class="fas fa-link"></i></a>
+<div id="các-hàm-base-r" class="section level3 unnumbered">
+<h3>Các hàm base R<a class="anchor" aria-label="anchor" href="#c%C3%A1c-h%C3%A0m-base-r"><i class="fas fa-link"></i></a>
 </h3>
-<p>It is common to see <strong>base</strong> R functions <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> and <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code>, which concatenate vectors after converting all parts to character. They act similarly to <code>str_c()</code> but the syntax is arguably more complicated - in the parentheses each part is separated by a comma. The parts are either character text (in quotes) or pre-defined code objects (no quotes). For example:</p>
+<p>Các hàm phổ biến của <strong>base</strong> R là <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> và <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> nối các vectơ sau khi chuyển đổi tất cả các cấu phần thành ký tự. Chúng hoạt động tương tự như <code>str_c()</code> nhưng cú pháp được cho là phức tạp hơn - đó là trong ngoặc thì mỗi phần được phân tách bằng một dấu phẩy. Các cấu phần là ký tự dạng văn bản (trong dấu ngoặc kép) hoặc các đối tượng được xác định trước (không có dấu ngoặc kép). Ví dụ:</p>
 <div class="sourceCode" id="cb441"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">n_beds</span> <span class="op">&lt;-</span> <span class="fl">10</span>
 <span class="va">n_masks</span> <span class="op">&lt;-</span> <span class="fl">20</span>
@@ -484,40 +471,40 @@
 <p><code>sep =</code> and <code>collapse =</code> arguments can be specified. <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> is simply <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> with a default <code>sep = " "</code> (one space).</p>
 </div>
 </div>
-<div id="clean-and-standardise" class="section level2" number="10.3">
+<div id="làm-sạch-và-chuẩn-hóa" class="section level2" number="10.3">
 <h2>
-<span class="header-section-number">10.3</span> Clean and standardise<a class="anchor" aria-label="anchor" href="#clean-and-standardise"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.3</span> Làm sạch và chuẩn hóa<a class="anchor" aria-label="anchor" href="#l%C3%A0m-s%E1%BA%A1ch-v%C3%A0-chu%E1%BA%A9n-h%C3%B3a"><i class="fas fa-link"></i></a>
 </h2>
 <!-- ======================================================= -->
-<div id="change-case" class="section level3 unnumbered">
-<h3>Change case<a class="anchor" aria-label="anchor" href="#change-case"><i class="fas fa-link"></i></a>
+<div id="thay-đổi-chữ-hoachữ-thường" class="section level3 unnumbered">
+<h3>Thay đổi chữ hoa/chữ thường<a class="anchor" aria-label="anchor" href="#thay-%C4%91%E1%BB%95i-ch%E1%BB%AF-hoach%E1%BB%AF-th%C6%B0%E1%BB%9Dng"><i class="fas fa-link"></i></a>
 </h3>
-<p>Often one must alter the case/capitalization of a string value, for example names of jursidictions. Use <code>str_to_upper()</code>, <code>str_to_lower()</code>, and <code>str_to_title()</code>, from <strong>stringr</strong>, as shown below:</p>
+<p>Thông thường thì người ta cần phải thay đổi cách viết thường/viết hoa của một giá trị dạng chuỗi ký tự, ví dụ như tên địa danh. Hãy sử dụng hàm <code>str_to_upper()</code>, <code>str_to_lower()</code>, và <code>str_to_title()</code> từ <strong>stringr</strong>, như dưới đây:</p>
 <div class="sourceCode" id="cb443"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_to_upper</span><span class="op">(</span><span class="st">"California"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "CALIFORNIA"</code></pre>
 <div class="sourceCode" id="cb445"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_to_lower</span><span class="op">(</span><span class="st">"California"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "california"</code></pre>
-<p>Using *base** R, the above can also be achieved with <code><a href="https://rdrr.io/r/base/chartr.html">toupper()</a></code>, <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code>.</p>
-<p><strong>Title case</strong></p>
-<p>Transforming the string so each word is capitalized can be achieved with <code>str_to_title()</code>:</p>
+<p>Sử dụng *base** R, bạn cũng có thể thực hiện điều trên với hàm <code><a href="https://rdrr.io/r/base/chartr.html">toupper()</a></code>, <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code>.</p>
+<p><strong>Định dạng tiêu đề</strong></p>
+<p>Biến đổi chuỗi ký tự sao cho mỗi từ được viết hoa có thể thực hiện được với hàm <code>str_to_title()</code>:</p>
 <div class="sourceCode" id="cb447"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_to_title</span><span class="op">(</span><span class="st">"go to the US state of california "</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Go To The Us State Of California "</code></pre>
-<p>Use <code>toTitleCase()</code> from the <strong>tools</strong> package to achieve more nuanced capitalization (words like “to”, “the”, and “of” are not capitalized).</p>
+<p>Sử dụng hàm <code>toTitleCase()</code> từ package <strong>tools</strong> để chuyển đổi nhiều kiểu viết in hoa hơn (các từ như “to”, “the” và “of” không cần viết hoa).</p>
 <div class="sourceCode" id="cb449"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/toTitleCase.html">toTitleCase</a></span><span class="op">(</span><span class="st">"This is the US state of california"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "This is the US State of California"</code></pre>
-<p>You can also use <code>str_to_sentence()</code>, which capitalizes only the first letter of the string.</p>
+<p>Bạn cũng có thể sử dụng hàm <code>str_to_sentence()</code>, chỉ viết hoa chữ cái đầu tiên của chuỗi ký tự.</p>
 <div class="sourceCode" id="cb451"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_to_sentence</span><span class="op">(</span><span class="st">"the patient must be transported"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "The patient must be transported"</code></pre>
 </div>
 <div id="str_pad" class="section level3 unnumbered">
-<h3>Pad length<a class="anchor" aria-label="anchor" href="#str_pad"><i class="fas fa-link"></i></a>
+<h3>Độ dài chuỗi ký tự<a class="anchor" aria-label="anchor" href="#str_pad"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_pad()</code> to add characters to a string, to a minimum length. By default spaces are added, but you can also pad with other characters using the <code>pad =</code> argument.</p>
+<p>Sử dụng hàm <code>str_pad()</code> để thêm các ký tự vào một chuỗi, với độ dài tối thiểu. Mặc định, khoảng trắng sẽ được thêm vào, nhưng bạn cũng có thể chèn các ký tự khác bằng cách sử dụng đối số <code>pad =</code>.</p>
 <div class="sourceCode" id="cb453"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># ICD codes of differing length</span>
 <span class="va">ICD_codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"R10.13"</span>,
@@ -531,7 +518,7 @@
 <code class="sourceCode R"><span class="co"># Pad with periods instead of spaces</span>
 <span class="fu">str_pad</span><span class="op">(</span><span class="va">ICD_codes</span>, <span class="fl">7</span>, <span class="st">"right"</span>, pad <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "R10.13." "R10.819" "R17...."</code></pre>
-<p>For example, to pad numbers with leading zeros (such as for hours or minutes), you can pad the number to minimum length of 2 with <code>pad = "0"</code>.</p>
+<p>Ví dụ: để chèn thêm số bằng các số 0 ở đầu (chẳng hạn như giờ hoặc phút), bạn có thể chèn số có độ dài tối thiểu là 2 với <code>pad = "0"</code>.</p>
 <div class="sourceCode" id="cb457"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Add leading zeros to two digits (e.g. for times minutes/hours)</span>
 <span class="fu">str_pad</span><span class="op">(</span><span class="st">"4"</span>, <span class="fl">2</span>, pad <span class="op">=</span> <span class="st">"0"</span><span class="op">)</span> </code></pre></div>
@@ -540,19 +527,19 @@
 <code class="sourceCode R"><span class="co"># example using a numeric column named "hours"</span>
 <span class="co"># hours &lt;- str_pad(hours, 2, pad = "0")</span></code></pre></div>
 </div>
-<div id="truncate" class="section level3 unnumbered">
-<h3>Truncate<a class="anchor" aria-label="anchor" href="#truncate"><i class="fas fa-link"></i></a>
+<div id="cắt-chuỗi-ký-tự" class="section level3 unnumbered">
+<h3>Cắt chuỗi ký tự<a class="anchor" aria-label="anchor" href="#c%E1%BA%AFt-chu%E1%BB%97i-k%C3%BD-t%E1%BB%B1"><i class="fas fa-link"></i></a>
 </h3>
-<p><code>str_trunc()</code> sets a maximum length for each string. If a string exceeds this length, it is truncated (shortened) and an ellipsis (…) is included to indicate that the string was previously longer. Note that the ellipsis <em>is</em> counted in the length. The ellipsis characters can be changed with the argument <code>ellipsis =</code>. The optional <code>side =</code> argument specifies which where the ellipsis will appear within the truncated string (“left”, “right”, or “center”).</p>
+<p>Hàm <code>str_trunc()</code> thiết lập độ dài tối đa cho mỗi chuỗi ký tự. Nếu một chuỗi vượt quá độ dài này, nó sẽ bị xén (rút ngắn) và kết thúc bằng một dấu ba chấm (…) ám chỉ rằng chuỗi đó chưa hiển thị hết các ký tự. Lưu ý rằng dấu ba chấm <em>được</em> tính toán phụ thuộc vào độ dài. Các ký tự dấu ba chấm có thể được thay đổi bằng đối số <code>ellipsis =</code>. Đối số tùy chọn <code>side =</code> làm rõ vị trí mà dấu ba chấm sẽ xuất hiện trong chuỗi bị cắt ngắn (bên “trái”, “phải” hoặc “giữa”).</p>
 <div class="sourceCode" id="cb460"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">original</span> <span class="op">&lt;-</span> <span class="st">"Symptom onset on 4/3/2020 with vomiting"</span>
 <span class="fu">str_trunc</span><span class="op">(</span><span class="va">original</span>, <span class="fl">10</span>, <span class="st">"center"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Symp...ing"</code></pre>
 </div>
-<div id="standardize-length" class="section level3 unnumbered">
-<h3>Standardize length<a class="anchor" aria-label="anchor" href="#standardize-length"><i class="fas fa-link"></i></a>
+<div id="chuẩn-hóa-độ-dài" class="section level3 unnumbered">
+<h3>Chuẩn hóa độ dài<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-h%C3%B3a-%C4%91%E1%BB%99-d%C3%A0i"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_trunc()</code> to set a maximum length, and then use <code>str_pad()</code> to expand the very short strings to that truncated length. In the example below, 6 is set as the maximum length (one value is truncated), and then one very short value is padded to achieve length of 6.</p>
+<p>Sử dụng hàm <code>str_trunc()</code> để thiết lập độ dài tối đa, sau đó sử dụng hàm <code>str_pad()</code> để tăng thêm độ dài cho các chuỗi rất ngắn sao cho bằng độ dài tiêu chuẩn. Trong ví dụ dưới đây, độ dài tối đa là 6 (một ký tự bị cắt giảm), và sau đó một giá trị rất ngắn được đệm thêm để đạt được độ dài chuỗi là 6.</p>
 <div class="sourceCode" id="cb462"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># ICD codes of differing length</span>
 <span class="va">ICD_codes</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"R10.13"</span>,
@@ -569,10 +556,10 @@
 <span class="va">ICD_codes_3</span></code></pre></div>
 <pre><code>## [1] "R10.13" "R10..." "R17   "</code></pre>
 </div>
-<div id="remove-leadingtrailing-whitespace" class="section level3 unnumbered">
-<h3>Remove leading/trailing whitespace<a class="anchor" aria-label="anchor" href="#remove-leadingtrailing-whitespace"><i class="fas fa-link"></i></a>
+<div id="xóa-khoảng-trắng-đầucuối" class="section level3 unnumbered">
+<h3>Xóa khoảng trắng đầu/cuối<a class="anchor" aria-label="anchor" href="#x%C3%B3a-kho%E1%BA%A3ng-tr%E1%BA%AFng-%C4%91%E1%BA%A7ucu%E1%BB%91i"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_trim()</code> to remove spaces, newlines (<code>\n</code>) or tabs (<code>\t</code>) on sides of a string input. Add <code>"right"</code> <code>"left"</code>, or <code>"both"</code> to the command to specify which side to trim (e.g. <code>str_trim(x, "right")</code>.</p>
+<p>Sử dụng hàm <code>str_trim()</code> để xóa khoảng trắng, dòng mới (<code>\n</code>) hoặc tabs (<code>\t</code>) ở các phía của chuỗi đầu vào. Thêm <code>"right"</code> <code>"left"</code>, hoặc <code>"both"</code> vào lệnh để xác định phía nào cần cắt (ví dụ: <code>str_trim(x, "right")</code>.</p>
 <div class="sourceCode" id="cb466"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># ID numbers with excess spaces on right</span>
 <span class="va">IDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"provA_1852  "</span>, <span class="co"># two excess spaces</span>
@@ -583,26 +570,26 @@
 <span class="fu">str_trim</span><span class="op">(</span><span class="va">IDs</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "provA_1852" "provA_2345" "provA_9460"</code></pre>
 </div>
-<div id="remove-repeated-whitespace-within" class="section level3 unnumbered">
-<h3>Remove repeated whitespace within<a class="anchor" aria-label="anchor" href="#remove-repeated-whitespace-within"><i class="fas fa-link"></i></a>
+<div id="xóa-khoảng-trắng-lặp-lại-phía-trong" class="section level3 unnumbered">
+<h3>Xóa khoảng trắng lặp lại phía trong<a class="anchor" aria-label="anchor" href="#x%C3%B3a-kho%E1%BA%A3ng-tr%E1%BA%AFng-l%E1%BA%B7p-l%E1%BA%A1i-ph%C3%ADa-trong"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_squish()</code> to remove repeated spaces that appear <em>inside</em> a string. For example, to convert double spaces into single spaces. It also removes spaces, newlines, or tabs on the outside of the string like <code>str_trim()</code>.</p>
+<p>Sử dụng hàm <code>str_squish()</code> để loại bỏ các khoảng trắng lặp lại <em>bên trong</em> một chuỗi. Ví dụ, để chuyển đổi khoảng trắng lặp thành khoảng trắng đơn. Điều này cũng sẽ loại bỏ dấu cách, dòng mới hoặc tab ở phía bên ngoài chuỗi như giống như hàm <code>str_trim()</code>.</p>
 <div class="sourceCode" id="cb468"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># original contains excess spaces within string</span>
 <span class="fu">str_squish</span><span class="op">(</span><span class="st">"  Pt requires   IV saline\n"</span><span class="op">)</span> </code></pre></div>
 <pre><code>## [1] "Pt requires IV saline"</code></pre>
-<p>Enter <code>?str_trim</code>, <code>?str_pad</code> in your R console to see further details.</p>
+<p>Gõ <code>?str_trim</code>, <code>?str_pad</code> vào cửa sổ R console để biết thêm chi tiết.</p>
 </div>
-<div id="wrap-into-paragraphs" class="section level3 unnumbered">
-<h3>Wrap into paragraphs<a class="anchor" aria-label="anchor" href="#wrap-into-paragraphs"><i class="fas fa-link"></i></a>
+<div id="gói-lại-thành-đoạn-văn-bản" class="section level3 unnumbered">
+<h3>Gói lại thành đoạn văn bản<a class="anchor" aria-label="anchor" href="#g%C3%B3i-l%E1%BA%A1i-th%C3%A0nh-%C4%91o%E1%BA%A1n-v%C4%83n-b%E1%BA%A3n"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_wrap()</code> to wrap a long unstructured text into a structured paragraph with fixed line length. Provide the ideal character length for each line, and it applies an algorithm to insert newlines (<code>\n</code>) within the paragraph, as seen in the example below.</p>
+<p>Sử dụng hàm <code>str_wrap()</code> để gói một đoạn văn bản dài không có cấu trúc thành một đoạn văn có cấu trúc với độ dài các dòng là cố định. Cần xác định độ dài lý tưởng cho mỗi dòng và áp dụng một thuật toán để chèn thêm dòng mới (<code>\n</code>) vào trong đoạn văn bản, như ví dụ bên dưới.</p>
 <div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pt_course</span> <span class="op">&lt;-</span> <span class="st">"Symptom onset 1/4/2020 vomiting chills fever. Pt saw traditional healer in home village on 2/4/2020. On 5/4/2020 pt symptoms worsened and was admitted to Lumta clinic. Sample was taken and pt was transported to regional hospital on 6/4/2020. Pt died at regional hospital on 7/4/2020."</span>
 
 <span class="fu">str_wrap</span><span class="op">(</span><span class="va">pt_course</span>, <span class="fl">40</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Symptom onset 1/4/2020 vomiting chills\nfever. Pt saw traditional healer in\nhome village on 2/4/2020. On 5/4/2020\npt symptoms worsened and was admitted\nto Lumta clinic. Sample was taken and pt\nwas transported to regional hospital on\n6/4/2020. Pt died at regional hospital\non 7/4/2020."</code></pre>
-<p>The <strong>base</strong> function <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> can be wrapped around the above command in order to print the output, displaying the new lines added.</p>
+<p>Hàm <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> trong <strong>base</strong> R có thể xử lý toàn bộ câu lệnh trên để trả kết quả, hiển thị các dòng mới được thêm vào.</p>
 <div class="sourceCode" id="cb472"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu">str_wrap</span><span class="op">(</span><span class="va">pt_course</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Symptom onset 1/4/2020 vomiting chills
@@ -616,32 +603,32 @@
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="handle-by-position" class="section level2" number="10.4">
+<div id="xử-lý-theo-vị-trí" class="section level2" number="10.4">
 <h2>
-<span class="header-section-number">10.4</span> Handle by position<a class="anchor" aria-label="anchor" href="#handle-by-position"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4</span> Xử lý theo vị trí<a class="anchor" aria-label="anchor" href="#x%E1%BB%AD-l%C3%BD-theo-v%E1%BB%8B-tr%C3%AD"><i class="fas fa-link"></i></a>
 </h2>
-<div id="extract-by-character-position" class="section level3 unnumbered">
-<h3>Extract by character position<a class="anchor" aria-label="anchor" href="#extract-by-character-position"><i class="fas fa-link"></i></a>
+<div id="tách-chuỗi-theo-vị-trí-ký-tự" class="section level3 unnumbered">
+<h3>Tách chuỗi theo vị trí ký tự<a class="anchor" aria-label="anchor" href="#t%C3%A1ch-chu%E1%BB%97i-theo-v%E1%BB%8B-tr%C3%AD-k%C3%BD-t%E1%BB%B1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_sub()</code> to return only a part of a string. The function takes three main arguments:</p>
+<p>Sử dụng hàm <code>str_sub()</code> để trả về một phần của chuỗi. Hàm chứa 3 đối số chính là:</p>
 <ol style="list-style-type: decimal">
-<li>the character vector(s)<br>
+<li>các vector ký tự<br>
 </li>
-<li>start position<br>
+<li>vị trí bắt đầu<br>
 </li>
-<li>end position</li>
+<li>vị trí kết thúc</li>
 </ol>
-<p>A few notes on position numbers:</p>
+<p>Một vài lưu ý về số thứ tự vị trí:</p>
 <ul>
-<li>If a position number is positive, the position is counted starting from the left end of the string.<br>
+<li>Nếu số thứ tự vị trí là số dương, vị trí được xử lý bắt đầu từ vị trí cuối cùng bên trái của chuỗi.<br>
 </li>
-<li>If a position number is negative, it is counted starting from the right end of the string.<br>
+<li>Nếu số thứ tự vị trí là số âm, vị trí được xử lý bắt đầu từ vị trí cuối cùng bên phải của chuỗi.<br>
 </li>
-<li>Position numbers are inclusive.<br>
+<li>Số thứ tự vị trí được bao gồm.<br>
 </li>
-<li>Positions extending beyond the string will be truncated (removed).</li>
+<li>Các vị trí vượt quá chuỗi sẽ bị cắt bớt (loại bỏ).</li>
 </ul>
-<p>Below are some examples applied to the string “pneumonia”:</p>
+<p>Dưới đây là một số ví dụ được áp dụng cho chuỗi ký tự “pneumonia”:</p>
 <div class="sourceCode" id="cb474"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># start and end third from left (3rd letter from left)</span>
 <span class="fu">str_sub</span><span class="op">(</span><span class="st">"pneumonia"</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
@@ -663,11 +650,11 @@
 <span class="fu">str_sub</span><span class="op">(</span><span class="st">"pneumonia"</span>, <span class="fl">4</span>, <span class="fl">15</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "umonia"</code></pre>
 </div>
-<div id="extract-by-word-position" class="section level3 unnumbered">
-<h3>Extract by word position<a class="anchor" aria-label="anchor" href="#extract-by-word-position"><i class="fas fa-link"></i></a>
+<div id="tách-theo-vị-trí-từ" class="section level3 unnumbered">
+<h3>Tách theo vị trí từ<a class="anchor" aria-label="anchor" href="#t%C3%A1ch-theo-v%E1%BB%8B-tr%C3%AD-t%E1%BB%AB"><i class="fas fa-link"></i></a>
 </h3>
-<p>To extract the nth ‘word’, use <code>word()</code>, also from <strong>stringr</strong>. Provide the string(s), then the first word position to extract, and the last word position to extract.</p>
-<p>By default, the separator between ‘words’ is assumed to be a space, unless otherwise indicated with <code>sep =</code> (e.g. <code>sep = "_"</code> when words are separated by underscores.</p>
+<p>Để tách ‘từ’ thứ n, hãy sử dụng hàm <code>word()</code> cũng thuộc package <strong>stringr</strong>. Đầu tiên, xác định (các) chuỗi ký tự, sau đó là vị trí từ đầu tiên cần trích xuất và vị trí từ cuối cùng để trích xuất.</p>
+<p>Mặc định, dấu phân cách giữa các ‘từ’ được giả định là khoảng trắng, trừ khi được chỉ định các khác bằng đối số <code>sep =</code> (ví dụ: <code>sep = "_"</code> khi các từ được phân tách bằng dấu gạch dưới)</p>
 <div class="sourceCode" id="cb484"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># strings to evaluate</span>
 <span class="va">chief_complaints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"I just got out of the hospital 2 days ago, but still can barely breathe."</span>,
@@ -678,10 +665,10 @@
 <span class="fu">word</span><span class="op">(</span><span class="va">chief_complaints</span>, start <span class="op">=</span> <span class="fl">1</span>, end <span class="op">=</span> <span class="fl">3</span>, sep <span class="op">=</span> <span class="st">" "</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "I just got"       "My stomach hurts" "Severe ear pain"</code></pre>
 </div>
-<div id="replace-by-character-position" class="section level3 unnumbered">
-<h3>Replace by character position<a class="anchor" aria-label="anchor" href="#replace-by-character-position"><i class="fas fa-link"></i></a>
+<div id="thay-thế-theo-vị-trí-ký-tự" class="section level3 unnumbered">
+<h3>Thay thế theo vị trí ký tự<a class="anchor" aria-label="anchor" href="#thay-th%E1%BA%BF-theo-v%E1%BB%8B-tr%C3%AD-k%C3%BD-t%E1%BB%B1"><i class="fas fa-link"></i></a>
 </h3>
-<p><code>str_sub()</code> paired with the assignment operator (<code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code>) can be used to modify a part of a string:</p>
+<p>Hàm <code>str_sub()</code> được ghép nối với toán tử gán (<code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code>) có thể được sử dụng để sửa đổi một phần của chuỗi ký tự:</p>
 <div class="sourceCode" id="cb486"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">word</span> <span class="op">&lt;-</span> <span class="st">"pneumonia"</span>
 
@@ -691,7 +678,7 @@
 <span class="co"># print</span>
 <span class="va">word</span></code></pre></div>
 <pre><code>## [1] "pnXXmonia"</code></pre>
-<p>An example applied to multiple strings (e.g. a column). Note the expansion in length of “HIV”.</p>
+<p>Một ví dụ áp dụng cho nhiều chuỗi (ví dụ: một cột). Lưu ý sự mở rộng chiều dài của từ “HIV”.</p>
 <div class="sourceCode" id="cb488"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">words</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pneumonia"</span>, <span class="st">"tubercolosis"</span>, <span class="st">"HIV"</span><span class="op">)</span>
 
@@ -701,38 +688,38 @@
 <span class="va">words</span></code></pre></div>
 <pre><code>## [1] "pnXXmonia"    "tuXXrcolosis" "HIXX"</code></pre>
 </div>
-<div id="evaluate-length" class="section level3 unnumbered">
-<h3>Evaluate length<a class="anchor" aria-label="anchor" href="#evaluate-length"><i class="fas fa-link"></i></a>
+<div id="đánh-giá-độ-dài-chuỗi" class="section level3 unnumbered">
+<h3>Đánh giá độ dài chuỗi<a class="anchor" aria-label="anchor" href="#%C4%91%C3%A1nh-gi%C3%A1-%C4%91%E1%BB%99-d%C3%A0i-chu%E1%BB%97i"><i class="fas fa-link"></i></a>
 </h3>
 <div class="sourceCode" id="cb490"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_length</span><span class="op">(</span><span class="st">"abc"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<p>Alternatively, use <code><a href="https://rdrr.io/r/base/nchar.html">nchar()</a></code> from <strong>base</strong> R</p>
+<p>Ngoài ra, có thể sử dụng hàm <code><a href="https://rdrr.io/r/base/nchar.html">nchar()</a></code> từ <strong>base</strong> R</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="patterns" class="section level2" number="10.5">
+<div id="quy-luật-chuỗi" class="section level2" number="10.5">
 <h2>
-<span class="header-section-number">10.5</span> Patterns<a class="anchor" aria-label="anchor" href="#patterns"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.5</span> Quy luật chuỗi<a class="anchor" aria-label="anchor" href="#quy-lu%E1%BA%ADt-chu%E1%BB%97i"><i class="fas fa-link"></i></a>
 </h2>
-<p>Many <strong>stringr</strong> functions work to detect, locate, extract, match, replace, and split based on a specified <em>pattern</em>.</p>
+<p>Nhiều hàm <strong>stringr</strong> được sử dụng để nhận diện, định vị, trích xuất, khớp, thay thế và phân tách dựa trên một <em>pattern - quy luật</em> được chỉ định. .</p>
 <!-- ======================================================= -->
-<div id="detect-a-pattern" class="section level3 unnumbered">
-<h3>Detect a pattern<a class="anchor" aria-label="anchor" href="#detect-a-pattern"><i class="fas fa-link"></i></a>
+<div id="nhận-diện-quy-luật" class="section level3 unnumbered">
+<h3>Nhận diện quy luật<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADn-di%E1%BB%87n-quy-lu%E1%BA%ADt"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_detect()</code> as below to detect presence/absence of a pattern within a string. First provide the string or vector to search in (<code>string =</code>), and then the pattern to look for (<code>pattern =</code>). Note that by default the search <em>is case sensitive</em>!</p>
+<p>Sử dụng hàm <code>str_detect()</code> như bên dưới để phát hiện sự hiện diện/sự vắng mặt của một quy luật trong chuỗi. Đầu tiên, hãy cung cấp cho chuỗi hoặc vectơ cần tìm tới hàm (<code>string =</code>), sau đó là quy luật tìm kiếm (<code>pattern =</code>). Lưu ý rằng theo mặc định thì tìm kiếm phân biệt <em>chữ hoa chữ thường</em>!</p>
 <div class="sourceCode" id="cb492"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_detect</span><span class="op">(</span>string <span class="op">=</span> <span class="st">"primary school teacher"</span>, pattern <span class="op">=</span> <span class="st">"teach"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<p>The argument <code>negate =</code> can be included and set to <code>TRUE</code> if you want to know if the pattern is NOT present.</p>
+<p>Đối số <code>negate =</code> có thể được bao gồm và đặt thành <code>TRUE</code> nếu bạn muốn tìm một quy luật KHÔNG xuất hiện.</p>
 <div class="sourceCode" id="cb494"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_detect</span><span class="op">(</span>string <span class="op">=</span> <span class="st">"primary school teacher"</span>, pattern <span class="op">=</span> <span class="st">"teach"</span>, negate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<p>To ignore case/capitalization, wrap the pattern within <code><a href="https://rdrr.io/r/base/regex.html">regex()</a></code>, and <em>within</em> <code><a href="https://rdrr.io/r/base/regex.html">regex()</a></code> add the argument <code>ignore_case = TRUE</code> (or <code>T</code> as shorthand).</p>
+<p>Để bỏ qua chữ hoa / chữ thường, hãy đặt pattern trong hàm <code><a href="https://rdrr.io/r/base/regex.html">regex()</a></code>, và <em>bên trong</em> hàm <code><a href="https://rdrr.io/r/base/regex.html">regex()</a></code> hãy thêm đối số <code>ignore_case = TRUE</code> (hoặc viết tắt là <code>T</code>).</p>
 <div class="sourceCode" id="cb496"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_detect</span><span class="op">(</span>string <span class="op">=</span> <span class="st">"Teacher"</span>, pattern <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/regex.html">regex</a></span><span class="op">(</span><span class="st">"teach"</span>, ignore_case <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<p>When <code>str_detect()</code> is applied to a character vector or a data frame column, it will return TRUE or FALSE for each of the values.</p>
+<p>Khi hàm <code>str_detect()</code> được áp dụng cho một vectơ ký tự hoặc một cột trong bộ dữ liệu, nó sẽ trả về giá trị TRUE hoặc FALSE cho mỗi giá trị.</p>
 <div class="sourceCode" id="cb498"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># a vector/column of occupations </span>
 <span class="va">occupations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"field laborer"</span>,
@@ -749,15 +736,15 @@
 <span class="co"># Detect presence of pattern "teach" in each string - output is vector of TRUE/FALSE</span>
 <span class="fu">str_detect</span><span class="op">(</span><span class="va">occupations</span>, <span class="st">"teach"</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
-<p>If you need to count the <code>TRUE</code>s, simply <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> the output. This counts the number <code>TRUE</code>.</p>
+<p>Nếu bạn cần đếm giá trị <code>TRUE</code>, chỉ cần đơn giản tính tổng bằng hàm <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> kết quả đầu ra. Nó sẽ đếm số lượng giá trị <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb500"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">occupations</span>, <span class="st">"teach"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<p>To search inclusive of multiple terms, include them separated by OR bars (<code><a href="https://rdrr.io/r/base/Logic.html">|</a></code>) within the <code>pattern =</code> argument, as shown below:</p>
+<p>Để tìm kiếm bao gồm nhiều cụm từ, hãy nhóm chúng bằng ký tự OR (<code><a href="https://rdrr.io/r/base/Logic.html">|</a></code>) bên trong đối số <code>pattern =</code> như được trình bày dưới đây:</p>
 <div class="sourceCode" id="cb502"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span>string <span class="op">=</span> <span class="va">occupations</span>, pattern <span class="op">=</span> <span class="st">"teach|professor|tutor"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<p>If you need to build a long list of search terms, you can combine them using <code>str_c()</code> and <code>sep = |</code>, then define this is a character object, and then reference the vector later more succinctly. The example below includes possible occupation search terms for front-line medical providers.</p>
+<p>Nếu bạn cần xây dựng một danh sách dài gồm các cụm từ cần tìm kiếm, bạn có thể kết hợp chúng bằng cách sử dụng hàm <code>str_c()</code> và <code>sep = |</code>, sau đó chỉ định nó là một đối tượng dạng ký tự, và sau đó tham chiếu vector một cách ngắn gọn hơn. Ví dụ dưới đây bao gồm các cụm từ tìm kiếm bao gồm các nghề nghiệp có thể sử dụng cho các nhà cung cấp dịch vụ y tế tuyến đầu.</p>
 <div class="sourceCode" id="cb504"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># search terms</span>
 <span class="va">occupation_med_frontline</span> <span class="op">&lt;-</span> <span class="fu">str_c</span><span class="op">(</span><span class="st">"medical"</span>, <span class="st">"medicine"</span>, <span class="st">"hcw"</span>, <span class="st">"healthcare"</span>, <span class="st">"home care"</span>, <span class="st">"home health"</span>,
@@ -772,18 +759,18 @@
 
 <span class="va">occupation_med_frontline</span></code></pre></div>
 <pre><code>## [1] "medical|medicine|hcw|healthcare|home care|home health|surgeon|doctor|doc|physician|surgery|peds|pediatrician|intensivist|cardiologist|coroner|nurse|nursing|rn|lpn|cna|pa|physician assistant|mental health|emergency department technician|resp therapist|respiratory|phlebotomist|pharmacy|pharmacist|hospital|snf|rehabilitation|rehab|activity|elderly|subacute|sub acute|clinic|post acute|therapist|extended care|dental|dential|dentist"</code></pre>
-<p>This command returns the number of occupations which contain any one of the search terms for front-line medical providers (<code>occupation_med_frontline</code>):</p>
+<p>Lệnh này trả về số lượng nghề nghiệp mà chứa bất kỳ một trong các cụm từ tìm kiếm dành cho nhà cung cấp dịch vụ y tế tuyến đầu (<code>occupation_med_frontline</code>):</p>
 <div class="sourceCode" id="cb506"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span>string <span class="op">=</span> <span class="va">occupations</span>, pattern <span class="op">=</span> <span class="va">occupation_med_frontline</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<p><strong>Base R string search functions</strong></p>
-<p>The <strong>base</strong> function <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code> works similarly to <code>str_detect()</code>, in that it searches for matches to a pattern and returns a logical vector. The basic syntax is <code><a href="https://rdrr.io/r/base/grep.html">grepl(pattern, strings_to_search, ignore.case = FALSE, ...)</a></code>. One advantage is that the <code>ignore.case</code> argument is easier to write (there is no need to involve the <code><a href="https://rdrr.io/r/base/regex.html">regex()</a></code> function).</p>
-<p>Likewise, the <strong>base</strong> functions <code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code> and <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> act similarly to <code>str_replace()</code>. Their basic syntax is: <code><a href="https://rdrr.io/r/base/grep.html">gsub(pattern, replacement, strings_to_search, ignore.case = FALSE)</a></code>. <code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code> will replace the first instance of the pattern, whereas <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> will replace all instances of the pattern.</p>
-<div id="convert-commas-to-periods" class="section level4 unnumbered">
-<h4>Convert commas to periods<a class="anchor" aria-label="anchor" href="#convert-commas-to-periods"><i class="fas fa-link"></i></a>
+<p><strong>Các hàm tìm kiếm chuỗi trong Base R</strong></p>
+<p>Hàm <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code> trong <strong>base</strong> R hoạt động tương tự như hàm <code>str_detect()</code>, trong đó nó tìm kiếm các kết quả phù hợp với một quy luật và trả về một vectơ logic. Cú pháp cơ bản đó là <code><a href="https://rdrr.io/r/base/grep.html">grepl(pattern, strings_to_search, ignore.case = FALSE, ...)</a></code>. Một ưu điểm đó là đối số <code>ignore.case</code> dễ viết hơn (không cần có sự tham gia của hàm <code><a href="https://rdrr.io/r/base/regex.html">regex()</a></code>).</p>
+<p>Tương tự như vậy, các hàm <code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code> và <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> của <strong>base</strong> R hoạt động tương tự như hàm <code>str_replace()</code>. Cú pháp cơ bản đó là: <code><a href="https://rdrr.io/r/base/grep.html">gsub(pattern, replacement, strings_to_search, ignore.case = FALSE)</a></code>. <code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code> sẽ thay thế trường hợp đầu tiên của pattern, trong khi <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> sẽ thay thế tất cả các trường hợp của pattern.</p>
+<div id="chuyển-đổi-dấu-phẩy-thành-dấu-chấm" class="section level4 unnumbered">
+<h4>Chuyển đổi dấu phẩy thành dấu chấm<a class="anchor" aria-label="anchor" href="#chuy%E1%BB%83n-%C4%91%E1%BB%95i-d%E1%BA%A5u-ph%E1%BA%A9y-th%C3%A0nh-d%E1%BA%A5u-ch%E1%BA%A5m"><i class="fas fa-link"></i></a>
 </h4>
-<p>Here is an example of using <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> to convert commas to periods in a vector of numbers. This could be useful if your data come from parts of the world other than the United States or Great Britain.</p>
-<p>The inner <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> which acts first on <code>lengths</code> is converting any periods to no space "“. The period character”." has to be “escaped” with two slashes to actually signify a period, because “.” in regex means “any character”. Then, the result (with only commas) is passed to the outer <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> in which commas are replaced by periods.</p>
+<p>Sau đây là một ví dụ về việc sử dụng hàm <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> để chuyển đổi dấu phẩy thành dấu chấm trong một vectơ dạng số. Điều này có thể hữu ích nếu dữ liệu của bạn bắt nguồn từ nhiều nơi trên thế giới ngoài Hoa Kỳ hoặc Vương quốc Anh.</p>
+<p>Hàm <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> bên trong đầu tiên hoạt động trên đối tượng <code>lengths</code> để chuyển đổi bất kỳ dấu chấm nào thành không có khoảng trắng "“. Ký tự dấu chấm”." phải được “đi liền” với hai dấu gạch chéo để biểu thị một dấu chấm, bởi vì “.” trong biểu thức chính quy có nghĩa là “bất kỳ ký tự nào”. Sau đó, kết quả (chỉ có dấu phẩy) được chuyển tiếp đến hàm <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> bên ngoài trong đó dấu phẩy được thay thế bằng dấu chấm.</p>
 <div class="sourceCode" id="cb508"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lengths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"2.454,56"</span>, <span class="st">"1,2"</span>, <span class="st">"6.096,5"</span><span class="op">)</span>
 
@@ -794,10 +781,10 @@
            <span class="op">)</span>                                  <span class="co"># convert outcome to numeric</span></code></pre></div>
 </div>
 </div>
-<div id="replace-all" class="section level3 unnumbered">
-<h3>Replace all<a class="anchor" aria-label="anchor" href="#replace-all"><i class="fas fa-link"></i></a>
+<div id="thay-thế-toàn-bộ" class="section level3 unnumbered">
+<h3>Thay thế toàn bộ<a class="anchor" aria-label="anchor" href="#thay-th%E1%BA%BF-to%C3%A0n-b%E1%BB%99"><i class="fas fa-link"></i></a>
 </h3>
-<p>Use <code>str_replace_all()</code> as a “find and replace” tool. First, provide the strings to be evaluated to <code>string =</code>, then the pattern to be replaced to <code>pattern =</code>, and then the replacement value to <code>replacement =</code>. The example below replaces all instances of “dead” with “deceased”. Note, this IS case sensitive.</p>
+<p>Sử dụng hàm <code>str_replace_all()</code> như là một công cụ “find and replace (tìm kiếm và thay thế)”. Đầu tiên, cung cấp các chuối ký tự sẽ được đánh giá tới đối số <code>string =</code>, sau đó là quy luật sẽ được thay thế vào đối số <code>pattern =</code>, và sau đó là giá trị thay thế vào <code>replacement =</code>. Ví dụ dưới đây thay thế tất cả các trường hợp “dead” bằng “deceased”. Lưu ý, phân biệt chữ hoa chữ thường.</p>
 <div class="sourceCode" id="cb509"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">outcome</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Karl: dead"</span>,
             <span class="st">"Samantha: dead"</span>,
@@ -805,19 +792,19 @@
 
 <span class="fu">str_replace_all</span><span class="op">(</span>string <span class="op">=</span> <span class="va">outcome</span>, pattern <span class="op">=</span> <span class="st">"dead"</span>, replacement <span class="op">=</span> <span class="st">"deceased"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Karl: deceased"      "Samantha: deceased"  "Marco: not deceased"</code></pre>
-<p>Notes:</p>
+<p>Lưu ý:</p>
 <ul>
-<li>To replace a pattern with <code>NA</code>, use <code>str_replace_na()</code>.<br>
+<li>Để thay thế một pattern cho <code>NA</code>, sử dụng hàm <code>str_replace_na()</code>.<br>
 </li>
-<li>The function <code>str_replace()</code> replaces only the first instance of the pattern within each evaluated string.</li>
+<li>Hàm <code>str_replace()</code> thay thế duy nhất trường hợp đầu tiên của pattern trong mỗi chuỗi ký tự.</li>
 </ul>
 <!-- ======================================================= -->
 </div>
-<div id="detect-within-logic" class="section level3 unnumbered">
-<h3>Detect within logic<a class="anchor" aria-label="anchor" href="#detect-within-logic"><i class="fas fa-link"></i></a>
+<div id="nhận-diện-logic" class="section level3 unnumbered">
+<h3>Nhận diện logic<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADn-di%E1%BB%87n-logic"><i class="fas fa-link"></i></a>
 </h3>
-<p><strong>Within <code>case_when()</code></strong></p>
-<p><code>str_detect()</code> is often used within <code>case_when()</code> (from <strong>dplyr</strong>). Let’s say <code>occupations</code> is a column in the linelist. The <code>mutate()</code> below creates a new column called <code>is_educator</code> by using conditional logic via <code>case_when()</code>. See the page on data cleaning to learn more about <code>case_when()</code>.</p>
+<p><strong>Bên trong hàm <code>case_when()</code></strong></p>
+<p><code>str_detect()</code> thường được sử dụng trong hàm <code>case_when()</code> (từ <strong>dplyr</strong>). Hãy coi <code>occupations</code> là một cột trong bộ linelist. Hàm <code>mutate()</code> dưới đây tạo một cột mới gọi là <code>is_educator</code> bằng cách sử dụng logic có điều kiện bởi <code>case_when()</code>. Xem thêm ở chương về làm sạch dữ liệu để hiểu hơn về hàm <code>case_when()</code>.</p>
 <div class="sourceCode" id="cb511"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>is_educator <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span>
@@ -827,7 +814,7 @@
                      ignore_case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>              <span class="op">~</span> <span class="st">"Educator"</span>,
     <span class="co"># all others</span>
     <span class="cn">TRUE</span>                                               <span class="op">~</span> <span class="st">"Not an educator"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>As a reminder, it may be important to add exclusion criteria to the conditional logic (<code>negate = F</code>):</p>
+<p>Xin nhắc lại, điều quan trọng là phải thêm tiêu chí loại trừ vào điều kiện logic (<code>negate = F</code>):</p>
 <div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="characters-strings.html#cb512-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
 <span id="cb512-2"><a href="characters-strings.html#cb512-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># value in new column is_educator is based on conditional logic</span></span>
 <span id="cb512-3"><a href="characters-strings.html#cb512-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_educator =</span> <span class="fu">case_when</span>(</span>
@@ -848,15 +835,15 @@
 <span id="cb512-18"><a href="characters-strings.html#cb512-18" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span>                                            <span class="sc">~</span> <span class="st">"Not an educator"</span>))</span></code></pre></div>
 <!-- ======================================================= -->
 </div>
-<div id="locate-pattern-position" class="section level3 unnumbered">
-<h3>Locate pattern position<a class="anchor" aria-label="anchor" href="#locate-pattern-position"><i class="fas fa-link"></i></a>
+<div id="định-vị-vị-trí-pattern" class="section level3 unnumbered">
+<h3>Định vị vị trí pattern<a class="anchor" aria-label="anchor" href="#%C4%91%E1%BB%8Bnh-v%E1%BB%8B-v%E1%BB%8B-tr%C3%AD-pattern"><i class="fas fa-link"></i></a>
 </h3>
-<p>To locate the <em>first</em> position of a pattern, use <code>str_locate()</code>. It outputs a start and end position.</p>
+<p>Để xác định vị trí <em>đầu tiên</em> của một pattern, hãy sử dụng hàm <code>str_locate()</code>. Nó xuất ra vị trí bắt đầu và kết thúc.</p>
 <div class="sourceCode" id="cb513"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_locate</span><span class="op">(</span><span class="st">"I wish"</span>, <span class="st">"sh"</span><span class="op">)</span></code></pre></div>
 <pre><code>##      start end
 ## [1,]     5   6</code></pre>
-<p>Like other <code>str</code> functions, there is an "_all" version (<code>str_locate_all()</code>) which will return the positions of <em>all</em> instances of the pattern within each string. This outputs as a <code>list</code>.</p>
+<p>Giống như các hàm <code>str</code> khác, có một phiên bản “_all” (<code>str_locate_all()</code>) sẽ trả về vị trí của <em>tất cả</em> các phiên bản của pattern trong mỗi chuỗi. Kết quả này xuất ra dưới dạng danh sách <code>list</code>.</p>
 <div class="sourceCode" id="cb515"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">phrases</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"I wish"</span>, <span class="st">"I hope"</span>, <span class="st">"he hopes"</span>, <span class="st">"He hopes"</span><span class="op">)</span>
 
@@ -886,11 +873,11 @@
 ## [1,]     4   4</code></pre>
 <!-- ======================================================= -->
 </div>
-<div id="extract-a-match" class="section level3 unnumbered">
-<h3>Extract a match<a class="anchor" aria-label="anchor" href="#extract-a-match"><i class="fas fa-link"></i></a>
+<div id="trích-xuất-kết-quả-ghép-cặp" class="section level3 unnumbered">
+<h3>Trích xuất kết quả ghép cặp<a class="anchor" aria-label="anchor" href="#tr%C3%ADch-xu%E1%BA%A5t-k%E1%BA%BFt-qu%E1%BA%A3-gh%C3%A9p-c%E1%BA%B7p"><i class="fas fa-link"></i></a>
 </h3>
-<p><code>str_extract_all()</code> returns the matching patterns themselves, which is most useful when you have offered several patterns via “OR” conditions. For example, looking in the string vector of occupations (see previous tab) for <em>either</em> “teach”, “prof”, or “tutor”.</p>
-<p><code>str_extract_all()</code> returns a <code>list</code> which contains <em>all matches</em> for each evaluated string. See below how occupation 3 has two pattern matches within it.</p>
+<p><code>str_extract_all()</code> trả về các patterns được matching, sẽ hữu dụng nhất khi bạn cung cấp một vài patterns thông qua điều kiện “OR”. Ví dụ: tìm trong vectơ chuỗi nghề nghiệp (xem tab trước) các từ “teach”, “prof” hoặc “tutor”.</p>
+<p><code>str_extract_all()</code> trả về một danh sách <code>list</code> chứa <em>tất cả các kết quả ghép cặp</em> cho mỗi chuỗi được đánh giá. Xem dưới đây ta thấy occupation 3 có hai pattern được tìm thấy.</p>
 <div class="sourceCode" id="cb519"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract_all</span><span class="op">(</span><span class="va">occupations</span>, <span class="st">"teach|prof|tutor"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
@@ -922,62 +909,64 @@
 ## 
 ## [[10]]
 ## character(0)</code></pre>
-<p><code>str_extract()</code> extracts <em>only the first match</em> in each evaluated string, producing a character vector with one element for each evaluated string. It returns <code>NA</code> where there was no match. The <code>NA</code>s can be removed by wrapping the returned vector with <code><a href="https://rdrr.io/r/stats/na.fail.html">na.exclude()</a></code>. Note how the second of occupation 3’s matches is not shown.</p>
+<p><code>str_extract()</code> chỉ trích xuất <em>kết quả ghép cặp đầu tiên</em> trong mỗi chuỗi được xem xét, tạo ra một vectơ ký tự với một phần tử cho mỗi chuỗi được xem xét. Nó trả về giá trị <code>NA</code> khi không có giá trị nào được tìm thấy. Các giá trị <code>NA</code> có thể được loại bỏ bằng cách đặt vectơ trả về trong hàm <code><a href="https://rdrr.io/r/stats/na.fail.html">na.exclude()</a></code>. Lưu ý đoạn khớp nối thứ hai của occupation 3 không được hiển thị.</p>
 <div class="sourceCode" id="cb521"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract</span><span class="op">(</span><span class="va">occupations</span>, <span class="st">"teach|prof|tutor"</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] NA      "prof"  "teach" "tutor" NA      NA      NA      NA      NA      NA</code></pre>
+<pre><code>##  [1] NA      "prof"  "teach" "tutor" NA      NA      NA      NA      NA     
+## [10] NA</code></pre>
 <!-- ======================================================= -->
 </div>
-<div id="subset-and-count" class="section level3 unnumbered">
-<h3>Subset and count<a class="anchor" aria-label="anchor" href="#subset-and-count"><i class="fas fa-link"></i></a>
+<div id="tập-hợp-con-và-số-lượng" class="section level3 unnumbered">
+<h3>Tập hợp con và số lượng<a class="anchor" aria-label="anchor" href="#t%E1%BA%ADp-h%E1%BB%A3p-con-v%C3%A0-s%E1%BB%91-l%C6%B0%E1%BB%A3ng"><i class="fas fa-link"></i></a>
 </h3>
-<p>Aligned functions include <code>str_subset()</code> and <code>str_count()</code>.</p>
-<p><code>str_subset()</code> returns the actual values which contained the pattern:</p>
+<p>Bao gồm hàm <code>str_subset()</code> và <code>str_count()</code>.</p>
+<p><code>str_subset()</code> trả về các giá trị thực có chứa pattern:</p>
 <div class="sourceCode" id="cb523"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_subset</span><span class="op">(</span><span class="va">occupations</span>, <span class="st">"teach|prof|tutor"</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "university professor"           "primary school teacher &amp; tutor" "tutor"</code></pre>
-<p><code>str_count()</code> returns a vector of numbers: the <strong>number of times</strong> a search term appears in each evaluated value.</p>
+<pre><code>## [1] "university professor"           "primary school teacher &amp; tutor"
+## [3] "tutor"</code></pre>
+<p><code>str_count()</code> trả về một vectơ số: <strong>số lần</strong> một cụm từ tìm kiếm xuất hiện trong mỗi giá trị được xem xét.</p>
 <div class="sourceCode" id="cb525"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_count</span><span class="op">(</span><span class="va">occupations</span>, <span class="fu"><a href="https://rdrr.io/r/base/regex.html">regex</a></span><span class="op">(</span><span class="st">"teach|prof|tutor"</span>, ignore_case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] 0 1 2 1 0 0 0 0 0 0</code></pre>
 <!-- ======================================================= -->
 </div>
-<div id="regex-groups" class="section level3 unnumbered">
-<h3>Regex groups<a class="anchor" aria-label="anchor" href="#regex-groups"><i class="fas fa-link"></i></a>
+<div id="nhóm-regex" class="section level3 unnumbered">
+<h3>Nhóm Regex<a class="anchor" aria-label="anchor" href="#nh%C3%B3m-regex"><i class="fas fa-link"></i></a>
 </h3>
-<p>UNDER CONSTRUCTION</p>
+<p>ĐANG ĐƯỢC XÂY DỰNG</p>
 <!-- ======================================================= -->
 </div>
 </div>
-<div id="special-characters" class="section level2" number="10.6">
+<div id="các-ký-tự-đặc-biệt" class="section level2" number="10.6">
 <h2>
-<span class="header-section-number">10.6</span> Special characters<a class="anchor" aria-label="anchor" href="#special-characters"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.6</span> Các ký tự đặc biệt<a class="anchor" aria-label="anchor" href="#c%C3%A1c-k%C3%BD-t%E1%BB%B1-%C4%91%E1%BA%B7c-bi%E1%BB%87t"><i class="fas fa-link"></i></a>
 </h2>
-<p><strong>Backslash <code>\</code> as escape</strong></p>
-<p>The backslash <code>\</code> is used to “escape” the meaning of the next character. This way, a backslash can be used to have a quote mark display <em>within</em> other quote marks (<code>\"</code>) - the middle quote mark will not “break” the surrounding quote marks.</p>
-<p>Note - thus, if you want to <em>display</em> a backslash, you must escape it’s meaning with <em>another</em> backslash. So you must write two backslashes <code>\\</code> to display one.</p>
-<p><strong>Special characters</strong></p>
+<p><strong>Dấu gạch chéo ngược <code>\</code> để bỏ qua</strong></p>
+<p>Dấu gạch chéo ngược <code>\</code> được sử dụng “để bỏ qua” nghĩa của ký tự tiếp theo. Bằng cách này, dấu gạch chéo ngược có thể được sử dụng để hiển thị dấu ngoặc kép <em>bên trong</em> các dấu ngoặc kép khác (<code>\"</code>) - dấu ngoặc kép ở giữa sẽ không “phá vỡ” các dấu ngoặc kép xung quanh.</p>
+<p>Lưu ý - do đó, nếu bạn muốn <em>hiển thị</em> một dấu gạch chéo ngược, bạn phải ngắt nghĩa của nó bằng một dấu gạch chéo ngược khác. Vì vậy, bạn phải viết hai dấu gạch chéo ngược <code>\\</code> để chỉ hiển thị một.</p>
+<p><strong>Các ký tự đặc biệt</strong></p>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
-<th>Special character</th>
-<th>Represents</th>
+<th>Ký tự đặc biệt</th>
+<th>Ý nghĩa</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><code>"\\"</code></td>
-<td>backslash</td>
+<td>Dấu gạch chéo ngược</td>
 </tr>
 <tr class="even">
 <td><code>"\n"</code></td>
-<td>a new line (newline)</td>
+<td>một dòng mới</td>
 </tr>
 <tr class="odd">
 <td><code>"\""</code></td>
-<td>double-quote <em>within</em> double quotes</td>
+<td>dấu ngoặc kép <em>trong</em> dấu ngoặc kép</td>
 </tr>
 <tr class="even">
 <td><code>'\''</code></td>
-<td>single-quote <em>within</em> single quotes</td>
+<td>dấu ngoặc đơn <em>trong</em> dấu ngoặc đơn</td>
 </tr>
 <tr class="odd">
 <td>
@@ -986,179 +975,184 @@
 </tr>
 </tbody>
 </table></div>
-<p>Run <code><a href="https://rdrr.io/r/base/Quotes.html">?"'"</a></code> in the R Console to display a complete list of these special characters (it will appear in the RStudio Help pane).</p>
+<p>Gõ <code><a href="https://rdrr.io/r/base/Quotes.html">?"'"</a></code> trong cửa sổ R Console để hiển thị danh sách đầy đủ các ký tự đặc biệt (nó sẽ xuất hiện trong cửa sổ Help của RStudio).</p>
 <!-- ======================================================= -->
 </div>
-<div id="regular-expressions-regex" class="section level2" number="10.7">
+<div id="biểu-thức-chính-quy-regex" class="section level2" number="10.7">
 <h2>
-<span class="header-section-number">10.7</span> Regular expressions (regex)<a class="anchor" aria-label="anchor" href="#regular-expressions-regex"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.7</span> Biểu thức chính quy (regex)<a class="anchor" aria-label="anchor" href="#bi%E1%BB%83u-th%E1%BB%A9c-ch%C3%ADnh-quy-regex"><i class="fas fa-link"></i></a>
 </h2>
 <!-- ======================================================= -->
 </div>
-<div id="regex-and-special-characters" class="section level2" number="10.8">
+<div id="regex-và-các-ký-tự-đặc-biệt" class="section level2" number="10.8">
 <h2>
-<span class="header-section-number">10.8</span> Regex and special characters<a class="anchor" aria-label="anchor" href="#regex-and-special-characters"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.8</span> Regex và các ký tự đặc biệt<a class="anchor" aria-label="anchor" href="#regex-v%C3%A0-c%C3%A1c-k%C3%BD-t%E1%BB%B1-%C4%91%E1%BA%B7c-bi%E1%BB%87t"><i class="fas fa-link"></i></a>
 </h2>
-<p>Regular expressions, or “regex”, is a concise language for describing patterns in strings. If you are not familiar with it, a regular expression can look like an alien language. Here we try to de-mystify this language a little bit.</p>
-<p><em>Much of this section is adapted from <a href="https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432">this tutorial</a> and <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">this cheatsheet</a></em>. We selectively adapt here knowing that this handbook might be viewed by people without internet access to view the other tutorials.</p>
-<p>A regular expression is often applied to extract specific patterns from “unstructured” text - for example medical notes, chief complaints, patient history, or other free text columns in a data frame</p>
-<p>There are four basic tools one can use to create a basic regular expression:</p>
+<p>Biểu thức chính quy, hoặc “regex”, là một ngôn ngữ ngắn gọn để mô tả các patterns trong chuỗi ký tự. Nếu bạn không quen với nó, một biểu thức chính quy có thể trông giống như một ngôn ngữ ngoài hành tinh. Ở đây chúng tôi cố lột tả ngôn ngữ này dễ hiểu hơn</p>
+<p><em>Phần lớn nội dung mục này được tham khảo từ <a href="https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432">hướng dẫn này</a> và <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">cheatsheet này</a></em>. Chúng tôi tóm tắt một cách chọn lọc ở đây khi biết rằng cuốn ebook này có thể được xem bởi những người không có quyền truy cập internet để có thể xem các hướng dẫn khác.</p>
+<p>Một biểu thức chính quy thường được áp dụng để trích xuất các pattern cụ thể từ văn bản “không có cấu trúc” - ví dụ: ghi chú y tế, khiếu nại, tiền sử bệnh tật hoặc các cột văn bản khác trong bộ dữ liệu.</p>
+<p>Có bốn công cụ cơ bản mà người ta có thể sử dụng để tạo một biểu thức chính quy cơ bản:</p>
 <ol style="list-style-type: decimal">
-<li>Character sets<br>
+<li>Bộ ký tự<br>
 </li>
-<li>Meta characters<br>
+<li>Siêu ký tự<br>
 </li>
-<li>Quantifiers<br>
+<li>Bộ định lượng<br>
 </li>
-<li>Groups</li>
+<li>Nhóm</li>
 </ol>
-<p><strong>Character sets</strong></p>
-<p>Character sets, are a way of expressing listing options for a character match, within brackets. So any a match will be triggered if any of the characters within the brackets are found in the string. For example, to look for vowels one could use this character set: “[aeiou]”. Some other common character sets are:</p>
+<p><strong>Bộ ký tự</strong></p>
+<p>Bộ ký tự, là một cách thể hiện các tùy chọn liệt kê phù hợp với ký tự gốc, trong dấu ngoặc. Vì vậy, mọi kết quả khớp sẽ được đánh dấu nếu tìm thấy bất kỳ ký tự nào trong dấu ngoặc trong chuỗi. Ví dụ, để tìm các nguyên âm, người ta có thể sử dụng bộ ký tự này: “[aeiou]”. Một số bộ ký tự phổ biến khác là:</p>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
-<th>Character set</th>
-<th>Matches for</th>
+<th>Bộ ký tự</th>
+<th>Ghép cặp</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><code>"[A-Z]"</code></td>
-<td>any single capital letter</td>
+<td>bất kỳ ký tự viết hoa đơn lẻ nào</td>
 </tr>
 <tr class="even">
 <td><code>"[a-z]"</code></td>
-<td>any single lowercase letter</td>
+<td>bất kỳ ký tự viết thường đơn lẻ nào</td>
 </tr>
 <tr class="odd">
 <td><code>"[0-9]"</code></td>
-<td>any digit</td>
+<td>bất kỳ số nào</td>
 </tr>
 <tr class="even">
 <td><code>[:alnum:]</code></td>
-<td>any alphanumeric character</td>
+<td>bất kỳ ký tự chữ và số nào</td>
 </tr>
 <tr class="odd">
 <td><code>[:digit:]</code></td>
-<td>any numeric digit</td>
+<td>bất kỳ chữ số nào</td>
 </tr>
 <tr class="even">
 <td><code>[:alpha:]</code></td>
-<td>any letter (upper or lowercase)</td>
+<td>bất kỳ ký tự nào (viết hoa hoặc viết thường)</td>
 </tr>
 <tr class="odd">
 <td><code>[:upper:]</code></td>
-<td>any uppercase letter</td>
+<td>bất kỳ ký tự viết hoa nào</td>
 </tr>
 <tr class="even">
 <td><code>[:lower:]</code></td>
-<td>any lowercase letter</td>
+<td>bất kỳ ký tự viết thường nào</td>
 </tr>
 </tbody>
 </table></div>
-<p>Character sets can be combined within one bracket (no spaces!), such as <code>"[A-Za-z]"</code> (any upper or lowercase letter), or another example <code>"[t-z0-5]"</code> (lowercase t through z OR number 0 through 5).</p>
-<p><strong>Meta characters</strong></p>
-<p>Meta characters are shorthand for character sets. Some of the important ones are listed below:</p>
+<p>Các bộ ký tự có thể được kết hợp trong một dấu ngoặc vuông (không có khoảng trắng!), chẳng hạn như <code>"[A-Za-z]"</code> (bất kỳ chữ cái viết hoa hoặc viết thường nào), hoặc một ví dụ khác <code>"[t-z0-5]"</code> (từ t viết thường đến z HOẶC số 0 đến 5).</p>
+<p><strong>Siêu ký tự</strong></p>
+<p>Các siêu ký tự tố là cách viết tắt của các bộ ký tự. Một số điều quan trọng được liệt kê dưới đây:</p>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
-<th>Meta character</th>
-<th>Represents</th>
+<th>Siêu ký tự</th>
+<th>Ý nghĩa</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><code>"\\s"</code></td>
-<td>a single space</td>
+<td>khoảng trắng đơn</td>
 </tr>
 <tr class="even">
 <td><code>"\\w"</code></td>
-<td>any single alphanumeric character (A-Z, a-z, or 0-9)</td>
+<td>bất kỳ ký tự chữ hoặc số đơn lẻ nào (A-Z, a-z, or 0-9)</td>
 </tr>
 <tr class="odd">
 <td><code>"\\d"</code></td>
-<td>any single numeric digit (0-9)</td>
+<td>bất kỳ chữ số đơn lẻ nào (0-9)</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Quantifiers</strong></p>
-<p>Typically you do not want to search for a match on only one character. Quantifiers allow you to designate the length of letters/numbers to allow for the match.</p>
-<p>Quantifiers are numbers written within curly brackets <code>{ }</code> <em>after</em> the character they are quantifying, for example,</p>
+<p><strong>Bộ định lượng</strong></p>
+<p>Thông thường, bạn không muốn tìm kiếm kết quả phù hợp chỉ trên một ký tự. Bộ định lượng cho phép bạn chỉ định độ dài của các chữ cái/số để cho phép ghép nối.</p>
+<p>Bộ định lượng là các số được viết trong dấu ngoặc nhọn <code>{ }</code> <em>sau</em> ký tự mà chúng đang định lượng, ví dụ:</p>
 <ul>
 <li>
-<code>"A{2}"</code> will return instances of <strong>two</strong> capital A letters.<br>
+<code>"A{2}"</code> sẽ trả về trường hợp <strong>hai</strong> chữ cái A viết hoa.<br>
 </li>
 <li>
-<code>"A{2,4}"</code> will return instances of <strong>between two and four</strong> capital A letters <em>(do not put spaces!)</em>.<br>
+<code>"A{2,4}"</code> sẽ trả về các trường hợp <strong>từ hai đến bốn</strong> chữ cái A viết hoa <em>(không đặt dấu cách!)</em>.<br>
 </li>
 <li>
-<code>"A{2,}"</code> will return instances of <strong>two or more</strong> capital A letters.<br>
+<code>"A{2,}"</code> sẽ trả về các trường hợp <strong>từ hai hoặc nhiều hơn</strong> chữ cái A viết hoa.<br>
 </li>
 <li>
-<code>"A+"</code> will return instances of <strong>one or more</strong> capital A letters (group extended until a different character is encountered).<br>
+<code>"A+"</code> sẽ trả về các trường hợp <strong>từ một hoặc nhiều hơn</strong> chữ cái A viết hoa (nhóm được mở rộng cho đến khi gặp một ký tự khác).<br>
 </li>
-<li>Precede with an <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code> asterisk to return <strong>zero or more</strong> matches (useful if you are not sure the pattern is present)</li>
+<li>Bắt đầu bằng dấu hoa thị <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code> để trả về <strong>khôgn hoặc nhiều hơn</strong> kết quả phù hợp (hữu ích nếu bạn không chắc chắn pattern có sẵn)</li>
 </ul>
-<p>Using the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> plus symbol as a quantifier, the match will occur until a different character is encountered. For example, this expression will return all <em>words</em> (alpha characters: <code>"[A-Za-z]+"</code></p>
+<p>Sử dụng ký hiệu dấu cộng <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> như một bộ định lượng, việc khớp sẽ xảy ra cho tới khi gặp ký tự khác. Ví dụ, biểu thứ này sẽ trả về tất cả <em>các từ</em> (ký tự alpha: <code>"[A-Za-z]+"</code></p>
 <div class="sourceCode" id="cb527"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># test string for quantifiers</span>
 <span class="va">test</span> <span class="op">&lt;-</span> <span class="st">"A-AA-AAA-AAAA"</span></code></pre></div>
-<p>When a quantifier of {2} is used, only pairs of consecutive A’s are returned. Two pairs are identified within <code>AAAA</code>.</p>
+<p>Khi bộ định lượng {2} được sử dụng, chỉ các cặp chữ A liên tiếp được trả về. Hai cặp được xác định trong <code>AAAA</code>.</p>
 <div class="sourceCode" id="cb528"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract_all</span><span class="op">(</span><span class="va">test</span>, <span class="st">"A{2}"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] "AA" "AA" "AA" "AA"</code></pre>
-<p>When a quantifier of {2,4} is used, groups of consecutive A’s that are two to four in length are returned.</p>
+<p>Khi bộ định lượng {2,4} được sử dụng, các nhóm chữ A liên tiếp có độ dài từ hai đến bốn được trả về.</p>
 <div class="sourceCode" id="cb530"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract_all</span><span class="op">(</span><span class="va">test</span>, <span class="st">"A{2,4}"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] "AA"   "AAA"  "AAAA"</code></pre>
-<p>With the quantifier <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>, groups of <strong>one or more</strong> are returned:</p>
+<p>Với bộ định lượng <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code>, các nhóm của <strong>một hoặc nhiều hơn</strong> được trả về:</p>
 <div class="sourceCode" id="cb532"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract_all</span><span class="op">(</span><span class="va">test</span>, <span class="st">"A+"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] "A"    "AA"   "AAA"  "AAAA"</code></pre>
-<p><strong>Relative position</strong></p>
-<p>These express requirements for what precedes or follows a pattern. For example, to extract sentences, “two numbers that are followed by a period” (<code>""</code>). (?&lt;=\.)\s(?=[A-Z])</p>
+<p><strong>Vị trí tương đối</strong></p>
+<p>Những biểu thức dưới đây yêu cầu cho những thứ đứng trước hoặc theo sau một mẫu. Ví dụ, để trích xuất câu, “two numbers that are followed by a period” (<code>""</code>). (?&lt;=\.)\s(?=[A-Z])</p>
 <div class="sourceCode" id="cb534"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract_all</span><span class="op">(</span><span class="va">test</span>, <span class="st">""</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ##  [1] "A" "-" "A" "A" "-" "A" "A" "A" "-" "A" "A" "A" "A"</code></pre>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
-<th>Position statement</th>
-<th>Matches to</th>
+<th>Biểu thức vị trí</th>
+<th>Khớp với</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><code>"(?&lt;=b)a"</code></td>
-<td>“a” that <strong>is preceded</strong> by a “b”</td>
+<td>“a” <strong>bị đứng trước</strong> bởi “b”</td>
 </tr>
 <tr class="even">
 <td><code>"(?&lt;!b)a"</code></td>
-<td>“a” that <strong>is NOT preceded</strong> by a “b”</td>
+<td>“a” <strong>KHÔNG bị đứng trước</strong> bởi “b”</td>
 </tr>
 <tr class="odd">
 <td><code>"a(?=b)"</code></td>
-<td>“a” that <strong>is followed</strong> by a “b”</td>
+<td>“a” <strong>được theo sau</strong> bởi “b”</td>
 </tr>
 <tr class="even">
 <td><code>"a(?!b)"</code></td>
-<td>“a” that <strong>is NOT followed</strong> by a “b”</td>
+<td>“a” <strong>KHÔNG được theo sau</strong> bởi “b”</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Groups</strong></p>
-<p>Capturing groups in your regular expression is a way to have a more organized output upon extraction.</p>
-<p><strong>Regex examples</strong></p>
-<p>Below is a free text for the examples. We will try to extract useful information from it using a regular expression search term.</p>
+<p><strong>Nhóm</strong></p>
+<p>Việc bắt các nhóm trong biểu thức chính quy là một cách để kết quả trả về có tổ chức hơn khi trích xuất.</p>
+<p><strong>Ví dụ về Regex</strong></p>
+<p>Dưới đây là một văn bản tự do sử dụng làm ví dụ. Chúng ta sẽ cố gắng trích xuất thông tin hữu ích từ nó bằng cách sử dụng cụm từ tìm kiếm theo biểu thức chính quy.</p>
 <div class="sourceCode" id="cb536"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pt_note</span> <span class="op">&lt;-</span> <span class="st">"Patient arrived at Broward Hospital emergency ward at 18:00 on 6/12/2005. Patient presented with radiating abdominal pain from LR quadrant. Patient skin was pale, cool, and clammy. Patient temperature was 99.8 degrees farinheit. Patient pulse rate was 100 bpm and thready. Respiratory rate was 29 per minute."</span></code></pre></div>
-<p>This expression matches to all words (any character until hitting non-character such as a space):</p>
+<p>Biểu thức sau đây khớp với tất cả các từ (bất kỳ ký tự nào cho đến khi gặp thứ không phải ký tự, chẳng hạn như dấu cách):</p>
 <div class="sourceCode" id="cb537"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract_all</span><span class="op">(</span><span class="va">pt_note</span>, <span class="st">"[A-Za-z]+"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
-##  [1] "Patient"     "arrived"     "at"          "Broward"     "Hospital"    "emergency"   "ward"        "at"          "on"          "Patient"     "presented"   "with"       
-## [13] "radiating"   "abdominal"   "pain"        "from"        "LR"          "quadrant"    "Patient"     "skin"        "was"         "pale"        "cool"        "and"        
-## [25] "clammy"      "Patient"     "temperature" "was"         "degrees"     "farinheit"   "Patient"     "pulse"       "rate"        "was"         "bpm"         "and"        
-## [37] "thready"     "Respiratory" "rate"        "was"         "per"         "minute"</code></pre>
-<p>The expression <code>"[0-9]{1,2}"</code> matches to consecutive numbers that are 1 or 2 digits in length. It could also be written <code>"\\d{1,2}"</code>, or <code>"[:digit:]{1,2}"</code>.</p>
+##  [1] "Patient"     "arrived"     "at"          "Broward"     "Hospital"   
+##  [6] "emergency"   "ward"        "at"          "on"          "Patient"    
+## [11] "presented"   "with"        "radiating"   "abdominal"   "pain"       
+## [16] "from"        "LR"          "quadrant"    "Patient"     "skin"       
+## [21] "was"         "pale"        "cool"        "and"         "clammy"     
+## [26] "Patient"     "temperature" "was"         "degrees"     "farinheit"  
+## [31] "Patient"     "pulse"       "rate"        "was"         "bpm"        
+## [36] "and"         "thready"     "Respiratory" "rate"        "was"        
+## [41] "per"         "minute"</code></pre>
+<p>Biểu thức <code>"[0-9]{1,2}"</code> khớp với các số liên tiếp có độ dài 1 hoặc 2 chữ số. Nó cũng có thể được viết là <code>"\\d{1,2}"</code>, hoặc <code>"[:digit:]{1,2}"</code>.</p>
 <div class="sourceCode" id="cb539"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">str_extract_all</span><span class="op">(</span><span class="va">pt_note</span>, <span class="st">"[0-9]{1,2}"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
@@ -1167,16 +1161,16 @@
 <!-- ```{r} -->
 <!-- str_extract_all(pt_note, "[A-Z][a-z]+\\s\\w+\\s\\d{1,2}\\s\\w+\\s*\\w*") -->
 <!-- ``` -->
-<p>You can view a useful list of regex expressions and tips on page 2 of <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">this cheatsheet</a></p>
-<p>Also see this <a href="https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432">tutorial</a>.</p>
+<p>Bạn có thể xem danh sách hữu ích về các biểu thức regex và các mẹo trên trang 2 của <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">cheatsheet này</a></p>
+<p>Bạn cũng có thể xem <a href="https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432">tutorial này</a>.</p>
 <!-- ======================================================= -->
 </div>
-<div id="resources" class="section level2" number="10.9">
+<div id="nguồn-2" class="section level2" number="10.9">
 <h2>
-<span class="header-section-number">10.9</span> Resources<a class="anchor" aria-label="anchor" href="#resources"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.9</span> Nguồn<a class="anchor" aria-label="anchor" href="#ngu%E1%BB%93n-2"><i class="fas fa-link"></i></a>
 </h2>
-<p>A reference sheet for <strong>stringr</strong> functions can be found <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">here</a></p>
-<p>A vignette on <strong>stringr</strong> can be found <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">here</a></p>
+<p>Bạn có thể tìm thấy trang tham khảo cho các hàm <strong>stringr</strong> <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">tại đây</a></p>
+<p>Một vignette về <strong>stringr</strong> có thể được tìm thấy <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">tại đây</a></p>
 
 </div>
 </div>
@@ -1188,56 +1182,56 @@
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#characters-strings"><span class="header-section-number">10</span> Ký tự và chuỗi</a></li>
 <li>
-<a class="nav-link" href="#preparation"><span class="header-section-number">10.1</span> Preparation</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load-packages">Load packages</a></li>
-<li><a class="nav-link" href="#import-data">Import data</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-1"><span class="header-section-number">10.1</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#g%E1%BB%8Di-packages-1">Gọi packages</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-3">Nhập dữ liệu</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#unite-split-and-arrange"><span class="header-section-number">10.2</span> Unite, split, and arrange</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#combine-strings">Combine strings</a></li>
-<li><a class="nav-link" href="#dynamic-strings">Dynamic strings</a></li>
-<li><a class="nav-link" href="#str_unite">Unite columns</a></li>
-<li><a class="nav-link" href="#split">Split</a></li>
-<li><a class="nav-link" href="#split-columns">Split columns</a></li>
-<li><a class="nav-link" href="#arrange-alphabetically">Arrange alphabetically</a></li>
-<li><a class="nav-link" href="#base-r-functions">base R functions</a></li>
+<a class="nav-link" href="#h%E1%BB%A3p-nh%E1%BA%A5t-t%C3%A1ch-v%C3%A0-s%E1%BA%AFp-x%E1%BA%BFp"><span class="header-section-number">10.2</span> Hợp nhất, tách, và sắp xếp</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#k%E1%BA%BFt-h%E1%BB%A3p-c%C3%A1c-chu%E1%BB%97i-k%C3%BD-t%E1%BB%B1">Kết hợp các chuỗi ký tự</a></li>
+<li><a class="nav-link" href="#chu%E1%BB%97i-%C4%91%E1%BB%99ng">Chuỗi động</a></li>
+<li><a class="nav-link" href="#str_unite">Hợp nhất các cột</a></li>
+<li><a class="nav-link" href="#t%C3%A1ch-chu%E1%BB%97i">Tách chuỗi</a></li>
+<li><a class="nav-link" href="#t%C3%A1ch-c%E1%BB%99t">Tách cột</a></li>
+<li><a class="nav-link" href="#s%E1%BA%AFp-x%E1%BA%BFp-theo-th%E1%BB%A9-t%E1%BB%B1-b%E1%BA%A3ng-ch%E1%BB%AF-c%C3%A1i">Sắp xếp theo thứ tự bảng chữ cái</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-h%C3%A0m-base-r">Các hàm base R</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#clean-and-standardise"><span class="header-section-number">10.3</span> Clean and standardise</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#change-case">Change case</a></li>
-<li><a class="nav-link" href="#str_pad">Pad length</a></li>
-<li><a class="nav-link" href="#truncate">Truncate</a></li>
-<li><a class="nav-link" href="#standardize-length">Standardize length</a></li>
-<li><a class="nav-link" href="#remove-leadingtrailing-whitespace">Remove leading/trailing whitespace</a></li>
-<li><a class="nav-link" href="#remove-repeated-whitespace-within">Remove repeated whitespace within</a></li>
-<li><a class="nav-link" href="#wrap-into-paragraphs">Wrap into paragraphs</a></li>
+<a class="nav-link" href="#l%C3%A0m-s%E1%BA%A1ch-v%C3%A0-chu%E1%BA%A9n-h%C3%B3a"><span class="header-section-number">10.3</span> Làm sạch và chuẩn hóa</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#thay-%C4%91%E1%BB%95i-ch%E1%BB%AF-hoach%E1%BB%AF-th%C6%B0%E1%BB%9Dng">Thay đổi chữ hoa/chữ thường</a></li>
+<li><a class="nav-link" href="#str_pad">Độ dài chuỗi ký tự</a></li>
+<li><a class="nav-link" href="#c%E1%BA%AFt-chu%E1%BB%97i-k%C3%BD-t%E1%BB%B1">Cắt chuỗi ký tự</a></li>
+<li><a class="nav-link" href="#chu%E1%BA%A9n-h%C3%B3a-%C4%91%E1%BB%99-d%C3%A0i">Chuẩn hóa độ dài</a></li>
+<li><a class="nav-link" href="#x%C3%B3a-kho%E1%BA%A3ng-tr%E1%BA%AFng-%C4%91%E1%BA%A7ucu%E1%BB%91i">Xóa khoảng trắng đầu/cuối</a></li>
+<li><a class="nav-link" href="#x%C3%B3a-kho%E1%BA%A3ng-tr%E1%BA%AFng-l%E1%BA%B7p-l%E1%BA%A1i-ph%C3%ADa-trong">Xóa khoảng trắng lặp lại phía trong</a></li>
+<li><a class="nav-link" href="#g%C3%B3i-l%E1%BA%A1i-th%C3%A0nh-%C4%91o%E1%BA%A1n-v%C4%83n-b%E1%BA%A3n">Gói lại thành đoạn văn bản</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#handle-by-position"><span class="header-section-number">10.4</span> Handle by position</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#extract-by-character-position">Extract by character position</a></li>
-<li><a class="nav-link" href="#extract-by-word-position">Extract by word position</a></li>
-<li><a class="nav-link" href="#replace-by-character-position">Replace by character position</a></li>
-<li><a class="nav-link" href="#evaluate-length">Evaluate length</a></li>
+<a class="nav-link" href="#x%E1%BB%AD-l%C3%BD-theo-v%E1%BB%8B-tr%C3%AD"><span class="header-section-number">10.4</span> Xử lý theo vị trí</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#t%C3%A1ch-chu%E1%BB%97i-theo-v%E1%BB%8B-tr%C3%AD-k%C3%BD-t%E1%BB%B1">Tách chuỗi theo vị trí ký tự</a></li>
+<li><a class="nav-link" href="#t%C3%A1ch-theo-v%E1%BB%8B-tr%C3%AD-t%E1%BB%AB">Tách theo vị trí từ</a></li>
+<li><a class="nav-link" href="#thay-th%E1%BA%BF-theo-v%E1%BB%8B-tr%C3%AD-k%C3%BD-t%E1%BB%B1">Thay thế theo vị trí ký tự</a></li>
+<li><a class="nav-link" href="#%C4%91%C3%A1nh-gi%C3%A1-%C4%91%E1%BB%99-d%C3%A0i-chu%E1%BB%97i">Đánh giá độ dài chuỗi</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#patterns"><span class="header-section-number">10.5</span> Patterns</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#detect-a-pattern">Detect a pattern</a></li>
-<li><a class="nav-link" href="#replace-all">Replace all</a></li>
-<li><a class="nav-link" href="#detect-within-logic">Detect within logic</a></li>
-<li><a class="nav-link" href="#locate-pattern-position">Locate pattern position</a></li>
-<li><a class="nav-link" href="#extract-a-match">Extract a match</a></li>
-<li><a class="nav-link" href="#subset-and-count">Subset and count</a></li>
-<li><a class="nav-link" href="#regex-groups">Regex groups</a></li>
+<a class="nav-link" href="#quy-lu%E1%BA%ADt-chu%E1%BB%97i"><span class="header-section-number">10.5</span> Quy luật chuỗi</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#nh%E1%BA%ADn-di%E1%BB%87n-quy-lu%E1%BA%ADt">Nhận diện quy luật</a></li>
+<li><a class="nav-link" href="#thay-th%E1%BA%BF-to%C3%A0n-b%E1%BB%99">Thay thế toàn bộ</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADn-di%E1%BB%87n-logic">Nhận diện logic</a></li>
+<li><a class="nav-link" href="#%C4%91%E1%BB%8Bnh-v%E1%BB%8B-v%E1%BB%8B-tr%C3%AD-pattern">Định vị vị trí pattern</a></li>
+<li><a class="nav-link" href="#tr%C3%ADch-xu%E1%BA%A5t-k%E1%BA%BFt-qu%E1%BA%A3-gh%C3%A9p-c%E1%BA%B7p">Trích xuất kết quả ghép cặp</a></li>
+<li><a class="nav-link" href="#t%E1%BA%ADp-h%E1%BB%A3p-con-v%C3%A0-s%E1%BB%91-l%C6%B0%E1%BB%A3ng">Tập hợp con và số lượng</a></li>
+<li><a class="nav-link" href="#nh%C3%B3m-regex">Nhóm Regex</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#special-characters"><span class="header-section-number">10.6</span> Special characters</a></li>
-<li><a class="nav-link" href="#regular-expressions-regex"><span class="header-section-number">10.7</span> Regular expressions (regex)</a></li>
-<li><a class="nav-link" href="#regex-and-special-characters"><span class="header-section-number">10.8</span> Regex and special characters</a></li>
-<li><a class="nav-link" href="#resources"><span class="header-section-number">10.9</span> Resources</a></li>
+<li><a class="nav-link" href="#c%C3%A1c-k%C3%BD-t%E1%BB%B1-%C4%91%E1%BA%B7c-bi%E1%BB%87t"><span class="header-section-number">10.6</span> Các ký tự đặc biệt</a></li>
+<li><a class="nav-link" href="#bi%E1%BB%83u-th%E1%BB%A9c-ch%C3%ADnh-quy-regex"><span class="header-section-number">10.7</span> Biểu thức chính quy (regex)</a></li>
+<li><a class="nav-link" href="#regex-v%C3%A0-c%C3%A1c-k%C3%BD-t%E1%BB%B1-%C4%91%E1%BA%B7c-bi%E1%BB%87t"><span class="header-section-number">10.8</span> Regex và các ký tự đặc biệt</a></li>
+<li><a class="nav-link" href="#ngu%E1%BB%93n-2"><span class="header-section-number">10.9</span> Nguồn</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1254,7 +1248,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-02.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
