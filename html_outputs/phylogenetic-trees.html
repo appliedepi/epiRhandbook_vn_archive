@@ -117,9 +117,9 @@
 <span class="header-section-number">38</span> Cây phả hệ<a class="anchor" aria-label="anchor" href="#phylogenetic-trees"><i class="fas fa-link"></i></a>
 </h1>
 <!-- ======================================================= -->
-<div id="tổng-quan-7" class="section level2" number="38.1">
+<div id="tổng-quan-8" class="section level2" number="38.1">
 <h2>
-<span class="header-section-number">38.1</span> Tổng quan<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-quan-7"><i class="fas fa-link"></i></a>
+<span class="header-section-number">38.1</span> Tổng quan<a class="anchor" aria-label="anchor" href="#t%E1%BB%95ng-quan-8"><i class="fas fa-link"></i></a>
 </h2>
 <p><strong>Cây phả hệ</strong> được sử dụng để trực quan hóa và mô tả mối liên hệ cũng như sự tiến hóa của các sinh vật dựa trên trình tự mã di truyền của chúng.</p>
 <p>Chúng có thể được xây dựng từ trình tự di truyền bằng các phương pháp dựa trên khoảng cách (distance-based methods) (chẳng hạn như phương pháp neighbor-joining) hoặc các phương pháp dựa trên ký tự (character-based methods) (chẳng hạn như phương pháp maximum likelihood và Bayesian Markov Chain Monte Carlo). Công nghệ giải trình tự gen thế hệ mới (Next Generation Sequencing - NGS) có giá thành ngày càng hợp lý và ngày càng được sử dụng rộng rãi hơn trong y tế công cộng để mô tả các mầm bệnh gây ra các bệnh truyền nhiễm. Các thiết bị giải trình tự di động giúp giảm thời gian quay vòng và hứa hẹn cung cấp dữ liệu để hỗ trợ điều tra ổ dịch trong thời gian thực. Dữ liệu NGS có thể được sử dụng để xác định nguồn gốc hoặc nguồn gốc của một chủng bùng phát và sự lan truyền của nó, cũng như xác định sự hiện diện của các gen kháng thuốc kháng sinh. Để trực quan hóa mối quan hệ di truyền giữa các mẫu, một cây phát sinh loài được xây dựng.</p>
@@ -127,12 +127,12 @@
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_overview_graph-1.png" width="80%" style="display: block; margin: auto;"></div>
 <!-- ======================================================= -->
 </div>
-<div id="chuẩn-bị-29" class="section level2" number="38.2">
+<div id="chuẩn-bị-30" class="section level2" number="38.2">
 <h2>
-<span class="header-section-number">38.2</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-29"><i class="fas fa-link"></i></a>
+<span class="header-section-number">38.2</span> Chuẩn bị<a class="anchor" aria-label="anchor" href="#chu%E1%BA%A9n-b%E1%BB%8B-30"><i class="fas fa-link"></i></a>
 </h2>
-<div id="gọi-packages-14" class="section level3 unnumbered">
-<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-14"><i class="fas fa-link"></i></a>
+<div id="gọi-packages-15" class="section level3 unnumbered">
+<h3>Gọi packages<a class="anchor" aria-label="anchor" href="#g%E1%BB%8Di-packages-15"><i class="fas fa-link"></i></a>
 </h3>
 <p>Đoạn code này hiển thị việc gọi các package cần thiết cho các phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh việc sử dụng hàm <code><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load()</a></code> từ package <strong>pacman</strong>, giúp cài đặt các package cần thiết <em>và</em> gọi chúng ra để sử dụng. Bạn cũng có thể gọi các packages đã cài đặt với hàm <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> của <strong>base</strong> R. Xem thêm chương <a href="basics.html#basics">R cơ bản</a> để có thêm thông tin về các packages trong R.</p>
 <div class="sourceCode" id="cb1727"><pre class="downlit sourceCode r">
@@ -145,8 +145,8 @@
   <span class="va">treeio</span>,          <span class="co"># to visualize phylogenetic files</span>
   <span class="va">ggnewscale</span><span class="op">)</span>      <span class="co"># to add additional layers of color schemes</span></code></pre></div>
 </div>
-<div id="nhập-dữ-liệu-21" class="section level3 unnumbered">
-<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-21"><i class="fas fa-link"></i></a>
+<div id="nhập-dữ-liệu-22" class="section level3 unnumbered">
+<h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-22"><i class="fas fa-link"></i></a>
 </h3>
 <p>Dữ liệu sử dụng trong chương này có thể tải xuống với hướng dẫn từ chương <a href="data-used.html#data-used">Tải sách và dữ liệu</a>.</p>
 <p>Có một số định dạng khác nhau mà cây phát sinh loài có thể được lưu trữ (vd: Newick, NEXUS, Phylip). Định dạng phổ biến là ở dạng tệp Newick (.nwk), là tiêu chuẩn để biểu diễn cây ở dạng máy tính có thể đọc được. Điều này có nghĩa là toàn bộ cây có thể được biểu diễn ở định dạng chuỗi chẳng hạn như “((t2:0.04,t1:0.34):0.89,(t5:0.37,(t4:0.03,t3:0.67):0.9):0.59);”, liệt kê toàn bộ các nút và tips cũng như mối quan hệ của chúng (độ dài nhánh) với nhau.</p>
@@ -171,8 +171,8 @@
 <div class="sourceCode" id="cb1731"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"sample_data_Shigella_tree.csv"</span><span class="op">)</span></code></pre></div>
 <p>Dưới đây là 50 dòng đầu tiên của bộ dữ liệu:</p>
-<div id="htmlwidget-5f31747678b7e0245737" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5f31747678b7e0245737">{"x":{"filter":"none","data":[["S17BD05944","S15BD07413","S18BD07247","S19BD07384","S18BD07338","S18BD02657","S19BD06884","S16BD02574","S16BD04069","S17BD08170","S15BD07250","S17BD07935","S17BD00384","S19BD06034","S17BD08948","S17BD04542","S17BD07399","S17BD08233","S19BD07381","S17BD07961","S18BD09176","S19BD07393","S18BD02580","S17BD02526","S17BD06833","S18BD01024","S18BD03411","S18BD09515","S17BD07332","S18BD06598","S17BD02164","S19BD06386","S19BD06283","S19BD06285","S19BD05221","S18BD06749","S17BD02088","S17BD07692","S14BD03573","S17BD01135","S19BD06689","S15BD06969","S18BD01106","S17BD00525","S19BD07036","S18BD06401","S18BD06486","S17BD06426","S17BD05916","S18BD07708"],["Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei"],["Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium"],["Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe"],[null,"Georgia",null,"Morocco",null,null,null,"Thailand",null,null,null,null,null,null,null,"Iran",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Morocco","France","Turkey","Egypt","Tunisia","Congo",null,null,null,null,null,null,null,null,null,null,"Egypt",null,null],["2017","2015","2018","2019","2018","2018","2019","2016","2016","2017","2015","2017","2017","2019","2017","2017","2017","2017","2019","2017","2018","2019","2018","2017","2017","2018","2018","2018","2017","2018","2017","2019","2019","2019","2019","2018","2017","2017","2014","2017","2019","2015","2018","2017","2019","2018","2018","2017","2017","2018"],["Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"],["NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL"],[null,"Male","Female","Female","Male","Male","Male","Male","Male","Male","Female",null,"Male","Male","Female","Male","Male","Female","Female","Male","Male","Male","Male","Female","Male","Female","Female","Male","Female","Male","Female","Female","Female","Female","Female","Female","Male","Male",null,"female","Male","Female","Male","Male","Male","Male","Male","Male","Male","Female"],[null,null,null,null,null,"gyrA D87Y","gyrA D87Y","gyrA D87Y","gyrA D87Y",null,null,"gyrA D87Y",null,null,"gyrA D87Y",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA S83L",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA D87Y",null,null,null,"gyrA D87Y",null,null,null,null,null,null,null],[null,null,null,null,null,"mphA","mphA",null,null,null,null,"mphA",null,null,"mphA",null,null,null,null,null,null,null,null,null,null,"mphA","mphA",null,null,null,null,null,null,null,"mphA/ermB",null,null,"mphA",null,null,null,null,"mphA",null,null,null,null,null,null,null],[8,0,16,8,8,64,64,0,0,64,0,64,8,8,64,8,8,8,8,8,8,16,8,8,8,64,64,8,8,8,8,8,8,2,64,8,8,64,0,8,8,0,64,8,4,8,8,8,8,8],[0.25,0,0.03,0.02,0.02,0.5,0.5,0,0,8,0,0.5,0.02,0.02,0.5,0.25,0.02,0.02,0.02,0.02,0.02,0.12,0.02,0.02,0.02,0.5,0.25,0.03,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,1,0,0.02,0.02,0,0.5,0.02,0.02,4,0.02,0.02,0.25,0.02]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Sample_ID<\/th>\n      <th>serotype<\/th>\n      <th>Country<\/th>\n      <th>Continent<\/th>\n      <th>Travel_history<\/th>\n      <th>Year<\/th>\n      <th>Belgium<\/th>\n      <th>Source<\/th>\n      <th>Gender<\/th>\n      <th>gyrA_mutations<\/th>\n      <th>macrolide_resistance_genes<\/th>\n      <th>MIC_AZM<\/th>\n      <th>MIC_CIP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[11,12]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ab55001658cecdc70ec9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ab55001658cecdc70ec9">{"x":{"filter":"none","data":[["S17BD05944","S15BD07413","S18BD07247","S19BD07384","S18BD07338","S18BD02657","S19BD06884","S16BD02574","S16BD04069","S17BD08170","S15BD07250","S17BD07935","S17BD00384","S19BD06034","S17BD08948","S17BD04542","S17BD07399","S17BD08233","S19BD07381","S17BD07961","S18BD09176","S19BD07393","S18BD02580","S17BD02526","S17BD06833","S18BD01024","S18BD03411","S18BD09515","S17BD07332","S18BD06598","S17BD02164","S19BD06386","S19BD06283","S19BD06285","S19BD05221","S18BD06749","S17BD02088","S17BD07692","S14BD03573","S17BD01135","S19BD06689","S15BD06969","S18BD01106","S17BD00525","S19BD07036","S18BD06401","S18BD06486","S17BD06426","S17BD05916","S18BD07708"],["Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei","Sonnei"],["Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium","Belgium"],["Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe","Europe"],[null,"Georgia",null,"Morocco",null,null,null,"Thailand",null,null,null,null,null,null,null,"Iran",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Morocco","France","Turkey","Egypt","Tunisia","Congo",null,null,null,null,null,null,null,null,null,null,"Egypt",null,null],["2017","2015","2018","2019","2018","2018","2019","2016","2016","2017","2015","2017","2017","2019","2017","2017","2017","2017","2019","2017","2018","2019","2018","2017","2017","2018","2018","2018","2017","2018","2017","2019","2019","2019","2019","2018","2017","2017","2014","2017","2019","2015","2018","2017","2019","2018","2018","2017","2017","2018"],["Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"],["NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL","NRC BEL"],[null,"Male","Female","Female","Male","Male","Male","Male","Male","Male","Female",null,"Male","Male","Female","Male","Male","Female","Female","Male","Male","Male","Male","Female","Male","Female","Female","Male","Female","Male","Female","Female","Female","Female","Female","Female","Male","Male",null,"female","Male","Female","Male","Male","Male","Male","Male","Male","Male","Female"],[null,null,null,null,null,"gyrA D87Y","gyrA D87Y","gyrA D87Y","gyrA D87Y",null,null,"gyrA D87Y",null,null,"gyrA D87Y",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA S83L",null,null,null,null,null,null,null,null,null,null,"gyrA D87Y","gyrA D87Y",null,null,null,"gyrA D87Y",null,null,null,null,null,null,null],[null,null,null,null,null,"mphA","mphA",null,null,null,null,"mphA",null,null,"mphA",null,null,null,null,null,null,null,null,null,null,"mphA","mphA",null,null,null,null,null,null,null,"mphA/ermB",null,null,"mphA",null,null,null,null,"mphA",null,null,null,null,null,null,null],[8,0,16,8,8,64,64,0,0,64,0,64,8,8,64,8,8,8,8,8,8,16,8,8,8,64,64,8,8,8,8,8,8,2,64,8,8,64,0,8,8,0,64,8,4,8,8,8,8,8],[0.25,0,0.03,0.02,0.02,0.5,0.5,0,0,8,0,0.5,0.02,0.02,0.5,0.25,0.02,0.02,0.02,0.02,0.02,0.12,0.02,0.02,0.02,0.5,0.25,0.03,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,0.02,1,0,0.02,0.02,0,0.5,0.02,0.02,4,0.02,0.02,0.25,0.02]],"container":"<table class=\"white-space: nowrap\">\n  <thead>\n    <tr>\n      <th>Sample_ID<\/th>\n      <th>serotype<\/th>\n      <th>Country<\/th>\n      <th>Continent<\/th>\n      <th>Travel_history<\/th>\n      <th>Year<\/th>\n      <th>Belgium<\/th>\n      <th>Source<\/th>\n      <th>Gender<\/th>\n      <th>gyrA_mutations<\/th>\n      <th>macrolide_resistance_genes<\/th>\n      <th>MIC_AZM<\/th>\n      <th>MIC_CIP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[11,12]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="làm-sạch-và-khảo-sát-dữ-liệu" class="section level3 unnumbered">
 <h3>Làm sạch và khảo sát dữ liệu<a class="anchor" aria-label="anchor" href="#l%C3%A0m-s%E1%BA%A1ch-v%C3%A0-kh%E1%BA%A3o-s%C3%A1t-d%E1%BB%AF-li%E1%BB%87u"><i class="fas fa-link"></i></a>
@@ -181,23 +181,17 @@
 <p>Chúng ta kiểm tra định dạng của <code>tip.labels</code> trong tệp <code>tree</code> bằng cách xem xét 6 hàng đầu tiên với hàm <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> của <strong>base</strong> R.</p>
 <div class="sourceCode" id="cb1732"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span><span class="op">)</span> </code></pre></div>
-<pre><code>## [1] "SRR5006072" "SRR4192106" "S18BD07865" "S18BD00489" "S17BD08906"
-## [6] "S17BD05939"</code></pre>
+<pre><code>## [1] "SRR5006072" "SRR4192106" "S18BD07865" "S18BD00489" "S17BD08906" "S17BD05939"</code></pre>
 <p>Chúng ta cũng cần chắc chắn rằng cột đầu tiên trong data frame <code>sample_data</code> là cột <code>Sample_ID</code>. Chúng ta xem tên các cột của dataframe bằng cách sử dụng hàm <code><a href="https://rdrr.io/r/base/colnames.html">colnames()</a></code> từ <strong>base</strong> R.</p>
 <div class="sourceCode" id="cb1734"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">)</span>   </code></pre></div>
-<pre><code>##  [1] "Sample_ID"                  "serotype"                  
-##  [3] "Country"                    "Continent"                 
-##  [5] "Travel_history"             "Year"                      
-##  [7] "Belgium"                    "Source"                    
-##  [9] "Gender"                     "gyrA_mutations"            
-## [11] "macrolide_resistance_genes" "MIC_AZM"                   
-## [13] "MIC_CIP"</code></pre>
+<pre><code>##  [1] "Sample_ID"                  "serotype"                   "Country"                    "Continent"                  "Travel_history"            
+##  [6] "Year"                       "Belgium"                    "Source"                     "Gender"                     "gyrA_mutations"            
+## [11] "macrolide_resistance_genes" "MIC_AZM"                    "MIC_CIP"</code></pre>
 <p>Chúng ta hãy để ý cột <code>Sample_IDs</code> trong data frame để chắc chắn rằng các định dạng là tương tự với <code>tip.label</code> (vd: các chữ cái đều viết hoa, không có dấu gạch dưới thừa <code>_</code> giữa ký tự và số, v.v.)</p>
 <div class="sourceCode" id="cb1736"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span><span class="op">)</span> <span class="co"># we again inspect only the first 6 using head()</span></code></pre></div>
-<pre><code>## [1] "S17BD05944" "S15BD07413" "S18BD07247" "S19BD07384" "S18BD07338"
-## [6] "S18BD02657"</code></pre>
+<pre><code>## [1] "S17BD05944" "S15BD07413" "S18BD07247" "S19BD07384" "S18BD07338" "S18BD02657"</code></pre>
 <p>Chúng ta cũng có thể so sánh nếu tất cả các mẫu có trong tệp <code>tree</code> và ngược lại bằng cách tạo một vectơ logic TRUE hoặc FALSE khi chúng khớp hoặc không khớp. Chúng không được in ở đây để cho đơn giản.</p>
 <div class="sourceCode" id="cb1738"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sample_data</span><span class="op">$</span><span class="va">Sample_ID</span> <span class="op">%in%</span> <span class="va">tree</span><span class="op">$</span><span class="va">tip.label</span>
@@ -522,10 +516,8 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
         legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
-## replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
-## will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1766"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h1</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_gender-1.png" width="70%" style="display: block; margin: auto;"></div>
@@ -549,10 +541,8 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">guides</span><span class="op">(</span>fill <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>,byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
-## replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
-## will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1771"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h3</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_cip_genes-1.png" width="80%" style="display: block; margin: auto;"></div>
@@ -575,10 +565,8 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
         legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
-## replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
-## will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1775"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h5</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_cip_MIC-1.png" width="90%" style="display: block; margin: auto;"></div>
@@ -612,10 +600,8 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
         legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
-## replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
-## will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1780"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h1</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_linear_2-1.png" width="80%" style="display: block; margin: auto;"></div>
@@ -636,10 +622,8 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"vertical"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">guides</span><span class="op">(</span>fill <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>,byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
-## replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
-## will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1784"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="va">h3</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_linear_3-1.png" width="80%" style="display: block; margin: auto;"></div>
@@ -661,10 +645,8 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
         legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,
         legend.box <span class="op">=</span> <span class="st">"horizontal"</span>, legend.margin <span class="op">=</span> <span class="fu">margin</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">guides</span><span class="op">(</span>shape <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>override.aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will
-## replace the existing scale.</code></pre>
-<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which
-## will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'y' is already present. Adding another scale for 'y', which will replace the existing scale.</code></pre>
+<pre><code>## Scale for 'fill' is already present. Adding another scale for 'fill', which will replace the existing scale.</code></pre>
 <div class="sourceCode" id="cb1788"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">h5</span></code></pre></div>
 <div class="inline-figure"><img src="_main_files/figure-html/phylogenetic_trees_sampledata_heatmap_linear_4-1.png" width="80%" style="display: block; margin: auto;"></div>
@@ -689,11 +671,11 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#phylogenetic-trees"><span class="header-section-number">38</span> Cây phả hệ</a></li>
-<li><a class="nav-link" href="#t%E1%BB%95ng-quan-7"><span class="header-section-number">38.1</span> Tổng quan</a></li>
+<li><a class="nav-link" href="#t%E1%BB%95ng-quan-8"><span class="header-section-number">38.1</span> Tổng quan</a></li>
 <li>
-<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-29"><span class="header-section-number">38.2</span> Chuẩn bị</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#g%E1%BB%8Di-packages-14">Gọi packages</a></li>
-<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-21">Nhập dữ liệu</a></li>
+<a class="nav-link" href="#chu%E1%BA%A9n-b%E1%BB%8B-30"><span class="header-section-number">38.2</span> Chuẩn bị</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#g%E1%BB%8Di-packages-15">Gọi packages</a></li>
+<li><a class="nav-link" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-22">Nhập dữ liệu</a></li>
 <li><a class="nav-link" href="#l%C3%A0m-s%E1%BA%A1ch-v%C3%A0-kh%E1%BA%A3o-s%C3%A1t-d%E1%BB%AF-li%E1%BB%87u">Làm sạch và khảo sát dữ liệu</a></li>
 </ul>
 </li>
@@ -730,7 +712,7 @@ Lưu ý: để biểu diễn những nút nào chúng ta đang thao tác, trư�
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-12.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

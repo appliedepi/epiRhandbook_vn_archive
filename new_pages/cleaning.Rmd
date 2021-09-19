@@ -56,7 +56,7 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 | `which()`                                           | áp dụng các điều kiện logic; trả về các chỉ số             | **base** R               |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 
-Nếu bạn muốn xem các hàm này so sánh với các câu lệnh trong Stata hoặc SAS, hãy xem chương [Transition to R].
+Nếu bạn muốn xem các hàm này so sánh với các câu lệnh trong Stata hoặc SAS, hãy xem chương [Chuyển đổi sang R].
 
 Bạn có thể gặp một framework quản lý dữ liệu khác từ package **data.table** trong R với các toán tử như `:=` và thường xuyên sử dụng dấu ngoặc `[ ]`. Cách tiếp cận và cú pháp này được giải thích ngắn gọn trong chương [Data Table].
 
@@ -123,7 +123,7 @@ pacman::p_load(
 
 ### Nhập {.unnumbered}
 
-Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import ()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
+Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
 
 Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống file linelist "thô"</a> (với file dạng .xlsx).
 
@@ -179,7 +179,7 @@ Vì tên cột trong R được sử dụng rất thường xuyên, vì vậy ch
 -   Không có ký tự lạ (&, \#, \<, \>, ...)
 -   Thống nhất cách định danh (vd: toàn bộ tên cột ngày như **date\_**onset, **date\_**report, **date\_**death...)
 
-Tên các cột trong `linelist_raw` được in bên dưới bằng cách sử dụng hàm `names ()` từ **base** R. Ban đầu chúng ta có thể thấy rằng:
+Tên các cột trong `linelist_raw` được in bên dưới bằng cách sử dụng hàm `names()` từ **base** R. Ban đầu chúng ta có thể thấy rằng:
 
 -   Một số tên chứa khoảng trắng (vd: `infection date`)
 -   Một số mẫu tên khác nhau được sử dụng cho biến ngày (`date onset` và `infection date`)
@@ -918,7 +918,7 @@ Dọc theo những dòng đó, trong mệnh đề cuối cùng của bạn, hãy
 
 Dưới đây là các hàm đặc biệt để xử lý các giá trị bị thiếu trong khi làm sạch dữ liệu.
 
-Xem chương về [Missing data] để biết thêm các mẹo chi tiết về xác định và xử lý các giá trị bị thiếu. Ví dụ, hàm `is.na()` kiểm tra một cách logic sự thiếu giá trị.
+Xem chương về [Dữ liệu Missing] để biết thêm các mẹo chi tiết về xác định và xử lý các giá trị bị thiếu. Ví dụ, hàm `is.na()` kiểm tra một cách logic sự thiếu giá trị.
 
 **`replace_na()`**
 

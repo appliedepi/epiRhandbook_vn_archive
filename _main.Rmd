@@ -4171,7 +4171,7 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 | `which()`                                           | áp dụng các điều kiện logic; trả về các chỉ số             | **base** R               |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 
-Nếu bạn muốn xem các hàm này so sánh với các câu lệnh trong Stata hoặc SAS, hãy xem chương [Transition to R].
+Nếu bạn muốn xem các hàm này so sánh với các câu lệnh trong Stata hoặc SAS, hãy xem chương [Chuyển đổi sang R].
 
 Bạn có thể gặp một framework quản lý dữ liệu khác từ package **data.table** trong R với các toán tử như `:=` và thường xuyên sử dụng dấu ngoặc `[ ]`. Cách tiếp cận và cú pháp này được giải thích ngắn gọn trong chương [Data Table].
 
@@ -4238,7 +4238,7 @@ pacman::p_load(
 
 ### Nhập {.unnumbered}
 
-Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import ()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
+Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
 
 Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống file linelist "thô"</a> (với file dạng .xlsx).
 
@@ -4294,7 +4294,7 @@ Vì tên cột trong R được sử dụng rất thường xuyên, vì vậy ch
 -   Không có ký tự lạ (&, \#, \<, \>, ...)
 -   Thống nhất cách định danh (vd: toàn bộ tên cột ngày như **date\_**onset, **date\_**report, **date\_**death...)
 
-Tên các cột trong `linelist_raw` được in bên dưới bằng cách sử dụng hàm `names ()` từ **base** R. Ban đầu chúng ta có thể thấy rằng:
+Tên các cột trong `linelist_raw` được in bên dưới bằng cách sử dụng hàm `names()` từ **base** R. Ban đầu chúng ta có thể thấy rằng:
 
 -   Một số tên chứa khoảng trắng (vd: `infection date`)
 -   Một số mẫu tên khác nhau được sử dụng cho biến ngày (`date onset` và `infection date`)
@@ -5033,7 +5033,7 @@ Dọc theo những dòng đó, trong mệnh đề cuối cùng của bạn, hãy
 
 Dưới đây là các hàm đặc biệt để xử lý các giá trị bị thiếu trong khi làm sạch dữ liệu.
 
-Xem chương về [Missing data] để biết thêm các mẹo chi tiết về xác định và xử lý các giá trị bị thiếu. Ví dụ, hàm `is.na()` kiểm tra một cách logic sự thiếu giá trị.
+Xem chương về [Dữ liệu Missing] để biết thêm các mẹo chi tiết về xác định và xử lý các giá trị bị thiếu. Ví dụ, hàm `is.na()` kiểm tra một cách logic sự thiếu giá trị.
 
 **`replace_na()`**
 
@@ -29114,17 +29114,13 @@ options(scipen=1, digits=7)
 
 <!--chapter:end:new_pages/combination_analysis.Rmd-->
 
-
 # Chuỗi lây nhiễm {#transmission-chains}
 
-
 <!-- ======================================================= -->
-## Overview {  }
 
-The primary tool to handle, analyse and visualise transmission chains and contact
-tracing data is the package **epicontacts**, developed by the folks at
-RECON. Try out the interactive plot below by hovering over the nodes for more
-information, dragging them to move them and clicking on them to highlight downstream cases.
+## Tổng quan
+
+Công cụ chính để xử lý, phân tích và trực quan hóa chuỗi lây nhiễm và dữ liệu theo dõi tiếp xúc là package **epicontacts**, được phát triển bởi những chuyên gia làm việc tại RECON. Hãy thử biểu đồ tương tác bên dưới bằng cách di chuột qua các nút để biết thêm thông tin, kéo-thả để di chuyển chúng và nhấp vào chúng để đánh dấu các trường hợp phía dưới.
 
 ```{r out.width=c('25%', '25%'), fig.show='hold', echo=F}
 
@@ -29189,13 +29185,13 @@ plot(
 ```
 
 <!-- ======================================================= -->
-## Preparation {  }
 
-### Load packages {.unnumbered}  
+## Chuẩn bị
 
-First load the standard packages required for data import and manipulation. In this handbook we emphasize `p_load()` from **pacman**, which installs the package if necessary *and* loads it for use. You can also load packages with `library()` from **base** R. See the page on [R basics] for more information on R packages.  
- 
-	
+### Gọi packages {.unnumbered}
+
+Đầu tiên hãy tải các package tiêu chuẩn cần thiết để nhập và xử lý dữ liệu. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, sẽ cài đặt package nếu cần *và* gọi chúng ra để sử dụng. Bạn cũng có thể gọi các package bằng hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
+
 ```{r transmission_chains_packages, eval = FALSE}
 pacman::p_load(
    rio,          # File import
@@ -29204,19 +29200,16 @@ pacman::p_load(
    remotes       # Package installation from github
 )
 ```
-	
-You will require the development version of **epicontacts**, which can be
-installed from github using the `p_install_github()` function from **pacman**. You only need to run this command
-below once, not every time you use the package (thereafter, you can use `p_load()` as usual).
+
+Bạn sẽ sử dụng phiên bản phát triển của **epicontacts**, có thể được cài đặt từ github bằng cách sử dụng hàm `p_install_github()` từ package **pacman**. Bạn chỉ cần chạy lệnh này dưới đây một lần, không phải bất cứ khi nào bạn sử dụng package (sau đó, bạn có thể sử dụng hàm `p_load()` như bình thường).
 
 ```{r transmission_chains_epicontacts_install, eval = FALSE}
 pacman::p_install_gh("reconhub/epicontacts@timeline")
 ```
 
+### Nhập dữ liệu {.unnumbered}
 
-### Import data {.unnumbered}
-
-We import the dataset of cases from a simulated Ebola epidemic. If you want to download the data to follow step-by-step, see instructions in the [Download handbook and data] page. The dataset is imported using the `import()` function from the **rio** package. See the page on [Import and export] for various ways to import data.
+Chúng ta nhập bộ dữ liệu về các trường hợp bệnh từ một vụ dịch Ebola mô phỏng. Nếu bạn muốn tải xuống dữ liệu để làm theo từng bước, hãy xem hướng dẫn trong chương [Tải sách và dữ liệu]. Bộ dữ liệu được nhập bằng hàm `import()` từ package **rio**. Xem chương [Nhập xuất dữ liệu] để biết các cách nhập dữ liệu khác nhau.
 
 ```{r, echo=F}
 # import the linelist into R
@@ -29228,35 +29221,23 @@ linelist <- rio::import(here::here("data", "case_linelists", "linelist_cleaned.r
 linelist <- import("linelist_cleaned.xlsx")
 ```
 
-The first 50 rows of the linelist are displayed below. Of particular interest are the columns `case_id`, `generation`, `infector`, and `source`.  
+50 hàng đầu tiên của bộ dữ liệu `linelist` được hiển thị bên dưới. Mối quan tâm đặc biệt là các cột `case_id`, `generation`, `infector`, và `source`.
 
 ```{r, message=FALSE, echo=F}
 # display the linelist data as a table
 DT::datatable(head(linelist, 50), rownames = FALSE, filter="top", options = list(pageLength = 5, scrollX=T), class = 'white-space: nowrap' )
 ```
 
+### Tạo đối tượng epicontacts {.unnumbered}
 
-### Creating an epicontacts object {.unnumbered}
+Sau đó, chúng ta cần tạo một đối tượng **epicontacts**, với yêu cầu hai kiểu dữ liệu như sau:
 
-We then need to create an **epicontacts** object, which requires two types of
-data:
+-   Một bộ dữ liệu `linelist` ghi lại các trường hợp trong đó các cột là các biến và các hàng tương ứng với các trường hợp duy nhất
+-   Một danh sách các cạnh (edge) thể hiện liên kết giữa các quan sát trên ID duy nhất (có thể là liên hệ, sự kiện lây nhiễm, v.v.)
 
-* a linelist documenting cases where columns are variables and rows correspond to unique cases
-* a list of edges defining links between cases on the basis of their unique IDs (these can be contacts,
-  transmission events, etc.)
+Bởi vì chúng ta đã có sẵn bộ dữ liệu `linelist`, chúng ta chỉ cần tạo một danh sách các đường liên kết giữa các trường hợp, cụ thể hơn là giữa các ID. Chúng ta có thể trích xuất các đường liên kết lây nhiễm từ bộ số liệu `linelist` bằng cách liên kết cột `infector` với cột `case_id`. Tại đây, chúng ta cũng có thể thêm các "thuộc tính cạnh - edge properties", nghĩa là bất kỳ biến nào mô tả mối liên kết giữa hai trường hợp, không phải bản thân các trường hợp đó. Để minh họa, chúng ta sẽ thêm một biến `location` mô tả vị trí của sự kiện truyền nhiễm và một biến mô tả khoảng thời gian tiếp xúc tính bằng ngày.
 
-As we already have a linelist, we just need to create a list of edges between
-cases, more specifically between their IDs. We can extract transmission links from the
-linelist by linking the `infector` column with the `case_id` column. At this point we can also add "edge
-properties", by which we mean any variable describing the link between the two
-cases, not the cases themselves. For illustration, we will add a `location`
-variable describing the location of the transmission event, and a duration
-variable describing the duration of the contact in days.
-
-In the code below, the **dplyr** function `transmute` is similar to `mutate`, except it only keeps
-the columns we have specified within the function. The `drop_na` function will
-filter out any rows where the specified columns have an `NA` value; in this
-case, we only want to keep the rows where the infector is known.
+Trong đoạn code dưới đây, hàm `transmute` thuộc package **dplyr** tương tự như hàm `mutate`, ngoại trừ nó chỉ giữ các cột mà chúng ta đã chỉ định trong hàm. Hàm `drop_na` sẽ lọc ra bất kỳ hàng nào mà các cột được chỉ định có giá trị `NA` ; trong trường hợp này, chúng ta chỉ muốn giữ lại các hàng mà tác nhân lây nhiễm đã biết.
 
 ```{r transmission_chains_create_contacts,}
 ## generate contacts
@@ -29270,13 +29251,7 @@ contacts <- linelist %>%
   drop_na(infector)
 ```
 
-We can now create the **epicontacts** object using the `make_epicontacts`
-function. We need to specify which column in the linelist points to the unique case
-identifier, as well as which columns in the contacts point to the unique
-identifiers of the cases involved in each link. These links are directional in
-that infection is going _from_ the infector _to_ the case, so we need to specify
-the `from` and `to` arguments accordingly. We therefore also set the `directed`
-argument to `TRUE`, which will affect future operations.
+Bây giờ chúng ta có thể tạo đối tượng **epicontacts** bằng cách sử dụng hàm `make_epicontacts`. Chúng ta cần chỉ định cột trong bộ dữ liệu `linelist` trỏ đến mã định danh trường hợp duy nhất (ID), cũng như cột trong điểm tiếp xúc tới mã định danh duy nhất của các trường hợp có liên quan trong mỗi liên kết. Các liên kết này có tính định hướng, nghĩa là việc lây nhiễm sẽ đi *từ* người lây nhiễm *đến* ca bệnh, vì vậy chúng ta cần chỉ định các đối số `from` và `to` cho phù hợp. Chúng ta cũng đặt đối số `directed` thành `TRUE`, điều này sẽ ảnh hưởng đến các hoạt động về sau.
 
 ```{r transmission_chains_create_epicontacts,}
 ## generate epicontacts object
@@ -29289,10 +29264,8 @@ epic <- make_epicontacts(
   directed = TRUE
 )
 ```
-Upon examining the **epicontacts** objects, we can see that the `case_id` column
-in the linelist has been renamed to `id` and the `case_id` and `infector`
-columns in the contacts have been renamed to `from` and `to`. This ensures
-consistency in subsequent handling, visualisation and analysis operations.
+
+Sau khi kiểm tra các đối tượng **epicontacts**, chúng ta có thể thấy rằng cột `case_id` trong bộ dữ liệu `linelist` đã được đổi tên thành `id` và các cột `case_id` và cột `infector` trong liên hệ đã được đổi tên thành `from` và `to`. Điều này đảm bảo tính nhất quán trong các hoạt động xử lý, trực quan và phân tích tiếp theo.
 
 ```{r transmission_chains_view_epicontacts,}
 ## view epicontacts object
@@ -29300,17 +29273,12 @@ epic
 ```
 
 <!-- ======================================================= -->
-## Handling {  }
 
-### Subsetting {.unnumbered}
+## Xử lý
 
-The `subset()` method for `epicontacts` objects allows for, among other things,
-filtering of networks based on properties of the linelist ("node attributes") and the contacts
-database ("edge attributes"). These values must be passed as named lists to the
-respective argument. For example, in the code below we are keeping only the
-male cases in the linelist that have an infection date between April and
-July 2014 (dates are specified as ranges), and transmission links that occured
-in the hospital.
+### Chia nhỏ bộ dữ liệu {.unnumbered}
+
+Phương thức `subset()` cho các đối tượng **epicontacts** cho phép lọc các mạng lưới dựa trên các thuộc tính của bộ dữ liệu `linelist` ("thuộc tính nút") và cơ sở dữ liệu tiếp xýc ("thuộc tính cạnh"). Các giá trị này phải được chuyển đổi dưới dạng danh sách đã đặt tên cho đối số tương ứng. Ví dụ: trong đoạn code bên dưới, chúng tôi chỉ giữ lại các trường hợp nam giới trong bộ số liệu `linelist` có ngày lây nhiễm từ tháng 4 đến tháng 7 năm 2014 (ngày tháng được chỉ định dưới dạng khoảng) và các liên kết lây nhiễm xảy ra trong bệnh viện.
 
 ```{r transmission_chains_subset_nodes,}
 sub_attributes <- subset(
@@ -29324,74 +29292,59 @@ sub_attributes <- subset(
 sub_attributes
 ```
 
-We can use the `thin` function to either filter the linelist to include cases
-that are found in the contacts by setting the argument `what = "linelist"`, or
-filter the contacts to include cases that are found in the linelist by setting
-the  argument `what = "contacts"`. In the code below, we are further filtering the
-epicontacts object to keep only the transmission links involving the male cases
-infected between April and July which we had filtered for above. We can see that
-only two known transmission links fit that specification.
+Chúng ta có thể sử dụng hàm `thin` để lọc trong bộ số liệu `linelist` để bao gồm các trường hợp được tìm thấy trong danh sách "contacts" bằng cách đặt đối số `what = "linelist"`, hoặc lọc trong danh sách "contacts" để bao gồm các trường hợp được tìm thấy trong bộ số liệu `linelist` bằng cách đặt đối số `what = "contacts"`. Trong đoạn code dưới đây, chúng ta đang lọc thêm từ đối tượng epicontacts để chỉ giữ lại  các đường liên kết lây nhiễm có liên quan đến các trường hợp nam giới bị lây nhiễm giữa tháng 4 và tháng 7 mà chúng ta đã lọc ở trên. Chúng ta có thể thấy rằng chỉ có hai liên kết lây nhiễm đã biết phù hợp với đặc điểm đó.
 
 ```{r transmission_chains_thin,}
 sub_attributes <- thin(sub_attributes, what = "contacts")
 nrow(sub_attributes$contacts)
 ```
 
-In addition to subsetting by node and edge attributes, networks can be pruned to
-only include components that are connected to certain nodes. The `cluster_id`
-argument takes a vector of case IDs and returns the linelist of individuals that
-are linked, directly or indirectly, to those IDs. In the code below, we can see
-that a total of 13 linelist cases are involved in the clusters containing
-`2ae019` and `71577a`.
+Bên cạnh việc subset theo thuộc tính nút (node) và cạnh (edge), các mạng liên kết có thể được cắt tỉa để chỉ bao gồm các thành phần được kết nối với một số nút nhất định. Đối số `cluster_id` sẽ lấy một vectơ chứa ID các ca bệnh và trả về danh sách của các cá nhân được liên kết một cách trực tiếp hoặc gián tiếp tới các ID đó. Trong đoạn code dưới đây, chúng ta có thể thấy rằng tổng cộng 13 trường hợp trong bộ số liệu `linelist` có liên quan đến các cụm chứa `2ae019` và `71577a`.
 
 ```{r}
 sub_id <- subset(epic, cluster_id = c("2ae019","71577a"))
 nrow(sub_id$linelist)
 ```
 
-The `subset()` method for `epicontacts` objects also allows filtering by cluster
-size using the `cs`, `cs_min` and `cs_max` arguments. In the code below, we are
-keeping only the cases linked to clusters of 10 cases or larger, and can see that
-271 linelist cases are involved in such clusters.
-    
-```{r}   
+Phương pháo `subset()` cho các đối tượng `epicontacts` cũng cho phép lọc theo kích thước cụm bằng cách sử dụng các đối số `cs`, `cs_min` và `cs_max`. Trong đoạn code bên dưới, chúng ta chỉ giữ lại các trường hợp được liên kết với các cụm 10 trường hợp hoặc lớn hơn và có thể thấy rằng 271 trường hợp trong trong bộ số liệu `linelist` có liên quan đến các cụm đó.
+
+```{r}
 sub_cs <- subset(epic, cs_min = 10)
 nrow(sub_cs$linelist)
 ```
 
-### Accessing IDs {.unnumbered}
+### Truy cập thông tin ID {.unnumbered}
 
-The `get_id()` function retrieves information on case IDs in the
-dataset, and can be parameterized as follows:
+Hàm `get_id()` truy xuất thông tin về ID ca bệnh trong bộ dữ liệu và có thể được tham số hóa như sau:
 
-- **linelist**: IDs in the line list data
-- **contacts**: IDs in the contact dataset ("from" and "to" combined)
-- **from**: IDs in the "from" column of contact datset
-- **to** IDs in the "to" column of contact dataset
-- **all**: IDs that appear anywhere in either dataset
-- **common**: IDs that appear in both contacts dataset and line list
-    
-For example, what are the first ten IDs in the contacts dataset?
+-   **linelist**: ID trong bộ dữ liệu `linelist`
+-   **contacts**: ID trong bộ dữ liệu contact (kết hợp "from" và "to")
+-   **from**: ID trong cột "from" của bộ dữ liệu contact
+-   **to**: ID trong cột "to" của bộ dữ liệu contact
+-   **all**: các ID xuất hiện ở bất kỳ một trong hai bộ dữ liệu
+-   **common**: các ID xuất hiện trong cả bộ dữ liệu contact và bộ dữ liệu `linelist`
+
+Ví dụ: xem 10 ID đầu tiên trong bộ dữ liệu contact?
+
 ```{r transmission_chains_get_ids,}
 contacts_ids <- get_id(epic, "contacts")
 head(contacts_ids, n = 10)
 ```
 
-How many IDs are found in both the linelist and the contacts?
+Có bao nhiêu ID được tìm thấy trong cả hai bộ dữ liệu tiếp xúc và `linelist`?
+
 ```{r transmission_chains_get_both,}
 length(get_id(epic, "common"))
 ```
 
 <!-- ======================================================= -->
-## Visualization {  }
 
-### Basic plotting {.unnumbered}
+## Trực quan hóa
 
-All visualisations of **epicontacts** objects are handled by the `plot`
-function. We will first filter the **epicontacts** object to include only the
-cases with onset dates in June 2014 using the `subset` function, and only
-include the contacts linked to those cases using the `thin` function.
-	
+### Biểu đồ cơ bản {.unnumbered}
+
+Tất cả các hình ảnh trực quan của các đối tượng **epicontacts** được xử lý bởi hàm `plot`. Trước tiên, chúng ta sẽ lọc đối tượng **epicontacts** để chỉ bao gồm các trường hợp có ngày bắt đầu vào tháng 6 năm 2014 bằng cách sử dụng hàm `subset`, và chỉ bao gồm các tiếp xúc được liên kết với các trường hợp đó bằng cách sử dụng hàm `thin`.
+
 ```{r transmission_chains_basic_plot_sub,}
 ## subset epicontacts object
 sub <- epic %>%
@@ -29401,7 +29354,7 @@ sub <- epic %>%
  thin("contacts")
 ```
 
-We can then create the basic, interactive plot very simply as follows:
+Sau đó, chúng ta có thể tạo biểu đồ cơ bản, có tính tương tác rất đơn giản như sau:
 
 ```{r transmission_chains_basic_plot,}
 ## plot epicontacts object
@@ -29412,35 +29365,23 @@ plot(
 )
 ```
 
-You can move the nodes around by dragging them, hover over them for more
-information and click on them to highlight connected cases.
+Bạn có thể di chuyển các nút xung quanh bằng cách kéo chúng, di chuột qua chúng để biết thêm thông tin và nhấp vào chúng để đánh dấu các trường hợp được kết nối.
 
-There are a large number of arguments to further modify this plot. We will cover
-the main ones here, but check out the documentation via `?vis_epicontacts` (the
-function called when using `plot` on an **epicontacts** object) to get a full
-description of the function arguments.
+Có một số lượng lớn các đối số để tùy chỉnh biểu đồ này. Chúng ta sẽ trình bày những vấn đề chính ở đây, nhưng bạn có thể xem thêm tài liệu thông qua lệnh `?vis_epicontacts` (hàm được gọi khi sử dụng biểu đồ trên đối tượng **epicontacts**) để có được mô tả đầy đủ về các đối số của hàm.
 
-#### Visualising node attributes {.unnumbered}
+#### Trực quan hóa các thuộc tính của nút {.unnumbered}
 
-Node color, node shape and node size can be mapped to a given column in the linelist 
-using the `node_color`, `node_shape` and `node_size` arguments. This is similar
-to the `aes` syntax you may recognise from **ggplot2**. 
+Màu nút, hình dạng nút và kích thước nút có thể được ánh xạ tới một cột nhất định trong bộ số liệu `linelist` bằng cách sử dụng các đối số `node_color`, `node_shape` và `node_size`. Điều này tương tự với cú pháp `aes` mà bạn có thể thấy trong **ggplot2**.
 
-The specific colors, shapes and sizes of nodes can be specified as follows:
+Màu sắc, hình dạng và kích thước cụ thể của các nút có thể được chỉ định như sau:
 
-* **Colors** via the `col_pal` argument, either by providing a name list for manual
-specification of each color as done below, or by providing a color palette
-function such as `colorRampPalette(c("black", "red", "orange"))`, which would
-provide a gradient of colours between the ones specified.
+-   **Màu sắc** thông qua đối số `col_pal`, bằng cách cung cấp một danh sách tên được chỉ định cho từng màu cụ thể như được thực hiện bên dưới hoặc bằng cách cung cấp một hàm bảng màu như `colorRampPalette(c("black", "red", "orange"))`, mà sẽ giúp cung cấp một dải màu giữa các màu được chỉ định.
 
-* **Shapes** by passing a named list to the `shapes` argument, specifying one shape
-  for each unique element in the linelist column specified by the `node_shape`
-  argument. See `codeawesome` for available shapes.
+-   **Hình dạng** bằng cách chuyển một danh sách đã đặt tên đến đối số `shapes`, chỉ định một hình dạng cho mỗi phần tử duy nhất trong cột bộ số liệu `linelist` được chỉ định bởi đối số `node_shape`. Xem `codeawesome` để biết các hình dạng có sẵn.
 
-* **Size** by passing a size range of the nodes to the `size_range` argument.
+-   **Kích thước** bằng cách chuyển một phạm vi kích thước của các nút tới đối số `size_range`.
 
-Here an example, where color represents the outcome, shape the gender and size
-the age:
+Dưới đây là một ví dụ, trong đó màu sắc thể hiện cho outcome, hình dạng thể hiện cho giới tính và kích thước thể hiện cho độ tuổi:
 
 ```{r transmission_chains_node_attribute,}
 plot(
@@ -29456,17 +29397,15 @@ plot(
 )
 ```
 
-#### Visualising edge attributes {.unnumbered}
+#### Trực quan hóa các thuộc tính cạnh {.unnumbered}
 
-Edge color, width and linetype can be mapped to a given column in the contacts
-dataframe using the `edge_color`, `edge_width` and `edge_linetype`
-arguments. The specific colors and widths of the edges can be specified as follows:
+Màu, độ dày và kiểu đường có thể được ánh xạ tới một cột nhất định trong bộ dữ liệu tiếp xúc bằng cách sử dụng các đối số `edge_color`, `edge_width` và `edge_linetype`. Các màu cụ và độ dày của các cạnh có thể được chỉ định như sau:
 
-* **Colors** via the `edge_col_pal` argument, in the same manner used for `col_pal`.
+-   **Màu sắc** thông qua đối số `edge_col_pal`, theo cách tương tự được sử dụng cho `col_pal`.
 
-* **Widths** by passing a size range of the nodes to the `width_range` argument.
+-   **Độ rộng** bằng cách chuyển phạm vi kích thước của các nút tới đối số `width_range`.
 
-Here an example:
+Dưới đây là ví dụ:
 
 ```{r transmission_chains_edge_attribute,}
 
@@ -29489,13 +29428,9 @@ plot(
 
 ```
 
-### Temporal axis {.unnumbered}
+### Trục thời gian {.unnumbered}
 
-We can also visualise the network along a temporal axis by mapping the `x_axis`
-argument to a column in the linelist. In the example below, the x-axis
-represents the date of symptom onset. We have also specified the `arrow_size`
-argument to ensure the arrows are not too large, and set `label = FALSE` to make
- the figure less cluttered.
+Chúng ta cũng có thể trực quan hóa mạng lây nhiễm dọc theo trục thời gian bằng cách ánh xạ đối số `x_axis` vào một cột trong bộ số liệu `linelist`. Trong ví dụ dưới đây, trục x biểu thị ngày bắt đầu triệu chứng. Chúng ta cũng đã chỉ định đối số `arrow_size` để đảm bảo các mũi tên không quá lớn và đặt `label = FALSE` để làm cho hình bớt lộn xộn.
 
 ```{r transmission_chains_x_axis,}
 plot(
@@ -29511,20 +29446,11 @@ plot(
 )
 ```
 
-There are a large number of additional arguments to futher specify how this
-network is visualised along a temporal axis, which you can check out
-via `?vis_temporal_interactive` (the function called when using `plot` on
-an **epicontacts** object with `x_axis` specified). We'll go through some
-below.
+Có một số lượng lớn các đối số bổ sung để cụ thể hơn cách mà mạng lưới này được hiển thị dọc theo trục thời gian, bạn có thể kiểm tra thông qua lệnh `?vis_temporal_interactive` (hàm được gọi khi sử dụng hàm `plot` trên đối tượng **epicontacts** với đối số `x_axis` được chỉ định). Chúng tôi sẽ mô tả kỹ hơn ở bên dưới.
 
-#### Specifying transmission tree shape {.unnumbered}
+#### Chỉ định hình dạng cây lây nhiễm {.unnumbered}
 
-There are two main shapes that the transmission tree can assume, specified using
-the `network_shape` argument. The first is a `branching` shape as shown above,
-where a straight edge connects any two nodes. This is the most intuitive
-representation, however can result in overlapping edges in a densely connected
-network. The second shape is `rectangle`, which produces a tree resembling a
-phylogeny. For example:
+Có hai hình dạng chính mà cây lây nhiễm có thể giả định, được chỉ định bằng cách sử dụng đối số `network_shape`. Đầu tiên là hình dạng nhánh `branching` như hình trên, trong đó một cạnh thẳng nối hai nút bất kỳ. Đây là cách trình bày trực quan nhất, tuy nhiên có thể dẫn đến các cạnh chồng lên nhau trong một mạng kết nối dày đặc. Kiểu hình thứ hai là `rectangle`, sẽ tạo ra một cái cây giống như cây phát sinh loài. Ví dụ:
 
 ```{r transmission_chains_rectangle,}
 plot(
@@ -29541,9 +29467,7 @@ plot(
 )
 ```
 
-Each case node can be assigned a unique vertical position by toggling the
-`position_dodge` argument. The position of unconnected cases (i.e. with no
-reported contacts) is specified using the `unlinked_pos` argument.
+Mỗi nút có thể được gán một vị trí dọc duy nhất bằng cách chuyển đổi đối số `position_dodge`. Vị trí của các trường hợp không được kết nối (tức là không có lây nhiễm được báo cáo) được xác định bằng cách sử dụng đối số `unlinked_pos`.
 
 ```{r transmission_chains_dodge,}
 plot(
@@ -29562,10 +29486,7 @@ plot(
 )
 ```
 
-The position of the parent node relative to the children nodes can be
-specified using the `parent_pos` argument. The default option is to place the
-parent node in the middle, however it can be placed at the bottom (`parent_pos =
-'bottom'`) or at the top (`parent_pos = 'top'`).
+Vị trí của nút "mẹ" so với các nút "con" có thể được xác định bằng cách sử dụng đối số `parent_pos`. Tùy chọn mặc định là đặt nút "mẹ" ở giữa, tuy nhiên nó có thể được đặt ở dưới cùng (`parent_pos = 'bottom'`) hoặc ở trên cùng (`parent_pos = 'top'`).
 
 ```{r transmission_chains_parent_pos,}
 plot(
@@ -29583,10 +29504,9 @@ plot(
 )
 ```
 
-#### Saving plots and figures {.unnumbered}
+#### Lưu biểu đồ {.unnumbered}
 
-You can save a plot as an interactive, self-contained html file with the
-`visSave` function from the **VisNetwork** package:
+Bạn có thể lưu một biểu đồ dưới dạng tệp tin html tương tác, độc lập với hàm `visSave` từ package **VisNetwork**:
 
 ```{r transmission_chains_save, eval=F}
 
@@ -29607,27 +29527,15 @@ plot(
 
 ```
 
-Saving these network outputs as an image is unfortunately less easy and requires
-you to save the file as an html and then take a screenshot of this file using
-the `webshot` package. In the code below, we are converting the html file saved
-above into a PNG:
+Rất tiếc, việc lưu các kết quả đầu ra mạng lưới lây nhiễm này dưới dạng hình ảnh trở nên khó khăn và bạn cần lưu dưới dạng tệp tin html và sau đó chụp ảnh màn hình của tệp tin này bằng backage **webshot**. Trong đoạn code dưới đây, chúng ta đang chuyển đổi tệp tin html được lưu ở trên thành dạng file ảnh PNG:
 
 ```{r transmission_chains_webshot, eval=F}
 webshot(url = "network.html", file = "network.png")
 ```
 
-### Timelines {.unnumbered}
+### Dòng thời gian {.unnumbered}
 
-You can also case timelines to the network, which are represented on the x-axis
-of each case. This can be used to visualise case locations, for example, or time
-to outcome. To generate a timeline, we need to create a data.frame of at least
-three columns indicating the case ID, the start date of the "event" and the end
-of date of the "event". You can also add any number of other columns which can
-then be mapped to node and edge properties of the timeline. In the code below,
-we generate a timeline going from the date of symptom onset to the date of
-outcome, and keep the outcome and hospital variables which we use to define the
-node shape and colour. Note that you can have more than one timeline row/event
-per case, for example if a case is transferred between multiple hospitals.
+Bạn cũng có thể thêm dòng thời gian cho mạng lưới truyền nhiễm, được biểu diễn trên trục x của mỗi trường hợp. Nó có thể được sử dụng để trực quan hóa các vị trí ca bệnh, hoặc thời gian dẫn đến outcome. Để tạo dòng thời gian, chúng ta cần tạo một data.frame gồm ít nhất ba cột bao gồm ID, ngày bắt đầu của "sự kiện" và ngày kết thúc của "sự kiện". Bạn cũng có thể thêm bất kỳ cột giá trị nào khác mà sau đó có thể được ánh xạ tới các thuộc tính nút và cạnh của dòng thời gian. Trong đoạn code dưới đây, chúng ta tạo một dòng thời gian từ ngày bắt đầu có triệu chứng đến ngày có outcome và giữ các biến outcome và bệnh viện mà chúng ta đã sử dụng để xác định hình dạng và màu sắc của nút. Lưu ý rằng bạn có thể có nhiều hơn một dòng thời gian hàng/sự kiện cho mỗi trường hợp, ví dụ: nếu một trường hợp được chuyển viện giữa nhiều bệnh viện.
 
 ```{r transmission_chains_create_timeline,}
 
@@ -29643,18 +29551,9 @@ timeline <- linelist %>%
 
 ```
 
-We then pass the timeline element to the `timeline` argument. We can map
-timeline attributes to timeline node colours, shapes and sizes in the same way
-defined in previous sections, except that we have _two_ nodes: the start and end
-node of each timeline, which have seperate arguments. For example,
-`tl_start_node_color` defines which timeline column is mapped to the colour of
-the start node, while `tl_end_node_shape` defines which timeline column is
-mapped to the shape of the end node. We can also map colour, width, linetype and
-labels to the timeline _edge_ via the `tl_edge_*` arguments. 
+Sau đó, chúng ta chuyển phần tử dòng thời gian vào đối số `timeline`. Chúng ta có thể ánh xạ các thuộc tính dòng thời gian với màu sắc, hình dạng và kích thước của nút dòng thời gian theo cùng một cách đã xác định trong các phần trước, ngoại trừ việc chúng ta có hai nút: nút bắt đầu và nút kết thúc của mỗi dòng thời gian, có các đối số riêng biệt. Ví dụ: `tl_start_node_color` xác định cột dòng thời gian nào được ánh xạ với màu của nút bắt đầu, trong khi `tl_end_node_shape` xác định cột dòng thời gian nào được ánh xạ tới hình dạng của nút kết thúc. Chúng ta cũng có thể ánh xạ màu, độ dày, kiểu đường kẻ và nhãn vào *cạnh* dòng thời gian thông qua các đối số `tl_edge_`.
 
-See `?vis_temporal_interactive` (the function called when plotting an
-epicontacts object) for detailed documentation on the arguments. Each argument
-is annotated in the code below too:
+Xem `?vis_temporal_interactive` (hàm được gọi khi vẽ biểu đồ một đối tượng epicontacts) để biết tài liệu chi tiết về các đối số. Mỗi đối số cũng được chú thích trong đoạn code bên dưới:
 
 ```{r transmission_chains_vis_timeline,}
 
@@ -29735,29 +29634,23 @@ plot(
 ```
 
 <!-- ======================================================= -->
-## Analysis {  }
 
-### Summarising {.unnumbered}
+## Phân tích
 
-We can get an overview of some of the network properties using the
-`summary` function.
+### Tổng hợp {.unnumbered}
+
+Chúng ta có thể xem tổng quan về một số thuộc tính mạng lưới bằng cách sử dụng hàm `summary`.
 
 ```{r transmission_chains_summarise_epicontacts,}
 ## summarise epicontacts object
 summary(epic)
 ```
 
-For example, we can see that only 57% of contacts have both cases in the
-linelist; this means that the we do not have linelist data on a significant
-number of cases involved in these transmission chains.
+Ví dụ, chúng ta có thể thấy rằng chỉ có 57% các tiếp xúc có cả hai trường hợp trong bộ số liệu `linelist`; điều này có nghĩa là chúng ta không có dữ liệu trong bộ số liệu `linelist` về một số lượng đáng kể các trường hợp liên quan đến các chuỗi lây nhiễm này.
 
-### Pairwise characteristics {.unnumbered}
+### Đặc điểm ghép cặp {.unnumbered}
 
-The `get_pairwise()` function allows processing of variable(s) in the line list
-according to each pair in the contact dataset. For the following example, date
-of onset of disease is extracted from the line list in order to compute the
-difference between disease date of onset for each pair. The value that is
-produced from this comparison represents the **serial interval (si)**.
+Hàm `get_pairwise()` cho phép xử lý (các) biến trong bộ số liệu `linelist` theo từng cặp trong bộ dữ liệu tiếp xúc. Ở ví dụ dưới đây, ngày khởi phát bệnh được trích xuất từ bộ số liệu `linelist` để tính toán sự khác biệt giữa ngày khởi phát bệnh cho từng cặp. Giá trị được tạo ra từ phép so sánh này đại diện cho **khoảng nối tiếp (serial interval - si)**.
 
 ```{r transmission_chains_pairwise,}
 si <- get_pairwise(epic, "date_onset")   
@@ -29771,27 +29664,19 @@ tibble(si = si) %>%
   )
 ```
 
-The `get_pairwise()` will interpret the class of the column being used for
-comparison, and will adjust its method of comparing the values accordingly. For
-numbers and dates (like the **si** example above), the function will subtract
-the values. When applied to columns that are characters or categorical,
-`get_pairwise()` will paste values together. Because the function also allows
-for arbitrary processing (see "f" argument), these discrete combinations can be
-easily tabulated and analyzed.
-    
+`get_pairwise()` sẽ diễn giải phân lớp của cột đang được sử dụng để so sánh và sẽ điều chỉnh phương pháp so sánh các giá trị của nó cho phù hợp. Đối với số và ngày (như ví dụ **si** ở trên), hàm sẽ trừ các giá trị. Khi được áp dụng cho các cột là ký tự hoặc phân loại, `get_pairwise()` sẽ gán các giá trị lại với nhau. Bởi vì hàm cũng cho phép xử lý tùy ý (xem đối số "f"), các kết hợp rời rạc này có thể dễ dàng được mô tả và phân tích.
+
 ```{r transmission_chains_pairwise_2,}
 head(get_pairwise(epic, "gender"), n = 10)
 get_pairwise(epic, "gender", f = table)
 fisher.test(get_pairwise(epic, "gender", f = table))
 ```
 
-Here, we see a significant association between transmission links and gender.
+Ở đây, chúng ta thấy có một mối liên hệ lớn giữa các liên kết lây nhiễm và giới tính.
 
-### Identifying clusters {.unnumbered}
+### Xác định cụm {.unnumbered}
 
-The `get_clusters()` function can be used for to identify connected components
-in an `epicontacts` object. First, we use it to retrieve a `data.frame`
-containing the cluster information:
+Hàm `get_clusters()` có thể được sử dụng để xác định các thành phần được kết nối trong một đối tượng `epicontacts`. Đầu tiên, chúng ta sử dụng nó để truy xuất `data.frame` chứa thông tin cụm:
 
 ```{r transmission_chains_cluster,}
 clust <- get_clusters(epic, output = "data.frame")
@@ -29804,8 +29689,7 @@ ggplot(clust, aes(cluster_size)) +
   )
 ```
 
-Let us look at the largest clusters. For this, we add cluster information to the
-`epicontacts` object and then subset it to keep only the largest clusters:
+Giờ chúng ta hãy xem xét các cụm lớn nhất. Đối với điều này, chúng ta thêm thông tin cụm vào đối tượng `epicontacts` và sau đó subset nó để chỉ giữ lại các cụm lớn nhất:
 
 ```{r transmission_chains_cluster_2,}
 epic <- get_clusters(epic)
@@ -29813,41 +29697,33 @@ max_size <- max(epic$linelist$cluster_size)
 plot(subset(epic, cs = max_size))
 ```
 
-### Calculating degrees {.unnumbered}
+### Tính toán mức độ {.unnumbered}
 
-The degree of a node corresponds to its number of edges or connections to other
-nodes. `get_degree()` provides an easy method for calculating this value for
-`epicontacts` networks. A high degree in this context indicates an individual
-who was in contact with many others. The `type` argument indicates that we want
-to count both the in-degree and out-degree, the `only_linelist` argument
-indicates that we only want to calculate the degree for cases in the linelist.
+Mức độ của một nút tương ứng với số cạnh hoặc kết nối của nó với các nút khác. `get_degree()` cung cấp một phương pháp dễ dàng để tính toán giá trị này cho các mạng lưới `epicontacts`. Mức độ cao trong ngữ cảnh này cho biết một cá nhân đã tiếp xúc với nhiều người khác. Đối sôs `type` chỉ ra rằng chúng ta muốn đếm cả mức độ trong và ngoài, đối số `only_linelist` chỉ ra rằng chúng ta chỉ muốn tính mức độ cho các trường hợp trong bộ số liệu `linelist`.
 
 ```{r transmission_chains_degree,}
 deg_both <- get_degree(epic, type = "both", only_linelist = TRUE)
 ```
 
-Which individuals have the ten most contacts?
+Những cá nhân nào có 10 tiếp xúc?
 
 ```{r}
 head(sort(deg_both, decreasing = TRUE), 10)
 ```
 
-What is the mean number of contacts?
+Số lượng lây nhiễm trung bình là bao nhiêu?
 
 ```{r}
 mean(deg_both)
 ```
 
 <!-- ======================================================= -->
-## Resources {  }
 
-The
-[epicontacts page](https://www.repidemicsconsortium.org/epicontacts/index.html)
-provides an overview of the package functions and includes some more in-depth
-vignettes.
+## Tham khảo
 
-The [github page](http://github.com/reconhub/epicontacts) can be used to raise
-issues and request features.
+[Epicontacts page](https://www.repidemicsconsortium.org/epicontacts/index.html) cung cấp tổng quan về các hàm và package bao gồm một số thông tin chi tiết chuyên sâu hơn.
+
+[Github page](http://github.com/reconhub/epicontacts) có thể được sử dụng để nêu vấn đề và yêu cầu chỉnh sửa.
 ```{r include=FALSE, cache=FALSE}
 
 # clear workspace
