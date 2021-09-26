@@ -10,18 +10,18 @@ Trong chương này, chúng tôi mô tả các cách để định vị, nhập 
 
 -   Sử dụng package **here** để định vị tệp liên quan đến dự án R gốc - để ngăn ngừa sự phức tạp do nhiều đường dẫn tệp chỉ dành riêng cho một máy tính\
 
--   Các trường hợp nhập cụ thể:
+-   Các tình huống nhập dữ liệu thường gặp:
 
-    -   Excel sheet cụ thể\
-    -   Tiêu đề sắp xếp lộn xộn và bỏ qua một số hàng\
-    -   Từ Google sheet\
+    -   Từ một Trang tính Excel\
+    -   Có tiêu đề sắp xếp lộn xộn và cần bỏ qua một số hàng\
+    -   Từ trang tính của Google\
     -   Từ dữ liệu được đăng lên các trang web\
     -   Với APIs\
     -   Nhập tệp *gần đây nhất*\
 
 -   Nhập dữ liệu thủ công\
 
--   Các loại tệp R cụ thể ví dụ như RDS và RData\
+-   Các loại tệp R đặc trưng ví dụ như RDS và RData\
 
 -   Xuất/lưu tệp và biểu đồ
 
@@ -29,13 +29,13 @@ Trong chương này, chúng tôi mô tả các cách để định vị, nhập 
 
 ## Tổng quan
 
-Khi bạn nhập một "dataset" vào R, bạn thường tạo ra một đối tượng *data frame* mới trong môi trường R của mình và định nghĩa nó là tệp được nhập (ví dụ: Excel, CSV, TSV, RDS), từ trong các thư mục của bạn tại một đường dẫn/địa chỉ tệp nhất định.
+Khi bạn nhập một "dataset (bộ dữ liệu)" vào R, bạn thường cần tạo ra một đối tượng *data frame* mới trong môi trường R và định nghĩa nó là tệp được nhập (ví dụ: Excel, CSV, TSV, RDS), từ trong các thư mục của bạn tại một đường dẫn/địa chỉ tệp nhất định.
 
 Bạn có thể nhập/xuất nhiều loại tệp, bao gồm cả những tệp được tạo bởi các chương trình thống kê khác (SAS, STATA, SPSS). Bạn cũng có thể kết nối với các cơ sở dữ liệu liên quan.
 
 R thậm chí còn có các định dạng dữ liệu riêng:
 
--   Một tệp RDS (.rds) lưu trữ một đối tượng R đơn lẻ chẳng hạn như một data frame. Chúng hữu ích trong việc lưu trữ dữ liệu đã được làm sạch, vì chúng giữ lại kiểu dữ liệu cho các cột R. Đọc thêm trong [mục này](#import_rds).\
+-   Một tệp RDS (.rds) lưu trữ một đối tượng R đơn lẻ, chẳng hạn như một data frame. Chúng hữu ích trong việc lưu trữ dữ liệu đã được làm sạch, vì chúng giữ lại kiểu dữ liệu cho các cột R. Đọc thêm trong [mục này](#import_rds).\
 -   Một tệp RData (.Rdata) có thể được sử dụng để lưu trữ nhiều đối tượng hoặc thậm chí là một không gian làm việc trong R hoàn chỉnh. Đọc thêm trong [mục này](#import_rdata).
 
 <!-- ======================================================= -->
@@ -46,11 +46,11 @@ Package R chúng tôi gợi ý là: **rio**. Tên "rio" là chữ viết tắt c
 
 Hàm `import()` và `export()` có thể xử lý nhiều loại tệp khác nhau (ví dụ: .xlsx, .csv, .rds, .tsv). Khi bạn cung cấp đường dẫn tệp đến một trong các hàm này (bao gồm cả đuôi file mở rộng như ".csv"), **rio** sẽ đọc phần mở rộng và sử dụng đúng công cụ để nhập hoặc xuất tệp.
 
-Giải pháp thay thế cho việc sử dụng **rio** là sử dụng các hàm từ nhiều package khác, mỗi gói cụ thể cho một loại tệp. Ví dụ như, `read.csv()` (**base** R), `read.xlsx()` (package **openxlsx**) và `write_csv()` (package **readr**), v.v... Những lựa chọn thay thế này có thể khó nhớ, trong khi sử dụng `import()` và `export()` từ **rio** rất dễ dàng.
+Giải pháp thay thế cho việc sử dụng **rio** là sử dụng các hàm từ nhiều package khác, mỗi package cụ thể cho một loại tệp. Ví dụ như, `read.csv()` (**base** R), `read.xlsx()` (package **openxlsx**) và `write_csv()` (package **readr**), v.v... Những lựa chọn thay thế này có thể khó nhớ, trong khi sử dụng `import()` và `export()` từ **rio** rất dễ dàng.
 
-Các hàm `import()` và `export()` của **rio** sử dụng package và lệnh phù hợp cho một tệp nhất định, dựa trên phần mở rộng của tệp đó. Xem phần cuối của chương này để thấy bảng đầy đủ về các package/hàm **rio** có thể xử lý được. Hàm này cũng có thể được sử dụng để nhập các tệp STATA, SAS và SPSS trong hàng tá các loại tệp khác.
+Các hàm `import()` và `export()` của **rio** sử dụng package và lệnh phù hợp cho một tệp nhất định, dựa trên phần mở rộng của tệp đó. Xem phần cuối của chương này để xem bảng đầy đủ về các package/hàm **rio** sử dụng trong nền. Hàm này cũng có thể được sử dụng để nhập các tệp STATA, SAS và SPSS trong hàng tá các loại tệp khác.
 
-Nhập/xuất shapefiles đòi hỏi các package khác, được mô tả cụ thể trong chương [GIS cơ bản].
+Nhập/xuất shapefiles đòi hỏi sử dụng các package khác, được mô tả cụ thể trong chương [GIS cơ bản].
 
 ## Package **here** {#here}
 
@@ -65,17 +65,17 @@ Package **here** và hàm `here()` của nó giúp R dễ dàng biết nơi tìm
 -   Để tạo đường dẫn tệp, viết tên các thư mục bên ngoài thư mục gốc, trong dấu ngoặc kép, được phân tách bằng dấu phẩy, cuối cùng kết thúc bằng tên và phần mở rộng của tệp như được trình bày dưới đây\
 -   Các đường dẫn tệp `here()` có thể được sử dụng cả để nhập và xuất dữ liệu
 
-Ví dụ, dưới đây, một đường dẫn tệp được tạo bởi `here()` đang cung cấp cho hàm `import()`
+Ví dụ, dưới đây, một đường dẫn tệp được tạo bởi hàm `here()` đang được cung cấp cho hàm `import()`
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
 ```
 
-Lệnh `here("data", "linelists", "ebola_linelist.xlsx")` đang cung cấp đường dẫn tệp đầy đủ mà *duy nhất cho máy tính của người dùng:*
+Lệnh `here("data", "linelists", "ebola_linelist.xlsx")` trên thực tế đang cung cấp đường dẫn tệp đầy đủ mà *là duy nhất cho máy tính của người dùng:*
 
     "C:/Users/Laura/Documents/my_R_project/data/linelists/ebola_linelist.xlsx"
 
-Ưu điểm là lệnh `here()` được R sử dụng có thể chạy thành công trên bất kỳ máy tính nào truy cập dự án R.
+Ưu điểm là lệnh `here()` được R sử dụng có thể chạy thành công trên bất kỳ máy tính nào truy cập vào dự án R.
 
 [***MẸO:*** Nếu bạn không chắc gốc ".here" được đặt ở đâu, hãy chạy lệnh `here()` với dấu ngoặc đơn trống.]{style="color: darkgreen;"}
 
@@ -95,7 +95,7 @@ Khi nhập hoặc xuất dữ liệu, bạn phải cung cấp một đường d�
 
 Trong R, đường dẫn tệp "tương đối" bao gồm đường dẫn tệp mà *liên quan* đến phần gốc của dự án R. Chúng cho phép nhiều đường dẫn tệp đơn giản hơn có thể làm việc trên nhiều máy tính khác nhau (ví dụ: nếu dự án R nằm trên bộ nhớ dùng chung hoặc được gửi qua thư điện tử). Như đã được [mô tả ở trên](#here), đường dẫn tệp tương đối được tạo ra dễ dàng bằng cách sử dụng package **here**.
 
-Dưới đây là một ví dụ về đường dẫn tệp tương đối được tạo bằng package `here()`. Chúng tôi giả sử công việc nằm trong một dự án R có chứa một thư mục con "data" và bên trong thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
+Dưới đây là một ví dụ về đường dẫn tệp tương đối được tạo bằng package `here()`. Chúng tôi giả sử công việc nằm trong một dự án R có chứa một thư mục con "data" và bên trong nó là thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
@@ -103,9 +103,9 @@ linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
 
 ### Đường dẫn tệp "tuyệt đối" {.unnumbered}
 
-Đường dẫn tệp tuyệt đối hay "đầy đủ" có thể được cung cấp cho các hàm như `import()` nhưng chúng "dễ vỡ" vì chúng là duy nhất cho cho các máy tính khác nhau của người dùng và do đó *không được khuyến khích* sử dụng.
+Đường dẫn tệp tuyệt đối hay "đầy đủ" có thể được cung cấp cho các hàm như `import()` nhưng chúng "dễ đứt gãy" bởi vì chúng là duy nhất đối với các máy tính của những người dùng khác nhau, và do đó *không được khuyến khích* sử dụng.
 
-Dưới đây là một ví dụ về đường dẫn tệp tuyệt đối, trong máy tính của Laura có một thư mục "analysis", một thư mục con "data" và bên trong là thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
+Dưới đây là một ví dụ về đường dẫn tệp tuyệt đối, trong máy tính của Laura có một thư mục "analysis", tiếp theo là thư mục con "data" và bên trong là thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
 
 ```{r, eval=F}
 linelist <- import("C:/Users/Laura/Documents/analysis/data/linelists/ebola_linelist.xlsx")
@@ -113,13 +113,13 @@ linelist <- import("C:/Users/Laura/Documents/analysis/data/linelists/ebola_linel
 
 Một vài điều cần lưu ý về đường dẫn tệp tuyệt đối:
 
--   **Tránh sử dụng đường dẫn tệp tuyệt đối** vì chúng sẽ bị vỡ nếu script được chạy trên một máy tính khác
--   Sử dụng dấu gạch chéo *lên* (`/`), như trong ví dụ trên (lưu ý: đây *KHÔNG* phải là mặc định đối với đường dẫn tệp trong Windows)\
--   Đường dẫn tệp bắt đầu với hai dấu gạch chéo (ví dụ: "//...") sẽ có khả năng **không được R nhận ra** và tạo ra lỗi. Cân nhắc chuyển công việc của bạn sang ổ đĩa "có tên" hoặc "có chữ" bắt đầu bằng một chữ cái (ví dụ: "J:" hoặc "C:"). Xem trang về [Tương tác với thư mục làm việc] để biết thêm chi tiết về vấn đề này.
+-   **Tránh sử dụng đường dẫn tệp tuyệt đối** vì chúng sẽ bị đứt gãy nếu script được chạy trên một máy tính khác
+-   Sử dụng dấu gạch chéo *tiến* (`/`), như trong ví dụ trên (lưu ý: đây *KHÔNG* phải là kiểu mặc định đối với đường dẫn tệp trong Windows)\
+-   Đường dẫn tệp bắt đầu với hai dấu gạch chéo (ví dụ: "//...") sẽ có khả năng **không được R nhận ra** và tạo ra lỗi. Hãy cân nhắc chuyển công việc của bạn sang ổ đĩa "có tên" hoặc "có chữ" bắt đầu bằng một chữ cái (ví dụ: "J:" hoặc "C:"). Xem chương về [Tương tác với thư mục làm việc] để biết thêm chi tiết về vấn đề này.
 
-Một tình huống mà đường dẫn tệp tuyệt đối có thể phù hợp là khi bạn muốn nhập một tệp từ bộ nhớ dùng chung có cùng đường dẫn tệp đầy đủ cho tất cả người dùng.
+Một tình huống mà đường dẫn tệp tuyệt đối có thể thích hợp là khi bạn muốn nhập một tệp từ bộ nhớ dùng chung có cùng đường dẫn tệp đầy đủ cho tất cả người dùng.
 
-[***MẸO:*** Để nhanh chóng chuyển đổi tất cả `\` thành `/`, đánh dấu code được quan tâm, sử dụng Ctrl + f (trong Windows), kiểm tra hộp tùy chọn cho "In selection", sau đó sử dụng chức năng thay thế (replace) để chuyển đổi chúng.]{style="color: darkgreen;"}
+[***MẸO:*** Để nhanh chóng chuyển đổi tất cả `\` thành `/`, hãy bôi đen đoạn code cần chuyển, sử dụng Ctrl + F (trong Windows) và tích vào tùy chọn "In selection", sau đó sử dụng chức năng thay thế (replace) để chuyển đổi chúng.]{style="color: darkgreen;"}
 
 <!-- ======================================================= -->
 
@@ -129,7 +129,7 @@ Bạn có thể nhập dữ liệu theo cách thủ công thông qua một trong
 
 1)  Từ cửa sổ Environment trong RStudio, nhấp vào "Import Dataset" và chọn loại dữ liệu
 2)  Nhấp vào File / Import Dataset / (chọn loại dữ liệu)\
-3)  Để lựa chọn thủ công bằng hard-code, hãy sử dụng lệnh *base R* `file.choose()` (để trống dấu ngoặc đơn) để kích hoạt sự xuất hiện của **cửa sổ pop-up** cho phép người dùng chọn tệp theo cách thủ công từ máy tính của họ. Ví dụ:
+3)  Để lựa chọn thủ công bằng code, hãy sử dụng lệnh `file.choose()` trong *base R* (để trống dấu ngoặc đơn) để kích hoạt sự xuất hiện của một **cửa sổ pop-up** cho phép người dùng chọn tệp theo cách thủ công từ máy tính của họ. Ví dụ:
 
 ```{r import_choose, eval=F}
 # Manual selection of a file. When this command is run, a POP-UP window will appear. 
@@ -142,15 +142,15 @@ my_data <- import(file.choose())
 
 ## Nhập dữ liệu
 
-Sử dụng lệnh `import()` để nhập một bộ dữ liệu khá đơn giản. Chỉ cần cung cấp đường dẫn đến tệp (bao gồm tên và phần mở rộng của tệp) trong dấu ngoặc kép. Nếu sử dụng `here()` để xây dựng đường dẫn tệp, hãy làm theo hướng dẫn ở trên. Dưới đây là một vài ví dụ:
+Sử dụng lệnh `import()` để nhập một bộ dữ liệu khá đơn giản. Chỉ cần cung cấp đường dẫn của tệp (bao gồm tên và phần mở rộng của tệp) trong dấu ngoặc kép. Nếu sử dụng hàm `here()` để xây dựng đường dẫn tệp, hãy làm theo hướng dẫn ở bên trên. Dưới đây là một vài ví dụ:
 
-Nhập tệp csv nằm trong "thư mục làm việc (working directory)" của bạn hoặc trong thư mục gốc của dự án R:
+Nhập một tệp csv nằm trong "thư mục làm việc (working directory)" của bạn hoặc trong thư mục gốc của dự án R:
 
 ```{r, eval=F}
 linelist <- import("linelist_cleaned.csv")
 ```
 
-Nhập sheet đầu tiên Excel workbook nằm trong thư mục con "data" và "linelists" của dự án R (đường dẫn tệp được tạo bằng `here()`):
+Nhập sheet đầu tiên của Excel workbook, được đặt trong thư mục con "data" và "linelists" của dự án R (đường dẫn tệp được tạo bằng hàm `here()`):
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "linelist_cleaned.xlsx"))
@@ -164,30 +164,30 @@ linelist <- import("C:/Users/Laura/Documents/tuberculosis/data/linelists/linelis
 
 ### Trang tính Excel cụ thể {.unnumbered}
 
-Theo mặc định, nếu bạn cung cấp một Excel workbook (.xlsx) để `import()`, trang tính đầu tiên của workbook sẽ được nhập. Nếu bạn muốn nhập một **trang tính** cụ thể, hãy nhập tên trang tính vào đối số `which =`. Ví dụ:
+Theo mặc định, nếu bạn cung cấp một Excel workbook (.xlsx) để nhập bằng hàm `import()`, trang tính đầu tiên của workbook sẽ được nhập. Nếu bạn muốn nhập một **trang tính** cụ thể, hãy cụ thể tên trang tính vào đối số `which =`. Ví dụ:
 
 ```{r eval=F}
 my_data <- import("my_excel_file.xlsx", which = "Sheetname")
 ```
 
-Nếu sử dụng hàm `here()` để cung cấp một đường dẫn tương đối đến `import()`, bạn vẫn có thể chỉ ra một trang tính cụ thể bằng cách thêm đối số `which =` sau dấu đóng ngoặc của hàm `here()`.
+Nếu sử dụng hàm `here()` để cung cấp một đường dẫn tương đối đến hàm `import()`, bạn vẫn có thể chỉ ra một trang tính cụ thể bằng cách thêm đối số `which =` sau dấu đóng ngoặc của hàm `here()`.
 
 ```{r import_sheet_here, eval=F}
 # Demonstration: importing a specific Excel sheet when using relative pathways with the 'here' package
 linelist_raw <- import(here("data", "linelist.xlsx"), which = "Sheet1")`  
 ```
 
-Để *xuất* một data frame từ R sang một trang tính Excel sheet và phần còn lại của Excel workbook không thay đổi, bạn sẽ phải nhập, chỉnh sửa và xuất với một package thay thế phục vụ cho mục đích này, chẳng hạn như **openxlsx**. Xem thêm thông tin trong chương về [Tương tác với thư mục làm việc] hoặc [tại trang github này](https://ycphs.github.io/openxlsx/).
+Để *xuất* một data frame từ R sang một trang tính Excel và phần còn lại của Excel workbook không thay đổi, bạn sẽ phải nhập, chỉnh sửa và xuất với một package thay thế chuyên biệt cho mục đích này, chẳng hạn như **openxlsx**. Xem thêm thông tin trong chương về [Tương tác với thư mục làm việc] hoặc [tại trang github này](https://ycphs.github.io/openxlsx/).
 
-Nếu Excel workbook của bạn là .xlsb (định dạng nhị phân của Excel workbook) bạn có thể không nhập được bằng **rio**. Cân nhắc lưu lại nó dưới dạng .xlsx hoặc sử dụng một package như **readxlsb**, là package được xây dựng cho [mục đích này](https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html).
+Nếu Excel workbook của bạn có phần mở rộng là .xlsb (định dạng nhị phân của Excel workbook) bạn có thể sẽ không nhập được bằng package **rio**. Hãy cân nhắc lưu lại tệp dưới dạng .xlsx hoặc sử dụng một package như **readxlsb**, là package được xây dựng cho [kiểu tệp này](https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html).
 
 <!-- ======================================================= -->
 
 ### Giá trị missing {#import_missing .unnumbered}
 
-Bạn có thể muốn xác định (các) giá trị nào trong bộ dữ liệu của mình nên được coi là missing. Như đã giải thích trong chương về [Dữ liệu missing], giá trị trong R cho dữ liệu missing là `NA`, nhưng có thể bộ dữ liệu bạn muốn nhập sử dụng giá trị 99, "Missing" hoặc chỉ là khoảng trống ký tự "".
+Bạn có thể muốn xác định (các) giá trị nào trong bộ dữ liệu của mình nên được coi là missing. Như đã giải thích trong chương về [Dữ liệu missing], giá trị cho dữ liệu missing trong R là `NA`, nhưng có thể bộ dữ liệu bạn muốn nhập vào sử dụng giá trị 99, "Missing" hoặc chỉ là khoảng trống ký tự "".
 
-Sử dụng đối số `na =` để `import()` và cung cấp (các) giá trị trong dấu ngoặc kép (ngay cả khi chúng là các số). Bạn có thể chỉ định nhiều giá trị bằng cách gộp chúng trong một vectơ, sử dụng `c()` như được thể hiện dưới đây.
+Sử dụng đối số `na =` để (nhập) `import()` và cung cấp (các) giá trị trong dấu ngoặc kép (ngay cả khi chúng là các số). Bạn có thể chỉ định nhiều giá trị bằng cách gộp chúng trong một vectơ, bằng cách sử dụng `c()` như được trình bày dưới đây.
 
 Tại đây, giá trị "99" trong bộ dữ liệu đã nhập được coi là missing và được chuyển đổi thành `NA` trong R.
 
@@ -195,7 +195,7 @@ Tại đây, giá trị "99" trong bộ dữ liệu đã nhập được coi là
 linelist <- import(here("data", "my_linelist.xlsx"), na = "99")
 ```
 
-Tại đây, bất kỳ giá trị "Missing", "" (ô trống) hoặc "" (khoảng trắng) nào trong bộ dữ liệu đã nhập đều được chuyển đổi thành `NA` trong R.
+Còn ở đây, bất kỳ giá trị nào là "Missing", "" (ô trống) hoặc " " (khoảng trắng) trong bộ dữ liệu đã nhập đều được chuyển đổi thành `NA` trong R.
 
 ```{r, eval=F}
 linelist <- import(here("data", "my_linelist.csv"), na = c("Missing", "", " "))
@@ -205,17 +205,17 @@ linelist <- import(here("data", "my_linelist.csv"), na = c("Missing", "", " "))
 
 ### Bỏ qua một số hàng {.unnumbered}
 
-Đôi khi, bạn có thể không muốn nhập một hàng dữ liệu. Bạn có thể thực hiện thao tác này với đối số `skip =` nếu sử dụng `import()` từ **rio** trên tệp .xlsx hoặc .csv. Cung cấp số hàng bạn muốn bỏ qua.
+Đôi khi, bạn có thể không muốn nhập một hàng dữ liệu. Bạn có thể thực hiện thao tác này với đối số `skip =` nếu sử dụng hàm `import()` từ package **rio** trên tệp .xlsx hoặc .csv. Cung cấp số hàng bạn muốn bỏ qua.
 
 ```{r, eval=F}
 linelist_raw <- import("linelist_raw.xlsx", skip = 1)  # does not import header row
 ```
 
-Không may `skip =` chỉ chấp nhận một giá trị số nguyên, *không* chấp nhận một khoảng (ví dụ: "2:10" sẽ không hoạt động). Để bỏ qua việc nhập các hàng cụ thể không liên tiếp từ trên cùng, hãy cân nhắc nhập nhiều lần và sử dụng `bind_rows()` từ **dplyr**. Hãy xem ví dụ dưới đây về việc chỉ bỏ qua hàng thứ 2.
+Không may là hàm `skip =` chỉ chấp nhận một giá trị số nguyên, *không* chấp nhận một khoảng (ví dụ: "2:10" sẽ không hoạt động). Để bỏ qua việc nhập các hàng cụ thể không liên tiếp từ trên cùng, hãy cân nhắc nhập nhiều lần và sử dụng hàm `bind_rows()` từ **dplyr**. Hãy xem ví dụ dưới đây về việc chỉ bỏ qua hàng thứ 2.
 
 ### Quản lý hàng tiêu đề thứ hai {.unnumbered}
 
-Đôi khi, dữ liệu của bạn có thể có hàng *thứ hai*, với chức năng như là "từ điển dữ liệu" như hình dưới đây. Trường hợp này có thể xảy ra vấn đề vì nó có thể dẫn đến việc tất cả các cột được nhập vào dưới dạng nhóm "ký tự (character)".
+Đôi khi, dữ liệu của bạn có thể có hàng *thứ hai*, với chức năng như là "từ điển dữ liệu" như hình dưới đây. Trường hợp này có thể xảy ra vấn đề vì nó có thể dẫn đến việc tất cả các cột được nhập vào dưới dạng kiểu "ký tự (character)".
 
 ```{r, echo=F}
 # HIDDEN FROM READER
@@ -248,7 +248,7 @@ linelist_2headers <- rio::import(here::here("data", "case_linelists", "linelist_
                 time_admission = "time of hospital admission HH:MM")
 ```
 
-Dưới đây là một ví dụ về loại bộ dữ liệu này (với hàng đầu tiên là từ điển dữ liệu).
+Dưới đây là một ví dụ về kiểu bộ dữ liệu này (với hàng đầu tiên là từ điển dữ liệu).
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
@@ -259,9 +259,9 @@ DT::datatable(head(linelist_2headers, 5), rownames = FALSE, filter="top", option
 
 Để bỏ hàng tiêu đề thứ hai, bạn có thể sẽ cần nhập dữ liệu hai lần.
 
-1)  Nhập dữ liệu vào để lấy tên các cột một cách chính xác\
+1)  Nhập dữ liệu vào để lấy tên các cột chính xác\
 2)  Nhập lại dữ liệu, bỏ qua *hai* hàng đầu tiên (hàng tiêu đề và hàng thứ hai)\
-3)  Liên kết dataframe đã xóa bỏ 2 hàng đầu tiên với tên cột ở bước 1
+3)  Liên kết dataframe đã xóa bỏ 2 hàng đầu tiên với tên cột chính xác ở bước 1
 
 Đối số chính xác được sử dụng để liên kết các tên cột tùy thuộc vào loại tệp dữ liệu (.csv, .tsv, .xlsx, v.v.). Điều này là do **rio** sử dụng các hàm khác nhau cho các loại tệp khác nhau (xem bảng ở trên).
 
@@ -300,7 +300,7 @@ colnames(linelist_raw) <- linelist_raw_names
 
 #### Tạo từ điển dữ liệu {.unnumbered}
 
-Thông tin thêm! Nếu bạn có hàng thứ hai là từ điển dữ liệu, bạn có thể dễ dàng tạo từ điển dữ liệu thích hợp từ nó. Mẹo này được điều chỉnh từ [bài đăng](https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/) này.
+Thông tin thêm! Nếu bạn có hàng thứ hai là từ điển dữ liệu, bạn có thể dễ dàng tạo từ điển dữ liệu thích hợp từ nó. Mẹo này được tham khảo từ [bài đăng](https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/) này.
 
 ```{r}
 dict <- linelist_2headers %>%             # begin: linelist with dictionary as first row
@@ -316,7 +316,7 @@ DT::datatable(dict, rownames = FALSE, filter="top", options = list(pageLength = 
 
 #### Kết hợp hai hàng tiêu đề {.unnumbered}
 
-Trong một số trường hợp khi bộ dữ liệu thô của bạn có *hai* hàng tiêu đề (hoặc cụ thể hơn, hàng dữ liệu thứ 2 là tiêu đề phụ), bạn có thể muốn "kết hợp" chúng hoặc thêm các giá trị trong hàng tiêu đề thứ hai vào hàng tiêu đề đầu tiên.
+Trong một số trường hợp khi bộ dữ liệu thô của bạn có *hai* hàng tiêu đề (hoặc cụ thể hơn, hàng dữ liệu thứ 2 là tiêu đề phụ), bạn có thể sẽ muốn "kết hợp" chúng hoặc thêm các giá trị trong hàng tiêu đề thứ hai vào hàng tiêu đề đầu tiên.
 
 Lệnh dưới đây sẽ xác định tên cột của data frame là sự kết hợp (dán với nhau) của các tiêu đề (đúng) đầu tiên với giá trị ngay bên dưới (trong hàng đầu tiên).
 
@@ -357,7 +357,7 @@ Dưới đây là một số hướng dẫn trực tuyến hữu ích khác:\
 
 ## Nhập, xuất, tách, kết hợp - nhiều tệp
 
-Xem chương về [Lặp, vòng lặp và danh sách] để biết ví dụ về cách nhập và kết hợp nhiều tệp hoặc nhiều Excel workbook. Chương này cũng có các ví dụ về cách chia một data frame thành các phần và xuất từng phần riêng biệt hoặc dưới dạng các sheet được đặt tên trong một Excel workbook.
+Xem chương về [Lặp, vòng lặp, và danh sách] để biết ví dụ về cách nhập và kết hợp nhiều tệp hoặc nhiều Excel workbook. Chương này cũng có các ví dụ về cách chia một data frame thành các phần và xuất từng phần riêng biệt hoặc dưới dạng các trang tính được đặt tên trong một Excel workbook.
 
 <!-- ======================================================= -->
 
@@ -431,7 +431,7 @@ DT::datatable(manual_entry_rows)
 
 ### Nhập theo cột {.unnumbered}
 
-Vì data frame bao gồm các vectơ (cột dọc), cách tiếp cận **cơ bản** để tạo data frame thủ công trong R muốn bạn xác định từng cột và sau đó liên kết chúng lại với nhau. Điều này có thể phản trực quan trong dịch tễ học, vì chúng ta thường nghĩ về dữ liệu của mình theo hàng (như trên).
+Vì data frame bao gồm các vectơ (cột dọc), cách tiếp cận **cơ bản** để tạo data frame thủ công trong R yêu cầu bạn phải tạo từng cột và sau đó liên kết chúng lại với nhau. Điều này có thể phản trực quan trong dịch tễ học, vì chúng ta thường nghĩ về dữ liệu của mình theo hàng (như trên).
 
 ```{r import_manual_col}
 # define each vector (vertical column) separately, each with its own name
@@ -483,7 +483,7 @@ df_from_clipboard <- read.table(
 Thường thì bạn có thể nhận được các bản cập nhật hàng ngày cho bộ dữ liệu của mình. Trong trường hợp này, bạn sẽ muốn viết code mà nhập tệp gần đây nhất. Dưới đây, chúng tôi trình bày hai cách để tiếp cận điều này:
 
 -   Chọn tệp dựa trên ngày trong tên tệp\
--   Chọn tệp dựa trên siêu dữ liệu (metadata) của tệp (lần sửa đổi cuối cùng)
+-   Chọn tệp dựa trên metadata (siêu dữ liệu - là dạng dữ liệu mô tả thông tin chi tiết về dữ liệu) của tệp (lần sửa đổi cuối cùng) 
 
 ### Ngày trong tên tệp {.unnumbered}
 
@@ -523,7 +523,7 @@ index_latest_file <- which.max(linelist_dates_clean)
 index_latest_file
 ```
 
-Nếu chúng ta tổng hợp tất cả các lệnh này, code hoàn chỉnh có thể trông giống như bên dưới. Lưu ý rằng dấu `.` ở dòng cuối cùng thay thế cho thành phần được piping vào hàm đó. Tại thời điểm đó, giá trị chỉ đơn giản là số 6. Giá trị này được đặt trong dấu ngoặc kép để trích xuất phần tử thứ 6 của vectơ tên tệp được tạo bởi `dir()`.
+Nếu chúng ta tổng hợp tất cả các lệnh này, code hoàn chỉnh có thể trông giống như bên dưới. Lưu ý rằng dấu `.` ở dòng cuối cùng thay thế cho đối tượng được truyền vào hàm trước đó. Tại thời điểm đó, giá trị chỉ đơn giản là số 6. Giá trị này được đặt trong dấu ngoặc kép để trích xuất phần tử thứ 6 của vectơ tên tệp được tạo bởi `dir()`.
 
 ```{r}
 # load packages
@@ -545,7 +545,7 @@ latest_file <- dir(here("data", "example", "linelists")) %>%  # file names from 
 latest_file  # print name of latest file
 ```
 
-Bây giờ bạn có thể sử dụng tên này để kết thúc đường dẫn tệp tương đối, với `here()`:
+Bây giờ bạn có thể sử dụng tên này để hoàn thiện đường dẫn tệp tương đối, với hàm `here()`:
 
 ```{r, eval=F}
 here("data", "example", "linelists", latest_file) 
@@ -562,7 +562,7 @@ import(here("data", "example", "linelists", latest_file)) # import
 
 Nếu tệp của bạn không có ngày trong tên của chúng (hoặc bạn không tin tưởng vào những ngày đó), bạn có thể thử trích xuất ngày sửa đổi cuối cùng từ siêu dữ liệu tệp. Sử dụng các hàm từ package **fs** để kiểm tra thông tin siêu dữ liệu cho từng tệp, bao gồm thời gian sửa đổi cuối cùng và đường dẫn tệp.
 
-Dưới đây, chúng tôi cung cấp thư mục quan tâm tới `dir_info()` của **fs**. Trong trường hợp này, thư mục quan tâm nằm trong dự án R trong thư mục "data", thư mục con "example" và thư mục con thư mục này "linelists". Kết quả là một data frame với một dòng cho mỗi tệp và các cột cho `modification_time`, `path`, v.v. Bạn có thể xem ví dụ trực quan về điều này trong chương về [Tương tác với thư mục làm việc].
+Dưới đây, chúng tôi cung cấp thư mục quan tâm tới hàm `dir_info()` của package **fs**. Trong trường hợp này, thư mục quan tâm nằm trong dự án R trong thư mục "data", thư mục con "example" và thư mục con thư mục này "linelists". Kết quả là một data frame với một dòng cho mỗi tệp và các cột cho `modification_time`, `path`, v.v. Bạn có thể xem ví dụ trực quan về điều này trong chương về [Tương tác với thư mục làm việc].
 
 Chúng ta có thể sắp xếp data frame này của các tệp theo cột với `modification_time`, và sau đó chỉ giữ lại hàng trên cùng/mới nhất (tệp) với `head()`của **base** R. Sau đó, chúng ta có thể trích xuất đường dẫn tệp của tệp mới nhất này chỉ với hàm `pull()` của **dplyr** trên `path` cột. Cuối cùng, chúng ta có thể chuyển đường dẫn tệp này đến `import()`. Tệp đã nhập được lưu dưới dạng `latest_file`.
 
@@ -587,7 +587,7 @@ Không cần phải nói, để nhập dữ liệu qua API thì cần phải có
 
 *Lưu ý: Hãy nhớ lại rằng dữ liệu có thể được đăng trên một trang web không có API, điều này có thể dễ dàng truy xuất hơn. Ví dụ: một tệp CSV đã đăng có thể được truy cập chỉ bằng cách cung cấp URL của trang web để `import()` như được mô tả trong mục [nhập từ Github](#import_github).*
 
-### Yêu cầu HTTP (HTTP request) {.unnumbered}
+### HTTP request {.unnumbered}
 
 Trao đổi API thường được thực hiện thông qua một HTTP request. HTTP là Giao thức truyền siêu văn bản (Hypertext Transfer Protocol) và là định dạng cơ bản của giao thức yêu cầu (request)/phản hồi (response) giữa máy khách và máy chủ. Đầu vào và đầu ra chính xác có thể khác nhau tùy thuộc vào loại API nhưng quy trình là giống nhau - "Request" (thường là HTTP request) từ người dùng, thường chứa một truy vấn, theo sau là "Response", chứa thông tin trạng thái về request và có thể là nội dung được yêu cầu.
 
@@ -704,9 +704,9 @@ contacts <- as_tibble(fromJSON(json_contacts, flatten = TRUE))   # flatten JSON 
 
 Để biết thêm chi tiết, hãy xem tài liệu trên [LoopBack Explorer](https://loopback.io/doc/en/lb4/index.html), chương [Truy vết tiếp xúc] hoặc các mẹo API trên [Go.Data Github repository](https://worldhealthorganization.github.io/godata/api-docs)
 
-Bạn có thể đọc thêm về *httr* trong package [here](https://httr.r-lib.org/articles/quickstart.html)
+Bạn có thể đọc thêm về *httr* trong gói lệnh [here](https://httr.r-lib.org/articles/quickstart.html)
 
-Phần này cũng đã được trình bày trong [hướng dẫn này](https://www.dataquest.io/blog/r-api-tutorial/)và [hướng dẫn này](https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1) hướng dẫn này.
+Phần này cũng đã được trình bày trong [hướng dẫn này](https://www.dataquest.io/blog/r-api-tutorial/) và [hướng dẫn này](https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1).
 
 <!-- ======================================================= -->
 
