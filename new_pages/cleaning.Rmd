@@ -29,13 +29,13 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `as.character()`, `as.numeric()`, `as.Date()`, etc. | chuyển đổi định dạng cột                                   | **base** R               |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| `across()`                                          | chuyển dạng đồng thời nhiều cột                            | **dplyr**                |
+| `across()`                                          | biến đổi đồng thời nhiều cột                               | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| **tidyselect**                                      | hàm logic để chọn cột                                      | **tidyselect**           |
+| các hàm **tidyselect**                              | sử dụng logic để chọn cột                                  | **tidyselect**           |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `filter()`                                          | giữ lại các dòng theo điều kiện                            | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| `distinct()`                                        | lọc trùng quan sát                                         | **dplyr**                |
+| `distinct()`                                        | lọc quan sát trùng                                         | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `rowwise()`                                         | xử lý theo/trong mỗi dòng                                  | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
@@ -45,7 +45,7 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `recode()`                                          | recode lại giá trị trong cột                               | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| `case_when()`                                       | recode lại giá trị trong cột kèm điều kiện                 | **dplyr**                |
+| `case_when()`                                       | recode lại giá trị trong cột kèm các điều kiện phức tạp    | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `replace_na()`, `na_if()`, `coalesce()`             | các hàm đặc biệt để recode                                 | **tidyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
@@ -58,17 +58,17 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 
 Nếu bạn muốn xem các hàm này so sánh với các câu lệnh trong Stata hoặc SAS, hãy xem chương [Chuyển đổi sang R].
 
-Bạn có thể gặp một framework quản lý dữ liệu khác từ package **data.table** trong R với các toán tử như `:=` và thường xuyên sử dụng dấu ngoặc `[ ]`. Cách tiếp cận và cú pháp này được giải thích ngắn gọn trong chương [Data Table].
+Bạn cũng có thể gặp một framework quản lý dữ liệu khác từ package **data.table** trong R với các toán tử như `:=` và thường xuyên sử dụng dấu ngoặc `[ ]`. Cách tiếp cận và cú pháp này được giải thích ngắn gọn trong chương [Data Table].
 
 ### Thuật ngữ {.unnumbered}
 
-Trong cuốn sách này, chúng tôi quy ước chung "cột" và "hàng" thay cho "biến" và "quan sát". Như đã giải thích trong phần dẫn trên ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu dịch tễ-thống kê đều có cấu trúc gồm các hàng, cột và giá trị.
+Trong cuốn sách này, chúng tôi quy ước chung "cột" và "hàng" thay cho "biến" và "quan sát". Như đã giải thích trong phần dẫn trên ["dữ liệu gọn gàng - tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu dịch tễ-thống kê đều có cấu trúc gồm các hàng, cột và giá trị.
 
 *Variables (biến)* chứa các giá trị đo lường cùng một thuộc tính cơ bản (như nhóm tuổi, kết quả hoặc ngày bắt đầu). *Observations (quan sát)* chứa tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: một người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó xác định một cách hữu hình hơn.
 
 Trong bộ dữ liệu "tidy", mỗi cột là một biến, mỗi hàng là một quan sát và mỗi ô là một giá trị duy nhất. Tuy nhiên, một số bộ dữ liệu bạn gặp phải sẽ không giống với mô tả này - bộ dữ liệu định dạng "wide (ngang)" có thể có một biến số được chia thành nhiều cột (xem ví dụ trong chương [Xoay trục dữ liệu]). Tương tự như vậy, các quan sát có thể được chia thành nhiều hàng.
 
-Hầu hết cuốn sách này là về quản lý và biến đổi dữ liệu, do đó, việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ thích hợp hơn là các quan sát và biến một cách trừu tượng. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, nơi bạn sẽ thấy nhiều tham chiếu hơn đến các biến và quan sát.
+Cuốn sách này tập trung về quản lý và biến đổi dữ liệu, do đó, việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ thích hợp hơn là các quan sát và biến vốn khá trừu tượng. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, nơi bạn sẽ thấy nhiều tham chiếu hơn đến các biến và quan sát.
 
 <!-- ======================================================= -->
 
@@ -80,9 +80,9 @@ Hầu hết cuốn sách này là về quản lý và biến đổi dữ liệu,
 
 **Chương này tiến hành các bước làm sạch điển hình, bằng cách thêm chúng tuần tự vào một chuỗi pipe.**
 
-Trong phân tích dịch tễ học và xử lý dữ liệu, các bước làm sạch thường được thực hiện tuần tự, liên kết với nhau. Trong R, điều này thường biểu thị như một "pipeline" làm sạch, trong đó *bộ dữ liệu thô được chuyển tiếp hoặc "dẫn" từ bước làm sạch này sang bước làm sạch khác*.
+Trong phân tích dịch tễ học và xử lý dữ liệu, các bước làm sạch thường được thực hiện tuần tự, liên kết với nhau. Trong R, việc này thường được thực hiện dưới dạng một "pipeline - đường ống" làm sạch, trong đó *bộ dữ liệu thô được chuyển tiếp hoặc "dẫn" từ bước làm sạch này sang bước làm sạch khác*.
 
-Các chuỗi như vậy sử dụng các hàm dạng "verb" trong package **dplyr** và toán tử pipe `%>%` trong package **magrittr**. Pipe bắt đầu từ dữ liệu "thô" ("linelist_raw.xlsx") và kết thúc bằng bộ dữ liệu "sạch" trên R (`linelist`) có thể được sử dụng, lưu, xuất, v.v.
+Các chuỗi như vậy sử dụng các hàm dạng "verb" trong package **dplyr** và toán tử pipe `%>%` trong package **magrittr**. Chuỗi pipe bắt đầu từ dữ liệu "thô" ("linelist_raw.xlsx") và kết thúc bằng bộ dữ liệu "sạch" trên R (`linelist`) có thể được sử dụng, lưu, xuất, v.v.
 
 Trong quy trình làm sạch dữ liệu, thứ tự của các bước là quan trọng. Các bước làm sạch có thể bao gồm:
 
@@ -100,7 +100,7 @@ Trong quy trình làm sạch dữ liệu, thứ tự của các bước là quan
 
 ## Gọi package
 
-Đoạn code này trình bày cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load ()` từ package **pacman**, cài đặt package nếu cần *và* gọi package ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` sẵn có trong **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
+Đoạn code này trình bày cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt package nếu cần *và* gọi package ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` sẵn có trong **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r, message = F}
 pacman::p_load(
@@ -123,13 +123,13 @@ pacman::p_load(
 
 ### Nhập {.unnumbered}
 
-Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
+Ở đây, chúng ta sẽ nhập tệp tin Excel "thô" bằng cách sử dụng hàm `import()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Nhập xuất dữ liệu] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp trang tính Google, v.v.).
 
-Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống file linelist "thô"</a> (với file dạng .xlsx).
+Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống tệp dữ liệu linelist "thô"</a> (với file dạng .xlsx).
 
-Nếu bộ dữ liệu của bạn quá lớn và mất nhiều thời gian để nạp, rất hữu ích khi đặt lệnh nạp dữ liệu và đồng thời tách dữ liệu riêng biệt với chuỗi pipe và dữ liệu "thô" sẽ được lưu thành một file riêng biệt. Điều này cũng cho phép dễ dàng so sánh giữa phiên bản gốc và phiên bản đã làm sạch.
+Nếu bộ dữ liệu của bạn quá lớn và mất nhiều thời gian để nhập, sẽ hữu ích khi bạn đặt lệnh nhập dữ liệu riêng biệt với chuỗi pipe và dữ liệu "thô" sẽ được lưu thành một tệp riêng biệt. Điều này cũng cho phép dễ dàng so sánh giữa phiên bản gốc và phiên bản đã làm sạch.
 
-Dưới đây, chúng tôi nạp file Excel thô và lưu nó dưới dạng bộ dữ liệu `linelist_raw`. Chúng tôi giả định rằng file này nằm trong thư mục làm việc của bạn hoặc thư mục gốc của R project và vì vậy không có thư mục con nào được chỉ định trong đường dẫn file.
+Dưới đây, chúng ta nạp một tệp Excel thô và lưu nó dưới dạng dataframe `linelist_raw`. Chúng tôi giả định rằng tệp này nằm trong thư mục làm việc của bạn hoặc thư mục gốc của dự án R và vì vậy không có thư mục con nào được chỉ định trong đường dẫn tệp.
 
 ```{r, echo=F, message=F}
 # HIDDEN FROM READER
@@ -168,9 +168,9 @@ skimr::skim_without_charts(linelist_raw)
 
 ## Tên cột
 
-Trong R, *tên* cột là giá trị dạng "tiêu đề" hoặc "trên cùng" của một cột. Chúng được sử dụng để tham chiếu đến các cột trong đoạn code và đóng vai trò như một nhãn mặc định trong các bảng biểu.
+Trong R, *tên* cột là "tiêu đề" hoặc giá trị "trên đỉnh" của một cột. Chúng được sử dụng để tham chiếu đến các cột trong đoạn code và đóng vai trò như một nhãn mặc định trong các bảng biểu.
 
-Phần mềm thống kê khác như SAS và STATA sử dụng *"nhãn"* là tên cột phiên bản dài hơn khi in, cùng tồn tại song song với tên cột. Mặc dù R cung cấp tính năng thêm nhãn của cột vào dữ liệu, nhưng điều này hầu hết không được nhấn mạnh trong thực tế. Để đặt tên cột "dễ nhìn" cho các bảng biểu, người ta thường điều chỉnh hiển thị của chúng trong các lệnh vẽ biểu đồ để tạo ra kết quả (ví dụ: tiêu đề trục hoặc chú giải của một biểu đồ hoặc tiêu đề cột trong bảng - xem thêm [mục scales trong chương Các tips với ggplot ](#%20ggplot_tips_scales) và chương [Trình bày bảng]). Nếu bạn muốn gán nhãn cột trong dữ liệu, hãy đọc thêm tài liệu trực tuyến [tại đây](https://cran.r-project.org/web/packages/expss/vignettes/labels-support.html) và [tại đây](https%20:%20//cran.r-project.org/web/packages/labelt/vignettes/intro_labelling.html).
+Các phần mềm thống kê khác như SAS và STATA sử dụng *"nhãn"* là tên cột phiên bản dài hơn khi in, cùng tồn tại song song với tên cột. Mặc dù R cung cấp tính năng thêm nhãn của cột vào dữ liệu, nhưng điều này hầu hết không được nhấn mạnh trong thực tế. Để đặt tên cột "dễ nhìn" cho các bảng biểu, người ta thường điều chỉnh hiển thị của chúng trong các lệnh vẽ biểu đồ để tạo ra kết quả (ví dụ: tiêu đề trục hoặc chú giải của một biểu đồ hoặc tiêu đề cột trong bảng - xem thêm [mục scales trong chương Các tips với ggplot](#%20ggplot_tips_scales) và chương [Trình bày bảng]). Nếu bạn muốn gán nhãn cột trong dữ liệu, hãy đọc thêm tài liệu trực tuyến [tại đây](https://cran.r-project.org/web/packages/expss/vignettes/labels-support.html) và [tại đây](https%20:%20//cran.r-project.org/web/packages/labelt/vignettes/intro_labelling.html).
 
 Vì tên cột trong R được sử dụng rất thường xuyên, vì vậy chúng phải có cú pháp "sạch". Chúng tôi đề xuất những tiêu chí sau:
 
@@ -252,7 +252,7 @@ rename(newNameForFirstColumn  = 1,
 
 #### Đổi tên bằng hàm `select()` và `summarise()` {.unnumbered}
 
-Như một mẹo, bạn cũng có thể đổi tên các cột bằng hàm `select()` và `summarise()` trong package **dplyr.** `select()` được sử dụng để chỉ giữ một số cột nhất định (sẽ được đề cập sau trong chương này). `summarise()` được đề cập trong các chương [Nhóm dữ liệu] và [Bảng mô tả]. Các hàm này cũng sử dụng định dạng `new_name = old_name`. Đây là một ví dụ:
+Như một lối tắt, bạn cũng có thể đổi tên các cột bằng hàm `select()` và `summarise()` thuộc package **dplyr**. Hàm `select()` được sử dụng để chỉ giữ một số cột nhất định (sẽ được đề cập sau trong chương này). Hàm `summarise()` được đề cập trong các chương [Nhóm dữ liệu] và [Bảng mô tả]. Các hàm này cũng sử dụng định dạng `new_name = old_name`. Đây là một ví dụ:
 
 ```{r, eval=F}
 linelist_raw %>% 
@@ -273,7 +273,7 @@ Bạn có thể làm sạch các tên cột này theo cách thủ công bằng c
 
 Các ô được hợp nhất trong file Excel là một sự cố thường xảy ra khi nhận dữ liệu. Như đã giải thích trong chương [Chuyển đổi sang R], các ô được hợp nhất có thể dễ nhìn cho con người đọc dữ liệu, nhưng không phải là "cấu trúc dữ liệu cơ bản" và gây ra nhiều vấn đề cho máy khi nhận diện dữ liệu. R không thể chứa các ô đã hợp nhất.
 
-Nhắc nhở người nhập liệu rằng **dữ liệu có thể đọc được bởi con người không giống với dữ liệu mà máy có thể đọc được**. Hãy cố gắng đào tạo người dùng về các nguyên tắc về [**dữ liệu tidy **](https://r4ds.had.co.nz/tidy-data.html). Nếu có thể, hãy cố gắng thay đổi quy trình để dữ liệu có định dạng gọn gàng hơn mà không hợp nhất các ô.
+Nhắc nhở người nhập liệu rằng **dữ liệu có thể đọc được bởi con người không giống với dữ liệu mà máy có thể đọc được**. Hãy cố gắng đào tạo người dùng về các nguyên tắc về [**dữ liệu tidy** ](https://r4ds.had.co.nz/tidy-data.html). Nếu có thể, hãy cố gắng thay đổi quy trình để dữ liệu có định dạng gọn gàng hơn mà không hợp nhất các ô.
 
 -   Mỗi biến phải là một cột riêng biệt
 -   Mỗi quan sát phải là một dòng riêng biệt
@@ -287,7 +287,7 @@ Một giải pháp để xử lý các ô đã hợp nhất là nạp dữ liệ
 linelist_raw <- openxlsx::readWorkbook("linelist_raw.xlsx", fillMergedCells = TRUE)
 ```
 
-[***NGUY HIỂM***: Nếu các tên cột được hợp nhất với `readWorkbook()`, có thể sẽ trả về tên cột trùng lặp, mà bạn sẽ cần phải sửa thủ công - R không làm việc được với các tên cột trùng lặp! Bạn có thể đặt lại tên cho chúng bằng cách tham chiếu vị trí của chúng (ví dụ: cột 5), như được giải thích trong mục làm sạch tên cột thủ công.]{style="color: red;"}
+[***NGUY HIỂM***: Nếu các tên cột được hợp nhất với `readWorkbook()`, có thể sẽ trả về tên cột trùng lặp, mà bạn sẽ cần phải sửa một cách thủ công - R không làm việc được với các tên cột trùng lặp! Bạn có thể đặt lại tên cho chúng bằng cách tham chiếu vị trí của chúng (ví dụ: cột 5), như được giải thích trong mục làm sạch tên cột thủ công.]{style="color: red;"}
 
 <!-- ======================================================= -->
 
@@ -542,7 +542,7 @@ linelist <- linelist %>%
   mutate(bmi = wt_kg / (ht_cm/100)^2)
 ```
 
-Nếu tạo nhiều cột mới, hãy tách riêng từng cột bằng dấu phẩy và dòng mới. Dưới đây là các ví dụ về tạo các cột mới, bao gồm một cột mà chứa các giá trị từ các cột khác được kết hợp bằng hàm `str_glue()` từ package **stringr** (xem chương [Ký tự và chuỗi].
+Nếu tạo nhiều cột mới, hãy tách riêng từng cột bằng dấu phẩy và dòng mới. Dưới đây là các ví dụ về tạo các cột mới, bao gồm một cột mà chứa các giá trị từ các cột khác được kết hợp bằng hàm `str_glue()` từ package **stringr** (xem chương [Ký tự và chuỗi]).
 
 ```{r}
 new_col_demo <- linelist %>%                       
@@ -670,7 +670,7 @@ Bạn có thể đọc tài liệu với hàm `?across` để biết chi tiết 
 
 -   Bạn có thể cung cấp tên hàm đứng một mình (ví dụ: `mean` hoặc `as.character`)\
 
--   Bạn có thể cung cấp hàm theo phong cách **purrr** (ví dụ: `~ mean(.x, na.rm = TRUE)`) (xem chương [Lặp, vòng lặp và danh sách])\
+-   Bạn có thể cung cấp hàm theo phong cách **purrr** (ví dụ: `~ mean(.x, na.rm = TRUE)`) (xem chương [Lặp, vòng lặp, và danh sách])\
 
 -   Bạn có thể chỉ định nhiều hàm bằng cách cung cấp danh sách (ví dụ: `list(mean = mean, n_miss = ~ sum(is.na(.x))`).
 
@@ -680,7 +680,7 @@ Dưới đây là một số tài nguyên trực tuyến về cách sử dụng 
 
 ### Hàm `coalesce()` {.unnumbered}
 
-Hàm **dplyr** tìm giá trị không bị thiếu đầu tiên tại mỗi vị trí. Nó "điền vào" các giá trị còn thiếu với giá trị có sẵn đầu tiên theo thứ tự bạn chỉ định.
+Hàm **dplyr** này tìm giá trị không bị thiếu đầu tiên tại mỗi vị trí. Nó "điền vào" các giá trị còn thiếu với giá trị có sẵn đầu tiên theo thứ tự bạn chỉ định.
 
 Đây là một ví dụ *ngoài phạm vi của bộ dữ liệu*: Giả sử bạn có hai vectơ, một vectơ chứa thông tin về làng nơi bệnh nhân được phát hiện và một vectơ chứa thông tin làng nơi bệnh nhân cư trú . Bạn có thể sử dụng hàm `coalesce()` để chọn giá trị không bị thiếu đầu tiên cho mỗi biến số:
 
@@ -1527,7 +1527,7 @@ Chúng ta có thể chỉ lọc theo `date_onset` đến những hàng sau thán
 
 [***NGUY HIỂM***: Việc lọc với điều kiện lớn hơn (\>) hoặc nhỏ hơn (\<) một ngày hoặc số có thể loại bỏ bất kỳ hàng nào có giá trị bị thiếu (`NA`)! Điều này là do `NA` được coi là giá trị lớn hoặc nhỏ vô hạn.]{style="color: red;"}
 
-*(Xem chương [Làm việc với ngày thág] để biết thêm thông tin về cách xử lý với ngày tháng và package **lubridate**)*
+*(Xem chương [Làm việc với ngày tháng] để biết thêm thông tin về cách xử lý với ngày tháng và package **lubridate**)*
 
 #### Thiết kế bộ lọc {.unnumbered}
 
