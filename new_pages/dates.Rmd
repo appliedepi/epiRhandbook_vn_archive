@@ -99,7 +99,7 @@ Sử dụng hàm `as.Date()` yêu cầu:
 
 **Trước tiên**, hãy kiểm tra kiểu của cột với hàm `class()` trong **base** R. Nếu bạn không chắc chắn hoặc phân vân về kiểu dữ liệu của cột (vd: bạn thấy "POSIXct", v.v.) dễ dàng nhất là chuyển đổi cột thành kiểu văn bản với hàm `as.character()`, và sau đó chuyển đổi nó thành kiểu Ngày.  
 
-**Thứ hai**, trong hàm `as.Date()`, sử dụng đối số `format =` để cho R biết định dạng *hiện tại* của các cấu phần trong biến ngày - những ký tự nào đề cập đến tháng, ngày và năm và cách chúng được phân tách. ếu các giá trị của bạn đã ở một trong các định dạng ngày chuẩn của R ("YYYY-MM-DD" hoặc "YYYY/MM/DD") thì đối số `format =` là không cần thiết.  
+**Thứ hai**, trong hàm `as.Date()`, sử dụng đối số `format =` để cho R biết định dạng *hiện tại* của các cấu phần trong biến ngày - những ký tự nào đề cập đến tháng, ngày và năm và cách chúng được phân tách. Nếu các giá trị của bạn đã ở một trong các định dạng ngày chuẩn của R ("YYYY-MM-DD" hoặc "YYYY/MM/DD") thì đối số `format =` là không cần thiết.  
 
 Để `format = `, hãy cung cấp một chuỗi ký tự (trong dấu ngoặc kép) đại diện cho định dạng ngày *hiện tại* bằng cách sử dụng các chữ viết tắt đặc biệt "strptime" dưới đây. Ví dụ: nếu ngày ký tự của bạn hiện ở định dạng “DD / MM / YYYY”, như “24/04/1968”, bạn hãy sử dụng đối số `format = "%d/%m/%Y"` để chuyển đổi các giá trị này. **Đặt định dạng trong dấu ngoặc kép là cần thiết. Và đừng quên bất kỳ dấu gạch chéo hoặc dấu gạch ngang nào!**  
 
@@ -132,7 +132,7 @@ Hầu hết các từ viết tắt của “strptime” được liệt kê dư�
 
 <span style="color: darkgreen;">**_MẸO:_** Đối số `format =` của hàm `as.Date()` sẽ *không* cho R biết định dạng ngày theo cách bạn muốn, nhưng hơn hết nó giúp xác định thành phần ngày trong cột *trước khi* bạn chạy dòng lệnh.</span>  
 
-<span style="color: darkgreen;">**_MẸO:_** Hãy chắc chắn rằng đối số `format =` bạn có sử dụng *các ký tự ngăn cách ngày thág* (vd: /, -, hoặc khoảng trắng) trong cột ngày hiện tại của bạn.</span>  
+<span style="color: darkgreen;">**_MẸO:_** Hãy chắc chắn rằng đối số `format =` bạn có sử dụng *các ký tự ngăn cách ngày tháng* (vd: /, -, hoặc khoảng trắng) trong cột ngày hiện tại của bạn.</span>  
 
 Khi các giá trị nằm trong phân lớp Ngày tiêu chuẩn, R sẽ mặc định hiển thị chúng ở định dạng chuẩn, đó là YYYY-MM-DD.
 
@@ -142,7 +142,7 @@ Khi các giá trị nằm trong phân lớp Ngày tiêu chuẩn, R sẽ mặc đ
 
 Việc chuyển đổi các đối tượng dạng tự thành Ngày tháng có thể được thực hiện dễ dàng hơn bằng cách sử dụng package **lubridate**. Đây là một package thuộc hệ sinh thái **tidyverse** được thiết kế để giúp làm việc với ngày và giờ đơn giản và nhất quán hơn so với **base** R. Vì những lý do này, package **lubridate** thường được coi là package tiêu chuẩn vàng cho ngày và giờ và được khuyến khích sử dụng bất cứ khi nào làm việc với chúng.
 
-Package **lubridate** cung cấp một số hàm trợ giúp khác nhau được thiết kế để chuyển đổi ác đối tượng dạng ký tự thành ngày tháng một cách trực quan và dễ dàng hơn là định dạng bằng hàm `as.Date()`. Các hàm này dành riêng cho định dạng ngày tháng, nhưng cho phép nhiều kiểu dấu phân tách và từ đồng nghĩa của ngày tháng (vd: 01 so với Jan so với January) - chúng được đặt tên theo chữ viết tắt của các định dạng ngày. 
+Package **lubridate** cung cấp một số hàm trợ giúp khác nhau được thiết kế để chuyển đổi các đối tượng dạng ký tự thành ngày tháng một cách trực quan và dễ dàng hơn là định dạng bằng hàm `as.Date()`. Các hàm này dành riêng cho định dạng ngày tháng, nhưng cho phép nhiều kiểu dấu phân tách và từ đồng nghĩa của ngày tháng (vd: 01 so với Jan so với January) - chúng được đặt tên theo chữ viết tắt của các định dạng ngày. 
 
 
 ```{r, }
@@ -225,7 +225,7 @@ linelist <- linelist %>%
 
 Về cơ bản, hầu hết phần mềm lưu trữ thông tin ngày tháng dưới dạng số. R lưu trữ ngày bắt đầu từ ngày 1 tháng 1 năm 1970. Do đó, nếu bạn chạy hàm `as.numeric(as.Date("1970-01-01))`, bạn sẽ nhận được kết quả là `0`. 
 
-Microsoft Excel ưu trữ ngày tháng có nguồn gốc là ngày 30 tháng 12 năm 1899 (hệ điều hành Windows) hoặc ngày 1 tháng 1 năm 1904 (hệ điều hành Mac), tùy thuộc vào hệ điều hành của bạn. Xem [hướng dẫn của Microsoft](https://docs.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system) để biết thêm thông tin.  
+Microsoft Excel lưu trữ ngày tháng có nguồn gốc là ngày 30 tháng 12 năm 1899 (hệ điều hành Windows) hoặc ngày 1 tháng 1 năm 1904 (hệ điều hành Mac), tùy thuộc vào hệ điều hành của bạn. Xem [hướng dẫn của Microsoft](https://docs.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system) để biết thêm thông tin.  
 
 Ngày trong Excel thường nạp vào R dưới dạng các giá trị số thay vì dưới dạng ký tự. Nếu tập dữ liệu bạn đã nhập từ Excel hiển thị ngày tháng dưới dạng số hoặc ký tự như “41369”… hãy sử dụng hàm `as.Date()` (hoặc hàm `as_date()` của **lubridate**) để chuyển đổi, nhưng **thay vì cung cấp một "định dạng" như trên, hãy cung cấp ngày gốc trên Excel** tới đối số `origin = `.  
 
@@ -283,7 +283,7 @@ Như đã đề cập ở trước, R cũng hỗ trợ kiểu dữ liệu `datet
 
 ### Chuyển đổi ngày giờ {.unnumbered}  
 
-Một đối tượng `datetime` is formatted with the date first, được định dạng phần ngày trước, sau đó là phần thời gian - ví dụ:  _01 Jan 2020, 16:30_. Cũng như ngày, có nhiều cách có thể được định dạng và có nhiều cấp độ chính xác (giờ, phút, giây) có thể sử dụng.  
+Một đối tượng `datetime` được định dạng phần ngày trước, sau đó là phần thời gian - ví dụ:  _01 Jan 2020, 16:30_. Cũng như ngày, có nhiều cách có thể được định dạng và có nhiều cấp độ chính xác (giờ, phút, giây) có thể sử dụng.  
 
 Thật may mắn, các hàm hỗ trợ trong **lubridate** cũng tồn tại để giúp chuyển đổi thông tin dạng chuỗi này thành các đối tượng dạng `datetime`. Các hàm này là phần mở rộng của các hàm ngày, với hàm `_h` (chỉ cung cấp giờ), hàm `_hm` (cung cấp giờ và phút), hoặc hàm `_hms` (cung cấp giờ, phút và giây) được thêm vào cuối cùng (vd: `dmy_hms()`). Chúng có thể được sử dụng như sau:
 
@@ -439,7 +439,7 @@ Sự khác biệt giữa các ngày có thể được tính bằng:
 
 1. Đảm bảo cả hai trường ngày đều thuộc phân lớp ngày tiêu chuẩn  
 2. Sử dụng phép trừ để trả về khoảng chênh lệch "difftime" giữa hai ngày  
-3. Nếu cần thiết, hãy chuyển đổi kết quả thành phân lớp dạng số để thực hiện các phép tính toán học tiếp theos  
+3. Nếu cần thiết, hãy chuyển đổi kết quả thành phân lớp dạng số để thực hiện các phép tính toán học tiếp theo 
 
 Dưới đây là khoảng thời gian giữa hai ngày được tính toán và hiển thị. Bạn có thể tìm các khoảng thời gian bằng cách sử dụng ký hiệu trừ "minus" trên các giá trị dạng Ngày tiêu chuẩn. Tuy nhiên, lưu ý rằng phân lớp của giá trị trả về là “difftime” như được hiển thị bên dưới và phải được chuyển đổi thành dạng số. 
 
@@ -487,7 +487,7 @@ Một khi ngày tháng đã được định dạng đúng kiểu, bạn thườ
 
 ### `format()` {.unnumbered}  
 
-Điều chỉnh hiển thị ngày với hàm `format()` từ **base**. Hàm này chấp nhận một chuỗi ký tự (trong dấu ngoặc kép) xác định rõ định dạng đầu ra *mong muốn* in the "%" bằng chữ viết tắt “%” strptime (cú pháp tương tự như được sử dụng trong hàm `as.Date()`). Dưới đây là các từ viết tắt phổ biến.  
+Điều chỉnh hiển thị ngày với hàm `format()` từ **base** R. Hàm này chấp nhận một chuỗi ký tự (trong dấu ngoặc kép) xác định rõ định dạng đầu ra *mong muốn* bằng chữ viết tắt “%” strptime (cú pháp tương tự như được sử dụng trong hàm `as.Date()`). Dưới đây là các từ viết tắt phổ biến.  
 
 Lưu ý: việc sử dụng hàm `format()` sẽ chuyển đổi các giá trị thành kiểu ký tự, vì vậy điều này thường được sử dụng ở cuối phân tích hoặc chỉ cho mục đích hiển thị! Bạn có thể xem danh sách đầy đủ bằng cách chạy lệnh `?strptime`.  
 
@@ -531,7 +531,7 @@ Lưu ý rằng nếu sử dụng hàm `str_glue()`, hãy lưu ý rằng các n�
 
 ### Tháng-Năm {.unnumbered}  
 
-Để chuyển đổi cột Ngày sang định dạng Tháng-năm, chúng tôi khuyên bạn nên sử dụng hàm `as.yearmon()` từ package **zoo**. Nó giúp Điều này chuyển đổi từ định dạng ngày thành định dạng “yearmon” và giữ lại thứ tự thích hợp. Ngược lại, sử dụng hàm `format(column, "%Y %B")` sẽ chuyển đổi giá trị thành kiểu Ký tự và sẽ sắp xếp các giá trị theo thứ tự bảng chữ cái (không chính xác). 
+Để chuyển đổi cột Ngày sang định dạng Tháng-năm, chúng tôi khuyên bạn nên sử dụng hàm `as.yearmon()` từ package **zoo**. Nó giúp chuyển đổi từ định dạng ngày thành định dạng “yearmon” và giữ lại thứ tự thích hợp. Ngược lại, sử dụng hàm `format(column, "%Y %B")` sẽ chuyển đổi giá trị thành kiểu Ký tự và sẽ sắp xếp các giá trị theo thứ tự bảng chữ cái (không chính xác). 
 
 Dưới đây, một cột `yearmonth` mới được tạo ra từ cột `date_onset`, sử dụng hàm `as.yearmon()`. Thứ tự mặc định (đúng) của các giá trị kết quả được hiển thị trong bảng.  
 
