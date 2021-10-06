@@ -4,7 +4,7 @@
 knitr::include_graphics(here::here("images", "Characters_Strings_1500x500.png"))
 ```
 
-Trang này trình bày việc sử dụng package **stringr** để đánh giá và xử lý các giá trị ký tự ("chuỗi").
+Chương này trình bày việc sử dụng package **stringr** để đánh giá và xử lý các giá trị ký tự ("chuỗi").
 
 1.  Các hàm kết hợp, thiết lập thứ tự, phân tách, sắp xếp - `str_c()`, `str_glue()`, `str_order()`, `str_split()`
 
@@ -118,7 +118,7 @@ Sử dụng hàm `str_glue()` để chèn đoạn code động của R vào chu�
 -   Bất kỳ đoạn code động hoặc tham chiếu nào đến các giá trị được xác định trước đều được đặt trong dấu ngoặc nhọn `{}`, bên trong dấu ngoặc kép. Có thể có nhiều dấu ngoặc nhọn trong cùng một câu lệnh `str_glue()`.\
 -   Để hiển thị dấu ngoặc kép ", hãy sử dụng dấu ngoặc *đơn* bên trong dấu ngoặc kép (ví dụ: khi cung cấp định dạng ngày - xem ví dụ bên dưới)
 -   Mẹo: Bạn có thể sử dụng `\n` để bắt buộc xuống một dòng mới\
--   Mẹo: Bạn có thể sử dụng `format()` để điều chỉnh hiển thị ngày và sử dụng hàm `Sys.Date()` để hiển thị ngày hiện tại.
+-   Mẹo: Bạn có thể sử dụng hàm `format()` để điều chỉnh hiển thị ngày và sử dụng hàm `Sys.Date()` để hiển thị ngày hiện tại.
 
 Một ví dụ đơn giản về tiêu đề biểu đồ động:
 
@@ -126,7 +126,7 @@ Một ví dụ đơn giản về tiêu đề biểu đồ động:
 str_glue("Data include {nrow(linelist)} cases and are current to {format(Sys.Date(), '%d %b %Y')}.")
 ```
 
-Một định dạng thay thế là sử dụng trình giữ chỗ (placeholder) bên trong dấu ngoặc kép và chỉ định chúng trong các đối số ở phía sau trong hàm `str_glue()` như bên dưới. Việc này sẽ làm tăng tính tường minh cho code nếu văn bản dài.
+Một định dạng thay thế là sử dụng trình giữ chỗ (placeholder) bên trong dấu ngoặc kép và chỉ định chúng trong các đối số ở phía sau trong hàm `str_glue()` như bên dưới. Việc này sẽ làm tăng tính tường minh cho code nếu phần văn bản dài.
 
 ```{r}
 str_glue("Linelist as of {current_date}.\nLast case hospitalized on {last_hospital}.\n{n_missing_onset} cases are missing date of onset and not shown",
@@ -302,7 +302,7 @@ Giả sử dữ liệu được đưa vào hàm `separate()`, trước tiên hã
 
     -   `extra = "warn"` có nghĩa là bạn sẽ thấy một cảnh báo nhưng nó sẽ loại bỏ các giá trị thừa (**mặc định là vậy**)\
     -   `extra = "drop"` có nghĩa là các giá trị thừa sẽ bị loại bỏ mà không có cảnh báo
-    -   \*\*`extra = "merge"` sẽ chỉ phân tách thành số cột mới được liệt kê trong `into` - \*thiết lập này sẽ bảo toàn tất cả dữ liệu của bạn\*\*
+    -   **`extra = "merge"` sẽ chỉ phân tách thành số cột mới được liệt kê trong `into` - *thiết lập này sẽ bảo toàn tất cả dữ liệu của bạn***
 
 Dưới đây là một ví dụ về `extra = "merge"` - không có dữ liệu nào bị mất. Hai cột mới được xác định nhưng bất kỳ triệu chứng thứ ba nào sẽ quy về trong cột mới thứ hai:
 
@@ -350,7 +350,7 @@ n_masks <- 20
 paste0("Regional hospital needs ", n_beds, " beds and ", n_masks, " masks.")
 ```
 
-`sep =` and `collapse =` arguments can be specified. `paste()` is simply `paste0()` with a default `sep = " "` (one space).
+Đối số `sep =` và `collapse =` có thể được cụ thể. Hàm `paste()` chỉ đơn giản dán `paste0()` vớ đối số mặc định `sep = " "` (một khoảng trắng).
 
 ## Làm sạch và chuẩn hóa
 
@@ -366,7 +366,7 @@ str_to_upper("California")
 str_to_lower("California")
 ```
 
-Sử dụng \*base\*\* R, bạn cũng có thể thực hiện điều trên với hàm `toupper()`, `tolower()`.
+Sử dụng **base** R, bạn cũng có thể thực hiện điều trên với hàm `toupper()`, `tolower()`.
 
 **Định dạng tiêu đề**
 
@@ -526,7 +526,7 @@ str_sub("pneumonia", 4, 15)
 
 Để tách 'từ' thứ n, hãy sử dụng hàm `word()` cũng thuộc package **stringr**. Đầu tiên, xác định (các) chuỗi ký tự, sau đó là vị trí từ đầu tiên cần trích xuất và vị trí từ cuối cùng để trích xuất.
 
-Mặc định, dấu phân cách giữa các 'từ' được giả định là khoảng trắng, trừ khi được chỉ định các khác bằng đối số `sep =` (ví dụ: `sep = "_"` khi các từ được phân tách bằng dấu gạch dưới)
+Mặc định, dấu phân cách giữa các 'từ' được giả định là khoảng trắng, trừ khi được chỉ định cách khác bằng đối số `sep =` (ví dụ: `sep = "_"` khi các từ được phân tách bằng dấu gạch dưới)
 
 ```{r}
 # strings to evaluate
@@ -552,7 +552,7 @@ str_sub(word, 3, 4) <- "XX"
 word
 ```
 
-Một ví dụ áp dụng cho nhiều chuỗi (ví dụ: một cột). Lưu ý sự mở rộng chiều dài của từ "HIV".
+Một ví dụ áp dụng cho nhiều chuỗi (ví dụ: một cột). Lưu ý sự mở rộng về độ dài của từ "HIV".
 
 ```{r}
 words <- c("pneumonia", "tubercolosis", "HIV")
@@ -663,7 +663,7 @@ Tương tự như vậy, các hàm `sub()` và `gsub()` của **base** R hoạt 
 
 Sau đây là một ví dụ về việc sử dụng hàm `gsub()` để chuyển đổi dấu phẩy thành dấu chấm trong một vectơ dạng số. Điều này có thể hữu ích nếu dữ liệu của bạn bắt nguồn từ nhiều nơi trên thế giới ngoài Hoa Kỳ hoặc Vương quốc Anh.
 
-Hàm `gsub()` bên trong đầu tiên hoạt động trên đối tượng `lengths` để chuyển đổi bất kỳ dấu chấm nào thành không có khoảng trắng "". Ký tự dấu chấm "." phải được "đi liền" với hai dấu gạch chéo để biểu thị một dấu chấm, bởi vì "." trong biểu thức chính quy có nghĩa là "bất kỳ ký tự nào". Sau đó, kết quả (chỉ có dấu phẩy) được chuyển tiếp đến hàm `gsub()` bên ngoài trong đó dấu phẩy được thay thế bằng dấu chấm.
+Hàm `gsub()` ở bên trong đầu tiên hoạt động trên đối tượng `lengths` để chuyển đổi bất kỳ dấu chấm nào thành không có khoảng trắng "". Ký tự dấu chấm "." phải được "đi liền" với hai dấu gạch chéo để biểu thị một dấu chấm, bởi vì "." trong biểu thức chính quy có nghĩa là "bất kỳ ký tự nào". Sau đó, kết quả (chỉ có dấu phẩy) được chuyển tiếp đến hàm `gsub()` bên ngoài trong đó dấu phẩy được thay thế bằng dấu chấm.
 
 ```{r, eval=F}
 lengths <- c("2.454,56", "1,2", "6.096,5")
@@ -677,7 +677,7 @@ as.numeric(gsub(pattern = ",",                # find commas
 
 ### Thay thế toàn bộ {.unnumbered}
 
-Sử dụng hàm `str_replace_all()` như là một công cụ "find and replace (tìm kiếm và thay thế)". Đầu tiên, cung cấp các chuối ký tự sẽ được đánh giá tới đối số `string =`, sau đó là quy luật sẽ được thay thế vào đối số `pattern =`, và sau đó là giá trị thay thế vào `replacement =`. Ví dụ dưới đây thay thế tất cả các trường hợp "dead" bằng "deceased". Lưu ý, phân biệt chữ hoa chữ thường.
+Sử dụng hàm `str_replace_all()` như là một công cụ "find and replace (tìm kiếm và thay thế)". Đầu tiên, cung cấp các chuỗi ký tự sẽ được đánh giá tới đối số `string =`, sau đó là quy luật sẽ được thay thế vào đối số `pattern =`, và sau đó là giá trị thay thế vào `replacement =`. Ví dụ dưới đây thay thế tất cả các trường hợp "dead" bằng "deceased". Lưu ý, phân biệt chữ hoa chữ thường.
 
 ```{r}
 outcome <- c("Karl: dead",
@@ -825,9 +825,9 @@ Gõ `?"'"` trong cửa sổ R Console để hiển thị danh sách đầy đủ
 
 ## Regex và các ký tự đặc biệt
 
-Biểu thức chính quy, hoặc “regex”, là một ngôn ngữ ngắn gọn để mô tả các patterns trong chuỗi ký tự. Nếu bạn không quen với nó, một biểu thức chính quy có thể trông giống như một ngôn ngữ ngoài hành tinh. Ở đây chúng tôi cố lột tả ngôn ngữ này dễ hiểu hơn
+Biểu thức chính quy, hoặc "regex", là một ngôn ngữ ngắn gọn để mô tả các patterns trong chuỗi ký tự. Nếu bạn không quen với nó, một biểu thức chính quy có thể trông giống như một ngôn ngữ ngoài hành tinh. Ở đây chúng tôi cố lột tả ngôn ngữ này dễ hiểu hơn
 
-*Phần lớn nội dung mục này được tham khảo từ [hướng dẫn này](https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432) và [cheatsheet này](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)*.  Chúng tôi tóm tắt một cách chọn lọc ở đây khi biết rằng cuốn ebook này có thể được xem bởi những người không có quyền truy cập internet để có thể xem các hướng dẫn khác.
+*Phần lớn nội dung mục này được tham khảo từ [hướng dẫn này](https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432) và [cheatsheet này](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)*. Chúng tôi tóm tắt một cách chọn lọc ở đây khi biết rằng cuốn ebook này có thể được xem bởi những người không có quyền truy cập internet để có thể xem các hướng dẫn khác.
 
 Một biểu thức chính quy thường được áp dụng để trích xuất các pattern cụ thể từ văn bản "không có cấu trúc" - ví dụ: ghi chú y tế, khiếu nại, tiền sử bệnh tật hoặc các cột văn bản khác trong bộ dữ liệu.
 
@@ -840,7 +840,7 @@ Có bốn công cụ cơ bản mà người ta có thể sử dụng để tạo
 
 **Bộ ký tự**
 
-Bộ ký tự, là một cách thể hiện các tùy chọn liệt kê phù hợp với ký tự gốc, trong dấu ngoặc. Vì vậy, mọi kết quả khớp sẽ được đánh dấu nếu tìm thấy bất kỳ ký tự nào trong dấu ngoặc trong chuỗi. Ví dụ, để tìm các nguyên âm, người ta có thể sử dụng bộ ký tự này: “[aeiou]”. Một số bộ ký tự phổ biến khác là: 
+Bộ ký tự, là một cách thể hiện các tùy chọn liệt kê phù hợp với ký tự gốc, trong dấu ngoặc. Vì vậy, mọi kết quả khớp sẽ được đánh dấu nếu tìm thấy bất kỳ ký tự nào trong dấu ngoặc trong chuỗi. Ví dụ, để tìm các nguyên âm, người ta có thể sử dụng bộ ký tự này: "[aeiou]". Một số bộ ký tự phổ biến khác là:
 
 | Bộ ký tự    | Ghép cặp                                     |
 |-------------|----------------------------------------------|
@@ -857,7 +857,7 @@ Các bộ ký tự có thể được kết hợp trong một dấu ngoặc vuô
 
 **Siêu ký tự**
 
-Các siêu ký tự tố là cách viết tắt của các bộ ký tự. Một số điều quan trọng được liệt kê dưới đây:
+Các siêu ký tự là cách viết tắt của các bộ ký tự. Một số điều quan trọng được liệt kê dưới đây:
 
 | Siêu ký tự | Ý nghĩa                                                |
 |------------|--------------------------------------------------------|
@@ -875,7 +875,7 @@ Bộ định lượng là các số được viết trong dấu ngoặc nhọn `
 -   `"A{2,4}"` sẽ trả về các trường hợp **từ hai đến bốn** chữ cái A viết hoa *(không đặt dấu cách!)*.\
 -   `"A{2,}"` sẽ trả về các trường hợp **từ hai hoặc nhiều hơn** chữ cái A viết hoa.\
 -   `"A+"` sẽ trả về các trường hợp **từ một hoặc nhiều hơn** chữ cái A viết hoa (nhóm được mở rộng cho đến khi gặp một ký tự khác).\
--   Bắt đầu bằng dấu hoa thị `*` để trả về **khôgn hoặc nhiều hơn** kết quả phù hợp (hữu ích nếu bạn không chắc chắn pattern có sẵn)
+-   Bắt đầu bằng dấu hoa thị `*` để trả về **không hoặc nhiều hơn** kết quả phù hợp (hữu ích nếu bạn không chắc chắn pattern có sẵn)
 
 Sử dụng ký hiệu dấu cộng `+` như một bộ định lượng, việc khớp sẽ xảy ra cho tới khi gặp ký tự khác. Ví dụ, biểu thứ này sẽ trả về tất cả *các từ* (ký tự alpha: `"[A-Za-z]+"`
 

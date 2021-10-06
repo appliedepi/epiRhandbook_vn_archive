@@ -21,7 +21,7 @@ documentclass: book
 #  {.unnumbered}
 
 ```{r, out.width = "100%", fig.align = "center", echo=F}
-knitr::include_graphics(here::here("images", "Epi R Handbook banner beige 1500x500.png"))
+knitr::include_graphics(here::here("images", "Epi R Handbook Banner Vietnamese 1500x500.png"))
 #library(knitr)
 #opts_chunk$set(list(echo = FALSE, eval = FALSE))
 ```
@@ -123,7 +123,7 @@ Sổ tay này **không phải** là sản phẩm đã được phê duyệt củ
 
 **Nhóm tác giả**: [Neale Batra](https://www.linkedin.com/in/neale-batra/), [Alex Spina](https://github.com/aspina7), [Paula Blomquist](https://www.linkedin.com/in/paula-bianca-blomquist-53188186/), [Finlay Campbell](https://github.com/finlaycampbell), [Henry Laurenson-Schafer](https://github.com/henryls1), [Isaac Florence](www.Twitter.com/isaacatflorence), [Natalie Fischer](https://www.linkedin.com/in/nataliefischer211/), [Aminata Ndiaye](https://twitter.com/aminata_fadl), [Liza Coyer](https://www.linkedin.com/in/liza-coyer-86022040/), [Jonathan Polonsky](https://twitter.com/jonny_polonsky), [Yurie Izawa](https://ch.linkedin.com/in/yurie-izawa-a1590319), [Chris Bailey](https://twitter.com/cbailey_58?lang=en), [Daniel Molling](https://www.linkedin.com/in/daniel-molling-4005716a/), [Isha Berry](https://twitter.com/ishaberry2), [Emma Buajitti](https://twitter.com/buajitti), [Mathilde Mousset](https://mathildemousset.wordpress.com/research/), [Sara Hollis](https://www.linkedin.com/in/saramhollis/), Wen Lin
 
-**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Võ Hữu Thuận, Nguyễn Trung Thành, Vũ Thu Hà, [Hồ Hoàng Dung](https://www.linkedin.com/in/dzunggg/) 
+**Nhóm dịch giả**: [Nguyễn Thanh Lương](https://www.linkedin.com/in/ntluong95/), [Nguyễn Thị Khánh Huyền](https://www.linkedin.com/in/huyen-nguyen-3920b51a6/), Võ Hữu Thuận, Nguyễn Trung Thành, Vũ Thu Hà, [Hồ Hoàng Dung](https://www.linkedin.com/in/dzunggg/)
 
 **Nhóm phản biện**: Pat Keating, Annick Lenglet, Margot Charette, Danielly Xavier, Esther Kukielka, Michelle Sloan, Aybüke Koyuncu, Rachel Burke, Kate Kelsey, [Berhe Etsay](https://www.linkedin.com/in/berhe-etsay-5752b1154/), John Rossow, Mackenzie Zendt, James Wright, Laura Haskins, [Flavio Finger](ffinger.github.io), Tim Taylor, [Jae Hyoung Tim Lee](https://www.linkedin.com/in/jaehyoungtlee/), [Brianna Bradley](https://www.linkedin.com/in/brianna-bradley-bb8658155), [Wayne Enanoria](https://www.linkedin.com/in/wenanoria), Manual Albela Miranda, [Molly Mantus](https://www.linkedin.com/in/molly-mantus-174550150/), Pattama Ulrich, Joseph Timothy, Adam Vaughan, Olivia Varsaneux, Lionel Monteiro, Joao Muianga
 
@@ -3180,18 +3180,18 @@ Trong chương này, chúng tôi mô tả các cách để định vị, nhập 
 
 -   Sử dụng package **here** để định vị tệp liên quan đến dự án R gốc - để ngăn ngừa sự phức tạp do nhiều đường dẫn tệp chỉ dành riêng cho một máy tính\
 
--   Các trường hợp nhập cụ thể:
+-   Các tình huống nhập dữ liệu thường gặp:
 
-    -   Excel sheet cụ thể\
-    -   Tiêu đề sắp xếp lộn xộn và bỏ qua một số hàng\
-    -   Từ Google sheet\
+    -   Từ một Trang tính Excel\
+    -   Có tiêu đề sắp xếp lộn xộn và cần bỏ qua một số hàng\
+    -   Từ trang tính của Google\
     -   Từ dữ liệu được đăng lên các trang web\
     -   Với APIs\
     -   Nhập tệp *gần đây nhất*\
 
 -   Nhập dữ liệu thủ công\
 
--   Các loại tệp R cụ thể ví dụ như RDS và RData\
+-   Các loại tệp R đặc trưng ví dụ như RDS và RData\
 
 -   Xuất/lưu tệp và biểu đồ
 
@@ -3199,13 +3199,13 @@ Trong chương này, chúng tôi mô tả các cách để định vị, nhập 
 
 ## Tổng quan
 
-Khi bạn nhập một "dataset" vào R, bạn thường tạo ra một đối tượng *data frame* mới trong môi trường R của mình và định nghĩa nó là tệp được nhập (ví dụ: Excel, CSV, TSV, RDS), từ trong các thư mục của bạn tại một đường dẫn/địa chỉ tệp nhất định.
+Khi bạn nhập một "dataset (bộ dữ liệu)" vào R, bạn thường cần tạo ra một đối tượng *data frame* mới trong môi trường R và định nghĩa nó là tệp được nhập (ví dụ: Excel, CSV, TSV, RDS), từ trong các thư mục của bạn tại một đường dẫn/địa chỉ tệp nhất định.
 
 Bạn có thể nhập/xuất nhiều loại tệp, bao gồm cả những tệp được tạo bởi các chương trình thống kê khác (SAS, STATA, SPSS). Bạn cũng có thể kết nối với các cơ sở dữ liệu liên quan.
 
 R thậm chí còn có các định dạng dữ liệu riêng:
 
--   Một tệp RDS (.rds) lưu trữ một đối tượng R đơn lẻ chẳng hạn như một data frame. Chúng hữu ích trong việc lưu trữ dữ liệu đã được làm sạch, vì chúng giữ lại kiểu dữ liệu cho các cột R. Đọc thêm trong [mục này](#import_rds).\
+-   Một tệp RDS (.rds) lưu trữ một đối tượng R đơn lẻ, chẳng hạn như một data frame. Chúng hữu ích trong việc lưu trữ dữ liệu đã được làm sạch, vì chúng giữ lại kiểu dữ liệu cho các cột R. Đọc thêm trong [mục này](#import_rds).\
 -   Một tệp RData (.Rdata) có thể được sử dụng để lưu trữ nhiều đối tượng hoặc thậm chí là một không gian làm việc trong R hoàn chỉnh. Đọc thêm trong [mục này](#import_rdata).
 
 <!-- ======================================================= -->
@@ -3216,11 +3216,11 @@ Package R chúng tôi gợi ý là: **rio**. Tên "rio" là chữ viết tắt c
 
 Hàm `import()` và `export()` có thể xử lý nhiều loại tệp khác nhau (ví dụ: .xlsx, .csv, .rds, .tsv). Khi bạn cung cấp đường dẫn tệp đến một trong các hàm này (bao gồm cả đuôi file mở rộng như ".csv"), **rio** sẽ đọc phần mở rộng và sử dụng đúng công cụ để nhập hoặc xuất tệp.
 
-Giải pháp thay thế cho việc sử dụng **rio** là sử dụng các hàm từ nhiều package khác, mỗi gói cụ thể cho một loại tệp. Ví dụ như, `read.csv()` (**base** R), `read.xlsx()` (package **openxlsx**) và `write_csv()` (package **readr**), v.v... Những lựa chọn thay thế này có thể khó nhớ, trong khi sử dụng `import()` và `export()` từ **rio** rất dễ dàng.
+Giải pháp thay thế cho việc sử dụng **rio** là sử dụng các hàm từ nhiều package khác, mỗi package cụ thể cho một loại tệp. Ví dụ như, `read.csv()` (**base** R), `read.xlsx()` (package **openxlsx**) và `write_csv()` (package **readr**), v.v... Những lựa chọn thay thế này có thể khó nhớ, trong khi sử dụng `import()` và `export()` từ **rio** rất dễ dàng.
 
-Các hàm `import()` và `export()` của **rio** sử dụng package và lệnh phù hợp cho một tệp nhất định, dựa trên phần mở rộng của tệp đó. Xem phần cuối của chương này để thấy bảng đầy đủ về các package/hàm **rio** có thể xử lý được. Hàm này cũng có thể được sử dụng để nhập các tệp STATA, SAS và SPSS trong hàng tá các loại tệp khác.
+Các hàm `import()` và `export()` của **rio** sử dụng package và lệnh phù hợp cho một tệp nhất định, dựa trên phần mở rộng của tệp đó. Xem phần cuối của chương này để xem bảng đầy đủ về các package/hàm **rio** sử dụng trong nền. Hàm này cũng có thể được sử dụng để nhập các tệp STATA, SAS và SPSS trong hàng tá các loại tệp khác.
 
-Nhập/xuất shapefiles đòi hỏi các package khác, được mô tả cụ thể trong chương [GIS cơ bản].
+Nhập/xuất shapefiles đòi hỏi sử dụng các package khác, được mô tả cụ thể trong chương [GIS cơ bản].
 
 ## Package **here** {#here}
 
@@ -3235,17 +3235,17 @@ Package **here** và hàm `here()` của nó giúp R dễ dàng biết nơi tìm
 -   Để tạo đường dẫn tệp, viết tên các thư mục bên ngoài thư mục gốc, trong dấu ngoặc kép, được phân tách bằng dấu phẩy, cuối cùng kết thúc bằng tên và phần mở rộng của tệp như được trình bày dưới đây\
 -   Các đường dẫn tệp `here()` có thể được sử dụng cả để nhập và xuất dữ liệu
 
-Ví dụ, dưới đây, một đường dẫn tệp được tạo bởi `here()` đang cung cấp cho hàm `import()`
+Ví dụ, dưới đây, một đường dẫn tệp được tạo bởi hàm `here()` đang được cung cấp cho hàm `import()`
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
 ```
 
-Lệnh `here("data", "linelists", "ebola_linelist.xlsx")` đang cung cấp đường dẫn tệp đầy đủ mà *duy nhất cho máy tính của người dùng:*
+Lệnh `here("data", "linelists", "ebola_linelist.xlsx")` trên thực tế đang cung cấp đường dẫn tệp đầy đủ mà *là duy nhất cho máy tính của người dùng:*
 
     "C:/Users/Laura/Documents/my_R_project/data/linelists/ebola_linelist.xlsx"
 
-Ưu điểm là lệnh `here()` được R sử dụng có thể chạy thành công trên bất kỳ máy tính nào truy cập dự án R.
+Ưu điểm là lệnh `here()` được R sử dụng có thể chạy thành công trên bất kỳ máy tính nào truy cập vào dự án R.
 
 [***MẸO:*** Nếu bạn không chắc gốc ".here" được đặt ở đâu, hãy chạy lệnh `here()` với dấu ngoặc đơn trống.]{style="color: darkgreen;"}
 
@@ -3265,7 +3265,7 @@ Khi nhập hoặc xuất dữ liệu, bạn phải cung cấp một đường d�
 
 Trong R, đường dẫn tệp "tương đối" bao gồm đường dẫn tệp mà *liên quan* đến phần gốc của dự án R. Chúng cho phép nhiều đường dẫn tệp đơn giản hơn có thể làm việc trên nhiều máy tính khác nhau (ví dụ: nếu dự án R nằm trên bộ nhớ dùng chung hoặc được gửi qua thư điện tử). Như đã được [mô tả ở trên](#here), đường dẫn tệp tương đối được tạo ra dễ dàng bằng cách sử dụng package **here**.
 
-Dưới đây là một ví dụ về đường dẫn tệp tương đối được tạo bằng package `here()`. Chúng tôi giả sử công việc nằm trong một dự án R có chứa một thư mục con "data" và bên trong thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
+Dưới đây là một ví dụ về đường dẫn tệp tương đối được tạo bằng package `here()`. Chúng tôi giả sử công việc nằm trong một dự án R có chứa một thư mục con "data" và bên trong nó là thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
@@ -3273,9 +3273,9 @@ linelist <- import(here("data", "linelists", "ebola_linelist.xlsx"))
 
 ### Đường dẫn tệp "tuyệt đối" {.unnumbered}
 
-Đường dẫn tệp tuyệt đối hay "đầy đủ" có thể được cung cấp cho các hàm như `import()` nhưng chúng "dễ vỡ" vì chúng là duy nhất cho cho các máy tính khác nhau của người dùng và do đó *không được khuyến khích* sử dụng.
+Đường dẫn tệp tuyệt đối hay "đầy đủ" có thể được cung cấp cho các hàm như `import()` nhưng chúng "dễ đứt gãy" bởi vì chúng là duy nhất đối với các máy tính của những người dùng khác nhau, và do đó *không được khuyến khích* sử dụng.
 
-Dưới đây là một ví dụ về đường dẫn tệp tuyệt đối, trong máy tính của Laura có một thư mục "analysis", một thư mục con "data" và bên trong là thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
+Dưới đây là một ví dụ về đường dẫn tệp tuyệt đối, trong máy tính của Laura có một thư mục "analysis", tiếp theo là thư mục con "data" và bên trong là thư mục con "linelists", trong đó có tệp .xlsx được quan tâm.
 
 ```{r, eval=F}
 linelist <- import("C:/Users/Laura/Documents/analysis/data/linelists/ebola_linelist.xlsx")
@@ -3283,13 +3283,13 @@ linelist <- import("C:/Users/Laura/Documents/analysis/data/linelists/ebola_linel
 
 Một vài điều cần lưu ý về đường dẫn tệp tuyệt đối:
 
--   **Tránh sử dụng đường dẫn tệp tuyệt đối** vì chúng sẽ bị vỡ nếu script được chạy trên một máy tính khác
--   Sử dụng dấu gạch chéo *lên* (`/`), như trong ví dụ trên (lưu ý: đây *KHÔNG* phải là mặc định đối với đường dẫn tệp trong Windows)\
--   Đường dẫn tệp bắt đầu với hai dấu gạch chéo (ví dụ: "//...") sẽ có khả năng **không được R nhận ra** và tạo ra lỗi. Cân nhắc chuyển công việc của bạn sang ổ đĩa "có tên" hoặc "có chữ" bắt đầu bằng một chữ cái (ví dụ: "J:" hoặc "C:"). Xem trang về [Tương tác với thư mục làm việc] để biết thêm chi tiết về vấn đề này.
+-   **Tránh sử dụng đường dẫn tệp tuyệt đối** vì chúng sẽ bị đứt gãy nếu script được chạy trên một máy tính khác
+-   Sử dụng dấu gạch chéo *tiến* (`/`), như trong ví dụ trên (lưu ý: đây *KHÔNG* phải là kiểu mặc định đối với đường dẫn tệp trong Windows)\
+-   Đường dẫn tệp bắt đầu với hai dấu gạch chéo (ví dụ: "//...") sẽ có khả năng **không được R nhận ra** và tạo ra lỗi. Hãy cân nhắc chuyển công việc của bạn sang ổ đĩa "có tên" hoặc "có chữ" bắt đầu bằng một chữ cái (ví dụ: "J:" hoặc "C:"). Xem chương về [Tương tác với thư mục làm việc] để biết thêm chi tiết về vấn đề này.
 
-Một tình huống mà đường dẫn tệp tuyệt đối có thể phù hợp là khi bạn muốn nhập một tệp từ bộ nhớ dùng chung có cùng đường dẫn tệp đầy đủ cho tất cả người dùng.
+Một tình huống mà đường dẫn tệp tuyệt đối có thể thích hợp là khi bạn muốn nhập một tệp từ bộ nhớ dùng chung có cùng đường dẫn tệp đầy đủ cho tất cả người dùng.
 
-[***MẸO:*** Để nhanh chóng chuyển đổi tất cả `\` thành `/`, đánh dấu code được quan tâm, sử dụng Ctrl + f (trong Windows), kiểm tra hộp tùy chọn cho "In selection", sau đó sử dụng chức năng thay thế (replace) để chuyển đổi chúng.]{style="color: darkgreen;"}
+[***MẸO:*** Để nhanh chóng chuyển đổi tất cả `\` thành `/`, hãy bôi đen đoạn code cần chuyển, sử dụng Ctrl + F (trong Windows) và tích vào tùy chọn "In selection", sau đó sử dụng chức năng thay thế (replace) để chuyển đổi chúng.]{style="color: darkgreen;"}
 
 <!-- ======================================================= -->
 
@@ -3299,7 +3299,7 @@ Bạn có thể nhập dữ liệu theo cách thủ công thông qua một trong
 
 1)  Từ cửa sổ Environment trong RStudio, nhấp vào "Import Dataset" và chọn loại dữ liệu
 2)  Nhấp vào File / Import Dataset / (chọn loại dữ liệu)\
-3)  Để lựa chọn thủ công bằng hard-code, hãy sử dụng lệnh *base R* `file.choose()` (để trống dấu ngoặc đơn) để kích hoạt sự xuất hiện của **cửa sổ pop-up** cho phép người dùng chọn tệp theo cách thủ công từ máy tính của họ. Ví dụ:
+3)  Để lựa chọn thủ công bằng code, hãy sử dụng lệnh `file.choose()` trong *base R* (để trống dấu ngoặc đơn) để kích hoạt sự xuất hiện của một **cửa sổ pop-up** cho phép người dùng chọn tệp theo cách thủ công từ máy tính của họ. Ví dụ:
 
 ```{r import_choose, eval=F}
 # Manual selection of a file. When this command is run, a POP-UP window will appear. 
@@ -3312,15 +3312,15 @@ my_data <- import(file.choose())
 
 ## Nhập dữ liệu
 
-Sử dụng lệnh `import()` để nhập một bộ dữ liệu khá đơn giản. Chỉ cần cung cấp đường dẫn đến tệp (bao gồm tên và phần mở rộng của tệp) trong dấu ngoặc kép. Nếu sử dụng `here()` để xây dựng đường dẫn tệp, hãy làm theo hướng dẫn ở trên. Dưới đây là một vài ví dụ:
+Sử dụng lệnh `import()` để nhập một bộ dữ liệu khá đơn giản. Chỉ cần cung cấp đường dẫn của tệp (bao gồm tên và phần mở rộng của tệp) trong dấu ngoặc kép. Nếu sử dụng hàm `here()` để xây dựng đường dẫn tệp, hãy làm theo hướng dẫn ở bên trên. Dưới đây là một vài ví dụ:
 
-Nhập tệp csv nằm trong "thư mục làm việc (working directory)" của bạn hoặc trong thư mục gốc của dự án R:
+Nhập một tệp csv nằm trong "thư mục làm việc (working directory)" của bạn hoặc trong thư mục gốc của dự án R:
 
 ```{r, eval=F}
 linelist <- import("linelist_cleaned.csv")
 ```
 
-Nhập sheet đầu tiên Excel workbook nằm trong thư mục con "data" và "linelists" của dự án R (đường dẫn tệp được tạo bằng `here()`):
+Nhập sheet đầu tiên của Excel workbook, được đặt trong thư mục con "data" và "linelists" của dự án R (đường dẫn tệp được tạo bằng hàm `here()`):
 
 ```{r, eval=F}
 linelist <- import(here("data", "linelists", "linelist_cleaned.xlsx"))
@@ -3334,30 +3334,30 @@ linelist <- import("C:/Users/Laura/Documents/tuberculosis/data/linelists/linelis
 
 ### Trang tính Excel cụ thể {.unnumbered}
 
-Theo mặc định, nếu bạn cung cấp một Excel workbook (.xlsx) để `import()`, trang tính đầu tiên của workbook sẽ được nhập. Nếu bạn muốn nhập một **trang tính** cụ thể, hãy nhập tên trang tính vào đối số `which =`. Ví dụ:
+Theo mặc định, nếu bạn cung cấp một Excel workbook (.xlsx) để nhập bằng hàm `import()`, trang tính đầu tiên của workbook sẽ được nhập. Nếu bạn muốn nhập một **trang tính** cụ thể, hãy cụ thể tên trang tính vào đối số `which =`. Ví dụ:
 
 ```{r eval=F}
 my_data <- import("my_excel_file.xlsx", which = "Sheetname")
 ```
 
-Nếu sử dụng hàm `here()` để cung cấp một đường dẫn tương đối đến `import()`, bạn vẫn có thể chỉ ra một trang tính cụ thể bằng cách thêm đối số `which =` sau dấu đóng ngoặc của hàm `here()`.
+Nếu sử dụng hàm `here()` để cung cấp một đường dẫn tương đối đến hàm `import()`, bạn vẫn có thể chỉ ra một trang tính cụ thể bằng cách thêm đối số `which =` sau dấu đóng ngoặc của hàm `here()`.
 
 ```{r import_sheet_here, eval=F}
 # Demonstration: importing a specific Excel sheet when using relative pathways with the 'here' package
 linelist_raw <- import(here("data", "linelist.xlsx"), which = "Sheet1")`  
 ```
 
-Để *xuất* một data frame từ R sang một trang tính Excel sheet và phần còn lại của Excel workbook không thay đổi, bạn sẽ phải nhập, chỉnh sửa và xuất với một package thay thế phục vụ cho mục đích này, chẳng hạn như **openxlsx**. Xem thêm thông tin trong chương về [Tương tác với thư mục làm việc] hoặc [tại trang github này](https://ycphs.github.io/openxlsx/).
+Để *xuất* một data frame từ R sang một trang tính Excel và phần còn lại của Excel workbook không thay đổi, bạn sẽ phải nhập, chỉnh sửa và xuất với một package thay thế chuyên biệt cho mục đích này, chẳng hạn như **openxlsx**. Xem thêm thông tin trong chương về [Tương tác với thư mục làm việc] hoặc [tại trang github này](https://ycphs.github.io/openxlsx/).
 
-Nếu Excel workbook của bạn là .xlsb (định dạng nhị phân của Excel workbook) bạn có thể không nhập được bằng **rio**. Cân nhắc lưu lại nó dưới dạng .xlsx hoặc sử dụng một package như **readxlsb**, là package được xây dựng cho [mục đích này](https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html).
+Nếu Excel workbook của bạn có phần mở rộng là .xlsb (định dạng nhị phân của Excel workbook) bạn có thể sẽ không nhập được bằng package **rio**. Hãy cân nhắc lưu lại tệp dưới dạng .xlsx hoặc sử dụng một package như **readxlsb**, là package được xây dựng cho [kiểu tệp này](https://cran.r-project.org/web/packages/readxlsb/vignettes/read-xlsb-workbook.html).
 
 <!-- ======================================================= -->
 
 ### Giá trị missing {#import_missing .unnumbered}
 
-Bạn có thể muốn xác định (các) giá trị nào trong bộ dữ liệu của mình nên được coi là missing. Như đã giải thích trong chương về [Dữ liệu missing], giá trị trong R cho dữ liệu missing là `NA`, nhưng có thể bộ dữ liệu bạn muốn nhập sử dụng giá trị 99, "Missing" hoặc chỉ là khoảng trống ký tự "".
+Bạn có thể muốn xác định (các) giá trị nào trong bộ dữ liệu của mình nên được coi là missing. Như đã giải thích trong chương về [Dữ liệu missing], giá trị cho dữ liệu missing trong R là `NA`, nhưng có thể bộ dữ liệu bạn muốn nhập vào sử dụng giá trị 99, "Missing" hoặc chỉ là khoảng trống ký tự "".
 
-Sử dụng đối số `na =` để `import()` và cung cấp (các) giá trị trong dấu ngoặc kép (ngay cả khi chúng là các số). Bạn có thể chỉ định nhiều giá trị bằng cách gộp chúng trong một vectơ, sử dụng `c()` như được thể hiện dưới đây.
+Sử dụng đối số `na =` để (nhập) `import()` và cung cấp (các) giá trị trong dấu ngoặc kép (ngay cả khi chúng là các số). Bạn có thể chỉ định nhiều giá trị bằng cách gộp chúng trong một vectơ, bằng cách sử dụng `c()` như được trình bày dưới đây.
 
 Tại đây, giá trị "99" trong bộ dữ liệu đã nhập được coi là missing và được chuyển đổi thành `NA` trong R.
 
@@ -3365,7 +3365,7 @@ Tại đây, giá trị "99" trong bộ dữ liệu đã nhập được coi là
 linelist <- import(here("data", "my_linelist.xlsx"), na = "99")
 ```
 
-Tại đây, bất kỳ giá trị "Missing", "" (ô trống) hoặc "" (khoảng trắng) nào trong bộ dữ liệu đã nhập đều được chuyển đổi thành `NA` trong R.
+Còn ở đây, bất kỳ giá trị nào là "Missing", "" (ô trống) hoặc " " (khoảng trắng) trong bộ dữ liệu đã nhập đều được chuyển đổi thành `NA` trong R.
 
 ```{r, eval=F}
 linelist <- import(here("data", "my_linelist.csv"), na = c("Missing", "", " "))
@@ -3375,17 +3375,17 @@ linelist <- import(here("data", "my_linelist.csv"), na = c("Missing", "", " "))
 
 ### Bỏ qua một số hàng {.unnumbered}
 
-Đôi khi, bạn có thể không muốn nhập một hàng dữ liệu. Bạn có thể thực hiện thao tác này với đối số `skip =` nếu sử dụng `import()` từ **rio** trên tệp .xlsx hoặc .csv. Cung cấp số hàng bạn muốn bỏ qua.
+Đôi khi, bạn có thể không muốn nhập một hàng dữ liệu. Bạn có thể thực hiện thao tác này với đối số `skip =` nếu sử dụng hàm `import()` từ package **rio** trên tệp .xlsx hoặc .csv. Cung cấp số hàng bạn muốn bỏ qua.
 
 ```{r, eval=F}
 linelist_raw <- import("linelist_raw.xlsx", skip = 1)  # does not import header row
 ```
 
-Không may `skip =` chỉ chấp nhận một giá trị số nguyên, *không* chấp nhận một khoảng (ví dụ: "2:10" sẽ không hoạt động). Để bỏ qua việc nhập các hàng cụ thể không liên tiếp từ trên cùng, hãy cân nhắc nhập nhiều lần và sử dụng `bind_rows()` từ **dplyr**. Hãy xem ví dụ dưới đây về việc chỉ bỏ qua hàng thứ 2.
+Không may là hàm `skip =` chỉ chấp nhận một giá trị số nguyên, *không* chấp nhận một khoảng (ví dụ: "2:10" sẽ không hoạt động). Để bỏ qua việc nhập các hàng cụ thể không liên tiếp từ trên cùng, hãy cân nhắc nhập nhiều lần và sử dụng hàm `bind_rows()` từ **dplyr**. Hãy xem ví dụ dưới đây về việc chỉ bỏ qua hàng thứ 2.
 
 ### Quản lý hàng tiêu đề thứ hai {.unnumbered}
 
-Đôi khi, dữ liệu của bạn có thể có hàng *thứ hai*, với chức năng như là "từ điển dữ liệu" như hình dưới đây. Trường hợp này có thể xảy ra vấn đề vì nó có thể dẫn đến việc tất cả các cột được nhập vào dưới dạng nhóm "ký tự (character)".
+Đôi khi, dữ liệu của bạn có thể có hàng *thứ hai*, với chức năng như là "từ điển dữ liệu" như hình dưới đây. Trường hợp này có thể xảy ra vấn đề vì nó có thể dẫn đến việc tất cả các cột được nhập vào dưới dạng kiểu "ký tự (character)".
 
 ```{r, echo=F}
 # HIDDEN FROM READER
@@ -3418,7 +3418,7 @@ linelist_2headers <- rio::import(here::here("data", "case_linelists", "linelist_
                 time_admission = "time of hospital admission HH:MM")
 ```
 
-Dưới đây là một ví dụ về loại bộ dữ liệu này (với hàng đầu tiên là từ điển dữ liệu).
+Dưới đây là một ví dụ về kiểu bộ dữ liệu này (với hàng đầu tiên là từ điển dữ liệu).
 
 ```{r message=FALSE, echo=F}
 # display the linelist data as a table
@@ -3429,9 +3429,9 @@ DT::datatable(head(linelist_2headers, 5), rownames = FALSE, filter="top", option
 
 Để bỏ hàng tiêu đề thứ hai, bạn có thể sẽ cần nhập dữ liệu hai lần.
 
-1)  Nhập dữ liệu vào để lấy tên các cột một cách chính xác\
+1)  Nhập dữ liệu vào để lấy tên các cột chính xác\
 2)  Nhập lại dữ liệu, bỏ qua *hai* hàng đầu tiên (hàng tiêu đề và hàng thứ hai)\
-3)  Liên kết dataframe đã xóa bỏ 2 hàng đầu tiên với tên cột ở bước 1
+3)  Liên kết dataframe đã xóa bỏ 2 hàng đầu tiên với tên cột chính xác ở bước 1
 
 Đối số chính xác được sử dụng để liên kết các tên cột tùy thuộc vào loại tệp dữ liệu (.csv, .tsv, .xlsx, v.v.). Điều này là do **rio** sử dụng các hàm khác nhau cho các loại tệp khác nhau (xem bảng ở trên).
 
@@ -3470,7 +3470,7 @@ colnames(linelist_raw) <- linelist_raw_names
 
 #### Tạo từ điển dữ liệu {.unnumbered}
 
-Thông tin thêm! Nếu bạn có hàng thứ hai là từ điển dữ liệu, bạn có thể dễ dàng tạo từ điển dữ liệu thích hợp từ nó. Mẹo này được điều chỉnh từ [bài đăng](https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/) này.
+Thông tin thêm! Nếu bạn có hàng thứ hai là từ điển dữ liệu, bạn có thể dễ dàng tạo từ điển dữ liệu thích hợp từ nó. Mẹo này được tham khảo từ [bài đăng](https://alison.rbind.io/post/2018-02-23-read-multiple-header-rows/) này.
 
 ```{r}
 dict <- linelist_2headers %>%             # begin: linelist with dictionary as first row
@@ -3486,7 +3486,7 @@ DT::datatable(dict, rownames = FALSE, filter="top", options = list(pageLength = 
 
 #### Kết hợp hai hàng tiêu đề {.unnumbered}
 
-Trong một số trường hợp khi bộ dữ liệu thô của bạn có *hai* hàng tiêu đề (hoặc cụ thể hơn, hàng dữ liệu thứ 2 là tiêu đề phụ), bạn có thể muốn "kết hợp" chúng hoặc thêm các giá trị trong hàng tiêu đề thứ hai vào hàng tiêu đề đầu tiên.
+Trong một số trường hợp khi bộ dữ liệu thô của bạn có *hai* hàng tiêu đề (hoặc cụ thể hơn, hàng dữ liệu thứ 2 là tiêu đề phụ), bạn có thể sẽ muốn "kết hợp" chúng hoặc thêm các giá trị trong hàng tiêu đề thứ hai vào hàng tiêu đề đầu tiên.
 
 Lệnh dưới đây sẽ xác định tên cột của data frame là sự kết hợp (dán với nhau) của các tiêu đề (đúng) đầu tiên với giá trị ngay bên dưới (trong hàng đầu tiên).
 
@@ -3527,7 +3527,7 @@ Dưới đây là một số hướng dẫn trực tuyến hữu ích khác:\
 
 ## Nhập, xuất, tách, kết hợp - nhiều tệp
 
-Xem chương về [Lặp, vòng lặp và danh sách] để biết ví dụ về cách nhập và kết hợp nhiều tệp hoặc nhiều Excel workbook. Chương này cũng có các ví dụ về cách chia một data frame thành các phần và xuất từng phần riêng biệt hoặc dưới dạng các sheet được đặt tên trong một Excel workbook.
+Xem chương về [Lặp, vòng lặp, và danh sách] để biết ví dụ về cách nhập và kết hợp nhiều tệp hoặc nhiều Excel workbook. Chương này cũng có các ví dụ về cách chia một data frame thành các phần và xuất từng phần riêng biệt hoặc dưới dạng các trang tính được đặt tên trong một Excel workbook.
 
 <!-- ======================================================= -->
 
@@ -3601,7 +3601,7 @@ DT::datatable(manual_entry_rows)
 
 ### Nhập theo cột {.unnumbered}
 
-Vì data frame bao gồm các vectơ (cột dọc), cách tiếp cận **cơ bản** để tạo data frame thủ công trong R muốn bạn xác định từng cột và sau đó liên kết chúng lại với nhau. Điều này có thể phản trực quan trong dịch tễ học, vì chúng ta thường nghĩ về dữ liệu của mình theo hàng (như trên).
+Vì data frame bao gồm các vectơ (cột dọc), cách tiếp cận **cơ bản** để tạo data frame thủ công trong R yêu cầu bạn phải tạo từng cột và sau đó liên kết chúng lại với nhau. Điều này có thể phản trực quan trong dịch tễ học, vì chúng ta thường nghĩ về dữ liệu của mình theo hàng (như trên).
 
 ```{r import_manual_col}
 # define each vector (vertical column) separately, each with its own name
@@ -3653,7 +3653,7 @@ df_from_clipboard <- read.table(
 Thường thì bạn có thể nhận được các bản cập nhật hàng ngày cho bộ dữ liệu của mình. Trong trường hợp này, bạn sẽ muốn viết code mà nhập tệp gần đây nhất. Dưới đây, chúng tôi trình bày hai cách để tiếp cận điều này:
 
 -   Chọn tệp dựa trên ngày trong tên tệp\
--   Chọn tệp dựa trên siêu dữ liệu (metadata) của tệp (lần sửa đổi cuối cùng)
+-   Chọn tệp dựa trên metadata (siêu dữ liệu - là dạng dữ liệu mô tả thông tin chi tiết về dữ liệu) của tệp (lần sửa đổi cuối cùng) 
 
 ### Ngày trong tên tệp {.unnumbered}
 
@@ -3693,7 +3693,7 @@ index_latest_file <- which.max(linelist_dates_clean)
 index_latest_file
 ```
 
-Nếu chúng ta tổng hợp tất cả các lệnh này, code hoàn chỉnh có thể trông giống như bên dưới. Lưu ý rằng dấu `.` ở dòng cuối cùng thay thế cho thành phần được piping vào hàm đó. Tại thời điểm đó, giá trị chỉ đơn giản là số 6. Giá trị này được đặt trong dấu ngoặc kép để trích xuất phần tử thứ 6 của vectơ tên tệp được tạo bởi `dir()`.
+Nếu chúng ta tổng hợp tất cả các lệnh này, code hoàn chỉnh có thể trông giống như bên dưới. Lưu ý rằng dấu `.` ở dòng cuối cùng thay thế cho đối tượng được truyền vào hàm trước đó. Tại thời điểm đó, giá trị chỉ đơn giản là số 6. Giá trị này được đặt trong dấu ngoặc kép để trích xuất phần tử thứ 6 của vectơ tên tệp được tạo bởi `dir()`.
 
 ```{r}
 # load packages
@@ -3715,7 +3715,7 @@ latest_file <- dir(here("data", "example", "linelists")) %>%  # file names from 
 latest_file  # print name of latest file
 ```
 
-Bây giờ bạn có thể sử dụng tên này để kết thúc đường dẫn tệp tương đối, với `here()`:
+Bây giờ bạn có thể sử dụng tên này để hoàn thiện đường dẫn tệp tương đối, với hàm `here()`:
 
 ```{r, eval=F}
 here("data", "example", "linelists", latest_file) 
@@ -3732,7 +3732,7 @@ import(here("data", "example", "linelists", latest_file)) # import
 
 Nếu tệp của bạn không có ngày trong tên của chúng (hoặc bạn không tin tưởng vào những ngày đó), bạn có thể thử trích xuất ngày sửa đổi cuối cùng từ siêu dữ liệu tệp. Sử dụng các hàm từ package **fs** để kiểm tra thông tin siêu dữ liệu cho từng tệp, bao gồm thời gian sửa đổi cuối cùng và đường dẫn tệp.
 
-Dưới đây, chúng tôi cung cấp thư mục quan tâm tới `dir_info()` của **fs**. Trong trường hợp này, thư mục quan tâm nằm trong dự án R trong thư mục "data", thư mục con "example" và thư mục con thư mục này "linelists". Kết quả là một data frame với một dòng cho mỗi tệp và các cột cho `modification_time`, `path`, v.v. Bạn có thể xem ví dụ trực quan về điều này trong chương về [Tương tác với thư mục làm việc].
+Dưới đây, chúng tôi cung cấp thư mục quan tâm tới hàm `dir_info()` của package **fs**. Trong trường hợp này, thư mục quan tâm nằm trong dự án R trong thư mục "data", thư mục con "example" và thư mục con thư mục này "linelists". Kết quả là một data frame với một dòng cho mỗi tệp và các cột cho `modification_time`, `path`, v.v. Bạn có thể xem ví dụ trực quan về điều này trong chương về [Tương tác với thư mục làm việc].
 
 Chúng ta có thể sắp xếp data frame này của các tệp theo cột với `modification_time`, và sau đó chỉ giữ lại hàng trên cùng/mới nhất (tệp) với `head()`của **base** R. Sau đó, chúng ta có thể trích xuất đường dẫn tệp của tệp mới nhất này chỉ với hàm `pull()` của **dplyr** trên `path` cột. Cuối cùng, chúng ta có thể chuyển đường dẫn tệp này đến `import()`. Tệp đã nhập được lưu dưới dạng `latest_file`.
 
@@ -3757,7 +3757,7 @@ Không cần phải nói, để nhập dữ liệu qua API thì cần phải có
 
 *Lưu ý: Hãy nhớ lại rằng dữ liệu có thể được đăng trên một trang web không có API, điều này có thể dễ dàng truy xuất hơn. Ví dụ: một tệp CSV đã đăng có thể được truy cập chỉ bằng cách cung cấp URL của trang web để `import()` như được mô tả trong mục [nhập từ Github](#import_github).*
 
-### Yêu cầu HTTP (HTTP request) {.unnumbered}
+### HTTP request {.unnumbered}
 
 Trao đổi API thường được thực hiện thông qua một HTTP request. HTTP là Giao thức truyền siêu văn bản (Hypertext Transfer Protocol) và là định dạng cơ bản của giao thức yêu cầu (request)/phản hồi (response) giữa máy khách và máy chủ. Đầu vào và đầu ra chính xác có thể khác nhau tùy thuộc vào loại API nhưng quy trình là giống nhau - "Request" (thường là HTTP request) từ người dùng, thường chứa một truy vấn, theo sau là "Response", chứa thông tin trạng thái về request và có thể là nội dung được yêu cầu.
 
@@ -3874,9 +3874,9 @@ contacts <- as_tibble(fromJSON(json_contacts, flatten = TRUE))   # flatten JSON 
 
 Để biết thêm chi tiết, hãy xem tài liệu trên [LoopBack Explorer](https://loopback.io/doc/en/lb4/index.html), chương [Truy vết tiếp xúc] hoặc các mẹo API trên [Go.Data Github repository](https://worldhealthorganization.github.io/godata/api-docs)
 
-Bạn có thể đọc thêm về *httr* trong package [here](https://httr.r-lib.org/articles/quickstart.html)
+Bạn có thể đọc thêm về *httr* trong gói lệnh [here](https://httr.r-lib.org/articles/quickstart.html)
 
-Phần này cũng đã được trình bày trong [hướng dẫn này](https://www.dataquest.io/blog/r-api-tutorial/)và [hướng dẫn này](https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1) hướng dẫn này.
+Phần này cũng đã được trình bày trong [hướng dẫn này](https://www.dataquest.io/blog/r-api-tutorial/) và [hướng dẫn này](https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1).
 
 <!-- ======================================================= -->
 
@@ -4144,13 +4144,13 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `as.character()`, `as.numeric()`, `as.Date()`, etc. | chuyển đổi định dạng cột                                   | **base** R               |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| `across()`                                          | chuyển dạng đồng thời nhiều cột                            | **dplyr**                |
+| `across()`                                          | biến đổi đồng thời nhiều cột                               | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| **tidyselect**                                      | hàm logic để chọn cột                                      | **tidyselect**           |
+| các hàm **tidyselect**                              | sử dụng logic để chọn cột                                  | **tidyselect**           |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `filter()`                                          | giữ lại các dòng theo điều kiện                            | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| `distinct()`                                        | lọc trùng quan sát                                         | **dplyr**                |
+| `distinct()`                                        | lọc quan sát trùng                                         | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `rowwise()`                                         | xử lý theo/trong mỗi dòng                                  | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
@@ -4160,7 +4160,7 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `recode()`                                          | recode lại giá trị trong cột                               | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
-| `case_when()`                                       | recode lại giá trị trong cột kèm điều kiện                 | **dplyr**                |
+| `case_when()`                                       | recode lại giá trị trong cột kèm các điều kiện phức tạp    | **dplyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
 | `replace_na()`, `na_if()`, `coalesce()`             | các hàm đặc biệt để recode                                 | **tidyr**                |
 +-----------------------------------------------------+------------------------------------------------------------+--------------------------+
@@ -4173,17 +4173,17 @@ Nhiều hàm thuộc về package [**dplyr**](https://dplyr.tidyverse.org/), mà
 
 Nếu bạn muốn xem các hàm này so sánh với các câu lệnh trong Stata hoặc SAS, hãy xem chương [Chuyển đổi sang R].
 
-Bạn có thể gặp một framework quản lý dữ liệu khác từ package **data.table** trong R với các toán tử như `:=` và thường xuyên sử dụng dấu ngoặc `[ ]`. Cách tiếp cận và cú pháp này được giải thích ngắn gọn trong chương [Data Table].
+Bạn cũng có thể gặp một framework quản lý dữ liệu khác từ package **data.table** trong R với các toán tử như `:=` và thường xuyên sử dụng dấu ngoặc `[ ]`. Cách tiếp cận và cú pháp này được giải thích ngắn gọn trong chương [Data Table].
 
 ### Thuật ngữ {.unnumbered}
 
-Trong cuốn sách này, chúng tôi quy ước chung "cột" và "hàng" thay cho "biến" và "quan sát". Như đã giải thích trong phần dẫn trên ["tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu dịch tễ-thống kê đều có cấu trúc gồm các hàng, cột và giá trị.
+Trong cuốn sách này, chúng tôi quy ước chung "cột" và "hàng" thay cho "biến" và "quan sát". Như đã giải thích trong phần dẫn trên ["dữ liệu gọn gàng - tidy data"](https://tidyr.tidyverse.org/articles/tidy-data.html), hầu hết các bộ dữ liệu dịch tễ-thống kê đều có cấu trúc gồm các hàng, cột và giá trị.
 
 *Variables (biến)* chứa các giá trị đo lường cùng một thuộc tính cơ bản (như nhóm tuổi, kết quả hoặc ngày bắt đầu). *Observations (quan sát)* chứa tất cả các giá trị được đo trên cùng một đơn vị (ví dụ: một người, địa điểm hoặc mẫu phòng thí nghiệm). Vì vậy, những khía cạnh này có thể khó xác định một cách hữu hình hơn.
 
 Trong bộ dữ liệu "tidy", mỗi cột là một biến, mỗi hàng là một quan sát và mỗi ô là một giá trị duy nhất. Tuy nhiên, một số bộ dữ liệu bạn gặp phải sẽ không giống với mô tả này - bộ dữ liệu định dạng "wide (ngang)" có thể có một biến số được chia thành nhiều cột (xem ví dụ trong chương [Xoay trục dữ liệu]). Tương tự như vậy, các quan sát có thể được chia thành nhiều hàng.
 
-Hầu hết cuốn sách này là về quản lý và biến đổi dữ liệu, do đó, việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ thích hợp hơn là các quan sát và biến một cách trừu tượng. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, nơi bạn sẽ thấy nhiều tham chiếu hơn đến các biến và quan sát.
+Cuốn sách này tập trung về quản lý và biến đổi dữ liệu, do đó, việc đề cập đến cấu trúc dữ liệu cụ thể của các hàng và cột sẽ thích hợp hơn là các quan sát và biến vốn khá trừu tượng. Các trường hợp ngoại lệ chủ yếu xảy ra trong các chương về phân tích dữ liệu, nơi bạn sẽ thấy nhiều tham chiếu hơn đến các biến và quan sát.
 
 <!-- ======================================================= -->
 
@@ -4195,9 +4195,9 @@ Hầu hết cuốn sách này là về quản lý và biến đổi dữ liệu,
 
 **Chương này tiến hành các bước làm sạch điển hình, bằng cách thêm chúng tuần tự vào một chuỗi pipe.**
 
-Trong phân tích dịch tễ học và xử lý dữ liệu, các bước làm sạch thường được thực hiện tuần tự, liên kết với nhau. Trong R, điều này thường biểu thị như một "pipeline" làm sạch, trong đó *bộ dữ liệu thô được chuyển tiếp hoặc "dẫn" từ bước làm sạch này sang bước làm sạch khác*.
+Trong phân tích dịch tễ học và xử lý dữ liệu, các bước làm sạch thường được thực hiện tuần tự, liên kết với nhau. Trong R, việc này thường được thực hiện dưới dạng một "pipeline - đường ống" làm sạch, trong đó *bộ dữ liệu thô được chuyển tiếp hoặc "dẫn" từ bước làm sạch này sang bước làm sạch khác*.
 
-Các chuỗi như vậy sử dụng các hàm dạng "verb" trong package **dplyr** và toán tử pipe `%>%` trong package **magrittr**. Pipe bắt đầu từ dữ liệu "thô" ("linelist_raw.xlsx") và kết thúc bằng bộ dữ liệu "sạch" trên R (`linelist`) có thể được sử dụng, lưu, xuất, v.v.
+Các chuỗi như vậy sử dụng các hàm dạng "verb" trong package **dplyr** và toán tử pipe `%>%` trong package **magrittr**. Chuỗi pipe bắt đầu từ dữ liệu "thô" ("linelist_raw.xlsx") và kết thúc bằng bộ dữ liệu "sạch" trên R (`linelist`) có thể được sử dụng, lưu, xuất, v.v.
 
 Trong quy trình làm sạch dữ liệu, thứ tự của các bước là quan trọng. Các bước làm sạch có thể bao gồm:
 
@@ -4215,7 +4215,7 @@ Trong quy trình làm sạch dữ liệu, thứ tự của các bước là quan
 
 ## Gọi package
 
-Đoạn code này trình bày cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load ()` từ package **pacman**, cài đặt package nếu cần *và* gọi package ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` sẵn có trong **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
+Đoạn code này trình bày cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ package **pacman**, cài đặt package nếu cần *và* gọi package ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` sẵn có trong **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r, message = F}
 pacman::p_load(
@@ -4238,13 +4238,13 @@ pacman::p_load(
 
 ### Nhập {.unnumbered}
 
-Ở đây, chúng tôi nạp tệp tin Excel "thô" bằng cách sử dụng hàm `import()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Import and export] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp Google sheets, v.v.).
+Ở đây, chúng ta sẽ nhập tệp tin Excel "thô" bằng cách sử dụng hàm `import()` từ package **rio**. Package **rio** có thể xử lý linh hoạt nhiều loại tệp tin (ví dụ: .xlsx, .csv, .tsv, .rds. Xem chương về [Nhập xuất dữ liệu] để biết thêm thông tin và mẹo về các tình huống bất thường (ví dụ: loại bỏ hàng, thiết lập giá trị trống, nạp trang tính Google, v.v.).
 
-Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống file linelist "thô"</a> (với file dạng .xlsx).
+Nếu bạn muốn hiểu rõ hơn, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_raw.xlsx' class='download-button'>hãy tải xuống tệp dữ liệu linelist "thô"</a> (với file dạng .xlsx).
 
-Nếu bộ dữ liệu của bạn quá lớn và mất nhiều thời gian để nạp, rất hữu ích khi đặt lệnh nạp dữ liệu và đồng thời tách dữ liệu riêng biệt với chuỗi pipe và dữ liệu "thô" sẽ được lưu thành một file riêng biệt. Điều này cũng cho phép dễ dàng so sánh giữa phiên bản gốc và phiên bản đã làm sạch.
+Nếu bộ dữ liệu của bạn quá lớn và mất nhiều thời gian để nhập, sẽ hữu ích khi bạn đặt lệnh nhập dữ liệu riêng biệt với chuỗi pipe và dữ liệu "thô" sẽ được lưu thành một tệp riêng biệt. Điều này cũng cho phép dễ dàng so sánh giữa phiên bản gốc và phiên bản đã làm sạch.
 
-Dưới đây, chúng tôi nạp file Excel thô và lưu nó dưới dạng bộ dữ liệu `linelist_raw`. Chúng tôi giả định rằng file này nằm trong thư mục làm việc của bạn hoặc thư mục gốc của R project và vì vậy không có thư mục con nào được chỉ định trong đường dẫn file.
+Dưới đây, chúng ta nạp một tệp Excel thô và lưu nó dưới dạng dataframe `linelist_raw`. Chúng tôi giả định rằng tệp này nằm trong thư mục làm việc của bạn hoặc thư mục gốc của dự án R và vì vậy không có thư mục con nào được chỉ định trong đường dẫn tệp.
 
 ```{r, echo=F, message=F}
 # HIDDEN FROM READER
@@ -4283,9 +4283,9 @@ skimr::skim_without_charts(linelist_raw)
 
 ## Tên cột
 
-Trong R, *tên* cột là giá trị dạng "tiêu đề" hoặc "trên cùng" của một cột. Chúng được sử dụng để tham chiếu đến các cột trong đoạn code và đóng vai trò như một nhãn mặc định trong các bảng biểu.
+Trong R, *tên* cột là "tiêu đề" hoặc giá trị "trên đỉnh" của một cột. Chúng được sử dụng để tham chiếu đến các cột trong đoạn code và đóng vai trò như một nhãn mặc định trong các bảng biểu.
 
-Phần mềm thống kê khác như SAS và STATA sử dụng *"nhãn"* là tên cột phiên bản dài hơn khi in, cùng tồn tại song song với tên cột. Mặc dù R cung cấp tính năng thêm nhãn của cột vào dữ liệu, nhưng điều này hầu hết không được nhấn mạnh trong thực tế. Để đặt tên cột "dễ nhìn" cho các bảng biểu, người ta thường điều chỉnh hiển thị của chúng trong các lệnh vẽ biểu đồ để tạo ra kết quả (ví dụ: tiêu đề trục hoặc chú giải của một biểu đồ hoặc tiêu đề cột trong bảng - xem thêm [mục scales trong chương Các tips với ggplot ](#%20ggplot_tips_scales) và chương [Trình bày bảng]). Nếu bạn muốn gán nhãn cột trong dữ liệu, hãy đọc thêm tài liệu trực tuyến [tại đây](https://cran.r-project.org/web/packages/expss/vignettes/labels-support.html) và [tại đây](https%20:%20//cran.r-project.org/web/packages/labelt/vignettes/intro_labelling.html).
+Các phần mềm thống kê khác như SAS và STATA sử dụng *"nhãn"* là tên cột phiên bản dài hơn khi in, cùng tồn tại song song với tên cột. Mặc dù R cung cấp tính năng thêm nhãn của cột vào dữ liệu, nhưng điều này hầu hết không được nhấn mạnh trong thực tế. Để đặt tên cột "dễ nhìn" cho các bảng biểu, người ta thường điều chỉnh hiển thị của chúng trong các lệnh vẽ biểu đồ để tạo ra kết quả (ví dụ: tiêu đề trục hoặc chú giải của một biểu đồ hoặc tiêu đề cột trong bảng - xem thêm [mục scales trong chương Các tips với ggplot](#%20ggplot_tips_scales) và chương [Trình bày bảng]). Nếu bạn muốn gán nhãn cột trong dữ liệu, hãy đọc thêm tài liệu trực tuyến [tại đây](https://cran.r-project.org/web/packages/expss/vignettes/labels-support.html) và [tại đây](https%20:%20//cran.r-project.org/web/packages/labelt/vignettes/intro_labelling.html).
 
 Vì tên cột trong R được sử dụng rất thường xuyên, vì vậy chúng phải có cú pháp "sạch". Chúng tôi đề xuất những tiêu chí sau:
 
@@ -4367,7 +4367,7 @@ rename(newNameForFirstColumn  = 1,
 
 #### Đổi tên bằng hàm `select()` và `summarise()` {.unnumbered}
 
-Như một mẹo, bạn cũng có thể đổi tên các cột bằng hàm `select()` và `summarise()` trong package **dplyr.** `select()` được sử dụng để chỉ giữ một số cột nhất định (sẽ được đề cập sau trong chương này). `summarise()` được đề cập trong các chương [Nhóm dữ liệu] và [Bảng mô tả]. Các hàm này cũng sử dụng định dạng `new_name = old_name`. Đây là một ví dụ:
+Như một lối tắt, bạn cũng có thể đổi tên các cột bằng hàm `select()` và `summarise()` thuộc package **dplyr**. Hàm `select()` được sử dụng để chỉ giữ một số cột nhất định (sẽ được đề cập sau trong chương này). Hàm `summarise()` được đề cập trong các chương [Nhóm dữ liệu] và [Bảng mô tả]. Các hàm này cũng sử dụng định dạng `new_name = old_name`. Đây là một ví dụ:
 
 ```{r, eval=F}
 linelist_raw %>% 
@@ -4388,7 +4388,7 @@ Bạn có thể làm sạch các tên cột này theo cách thủ công bằng c
 
 Các ô được hợp nhất trong file Excel là một sự cố thường xảy ra khi nhận dữ liệu. Như đã giải thích trong chương [Chuyển đổi sang R], các ô được hợp nhất có thể dễ nhìn cho con người đọc dữ liệu, nhưng không phải là "cấu trúc dữ liệu cơ bản" và gây ra nhiều vấn đề cho máy khi nhận diện dữ liệu. R không thể chứa các ô đã hợp nhất.
 
-Nhắc nhở người nhập liệu rằng **dữ liệu có thể đọc được bởi con người không giống với dữ liệu mà máy có thể đọc được**. Hãy cố gắng đào tạo người dùng về các nguyên tắc về [**dữ liệu tidy **](https://r4ds.had.co.nz/tidy-data.html). Nếu có thể, hãy cố gắng thay đổi quy trình để dữ liệu có định dạng gọn gàng hơn mà không hợp nhất các ô.
+Nhắc nhở người nhập liệu rằng **dữ liệu có thể đọc được bởi con người không giống với dữ liệu mà máy có thể đọc được**. Hãy cố gắng đào tạo người dùng về các nguyên tắc về [**dữ liệu tidy** ](https://r4ds.had.co.nz/tidy-data.html). Nếu có thể, hãy cố gắng thay đổi quy trình để dữ liệu có định dạng gọn gàng hơn mà không hợp nhất các ô.
 
 -   Mỗi biến phải là một cột riêng biệt
 -   Mỗi quan sát phải là một dòng riêng biệt
@@ -4402,7 +4402,7 @@ Một giải pháp để xử lý các ô đã hợp nhất là nạp dữ liệ
 linelist_raw <- openxlsx::readWorkbook("linelist_raw.xlsx", fillMergedCells = TRUE)
 ```
 
-[***NGUY HIỂM***: Nếu các tên cột được hợp nhất với `readWorkbook()`, có thể sẽ trả về tên cột trùng lặp, mà bạn sẽ cần phải sửa thủ công - R không làm việc được với các tên cột trùng lặp! Bạn có thể đặt lại tên cho chúng bằng cách tham chiếu vị trí của chúng (ví dụ: cột 5), như được giải thích trong mục làm sạch tên cột thủ công.]{style="color: red;"}
+[***NGUY HIỂM***: Nếu các tên cột được hợp nhất với `readWorkbook()`, có thể sẽ trả về tên cột trùng lặp, mà bạn sẽ cần phải sửa một cách thủ công - R không làm việc được với các tên cột trùng lặp! Bạn có thể đặt lại tên cho chúng bằng cách tham chiếu vị trí của chúng (ví dụ: cột 5), như được giải thích trong mục làm sạch tên cột thủ công.]{style="color: red;"}
 
 <!-- ======================================================= -->
 
@@ -4657,7 +4657,7 @@ linelist <- linelist %>%
   mutate(bmi = wt_kg / (ht_cm/100)^2)
 ```
 
-Nếu tạo nhiều cột mới, hãy tách riêng từng cột bằng dấu phẩy và dòng mới. Dưới đây là các ví dụ về tạo các cột mới, bao gồm một cột mà chứa các giá trị từ các cột khác được kết hợp bằng hàm `str_glue()` từ package **stringr** (xem chương [Ký tự và chuỗi].
+Nếu tạo nhiều cột mới, hãy tách riêng từng cột bằng dấu phẩy và dòng mới. Dưới đây là các ví dụ về tạo các cột mới, bao gồm một cột mà chứa các giá trị từ các cột khác được kết hợp bằng hàm `str_glue()` từ package **stringr** (xem chương [Ký tự và chuỗi]).
 
 ```{r}
 new_col_demo <- linelist %>%                       
@@ -4785,7 +4785,7 @@ Bạn có thể đọc tài liệu với hàm `?across` để biết chi tiết 
 
 -   Bạn có thể cung cấp tên hàm đứng một mình (ví dụ: `mean` hoặc `as.character`)\
 
--   Bạn có thể cung cấp hàm theo phong cách **purrr** (ví dụ: `~ mean(.x, na.rm = TRUE)`) (xem chương [Lặp, vòng lặp và danh sách])\
+-   Bạn có thể cung cấp hàm theo phong cách **purrr** (ví dụ: `~ mean(.x, na.rm = TRUE)`) (xem chương [Lặp, vòng lặp, và danh sách])\
 
 -   Bạn có thể chỉ định nhiều hàm bằng cách cung cấp danh sách (ví dụ: `list(mean = mean, n_miss = ~ sum(is.na(.x))`).
 
@@ -4795,7 +4795,7 @@ Dưới đây là một số tài nguyên trực tuyến về cách sử dụng 
 
 ### Hàm `coalesce()` {.unnumbered}
 
-Hàm **dplyr** tìm giá trị không bị thiếu đầu tiên tại mỗi vị trí. Nó "điền vào" các giá trị còn thiếu với giá trị có sẵn đầu tiên theo thứ tự bạn chỉ định.
+Hàm **dplyr** này tìm giá trị không bị thiếu đầu tiên tại mỗi vị trí. Nó "điền vào" các giá trị còn thiếu với giá trị có sẵn đầu tiên theo thứ tự bạn chỉ định.
 
 Đây là một ví dụ *ngoài phạm vi của bộ dữ liệu*: Giả sử bạn có hai vectơ, một vectơ chứa thông tin về làng nơi bệnh nhân được phát hiện và một vectơ chứa thông tin làng nơi bệnh nhân cư trú . Bạn có thể sử dụng hàm `coalesce()` để chọn giá trị không bị thiếu đầu tiên cho mỗi biến số:
 
@@ -5642,7 +5642,7 @@ Chúng ta có thể chỉ lọc theo `date_onset` đến những hàng sau thán
 
 [***NGUY HIỂM***: Việc lọc với điều kiện lớn hơn (\>) hoặc nhỏ hơn (\<) một ngày hoặc số có thể loại bỏ bất kỳ hàng nào có giá trị bị thiếu (`NA`)! Điều này là do `NA` được coi là giá trị lớn hoặc nhỏ vô hạn.]{style="color: red;"}
 
-*(Xem chương [Làm việc với ngày thág] để biết thêm thông tin về cách xử lý với ngày tháng và package **lubridate**)*
+*(Xem chương [Làm việc với ngày tháng] để biết thêm thông tin về cách xử lý với ngày tháng và package **lubridate**)*
 
 #### Thiết kế bộ lọc {.unnumbered}
 
@@ -6044,7 +6044,7 @@ Sử dụng hàm `as.Date()` yêu cầu:
 
 **Trước tiên**, hãy kiểm tra kiểu của cột với hàm `class()` trong **base** R. Nếu bạn không chắc chắn hoặc phân vân về kiểu dữ liệu của cột (vd: bạn thấy "POSIXct", v.v.) dễ dàng nhất là chuyển đổi cột thành kiểu văn bản với hàm `as.character()`, và sau đó chuyển đổi nó thành kiểu Ngày.  
 
-**Thứ hai**, trong hàm `as.Date()`, sử dụng đối số `format =` để cho R biết định dạng *hiện tại* của các cấu phần trong biến ngày - những ký tự nào đề cập đến tháng, ngày và năm và cách chúng được phân tách. ếu các giá trị của bạn đã ở một trong các định dạng ngày chuẩn của R ("YYYY-MM-DD" hoặc "YYYY/MM/DD") thì đối số `format =` là không cần thiết.  
+**Thứ hai**, trong hàm `as.Date()`, sử dụng đối số `format =` để cho R biết định dạng *hiện tại* của các cấu phần trong biến ngày - những ký tự nào đề cập đến tháng, ngày và năm và cách chúng được phân tách. Nếu các giá trị của bạn đã ở một trong các định dạng ngày chuẩn của R ("YYYY-MM-DD" hoặc "YYYY/MM/DD") thì đối số `format =` là không cần thiết.  
 
 Để `format = `, hãy cung cấp một chuỗi ký tự (trong dấu ngoặc kép) đại diện cho định dạng ngày *hiện tại* bằng cách sử dụng các chữ viết tắt đặc biệt "strptime" dưới đây. Ví dụ: nếu ngày ký tự của bạn hiện ở định dạng “DD / MM / YYYY”, như “24/04/1968”, bạn hãy sử dụng đối số `format = "%d/%m/%Y"` để chuyển đổi các giá trị này. **Đặt định dạng trong dấu ngoặc kép là cần thiết. Và đừng quên bất kỳ dấu gạch chéo hoặc dấu gạch ngang nào!**  
 
@@ -6077,7 +6077,7 @@ Hầu hết các từ viết tắt của “strptime” được liệt kê dư�
 
 <span style="color: darkgreen;">**_MẸO:_** Đối số `format =` của hàm `as.Date()` sẽ *không* cho R biết định dạng ngày theo cách bạn muốn, nhưng hơn hết nó giúp xác định thành phần ngày trong cột *trước khi* bạn chạy dòng lệnh.</span>  
 
-<span style="color: darkgreen;">**_MẸO:_** Hãy chắc chắn rằng đối số `format =` bạn có sử dụng *các ký tự ngăn cách ngày thág* (vd: /, -, hoặc khoảng trắng) trong cột ngày hiện tại của bạn.</span>  
+<span style="color: darkgreen;">**_MẸO:_** Hãy chắc chắn rằng đối số `format =` bạn có sử dụng *các ký tự ngăn cách ngày tháng* (vd: /, -, hoặc khoảng trắng) trong cột ngày hiện tại của bạn.</span>  
 
 Khi các giá trị nằm trong phân lớp Ngày tiêu chuẩn, R sẽ mặc định hiển thị chúng ở định dạng chuẩn, đó là YYYY-MM-DD.
 
@@ -6087,7 +6087,7 @@ Khi các giá trị nằm trong phân lớp Ngày tiêu chuẩn, R sẽ mặc đ
 
 Việc chuyển đổi các đối tượng dạng tự thành Ngày tháng có thể được thực hiện dễ dàng hơn bằng cách sử dụng package **lubridate**. Đây là một package thuộc hệ sinh thái **tidyverse** được thiết kế để giúp làm việc với ngày và giờ đơn giản và nhất quán hơn so với **base** R. Vì những lý do này, package **lubridate** thường được coi là package tiêu chuẩn vàng cho ngày và giờ và được khuyến khích sử dụng bất cứ khi nào làm việc với chúng.
 
-Package **lubridate** cung cấp một số hàm trợ giúp khác nhau được thiết kế để chuyển đổi ác đối tượng dạng ký tự thành ngày tháng một cách trực quan và dễ dàng hơn là định dạng bằng hàm `as.Date()`. Các hàm này dành riêng cho định dạng ngày tháng, nhưng cho phép nhiều kiểu dấu phân tách và từ đồng nghĩa của ngày tháng (vd: 01 so với Jan so với January) - chúng được đặt tên theo chữ viết tắt của các định dạng ngày. 
+Package **lubridate** cung cấp một số hàm trợ giúp khác nhau được thiết kế để chuyển đổi các đối tượng dạng ký tự thành ngày tháng một cách trực quan và dễ dàng hơn là định dạng bằng hàm `as.Date()`. Các hàm này dành riêng cho định dạng ngày tháng, nhưng cho phép nhiều kiểu dấu phân tách và từ đồng nghĩa của ngày tháng (vd: 01 so với Jan so với January) - chúng được đặt tên theo chữ viết tắt của các định dạng ngày. 
 
 
 ```{r, }
@@ -6170,7 +6170,7 @@ linelist <- linelist %>%
 
 Về cơ bản, hầu hết phần mềm lưu trữ thông tin ngày tháng dưới dạng số. R lưu trữ ngày bắt đầu từ ngày 1 tháng 1 năm 1970. Do đó, nếu bạn chạy hàm `as.numeric(as.Date("1970-01-01))`, bạn sẽ nhận được kết quả là `0`. 
 
-Microsoft Excel ưu trữ ngày tháng có nguồn gốc là ngày 30 tháng 12 năm 1899 (hệ điều hành Windows) hoặc ngày 1 tháng 1 năm 1904 (hệ điều hành Mac), tùy thuộc vào hệ điều hành của bạn. Xem [hướng dẫn của Microsoft](https://docs.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system) để biết thêm thông tin.  
+Microsoft Excel lưu trữ ngày tháng có nguồn gốc là ngày 30 tháng 12 năm 1899 (hệ điều hành Windows) hoặc ngày 1 tháng 1 năm 1904 (hệ điều hành Mac), tùy thuộc vào hệ điều hành của bạn. Xem [hướng dẫn của Microsoft](https://docs.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system) để biết thêm thông tin.  
 
 Ngày trong Excel thường nạp vào R dưới dạng các giá trị số thay vì dưới dạng ký tự. Nếu tập dữ liệu bạn đã nhập từ Excel hiển thị ngày tháng dưới dạng số hoặc ký tự như “41369”… hãy sử dụng hàm `as.Date()` (hoặc hàm `as_date()` của **lubridate**) để chuyển đổi, nhưng **thay vì cung cấp một "định dạng" như trên, hãy cung cấp ngày gốc trên Excel** tới đối số `origin = `.  
 
@@ -6228,7 +6228,7 @@ Như đã đề cập ở trước, R cũng hỗ trợ kiểu dữ liệu `datet
 
 ### Chuyển đổi ngày giờ {.unnumbered}  
 
-Một đối tượng `datetime` is formatted with the date first, được định dạng phần ngày trước, sau đó là phần thời gian - ví dụ:  _01 Jan 2020, 16:30_. Cũng như ngày, có nhiều cách có thể được định dạng và có nhiều cấp độ chính xác (giờ, phút, giây) có thể sử dụng.  
+Một đối tượng `datetime` được định dạng phần ngày trước, sau đó là phần thời gian - ví dụ:  _01 Jan 2020, 16:30_. Cũng như ngày, có nhiều cách có thể được định dạng và có nhiều cấp độ chính xác (giờ, phút, giây) có thể sử dụng.  
 
 Thật may mắn, các hàm hỗ trợ trong **lubridate** cũng tồn tại để giúp chuyển đổi thông tin dạng chuỗi này thành các đối tượng dạng `datetime`. Các hàm này là phần mở rộng của các hàm ngày, với hàm `_h` (chỉ cung cấp giờ), hàm `_hm` (cung cấp giờ và phút), hoặc hàm `_hms` (cung cấp giờ, phút và giây) được thêm vào cuối cùng (vd: `dmy_hms()`). Chúng có thể được sử dụng như sau:
 
@@ -6384,7 +6384,7 @@ Sự khác biệt giữa các ngày có thể được tính bằng:
 
 1. Đảm bảo cả hai trường ngày đều thuộc phân lớp ngày tiêu chuẩn  
 2. Sử dụng phép trừ để trả về khoảng chênh lệch "difftime" giữa hai ngày  
-3. Nếu cần thiết, hãy chuyển đổi kết quả thành phân lớp dạng số để thực hiện các phép tính toán học tiếp theos  
+3. Nếu cần thiết, hãy chuyển đổi kết quả thành phân lớp dạng số để thực hiện các phép tính toán học tiếp theo 
 
 Dưới đây là khoảng thời gian giữa hai ngày được tính toán và hiển thị. Bạn có thể tìm các khoảng thời gian bằng cách sử dụng ký hiệu trừ "minus" trên các giá trị dạng Ngày tiêu chuẩn. Tuy nhiên, lưu ý rằng phân lớp của giá trị trả về là “difftime” như được hiển thị bên dưới và phải được chuyển đổi thành dạng số. 
 
@@ -6432,7 +6432,7 @@ Một khi ngày tháng đã được định dạng đúng kiểu, bạn thườ
 
 ### `format()` {.unnumbered}  
 
-Điều chỉnh hiển thị ngày với hàm `format()` từ **base**. Hàm này chấp nhận một chuỗi ký tự (trong dấu ngoặc kép) xác định rõ định dạng đầu ra *mong muốn* in the "%" bằng chữ viết tắt “%” strptime (cú pháp tương tự như được sử dụng trong hàm `as.Date()`). Dưới đây là các từ viết tắt phổ biến.  
+Điều chỉnh hiển thị ngày với hàm `format()` từ **base** R. Hàm này chấp nhận một chuỗi ký tự (trong dấu ngoặc kép) xác định rõ định dạng đầu ra *mong muốn* bằng chữ viết tắt “%” strptime (cú pháp tương tự như được sử dụng trong hàm `as.Date()`). Dưới đây là các từ viết tắt phổ biến.  
 
 Lưu ý: việc sử dụng hàm `format()` sẽ chuyển đổi các giá trị thành kiểu ký tự, vì vậy điều này thường được sử dụng ở cuối phân tích hoặc chỉ cho mục đích hiển thị! Bạn có thể xem danh sách đầy đủ bằng cách chạy lệnh `?strptime`.  
 
@@ -6476,7 +6476,7 @@ Lưu ý rằng nếu sử dụng hàm `str_glue()`, hãy lưu ý rằng các n�
 
 ### Tháng-Năm {.unnumbered}  
 
-Để chuyển đổi cột Ngày sang định dạng Tháng-năm, chúng tôi khuyên bạn nên sử dụng hàm `as.yearmon()` từ package **zoo**. Nó giúp Điều này chuyển đổi từ định dạng ngày thành định dạng “yearmon” và giữ lại thứ tự thích hợp. Ngược lại, sử dụng hàm `format(column, "%Y %B")` sẽ chuyển đổi giá trị thành kiểu Ký tự và sẽ sắp xếp các giá trị theo thứ tự bảng chữ cái (không chính xác). 
+Để chuyển đổi cột Ngày sang định dạng Tháng-năm, chúng tôi khuyên bạn nên sử dụng hàm `as.yearmon()` từ package **zoo**. Nó giúp chuyển đổi từ định dạng ngày thành định dạng “yearmon” và giữ lại thứ tự thích hợp. Ngược lại, sử dụng hàm `format(column, "%Y %B")` sẽ chuyển đổi giá trị thành kiểu Ký tự và sẽ sắp xếp các giá trị theo thứ tự bảng chữ cái (không chính xác). 
 
 Dưới đây, một cột `yearmonth` mới được tạo ra từ cột `date_onset`, sử dụng hàm `as.yearmon()`. Thứ tự mặc định (đúng) của các giá trị kết quả được hiển thị trong bảng.  
 
@@ -6712,7 +6712,7 @@ options(scipen=1, digits=7)
 knitr::include_graphics(here::here("images", "Characters_Strings_1500x500.png"))
 ```
 
-Trang này trình bày việc sử dụng package **stringr** để đánh giá và xử lý các giá trị ký tự ("chuỗi").
+Chương này trình bày việc sử dụng package **stringr** để đánh giá và xử lý các giá trị ký tự ("chuỗi").
 
 1.  Các hàm kết hợp, thiết lập thứ tự, phân tách, sắp xếp - `str_c()`, `str_glue()`, `str_order()`, `str_split()`
 
@@ -6826,7 +6826,7 @@ Sử dụng hàm `str_glue()` để chèn đoạn code động của R vào chu�
 -   Bất kỳ đoạn code động hoặc tham chiếu nào đến các giá trị được xác định trước đều được đặt trong dấu ngoặc nhọn `{}`, bên trong dấu ngoặc kép. Có thể có nhiều dấu ngoặc nhọn trong cùng một câu lệnh `str_glue()`.\
 -   Để hiển thị dấu ngoặc kép ", hãy sử dụng dấu ngoặc *đơn* bên trong dấu ngoặc kép (ví dụ: khi cung cấp định dạng ngày - xem ví dụ bên dưới)
 -   Mẹo: Bạn có thể sử dụng `\n` để bắt buộc xuống một dòng mới\
--   Mẹo: Bạn có thể sử dụng `format()` để điều chỉnh hiển thị ngày và sử dụng hàm `Sys.Date()` để hiển thị ngày hiện tại.
+-   Mẹo: Bạn có thể sử dụng hàm `format()` để điều chỉnh hiển thị ngày và sử dụng hàm `Sys.Date()` để hiển thị ngày hiện tại.
 
 Một ví dụ đơn giản về tiêu đề biểu đồ động:
 
@@ -6834,7 +6834,7 @@ Một ví dụ đơn giản về tiêu đề biểu đồ động:
 str_glue("Data include {nrow(linelist)} cases and are current to {format(Sys.Date(), '%d %b %Y')}.")
 ```
 
-Một định dạng thay thế là sử dụng trình giữ chỗ (placeholder) bên trong dấu ngoặc kép và chỉ định chúng trong các đối số ở phía sau trong hàm `str_glue()` như bên dưới. Việc này sẽ làm tăng tính tường minh cho code nếu văn bản dài.
+Một định dạng thay thế là sử dụng trình giữ chỗ (placeholder) bên trong dấu ngoặc kép và chỉ định chúng trong các đối số ở phía sau trong hàm `str_glue()` như bên dưới. Việc này sẽ làm tăng tính tường minh cho code nếu phần văn bản dài.
 
 ```{r}
 str_glue("Linelist as of {current_date}.\nLast case hospitalized on {last_hospital}.\n{n_missing_onset} cases are missing date of onset and not shown",
@@ -7010,7 +7010,7 @@ Giả sử dữ liệu được đưa vào hàm `separate()`, trước tiên hã
 
     -   `extra = "warn"` có nghĩa là bạn sẽ thấy một cảnh báo nhưng nó sẽ loại bỏ các giá trị thừa (**mặc định là vậy**)\
     -   `extra = "drop"` có nghĩa là các giá trị thừa sẽ bị loại bỏ mà không có cảnh báo
-    -   \*\*`extra = "merge"` sẽ chỉ phân tách thành số cột mới được liệt kê trong `into` - \*thiết lập này sẽ bảo toàn tất cả dữ liệu của bạn\*\*
+    -   **`extra = "merge"` sẽ chỉ phân tách thành số cột mới được liệt kê trong `into` - *thiết lập này sẽ bảo toàn tất cả dữ liệu của bạn***
 
 Dưới đây là một ví dụ về `extra = "merge"` - không có dữ liệu nào bị mất. Hai cột mới được xác định nhưng bất kỳ triệu chứng thứ ba nào sẽ quy về trong cột mới thứ hai:
 
@@ -7058,7 +7058,7 @@ n_masks <- 20
 paste0("Regional hospital needs ", n_beds, " beds and ", n_masks, " masks.")
 ```
 
-`sep =` and `collapse =` arguments can be specified. `paste()` is simply `paste0()` with a default `sep = " "` (one space).
+Đối số `sep =` và `collapse =` có thể được cụ thể. Hàm `paste()` chỉ đơn giản dán `paste0()` vớ đối số mặc định `sep = " "` (một khoảng trắng).
 
 ## Làm sạch và chuẩn hóa
 
@@ -7074,7 +7074,7 @@ str_to_upper("California")
 str_to_lower("California")
 ```
 
-Sử dụng \*base\*\* R, bạn cũng có thể thực hiện điều trên với hàm `toupper()`, `tolower()`.
+Sử dụng **base** R, bạn cũng có thể thực hiện điều trên với hàm `toupper()`, `tolower()`.
 
 **Định dạng tiêu đề**
 
@@ -7234,7 +7234,7 @@ str_sub("pneumonia", 4, 15)
 
 Để tách 'từ' thứ n, hãy sử dụng hàm `word()` cũng thuộc package **stringr**. Đầu tiên, xác định (các) chuỗi ký tự, sau đó là vị trí từ đầu tiên cần trích xuất và vị trí từ cuối cùng để trích xuất.
 
-Mặc định, dấu phân cách giữa các 'từ' được giả định là khoảng trắng, trừ khi được chỉ định các khác bằng đối số `sep =` (ví dụ: `sep = "_"` khi các từ được phân tách bằng dấu gạch dưới)
+Mặc định, dấu phân cách giữa các 'từ' được giả định là khoảng trắng, trừ khi được chỉ định cách khác bằng đối số `sep =` (ví dụ: `sep = "_"` khi các từ được phân tách bằng dấu gạch dưới)
 
 ```{r}
 # strings to evaluate
@@ -7260,7 +7260,7 @@ str_sub(word, 3, 4) <- "XX"
 word
 ```
 
-Một ví dụ áp dụng cho nhiều chuỗi (ví dụ: một cột). Lưu ý sự mở rộng chiều dài của từ "HIV".
+Một ví dụ áp dụng cho nhiều chuỗi (ví dụ: một cột). Lưu ý sự mở rộng về độ dài của từ "HIV".
 
 ```{r}
 words <- c("pneumonia", "tubercolosis", "HIV")
@@ -7371,7 +7371,7 @@ Tương tự như vậy, các hàm `sub()` và `gsub()` của **base** R hoạt 
 
 Sau đây là một ví dụ về việc sử dụng hàm `gsub()` để chuyển đổi dấu phẩy thành dấu chấm trong một vectơ dạng số. Điều này có thể hữu ích nếu dữ liệu của bạn bắt nguồn từ nhiều nơi trên thế giới ngoài Hoa Kỳ hoặc Vương quốc Anh.
 
-Hàm `gsub()` bên trong đầu tiên hoạt động trên đối tượng `lengths` để chuyển đổi bất kỳ dấu chấm nào thành không có khoảng trắng "". Ký tự dấu chấm "." phải được "đi liền" với hai dấu gạch chéo để biểu thị một dấu chấm, bởi vì "." trong biểu thức chính quy có nghĩa là "bất kỳ ký tự nào". Sau đó, kết quả (chỉ có dấu phẩy) được chuyển tiếp đến hàm `gsub()` bên ngoài trong đó dấu phẩy được thay thế bằng dấu chấm.
+Hàm `gsub()` ở bên trong đầu tiên hoạt động trên đối tượng `lengths` để chuyển đổi bất kỳ dấu chấm nào thành không có khoảng trắng "". Ký tự dấu chấm "." phải được "đi liền" với hai dấu gạch chéo để biểu thị một dấu chấm, bởi vì "." trong biểu thức chính quy có nghĩa là "bất kỳ ký tự nào". Sau đó, kết quả (chỉ có dấu phẩy) được chuyển tiếp đến hàm `gsub()` bên ngoài trong đó dấu phẩy được thay thế bằng dấu chấm.
 
 ```{r, eval=F}
 lengths <- c("2.454,56", "1,2", "6.096,5")
@@ -7385,7 +7385,7 @@ as.numeric(gsub(pattern = ",",                # find commas
 
 ### Thay thế toàn bộ {.unnumbered}
 
-Sử dụng hàm `str_replace_all()` như là một công cụ "find and replace (tìm kiếm và thay thế)". Đầu tiên, cung cấp các chuối ký tự sẽ được đánh giá tới đối số `string =`, sau đó là quy luật sẽ được thay thế vào đối số `pattern =`, và sau đó là giá trị thay thế vào `replacement =`. Ví dụ dưới đây thay thế tất cả các trường hợp "dead" bằng "deceased". Lưu ý, phân biệt chữ hoa chữ thường.
+Sử dụng hàm `str_replace_all()` như là một công cụ "find and replace (tìm kiếm và thay thế)". Đầu tiên, cung cấp các chuỗi ký tự sẽ được đánh giá tới đối số `string =`, sau đó là quy luật sẽ được thay thế vào đối số `pattern =`, và sau đó là giá trị thay thế vào `replacement =`. Ví dụ dưới đây thay thế tất cả các trường hợp "dead" bằng "deceased". Lưu ý, phân biệt chữ hoa chữ thường.
 
 ```{r}
 outcome <- c("Karl: dead",
@@ -7533,9 +7533,9 @@ Gõ `?"'"` trong cửa sổ R Console để hiển thị danh sách đầy đủ
 
 ## Regex và các ký tự đặc biệt
 
-Biểu thức chính quy, hoặc “regex”, là một ngôn ngữ ngắn gọn để mô tả các patterns trong chuỗi ký tự. Nếu bạn không quen với nó, một biểu thức chính quy có thể trông giống như một ngôn ngữ ngoài hành tinh. Ở đây chúng tôi cố lột tả ngôn ngữ này dễ hiểu hơn
+Biểu thức chính quy, hoặc "regex", là một ngôn ngữ ngắn gọn để mô tả các patterns trong chuỗi ký tự. Nếu bạn không quen với nó, một biểu thức chính quy có thể trông giống như một ngôn ngữ ngoài hành tinh. Ở đây chúng tôi cố lột tả ngôn ngữ này dễ hiểu hơn
 
-*Phần lớn nội dung mục này được tham khảo từ [hướng dẫn này](https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432) và [cheatsheet này](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)*.  Chúng tôi tóm tắt một cách chọn lọc ở đây khi biết rằng cuốn ebook này có thể được xem bởi những người không có quyền truy cập internet để có thể xem các hướng dẫn khác.
+*Phần lớn nội dung mục này được tham khảo từ [hướng dẫn này](https://towardsdatascience.com/a-gentle-introduction-to-regular-expressions-with-r-df5e897ca432) và [cheatsheet này](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)*. Chúng tôi tóm tắt một cách chọn lọc ở đây khi biết rằng cuốn ebook này có thể được xem bởi những người không có quyền truy cập internet để có thể xem các hướng dẫn khác.
 
 Một biểu thức chính quy thường được áp dụng để trích xuất các pattern cụ thể từ văn bản "không có cấu trúc" - ví dụ: ghi chú y tế, khiếu nại, tiền sử bệnh tật hoặc các cột văn bản khác trong bộ dữ liệu.
 
@@ -7548,7 +7548,7 @@ Có bốn công cụ cơ bản mà người ta có thể sử dụng để tạo
 
 **Bộ ký tự**
 
-Bộ ký tự, là một cách thể hiện các tùy chọn liệt kê phù hợp với ký tự gốc, trong dấu ngoặc. Vì vậy, mọi kết quả khớp sẽ được đánh dấu nếu tìm thấy bất kỳ ký tự nào trong dấu ngoặc trong chuỗi. Ví dụ, để tìm các nguyên âm, người ta có thể sử dụng bộ ký tự này: “[aeiou]”. Một số bộ ký tự phổ biến khác là: 
+Bộ ký tự, là một cách thể hiện các tùy chọn liệt kê phù hợp với ký tự gốc, trong dấu ngoặc. Vì vậy, mọi kết quả khớp sẽ được đánh dấu nếu tìm thấy bất kỳ ký tự nào trong dấu ngoặc trong chuỗi. Ví dụ, để tìm các nguyên âm, người ta có thể sử dụng bộ ký tự này: "[aeiou]". Một số bộ ký tự phổ biến khác là:
 
 | Bộ ký tự    | Ghép cặp                                     |
 |-------------|----------------------------------------------|
@@ -7565,7 +7565,7 @@ Các bộ ký tự có thể được kết hợp trong một dấu ngoặc vuô
 
 **Siêu ký tự**
 
-Các siêu ký tự tố là cách viết tắt của các bộ ký tự. Một số điều quan trọng được liệt kê dưới đây:
+Các siêu ký tự là cách viết tắt của các bộ ký tự. Một số điều quan trọng được liệt kê dưới đây:
 
 | Siêu ký tự | Ý nghĩa                                                |
 |------------|--------------------------------------------------------|
@@ -7583,7 +7583,7 @@ Bộ định lượng là các số được viết trong dấu ngoặc nhọn `
 -   `"A{2,4}"` sẽ trả về các trường hợp **từ hai đến bốn** chữ cái A viết hoa *(không đặt dấu cách!)*.\
 -   `"A{2,}"` sẽ trả về các trường hợp **từ hai hoặc nhiều hơn** chữ cái A viết hoa.\
 -   `"A+"` sẽ trả về các trường hợp **từ một hoặc nhiều hơn** chữ cái A viết hoa (nhóm được mở rộng cho đến khi gặp một ký tự khác).\
--   Bắt đầu bằng dấu hoa thị `*` để trả về **khôgn hoặc nhiều hơn** kết quả phù hợp (hữu ích nếu bạn không chắc chắn pattern có sẵn)
+-   Bắt đầu bằng dấu hoa thị `*` để trả về **không hoặc nhiều hơn** kết quả phù hợp (hữu ích nếu bạn không chắc chắn pattern có sẵn)
 
 Sử dụng ký hiệu dấu cộng `+` như một bộ định lượng, việc khớp sẽ xảy ra cho tới khi gặp ký tự khác. Ví dụ, biểu thứ này sẽ trả về tất cả *các từ* (ký tự alpha: `"[A-Za-z]+"`
 
@@ -7719,7 +7719,7 @@ knitr::include_graphics(here::here("images", "Factors_1500x500.png"))
 
 Trong R, *factors* là một kiểu dữ liệu cho phép sắp xếp các danh mục với một tập hợp các giá trị có thể chấp nhận.
 
-Thông thường, bạn sẽ chuyển đổi một cột từ dạng ký tự hoặc dạng số thành dạng factor khi bạn muốn sắp xếp một thứ đặc biệt cho các giá trị ("*levels*") để chúng không hiển thị mặc định theo thứ tự bảng chữ cái trong các biểu đồ và bảng. Một cách sử dụng phổ biến khác của factor là chuẩn hóa các chú thích của biểu đồ để chúng không thay đổi nếu một giá trị tạm thời không có trong dữ liệu.
+Thông thường, bạn sẽ chuyển đổi một cột từ dạng ký tự hoặc dạng số thành dạng factor khi bạn muốn sắp xếp một thứ tự đặc biệt cho các giá trị ("*levels*") để chúng không hiển thị mặc định theo thứ tự bảng chữ cái trong các biểu đồ và bảng. Một cách sử dụng phổ biến khác của factor là chuẩn hóa các chú thích của biểu đồ để chúng không thay đổi nếu một giá trị tạm thời không có trong dữ liệu.
 
 Chương này giới thiệu cách sử dụng các hàm từ package **forcats** (tên viết tắt của "**For** **categorical variables**") và một số hàm **base** R. Chúng tôi cũng đề cập đến việc sử dụng **lubridate** và **aweek** cho các trường hợp factor đặc biệt liên quan đến tuần dịch tễ học.
 
@@ -7748,7 +7748,7 @@ pacman::p_load(
 ### Nhập dữ liệu {.unnumbered}
 
 
-Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Để tiện muốn theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải bộ dữ liệu linelist "đã được làm sạch"</a> (as .rds file). Nhập dữ liệu bằng hàm `import()` từ package **rio** (hàm có thể áp dụng với nhiều loại dữ liệu như .xlsx, .rds, .csv - Xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
+Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Để tiện muốn theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm để tải bộ dữ liệu linelist "đã được làm sạch"</a> (dưới dạng tệp .rds). Nhập dữ liệu bằng hàm `import()` từ package **rio** (hàm có thể áp dụng với nhiều loại dữ liệu như .xlsx, .rds, .csv - Xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 
 ```{r, echo=F}
@@ -7784,7 +7784,7 @@ linelist <- linelist %>%
 
 #### Thứ tự mặc định của các giá trị {.unnumbered}
 
-Khi sử dụng hàm `case_when()`, biến mới `delay_cat` tạo ra sẽ là một biến danh mục với kiêu dữ liệu là ký tự - *chưa* phải là một factor. Do đó, trong bảng tần suất dưới đây, chúng ta thấy rằng các giá trị xuất hiện theo thứ tự mặc định của bảng chữ cái, điều này không có nhiều ý nghĩa trực quan:
+Khi sử dụng hàm `case_when()`, biến mới `delay_cat` tạo ra sẽ là một biến danh mục với kiểu dữ liệu là ký tự - *chưa* phải là một factor. Do đó, trong bảng tần suất dưới đây, chúng ta thấy rằng các giá trị xuất hiện theo thứ tự mặc định của bảng chữ cái, điều này không có nhiều ý nghĩa trực quan:
 
 ```{r}
 table(linelist$delay_cat, useNA = "always")
@@ -7840,7 +7840,7 @@ ggplot(data = linelist)+
 
 ### Thêm thứ bậc {#fct_add .unnumbered}
 
-Nếu bạn cần thêm thứ bâc trong factor, bạn có thể sử dụng hàm `fct_expand()`. Bạn chỉ cần viết tên biến và theo sau là tên các thứ bậc mới (phân tách bằng dấu phẩy). Bằng cách lập bảng, chúng ta có thể thấy các thứ bậc mới xuất hiện và chưa nhận giá trị nào. Bạn có thể sử dụng hàm `table()` trong **base** R, hoặc hàm `tabyl()` trong package **janitor**:
+Nếu bạn cần thêm thứ bậc trong factor, bạn có thể sử dụng hàm `fct_expand()`. Bạn chỉ cần viết tên biến và theo sau là tên các thứ bậc mới (phân tách bằng dấu phẩy). Bằng cách lập bảng, chúng ta có thể thấy các thứ bậc mới xuất hiện và chưa nhận giá trị nào. Bạn có thể sử dụng hàm `table()` trong **base** R, hoặc hàm `tabyl()` trong package **janitor**:
 
 ```{r}
 linelist %>% 
@@ -7852,7 +7852,7 @@ Lưu ý: Package **forcats** có thể dễ dàng thêm các giá trị missing 
 
 ### Xóa thứ bậc {.unnumbered}
 
-Nếu bạn sử dụng hàm `fct_drop()`, các thứ bậc "không được sử dụng" và không có quan sát nào sẽ bị loại bỏ khỏi factors. Thứ bậc mà chúng ta đã thêm ở trên ("Not admitted to a hospital") có tổn tại nhưng không có biến số nào. Vì vậy, chúng sẽ bị loại bỏ khỏi biến factor của chúng ta bằng cách sử dụng hàm `fct_drop()` như sau:
+Nếu bạn sử dụng hàm `fct_drop()`, các thứ bậc "không được sử dụng" và không có quan sát nào sẽ bị loại bỏ khỏi factors. Thứ bậc mà chúng ta đã thêm ở trên ("Not admitted to a hospital") có tồn tại nhưng thực tế không có dòng nào chứa giá trị này. Vì vậy, chúng sẽ bị loại bỏ khỏi biến factor của chúng ta bằng cách sử dụng hàm `fct_drop()` như sau:
 
 ```{r}
 linelist %>% 
@@ -7953,9 +7953,9 @@ Sử dụng hàm `fct_inorder()` để thiết lập thứ bậc tương tự v�
 
 Bạn có thể sử dụng hàm `fct_reorder()` để sắp xếp các thứ bậc của một biến *theo thống kê tóm tắt của một biến khác*. Về mặt trực quan, điều này có cho kết quả là các biểu đồ như ý bạn, có các cột/điểm lên hoặc xuống theo một chiều trong toàn bộ biểu đồ.
 
-Trong các ví dụ bên dưới, trục x là `delay_cat`, và trục y là `ct_blood` (giá trị ngưỡng chu kỳ). Biểu đồ Box plots hiển thị phân bố của giá trị CT theo nhóm `delay_cat`. Chúng ta cần sắp xếp các box theo thứ tự tăng dần của giá trị trung vị CT của nhóm.
+Trong các ví dụ bên dưới, trục x là `delay_cat`, và trục y là `ct_blood` (giá trị ngưỡng chu kỳ). Biểu đồ hộp (Box plot) hiển thị phân bố của giá trị CT theo nhóm `delay_cat`. Chúng ta cần sắp xếp các hộp theo thứ tự tăng dần của giá trị trung vị CT của nhóm.
 
-Trong ví dụ đầu tiên bên dưới, các thứ bậc được sắp xếp một cách mặc định. Bạn có thể thấy các chiều cao của box bị lộn xộn và không theo bất kỳ thứ tự cụ thể nào. Trong ví dụ thứ hai, cột `delay_cat` (được sắp xếp theo trục x) đã được viết lệnh với hàm `fct_reorder()`, cột `ct_blood` được đưa ra làm đối số thứ hai và "trung vị" được đưa ra làm đối số thứ ba (bạn cũng có thể sử dụng "max", "mean", "min", v.v.). Do đó, thứ tự các thứ bậc của biến `delay_cat` bây giờ sẽ phản ánh các giá trị trung vị CT tăng dần theo nhóm `delay_cat`. Điều này được trình bày trong biểu đồ thứ hai - các box đã được sắp xếp lại theo chiều tăng dần. Lưu ý biến missing `NA` sẽ luôn xuất hiện ở cuối, trừ khi được chuyển đổi thành một thứ bậc khác.
+Trong ví dụ đầu tiên bên dưới, các thứ bậc được sắp xếp một cách mặc định. Bạn có thể thấy các chiều cao của hộp bị lộn xộn và không theo bất kỳ thứ tự cụ thể nào. Trong ví dụ thứ hai, cột `delay_cat` (được sắp xếp theo trục x) đã được viết lệnh với hàm `fct_reorder()`, cột `ct_blood` được đưa ra làm đối số thứ hai và "trung vị" được đưa ra làm đối số thứ ba (bạn cũng có thể sử dụng "max", "mean", "min", v.v.). Do đó, thứ tự các thứ bậc của biến `delay_cat` bây giờ sẽ phản ánh các giá trị trung vị CT tăng dần theo nhóm `delay_cat`. Điều này được trình bày trong biểu đồ thứ hai - các hộp đã được sắp xếp lại theo chiều tăng dần. Lưu ý giá trị missing `NA` sẽ luôn xuất hiện ở cuối, trừ khi được chuyển đổi thành một thứ bậc khác.
 
 ```{r, fig.show='hold', message=FALSE, warning=FALSE, out.width=c('50%', '50%')}
 # boxplots ordered by original factor levels
@@ -8250,13 +8250,13 @@ Khi quản lý dữ liệu, *xoay trục* có thể được hiểu là đề c�
 
 **Trong chương này, chúng ta sẽ tập trung vào định nghĩa thứ hai**. Định nghĩa thứ nhất là một bước quan trọng trong phân tích dữ liệu và được đề cập ở những chương khác như trong chương [Nhóm dữ liệu] và [Bảng mô tả].
 
-Chương này thảo luận về các định dạng của dữ liệu. Sẽ rất hữu ích khi biết ý tưởng về "dữ liệu gọn gàng", trong đó mỗi biến có cột riêng, mỗi quan sát có hàng riêng và mỗi giá trị có ô riêng. Bạn có thể tìm thêm thông tin về chủ đề này [tại sách trực tuyến R for Data Science](https://r4ds.had.co.nz/tidy-data.html).
+Chương này thảo luận về các định dạng của dữ liệu. Sẽ rất hữu ích khi biết ý tưởng về "dữ liệu gọn gàng", trong đó mỗi biến có cột riêng, mỗi quan sát có hàng riêng và mỗi giá trị có ô riêng. Bạn có thể tìm thêm thông tin về chủ đề này tại [bản trực tuyến của sách R for Data Science](https://r4ds.had.co.nz/tidy-data.html).
 
 ## Chuẩn bị
 
 ### Gọi package {.unnumbered}
 
-Đoạn code chunk này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng ta nhấn mạnh đến hàm `p_load()` từ **pacman**, cài đặt package nếu cần và gọi ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
+Đoạn code này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ **pacman**, cài đặt package nếu cần và gọi ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r}
 pacman::p_load(
@@ -8269,7 +8269,7 @@ pacman::p_load(
 
 ### Dữ liệu số trường hợp sốt rét {.unnumbered}
 
-Trong chương này, chúng ta sẽ sử dụng một bộ dữ liệu giả định về các trường hợp ghi nhận sốt rét hàng ngày, theo cơ sở y tế và nhóm tuổi. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_facility_count_data.rds' class='download-button'>bấm vào đây để tải tệp tin (.rds file)<span></a>. Nhập dữ liệu bằng hàm `import()` từ package **rio** (xử lý nhiều loại tệp tin như .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
+Trong chương này, chúng ta sẽ sử dụng một bộ dữ liệu giả định về các trường hợp ghi nhận sốt rét hàng ngày, theo cơ sở y tế và nhóm tuổi. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_facility_count_data.rds' class='download-button'>bấm vào đây để tải tệp tin (tệp .rds)<span></a>. Nhập dữ liệu bằng hàm `import()` từ package **rio** (xử lý nhiều loại tệp tin như .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 count_data <- rio::import(here::here("data", "malaria_facility_count_data.rds")) %>% 
@@ -8290,7 +8290,7 @@ DT::datatable(head(count_data, 50), rownames = FALSE, options = list(pageLength 
 
 ### Bộ dữ liệu các trường hợp `linelist` {.unnumbered}
 
-Trong phần cuối của chương này, chúng ta cũng sẽ sử dụng tập dữ liệu mô phỏng về các trường hợp từ một vụ dịch Ebola. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm vào đây để tải bộ dữ liệu `linelist` "đã làm sạch"</a> (.rds file). Nạp dữ liệu bằng hàm `import()` từ package **rio** (package này chấp nhận nhiều loại tệp tin dạng .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
+Trong phần cuối của chương này, chúng ta cũng sẽ sử dụng tập dữ liệu mô phỏng về các trường hợp từ một vụ dịch Ebola. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm vào đây để tải bộ dữ liệu `linelist` "đã làm sạch"</a> (tệp .rds). Nạp dữ liệu bằng hàm `import()` từ package **rio** (package này chấp nhận nhiều loại tệp tin dạng .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -8304,7 +8304,7 @@ linelist <- import("linelist_cleaned.xlsx")
 
 <!-- ======================================================= -->
 
-## Định dạng dữ liệu "ngang-sang-dọc"
+## Định dạng dữ liệu từ "ngang-sang-dọc"
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "pivoting", "pivot_longer_new.png"))
@@ -8436,7 +8436,7 @@ df_long %>%
   )
 ```
 
-Ngoài ra, chúng ta có thể đã loại bỏ biến này khi chúng ta chạy lệnh `pivot_longer()`, bằng cách đó có thể giữ biến đó trong bộ dữ liệu như một biến riêng biệt. Hãy cem cách mà giá trị của biến này "mở rộng" để lấp đầy các hàng mới.
+Ngoài ra, chúng ta có thể đã loại bỏ biến này khi chúng ta chạy lệnh `pivot_longer()`, bằng cách đó có thể giữ biến đó trong bộ dữ liệu như một biến riêng biệt. Hãy xem cách mà giá trị của biến này "mở rộng" để lấp đầy các hàng mới.
 
 ```{r, warning=F, message=F}
 count_data %>% 
@@ -8795,7 +8795,7 @@ Chương này sẽ giải quyết các chủ đề sau:
 -   Ứng dụng hàm `arrange()` với dữ liệu được nhóm\
 -   Ứng dụng hàm `filter()` với dữ liệu được nhóm\
 -   Ứng dụng hàm `mutate()` với dữ liệu được nhóm\
--   Ứng dụng hàm `select()` đvới dữ liệu được nhóm\
+-   Ứng dụng hàm `select()` với dữ liệu được nhóm\
 -   Hàm `aggregate()` trong **base** R như một lựa chọn thay thế 
 
 <!-- ======================================================= -->
@@ -8890,7 +8890,7 @@ linelist %>%
 
 ### Thêm/bỏ cột được nhóm {.unnumbered}
 
-Mặc định, nếu bạn chạy lệnh `group_by()` trên dữ liệu đã được nhóm, các nhóm cũ sẽ bị xóa và (các) nhóm mới sẽ được áp dụng. Nếu bạn muốn thêm nhóm mới vào nhóm hiện có, hãy thêm argument `.add = TRUE`.
+Mặc định, nếu bạn chạy lệnh `group_by()` trên dữ liệu đã được nhóm, các nhóm cũ sẽ bị xóa và (các) nhóm mới sẽ được áp dụng. Nếu bạn muốn thêm nhóm mới vào nhóm hiện có, hãy thêm đối số `.add = TRUE`.
 
 ```{r, eval=F}
 # Grouped by outcome
@@ -8904,7 +8904,7 @@ by_outcome_gender <- by_outcome %>%
 
 ## Giữ tất cả các nhóm
 
-Nếu bạn nhóm trên một cột dạng factor, có thể có các thức bậc của factor mà không có trong dữ liệu. Nếu bạn nhóm trên cột này, mặc định, những thứ bậc không có trong dữ liệu đó sẽ bị loại bỏ và không thuộc dạng nhóm. Để thay đổi điều này để tất cả các thứ bậc xuất hiện dưới dạng nhóm (ngay cả khi không có trong dữ liệu), đặt `.drop = FALSE` trong lệnh `group_by()`.
+Nếu bạn nhóm trên một cột dạng factor, có thể có các thứ bậc của factor mà không có trong dữ liệu. Nếu bạn nhóm trên cột này, mặc định, những thứ bậc không có trong dữ liệu đó sẽ bị loại bỏ và không thuộc dạng nhóm. Để thay đổi điều này để tất cả các thứ bậc xuất hiện dưới dạng nhóm (ngay cả khi không có trong dữ liệu), đặt `.drop = FALSE` trong lệnh `group_by()`.
 
 ## Loại bỏ nhóm
 

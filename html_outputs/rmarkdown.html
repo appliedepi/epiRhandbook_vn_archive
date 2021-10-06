@@ -216,7 +216,7 @@
 <p>YAML nên bắt đầu với metadata cho tài liệu. Thứ tự của những tham số YAML chính (không thụt lề) không quan trọng. Ví dụ:</p>
 <div class="sourceCode" id="cb1802"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1802-1"><a href="rmarkdown.html#cb1802-1" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My document"</span></span>
 <span id="cb1802-2"><a href="rmarkdown.html#cb1802-2" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Me"</span></span>
-<span id="cb1802-3"><a href="rmarkdown.html#cb1802-3" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"2021-09-19"</span></span></code></pre></div>
+<span id="cb1802-3"><a href="rmarkdown.html#cb1802-3" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"2021-10-06"</span></span></code></pre></div>
 <p>Bạn có thể sử dụng code R trong giá trị YAML bằng cách viết nó như code tại dòng (mở đầu bằng <code>r</code> trong dấu back-ticks/nháy đơn ngược) nhưng nằm trong trích dẫn (xem tại ví dụ phía trên với <code>date:</code>).</p>
 <p>Trong hình ảnh phía trên, vì chúng ta ấn vào kết quả đầu ra mặc định là tệp html, chúng ta có thể thấy rằng YAML hiện <code>output: html_document</code>. Tuy nhiên, chúng ta cũng có thể thay đổi thành <code>powerpoint_presentation</code> hoặc <code>word_document</code> hoặc cả <code>pdf_document</code>.</p>
 </div>
@@ -247,7 +247,7 @@
 <h4>Màu sắc<a class="anchor" aria-label="anchor" href="#m%C3%A0u-s%E1%BA%AFc-1"><i class="fas fa-link"></i></a>
 </h4>
 <p>Không có cơ chế đơn giản nào để thay đổi màu chữ trong R Markdown. Một giải pháp khác, <em>NẾU đầu ra của bạn là tệp HTML</em>, là thêm một dòng HTML vào văn bản markdown. Đoạn mã HTML dưới đây sẽ in ra một dòng văn bản có màu đỏ đậm.</p>
-<div class="sourceCode" id="cb1803"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1803-1"><a href="rmarkdown.html#cb1803-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;span</span><span class="ot"> style=</span><span class="st">"color: red;"</span><span class="kw">&gt;</span>**_DANGER:_** This is a warning.<span class="kw">&lt;/span&gt;</span>  </span></code></pre></div>
+<div class="sourceCode" id="cb1803"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1803-1"><a href="rmarkdown.html#cb1803-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color: red;"</span><span class="kw">&gt;</span>**_DANGER:_** This is a warning.<span class="kw">&lt;/span&gt;</span>  </span></code></pre></div>
 <p><span style="color: red;"><strong><em>DANGER:</em></strong> This is a warning.</span></p>
 </div>
 <div id="tiêu-đề-và-đầu-mục" class="section level4 unnumbered">
@@ -758,7 +758,7 @@ Những ‘đoạn’ này sẽ có màu nền hơi khác so với phần diễn
 </li>
 <li>DT (<code>datatable()</code>) (được sử dụng để hiển thị các bảng động với bộ lọc, sắp xếp, v.v.)</li>
 </ul>
-<p>Hàm <code><a href="https://docs.ropensci.org/plotly/reference/ggplotly.html">ggplotly()</a></code> từ <strong>plotly</strong> đặc biệt dễ sử dụng. Xem chương <a href="interactive-plots.html#interactive-plots">Biểu đồ tương tác</a>.</p>
+<p>Hàm <code><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly()</a></code> từ <strong>plotly</strong> đặc biệt dễ sử dụng. Xem chương <a href="interactive-plots.html#interactive-plots">Biểu đồ tương tác</a>.</p>
 </div>
 </div>
 <div id="tài-nguyên" class="section level2" number="40.10">
@@ -852,7 +852,7 @@ Những ‘đoạn’ này sẽ có màu nền hơi khác so với phần diễn
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-19.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-10-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

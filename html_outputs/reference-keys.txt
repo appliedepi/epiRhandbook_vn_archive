@@ -101,7 +101,7 @@ tuần-dịch-tễ
 nguồn-tham-khảo
 pivoting
 chuẩn-bị-3
-định-dạng-dữ-liệu-ngang-sang-dọc
+định-dạng-dữ-liệu-từ-ngang-sang-dọc
 dọc-thành-ngang
 điền
 tài-liệu-tham-khảo

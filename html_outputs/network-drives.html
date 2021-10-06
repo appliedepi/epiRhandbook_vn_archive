@@ -125,9 +125,9 @@
 <p><strong>Sử dụng R trên ổ cứng mạng: Một số nguyên tắc chính</strong></p>
 <ol style="list-style-type: decimal">
 <li>Bạn phải có quyền truy cập quản trị đối với máy tính của mình. Thiết lập RStudio đặc biệt để chạy với tư cách quản trị viên (run as administrator).</li>
-<li>Hãy lưu các packages trong thư viện trên một ổ cứng vật lý (ví dụ: “C:”). Hạn chế tối đa Sử dụng package thư viện có đường dẫn bắt đầu bằng "\".<br>
+<li>Hãy lưu các packages trong thư viện trên một ổ cứng vật lý (ví dụ: “C:”). Hạn chế tối đa Sử dụng package thư viện có đường dẫn bắt đầu bằng “\".<br>
 </li>
-<li>Package <strong>rmarkdown</strong> <strong>không được</strong> nằm trong thư viện package "\", vì khi đó nó không thể kết nối với TinyTex hoặc Pandoc.</li>
+<li>Package <strong>rmarkdown</strong> <strong>không được</strong> nằm trong thư viện package “\", vì khi đó nó không thể kết nối với TinyTex hoặc Pandoc.</li>
 </ol>
 </div>
 <div id="rstudio-với-tư-cách-quản-trị-viên" class="section level2" number="49.2">
@@ -148,7 +148,7 @@
                               <span class="co"># Note: all libraries will be listed, but to install to some (e.g. C:) you </span>
                               <span class="co"># may need to be running RStudio as an administrator (it won't appear in the </span>
                               <span class="co"># install packages library drop-down menu) </span></code></pre></div>
-<p>Bạn có thể muốn chuyển đổi thứ tự của các thư viện package được sử dụng bởi R. Ví dụ: nếu R đang chọn một vị trí thư viện với đường dẫn bắt đầu bằng “\" và một đường dẫn bắt đầu bằng chữ cái, ví dụ:”D:". Bạn có thể điều chỉnh thứ tự của <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> bằng đoạn mã code dưới đây.</p>
+<p>Bạn có thể muốn chuyển đổi thứ tự của các thư viện package được sử dụng bởi R. Ví dụ: nếu R đang chọn một vị trí thư viện với đường dẫn bắt đầu bằng “\" và một đường dẫn bắt đầu bằng chữ cái, ví dụ:”D:“. Bạn có thể điều chỉnh thứ tự của <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> bằng đoạn mã code dưới đây.</p>
 <div class="sourceCode" id="cb1973"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Switch order of libraries</span>
 <span class="co"># this can effect the priority of R finding a package. E.g. you may want your C: library to be listed first</span>
@@ -214,7 +214,7 @@
 <li>Package Rmarkdown không thể tìm thấy</li>
 <li>Vấn đề về quyền quản trị.</li>
 </ol>
-<p>Có thể R không thể tìm thấy các package sử dụng trong file <strong>rmarkdown</strong>, vì vậy hãy kiểm tra thư viện nào mà package trong <strong>rmarkdown</strong> đang được lưu trữ (xem đoạn code để thực hiện thao tác này ở trên). Nếu package được cài đặt vào một thư viện không thể truy cập được (ví dụ: bắt đầu bằng "\") hãy xem xét việc di chuyển nó sang C: hoặc thư viện ổ cứng theo cách thủ công. Lưu ý rằng package <strong>rmarkdown</strong> phải có thể kết nối với cài đặt TinyTex, vì vậy không thể tồn tại trong thư viện trên ổ đĩa mạng.</p>
+<p>Có thể R không thể tìm thấy các package sử dụng trong file <strong>rmarkdown</strong>, vì vậy hãy kiểm tra thư viện nào mà package trong <strong>rmarkdown</strong> đang được lưu trữ (xem đoạn code để thực hiện thao tác này ở trên). Nếu package được cài đặt vào một thư viện không thể truy cập được (ví dụ: bắt đầu bằng “\") hãy xem xét việc di chuyển nó sang C: hoặc thư viện ổ cứng theo cách thủ công. Lưu ý rằng package <strong>rmarkdown</strong> phải có thể kết nối với cài đặt TinyTex, vì vậy không thể tồn tại trong thư viện trên ổ đĩa mạng.</p>
 <p><strong>Lỗi Pandoc 61</strong></p>
 <p>Vú dụ: <code>Error: pandoc document conversion failed with error 61</code> hoặc <code>Could not fetch...</code></p>
 <ul>
@@ -278,7 +278,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-19.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-10-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

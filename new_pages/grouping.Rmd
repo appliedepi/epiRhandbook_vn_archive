@@ -17,7 +17,7 @@ Chương này sẽ giải quyết các chủ đề sau:
 -   Ứng dụng hàm `arrange()` với dữ liệu được nhóm\
 -   Ứng dụng hàm `filter()` với dữ liệu được nhóm\
 -   Ứng dụng hàm `mutate()` với dữ liệu được nhóm\
--   Ứng dụng hàm `select()` đvới dữ liệu được nhóm\
+-   Ứng dụng hàm `select()` với dữ liệu được nhóm\
 -   Hàm `aggregate()` trong **base** R như một lựa chọn thay thế 
 
 <!-- ======================================================= -->
@@ -112,7 +112,7 @@ linelist %>%
 
 ### Thêm/bỏ cột được nhóm {.unnumbered}
 
-Mặc định, nếu bạn chạy lệnh `group_by()` trên dữ liệu đã được nhóm, các nhóm cũ sẽ bị xóa và (các) nhóm mới sẽ được áp dụng. Nếu bạn muốn thêm nhóm mới vào nhóm hiện có, hãy thêm argument `.add = TRUE`.
+Mặc định, nếu bạn chạy lệnh `group_by()` trên dữ liệu đã được nhóm, các nhóm cũ sẽ bị xóa và (các) nhóm mới sẽ được áp dụng. Nếu bạn muốn thêm nhóm mới vào nhóm hiện có, hãy thêm đối số `.add = TRUE`.
 
 ```{r, eval=F}
 # Grouped by outcome
@@ -126,7 +126,7 @@ by_outcome_gender <- by_outcome %>%
 
 ## Giữ tất cả các nhóm
 
-Nếu bạn nhóm trên một cột dạng factor, có thể có các thức bậc của factor mà không có trong dữ liệu. Nếu bạn nhóm trên cột này, mặc định, những thứ bậc không có trong dữ liệu đó sẽ bị loại bỏ và không thuộc dạng nhóm. Để thay đổi điều này để tất cả các thứ bậc xuất hiện dưới dạng nhóm (ngay cả khi không có trong dữ liệu), đặt `.drop = FALSE` trong lệnh `group_by()`.
+Nếu bạn nhóm trên một cột dạng factor, có thể có các thứ bậc của factor mà không có trong dữ liệu. Nếu bạn nhóm trên cột này, mặc định, những thứ bậc không có trong dữ liệu đó sẽ bị loại bỏ và không thuộc dạng nhóm. Để thay đổi điều này để tất cả các thứ bậc xuất hiện dưới dạng nhóm (ngay cả khi không có trong dữ liệu), đặt `.drop = FALSE` trong lệnh `group_by()`.
 
 ## Loại bỏ nhóm
 

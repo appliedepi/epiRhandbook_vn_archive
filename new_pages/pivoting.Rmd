@@ -21,13 +21,13 @@ Khi quản lý dữ liệu, *xoay trục* có thể được hiểu là đề c�
 
 **Trong chương này, chúng ta sẽ tập trung vào định nghĩa thứ hai**. Định nghĩa thứ nhất là một bước quan trọng trong phân tích dữ liệu và được đề cập ở những chương khác như trong chương [Nhóm dữ liệu] và [Bảng mô tả].
 
-Chương này thảo luận về các định dạng của dữ liệu. Sẽ rất hữu ích khi biết ý tưởng về "dữ liệu gọn gàng", trong đó mỗi biến có cột riêng, mỗi quan sát có hàng riêng và mỗi giá trị có ô riêng. Bạn có thể tìm thêm thông tin về chủ đề này [tại sách trực tuyến R for Data Science](https://r4ds.had.co.nz/tidy-data.html).
+Chương này thảo luận về các định dạng của dữ liệu. Sẽ rất hữu ích khi biết ý tưởng về "dữ liệu gọn gàng", trong đó mỗi biến có cột riêng, mỗi quan sát có hàng riêng và mỗi giá trị có ô riêng. Bạn có thể tìm thêm thông tin về chủ đề này tại [bản trực tuyến của sách R for Data Science](https://r4ds.had.co.nz/tidy-data.html).
 
 ## Chuẩn bị
 
 ### Gọi package {.unnumbered}
 
-Đoạn code chunk này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng ta nhấn mạnh đến hàm `p_load()` từ **pacman**, cài đặt package nếu cần và gọi ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
+Đoạn code này hiển thị cách gọi các package cần thiết cho phân tích. Trong cuốn sách này, chúng tôi nhấn mạnh đến hàm `p_load()` từ **pacman**, cài đặt package nếu cần và gọi ra để sử dụng. Bạn cũng có thể gọi các package đã cài đặt với hàm `library()` từ **base** R. Xem chương [R cơ bản] để biết thêm thông tin về các package trong R.
 
 ```{r}
 pacman::p_load(
@@ -40,7 +40,7 @@ pacman::p_load(
 
 ### Dữ liệu số trường hợp sốt rét {.unnumbered}
 
-Trong chương này, chúng ta sẽ sử dụng một bộ dữ liệu giả định về các trường hợp ghi nhận sốt rét hàng ngày, theo cơ sở y tế và nhóm tuổi. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_facility_count_data.rds' class='download-button'>bấm vào đây để tải tệp tin (.rds file)<span></a>. Nhập dữ liệu bằng hàm `import()` từ package **rio** (xử lý nhiều loại tệp tin như .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
+Trong chương này, chúng ta sẽ sử dụng một bộ dữ liệu giả định về các trường hợp ghi nhận sốt rét hàng ngày, theo cơ sở y tế và nhóm tuổi. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/malaria_facility_count_data.rds' class='download-button'>bấm vào đây để tải tệp tin (tệp .rds)<span></a>. Nhập dữ liệu bằng hàm `import()` từ package **rio** (xử lý nhiều loại tệp tin như .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 count_data <- rio::import(here::here("data", "malaria_facility_count_data.rds")) %>% 
@@ -61,7 +61,7 @@ DT::datatable(head(count_data, 50), rownames = FALSE, options = list(pageLength 
 
 ### Bộ dữ liệu các trường hợp `linelist` {.unnumbered}
 
-Trong phần cuối của chương này, chúng ta cũng sẽ sử dụng tập dữ liệu mô phỏng về các trường hợp từ một vụ dịch Ebola. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm vào đây để tải bộ dữ liệu `linelist` "đã làm sạch"</a> (.rds file). Nạp dữ liệu bằng hàm `import()` từ package **rio** (package này chấp nhận nhiều loại tệp tin dạng .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
+Trong phần cuối của chương này, chúng ta cũng sẽ sử dụng tập dữ liệu mô phỏng về các trường hợp từ một vụ dịch Ebola. Để tiện theo dõi, <a href='https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds' class='download-button'>bấm vào đây để tải bộ dữ liệu `linelist` "đã làm sạch"</a> (tệp .rds). Nạp dữ liệu bằng hàm `import()` từ package **rio** (package này chấp nhận nhiều loại tệp tin dạng .xlsx; .csv; .rds - xem chương [Nhập xuất dữ liệu] để biết thêm chi tiết).
 
 ```{r, echo=F}
 # import the linelist into R
@@ -75,7 +75,7 @@ linelist <- import("linelist_cleaned.xlsx")
 
 <!-- ======================================================= -->
 
-## Định dạng dữ liệu "ngang-sang-dọc"
+## Định dạng dữ liệu từ "ngang-sang-dọc"
 
 ```{r, warning=F, message=F, echo=F}
 knitr::include_graphics(here::here("images", "pivoting", "pivot_longer_new.png"))
@@ -207,7 +207,7 @@ df_long %>%
   )
 ```
 
-Ngoài ra, chúng ta có thể đã loại bỏ biến này khi chúng ta chạy lệnh `pivot_longer()`, bằng cách đó có thể giữ biến đó trong bộ dữ liệu như một biến riêng biệt. Hãy cem cách mà giá trị của biến này "mở rộng" để lấp đầy các hàng mới.
+Ngoài ra, chúng ta có thể đã loại bỏ biến này khi chúng ta chạy lệnh `pivot_longer()`, bằng cách đó có thể giữ biến đó trong bộ dữ liệu như một biến riêng biệt. Hãy xem cách mà giá trị của biến này "mở rộng" để lấp đầy các hàng mới.
 
 ```{r, warning=F, message=F}
 count_data %>% 

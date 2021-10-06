@@ -118,7 +118,7 @@
 </h1>
 <div class="inline-figure"><img src="images/Factors_1500x500.png" width="100%"></div>
 <p>Trong R, <em>factors</em> là một kiểu dữ liệu cho phép sắp xếp các danh mục với một tập hợp các giá trị có thể chấp nhận.</p>
-<p>Thông thường, bạn sẽ chuyển đổi một cột từ dạng ký tự hoặc dạng số thành dạng factor khi bạn muốn sắp xếp một thứ đặc biệt cho các giá trị (“<em>levels</em>”) để chúng không hiển thị mặc định theo thứ tự bảng chữ cái trong các biểu đồ và bảng. Một cách sử dụng phổ biến khác của factor là chuẩn hóa các chú thích của biểu đồ để chúng không thay đổi nếu một giá trị tạm thời không có trong dữ liệu.</p>
+<p>Thông thường, bạn sẽ chuyển đổi một cột từ dạng ký tự hoặc dạng số thành dạng factor khi bạn muốn sắp xếp một thứ tự đặc biệt cho các giá trị (“<em>levels</em>”) để chúng không hiển thị mặc định theo thứ tự bảng chữ cái trong các biểu đồ và bảng. Một cách sử dụng phổ biến khác của factor là chuẩn hóa các chú thích của biểu đồ để chúng không thay đổi nếu một giá trị tạm thời không có trong dữ liệu.</p>
 <p>Chương này giới thiệu cách sử dụng các hàm từ package <strong>forcats</strong> (tên viết tắt của “<strong>For</strong> <strong>categorical variables</strong>”) và một số hàm <strong>base</strong> R. Chúng tôi cũng đề cập đến việc sử dụng <strong>lubridate</strong> và <strong>aweek</strong> cho các trường hợp factor đặc biệt liên quan đến tuần dịch tễ học.</p>
 <p>Bạn có thể tìm thấy danh sách đầy đủ các hàm của package <strong>forcats</strong> trực tuyến tại đường <a href="https://forcats.tidyverse.org/reference/index.html">link này</a>. Sau đây, chúng tôi sẽ chỉ trình bày một số hàm phổ biến nhất.</p>
 <!-- ======================================================= -->
@@ -144,7 +144,7 @@
 <div id="nhập-dữ-liệu-4" class="section level3 unnumbered">
 <h3>Nhập dữ liệu<a class="anchor" aria-label="anchor" href="#nh%E1%BA%ADp-d%E1%BB%AF-li%E1%BB%87u-4"><i class="fas fa-link"></i></a>
 </h3>
-<p>Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Để tiện muốn theo dõi, <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">bấm để tải bộ dữ liệu linelist “đã được làm sạch”</a> (as .rds file). Nhập dữ liệu bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong> (hàm có thể áp dụng với nhiều loại dữ liệu như .xlsx, .rds, .csv - Xem chương <a href="importing.html#importing">Nhập xuất dữ liệu</a> để biết thêm chi tiết).</p>
+<p>Chúng ta sẽ nhập bộ dữ liệu về các trường hợp từ một vụ dịch Ebola mô phỏng. Để tiện muốn theo dõi, <a href="https://github.com/appliedepi/epirhandbook_eng/raw/master/data/case_linelists/linelist_cleaned.rds" class="download-button">bấm để tải bộ dữ liệu linelist “đã được làm sạch”</a> (dưới dạng tệp .rds). Nhập dữ liệu bằng hàm <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> từ package <strong>rio</strong> (hàm có thể áp dụng với nhiều loại dữ liệu như .xlsx, .rds, .csv - Xem chương <a href="importing.html#importing">Nhập xuất dữ liệu</a> để biết thêm chi tiết).</p>
 <div class="sourceCode" id="cb542"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># import your dataset</span>
 <span class="va">linelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"linelist_cleaned.rds"</span><span class="op">)</span></code></pre></div>
@@ -171,7 +171,7 @@
 <div id="thứ-tự-mặc-định-của-các-giá-trị" class="section level4 unnumbered">
 <h4>Thứ tự mặc định của các giá trị<a class="anchor" aria-label="anchor" href="#th%E1%BB%A9-t%E1%BB%B1-m%E1%BA%B7c-%C4%91%E1%BB%8Bnh-c%E1%BB%A7a-c%C3%A1c-gi%C3%A1-tr%E1%BB%8B"><i class="fas fa-link"></i></a>
 </h4>
-<p>Khi sử dụng hàm <code>case_when()</code>, biến mới <code>delay_cat</code> tạo ra sẽ là một biến danh mục với kiêu dữ liệu là ký tự - <em>chưa</em> phải là một factor. Do đó, trong bảng tần suất dưới đây, chúng ta thấy rằng các giá trị xuất hiện theo thứ tự mặc định của bảng chữ cái, điều này không có nhiều ý nghĩa trực quan:</p>
+<p>Khi sử dụng hàm <code>case_when()</code>, biến mới <code>delay_cat</code> tạo ra sẽ là một biến danh mục với kiểu dữ liệu là ký tự - <em>chưa</em> phải là một factor. Do đó, trong bảng tần suất dưới đây, chúng ta thấy rằng các giá trị xuất hiện theo thứ tự mặc định của bảng chữ cái, điều này không có nhiều ý nghĩa trực quan:</p>
 <div class="sourceCode" id="cb544"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">linelist</span><span class="op">$</span><span class="va">delay_cat</span>, useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
@@ -220,7 +220,7 @@
 <div id="fct_add" class="section level3 unnumbered">
 <h3>Thêm thứ bậc<a class="anchor" aria-label="anchor" href="#fct_add"><i class="fas fa-link"></i></a>
 </h3>
-<p>Nếu bạn cần thêm thứ bâc trong factor, bạn có thể sử dụng hàm <code>fct_expand()</code>. Bạn chỉ cần viết tên biến và theo sau là tên các thứ bậc mới (phân tách bằng dấu phẩy). Bằng cách lập bảng, chúng ta có thể thấy các thứ bậc mới xuất hiện và chưa nhận giá trị nào. Bạn có thể sử dụng hàm <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> trong <strong>base</strong> R, hoặc hàm <code>tabyl()</code> trong package <strong>janitor</strong>:</p>
+<p>Nếu bạn cần thêm thứ bậc trong factor, bạn có thể sử dụng hàm <code>fct_expand()</code>. Bạn chỉ cần viết tên biến và theo sau là tên các thứ bậc mới (phân tách bằng dấu phẩy). Bằng cách lập bảng, chúng ta có thể thấy các thứ bậc mới xuất hiện và chưa nhận giá trị nào. Bạn có thể sử dụng hàm <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> trong <strong>base</strong> R, hoặc hàm <code>tabyl()</code> trong package <strong>janitor</strong>:</p>
 <div class="sourceCode" id="cb554"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>delay_cat <span class="op">=</span> <span class="fu">fct_expand</span><span class="op">(</span><span class="va">delay_cat</span>, <span class="st">"Not admitted to hospital"</span>, <span class="st">"Transfer to other jurisdiction"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -237,7 +237,7 @@
 <div id="xóa-thứ-bậc" class="section level3 unnumbered">
 <h3>Xóa thứ bậc<a class="anchor" aria-label="anchor" href="#x%C3%B3a-th%E1%BB%A9-b%E1%BA%ADc"><i class="fas fa-link"></i></a>
 </h3>
-<p>Nếu bạn sử dụng hàm <code>fct_drop()</code>, các thứ bậc “không được sử dụng” và không có quan sát nào sẽ bị loại bỏ khỏi factors. Thứ bậc mà chúng ta đã thêm ở trên (“Not admitted to a hospital”) có tổn tại nhưng không có biến số nào. Vì vậy, chúng sẽ bị loại bỏ khỏi biến factor của chúng ta bằng cách sử dụng hàm <code>fct_drop()</code> như sau:</p>
+<p>Nếu bạn sử dụng hàm <code>fct_drop()</code>, các thứ bậc “không được sử dụng” và không có quan sát nào sẽ bị loại bỏ khỏi factors. Thứ bậc mà chúng ta đã thêm ở trên (“Not admitted to a hospital”) có tồn tại nhưng thực tế không có dòng nào chứa giá trị này. Vì vậy, chúng sẽ bị loại bỏ khỏi biến factor của chúng ta bằng cách sử dụng hàm <code>fct_drop()</code> như sau:</p>
 <div class="sourceCode" id="cb556"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">linelist</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>delay_cat <span class="op">=</span> <span class="fu">fct_drop</span><span class="op">(</span><span class="va">delay_cat</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -332,8 +332,8 @@
 <h3>Theo thống kê tóm tắt của một cột khác<a class="anchor" aria-label="anchor" href="#theo-th%E1%BB%91ng-k%C3%AA-t%C3%B3m-t%E1%BA%AFt-c%E1%BB%A7a-m%E1%BB%99t-c%E1%BB%99t-kh%C3%A1c"><i class="fas fa-link"></i></a>
 </h3>
 <p>Bạn có thể sử dụng hàm <code>fct_reorder()</code> để sắp xếp các thứ bậc của một biến <em>theo thống kê tóm tắt của một biến khác</em>. Về mặt trực quan, điều này có cho kết quả là các biểu đồ như ý bạn, có các cột/điểm lên hoặc xuống theo một chiều trong toàn bộ biểu đồ.</p>
-<p>Trong các ví dụ bên dưới, trục x là <code>delay_cat</code>, và trục y là <code>ct_blood</code> (giá trị ngưỡng chu kỳ). Biểu đồ Box plots hiển thị phân bố của giá trị CT theo nhóm <code>delay_cat</code>. Chúng ta cần sắp xếp các box theo thứ tự tăng dần của giá trị trung vị CT của nhóm.</p>
-<p>Trong ví dụ đầu tiên bên dưới, các thứ bậc được sắp xếp một cách mặc định. Bạn có thể thấy các chiều cao của box bị lộn xộn và không theo bất kỳ thứ tự cụ thể nào. Trong ví dụ thứ hai, cột <code>delay_cat</code> (được sắp xếp theo trục x) đã được viết lệnh với hàm <code>fct_reorder()</code>, cột <code>ct_blood</code> được đưa ra làm đối số thứ hai và “trung vị” được đưa ra làm đối số thứ ba (bạn cũng có thể sử dụng “max”, “mean”, “min”, v.v.). Do đó, thứ tự các thứ bậc của biến <code>delay_cat</code> bây giờ sẽ phản ánh các giá trị trung vị CT tăng dần theo nhóm <code>delay_cat</code>. Điều này được trình bày trong biểu đồ thứ hai - các box đã được sắp xếp lại theo chiều tăng dần. Lưu ý biến missing <code>NA</code> sẽ luôn xuất hiện ở cuối, trừ khi được chuyển đổi thành một thứ bậc khác.</p>
+<p>Trong các ví dụ bên dưới, trục x là <code>delay_cat</code>, và trục y là <code>ct_blood</code> (giá trị ngưỡng chu kỳ). Biểu đồ hộp (Box plot) hiển thị phân bố của giá trị CT theo nhóm <code>delay_cat</code>. Chúng ta cần sắp xếp các hộp theo thứ tự tăng dần của giá trị trung vị CT của nhóm.</p>
+<p>Trong ví dụ đầu tiên bên dưới, các thứ bậc được sắp xếp một cách mặc định. Bạn có thể thấy các chiều cao của hộp bị lộn xộn và không theo bất kỳ thứ tự cụ thể nào. Trong ví dụ thứ hai, cột <code>delay_cat</code> (được sắp xếp theo trục x) đã được viết lệnh với hàm <code>fct_reorder()</code>, cột <code>ct_blood</code> được đưa ra làm đối số thứ hai và “trung vị” được đưa ra làm đối số thứ ba (bạn cũng có thể sử dụng “max”, “mean”, “min”, v.v.). Do đó, thứ tự các thứ bậc của biến <code>delay_cat</code> bây giờ sẽ phản ánh các giá trị trung vị CT tăng dần theo nhóm <code>delay_cat</code>. Điều này được trình bày trong biểu đồ thứ hai - các hộp đã được sắp xếp lại theo chiều tăng dần. Lưu ý giá trị missing <code>NA</code> sẽ luôn xuất hiện ở cuối, trừ khi được chuyển đổi thành một thứ bậc khác.</p>
 <div class="sourceCode" id="cb562"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># boxplots ordered by original factor levels</span>
 <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">linelist</span><span class="op">)</span><span class="op">+</span>
@@ -642,7 +642,7 @@ Vui lòng xem chương <a href="dates.html#dates">Làm việc với ngày tháng
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-09-19.</p>
+    <p>"<strong>Cẩm nang dịch tễ học với R</strong>" was written by the handbook team. It was last built on 2021-10-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
